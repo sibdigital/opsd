@@ -98,7 +98,7 @@ gem 'sys-filesystem', '~> 1.2.0', require: false
 # Faster posix-compliant spawns for 8.0. conversions with pandoc
 gem 'posix-spawn', '~> 0.3.13', require: false
 
-gem 'bcrypt', '~> 3.1.6'
+gem 'bcrypt', '~> 3.1.12'
 
 gem 'multi_json', '~> 1.13.1'
 gem 'oj', '~> 3.7.0'
@@ -282,9 +282,9 @@ gem 'reform-rails', '~> 0.1.7'
 gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
-  group :mysql2 do
-    gem 'mysql2', '~> 0.5.0'
-  end
+  #group :mysql2 do
+   # gem 'mysql2', '~> 0.5.0'
+  #end
 
   group :postgres do
     gem 'pg', '~> 1.1.0'
