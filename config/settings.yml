@@ -63,9 +63,9 @@ additional_footer_content:
   default: ''
 # The instance name
 app_title:
-  default: OpenProject
+  default: ИСУП РБ Улан-Удэ 2019©
 app_subtitle:
-  default: Project management
+  default: Информационная система управления проектами
 brute_force_block_minutes:
   default: 30
   format: int
@@ -124,7 +124,7 @@ password_days_valid:
   format: int
   default: 0
 software_name:
-  default: OpenProject
+  default: ИСУП - OpenProject
 software_url:
   default: 'https://www.openproject.org/'
 attachment_max_size:
@@ -139,7 +139,7 @@ activity_days_default:
 per_page_options:
   default: '20, 100'
 mail_from:
-  default: openproject@example.net
+  default: isup@example.net
 bcc_recipients:
   default: 1
 plain_text_mail:
@@ -152,17 +152,9 @@ available_languages:
   serialized: true
   default:
   - en
-  - de
-  - fr
-  - es
-  - pt
-  - 'pt-BR'
-  - it
-  - zh
-  - ko
   - ru
 default_language:
-  default: en
+  default: ru
 default_auto_hide_popups:
   default: 1
   format: boolean
@@ -329,7 +321,7 @@ work_package_startdate_is_adddate:
   default: 0
   format: boolean
 user_default_timezone:
-  default: ""
+  default: "Irkutsk"
 users_deletable_by_admins:
   default: 0
 users_deletable_by_self:

@@ -1,67 +1,57 @@
-# OpenProject
-[<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
-[![Code Climate](https://codeclimate.com/github/opf/openproject/badges/gpa.svg)](https://codeclimate.com/github/opf/openproject)
+# ИСУП - OpenProject
 
-OpenProject is a web-based project management software. Its key features are:
+ИСУП - OpenProject, ответвление от основного репозитория, в котором хранится серверное веб-приложение для управления проектами. Её ключевые особенности:
 
-* [Project planning and scheduling](https://www.openproject.org/collaboration-software-features/#project-planning)
-* [Product roadmap and release planning](https://www.openproject.org/collaboration-software-features/#product-management)
-* [Task management and team collaboration](https://www.openproject.org/collaboration-software-features/#task-management)
-* [Agile and Scrum](https://www.openproject.org/collaboration-software-features/#agile-scrum)
-* [Time tracking, cost reporting and budgeting](https://www.openproject.org/collaboration-software-features/#time-tracking)
-* [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
-* [Wikis](https://www.openproject.org/help/wiki/)
-* [Forums](https://www.openproject.org/help/user-guides/forum/)
-* [Meeting agendas and meeting minutes](https://www.openproject.org/help/meetings/)
+* Проектное планирование и проектирование
+* Дорожная карта и версионирование
+* Управление задачами и командная работа
+* Agile и Scrum
+* Отслеживание времени, отчетность о расходах и бюджетирование
+* Отслеживание ошибок
+* Wiki-разметка
+* Форум
+* Совещания, встречи и их протоколирование
 
-More information and screenshots can be found on our [website](https://www.openproject.org).
+Больше информации можно найти на [сайте разработчиков](https://www.openproject.org).
 
-## Installation
+Наши ключевые особенности:
 
-If you want to run an instance of OpenProject in production (or for evaluation), refer to our
-in-depth [installation guides](https://www.openproject.org/download-and-installation/).
+* Свой логотип
 
-If you're a developer wanting to set-up a local environment for contributing to OpenProject or
-developing plugins, you should refer instead to our [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/).
+## Установка
 
-## Contact
+Если вы хотите запустить экземпляр OpenProject в промышленную эксплуатацию (или для ознакомления), воспользуйтесь [инструкцией по установке](https://www.openproject.org/download-and-installation/).
 
-OpenProject is supported by its community members, both companies and individuals.
+Если же вы разработчик, который хочет установить локальное окружение для вклада в разработку данного форка OpenProject или его плагинов, воспользуйтесь гайдом [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/).
 
-Here you can find our [contact information](https://www.openproject.org/contact-us).
+## Контакты
 
+OpenProject - ИСУП это стартап, который разрабатывается исключительно на морально-волевых их разработчиков.
+Здесь скоро появится ссылка на наш веб-сайт и контакты.
 
-## Security / responsible disclosure
+## Безопасность / responsible disclosure
 
-We take security very seriously at OpenProject. We value any kind of feedback that
-will keep our community secure. If you happen to come across a security issue we urge
-you to disclose it to us privately to allow our users and community enough time to
-upgrade. Security issues will always take precedence over anything else in the pipeline.
+Мы очень серьезно относимся к безопасности OpenProject. Мы ценим любой отзыв, который поможет сохранить наш уровень безопасности. Поэтому если с вами и вашими данными произойдет какая-то утечка мы поможем вам в незамедлительном её исправлениии и предотвращении её повторения.
 
-## License
+## Лицензия
 
-OpenProject is licensed under the terms of the GNU General Public License version 3.
-See [docs/COPYRIGHT.rdoc](docs/COPYRIGHT.rdoc) for details.
+OpenProject распространяется по лицензии GNU General Public License version 3.
+Смотрите [docs/COPYRIGHT.rdoc](docs/COPYRIGHT.rdoc) для поробностей.
 
-## Credits
+## Исполнители
 
-### Icons
+### Логотип
 
-Thanks to Vincent Le Moign and his fabulous Minicons icons on [webalys.com](http://www.webalys.com/minicons/icons-free-pack.php).
+Спасибо первой странице гугл и [фотошопу онлайн](https://online-fotoshop.ru/).
 
-### Lato Font
+### Шрифт Lato
 
-Thanks to Łukasz Dziedzic (aka "tyPoland") for his 'Lato' font.
-
-### OpenProject icon font
-Published and created by the OpenProject Foundation (OPF) under [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/)
-with icons from the following sources
-[Minicons Free Vector Icons Pack](http://www.webalys.com/minicons) and
-[User Interface Design framework](http://www.webalys.com/design-interface-application-framework.php) both by webalys
+Спасибо Łukasz Dziedzic (aka "tyPoland") за его 'Lato' шрифт.
 
 **Creative Commons License**
 
+Согласно данному положению мы можем использовать логотип компании так же как и его код: 
 OpenProject Icon Font by the OpenProject Foundation (OPF) is licensed under Creative Commons Attribution 3.0 Unported License
 and Free for both personal and commercial use. You can copy, adapt, remix, distribute or transmit it.
-
+Согласно нашему положению мы этого делать не можем:
 Under this condition: provide a mention of the "OpenProject Foundation" and a link back to OpenProject www.openproject.org.

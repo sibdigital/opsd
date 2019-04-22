@@ -50,8 +50,8 @@ class AdminUserSeeder < Seeder
       user.admin = true
       user.login = 'admin'
       user.password = 'admin'
-      user.firstname = 'OpenProject'
-      user.lastname = 'Admin'
+      user.firstname = 'ИСУП'
+      user.lastname = 'Администратор'
       user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
       user.mail_notification = User::USER_MAIL_OPTION_ONLY_MY_EVENTS.first
       user.language = I18n.locale.to_s
