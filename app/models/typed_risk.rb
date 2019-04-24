@@ -6,7 +6,7 @@ class TypedRisk < Risk
   belongs_to :color
 
   #OptionName и соотв функция непонятно для чего служат
-  OptionName = :risks_typed_risks
+  OptionName = :risk_typed_risks
 
   def option_name
     OptionName
