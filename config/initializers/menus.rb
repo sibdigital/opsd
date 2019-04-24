@@ -158,6 +158,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-custom-fields',
             html: { class: 'custom_fields' }
 
+  #bbm(
+  menu.push :risks,
+            { controller: '/risks' },
+            icon: 'icon2 icon-risks'
+  # )
+
   menu.push :custom_actions,
             { controller: '/custom_actions' },
             caption: :'custom_actions.plural',

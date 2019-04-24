@@ -183,6 +183,12 @@ class PermittedParams
     params[:role] ? role : nil
   end
 
+  #bbm(
+  def risk_type
+    params.fetch(:type, {})
+  end
+  # )
+
   def status
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
@@ -393,6 +399,36 @@ class PermittedParams
     whitelist.permit!
   end
 
+  #bbm(
+  def risks
+    acceptable_params = %i[description move_to possibility importance name]
+
+    whitelist = ActionController::Parameters.new
+
+    # Sometimes we receive one risk, sometimes many in params, hence
+    # the following branching.
+    if params[:risks].present?
+      params[:risks].each do |risk, _value|
+        risk.tap do
+          whitelist[risk] = {}
+          acceptable_params.each do |param|
+            # We rely on enum being an integer, an id that is. This will blow up
+            # otherwise, which is fine.
+            next if params[:risks][risk][param].nil?
+            whitelist[risk][param] = params[:risks][risk][param]
+          end
+        end
+      end
+    else
+      params[:risk].each do |key, _value|
+        whitelist[key] = params[:risk][key]
+      end
+    end
+
+    whitelist.permit!
+  end
+  # )
+
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end
@@ -583,6 +619,15 @@ class PermittedParams
           :assignable,
           :move_to,
           permissions: []],
+        #bbm(
+        risk: %i(
+          description
+          move_to
+          possibility
+          importance
+          name
+        ),
+        # )
         search: %i(
           q
           offset

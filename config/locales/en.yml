@@ -222,6 +222,12 @@ en:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
 
+  typed_risks:
+    edit:
+      typed_risk_color_text: |
+        Click to assign or change the color of this typed risk.
+        It can be used nowhere.
+
   statuses:
     edit:
      status_readonly_html: |
@@ -725,6 +731,7 @@ en:
     groups: "Groups"
     groupname: "Group name"
     id: "ID"
+    importance: "Degree of impact"
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
@@ -735,6 +742,7 @@ en:
     mail: "Email"
     name: "Name"
     password: "Password"
+    possibility: "Possibility"
     priority: "Priority"
     project: "Project"
     responsible: "Accountable"
@@ -958,6 +966,8 @@ en:
   default_type_phase: "Phase"
   default_type_task: "Task"
   default_type_user_story: "User story"
+  default_typed_risk_fire: "Fire"
+  default_typed_risk_flood: "Flood"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -1527,6 +1537,7 @@ en:
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
+  label_risks: "Risks"
   label_roadmap: "Roadmap"
   label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
@@ -1584,6 +1595,9 @@ en:
   label_total: "Total"
   label_type_new: "New type"
   label_type_plural: "Types"
+  label_typed_risks: "Typed risks"
+  label_typed_risk_new: "New typed risk"
+  label_typed_risk_value: "Typed risk value"
   label_ui: "User Interface"
   label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"

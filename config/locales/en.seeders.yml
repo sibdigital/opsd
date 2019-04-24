@@ -29,16 +29,18 @@ en:
   seeders:
     demo_data:
       welcome:
-        title: "Добро пожаловать в ИСУП РБ Улан-Удэ!"
+        title: "Welcome to ИСУП РБ Улан-Удэ!"
         text: |
-          Выберите один из демо проектов чтобы начать работу с ознакомительными данными, подготовленными для вас.
+          Select one of the demo projects to get started with some demo data we have prepared for you.
 
-          * [Demo project](%{base_url}/projects/demo-project): начните работу с традиционным проектным управлением.
-          * [Scrum project](%{base_url}/projects/your-scrum-project): узнайте больше об Agile и Scrum проектных управлениях.
+          * [Demo project](%{base_url}/projects/demo-project): to get an overview about classical project management.
+          * [Scrum project](%{base_url}/projects/your-scrum-project): to learn about Agile and Scrum project management.
 
-          Вы также можете создать пустой [новый проект](%{base_url}/projects/new).
+          Also, you can create a blank [new project](%{base_url}/projects/new).
 
-          Данное приветственное сообщение можно поменять [здесь](%{base_url}/settings).
+          Never stop collaborating. With open source and open mind.
+
+          You can change this welcome text [here](%{base_url}/settings).
       projects:
         demo-project:
           name: Demo project

@@ -106,7 +106,7 @@ class RootSeeder < Seeder
     # for valid_languages.
     desired_lang = (ENV['LOCALE'] || :en).to_sym
 
-    if all_languages.include?(desired_lang)
+    if desired_lang.equal?(:en)
       I18n.locale = desired_lang
       puts "*** Seeding for locale: '#{I18n.locale}'"
     else
