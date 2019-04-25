@@ -15,21 +15,24 @@ class TypedRisksController < ApplicationController
   include ::ColorsHelper
 
   def index
-    sort_columns = { 'id' => "#{TypedRisk.table_name}.id",
-                     'name' => "#{TypedRisk.table_name}.name",
-                     'possibility' => "#{TypedRisk.table_name}.possibility_id",
-                     'importance' => "#{TypedRisk.table_name}.importance_id"
+    sort_columns = {'id' => "#{TypedRisk.table_name}.id",
+                    'name' => "#{TypedRisk.table_name}.name",
+                    'possibility' => "#{TypedRisk.table_name}.possibility_id",
+                    'importance' => "#{TypedRisk.table_name}.importance_id"
     }
 
     sort_init 'id', 'desc'
     sort_update sort_columns
 
+    #Надо проверить пагинацию пока нет такой возможности, сделай это через Seeders
     @typed_risks = TypedRisk
-                      .page(page_param)
-                      .per_page(per_page_param)
+                     .order(sort_clause)
+                     .page(page_param)
+                     .per_page(per_page_param)
   end
 
-  def edit; end
+  def edit;
+  end
 
   def new
     @typed_risk = TypedRisk.new

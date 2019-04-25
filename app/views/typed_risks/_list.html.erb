@@ -38,8 +38,8 @@ This file written by BBM
         <tr id="typed_risk-<%= typed_risk.id %>">
           <td><%= link_to typed_risk.id, edit_typed_risk_path(typed_risk.id) %></td>
           <%= content_tag(:td, link_to(h(typed_risk.name), edit_typed_risk_path(typed_risk.id))) %>
-          <%= content_tag(:td, typed_risk.possibility_id)%>
-          <%= content_tag(:td, typed_risk.importance_id)%>
+          <%= content_tag(:td, typed_risk.possibility)%>
+          <%= content_tag(:td, typed_risk.importance)%>
           <%= content_tag(:td, icon_for_color(typed_risk.color))%>
         </tr>
         <% end %>

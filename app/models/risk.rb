@@ -5,6 +5,8 @@
 class Risk < ActiveRecord::Base
   belongs_to :project
   belongs_to :color
+  belongs_to :possibility
+  belongs_to :importance
 
   # удаление должно быть каскадное, пока нечего каскадить
 
