@@ -393,6 +393,12 @@ class PermittedParams
     whitelist.permit!
   end
 
+  #bbm(
+  def typed_risk
+    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+  end
+  # )
+
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end

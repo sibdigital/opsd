@@ -1,0 +1,32 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :risk %>
+<section class="form--section">
+  <%= f.hidden_field 'type' %>
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'description', container_class: '-middle' %></div>
+  <div class="form--field">  <%= f.select :possibility_id,
+                                          Possibility.all.map {|u| [u.name, u.id]},
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+  <div class="form--field">  <%= f.select :importance_id,
+                                          Importance.all.map {|u| [u.name, u.id]},
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+  <% if @typed_risk.class.colored? %>
+    <%= render partial: '/colors/color_autocomplete_field',
+               locals: {
+                   form: f,
+                   object: @typed_risk,
+                   label: @typed_risk.color_label
+               } %>
+  <% end %>
+</section>

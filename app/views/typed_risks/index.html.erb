@@ -1,0 +1,88 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+<% html_title l(:label_administration), l(:label_typed_risks) %>
+<%= toolbar title: l(:label_typed_risks) %>
+
+<% if @typed_risks.empty? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="typed_risk_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:name) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:possibility) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:importance) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:color) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= render :partial => 'list', :locals => {:typed_risks => @typed_risks} %>
+  <%= pagination_links_full @typed_risks %>
+<% end %>
+<div class="wp-inline-create-button">
+  <%= link_to new_typed_risk_path(),
+              aria: {label: t(:label_typed_risk_new)},
+              class: 'wp-inline-create--add-link',
+              title: t(:label_typed_risk_new) do
+    op_icon('icon icon-add')
+  end %>
+</div>

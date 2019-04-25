@@ -1,0 +1,18 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+
+<% html_title l(:label_administration), "#{l(:label_edit)} #{TypedRisk.model_name.human} #{h @typed_risk.name}" %>
+
+<% local_assigns[:additional_breadcrumb] =  @typed_risk %>
+<%= breadcrumb_toolbar @typed_risk %>
+
+<%= labelled_tabular_form_for @typed_risk do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(typed_risk_path(@typed_risk), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

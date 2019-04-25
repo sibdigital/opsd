@@ -1,0 +1,51 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+
+<%= form_tag({}) do -%>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="typed_risk_items">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("name", :caption => TypedRisk.human_attribute_name(:name)) %>
+          <%= sort_header_tag("possibility", :caption => TypedRisk.human_attribute_name(:possibility)) %>
+          <%= sort_header_tag("importance", :caption => TypedRisk.human_attribute_name(:importance)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:color) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% typed_risks.each do |typed_risk| %>
+        <tr id="typed_risk-<%= typed_risk.id %>">
+          <td><%= link_to typed_risk.id, edit_typed_risk_path(typed_risk.id) %></td>
+          <%= content_tag(:td, link_to(h(typed_risk.name), edit_typed_risk_path(typed_risk.id))) %>
+          <%= content_tag(:td, typed_risk.possibility_id)%>
+          <%= content_tag(:td, typed_risk.importance_id)%>
+          <%= content_tag(:td, icon_for_color(typed_risk.color))%>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% end -%>
