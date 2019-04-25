@@ -2,15 +2,16 @@
 # This file written by BBM
 # 23/04/2019
 
-class TypedRisk < Risk
+class ProjectRisk < Risk
+
   #OptionName и соотв функция непонятно для чего служат
-  OptionName = :risk_typed_risks
+  OptionName = :risk_project_risks
 
   def option_name
     OptionName
   end
 
   def color_label
-    I18n.t('typed_risks.edit.typed_risk_color_text')
+    I18n.t('project_risks.edit.project_risk_color_text')
   end
 end

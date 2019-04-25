@@ -159,8 +159,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
             html: { class: 'custom_fields' }
 
   #bbm(
-  menu.push :risks,
-            { controller: '/risks' },
+  menu.push :typed_risks,
+            { controller: '/typed_risks' },
             icon: 'icon2 icon-risks'
   # )
 
@@ -305,6 +305,11 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_member_plural,
             icon: 'icon2 icon-group'
 
+  #bbm(
+  menu.push :project_risks,
+            { controller: '/project_risks', action: 'index'},
+            icon: 'icon2 icon-risks'
+  # )
   menu.push :settings,
             { controller: '/project_settings', action: 'show' },
             caption: :label_project_settings,

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 # This file written by BBM
 # 23/04/2019
-module Risks
+module TypedRisks
   class RowCell < ::RowCell
     include ::IconsHelper
     include ::ColorsHelper
@@ -12,7 +12,7 @@ module Risks
     end
 
     def name
-      link_to h(risk.name), edit_risk_path(risk)
+      link_to h(risk.name), edit_typed_risk_path(risk)
     end
 
     def possibility
@@ -28,7 +28,7 @@ module Risks
     end
 
     def sort
-      reorder_links('risk', { action: 'update', id: risk }, method: :put)
+      reorder_links('typed_risk', { action: 'update', id: risk }, method: :put)
     end
 
     def button_links
@@ -40,7 +40,7 @@ module Risks
     def delete_link
       link_to(
         op_icon('icon icon-delete'),
-        risk_path(risk),
+        typed_risk_path(risk),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) },
         title: t(:button_delete)

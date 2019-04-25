@@ -1,17 +1,13 @@
 #-- encoding: UTF-8
 # This file written by BBM
 # 23/04/2019
-require_dependency 'risks/row_cell'
+require_dependency 'project_risks/row_cell'
 
-module Risks
+module ProjectRisks
   class TableCell < ::TableCell
 
     def initial_sort
       %i[id asc]
-    end
-
-    def sortable?
-      false
     end
 
     def with_colors
@@ -27,10 +23,10 @@ module Risks
     end
 
     def inline_create_link
-      link_to new_risk_path(type: model.name),
-              aria: { label: t(:label_typed_risk_new) },
+      link_to new_project_project_risk_path(),
+              aria: { label: t(:label_project_risk_new) },
               class: 'wp-inline-create--add-link',
-              title: t(:label_typed_risk_new) do
+              title: t(:label_project_risk_new) do
         op_icon('icon icon-add')
       end
     end
@@ -40,7 +36,7 @@ module Risks
     end
 
     def row_class
-      ::Risks::RowCell
+      ::ProjectRisks::RowCell
     end
 
     def headers

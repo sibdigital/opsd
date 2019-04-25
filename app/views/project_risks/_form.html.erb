@@ -16,12 +16,12 @@ This file written by BBM
   <div class="form--field"><%= f.number_field 'possibility', container_class: '-xslim' %></div>
   <div class="form--field"><%= f.number_field 'importance', container_class: '-xslim' %></div>
 
-  <% if @risk.class.colored? %>
+  <% if @typed_risk.class.colored? %>
     <%= render partial: '/colors/color_autocomplete_field',
                locals: {
                    form: f,
-                   object: @risk,
-                   label: @risk.color_label
+                   object: @typed_risk,
+                   label: @typed_risk.color_label
                }  %>
   <% end %>
 </section>

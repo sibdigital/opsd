@@ -183,12 +183,6 @@ class PermittedParams
     params[:role] ? role : nil
   end
 
-  #bbm(
-  def risk_type
-    params.fetch(:type, {})
-  end
-  # )
-
   def status
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
@@ -400,32 +394,12 @@ class PermittedParams
   end
 
   #bbm(
-  def risks
-    acceptable_params = %i[description move_to possibility importance name]
+  def project_risk
+    params.require(:project_risk).permit(:description, :move_to, :possibility, :importance, :name)
+  end
 
-    whitelist = ActionController::Parameters.new
-
-    # Sometimes we receive one risk, sometimes many in params, hence
-    # the following branching.
-    if params[:risks].present?
-      params[:risks].each do |risk, _value|
-        risk.tap do
-          whitelist[risk] = {}
-          acceptable_params.each do |param|
-            # We rely on enum being an integer, an id that is. This will blow up
-            # otherwise, which is fine.
-            next if params[:risks][risk][param].nil?
-            whitelist[risk][param] = params[:risks][risk][param]
-          end
-        end
-      end
-    else
-      params[:risk].each do |key, _value|
-        whitelist[key] = params[:risk][key]
-      end
-    end
-
-    whitelist.permit!
+  def typed_risk
+    params.require(:typed_risk).permit(:description, :move_to, :possibility, :importance, :name)
   end
   # )
 
@@ -605,6 +579,15 @@ class PermittedParams
           :client_credentials_user_id,
           scopes: []
         ],
+        #bbm(
+        project_risk: %i(
+          description
+          move_to
+          possibility
+          importance
+          name
+        ),
+        # )
         project_type: [
           :name,
           type_ids: []],
@@ -619,15 +602,6 @@ class PermittedParams
           :assignable,
           :move_to,
           permissions: []],
-        #bbm(
-        risk: %i(
-          description
-          move_to
-          possibility
-          importance
-          name
-        ),
-        # )
         search: %i(
           q
           offset
@@ -658,6 +632,15 @@ class PermittedParams
           :color_id,
           project_ids: []
         ],
+        #bbm(
+        typed_risk: %i(
+          description
+          move_to
+          possibility
+          importance
+          name
+        ),
+        # )
         user: %i(
           firstname
           lastname
