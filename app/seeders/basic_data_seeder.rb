@@ -36,8 +36,10 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::ColorSchemeSeeder,
       BasicData::WorkflowSeeder,
       BasicData::PrioritySeeder,
+      #bbm(
       BasicData::PossibilitySeeder,
       BasicData::ImportanceSeeder,
+      # )
       BasicData::SettingSeeder
     ]
   end
