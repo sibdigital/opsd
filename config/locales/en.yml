@@ -213,14 +213,26 @@ en:
 
   prioritiies:
     edit:
-     priority_color_text: |
-      Click to assign or change the color of this priority.
-      It can be used for highlighting work packages in the table.
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
+
+  project_risks:
+    edit:
+      project_risk_color_text: |
+        Click to assign or change the color of this project risk.
+        It can be used nowhere.
 
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
       no_results_content_text: Add a status reporting
+
+  typed_risks:
+    edit:
+      typed_risk_color_text: |
+        Click to assign or change the color of this typed risk.
+        It can be used nowhere.
 
   statuses:
     edit:
@@ -725,6 +737,7 @@ en:
     groups: "Groups"
     groupname: "Group name"
     id: "ID"
+    importance: "Degree of impact"
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
@@ -735,6 +748,7 @@ en:
     mail: "Email"
     name: "Name"
     password: "Password"
+    possibility: "Possibility"
     priority: "Priority"
     project: "Project"
     responsible: "Accountable"
@@ -958,6 +972,8 @@ en:
   default_type_phase: "Phase"
   default_type_task: "Task"
   default_type_user_story: "User story"
+  default_typed_risk_fire: "Fire"
+  default_typed_risk_flood: "Flood"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -1486,6 +1502,9 @@ en:
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
+  label_project_risks: "Project risks"
+  label_project_risk_new: "New project risk"
+  label_project_risk_value: "Project risk value"
   label_project_settings: "Project settings"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
@@ -1584,6 +1603,9 @@ en:
   label_total: "Total"
   label_type_new: "New type"
   label_type_plural: "Types"
+  label_typed_risks: "Typed risks"
+  label_typed_risk_new: "New typed risk"
+  label_typed_risk_value: "Typed risk value"
   label_ui: "User Interface"
   label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"

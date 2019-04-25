@@ -193,10 +193,20 @@ ru:
       priority_color_text: |
         Щелкните, чтобы задать или изменить цвет этого приоритета.
         Этот цвет может использоваться для выделения пакетов работ в таблице.
+  project_risks:
+    edit:
+      project_risk_color_text: |
+        Щелкните, чтобы задать или изменить цвет этого проектного риска.
+        Этот цвет может использоваться незнамо где.
   reportings:
     index:
       no_results_title_text: В данный момент статусы отчётов отсутствуют.
       no_results_content_text: Добавить статус отчёта
+  typed_risks:
+    edit:
+      typed_risk_color_text: |
+        Щелкните, чтобы задать или изменить цвет этого типизированного риска.
+        Этот цвет может использоваться незнамо где.
   statuses:
     edit:
       status_readonly_html: |
@@ -740,6 +750,7 @@ ru:
     groups: Группы
     groupname: Имя группы
     id: ID
+    importance: Степень влияния на проект
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     is_public: Общий
@@ -749,6 +760,7 @@ ru:
     mail: Электронная почта
     name: Имя
     password: Пароль
+    possibility: Вероятность наступления
     priority: Приоритет
     project: Проект
     responsible: Подотчетный
@@ -1031,6 +1043,8 @@ ru:
   default_type_phase: Фаза
   default_type_task: Задание
   default_type_user_story: Описание пользователя
+  default_typed_risk_fire: Пожар
+  default_typed_risk_flood: Наводнение
   description_active: Активно?
   description_attachment_toggle: Показать/скрыть вложения
   description_autocomplete: 'Это поле заполняется автоматически. При наборе заголовка
@@ -1574,6 +1588,9 @@ ru:
   label_project_hierarchy: Иерархия проектов
   label_project_new: Новый проект
   label_project_plural: Проекты
+  label_project_risks: Проектные риски
+  label_project_risk_new: Новый проектный риск
+  label_project_risk_value: Значение проектного риска
   label_project_settings: Настройки проекта
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
     пространства"
@@ -1674,6 +1691,9 @@ ru:
   label_total: Всего
   label_type_new: Новый тип
   label_type_plural: Типы
+  label_typed_risks: Типизированные риски
+  label_typed_risk_new: Новый типизированный риск
+  label_typed_risk_value: Значение типизированного риска
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад

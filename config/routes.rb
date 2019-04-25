@@ -211,6 +211,10 @@ OpenProject::Application.routes.draw do
 
     resources :news, only: %i[index new create]
 
+    #bbm(
+    resources :project_risks
+    # )
+
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
@@ -347,6 +351,10 @@ OpenProject::Application.routes.draw do
       resource :enterprise, only: %i[show create destroy]
     end
     resources :enumerations
+
+    #bbm(
+    resources :typed_risks
+    # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'

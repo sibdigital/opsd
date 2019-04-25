@@ -393,6 +393,16 @@ class PermittedParams
     whitelist.permit!
   end
 
+  #bbm(
+  def project_risk
+    params.require(:project_risk).permit(:description, :move_to, :possibility, :importance, :name)
+  end
+
+  def typed_risk
+    params.require(:typed_risk).permit(:description, :move_to, :possibility, :importance, :name)
+  end
+  # )
+
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end
@@ -569,6 +579,15 @@ class PermittedParams
           :client_credentials_user_id,
           scopes: []
         ],
+        #bbm(
+        project_risk: %i(
+          description
+          move_to
+          possibility
+          importance
+          name
+        ),
+        # )
         project_type: [
           :name,
           type_ids: []],
@@ -613,6 +632,15 @@ class PermittedParams
           :color_id,
           project_ids: []
         ],
+        #bbm(
+        typed_risk: %i(
+          description
+          move_to
+          possibility
+          importance
+          name
+        ),
+        # )
         user: %i(
           firstname
           lastname
