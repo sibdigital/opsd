@@ -939,6 +939,11 @@ en:
   default_status_tested: "Tested"
   default_status_test_failed: "Test failed"
   default_status_to_be_scheduled: "To be scheduled"
+  default_possibility_very_low: "Very low"
+  default_possibility_low: "Low"
+  default_possibility_normal: "Normal"
+  default_possibility_high: "High"
+  default_possibility_very_high: "Very high"
   default_priority_low: "Low"
   default_priority_normal: "Normal"
   default_priority_high: "High"
@@ -1008,6 +1013,8 @@ en:
 
   enumeration_activities: "Activities (time tracking)"
   enumeration_work_package_priorities: "Work package priorities"
+  enumeration_risk_importance: "Impact degrees of risk"
+  enumeration_risk_possibilities: "Possibilities of risk occurrence"
   enumeration_system_activity: "System Activity"
   enumeration_reported_project_statuses: "Reported project status"
 

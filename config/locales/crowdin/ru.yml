@@ -1012,6 +1012,11 @@ ru:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_possibility_very_low: Очень низкая
+  default_possibility_low: Низкая
+  default_possibility_normal: Средняя
+  default_possibility_high: Высокая
+  default_possibility_very_high: Очень высокая
   default_priority_low: Низкое
   default_priority_normal: Обычное
   default_priority_high: Высокое
@@ -1078,6 +1083,8 @@ ru:
           полям
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_work_package_priorities: Приоритеты пакета работ
+  enumeration_risk_importance: Степень влияния рисков на проект
+  enumeration_risk_possibilities: Вероятность наступления рисков
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
