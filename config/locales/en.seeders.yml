@@ -39,6 +39,32 @@ en:
           Вы также можете создать пустой [новый проект](%{base_url}/projects/new).
 
           Данное приветственное сообщение можно поменять [здесь](%{base_url}/settings).
+      typed_risks:
+        - name: Пожар
+          description: Утрата
+          possibility: :default_possibility_high
+          color_id: lime-0
+        - name: Наводнение
+          importance: :default_possibility_low
+        - name: Взрыв на ЧАЭС
+        - name: Ураган
+        - name: Оползень
+        - name: Отключение электричества
+        - name: Нападение зомби
+        - name: Выброс химикатов
+        - name: Землетрясение
+        - name: Падение метеорита
+        - name: Засуха
+        - name: Извержение вулкана
+        - name: Терракт
+        - name: Крупный град
+        - name: Песчаная буря
+        - name: Цунами
+        - name: Сильный туман
+        - name: Снежная лавина
+        - name: Вася прыгнул в бассейн
+        - name: Солнечное затмение
+        - name: Магнитные бури
       projects:
         demo-project:
           name: Demo project
