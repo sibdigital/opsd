@@ -3,7 +3,6 @@
 # 25/04/2019
 
 class TypedRisk < Risk
-  #OptionName нужна для локализации, см локаль.yml , конкретно этот - еще не факт
   OptionName = :risk_typed_risks
 
   def option_name

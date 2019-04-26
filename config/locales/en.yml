@@ -217,6 +217,12 @@ en:
       Click to assign or change the color of this priority.
       It can be used for highlighting work packages in the table.
 
+  project_risks:
+    edit:
+      project_risk_color_text: |
+        Click to assign or change the color of this project risk.
+        It can be used nowhere.
+
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
@@ -1501,6 +1507,9 @@ en:
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
+  label_project_risks: "Project risks"
+  label_project_risk_new: "New project risk"
+  label_project_risk_value: "Project risk value"
   label_project_settings: "Project settings"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"

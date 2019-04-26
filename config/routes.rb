@@ -211,6 +211,10 @@ OpenProject::Application.routes.draw do
 
     resources :news, only: %i[index new create]
 
+    #bbm(
+    resources :project_risks
+    # )
+
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end

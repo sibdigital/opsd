@@ -193,6 +193,11 @@ ru:
       priority_color_text: |
         Щелкните, чтобы задать или изменить цвет этого приоритета.
         Этот цвет может использоваться для выделения пакетов работ в таблице.
+  project_risks:
+    edit:
+      project_risk_color_text: |
+        Щелкните, чтобы задать или изменить цвет этого проектного риска.
+        Этот цвет может использоваться незнамо где.
   reportings:
     index:
       no_results_title_text: В данный момент статусы отчётов отсутствуют.
@@ -1588,6 +1593,9 @@ ru:
   label_project_hierarchy: Иерархия проектов
   label_project_new: Новый проект
   label_project_plural: Проекты
+  label_project_risks: Проектные риски
+  label_project_risk_new: Новый проектный риск
+  label_project_risk_value: Значение проектного риска
   label_project_settings: Настройки проекта
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
     пространства"

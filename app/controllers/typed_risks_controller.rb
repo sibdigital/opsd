@@ -24,7 +24,6 @@ class TypedRisksController < ApplicationController
     sort_init 'id', 'desc'
     sort_update sort_columns
 
-    #Надо проверить пагинацию пока нет такой возможности, сделай это через Seeders
     @typed_risks = TypedRisk
                      .order(sort_clause)
                      .page(page_param)

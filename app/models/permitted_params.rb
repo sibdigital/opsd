@@ -397,6 +397,10 @@ class PermittedParams
   def typed_risk
     params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
   end
+
+  def project_risk
+    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+  end
   # )
 
   def watcher

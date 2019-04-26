@@ -24,6 +24,7 @@ class Risk < ActiveRecord::Base
   end
 
   # Overloaded on concrete classes
+  # OptionName нужна для локализации, см локаль.yml , конкретно этот - еще не факт
   def option_name
     nil
   end
