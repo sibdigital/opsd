@@ -42,14 +42,14 @@ This file written by BBM
         <tbody>
         <% project_risks.each do |project_risk| %>
           <tr id="typed_risk-<%= project_risk.id %>">
-            <td><%= link_to project_risk.id, edit_project_risk_path(project_risk.id) %></td>
-            <%= content_tag(:td, link_to(h(project_risk.name), edit_project_project_risk_path(project_risk.id))) %>
+            <td><%= link_to project_risk.id, edit_project_project_risk_path(id: project_risk.id) %></td>
+            <%= content_tag(:td, link_to(h(project_risk.name), edit_project_project_risk_path(id: project_risk.id))) %>
             <%= content_tag(:td, project_risk.possibility) %>
             <%= content_tag(:td, project_risk.importance) %>
             <%= content_tag(:td, icon_for_color(project_risk.color)) %>
             <%= content_tag(:td, link_to(
                 op_icon('icon icon-delete'),
-                project_project_risk_path(project_risk),
+                project_project_risk_path(id: project_risk.id),
                 method: :delete,
                 data: {confirm: I18n.t(:text_are_you_sure)},
                 title: t(:button_delete))) %>

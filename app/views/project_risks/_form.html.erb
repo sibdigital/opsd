@@ -10,16 +10,15 @@ This file written by BBM
 
 <%= error_messages_for :risk %>
 <section class="form--section">
-  <%= f.hidden_field 'type' %>
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'description', container_class: '-middle' %></div>
-  <% @selected_possibility_id = if @typed_risk.id
-                                  @typed_risk.possibility_id
+  <% @selected_possibility_id = if @project_risk.id
+                                  @project_risk.possibility_id
                                 elsif Possibility.default
                                   Possibility.default.id
                                 end
-     @selected_importance_id = if @typed_risk.id
-                                 @typed_risk.importance_id
+     @selected_importance_id = if @project_risk.id
+                                 @project_risk.importance_id
                                elsif Importance.default
                                  Importance.default.id
                                end
@@ -27,18 +26,17 @@ This file written by BBM
   <div class="form--field">  <%= f.select :possibility_id,
                                           options_for_select(Possibility.where(active: true).map {|u| [u.name, u.id]}, @selected_possibility_id),
                                           include_blank: true,
-                                          selected: params[16],
                                           container_class: '-slim' %></div>
   <div class="form--field">  <%= f.select :importance_id,
                                           options_for_select(Importance.where(active: true).map {|u| [u.name, u.id]}, @selected_importance_id),
                                           include_blank: true,
                                           container_class: '-slim' %></div>
-  <% if @typed_risk.class.colored? %>
+  <% if @project_risk.class.colored? %>
     <%= render partial: '/colors/color_autocomplete_field',
                locals: {
                    form: f,
-                   object: @typed_risk,
-                   label: @typed_risk.color_label
+                   object: @project_risk,
+                   label: @project_risk.color_label
                } %>
   <% end %>
 </section>

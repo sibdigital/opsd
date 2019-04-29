@@ -211,10 +211,6 @@ OpenProject::Application.routes.draw do
 
     resources :news, only: %i[index new create]
 
-    #bbm(
-    resources :project_risks
-    # )
-
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
@@ -275,6 +271,10 @@ OpenProject::Application.routes.draw do
       # state for show view in project context
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
     end
+
+    #bbm(
+    resources :project_risks
+    # )
 
     resources :activity, :activities, only: :index, controller: 'activities'
 

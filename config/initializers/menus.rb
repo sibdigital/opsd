@@ -305,6 +305,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_member_plural,
             icon: 'icon2 icon-group'
 
+  #bbm(
+  menu.push :project_risks,
+            { controller: '/project_risks', action: 'index' },
+            param: :project_id,
+            if: Proc.new { |p| p.module_enabled?('project_risks') },
+            icon: 'icon2 icon-risks'
+  # )
+
   menu.push :settings,
             { controller: '/project_settings', action: 'show' },
             caption: :label_project_settings,

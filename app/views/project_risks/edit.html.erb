@@ -3,16 +3,13 @@ This file written by BBM
 26/04/2019
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{TypedRisk.model_name.human} #{h @typed_risk.name}" %>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{ProjectRisk.model_name.human} #{h @project_risk.name}" %>
 
-<% local_assigns[:additional_breadcrumb] =  @typed_risk %>
-<%= breadcrumb_toolbar @typed_risk %>
-
-<%= labelled_tabular_form_for @typed_risk do |f| %>
+<%= labelled_tabular_form_for @project_risk, url: project_project_risk_path(project_id: @project) do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
 
-<%= styled_form_tag(typed_risk_path(@typed_risk), method: :delete) do %>
+<%= styled_form_tag(project_project_risk_path(id: @project_risk.id), method: :delete) do %>
   <%= styled_submit_tag l(:button_delete) %>
 <% end %>
