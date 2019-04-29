@@ -75,7 +75,7 @@ This file written by BBM
     </div>
   </div>
 <% else %>
-  <%= render :partial => 'list', :locals => {:typed_risks => @typed_risks} %>
+  <%= render :partial => 'typed_risks/form/list', :locals => {:typed_risks => @typed_risks} %>
   <%= pagination_links_full @typed_risks %>
 <% end %>
 <div class="wp-inline-create-button">

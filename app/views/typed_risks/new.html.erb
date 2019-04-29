@@ -7,6 +7,6 @@ This file written by BBM
 <% local_assigns[:additional_breadcrumb] =  l(:label_typed_risk_new) %>
 <%= breadcrumb_toolbar l(:label_typed_risk_new) %>
 <%= labelled_tabular_form_for @typed_risk do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
+  <%= render partial: 'typed_risks/form/form', locals: { f: f } %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

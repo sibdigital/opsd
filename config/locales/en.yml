@@ -230,6 +230,8 @@ en:
 
   typed_risks:
     edit:
+      properties: Properties
+      risk_characts: Specification tables
       typed_risk_color_text: |
         Click to assign or change the color of this typed risk.
         It can be used nowhere.

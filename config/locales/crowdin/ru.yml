@@ -204,6 +204,8 @@ ru:
       no_results_content_text: Добавить статус отчёта
   typed_risks:
     edit:
+      properties: Свойства
+      risk_characts: Таблицы характеристик
       typed_risk_color_text: |
         Щелкните, чтобы задать или изменить цвет этого типового риска.
         Этот цвет может использоваться незнамо где.

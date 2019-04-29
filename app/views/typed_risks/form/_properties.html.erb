@@ -1,0 +1,8 @@
+<%= labelled_tabular_form_for @typed_risk do |f| %>
+  <%= render partial: 'typed_risks/form/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(typed_risk_path(@typed_risk), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

@@ -353,6 +353,8 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     #bbm(
+    get   '/typed_risks/:id/edit/:tab' => "typed_risks#edit",
+          as: "edit_typed_risk_tab"
     resources :typed_risks
     # )
 

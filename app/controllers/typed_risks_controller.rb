@@ -30,7 +30,14 @@ class TypedRisksController < ApplicationController
                      .per_page(per_page_param)
   end
 
-  def edit;
+  def edit
+    if params[:tab].blank?
+      redirect_to tab: :properties
+    else
+      @typed_risk = TypedRisk
+               .find(params[:id])
+      @tab = params[:tab]
+    end
   end
 
   def new
