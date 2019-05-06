@@ -1641,6 +1641,9 @@ ru:
   label_revision: Редакция
   label_revision_id: Редакция %{value}
   label_revision_plural: Редакции
+  label_risk_characts_new: Новая характеристика риска
+  label_risk_characts_value: Значение характеристики риска
+  label_risk_characts: Характеристики риска
   label_roadmap: Дорожная карта
   label_roadmap_edit: Редактировать дорожную карту %{name}
   label_roadmap_due_in: Завершится через %{value}
@@ -2259,6 +2262,8 @@ ru:
     url: URL репозитория
     warnings:
       cannot_annotate: Этот файл не может быть прокомментирован.
+  risk_charact_effects: Эффект от наступления
+  risk_charact_measures: Мера реагирования
   search_input_placeholder: Поиск ...
   setting_email_delivery_method: Метод доставки электронной почты
   setting_sendmail_location: Расположение исполняемого файла sendmail

@@ -3,10 +3,11 @@
 # 25/04/2019
 
 class Risk < ActiveRecord::Base
-  belongs_to :project
   belongs_to :color
   belongs_to :possibility
   belongs_to :importance
+
+  has_many :risk_characts, dependent: :delete_all
 
   # удаление должно быть каскадное, пока нечего каскадить
 

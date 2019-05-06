@@ -401,6 +401,14 @@ class PermittedParams
   def project_risk
     params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
   end
+
+  def risk_charact_type
+    params.fetch(:type, {})
+  end
+
+  def risk_charact
+    params.require(:risk_charact).permit(:description, :type, :name, :move_to)
+  end
   # )
 
   def watcher

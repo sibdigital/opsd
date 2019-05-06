@@ -1553,6 +1553,9 @@ en:
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
+  label_risk_characts_new: "New risk specification value"
+  label_risk_characts_value: "Risk specification value"
+  label_risk_characts: "Risk specifications"
   label_roadmap: "Roadmap"
   label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
@@ -2101,6 +2104,8 @@ en:
     warnings:
       cannot_annotate: "This file cannot be annotated."
 
+  risk_charact_effects: "Oneset effect"
+  risk_charact_measures: "Response"
   search_input_placeholder: "Search ..."
 
   setting_email_delivery_method: "Email delivery method"

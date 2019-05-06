@@ -3,6 +3,7 @@
 # 26/04/2019
 
 class ProjectRisk < Risk
+  belongs_to :project
   OptionName = :risk_project_risks
 
   def option_name

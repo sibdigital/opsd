@@ -4,12 +4,22 @@ This file written by BBM
 ++#%>
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{ProjectRisk.model_name.human} #{h @project_risk.name}" %>
+<% breadcrumb_paths(default_breadcrumb, @project_risk) %>
+<%= toolbar title: @project_risk %>
 
-<%= labelled_tabular_form_for @project_risk, url: project_project_risk_path(project_id: @project) do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<% end %>
+<div class="tabs">
+  <ul>
+    <li>
+      <%= link_to t("typed_risks.edit.properties"),
+                  edit_tab_project_project_risk_path(id: @project_risk.id, tab: :properties),
+                  class: "#{'selected' if @tab == "properties" }"  %>
+    </li>
+    <li>
+      <%= link_to t("typed_risks.edit.risk_characts"),
+                  edit_tab_project_project_risk_path(id: @project_risk.id, tab: :risk_characts),
+                  class: "#{'selected' if @tab == 'risk_characts' }"  %>
+    </li>
+  </ul>
+</div>
 
-<%= styled_form_tag(project_project_risk_path(id: @project_risk.id), method: :delete) do %>
-  <%= styled_submit_tag l(:button_delete) %>
-<% end %>
+<%= render partial: "project_risks/form/#{@tab}"%>

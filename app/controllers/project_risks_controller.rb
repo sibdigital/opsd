@@ -29,7 +29,14 @@ class ProjectRisksController < ApplicationController
                      .per_page(per_page_param)
   end
 
-  def edit;
+  def edit
+    if params[:tab].blank?
+      redirect_to tab: :properties
+    else
+      @project_risk = ProjectRisk
+                      .find(params[:id])
+      @tab = params[:tab]
+    end
   end
 
   def new
@@ -62,6 +69,24 @@ class ProjectRisksController < ApplicationController
     return
   end
 
+  protected
+
+  def find_project_risk
+    @project_risk = @project.project_risks.find(params[:id])
+  end
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_project_risks)
+    else
+      ActionController::Base.helpers.link_to(t(:label_project_risks), project_project_risks_path(project_id: @project.identifier))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
   private
 
   # TODO: см. find_optional_project в ActivitiesController
@@ -75,9 +100,5 @@ class ProjectRisksController < ApplicationController
 
   def verify_project_risks_module_activated
     render_403 if @project && !@project.module_enabled?('project_risks')
-  end
-
-  def find_project_risk
-    @project_risk = @project.project_risks.find(params[:id])
   end
 end

@@ -5,5 +5,5 @@
 <% html_title l(:label_administration), l(:label_risk_characts) %>
 <% RiskCharact.descendants.each do |klass| %>
   <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
-  <%= cell ::RiskCharacts::TableCell, klass.at_risk(@typed_risk), risk_id: @typed_risk.id %>
+  <%= cell ::RiskCharacts::TableCell, klass.at_risk(@project_risk), project_id: @project.identifier, risk_id: @project_risk.id %>
 <% end %>

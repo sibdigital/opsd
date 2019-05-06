@@ -273,7 +273,9 @@ OpenProject::Application.routes.draw do
     end
 
     #bbm(
-    resources :project_risks
+    resources :project_risks do
+      get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
+    end
     # )
 
     resources :activity, :activities, only: :index, controller: 'activities'
@@ -353,9 +355,19 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     #bbm(
-    get   '/typed_risks/:id/edit/:tab' => "typed_risks#edit",
-          as: "edit_typed_risk_tab"
-    resources :typed_risks
+    resources :typed_risks do
+      get '/edit/:tab' => 'typed_risks#edit', on: :member, as: 'edit_tab'
+    end
+    scope 'typed_risks/:risk_id/risk_characts', controller: 'typed_risk_characts' do
+      get '/', action: 'index', as: 'typed_risk_characts'
+      get '/new', action: 'new', as: 'new_typed_risk_charact'
+      get '/:id', action: 'show', as: 'typed_risk_charact'
+      get '/:id/edit', action: 'edit', as: 'edit_typed_risk_charact'
+      post '/', action: 'create'
+      patch '/:id', action: 'update'
+      put '/:id', action: 'update'
+      delete '/:id', action: 'destroy'
+    end
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
@@ -518,6 +530,19 @@ OpenProject::Application.routes.draw do
       get :text_formatting
     end
   end
+
+  #bbm(
+  scope '/projects/:project_id/project_risks/:risk_id/risk_characts', controller: 'project_risk_characts' do
+    get '/', action: 'index', as: 'project_risk_characts'
+    get '/new', action: 'new', as: 'new_project_risk_charact'
+    get '/:id', action: 'show', as: 'project_risk_charact'
+    get '/:id/edit', action: 'edit', as: 'edit_project_risk_charact'
+    post '/', action: 'create'
+    patch '/:id', action: 'update'
+    put '/:id', action: 'update'
+    delete '/:id', action: 'destroy'
+  end
+  # )
 
   scope controller: 'sys' do
     match '/sys/repo_auth', action: 'repo_auth', via: %i[get post]
