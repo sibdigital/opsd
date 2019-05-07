@@ -532,15 +532,8 @@ OpenProject::Application.routes.draw do
   end
 
   #bbm(
-  scope '/projects/:project_id/project_risks/:risk_id/risk_characts', controller: 'project_risk_characts' do
-    get '/', action: 'index', as: 'project_risk_characts'
-    get '/new', action: 'new', as: 'new_project_risk_charact'
-    get '/:id', action: 'show', as: 'project_risk_charact'
-    get '/:id/edit', action: 'edit', as: 'edit_project_risk_charact'
-    post '/', action: 'create'
-    patch '/:id', action: 'update'
-    put '/:id', action: 'update'
-    delete '/:id', action: 'destroy'
+  scope '/projects/:project_id/project_risks/:risk_id' do
+    resources :project_risk_characts
   end
   # )
 

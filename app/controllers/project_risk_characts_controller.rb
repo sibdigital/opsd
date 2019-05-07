@@ -68,7 +68,7 @@ class ProjectRiskCharactsController < ApplicationController
   def default_breadcrumb
     risk = Risk.find(params[:risk_id])
     [ActionController::Base.helpers.link_to(t(:label_project_risks), project_project_risks_path(project_id: @project.identifier)),
-     ActionController::Base.helpers.link_to(risk, edit_tab_project_project_risk_path(id: risk.id, project_id: @project.identifier, tab: :risk_characts))]
+    ActionController::Base.helpers.link_to(risk, edit_tab_project_project_risk_path(id: risk.id, project_id: @project.identifier, tab: :risk_characts))]
   end
 
   def show_local_breadcrumb
@@ -81,7 +81,7 @@ class ProjectRiskCharactsController < ApplicationController
   def find_optional_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
-    #authorize
+    authorize
   rescue ActiveRecord::RecordNotFound
     render_404
   end

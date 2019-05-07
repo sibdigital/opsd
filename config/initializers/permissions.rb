@@ -34,6 +34,7 @@ Redmine::AccessControl.map do |map|
                  { projects: [:show],
                    activities: [:index],
                    #bbm(
+                   project_risk_characts: [:new, :create, :edit, :update, :destroy],
                    project_risks: [:index, :new, :create, :edit, :update,
                                    :destroy]},
                    # )
@@ -307,5 +308,4 @@ Redmine::AccessControl.map do |map|
   #bbm(
   map.project_module :project_risks
   # )
-
 end
