@@ -11,7 +11,7 @@ This file written by BBM
 <%= error_messages_for :risk %>
 <section class="form--section">
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.text_field 'description', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_area 'description', container_class: '-middle' %></div>
   <% @selected_possibility_id = if @project_risk.id
                                   @project_risk.possibility_id
                                 elsif Possibility.default

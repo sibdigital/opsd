@@ -1,0 +1,12 @@
+<% html_title l(:label_administration), 'Новый типовой проектный риск' %>
+<% breadcrumb_paths(default_breadcrumb, 'Новый типовой проектный риск')%>
+<%= toolbar title: 'Новый типовой проектный риск' %>
+
+<%= styled_form_tag({action: 'choose_typed'}) do %>
+
+  <section class="form--section">
+    <div class="form--field" id="choose_typed_risks"><%= typed_risks_multiselect %></div>
+  </section>
+
+  <%= styled_button_tag t(:button_submit), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

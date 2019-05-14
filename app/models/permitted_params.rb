@@ -402,6 +402,10 @@ class PermittedParams
     params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
   end
 
+  def choose_typed
+    params.permit(choose_typed: [])
+  end
+
   def risk_charact_type
     params.fetch(:type, {})
   end

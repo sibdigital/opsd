@@ -35,7 +35,7 @@ Redmine::AccessControl.map do |map|
                    activities: [:index],
                    #bbm(
                    project_risk_characts: [:new, :create, :edit, :update, :destroy],
-                   project_risks: [:index, :new, :create, :edit, :update,
+                   project_risks: [:index, :new, :create, :edit, :update, :choose_typed,
                                    :destroy]},
                    # )
                  public: true
