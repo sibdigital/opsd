@@ -39,6 +39,8 @@ class ControlLevelsController < ApplicationController
   def create
     @control_level = ControlLevel.new(permitted_params.control_level)
 
+    update_roles_from_params
+
     if @control_level.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: 'index'
