@@ -1,0 +1,18 @@
+<%#--
+This file written by TAN
+25/04/2019
+++#%>
+
+<% html_title l(:label_administration), "#{l(:label_edit)} #{Depart.model_name.human} #{h @depart.name}" %>
+
+<% local_assigns[:additional_breadcrumb] =  @depart %>
+<%= breadcrumb_toolbar @depart %>
+
+<%= labelled_tabular_form_for @depart do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(depart_path(@depart), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

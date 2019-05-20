@@ -315,3 +315,8 @@ gemfiles.each do |file|
 
   eval_gemfile(file)
 end
+
+#+29.04.2019 TAN
+gem 'bootstrap'
+gem 'jquery-rails'
+#-TAN

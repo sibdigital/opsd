@@ -194,6 +194,13 @@ class PermittedParams
     permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
   end
 
+  def org_settings
+    permitted_params = params.require(:org_settings).permit
+    all_valid_keys = AllowedSettings.all
+
+    permitted_params.merge(params[:org_settings].to_unsafe_hash.slice(*all_valid_keys))
+  end
+
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
     permitted_params = permitted_params.merge(custom_field_values(:user))
@@ -394,14 +401,33 @@ class PermittedParams
   end
 
   #bbm(
-  def project_risk
-    params.require(:project_risk).permit(:description, :move_to, :possibility, :importance, :name)
+  def typed_risk
+    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
   end
 
-  def typed_risk
-    params.require(:typed_risk).permit(:description, :move_to, :possibility, :importance, :name)
+  def project_risk
+    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+  end
+
+  def risk_charact_type
+    params.fetch(:type, {})
+  end
+
+  def risk_charact
+    params.require(:risk_charact).permit(:description, :type, :name, :move_to)
   end
   # )
+  # +tan 2019.04.26
+  def position
+    params.require(:position).permit(:name)
+  end
+  def organization
+    params.require(:organization).permit(:name)
+  end
+  def depart
+    params.require(:depart).permit(:organization_id, :name)
+  end
+  # -tan
 
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
@@ -579,15 +605,6 @@ class PermittedParams
           :client_credentials_user_id,
           scopes: []
         ],
-        #bbm(
-        project_risk: %i(
-          description
-          move_to
-          possibility
-          importance
-          name
-        ),
-        # )
         project_type: [
           :name,
           type_ids: []],
@@ -632,15 +649,6 @@ class PermittedParams
           :color_id,
           project_ids: []
         ],
-        #bbm(
-        typed_risk: %i(
-          description
-          move_to
-          possibility
-          importance
-          name
-        ),
-        # )
         user: %i(
           firstname
           lastname

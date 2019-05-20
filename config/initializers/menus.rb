@@ -163,6 +163,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/typed_risks' },
             icon: 'icon2 icon-risks'
   # )
+  # +tan 2019.04.25
+  menu.push :positions,
+            { controller: '/positions' },
+            icon: 'icon2 icon-risks'
+
+  menu.push :org_settings,
+            { controller: '/org_settings' },
+            caption: :label_system_settings,
+            icon: 'icon2 icon-risks'
+  # -tan
 
   menu.push :custom_actions,
             { controller: '/custom_actions' },
@@ -307,9 +317,12 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   #bbm(
   menu.push :project_risks,
-            { controller: '/project_risks', action: 'index'},
+            { controller: '/project_risks', action: 'index' },
+            param: :project_id,
+            if: Proc.new { |p| p.module_enabled?('project_risks') },
             icon: 'icon2 icon-risks'
   # )
+
   menu.push :settings,
             { controller: '/project_settings', action: 'show' },
             caption: :label_project_settings,
