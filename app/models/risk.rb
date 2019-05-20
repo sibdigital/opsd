@@ -7,7 +7,7 @@ class Risk < ActiveRecord::Base
   belongs_to :possibility
   belongs_to :importance
 
-  has_many :risk_characts, dependent: :delete_all
+  has_many :risk_characts, dependent: :destroy
 
   # удаление должно быть каскадное, пока нечего каскадить
 

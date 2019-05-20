@@ -51,6 +51,11 @@ class Role < ActiveRecord::Base
   has_many :members, through: :member_roles
   has_many :role_permissions
 
+  #bbm(
+  has_many :control_level_roles, dependent: :destroy
+  has_many :control_levels, through: :control_level_roles
+  # )
+
   default_scope -> {
     includes(:role_permissions)
   }

@@ -101,6 +101,12 @@ en:
       no_results_content_text: Create a new color
     label_no_color: 'No color'
 
+  control_levels:
+    edit:
+      control_level_color_text: |
+        Click to assign or change the color of this control level.
+        It can be used nowhere.
+
   custom_actions:
     actions:
       name: 'Actions'
@@ -1258,6 +1264,9 @@ en:
   label_collapse: "Collapse"
   label_collapsed_click_to_show: "Collapsed. Click to show"
   label_configuration: configuration
+  label_control_levels: "Control levels"
+  label_control_levels_new: "New control level"
+  label_control_levels_value: "Control level value"
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"

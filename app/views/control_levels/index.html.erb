@@ -1,0 +1,88 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+<% html_title l(:label_administration), l(:label_control_levels) %>
+<%= toolbar title: l(:label_control_levels) %>
+
+<% if @control_levels.empty? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="typed_risk_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ControlLevel.human_attribute_name(:id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ControlLevel.human_attribute_name(:name) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ControlLevel.human_attribute_name(:code) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ControlLevel.human_attribute_name(:roles) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ControlLevel.human_attribute_name(:color) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= render :partial => 'list', :locals => {:control_levels => @control_levels} %>
+  <%= pagination_links_full @control_levels %>
+<% end %>
+<div class="wp-inline-create-button">
+  <%= link_to new_control_level_path(),
+              aria: {label: t(:label_control_levels_new)},
+              class: 'wp-inline-create--add-link',
+              title: t(:label_control_levels_new) do
+    op_icon('icon icon-add')
+  end %>
+</div>

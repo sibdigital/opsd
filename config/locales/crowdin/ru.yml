@@ -79,6 +79,11 @@ ru:
       no_results_title_text: На данный момент цветов нет.
       no_results_content_text: Создать новый цвет
     label_no_color: Нет цвета
+  control_levels:
+    edit:
+      control_level_color_text: |
+        Щелкните, чтобы задать или изменить цвет этого уровня контроля.
+        Этот цвет может использоваться незнамо где.
   custom_actions:
     actions:
       name: Действия
@@ -732,6 +737,7 @@ ru:
     base: 'Общая ошибка:'
     blocks_ids: Идентификаторы заблокированных рабочих пакетов
     category: Категория
+    code: Код
     comment: Комментарий
     comments: Комментарий
     content: Содержание
@@ -1341,6 +1347,9 @@ ru:
   label_collapse: Свернуть
   label_collapsed_click_to_show: Свернуто. Кликните для показа
   label_configuration: Настройки
+  label_control_levels: Уровни контроля
+  label_control_levels_new: Новый уровень контроля
+  label_control_levels_value: Значение уровня контроля
   label_comment_add: Добавить комментарий
   label_comment_added: Комментарий добавлен
   label_comment_delete: Удалить комментарии

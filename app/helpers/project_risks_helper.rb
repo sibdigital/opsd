@@ -30,7 +30,7 @@
 module ProjectRisksHelper
   include OpenProject::FormTagHelper
 
-  def typed_risks_multiselect
+  def roles_multiselect
     content_tag(:span, class: 'form--field-container -vertical') do
       hidden_field_tag("choose_typed[]", '') +
         TypedRisk.all.map do |risk|

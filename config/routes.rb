@@ -369,6 +369,7 @@ OpenProject::Application.routes.draw do
       put '/:id', action: 'update'
       delete '/:id', action: 'destroy'
     end
+    resources :control_levels
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'

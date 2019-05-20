@@ -1,0 +1,71 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+
+<%= form_tag({}) do -%>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="typed_risk_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("name", :caption => ControlLevel.human_attribute_name(:name)) %>
+          <%= sort_header_tag("code", :caption => ControlLevel.human_attribute_name(:code)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:roles) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= TypedRisk.human_attribute_name(:color) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% control_levels.each do |control_level| %>
+          <tr id="typed_risk-<%= control_level.id %>">
+            <td><%= link_to control_level.id, edit_control_level_path(control_level.id) %></td>
+            <%= content_tag(:td, link_to(h(control_level.name), edit_control_level_path(control_level.id))) %>
+            <%= content_tag(:td, control_level.code) %>
+            <%= content_tag(:td, control_level.roles.join(",")) %>
+            <%= content_tag(:td, icon_for_color(control_level.color)) %>
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-delete'),
+                control_level_path(control_level),
+                method: :delete,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                title: t(:button_delete))) %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<% end -%>

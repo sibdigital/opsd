@@ -1,0 +1,18 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+
+<% html_title l(:label_administration), "#{l(:label_edit)} #{ControlLevel.model_name.human} #{h @control_level.name}" %>
+
+<% local_assigns[:additional_breadcrumb] = @control_level %>
+<%= breadcrumb_toolbar @control_level %>
+
+<%= labelled_tabular_form_for @control_level do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(control_level_path(@control_level), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

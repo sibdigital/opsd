@@ -162,6 +162,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :typed_risks,
             { controller: '/typed_risks' },
             icon: 'icon2 icon-risks'
+
+  menu.push :control_levels,
+            { controller: '/control_levels' },
+            icon: 'icon2 icon-control-levels'
   # )
 
   menu.push :custom_actions,

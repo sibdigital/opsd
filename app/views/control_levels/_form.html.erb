@@ -1,0 +1,43 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :control_level %>
+<section class="form--section">
+  <div class="form--field"><%= f.text_field 'code', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_area 'name', required: true, container_class: '-middle' %></div>
+  <%= render partial: '/colors/color_autocomplete_field',
+             locals: {
+                 form: f,
+                 object: @control_level,
+                 label: @control_level.color_label
+             } %>
+
+  <% module_name = "form--control_level" %>
+  <fieldset class="form--fieldset -collapsible" id="<%= module_name %>">
+    <legend class="form--fieldset-legend" ><%= l(:label_role_plural) %></legend>
+    <div class="form--fieldset-control">
+        <span class="form--fieldset-control-container">
+          (<%= check_all_links module_name %>)
+        </span>
+    </div>
+    <div class="-columns-2">
+      <% Role.find_each do |role| %>
+        <div class="form--field">
+          <div class="form--field-container">
+            <label class="form--label-with-check-box">
+              <%= styled_check_box_tag 'control_level[roles][]', role.id, @control_level.roles.include?(role) %>
+              <%= role.name %>
+            </label>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </fieldset>
+</section>
