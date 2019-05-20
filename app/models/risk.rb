@@ -1,16 +1,13 @@
 #-- encoding: UTF-8
 # This file written by BBM
-# 23/04/2019
+# 25/04/2019
 
 class Risk < ActiveRecord::Base
-  # сортирует по порядку в таблицах и т.д.
-  default_scope { order("#{Risk.table_name}.position ASC") }
-
-  belongs_to :project
   belongs_to :color
+  belongs_to :possibility
+  belongs_to :importance
 
-  # учитывает сортировку при создании элементов, т.е. заполняет поле position
-  acts_as_list scope: 'type = \'#{type}\''
+  has_many :risk_characts, dependent: :delete_all
 
   # удаление должно быть каскадное, пока нечего каскадить
 
@@ -18,9 +15,9 @@ class Risk < ActiveRecord::Base
   validates_length_of :name, maximum: 30 #не знаю зачем, но пусть будет
 
   # отфильтровывает элементы на TypedRisks и не TypedRisks
-  scope :shared, -> { where(project_id: nil) }
+  #scope :shared, -> { where(project_id: nil) }
   # Фильтр по project_id
-  scope :on_project,  -> (project){ where(project_id: project) }
+  #scope :on_project,  -> (project){ where(project_id: project) }
 
   # Пока еще не известно, нужны ли цвета в значениях рисков, но пока пусть будут нужны
   def self.colored?
@@ -28,6 +25,7 @@ class Risk < ActiveRecord::Base
   end
 
   # Overloaded on concrete classes
+  # OptionName нужна для локализации, см локаль.yml , конкретно этот - еще не факт
   def option_name
     nil
   end

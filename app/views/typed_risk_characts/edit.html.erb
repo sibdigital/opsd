@@ -1,0 +1,19 @@
+<%#-- copyright
+# This file written by BBM
+# 29/04/2019
+++#%>
+
+<% html_title "#{l(:label_edit)} #{RiskCharact.model_name.human} #{h @risk_charact.name}" %>
+
+<% local_assigns[:additional_breadcrumb] = @risk_charact %>
+<%= breadcrumb_toolbar @risk_charact %>
+
+<%= labelled_tabular_form_for @risk_charact,
+                              url: typed_risk_charact_path(id: @risk_charact.id, risk_id: @risk_charact.risk_id) do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(typed_risk_charact_path(id: @risk_charact.id, risk_id: @risk_charact.risk_id), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

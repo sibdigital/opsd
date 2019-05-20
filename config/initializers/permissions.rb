@@ -32,7 +32,12 @@ require 'redmine/access_control'
 Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  { projects: [:show],
-                   activities: [:index] },
+                   activities: [:index],
+                   #bbm(
+                   project_risk_characts: [:new, :create, :edit, :update, :destroy],
+                   project_risks: [:index, :new, :create, :edit, :update, :choose_typed,
+                                   :destroy]},
+                   # )
                  public: true
 
   map.permission :search_project,
@@ -299,4 +304,8 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :activity
+
+  #bbm(
+  map.project_module :project_risks
+  # )
 end

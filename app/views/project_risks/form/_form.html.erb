@@ -1,0 +1,42 @@
+<%#--
+This file written by BBM
+26/04/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :risk %>
+<section class="form--section">
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_area 'description', container_class: '-middle' %></div>
+  <% @selected_possibility_id = if @project_risk.id
+                                  @project_risk.possibility_id
+                                elsif Possibility.default
+                                  Possibility.default.id
+                                end
+     @selected_importance_id = if @project_risk.id
+                                 @project_risk.importance_id
+                               elsif Importance.default
+                                 Importance.default.id
+                               end
+  %>
+  <div class="form--field">  <%= f.select :possibility_id,
+                                          options_for_select(Possibility.where(active: true).map {|u| [u.name, u.id]}, @selected_possibility_id),
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+  <div class="form--field">  <%= f.select :importance_id,
+                                          options_for_select(Importance.where(active: true).map {|u| [u.name, u.id]}, @selected_importance_id),
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+  <% if @project_risk.class.colored? %>
+    <%= render partial: '/colors/color_autocomplete_field',
+               locals: {
+                   form: f,
+                   object: @project_risk,
+                   label: @project_risk.color_label
+               } %>
+  <% end %>
+</section>

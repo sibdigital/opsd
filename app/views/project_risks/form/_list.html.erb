@@ -1,0 +1,63 @@
+<%#--
+This file written by BBM
+26/04/2019
+++#%>
+
+<%= form_tag({}) do -%>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="project_risk_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("name", :caption => ProjectRisk.human_attribute_name(:name)) %>
+          <%= sort_header_tag("possibility", :caption => ProjectRisk.human_attribute_name(:possibility)) %>
+          <%= sort_header_tag("importance", :caption => ProjectRisk.human_attribute_name(:importance)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ProjectRisk.human_attribute_name(:color) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% project_risks.each do |project_risk| %>
+          <tr id="typed_risk-<%= project_risk.id %>">
+            <td><%= link_to project_risk.id, edit_project_project_risk_path(id: project_risk.id) %></td>
+            <%= content_tag(:td, link_to(h(project_risk.name), edit_project_project_risk_path(id: project_risk.id))) %>
+            <%= content_tag(:td, project_risk.possibility) %>
+            <%= content_tag(:td, project_risk.importance) %>
+            <%= content_tag(:td, icon_for_color(project_risk.color)) %>
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-delete'),
+                project_project_risk_path(id: project_risk.id),
+                method: :delete,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                title: t(:button_delete))) %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<% end -%>

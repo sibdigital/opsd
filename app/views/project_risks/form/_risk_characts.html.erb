@@ -1,0 +1,9 @@
+<%#-- copyright
+# This file written by BBM
+# 29/04/2019
+++#%>
+<% html_title l(:label_administration), l(:label_risk_characts) %>
+<% RiskCharact.descendants.each do |klass| %>
+  <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
+  <%= cell ::RiskCharacts::TableCell, klass.at_risk(@project_risk), project_id: @project.identifier, risk_id: @project_risk.id %>
+<% end %>

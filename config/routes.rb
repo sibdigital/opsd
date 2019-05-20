@@ -275,6 +275,7 @@ OpenProject::Application.routes.draw do
     #bbm(
     resources :project_risks do
       get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
+      match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
     # )
 

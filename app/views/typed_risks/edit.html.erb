@@ -1,18 +1,26 @@
 <%#--
 This file written by BBM
-23/04/2019
+25/04/2019
 ++#%>
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{TypedRisk.model_name.human} #{h @typed_risk.name}" %>
 
-<% local_assigns[:additional_breadcrumb] =  @typed_risk %>
+<% local_assigns[:additional_breadcrumb] = @typed_risk %>
 <%= breadcrumb_toolbar @typed_risk %>
 
-<%= labelled_tabular_form_for @typed_risk do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<% end %>
+<div class="tabs">
+  <ul>
+    <li>
+      <%= link_to t("typed_risks.edit.properties"),
+                  edit_tab_typed_risk_path(id: @typed_risk.id, tab: :properties),
+                  class: "#{'selected' if @tab == "properties" }"  %>
+    </li>
+    <li>
+      <%= link_to t("typed_risks.edit.risk_characts"),
+                  edit_tab_typed_risk_path(id: @typed_risk.id, tab: :risk_characts),
+                  class: "#{'selected' if @tab == 'risk_characts' }"  %>
+    </li>
+  </ul>
+</div>
 
-<%= styled_form_tag(typed_risk_path(@typed_risk), method: :delete) do %>
-  <%= styled_submit_tag l(:button_delete) %>
-<% end %>
+<%= render partial: "typed_risks/form/#{@tab}"%>

@@ -194,13 +194,14 @@ class PermittedParams
     permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
   end
 
+  # +tan 2019.04.26
   def org_settings
     permitted_params = params.require(:org_settings).permit
     all_valid_keys = AllowedSettings.all
 
     permitted_params.merge(params[:org_settings].to_unsafe_hash.slice(*all_valid_keys))
   end
-
+  # -tan 2019.04.26
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
     permitted_params = permitted_params.merge(custom_field_values(:user))
@@ -407,6 +408,10 @@ class PermittedParams
 
   def project_risk
     params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+  end
+
+  def choose_typed
+    params.permit(choose_typed: [])
   end
 
   def risk_charact_type
