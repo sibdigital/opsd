@@ -265,7 +265,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages', state: 'execution', action: 'index' },
             param: :project_id,
             parent: :work_packages_execution,
-            partial: 'work_packages/menu_query_select',
+            partial: 'work_packages/menu_query_select_execution',
             last: true,
             caption: :label_all_open_wps
 
@@ -277,14 +277,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-view-timeline',
             html: {
               id: 'main-menu-plan-packages',
-              :'wp-query-menu' => 'wp-query-menu'
+              :'psp-query-menu' => 'psp-query-menu'
             }
 
   menu.push :work_packages_planning_query_select,
             { controller: '/work_packages', state: 'planning', action: 'index' },
             param: :project_id,
             parent: :work_packages_planning,
-            partial: 'work_packages/menu_query_select',
+            partial: 'work_packages/menu_query_select_planning',
             last: true,
             caption: :label_all_open_wps
   # )

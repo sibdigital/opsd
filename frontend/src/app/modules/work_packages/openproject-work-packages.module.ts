@@ -187,6 +187,9 @@ import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/rout
 import {AttachmentsUploadComponent} from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
 import {AttachmentListComponent} from 'core-app/modules/attachments/attachment-list/attachment-list.component';
 import {WorkPackageFilterByTextInputComponent} from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
+import {PlanStagePackageQuerySelectableTitleComponent} from "core-components/psp-query-select/psp-query-selectable-title.component";
+import {PlanStagePackageQuerySelectDropdownComponent} from "core-components/psp-query-select/psp-query-select-dropdown.component";
+import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-select/psp-static-queries.service";
 
 @NgModule({
   imports: [
@@ -233,6 +236,9 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     WorkPackageStatesInitializationService,
     WorkPackagesListService,
     WorkPackageStaticQueriesService,
+    //bbm(
+    PlanStagePackageStaticQueriesService,
+    //)
     WorkPackageTableRefreshService,
     WorkPackageTableAdditionalElementsService,
     WorkPackagesListInvalidQueryService,
@@ -333,6 +339,11 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
     WorkPackageSingleContextMenuDirective,
     WorkPackageQuerySelectableTitleComponent,
     WorkPackageQuerySelectDropdownComponent,
+    //bbm(
+    PlanStagePackageQuerySelectableTitleComponent,
+    PlanStagePackageQuerySelectDropdownComponent,
+    //)
+
 
     // Timeline
     WorkPackageTimelineButtonComponent,
@@ -484,6 +495,9 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 
     // Queries in menu
     WorkPackageQuerySelectDropdownComponent,
+    //bbm(
+    PlanStagePackageQuerySelectDropdownComponent,
+    //)
 
     // Relations tab (ng1 -> ng2)
     WorkPackageRelationsHierarchyComponent,

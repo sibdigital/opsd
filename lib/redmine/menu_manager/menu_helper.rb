@@ -210,11 +210,13 @@ module Redmine::MenuManager::MenuHelper
 
     all_menu_items_for(menu, project).each do |node|
       # bbm(
-      tmp = if node.name == :work_packages_planning or node.name == :work_packages_execution
+      tmp = if node.name == :work_packages_planning and params[:state] == 'planning'
               :work_packages
-            else
-              node.name
             end
+      tmp ||= if node.name == :work_packages_execution and params[:state] == 'execution'
+              :work_packages
+            end
+      tmp ||= node.name
       # )
       return true if tmp == current_menu_item
     end
@@ -304,7 +306,16 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_selected?(item)
-    current_menu_item == item.name || no_wiki_menu_item_selected?(item)
+    #bbm(
+    tmp = if item.name == :work_packages_planning and params[:state] == 'planning'
+            :work_packages
+          end
+    tmp ||= if item.name == :work_packages_execution and params[:state] == 'execution'
+            :work_packages
+          end
+    tmp ||= item.name
+    # )
+    current_menu_item == tmp || no_wiki_menu_item_selected?(item)
   end
 
   def no_wiki_menu_item_selected?(item)
