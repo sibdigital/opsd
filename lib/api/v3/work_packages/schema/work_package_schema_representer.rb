@@ -115,7 +115,12 @@ module API
                  type: 'String',
                  min_length: 1,
                  max_length: 255
-
+          # bbm(
+          schema :plan_type,
+                 type: 'String',
+                 min_length: 1,
+                 max_length: 255
+          # )
           schema :description,
                  type: 'Formattable',
                  required: false

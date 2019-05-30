@@ -59,6 +59,9 @@ module Queries::WorkPackages
   register.filter Query, filters_module::WatcherFilter
   register.filter Query, filters_module::DatesIntervalFilter
   register.filter Query, filters_module::ParentFilter
+  #bbm(
+  register.filter Query, filters_module::PlanTypeFilter
+  # )
   register.filter Query, filters_module::PrecedesFilter
   register.filter Query, filters_module::FollowsFilter
   register.filter Query, filters_module::RelatesFilter

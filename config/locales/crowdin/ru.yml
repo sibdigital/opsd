@@ -1775,6 +1775,7 @@ ru:
   label_work_package_note_added: Добавлено примечание к пакету работ
   label_work_package_edit: Редактирование пакета работ %{name}
   label_work_package_plural: Пакеты работ
+  label_plan_stage_package_plural: Этапы плана работ
   label_work_package_priority_updated: Приоритет пакета работ обновлен
   label_work_package_status: Состояние группы работ
   label_work_package_status_new: Новый статус

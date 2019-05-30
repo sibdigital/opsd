@@ -37,6 +37,9 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
   public current:QueryFilterInstanceResource[] = [];
   public hidden:string[] = [
     'id',
+    //bbm(
+    'planType',
+    //)
     'parent',
     'datesInterval',
     'precedes',

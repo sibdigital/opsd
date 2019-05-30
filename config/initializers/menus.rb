@@ -251,8 +251,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.shared_versions.any? },
             icon: 'icon2 icon-roadmap'
 
-  menu.push :work_packages,
-            { controller: '/work_packages', action: 'index' },
+  menu.push :work_packages_execution,
+            { controller: '/work_packages', state: 'execution', action: 'index' },
             param: :project_id,
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline',
@@ -261,13 +261,33 @@ Redmine::MenuManager.map :project_menu do |menu|
               :'wp-query-menu' => 'wp-query-menu'
             }
 
-  menu.push :work_packages_query_select,
-            { controller: '/work_packages', action: 'index' },
+  menu.push :work_packages_execution_query_select,
+            { controller: '/work_packages', state: 'execution', action: 'index' },
             param: :project_id,
-            parent: :work_packages,
+            parent: :work_packages_execution,
             partial: 'work_packages/menu_query_select',
             last: true,
             caption: :label_all_open_wps
+
+  #bbm(
+  menu.push :work_packages_planning,
+            { controller: '/work_packages', state: 'planning', action: 'index' },
+            param: :project_id,
+            caption: :label_plan_stage_package_plural,
+            icon: 'icon2 icon-view-timeline',
+            html: {
+              id: 'main-menu-plan-packages',
+              :'wp-query-menu' => 'wp-query-menu'
+            }
+
+  menu.push :work_packages_planning_query_select,
+            { controller: '/work_packages', state: 'planning', action: 'index' },
+            param: :project_id,
+            parent: :work_packages_planning,
+            partial: 'work_packages/menu_query_select',
+            last: true,
+            caption: :label_all_open_wps
+  # )
 
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },

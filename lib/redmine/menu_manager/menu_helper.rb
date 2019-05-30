@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -144,9 +145,9 @@ module Redmine::MenuManager::MenuHelper
     end
     content_tag :li, html_options do
       # Standard children
-      standard_children_list = node.children.map { |child|
+      standard_children_list = node.children.map do |child|
         render_menu_node(child, project)
-      }.join.html_safe
+      end.join.html_safe
 
       # Unattached children
       unattached_children_list = render_unattached_children_menu(node, project)
@@ -206,8 +207,16 @@ module Redmine::MenuManager::MenuHelper
 
   def current_menu_item_part_of_menu?(menu, project = nil)
     return true if no_menu_item_wiki_prefix? || wiki_prefix?
+
     all_menu_items_for(menu, project).each do |node|
-      return true if node.name == current_menu_item
+      # bbm(
+      tmp = if node.name == :work_packages_planning or node.name == :work_packages_execution
+              :work_packages
+            else
+              node.name
+            end
+      # )
+      return true if tmp == current_menu_item
     end
 
     false
@@ -225,6 +234,7 @@ module Redmine::MenuManager::MenuHelper
     items = []
     iteratable.each do |node|
       next if node.name == :root
+
       if allowed_node?(node, User.current, project) && visible_node?(menu, node)
         items << node
         if block_given?
@@ -265,7 +275,7 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if project
-      return user && user.allowed_to?(node.url, project)
+      return user&.allowed_to?(node.url, project)
     else
       # outside a project, all menu items allowed
       return true
@@ -274,7 +284,7 @@ module Redmine::MenuManager::MenuHelper
 
   def visible_node?(menu, node)
     @hidden_menu_items ||= OpenProject::Configuration.hidden_menu_items
-    if @hidden_menu_items.length > 0
+    if !@hidden_menu_items.empty?
       hidden_nodes = @hidden_menu_items[menu.to_s] || []
       !hidden_nodes.include? node.name.to_s
     else

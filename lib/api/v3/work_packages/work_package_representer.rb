@@ -321,6 +321,11 @@ module API
         property :subject,
                  render_nil: true
 
+        #bbm(
+        property :plan_type,
+                 render_nil: true
+        # )
+
         property :description,
                  exec_context: :decorator,
                  getter: ->(*) {
