@@ -50,7 +50,7 @@ export class PlanStagePackageQuerySelectableTitleComponent implements OnInit {
   @Input() public currentQuery:QueryResource;
   @Input() queryEditable:boolean = true;
 
-  @ViewChild('editableTitleInput') inputField?:ElementRef;
+  @ViewChild('editableTitleInput2') inputField?:ElementRef;
 
   public inFlight:boolean = false;
   public selectableTitleIdentifier = selectableTitleIdentifier;

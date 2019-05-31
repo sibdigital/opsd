@@ -75,8 +75,8 @@ interface IQueryAutocompleteJQuery extends JQuery {
   templateUrl: './psp-query-select.template.html',
 })
 export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnDestroy {
-  @ViewChild('wpQueryMenuSearchInput') _wpQueryMenuSearchInput:ElementRef;
-  @ViewChild('queryResultsContainer') _queryResultsContainerElement:ElementRef;
+  @ViewChild('pspQueryMenuSearchInput') _wpQueryMenuSearchInput:ElementRef;
+  @ViewChild('queryResultsContainer2') _queryResultsContainerElement:ElementRef;
 
   public loading = false;
   public noResults = false;
@@ -131,7 +131,7 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
       // If we start out outside of the work packages module,
       // we load the menu once the user clicks on the toggler next to the
       // work packages menu item.
-      let toggler = jQuery('#main-menu-work-packages-wrapper .toggler');
+      let toggler = jQuery('#main-menu-plan-packages-wrapper .toggler');
       toggler.one('click', event => {
         this.initializeAutocomplete();
       });
@@ -163,7 +163,7 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
     }
 
     this.searchInput = jQuery(this._wpQueryMenuSearchInput.nativeElement) as any;
-    this.buttonArrowLeft = jQuery('.main-menu--arrow-left-to-project', jQuery('#main-menu-work-packages-wrapper').parent()) as any;
+    this.buttonArrowLeft = jQuery('.main-menu--arrow-left-to-project', jQuery('#main-menu-plan-packages-wrapper').parent()) as any;
     this.initialized = true;
     this.buttonArrowLeft.focus();
     this.setupAutoCompletion(this.searchInput);
@@ -277,16 +277,16 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
         // e.g., https://community.openproject.com/wp/28197
         if (sourceEvent && sourceEvent.type === 'keydown') {
           this.queryResultsContainer
-            .find(`#wp-query-menu-item-${ui.item.auto_id} .wp-query-menu--item-link`)
+            .find(`#psp-query-menu-item-${ui.item.auto_id} .psp-query-menu--item-link`)
             .focus();
         }
 
         return false;
       },
-      appendTo: '.wp-query-menu--results-container',
+      appendTo: '.psp-query-menu--results-container',
       classes: {
-        'ui-autocomplete': 'wp-query-menu--search-ul -inplace',
-        'ui-menu-divider': 'wp-query-menu--category-icon'
+        'ui-autocomplete': 'psp-query-menu--search-ul -inplace',
+        'ui-menu-divider': 'psp-query-menu--category-icon'
       },
       autoFocus: false, // Don't automatically select first entry since we 'open' the autocomplete on page load
       minLength: 0
@@ -299,18 +299,18 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
     jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
       _create: function(this:any) {
         this._super();
-        this.widget().menu('option', 'items', '.wp-query-menu--item');
+        this.widget().menu('option', 'items', '.psp-query-menu--item');
         this._search('');
       },
       _renderItem: function(this:{}, ul:any, item:IAutocompleteItem) {
         const link = jQuery('<a>')
-          .addClass('wp-query-menu--item-link')
+          .addClass('psp-query-menu--item-link')
           .attr('href', thisComponent.buildQueryItemUrl(item))
           .text(item.label);
 
         const li = jQuery('<li>')
-          .addClass(`ui-menu-item wp-query-menu--item`)
-          .attr('id', `wp-query-menu-item-${item.auto_id}`)
+          .addClass(`ui-menu-item psp-query-menu--item`)
+          .attr('id', `psp-query-menu-item-${item.auto_id}`)
           .attr('data-category', item.category || '')
           .data('ui-autocomplete-item', item)  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
           .append(link)
@@ -329,9 +329,9 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
             currentCategory = option.category!;
             let label = thisComponent.labelFunction(currentCategory);
 
-            ul.append(`<a tabindex="0" class="wp-query-menu--category-icon wp-query-menu--category-toggle" data-category="${currentCategory}" aria-hidden="true"></a>`);
+            ul.append(`<a tabindex="0" class="psp-query-menu--category-icon psp-query-menu--category-toggle" data-category="${currentCategory}" aria-hidden="true"></a>`);
             jQuery('<li>')
-              .addClass('ui-autocomplete--category wp-query-menu--category-toggle ellipsis')
+              .addClass('ui-autocomplete--category psp-query-menu--category-toggle ellipsis')
               .attr('title', label)
               .attr('data-category', currentCategory)
               .text(label)
@@ -343,7 +343,7 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
 
         // Scroll to selected element if search is empty
         if (thisComponent.searchInput.val() === '') {
-          let selected = thisComponent.queryResultsContainer.find('.wp-query-menu--item.selected');
+          let selected = thisComponent.queryResultsContainer.find('.psp-query-menu--item.selected');
           if (selected.length > 0) {
             setTimeout(() => selected[0].scrollIntoView({behavior: 'auto', block: 'center'}), 20);
           }
@@ -425,7 +425,7 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
       // Don't hide the categories themselves (Regression #28584)
       .not('.ui-autocomplete--category')
       .toggleClass('-hidden');
-    jQuery(`.wp-query-menu--category-icon[data-category="${category}"]`).toggleClass('-collapsed');
+    jQuery(`.psp-query-menu--category-icon[data-category="${category}"]`).toggleClass('-collapsed');
   }
 
   // On click of a menu item, load requested query
@@ -479,7 +479,7 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
   }
 
   private highlightSelected(item:IAutocompleteItem) {
-    this.highlightBySelector(`#wp-query-menu-item-${item.auto_id}`);
+    this.highlightBySelector(`#psp-query-menu-item-${item.auto_id}`);
   }
 
   private highlightBySelector(selector:string) {
@@ -504,7 +504,7 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
         // Find the item from the clicked element
         const target = jQuery(evt.target);
         const item:IAutocompleteItem = target
-          .closest('.wp-query-menu--item')
+          .closest('.psp-query-menu--item')
           .data('ui-autocomplete-item');
 
         // Either the link is clicked with a modifier, then always cancel any propagation
@@ -530,7 +530,7 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
 
         return true;
       })
-      .on('click keydown', '.wp-query-menu--category-toggle', (evt:JQueryEventObject) => {
+      .on('click keydown', '.psp-query-menu--category-toggle', (evt:JQueryEventObject) => {
         if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
           return true;
         }

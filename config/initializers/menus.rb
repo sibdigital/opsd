@@ -283,6 +283,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages_planning_query_select,
             { controller: '/work_packages', state: 'planning', action: 'index' },
             param: :project_id,
+            param: :state,
             parent: :work_packages_planning,
             partial: 'work_packages/menu_query_select_planning',
             last: true,
