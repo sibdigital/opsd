@@ -34,7 +34,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
 
   menu.push :work_packages,
-            { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
+            { controller: '/work_packages', project_id: nil, state: nil, plan_type: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_work_package_plural'),
             if: Proc.new {
@@ -252,7 +252,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-roadmap'
 
   menu.push :work_packages_execution,
-            { controller: '/work_packages', state: 'execution', action: 'index' },
+            { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },
             param: :project_id,
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline',
@@ -262,16 +262,16 @@ Redmine::MenuManager.map :project_menu do |menu|
             }
 
   menu.push :work_packages_execution_query_select,
-            { controller: '/work_packages', state: 'execution', action: 'index' },
+            { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },
             param: :project_id,
             parent: :work_packages_execution,
-            partial: 'work_packages/menu_query_select_execution',
+            partial: 'work_packages/menu_query_select',
             last: true,
             caption: :label_all_open_wps
 
   #bbm(
   menu.push :work_packages_planning,
-            { controller: '/work_packages', state: 'planning', action: 'index' },
+            { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
             param: :project_id,
             caption: :label_plan_stage_package_plural,
             icon: 'icon2 icon-view-timeline',
@@ -281,9 +281,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             }
 
   menu.push :work_packages_planning_query_select,
-            { controller: '/work_packages', state: 'planning', action: 'index' },
+            { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
             param: :project_id,
-            param: :state,
             parent: :work_packages_planning,
             partial: 'work_packages/menu_query_select_planning',
             last: true,

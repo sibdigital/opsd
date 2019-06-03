@@ -49,15 +49,13 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages',
     parent: 'root',
     component: WorkPackagesBaseComponent,
-    url: '/work_packages/:plan_type?query_id&query_props',
+    url: '/work_packages?plan_type&query_id&query_props',
     abstract: true,
     params: {
       query_id: { type: 'query', dynamic: true },
+      plan_type: { type: 'string', dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: { type: 'opQueryString' },
-      //bbm(
-      plan_type: { type: 'string' },
-      //)
+      query_props: { type: 'opQueryString' }
     }
   },
   {

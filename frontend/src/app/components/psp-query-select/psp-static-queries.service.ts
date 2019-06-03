@@ -82,10 +82,7 @@ export class PlanStagePackageStaticQueriesService {
     {
       identifier: 'all_open',
       label: this.text.all_open,
-      //bbm(
-      // query_props: null
-      query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]},{"n":"planType","o":"~","v":["planning"]}],"pa":1,"pp":20}'
-      //)
+      query_props: null
     }
     ] as IAutocompleteItem[];
 

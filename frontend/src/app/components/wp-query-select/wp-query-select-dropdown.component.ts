@@ -455,7 +455,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
   }
 
   private getQueryParams(item:IAutocompleteItem) {
-    let val:{ query_id:string | null, query_props:string | null, projects?:string, projectPath?:string } = {
+    let val:{ query_id:string | null, query_props:string | null, plan_type?:string, projects?:string, projectPath?:string } = {
       query_id: item.query ? _.toString(item.query.id) : null,
       query_props: item.query ? null : item.query_props,
     };
@@ -463,6 +463,7 @@ export class WorkPackageQuerySelectDropdownComponent implements OnInit, OnDestro
     if (this.projectIdentifier) {
       val.projects = 'projects';
       val.projectPath = this.projectIdentifier;
+      val.plan_type = 'execution';
     }
 
     return val;

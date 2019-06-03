@@ -44,7 +44,7 @@ export interface TimelineButtonText extends ButtonControllerText {
 })
 export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent  {
   public buttonId:string = 'work-packages-timeline-toggle-button';
-  public iconClass:string = 'icon-view-split';
+  public iconClass:string = 'icon-view-timeline';
 
   private activateLabel:string;
   private deactivateLabel:string;

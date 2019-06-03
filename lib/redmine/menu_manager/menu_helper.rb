@@ -210,11 +210,11 @@ module Redmine::MenuManager::MenuHelper
 
     all_menu_items_for(menu, project).each do |node|
       # bbm(
-      tmp = if node.name == :work_packages_planning and params[:state] == 'planning'
+      tmp = if node.name == :work_packages_planning and params[:plan_type] == 'planning'
               :work_packages
             end
-      tmp ||= if node.name == :work_packages_execution and params[:state] == 'execution'
-              :work_packages
+      tmp ||= if node.name == :work_packages_execution and params[:plan_type] == 'execution'
+                :work_packages
             end
       tmp ||= node.name
       # )
@@ -307,10 +307,10 @@ module Redmine::MenuManager::MenuHelper
 
   def node_selected?(item)
     #bbm(
-    tmp = if item.name == :work_packages_planning and params[:state] == 'planning'
+    tmp = if item.name == :work_packages_planning and params[:plan_type] == 'planning'
             :work_packages
           end
-    tmp ||= if item.name == :work_packages_execution and params[:state] == 'execution'
+    tmp ||= if item.name == :work_packages_execution and params[:plan_type] == 'execution'
             :work_packages
           end
     tmp ||= item.name

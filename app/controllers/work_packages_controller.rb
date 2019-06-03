@@ -65,7 +65,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :index, locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
-                       layout: 'angular'
+               layout: 'angular'
       end
 
       format.any(*WorkPackage::Exporter.list_formats) do
