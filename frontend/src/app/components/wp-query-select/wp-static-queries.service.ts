@@ -50,6 +50,7 @@ export class WorkPackageStaticQueriesService {
     updated_at: this.I18n.t('js.work_packages.properties.updatedAt'),
     status: this.I18n.t('js.work_packages.properties.status'),
     work_packages: this.I18n.t('js.label_work_package_plural'),
+    plan_stage_packages: this.I18n.t('js.label_plan_stage_package_plural'),
     gantt: this.I18n.t('js.timelines.gantt_chart'),
     latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
     created_by_me:this.I18n.t('js.work_packages.default_queries.created_by_me'),
@@ -136,6 +137,9 @@ export class WorkPackageStaticQueriesService {
     }
 
     // Otherwise, fall back to work packages
+    if(this.$state.params.plan_type == "planning"){
+      return this.text.plan_stage_packages;
+    }
     return this.text.work_packages;
   }
 }

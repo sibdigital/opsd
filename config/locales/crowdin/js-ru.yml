@@ -290,6 +290,7 @@ ru:
     label_warning: Предупреждение
     label_work_package: Пакет работ
     label_work_package_plural: Пакеты работ
+    label_plan_stage_package_plural: Этапы плана работ
     label_watch: Просмотреть
     label_watch_work_package: Наблюдать за пакетом работ
     label_watcher_added_successfully: Наблюдатель успешно добавлен!

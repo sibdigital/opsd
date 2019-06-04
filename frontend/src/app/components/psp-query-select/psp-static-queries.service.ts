@@ -49,7 +49,7 @@ export class PlanStagePackageStaticQueriesService {
     created_at: this.I18n.t('js.work_packages.properties.createdAt'),
     updated_at: this.I18n.t('js.work_packages.properties.updatedAt'),
     status: this.I18n.t('js.work_packages.properties.status'),
-    work_packages: this.I18n.t('js.label_work_package_plural'),
+    work_packages: this.I18n.t('js.label_plan_stage_package_plural'),
     gantt: this.I18n.t('js.timelines.gantt_chart'),
     latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
     created_by_me:this.I18n.t('js.work_packages.default_queries.created_by_me'),
@@ -111,31 +111,5 @@ export class PlanStagePackageStaticQueriesService {
     }
 
     return items;
-  }
-
-  public getStaticName(query:QueryResource) {
-    if(this.$state.params.query_props) {
-      let queryProps = JSON.parse(this.$state.params.query_props);
-      delete queryProps.pp;
-      delete queryProps.pa;
-
-      const matched = _.find(this.all, item =>
-        item.query_props && item.query_props === JSON.stringify(queryProps)
-      );
-
-      if (matched) {
-        return matched.label;
-      }
-    }
-
-    // Try to detect the all open filter
-    if (query.filters.length === 1 && // Only one filter
-      query.filters[0].id === 'status' && // that is status
-      query.filters[0].operator.id === 'o') { // and is open
-      return this.text.all_open;
-    }
-
-    // Otherwise, fall back to work packages
-    return this.text.work_packages;
   }
 }

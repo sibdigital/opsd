@@ -49,7 +49,7 @@ import {input} from "reactivestates";
 import {catchError, mergeMap, share, switchMap, take, tap} from "rxjs/operators";
 
 export interface QueryDefinition {
-  queryParams:{ query_id?:number, query_props?:string };
+  queryParams:{ /*bbm(*/plan_type?:string/*)*/, query_id?:number, query_props?:string };
   projectIdentifier?:string;
 }
 
@@ -108,25 +108,28 @@ export class WorkPackagesListService {
    * @param queryParams
    * @param projectIdentifier
    */
-  private streamQueryRequest(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+  //bbm(
+  private streamQueryRequest(queryParams:{ plan_type?:string, query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+    const decodedPlan = this.getCurrentPlanType(queryParams);
     const decodedProps = this.getCurrentQueryProps(queryParams);
-    const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
+    const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedPlan, decodedProps);
     const stream = this.QueryDm.stream(queryData, queryParams.query_id, projectIdentifier);
 
     return stream.pipe(
       catchError((error) => {
         // Load a default query
-        const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
+        const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedPlan, decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
       }),
     );
   }
+  //bbm)
 
   /**
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:{ query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
+  public fromQueryParams(queryParams:{ plan_type?:string, query_id?:number, query_props?:string }, projectIdentifier ?:string):Observable<QueryResource> {
     this.queryRequests.clear();
     this.queryRequests.putValue({ queryParams: queryParams, projectIdentifier: projectIdentifier });
 
@@ -143,6 +146,14 @@ export class WorkPackagesListService {
   public getCurrentQueryProps(params:{ query_props?:string }):string|null {
     if (!!params.query_props) {
       return decodeURIComponent(params.query_props);
+    }
+
+    return null;
+  }
+
+  public getCurrentPlanType(params:{ plan_type?:string }):string|null {
+    if (!!params.plan_type) {
+      return decodeURIComponent(params.plan_type);
     }
 
     return null;
