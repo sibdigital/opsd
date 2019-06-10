@@ -241,6 +241,16 @@ export class WorkPackagesListService {
    * After the update, the new query is reloaded (e.g. for the work packages)
    */
   public create(query:QueryResource, name:string):Promise<QueryResource> {
+    //bbm(
+    let updatedArray = [];
+    for (let el of query.filters) {
+      if (el.name !== "Plan type") {
+        updatedArray.push(el);
+      }
+    }
+    query.filters = updatedArray;
+    //)
+
     let form = this.tableState.queryForm.value!;
 
     query.name = name;
@@ -290,6 +300,16 @@ export class WorkPackagesListService {
 
   public save(query?:QueryResource) {
     query = query || this.currentQuery;
+
+    //bbm(
+    let updatedArray = [];
+    for (let el of query.filters) {
+      if (el.name !== "Plan type") {
+        updatedArray.push(el);
+      }
+    }
+    query.filters = updatedArray;
+    //)
 
     let form = this.tableState.queryForm.value!;
 

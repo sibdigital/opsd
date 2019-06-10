@@ -49,7 +49,6 @@ export class PlanStagePackageStaticQueriesService {
     created_at: this.I18n.t('js.work_packages.properties.createdAt'),
     updated_at: this.I18n.t('js.work_packages.properties.updatedAt'),
     status: this.I18n.t('js.work_packages.properties.status'),
-    work_packages: this.I18n.t('js.label_plan_stage_package_plural'),
     gantt: this.I18n.t('js.timelines.gantt_chart'),
     latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
     created_by_me:this.I18n.t('js.work_packages.default_queries.created_by_me'),
