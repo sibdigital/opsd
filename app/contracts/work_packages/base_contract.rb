@@ -38,6 +38,9 @@ module WorkPackages
       WorkPackage
     end
 
+    #bbm(
+    attribute :plan_type
+    # )
     attribute :subject
     attribute :description
     attribute :status_id

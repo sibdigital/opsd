@@ -45,6 +45,10 @@ class WorkPackagesController < ApplicationController
 
   before_action :set_gon_settings
 
+  #bbm(
+  before_action :load_plan_type
+  # )
+
   def show
     respond_to do |format|
       format.html do
@@ -62,22 +66,18 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    if params[:plan_type] != 'planning' and params[:plan_type] != 'execution' then
-      deny_access
-    else
-      respond_to do |format|
-        format.html do
-          render :index, locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
-                 layout: 'angular'
-        end
+    respond_to do |format|
+      format.html do
+        render :index, locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
+               layout: 'angular'
+      end
 
-        format.any(*WorkPackage::Exporter.list_formats) do
-          export_list(request.format.symbol)
-        end
+      format.any(*WorkPackage::Exporter.list_formats) do
+        export_list(request.format.symbol)
+      end
 
-        format.atom do
-          atom_list
-        end
+      format.atom do
+        atom_list
       end
     end
   end
@@ -214,6 +214,12 @@ class WorkPackagesController < ApplicationController
                      else
                        []
                      end
+  end
+
+  def load_plan_type
+    if params[:plan_type] != 'planning' and params[:plan_type] != 'execution' then
+      deny_access
+    end
   end
 
   def login_back_url_params
