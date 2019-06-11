@@ -72,6 +72,9 @@ import {randomString} from "core-app/helpers/random-string";
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   @Input() projectIdentifier:string;
+  //bbm(
+  @Input() planType:string;
+  //)
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 
   public configuration:WorkPackageTableConfiguration;
