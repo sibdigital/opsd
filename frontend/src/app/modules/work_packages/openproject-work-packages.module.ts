@@ -190,6 +190,12 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {PlanStagePackageQuerySelectableTitleComponent} from "core-components/psp-query-select/psp-query-selectable-title.component";
 import {PlanStagePackageQuerySelectDropdownComponent} from "core-components/psp-query-select/psp-query-select-dropdown.component";
 import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-select/psp-static-queries.service";
+import {
+  WpRelationsDialogComponent,
+  WpRelationsDialogModalComponent
+} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
+import {MatDialogModule, MatPaginatorModule, MatTableModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -201,7 +207,12 @@ import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-se
     OpenprojectEditorModule,
 
     ChartsModule,
-
+    //bbm(
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+    //)bbm
     OpenprojectAttachmentsModule,
 
     // Work package custom actions
@@ -280,6 +291,10 @@ import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-se
     WpTableConfigurationService,
   ],
   declarations: [
+    //bbm(
+    WpRelationsDialogComponent,
+    WpRelationsDialogModalComponent,
+    //)bbm
     // Routing
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
@@ -434,6 +449,10 @@ import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-se
     WpButtonMacroModal,
   ],
   entryComponents: [
+    //bbm(
+    WpRelationsDialogComponent,
+    WpRelationsDialogModalComponent,
+    //)bbm
     // Split view
     WorkPackageSplitViewComponent,
 

@@ -33,12 +33,19 @@
         </select>
       </div>
       <div class="grid-content medium-7">
+        <!--bbm(
         <wp-relations-autocomplete-upgraded
             [workPackage]="workPackage"
             (onWorkPackageIdSelected)="updateSelectedId($event)"
             appendToContainer=".work-packages-tab-view--overflow"
             selectedRelationType="parent">
         </wp-relations-autocomplete-upgraded>
+        -->
+        <wp-relations-dialog [workPackage]="workPackage"
+                             (onWorkPackageIdSelected)="updateSelectedId($event)"
+                             selectedRelationType="parent">
+        </wp-relations-dialog>
+        <!--)bbm-->
       </div>
       <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
         <accessible-by-keyboard
