@@ -1,6 +1,6 @@
 <form name="add_relation_form" class="form">
   <input type="text"
-         class="wp-relations--autocomplete ui-autocomplete--input"
+         class="wp-relations--autocomplete ui-autocomplete--input" style="display: inline"
          [ngClass]="{ '-error': noResults && !initialSelection }"
          (keydown.enter)="handleEnterPressed($event)"
          (keydown.escape)="onEscapePressed.emit($event)"
@@ -15,4 +15,5 @@
       <div class="block-5"></div>
     </div>
   </div>
+  <button mat-raised-button (click)="openDialog()" style="width: 30px; margin-left: -35px;">...</button>
 </form>

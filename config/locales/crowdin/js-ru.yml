@@ -289,6 +289,7 @@ ru:
     label_updated_on: Обновлено
     label_warning: Предупреждение
     label_work_package: Пакет работ
+    label_plan_stage_package: Этап плана работ
     label_work_package_plural: Пакеты работ
     label_plan_stage_package_plural: Этапы плана работ
     label_watch: Просмотреть

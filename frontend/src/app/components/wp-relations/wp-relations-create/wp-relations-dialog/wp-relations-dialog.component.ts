@@ -1,73 +1,40 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatPaginator, MatTableDataSource} from "@angular/material";
-import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
-import {CollectionResource} from "app/modules/hal/resources/collection-resource";
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef, MatPaginator, MatTableDataSource} from "@angular/material";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 export interface PeriodicElement {
-  id: number;
+  id: string;
   subject: string;
+  type: string|undefined;
+  status: string;
+  assignee: string;
 }
 
 @Component({
   selector: 'wp-relations-dialog',
-  templateUrl: './wp-relations-dialog.component.html'
+  templateUrl: './wp-relations-dialog.html',
+  styleUrls: ['./wp-relations-dialog.sass']
 })
-export class WpRelationsDialogComponent {
-  @Input() readonly workPackage:WorkPackageResource;
-  @Input() selectedRelationType:string;
-  public selectedWpId:string;
-
-  @Output('onWorkPackageIdSelected') public onSelect = new EventEmitter<string|null>();
-
-  constructor(public dialog: MatDialog) {
-
-  }
-
-  openDialog(): void {
-    let ELEMENT_DATA:PeriodicElement[] = [];
-    this.autocompleteWorkPackages().then((values) => {
-      values.map(wp => {
-        //console.log(wp.source.id + " " + wp.source.subject);
-        ELEMENT_DATA.push({id: wp.source.id, subject: wp.source.subject});
-      })
-      const dialogRef = this.dialog.open(WpRelationsDialogModalComponent, {
-        width: '750px',
-        data: ELEMENT_DATA
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        this.selectedWpId = result;
-        this.onSelect.emit(result);
-      });
-    });
-  }
-
-  private autocompleteWorkPackages():Promise<WorkPackageResource[]> {
-    return this.workPackage.availableRelationCandidates.$link.$fetch({
-      query: '',
-      type: this.selectedRelationType,
-      pageSize: 1024,//as unlimited
-    }).then((collection:CollectionResource) => {
-      return collection.elements || [];
-    }).catch(() => {
-      return [];
-    });
-  }
-}
-
-@Component({
-  selector: 'wp-relations-dialog-modal',
-  templateUrl: './wp-relations-dialog-modal.html',
-  styles:  ['table {width: 100%}'],
-})
-export class WpRelationsDialogModalComponent implements OnInit{
-  displayedColumns: string[] = ['id', 'subject'];
+export class WpRelationsDialogComponent implements OnInit{
+  displayedColumns: string[] = ['id', 'subject', 'type', 'status', 'assignee'];
   dataSource: MatTableDataSource<PeriodicElement>;
+  planType: string|undefined;
+
+  public text = {
+    subject: this.I18n.t('js.work_packages.properties.subject'),
+    type: this.I18n.t('js.work_packages.properties.type'),
+    status: this.I18n.t('js.work_packages.properties.status'),
+    assignee: this.I18n.t('js.work_packages.properties.assignee'),
+    planning: this.I18n.t('js.label_plan_stage_package').toLowerCase(),
+    execution: this.I18n.t('js.label_work_package').toLowerCase()
+  };
 
   constructor(
-    public dialogRef: MatDialogRef<WpRelationsDialogModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public ELEMENT_DATA: PeriodicElement[]) {
-
-    this.dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+    public dialogRef: MatDialogRef<WpRelationsDialogComponent>,
+    readonly I18n:I18nService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.dataSource = new MatTableDataSource<PeriodicElement>(data.wp_array);
+    this.planType = data.planType
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -78,5 +45,13 @@ export class WpRelationsDialogModalComponent implements OnInit{
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  description(): string{
+    if(this.planType == 'execution')
+      return this.text.execution;
+    if(this.planType == 'planning')
+      return this.text.planning;
+    return "";
   }
 }
