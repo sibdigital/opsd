@@ -191,8 +191,9 @@ import {PlanStagePackageQuerySelectableTitleComponent} from "core-components/psp
 import {PlanStagePackageQuerySelectDropdownComponent} from "core-components/psp-query-select/psp-query-select-dropdown.component";
 import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-select/psp-static-queries.service";
 import {WpRelationsDialogComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
-import {MatDialogModule, MatPaginatorModule, MatTableModule} from "@angular/material";
+import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/MatPaginatorIntlRussian";
 
 @NgModule({
   imports: [
@@ -225,6 +226,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     },
     WorkPackageTablePaginationService,
 
+    //bbm(
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
+    //)
     // Timeline
     WorkPackageTableTimelineService,
 
