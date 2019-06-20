@@ -32,6 +32,11 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {
+  PeriodicElement,
+  WpRelationsDialogComponent
+} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'wp-relations-autocomplete-upgraded',
@@ -63,8 +68,10 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
   constructor(readonly elementRef:ElementRef,
               readonly PathHelper:PathHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly I18n:I18nService) {
-
+              readonly I18n:I18nService,
+              //bbm(
+              public dialog: MatDialog){
+              // )
   }
 
   ngOnInit() {
@@ -150,4 +157,46 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
       return [];
     });
   }
+
+  //bbm(
+  openDialog(): void {
+    let ELEMENT_DATA:PeriodicElement[] = [];
+    this.candidateWorkPackages().then((values) => {
+      values.map(wp => {
+        ELEMENT_DATA.push({id: wp.id,
+          subject: wp.subject,
+          type: wp.type.$link.title,
+          status: wp.status.$link.title,
+          assignee: wp.assignee.$link.title});
+      })
+      const dialogRef = this.dialog.open(WpRelationsDialogComponent, {
+        width: '750px',
+        data: {
+          wp_array: ELEMENT_DATA,
+          planType: this.workPackage.planType
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result){
+          this.$element = jQuery(this.elementRef.nativeElement);
+          const input = this.$input = this.$element.find('.wp-relations--autocomplete');
+          input.val(this.getIdentifier(result));
+          this.onSelect.emit(result.id);
+        }
+      });
+    });
+  }
+
+  private candidateWorkPackages():Promise<WorkPackageResource[]> {
+    return this.workPackage.availableRelationCandidates.$link.$fetch({
+      query: '',
+      type: this.selectedRelationType,
+      pageSize: 1024,//as unlimited
+    }).then((collection: CollectionResource) => {
+      return collection.elements || [];
+    }).catch(() => {
+      return [];
+    });
+  }
+  //)
 }

@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Выберите {{description()}}</h1>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+        <ng-container matColumnDef="subject">
+            <th mat-header-cell *matHeaderCellDef
+                [textContent]="text.subject"></th>
+            <td mat-cell *matCellDef="let element">
+                <button [ngStyle]="{'text-align':'left'}"
+                        [textContent]="element.subject"
+                        [mat-dialog-close]="element"></button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef
+                [textContent]="text.type"></th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef
+                [textContent]="text.status"></th>
+            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+        <ng-container matColumnDef="assignee">
+            <th mat-header-cell *matHeaderCellDef
+                [textContent]="text.assignee"></th>
+            <td mat-cell *matCellDef="let element"> {{element.assignee}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+<button mat-button (click)="onNoClick()">Закрыть</button>
