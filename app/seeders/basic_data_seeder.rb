@@ -37,8 +37,10 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::WorkflowSeeder,
       BasicData::PrioritySeeder,
       #bbm(
-      BasicData::PossibilitySeeder,
-      BasicData::ImportanceSeeder,
+      BasicData::TypedRiskSeeder,
+      # )
+      #xcc(
+      BasicData::OrganizationTypeSeeder,
       # )
       BasicData::SettingSeeder
     ]
