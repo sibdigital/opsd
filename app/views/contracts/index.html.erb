@@ -1,0 +1,88 @@
+<%#--
+This file written by BBM
+25/04/2019
+++#%>
+<% html_title l(:label_administration), l(:label_contracts) %>
+<%= toolbar title: l(:label_contracts) %>
+
+<% if @contracts.empty? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="contract_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:contract_subject) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:contract_date) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:price) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:executor) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= render :partial => 'contracts/form/list', :locals => {:contracts => @contracts} %>
+  <%= pagination_links_full @contracts %>
+<% end %>
+<div class="wp-inline-create-button">
+  <%= link_to new_contract_path(),
+              aria: {label: t(:label_contracts_new)},
+              class: 'wp-inline-create--add-link',
+              title: t(:label_contracts_new) do
+    op_icon('icon icon-add')
+  end %>
+</div>

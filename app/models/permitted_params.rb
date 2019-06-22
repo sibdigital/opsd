@@ -423,6 +423,12 @@ class PermittedParams
   end
   # )
 
+  # zbd (
+  def contract
+    params.require(:contract).permit(:contract_subject, :contract_date, :price, :executor)
+  end
+  # )
+
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end

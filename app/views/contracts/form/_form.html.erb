@@ -1,0 +1,12 @@
+<%#--
+by zbd
+22.06.2019
+++#%>
+
+<%= error_messages_for :contract %>
+<section class="form--section">
+  <div class="form--field"><%= f.text_field 'contract_subject', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'contract_date', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'price', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'executor', required: true, container_class: '-middle' %></div>
+</section>

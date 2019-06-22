@@ -372,6 +372,21 @@ OpenProject::Application.routes.draw do
     resources :control_levels
     # )
 
+
+    #zbd(
+    resources :contracts do
+#    scope controller: 'contracts' do
+      get '/', action: 'index', as: 'contracts'
+      get '/new', action: 'new', as: 'new_contract'
+      get '/:id', action: 'show', as: 'contract'
+      get '/:id/edit', action: 'edit', as: 'edit_contract'
+      post '/', action: 'create'
+      patch '/:id', action: 'update'
+      put '/:id', action: 'update'
+      delete '/:id', action: 'destroy'
+    end
+    # )
+
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
     delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'

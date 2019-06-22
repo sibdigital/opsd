@@ -1,0 +1,13 @@
+<%#-- by zbd
+    22.06.2019
+++#%>
+
+<% html_title l(:label_administration), l(:label_contracts_new) %>
+<% local_assigns[:additional_breadcrumb] =  l(:label_contracts_new) %>
+<%= breadcrumb_toolbar l(:label_contracts_new) %>
+<%= labelled_tabular_form_for @contract do |f| %>
+
+  <%= render partial: 'contracts/form/form', locals: { f: f } %>
+
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
