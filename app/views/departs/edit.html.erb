@@ -16,3 +16,8 @@ This file written by TAN
 <%= styled_form_tag(depart_path(@depart), method: :delete) do %>
   <%= styled_submit_tag l(:button_delete) %>
 <% end %>
+<%= nonced_javascript_tag do %>
+  function choose_from_depart_organizations_path(){
+  alert('1');
+  }
+<% end %>

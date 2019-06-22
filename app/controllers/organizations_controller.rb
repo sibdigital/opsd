@@ -13,10 +13,23 @@ class OrganizationsController < ApplicationController
   def index;
   end
 
-  def select
+  def choose
     respond_to do |format|
       format.html
-      format.js
+    end
+  end
+
+  def choose_from_depart
+    if request.post?
+      select_org_id = 0
+      params.select { |i| i.start_with?("ch") }.each do |value|
+        if (value[1] == 'on')
+          select_org_id = value[0].remove("ch")
+        end
+      end
+      redirect_to (request.referer + "?organization_id=#{select_org_id}").remove('/' + action_name)
+    else
+      render action: 'choose'
     end
   end
 

@@ -374,9 +374,15 @@ OpenProject::Application.routes.draw do
     #  в том числе необходимо, чтобы работал ресурсный роутинг типа new_depart_path и тд
     resources :positions
     resources :organizations do
-      collection do
-        match :select, via: %i[get post]
-      end
+      #collection do
+        #  match :select, via: %i[get post]
+        #end
+      #match '/choose_from_depart' => 'organizations#choose_from_depart', via: %i[post]
+    end
+    #match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
+    scope 'departs/:depart_id', controller: 'organizations' do
+      get '/choose_from_depart', action: 'choose_from_depart', as: 'choose_from_depart_organizations'
+      post '/choose_from_depart', action: 'choose_from_depart'
     end
     resources :departs
     # -tan 2019.04.25

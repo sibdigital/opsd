@@ -1509,12 +1509,6 @@ en:
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
-  label_project_risks: "Project risks"
-  label_project_risk_new: "New project risk"
-  label_project_risk_value: "Project risk value"
-  label_project_risks: "Project risks"
-  label_project_risk_new: "New project risk"
-  label_project_risk_value: "Project risk value"
   label_positions: "Positions"
   label_position_new: "Add position"
   label_position_value: "Position value"
@@ -2784,3 +2778,5 @@ en:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+
+  choose: "Выбрать"

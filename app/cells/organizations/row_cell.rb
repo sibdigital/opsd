@@ -14,6 +14,11 @@ module Organizations
       link_to h(organization.name), edit_organization_path(organization)
     end
 
+    def choose
+      #content_tag('span', "<input type='checkbox' name='ch#{organization.id}' value='#{organization.id}'>")
+      content_tag('input', nil,{type:'checkbox', name:('ch'+ organization.id.to_s)})
+    end
+
     def button_links
       [
         delete_link

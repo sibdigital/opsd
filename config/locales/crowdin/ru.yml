@@ -1597,6 +1597,9 @@ ru:
   label_project_plural: Проекты
   label_project_risks: Проектные риски
   label_project_risk_new: Новый проектный риск
+  label_organisations: "Организации"
+  label_organisation_new: "Добавить организацию"
+  label_organisation_value: "Организация"
   label_project_risk_value: Значение проектного риска
   label_project_settings: Настройки проекта
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
@@ -2656,7 +2659,7 @@ ru:
         assigned_to: Назначенный
         type: Тип
         due_date: Дате окончания
-        name: Имя
+        name: Наименование
         status: Состояние
         start_date: Дата начала
       columns: Столбцы
@@ -3050,3 +3053,5 @@ ru:
   setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
     OpenProject получать письма с командами (например, для создания и обновления пакетов
     работы).
+
+  choose: "Выбрать"
