@@ -766,6 +766,12 @@ ru:
     lastname: Фамилия
     login: Входное имя
     mail: Электронная почта
+    mail_add: Эл.почта (дополнительная)
+    phone_wrk: Рабочий телефон
+    phone_wrk_add: Добавочный номер
+    phone_mobile: Мобильный телефон
+    address: Адрес
+    cabinet: Кабинет
     name: Имя
     password: Пароль
     possibility: Вероятность наступления

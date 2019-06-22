@@ -651,6 +651,12 @@ class PermittedParams
           mail_notification
           language
           custom_fields
+          mail_add
+          phone_wrk
+          phone_wrk_add
+          phone_mobile
+          address
+          cabinet
         ),
         wiki_page: %i(
           title
