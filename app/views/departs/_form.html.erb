@@ -1,0 +1,50 @@
+<%#--
+This file written by TAN
+25/04/2019 method: :post,
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :depart %>
+<section class="form--section">
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <% @selected_organization_id = @depart.organization_id
+  %>
+  <div class="form--field">
+    <%= f.select :organization_id,
+         options_for_select(Organization.all.map {|u| [u.name, u.id]}, @selected_organization_id),
+         include_blank: true,
+         container_class: '-slim' %>
+    <input value="Выбрать" id='choose_from_depart_organizations_path' type="button" class="-highlight button">
+    <%= link_to 'Выбрать', choose_from_depart_organizations_path(depart_id: @depart.id), {class: 'btn btn-primary btn-lg', onclick: 'choose_from_depart_organizations_path'}  %>
+  </div>
+</section>
+<div id="modal-1" aria-hidden="true">
+
+  <!-- [2] -->
+  <div tabindex="-1" data-micromodal-close>
+
+    <!-- [3] -->
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-1-title" >
+
+
+      <header>
+        <h2 id="modal-1-title">
+          Modal Title
+        </h2>
+
+        <!-- [4] -->
+        <button aria-label="Close modal" data-micromodal-close></button>
+      </header>
+
+      <div id="modal-1-content">
+        Modal Content
+      </div>
+
+    </div>
+  </div>
+</div>
+

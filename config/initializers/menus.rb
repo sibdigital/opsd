@@ -176,6 +176,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/control_levels' },
             icon: 'icon2 icon-control-levels'
   # )
+  # +tan 2019.04.25
+  menu.push :positions,
+            { controller: '/positions' },
+            icon: 'icon2 icon-risks'
+
+  menu.push :org_settings,
+            { controller: '/org_settings' },
+            caption: :label_system_settings,
+            icon: 'icon2 icon-risks'
+  # -tan
 
   menu.push :custom_actions,
             { controller: '/custom_actions' },
