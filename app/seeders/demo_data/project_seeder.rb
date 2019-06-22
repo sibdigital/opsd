@@ -62,6 +62,12 @@ module DemoData
         Setting.demo_projects_available = 'true'
       end
 
+      #bbm(
+      print ' ↳ Creating typed risks'
+      DemoData::TypedRiskSeeder.new.seed!
+      puts
+      # )
+
       puts ' ↳ Updating settings'
       seed_settings
     end
@@ -74,10 +80,10 @@ module DemoData
       seeders = [
         DemoData::WikiSeeder,
         DemoData::CustomFieldSeeder,
-        DemoData::WorkPackageSeeder
+        DemoData::WorkPackageSeeder,
       ]
 
-      seeders.map { |seeder| seeder.new project, key }
+      seeders.map {|seeder| seeder.new project, key}
     end
 
     def seed_settings

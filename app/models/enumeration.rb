@@ -178,6 +178,7 @@ class Enumeration < ActiveRecord::Base
 end
 
 # Force load the subclasses in development mode
-%w(time_entry_activity issue_priority).each do |enum_subclass|
+# added by bbm
+%w(time_entry_activity issue_priority possibility importance).each do |enum_subclass|
   require_dependency enum_subclass
 end

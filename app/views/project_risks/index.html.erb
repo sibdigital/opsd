@@ -1,7 +1,89 @@
 <%#--
 This file written by BBM
-23/04/2019
+26/04/2019
 ++#%>
 <% html_title l(:label_administration), l(:label_project_risks) %>
 <%= toolbar title: l(:label_project_risks) %>
-<%= cell ::ProjectRisks::TableCell, ProjectRisk.on_project(2) %>
+
+<% if @project_risks.empty? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="project_risk_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ProjectRisk.human_attribute_name(:id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ProjectRisk.human_attribute_name(:name) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ProjectRisk.human_attribute_name(:possibility) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ProjectRisk.human_attribute_name(:importance) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= ProjectRisk.human_attribute_name(:color) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= render :partial => 'project_risks/form/list', :locals => {:project_risks => @project_risks} %>
+  <%= pagination_links_full @project_risks %>
+<% end %>
+<div class="wp-inline-create-button">
+  <%= link_to new_project_project_risk_path(),
+              aria: {label: t(:label_project_risk_new)},
+              class: 'wp-inline-create--add-link',
+              title: t(:label_project_risk_new) do
+    op_icon('icon icon-add')
+  end %>
+  <%= link_to "Новый типовой проектный риск", choose_typed_project_project_risks_path() %>
+</div>

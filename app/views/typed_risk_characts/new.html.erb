@@ -1,0 +1,13 @@
+<%#-- copyright
+# This file written by BBM
+# 29/04/2019
+++#%>
+
+<% html_title l(:label_risk_characts_new) %>
+<% local_assigns[:additional_breadcrumb] =  l(:label_risk_characts_new) %>
+<%= breadcrumb_toolbar l(:label_risk_characts_new) %>
+<%= labelled_tabular_form_for @risk_charact,
+                              url: typed_risk_characts_path(risk_id: @risk_charact.risk_id) do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

@@ -213,9 +213,9 @@ en:
 
   prioritiies:
     edit:
-      priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+     priority_color_text: |
+      Click to assign or change the color of this priority.
+      It can be used for highlighting work packages in the table.
 
   project_risks:
     edit:
@@ -230,6 +230,8 @@ en:
 
   typed_risks:
     edit:
+      properties: Properties
+      risk_characts: Specification tables
       typed_risk_color_text: |
         Click to assign or change the color of this typed risk.
         It can be used nowhere.
@@ -953,6 +955,11 @@ en:
   default_status_tested: "Tested"
   default_status_test_failed: "Test failed"
   default_status_to_be_scheduled: "To be scheduled"
+  default_possibility_very_low: "Very low"
+  default_possibility_low: "Low"
+  default_possibility_normal: "Normal"
+  default_possibility_high: "High"
+  default_possibility_very_high: "Very high"
   default_priority_low: "Low"
   default_priority_normal: "Normal"
   default_priority_high: "High"
@@ -972,8 +979,6 @@ en:
   default_type_phase: "Phase"
   default_type_task: "Task"
   default_type_user_story: "User story"
-  default_typed_risk_fire: "Fire"
-  default_typed_risk_flood: "Flood"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -1024,6 +1029,8 @@ en:
 
   enumeration_activities: "Activities (time tracking)"
   enumeration_work_package_priorities: "Work package priorities"
+  enumeration_risk_importance: "Impact degrees of risk"
+  enumeration_risk_possibilities: "Possibilities of risk occurrence"
   enumeration_system_activity: "System Activity"
   enumeration_reported_project_statuses: "Reported project status"
 
@@ -1502,9 +1509,15 @@ en:
   label_project_hierarchy: "Project hierarchy"
   label_project_new: "New project"
   label_project_plural: "Projects"
-  label_project_risks: "Project risks"
-  label_project_risk_new: "New project risk"
-  label_project_risk_value: "Project risk value"
+  label_positions: "Positions"
+  label_position_new: "Add position"
+  label_position_value: "Position value"
+  label_organisations: "Организации"
+  label_organisation_new: "Добавить организацию"
+  label_organisation_value: "Организация"
+  label_departs: "Подразделения"
+  label_depart_new: "Добавить подразделение"
+  label_depart_value: "Подразделение"
   label_project_settings: "Project settings"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
@@ -1546,6 +1559,9 @@ en:
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
+  label_risk_characts_new: "New risk specification value"
+  label_risk_characts_value: "Risk specification value"
+  label_risk_characts: "Risk specifications"
   label_roadmap: "Roadmap"
   label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
@@ -1964,7 +1980,7 @@ en:
       title: Change the project's identifier
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
-
+  project_module_project_risks: "Project risks"
   project_module_activity: "Activity"
   project_module_boards: "Forums"
   project_module_calendar: "Calendar"
@@ -2094,6 +2110,8 @@ en:
     warnings:
       cannot_annotate: "This file cannot be annotated."
 
+  risk_charact_effects: "Oneset effect"
+  risk_charact_measures: "Response"
   search_input_placeholder: "Search ..."
 
   setting_email_delivery_method: "Email delivery method"
@@ -2760,3 +2778,5 @@ en:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+
+  choose: "Выбрать"

@@ -204,8 +204,10 @@ ru:
       no_results_content_text: Добавить статус отчёта
   typed_risks:
     edit:
+      properties: Свойства
+      risk_characts: Таблицы характеристик
       typed_risk_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого типизированного риска.
+        Щелкните, чтобы задать или изменить цвет этого типового риска.
         Этот цвет может использоваться незнамо где.
   statuses:
     edit:
@@ -1024,6 +1026,11 @@ ru:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_possibility_very_low: Очень низкая
+  default_possibility_low: Низкая
+  default_possibility_normal: Средняя
+  default_possibility_high: Высокая
+  default_possibility_very_high: Очень высокая
   default_priority_low: Низкое
   default_priority_normal: Обычное
   default_priority_high: Высокое
@@ -1043,8 +1050,6 @@ ru:
   default_type_phase: Фаза
   default_type_task: Задание
   default_type_user_story: Описание пользователя
-  default_typed_risk_fire: Пожар
-  default_typed_risk_flood: Наводнение
   description_active: Активно?
   description_attachment_toggle: Показать/скрыть вложения
   description_autocomplete: 'Это поле заполняется автоматически. При наборе заголовка
@@ -1092,6 +1097,8 @@ ru:
           полям
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_work_package_priorities: Приоритеты пакета работ
+  enumeration_risk_importance: Степень влияния рисков на проект
+  enumeration_risk_possibilities: Вероятность наступления рисков
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
@@ -1590,6 +1597,9 @@ ru:
   label_project_plural: Проекты
   label_project_risks: Проектные риски
   label_project_risk_new: Новый проектный риск
+  label_organisations: "Организации"
+  label_organisation_new: "Добавить организацию"
+  label_organisation_value: "Организация"
   label_project_risk_value: Значение проектного риска
   label_project_settings: Настройки проекта
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
@@ -1634,6 +1644,9 @@ ru:
   label_revision: Редакция
   label_revision_id: Редакция %{value}
   label_revision_plural: Редакции
+  label_risk_characts_new: Новая характеристика риска
+  label_risk_characts_value: Значение характеристики риска
+  label_risk_characts: Характеристики риска
   label_roadmap: Дорожная карта
   label_roadmap_edit: Редактировать дорожную карту %{name}
   label_roadmap_due_in: Завершится через %{value}
@@ -1691,9 +1704,9 @@ ru:
   label_total: Всего
   label_type_new: Новый тип
   label_type_plural: Типы
-  label_typed_risks: Типизированные риски
-  label_typed_risk_new: Новый типизированный риск
-  label_typed_risk_value: Значение типизированного риска
+  label_typed_risks: Типовые риски
+  label_typed_risk_new: Новый типовой риск
+  label_typed_risk_value: Значение типового риска
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
@@ -2097,6 +2110,7 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
+  project_module_project_risks: Проектные риски
   project_module_activity: Деятельность
   project_module_boards: Форумы
   project_module_calendar: Календарь
@@ -2251,6 +2265,8 @@ ru:
     url: URL репозитория
     warnings:
       cannot_annotate: Этот файл не может быть прокомментирован.
+  risk_charact_effects: Эффект от наступления
+  risk_charact_measures: Мера реагирования
   search_input_placeholder: Поиск ...
   setting_email_delivery_method: Метод доставки электронной почты
   setting_sendmail_location: Расположение исполняемого файла sendmail
@@ -2643,7 +2659,7 @@ ru:
         assigned_to: Назначенный
         type: Тип
         due_date: Дате окончания
-        name: Имя
+        name: Наименование
         status: Состояние
         start_date: Дата начала
       columns: Столбцы
@@ -3037,3 +3053,5 @@ ru:
   setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
     OpenProject получать письма с командами (например, для создания и обновления пакетов
     работы).
+
+  choose: "Выбрать"

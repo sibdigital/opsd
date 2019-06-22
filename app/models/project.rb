@@ -141,6 +141,10 @@ class Project < ActiveRecord::Base
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
 
+  #bbm(
+  has_many :project_risks
+  # )
+
   acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable

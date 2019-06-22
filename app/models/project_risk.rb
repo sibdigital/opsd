@@ -1,10 +1,9 @@
 #-- encoding: UTF-8
 # This file written by BBM
-# 23/04/2019
+# 26/04/2019
 
 class ProjectRisk < Risk
-
-  #OptionName и соотв функция непонятно для чего служат
+  belongs_to :project
   OptionName = :risk_project_risks
 
   def option_name

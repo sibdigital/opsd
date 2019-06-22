@@ -211,10 +211,6 @@ OpenProject::Application.routes.draw do
 
     resources :news, only: %i[index new create]
 
-    #bbm(
-    resources :project_risks
-    # )
-
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
@@ -275,6 +271,13 @@ OpenProject::Application.routes.draw do
       # state for show view in project context
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
     end
+
+    #bbm(
+    resources :project_risks do
+      get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
+      match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
+    end
+    # )
 
     resources :activity, :activities, only: :index, controller: 'activities'
 
@@ -353,8 +356,36 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     #bbm(
-    resources :typed_risks
+    resources :typed_risks do
+      get '/edit/:tab' => 'typed_risks#edit', on: :member, as: 'edit_tab'
+    end
+    scope 'typed_risks/:risk_id/risk_characts', controller: 'typed_risk_characts' do
+      get '/', action: 'index', as: 'typed_risk_characts'
+      get '/new', action: 'new', as: 'new_typed_risk_charact'
+      get '/:id', action: 'show', as: 'typed_risk_charact'
+      get '/:id/edit', action: 'edit', as: 'edit_typed_risk_charact'
+      post '/', action: 'create'
+      patch '/:id', action: 'update'
+      put '/:id', action: 'update'
+      delete '/:id', action: 'destroy'
+    end
     # )
+    # +tan 2019.04.25
+    #  в том числе необходимо, чтобы работал ресурсный роутинг типа new_depart_path и тд
+    resources :positions
+    resources :organizations do
+      #collection do
+        #  match :select, via: %i[get post]
+        #end
+      #match '/choose_from_depart' => 'organizations#choose_from_depart', via: %i[post]
+    end
+    #match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
+    scope 'departs/:depart_id', controller: 'organizations' do
+      get '/choose_from_depart', action: 'choose_from_depart', as: 'choose_from_depart_organizations'
+      post '/choose_from_depart', action: 'choose_from_depart'
+    end
+    resources :departs
+    # -tan 2019.04.25
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
@@ -404,6 +435,13 @@ OpenProject::Application.routes.draw do
     match 'edit', action: 'edit', via: %i[get post]
     match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
+
+  #+ 2019.04.26 TAN
+  get '/org_settings' => 'org_settings#index'
+  scope 'org_settings', controller: 'org_settings' do
+    match 'edit', action: 'edit', via: %i[get post]
+  end
+  # - TAN
 
   # We should fix this crappy routing (split up and rename controller methods)
   get '/workflows' => 'workflows#index'
@@ -516,6 +554,12 @@ OpenProject::Application.routes.draw do
       get :text_formatting
     end
   end
+
+  #bbm(
+  scope '/projects/:project_id/project_risks/:risk_id' do
+    resources :project_risk_characts
+  end
+  # )
 
   scope controller: 'sys' do
     match '/sys/repo_auth', action: 'repo_auth', via: %i[get post]

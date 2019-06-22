@@ -1,0 +1,7 @@
+<%#--
+This file written by TAN
+26/04/2019
+++#%>
+<% html_title l(:label_administration), l(:label_organization) %>
+<%= toolbar title: l(:label_organizations) %>
+<%= cell ::Organizations::TableCell, Organization.all, {} %>

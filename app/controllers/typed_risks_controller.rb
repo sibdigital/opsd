@@ -1,15 +1,44 @@
 #-- encoding: UTF-8
 # This file written by BBM
-# 23/04/2019
+# 25/04/2019
+
 class TypedRisksController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
   before_action :find_typed_risk, only: [:edit, :update, :destroy]
 
-  def index; end
+  helper :sort
+  include SortHelper
+  include PaginationHelper
+  include ::IconsHelper
+  include ::ColorsHelper
 
-  def edit; end
+  def index
+    sort_columns = {'id' => "#{TypedRisk.table_name}.id",
+                    'name' => "#{TypedRisk.table_name}.name",
+                    'possibility' => "#{TypedRisk.table_name}.possibility_id",
+                    'importance' => "#{TypedRisk.table_name}.importance_id"
+    }
+
+    sort_init 'id', 'desc'
+    sort_update sort_columns
+
+    @typed_risks = TypedRisk
+                     .order(sort_clause)
+                     .page(page_param)
+                     .per_page(per_page_param)
+  end
+
+  def edit
+    if params[:tab].blank?
+      redirect_to tab: :properties
+    else
+      @typed_risk = TypedRisk
+               .find(params[:id])
+      @tab = params[:tab]
+    end
+  end
 
   def new
     @typed_risk = TypedRisk.new
