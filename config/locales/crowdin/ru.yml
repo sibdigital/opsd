@@ -1261,7 +1261,7 @@ ru:
   label_active: Активно
   label_activate_user: Активировать пользователя
   label_active_in_new_projects: Активное участие в новых проектах
-  label_activity: Деятельность
+  label_activity: Стратегическая карта
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще один файл
   label_add_columns: Добавить выбранные столбцы
@@ -1442,6 +1442,9 @@ ru:
   label_gantt: Гант
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие
+
+  label_contacts: Контактная информация
+
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
   label_greater_or_equal: ">="

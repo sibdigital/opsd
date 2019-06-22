@@ -125,6 +125,9 @@ class User < Principal
   validates_format_of :login, with: /\A[a-z0-9_\-@\.+ ]*\z/i
   validates_length_of :login, maximum: 256
   validates_length_of :firstname, :lastname, maximum: 30
+  #zbd
+  validates_length_of :patronymic, maximum: 30
+  #zbd
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
   validates_length_of :mail, maximum: 60, allow_nil: true
   validates_confirmation_of :password, allow_nil: true
@@ -297,7 +300,9 @@ class User < Principal
     when :username                then login
 
     else
-      "#{firstname} #{lastname}"
+      #zbd "#{firstname} #{lastname}"
+      "#{firstname} #{patronymic} #{lastname}"
+      #zbd
     end
   end
 
@@ -690,6 +695,9 @@ class User < Principal
         u.lastname = 'Anonymous'
         u.login = ''
         u.firstname = ''
+        #zbd
+        u.patronymic = ''
+        # zbd
         u.mail = ''
         u.status = 0
       end).save
@@ -705,6 +713,7 @@ class User < Principal
       system_user = SystemUser.new(
         firstname: "",
         lastname: "System",
+        patronymic: "",
         login: "",
         mail: "",
         admin: false,
