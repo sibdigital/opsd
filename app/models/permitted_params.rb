@@ -646,6 +646,7 @@ class PermittedParams
         user: %i(
           firstname
           lastname
+          patronymic
           mail
           mail_notification
           language
@@ -663,6 +664,7 @@ class PermittedParams
         ),
         move_to: [:move_to]
       }
+#zbd line:649 - added patronymic
 
       # Accept new parameters, defaulting to an empty array
       params.default = []

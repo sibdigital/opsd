@@ -56,6 +56,9 @@ module OpenProject
         def core_user_tabs
           [
             { name: 'general', partial: 'users/general', label: :label_general },
+            #zbd
+            { name: 'contacts', partial: 'users/contacts', label: :label_contacts },
+            #zbd
             { name: 'memberships', partial: 'users/memberships', label: :label_project_plural },
             { name: 'groups', partial: 'users/groups', label: :label_group_plural, if: ->(*) { Group.all.any? } }
           ]
