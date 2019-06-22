@@ -14,6 +14,7 @@ by zbd
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
+          <col highlight-col>
         </colgroup>
         <thead>
         <tr>
@@ -21,6 +22,7 @@ by zbd
           <%= sort_header_tag("contract_subject", :caption => Contract.human_attribute_name(:contract_subject)) %>
           <%= sort_header_tag("contract_date", :caption => Contract.human_attribute_name(:contract_date)) %>
           <%= sort_header_tag("price", :caption => Contract.human_attribute_name(:price)) %>
+          <%= sort_header_tag("executor", :caption => Contract.human_attribute_name(:executor)) %>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
@@ -36,6 +38,7 @@ by zbd
             <%= content_tag(:td, link_to(h(contract.contract_subject), edit_contract_path(contract.id))) %>
             <%= content_tag(:td, contract.contract_date) %>
             <%= content_tag(:td, contract.price) %>
+            <%= content_tag(:td, contract.executor) %>
             <%= content_tag(:td, link_to(
                 op_icon('icon icon-delete'),
                 contract_path(contract),

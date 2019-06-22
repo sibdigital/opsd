@@ -374,17 +374,17 @@ OpenProject::Application.routes.draw do
 
 
     #zbd(
-    resources :contracts do
-#    scope controller: 'contracts' do
-      get '/', action: 'index', as: 'contracts'
-      get '/new', action: 'new', as: 'new_contract'
-      get '/:id', action: 'show', as: 'contract'
-      get '/:id/edit', action: 'edit', as: 'edit_contract'
-      post '/', action: 'create'
-      patch '/:id', action: 'update'
-      put '/:id', action: 'update'
-      delete '/:id', action: 'destroy'
-    end
+    resources :contracts
+    # scope controller: 'contracts' do
+    #   get '/', action: 'index', as: 'contracts'
+    #   get '/new', action: 'new', as: 'new_contract'
+    #   get '/:id', action: 'show', as: 'contract'
+    #   get '/:id/edit', action: 'edit', as: 'edit_contract'
+    #   post '/', action: 'create'
+    #   patch '/:id', action: 'update'
+    #   put '/:id', action: 'update'
+    #   delete '/:id', action: 'destroy'
+    # end
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'

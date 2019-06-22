@@ -1,16 +1,25 @@
 <%#--
-This file written by BBM
-25/04/2019
+by zbd
+22.06.2019
 ++#%>
 <% html_title l(:label_administration), l(:label_contracts) %>
 <%= toolbar title: l(:label_contracts) %>
+
+<div>
+  <%= link_to new_contract_path,
+              { class: 'button -alt-highlight',
+                aria: {label: t(:label_contracts_new)},
+                title: t(:label_contracts_new)} do %>
+    <%= op_icon('button--icon icon-add') %>
+    <span class="button--text">Гос.контракт</span>
+  <% end %>
+</div>
 
 <% if @contracts.empty? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table" id="contract_items">
         <colgroup>
-          <col highlight-col>
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
@@ -68,7 +77,7 @@ This file written by BBM
         </thead>
         <tbody>
         <tr>
-          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+          <td colspan="6"><%= I18n.t :no_results_title_text %></td>
         </tr>
         </tbody>
       </table>
@@ -78,11 +87,3 @@ This file written by BBM
   <%= render :partial => 'contracts/form/list', :locals => {:contracts => @contracts} %>
   <%= pagination_links_full @contracts %>
 <% end %>
-<div class="wp-inline-create-button">
-  <%= link_to new_contract_path(),
-              aria: {label: t(:label_contracts_new)},
-              class: 'wp-inline-create--add-link',
-              title: t(:label_contracts_new) do
-    op_icon('icon icon-add')
-  end %>
-</div>
