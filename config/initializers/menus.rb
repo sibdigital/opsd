@@ -145,6 +145,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_role_and_permissions,
             icon: 'icon2 icon-settings'
 
+  ##zbd(
+  menu.push :contracts,
+            { controller: '/contracts' },
+            icon: 'icon2 icon-enumerations'
+
+  # )
   menu.push :types,
             { controller: '/types' },
             caption: :label_work_package_types,
