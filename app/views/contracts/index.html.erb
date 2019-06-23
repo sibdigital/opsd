@@ -25,6 +25,7 @@ by zbd
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
+          <col highlight-col>
         </colgroup>
         <thead>
         <tr>
@@ -41,7 +42,7 @@ by zbd
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= Contract.human_attribute_name(:contract_subject) %>
+                  <%= Contract.human_attribute_name(:contract_date) %>
                 </span>
               </div>
             </div>
@@ -50,7 +51,16 @@ by zbd
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= Contract.human_attribute_name(:contract_date) %>
+                  <%= Contract.human_attribute_name(:contract_num) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:contract_subject) %>
                 </span>
               </div>
             </div>

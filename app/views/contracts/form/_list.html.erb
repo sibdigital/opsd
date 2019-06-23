@@ -19,8 +19,9 @@ by zbd
         <thead>
         <tr>
           <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
-          <%= sort_header_tag("contract_subject", :caption => Contract.human_attribute_name(:contract_subject)) %>
           <%= sort_header_tag("contract_date", :caption => Contract.human_attribute_name(:contract_date)) %>
+          <%= sort_header_tag("contract_num", :caption => Contract.human_attribute_name(:contract_num)) %>
+          <%= sort_header_tag("contract_subject", :caption => Contract.human_attribute_name(:contract_subject)) %>
           <%= sort_header_tag("price", :caption => Contract.human_attribute_name(:price)) %>
           <%= sort_header_tag("executor", :caption => Contract.human_attribute_name(:executor)) %>
           <th>
@@ -34,9 +35,10 @@ by zbd
         <tbody>
         <% contracts.each do |contract| %>
           <tr id="contract-<%= contract.id %>">
-            <td><%= link_to contract.id, edit_contract_path(contract.id) %></td>
-            <%= content_tag(:td, link_to(h(contract.contract_subject), edit_contract_path(contract.id))) %>
+            <%= content_tag(:td, link_to(h(contract.id), edit_contract_path(contract.id))) %>
             <%= content_tag(:td, contract.contract_date) %>
+            <%= content_tag(:td, link_to(h(contract.contract_num), edit_contract_path(contract.id))) %>
+            <%= content_tag(:td, link_to(h(contract.contract_subject), edit_contract_path(contract.id))) %>
             <%= content_tag(:td, contract.price) %>
             <%= content_tag(:td, contract.executor) %>
             <%= content_tag(:td, link_to(

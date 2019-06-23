@@ -783,7 +783,11 @@ ru:
     start_date: Дата начала
     status: Состояние
     subject: Тема
-    contract_subject: Предмет гос.контракта
+    contract_subject: Предмет контракта
+    contract_num: № контракта
+    contract_date: Дата контракта
+    price: Цена контракта
+    executor: Исполнитель
     summary: Сводка
     title: Заголовок
     type: Тип
