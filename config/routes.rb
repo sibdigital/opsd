@@ -281,6 +281,10 @@ OpenProject::Application.routes.draw do
 
     #zbd(
     resources :stages, only: :index, controller: 'stages'
+    #resources :stages do
+    #  get '/edit/:tab' => 'stages#edit', on: :member, as: 'edit_tab'
+      #match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
+    #end
     # )
 
     resources :activity, :activities, only: :index, controller: 'activities'

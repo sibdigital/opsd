@@ -36,7 +36,10 @@ Redmine::AccessControl.map do |map|
                    #bbm(
                    project_risk_characts: %i[new create edit update destroy],
                    project_risks: %i[index new create edit update choose_typed
-                                   destroy]},
+                                   destroy],
+                   # )
+                   #zbd(
+                   stages: %i[index]},
                    # )
                  public: true
 
@@ -91,6 +94,12 @@ Redmine::AccessControl.map do |map|
                    { project_settings: [:show],
                      categories: %i[new create edit update destroy] },
                    require: :member
+    #zbd(
+    wpt.permission :manage_contracts,
+                   { project_settings: [:show],
+                     contractss: %i[new create edit update destroy] },
+                   require: :member
+    #)
     # Issues
     wpt.permission :view_work_packages,
                    issues: %i[index all show],
@@ -99,6 +108,9 @@ Redmine::AccessControl.map do |map|
                    journals: %i[index diff],
                    work_packages: %i[show index],
                    work_packages_api: [:get],
+                   #zbd(
+                   contracts: %i[index],
+                   # )
                    :'work_packages/reports' => %i[report report_details]
 
     wpt.permission :export_work_packages,

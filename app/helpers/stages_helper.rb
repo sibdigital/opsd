@@ -9,7 +9,7 @@ module StagesHelper
       { name: 'StagePlanningCustomField', partial: 'stages/tab', label: :label_stage_planning },
       { name: 'StageExecutionCustomField', partial: 'stages/tab', label: :label_stage_execution },
       { name: 'StageControlCustomField', partial: 'stages/tab', label: :label_stage_control },
-      { name: 'StageCompletionCustomField', partial: 'stages/tab', label: :label_stage_completion },
+      { name: 'StageCompletionCustomField', partial: 'stages/tab', label: :label_stage_completion }
     ]
   end
 
