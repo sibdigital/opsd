@@ -2,7 +2,7 @@
 # https://bugs.launchpad.net/redmineAvatars/+bug/680548
 
 de:
-  label_avatar: "Avatar"
+  label_avatar: "Аватар"
   message_avatar_uploaded: "Avatar erfolgreich geändert."
   error_image_upload: "Fehler beim Abspeichern des Bildes."
   button_change_avatar: "Avatar ändern"
