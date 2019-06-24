@@ -254,6 +254,19 @@ module API
                                          required: false,
                                          has_default: true
 
+          #bbm(
+          schema_with_allowed_collection :attach_type,
+                                         value_representer: AttachTypes::AttachTypeRepresenter,
+                                         name_source: 'Тип документа',
+                                         link_factory: ->(attach_type) {
+                                           {
+                                             href: api_v3_paths.attach_type(attach_type.id),
+                                             title: attach_type.name
+                                           }
+                                         },
+                                         required: false,
+                                         writable: true
+          # )
           def attribute_groups
             (represented.type && represented.type.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)

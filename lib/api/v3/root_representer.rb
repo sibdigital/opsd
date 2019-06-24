@@ -66,6 +66,14 @@ module API
         }
       end
 
+      #bbm(
+      link :attachTypes do
+        {
+          href: api_v3_paths.attach_types
+        }
+      end
+      #)
+
       link :relations do
         {
           href: api_v3_paths.relations

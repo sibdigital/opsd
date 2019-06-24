@@ -28,6 +28,20 @@
     <op-icon icon-classes="icon-delete"
              [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
   </a>
-
+  <!--bbm(-->
+  <select [(ngModel)]="selectedOption"
+          [compareWith]="compareByHref"
+          class="attach-edit--field"
+          (change)="handleUserSubmit()"
+          role="listbox">
+    <option
+            *ngFor="let value of valueOptions"
+            [attr.selected]="compareByHref(selectedOption, value) || undefined"
+            [attr.label]="value.name"
+            [ngValue]="value"
+            [textContent]="value.name">
+    </option>
+  </select>
+  <!--)bbm-->
   <input type="hidden" name="attachments[{{index}}][id]" value="{{attachment.id}}" *ngIf="!attachment.container">
 </li>

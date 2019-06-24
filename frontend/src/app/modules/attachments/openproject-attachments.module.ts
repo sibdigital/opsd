@@ -33,11 +33,15 @@ import {AttachmentsComponent} from "core-app/modules/attachments/attachments.com
 import {AttachmentListComponent} from "core-app/modules/attachments/attachment-list/attachment-list.component";
 import {AttachmentListItemComponent} from "core-app/modules/attachments/attachment-list/attachment-list-item.component";
 import {AttachmentsUploadComponent} from "core-app/modules/attachments/attachments-upload/attachments-upload.component";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
   ],
+  //bbm(
+  providers: [HalResourceService],
+  //bbm)
   declarations: [
     AttachmentsComponent,
     AttachmentListComponent,

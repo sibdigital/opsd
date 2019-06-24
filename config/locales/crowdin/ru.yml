@@ -1102,6 +1102,7 @@ ru:
         description_html: Обновить до %{link} для фильтрации и сортировки по пользовательским
           полям
   enumeration_activities: Деятельность (отслеживание времени)
+  enumeration_attach_type: Тип файла
   enumeration_work_package_priorities: Приоритеты пакета работ
   enumeration_risk_importance: Степень влияния рисков на проект
   enumeration_risk_possibilities: Вероятность наступления рисков

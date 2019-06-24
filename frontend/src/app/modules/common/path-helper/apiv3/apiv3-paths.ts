@@ -63,6 +63,11 @@ export class ApiV3Paths {
   // /api/v3/priorities
   public readonly priorities = new SimpleResourceCollection(this.apiV3Base, 'priorities');
 
+  //bbm(
+
+  public readonly attachTypes = new SimpleResourceCollection(this.apiV3Base, 'attachTypes');
+  //)
+
   // /api/v3/time_entries
   public readonly time_entries = new Apiv3TimeEntriesPaths(this.apiV3Base);
 

@@ -39,6 +39,7 @@ class BasicDataSeeder < CompositeSeeder
       #bbm(
       BasicData::PossibilitySeeder,
       BasicData::ImportanceSeeder,
+      BasicData::AttachTypeSeeder,
       # )
       BasicData::SettingSeeder
     ]

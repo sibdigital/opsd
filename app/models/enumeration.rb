@@ -179,6 +179,6 @@ end
 
 # Force load the subclasses in development mode
 # added by bbm
-%w(time_entry_activity issue_priority possibility importance).each do |enum_subclass|
+%w(time_entry_activity issue_priority possibility importance attach_type).each do |enum_subclass|
   require_dependency enum_subclass
 end

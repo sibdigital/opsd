@@ -36,6 +36,10 @@ class Attachment < ActiveRecord::Base
   belongs_to :container, polymorphic: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
+  #bbm(
+  belongs_to :attach_type
+  # )
+
   validates_presence_of :author, :content_type, :filesize
   validates_length_of :description, maximum: 255
 
