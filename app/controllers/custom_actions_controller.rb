@@ -30,7 +30,7 @@
 
 class CustomActionsController < ApplicationController
   before_action :require_admin
-  before_action :require_enterprise_token
+  #before_action :require_enterprise_token
 
   self._model_object = CustomAction
   before_action :find_model_object, only: %i(edit update destroy)
@@ -86,20 +86,20 @@ class CustomActionsController < ApplicationController
     }
   end
 
-  def require_enterprise_token
-    return if EnterpriseToken.allows_to?(:custom_actions)
-
-    if request.get?
-      render template: 'common/upsale',
-             locals: {
-                 feature_title: I18n.t('custom_actions.upsale.title'),
-                 feature_description: I18n.t('custom_actions.upsale.description'),
-                 feature_reference: 'custom_actions_admin'
-             }
-    else
-      render_403
-    end
-  end
+  # def require_enterprise_token
+  #   return if EnterpriseToken.allows_to?(:custom_actions)
+  #
+  #   if request.get?
+  #     render template: 'common/upsale',
+  #            locals: {
+  #                feature_title: I18n.t('custom_actions.upsale.title'),
+  #                feature_description: I18n.t('custom_actions.upsale.description'),
+  #                feature_reference: 'custom_actions_admin'
+  #            }
+  #   else
+  #     render_403
+  #   end
+  # end
 
   # If no action/condition is set in the view, the
   # actions/conditions already existing on a custom action should be removed.

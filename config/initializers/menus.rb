@@ -177,10 +177,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-control-levels'
   # )
 
-  menu.push :custom_actions,
-            { controller: '/custom_actions' },
-            caption: :'custom_actions.plural',
-            icon: 'icon2 icon-play'
+  #+-tan 2019.06.24
+  # menu.push :custom_actions,
+  #           { controller: '/custom_actions' },
+  #           caption: :'custom_actions.plural',
+  #           icon: 'icon2 icon-play'
 
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
@@ -205,20 +206,21 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-flag',
             if: proc { !OpenProject::Configuration.disable_password_login? }
 
-  menu.push :oauth_applications,
-            { controller: '/oauth/applications', action: 'index' },
-            html: { class: 'oauth_applications' },
-            icon: 'icon2 icon-key'
+  #+-tan 2019.06.24
+  # menu.push :oauth_applications,
+  #           { controller: '/oauth/applications', action: 'index' },
+  #           html: { class: 'oauth_applications' },
+  #           icon: 'icon2 icon-key'
+  #
+  # menu.push :announcements,
+  #           { controller: '/announcements', action: 'edit' },
+  #           caption: 'Announcement',
+  #           icon: 'icon2 icon-news'
 
-  menu.push :announcements,
-            { controller: '/announcements', action: 'edit' },
-            caption: 'Announcement',
-            icon: 'icon2 icon-news'
-
-  menu.push :plugins,
-            { controller: '/admin', action: 'plugins' },
-            last: true,
-            icon: 'icon2 icon-plugins'
+  # menu.push :plugins,
+  #           { controller: '/admin', action: 'plugins' },
+  #           last: true,
+  #           icon: 'icon2 icon-plugins'
 
   menu.push :info,
             { controller: '/admin', action: 'info' },
@@ -226,21 +228,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
             last: true,
             icon: 'icon2 icon-info1'
 
-  menu.push :custom_style,
-            { controller: '/custom_styles', action: 'show' },
-            caption:    :label_custom_style,
-            icon: 'icon2 icon-design'
+  # +-tan 2019.06.24
+  # menu.push :custom_style,
+  #           { controller: '/custom_styles', action: 'show' },
+  #           caption:    :label_custom_style,
+  #           icon: 'icon2 icon-design'
 
   menu.push :colors,
             { controller: '/colors', action: 'index' },
             caption:    :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
 
-  menu.push :enterprise,
-            { controller: '/enterprises', action: 'show' },
-            caption:    :label_enterprise_edition,
-            icon: 'icon2 icon-headset',
-            if: proc { OpenProject::Configuration.ee_manager_visible? }
+  # +-tan 2019.06.24
+  # menu.push :enterprise,
+  #           { controller: '/enterprises', action: 'show' },
+  #           caption:    :label_enterprise_edition,
+  #           icon: 'icon2 icon-headset',
+  #           if: proc { OpenProject::Configuration.ee_manager_visible? }
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
