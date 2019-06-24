@@ -60,6 +60,9 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'Project',
         'Version',
         'Category',
+        //zbd(
+        'Contract',
+        // )
         'CustomOption'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption',
         '[]User'])

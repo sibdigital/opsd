@@ -54,6 +54,9 @@ export interface WorkPackageResourceEmbedded {
   author:HalResource|any;
   availableWatchers:HalResource|any;
   category:HalResource|any;
+  //zbd(
+  contract:HalResource|any;
+  //)
   children:WorkPackageResource[];
   parent:HalResource|any;
   priority:HalResource|any;

@@ -1456,6 +1456,14 @@ ru:
 
   label_contacts: Контактная информация
 
+  label_stages: Этапы
+  label_stage_init: Инициирование
+  label_stage_analysis: Анализ
+  label_stage_planning: Планирование
+  label_stage_execution: Исполнение
+  label_stage_control: Контроль
+  label_stage_completion: Завершение
+
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
   label_greater_or_equal: ">="

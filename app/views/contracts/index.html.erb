@@ -3,17 +3,17 @@ by zbd
 22.06.2019
 ++#%>
 <% html_title l(:label_administration), l(:label_contracts) %>
-<%= toolbar title: l(:label_contracts) %>
-
-<div>
-  <%= link_to new_contract_path,
-              { class: 'button -alt-highlight',
-                aria: {label: t(:label_contracts_new)},
-                title: t(:label_contracts_new)} do %>
-    <%= op_icon('button--icon icon-add') %>
-    <span class="button--text">Гос.контракт</span>
-  <% end %>
-</div>
+<%= toolbar title: l(:label_contracts) do %>
+  <li class="toolbar-item">
+    <%= link_to new_contract_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_contracts_new)},
+                  title: t(:label_contracts_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text">Гос.контракт</span>
+    <% end %>
+  </li>
+<% end %>
 
 <% if @contracts.empty? %>
   <div class="generic-table--container">

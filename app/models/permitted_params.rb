@@ -565,6 +565,7 @@ class PermittedParams
           :assigned_to_id,
           { attachments: %i[file description] },
           :category_id,
+          :contract_id,
           :description,
           :done_ratio,
           :due_date,
