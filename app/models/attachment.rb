@@ -136,9 +136,20 @@ class Attachment < ActiveRecord::Base
     file.local_file
   end
 
+  #bbm(
+  #   def filename
+  #       attributes['file']
+  #   end
   def filename
-    attributes['file']
+    if(attributes['filename']) then
+      if(attributes['version']) then
+        attributes['filename'] + " (версия " + attributes['version'].to_s + ")"
+      end
+    else
+      attributes['file']
+    end
   end
+  #)
 
   def file=(file)
     super.tap do

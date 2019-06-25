@@ -149,6 +149,10 @@ module DemoData
         attachment = work_package.attachments.build
         attachment.author = work_package.author
         attachment.file = File.new("config/locales/media/en/#{file_name}")
+        #bbm(
+        attachment.filename = file_name
+        attachment.version = 1
+        # )
 
         attachment.save!
       end
