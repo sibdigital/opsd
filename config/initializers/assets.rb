@@ -8,8 +8,6 @@ OpenProject::Application.configure do
     admin_users.js
     autocompleter.js
     copy_issue_actions.js
-    date-de-DE.js
-    date-en-US.js
     locales/*.js
     members_form.js
     members_select_boxes.js

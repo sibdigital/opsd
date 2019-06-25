@@ -242,7 +242,7 @@ ru:
       query_group_placeholder: Дайте таблице название
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
-        цвет позволяет различать пакеты работ на диаграммах Ганта.
+        цвет позволяет различать пакеты работ на диаграммах Гантта.
 
 '
   versions:
@@ -1019,6 +1019,12 @@ ru:
   default_color_red: Красный
   default_color_white: Белый
   default_color_yellow: Жёлтый
+  default_status_not_start: Не начат
+  default_status_in_work: В работе
+  default_status_completed: Завершен
+  default_status_cancelled: Отменен
+  default_status_postpone: Отложен
+  default_status_on_check: На проверке
   default_status_closed: Закрыто
   default_status_confirmed: Подтвержден
   default_status_developed: Разработан
@@ -1443,7 +1449,7 @@ ru:
   label_force_user_language_to_default: Язык, который пользователям нельзя установить
     как действующий по-умолчанию
   label_form_configuration: Настройка форм
-  label_gantt: Гант
+  label_gantt: Гантт
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие
   label_generate_key: Сгенерируйте ключ
