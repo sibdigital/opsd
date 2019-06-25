@@ -26,12 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injector, defineInjectable, NgModule} from '@angular/core';
+import {ChartsModule} from 'ng2-charts';
 import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
 import {OverviewResource} from './hal/resources/overview-resource';
 import {multiInput} from 'reactivestates';
+import {WorkPackageOverviewStatusDiagramComponent} from "./wp-diagram/wp-overview-status-diagram.component";
+import {HookService} from "../../hook-service";
 
-export function initializeMyProjectPagePlugin() {
+export function initializeMyProjectPagePlugin(injector:Injector) {
     return () => {
         window.OpenProject.getPluginContext()
             .then((pluginContext:OpenProjectPluginContext) => {
@@ -41,14 +44,28 @@ export function initializeMyProjectPagePlugin() {
                 let states = pluginContext.services.states;
                 states.add('overviews', multiInput<OverviewResource>());
             });
+      const hookService = injector.get(HookService);
+      hookService.register('openProjectAngularBootstrap', () => {
+          return [
+              { selector: 'wp-overview-status-diagram', cls: WorkPackageOverviewStatusDiagramComponent }
+          ];
+      });
     };
 }
 
-
 @NgModule({
+    imports: [
+        ChartsModule
+    ],
+    declarations: [
+        WorkPackageOverviewStatusDiagramComponent,
+    ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: initializeMyProjectPagePlugin, deps: [Injector], multi: true },
     ],
+    entryComponents: [
+        WorkPackageOverviewStatusDiagramComponent
+    ]
 })
 export class PluginModule {
 }
