@@ -11,7 +11,13 @@ module API
       class ContractRepresenter < ::API::Decorators::Single
         include ::API::Caching::CachedRepresenter
 
-        self_link title_getter: ->(*) { represented.contract_subject }
+        #self_link title_getter: ->(*) { represented.contract_subject }
+        link :self do
+          {
+            href: api_v3_paths.contract(represented.id),
+            title: represented.contract_subject
+          }
+        end
 
         property :id, render_nil: true
         property :contract_subject

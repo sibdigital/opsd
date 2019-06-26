@@ -55,6 +55,10 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
 
+  #zbd(
+  belongs_to :contract, class_name: 'Contract', foreign_key: 'contract_id'
+  #)
+
   has_many :time_entries, dependent: :delete_all
 
   has_and_belongs_to_many :changesets, -> {

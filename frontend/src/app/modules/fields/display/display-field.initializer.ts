@@ -53,6 +53,9 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(HighlightedResourceDisplayField, 'highlight', [
         'Status',
         'Type',
+        //zbd(
+        'Contract',
+        // )
         'Priority'
       ])
       .addFieldType(ResourceDisplayField, 'resource', [
@@ -60,9 +63,6 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'Project',
         'Version',
         'Category',
-        //zbd(
-        'Contract',
-        // )
         'CustomOption'])
       .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption',
         '[]User'])

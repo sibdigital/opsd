@@ -113,7 +113,7 @@ module API
           end
 
           def self.contract(id)
-            "#{contracts}/#{id}"
+            "#{root}/contracts/#{id}"
           end
           # )
 
