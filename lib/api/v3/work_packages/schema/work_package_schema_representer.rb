@@ -233,6 +233,17 @@ module API
                                          },
                                          required: false
 
+          #zbd(
+          schema_with_allowed_collection :contract,
+                                         value_representer: Contracts::ContractRepresenter,
+                                         link_factory: ->(contract) {
+                                           {
+                                             href: api_v3_paths.contract(contract.id),
+                                             title: contract.contract_subject
+                                           }
+                                         },
+                                         required: false
+          # )
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,
                                          link_factory: ->(version) {

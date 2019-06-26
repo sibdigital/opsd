@@ -107,6 +107,16 @@ module API
             "#{root}/categories/#{id}"
           end
 
+          #zbd(
+          def self.contracts
+            "#{root}/contracts"
+          end
+
+          def self.contract(id)
+            "#{contracts}/#{id}"
+          end
+          # )
+
           def self.configuration
             "#{root}/configuration"
           end

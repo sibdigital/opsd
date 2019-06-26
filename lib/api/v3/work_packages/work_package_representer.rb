@@ -422,6 +422,10 @@ module API
 
         associated_resource :category
 
+        #zbd(
+        associated_resource :contract, link_title_attribute: :contract_subject
+        # )
+
         associated_resource :type
 
         associated_resource :priority

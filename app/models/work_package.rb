@@ -61,6 +61,11 @@ class WorkPackage < ActiveRecord::Base
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
 
+
+  #zbd(
+  validates :subject, presence: true, uniqueness: true
+  # )
+
   scope :recently_updated, ->() {
     order(updated_at: :desc)
   }

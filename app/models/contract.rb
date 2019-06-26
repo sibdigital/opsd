@@ -7,4 +7,10 @@ class Contract < ActiveRecord::Base
   def option_name
     OptionName
   end
+
+  def <=>(contract)
+    name <=> contract.contract_subject
+  end
+
+  def to_s; name end
 end

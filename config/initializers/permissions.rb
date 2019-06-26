@@ -41,6 +41,7 @@ Redmine::AccessControl.map do |map|
                    #zbd(
                    stages: %i[index]},
                    # )
+                   #},
                  public: true
 
   map.permission :search_project,
@@ -320,4 +321,17 @@ Redmine::AccessControl.map do |map|
   #bbm(
   map.project_module :project_risks
   # )
+
+  #zbd(
+  #map.project_module :stages
+  # map.project_module :project_stages do |stg|
+  #   stg.permission :view_project,
+  #                  {
+  #                    stages: %i[index]},
+  #                  #},
+  #                  public: true
+  #
+  # end
+  # )
+
 end

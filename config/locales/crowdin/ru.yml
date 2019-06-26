@@ -2142,6 +2142,7 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
+  project_module_stages: Этапы
   project_module_project_risks: Проектные риски
   project_module_activity: Деятельность
   project_module_boards: Форумы
