@@ -53,9 +53,6 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         'User',
         'Version',
         'Category',
-        //bbm(
-        'AttachType',
-        //)
         'CustomOption',
         'Project'])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
