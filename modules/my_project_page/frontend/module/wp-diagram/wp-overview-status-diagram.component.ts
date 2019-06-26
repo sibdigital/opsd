@@ -1,30 +1,27 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ChartOptions, ChartType, ChartDataSets} from 'chart.js';
 import {Label} from 'ng2-charts';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'wp-overview-status-diagram',
   templateUrl: './wp-overview-status-diagram.html'
 })
 export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
-  //@Input() public resource:HalResource;
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
-  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels: Label[] = [this.I18n.t('js.work_packages.properties.status')];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
 
-  public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-  ];
+  public barChartData: ChartDataSets[];
 
-  constructor() { }
+  constructor(protected I18n:I18nService,
+              readonly element:ElementRef) { }
 
   ngOnInit() {
-
+    this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
   }
 }
