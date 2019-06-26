@@ -196,14 +196,6 @@ PATH
       reporting_engine (>= 1.1.0)
 
 PATH
-  remote: modules/two_factor_authentication
-  specs:
-    openproject-two_factor_authentication (8.3.1)
-      aws-sdk-sns (~> 1.1.0)
-      messagebird-rest (~> 1.3.2)
-      rotp (~> 3.3)
-
-PATH
   remote: modules/webhooks
   specs:
     openproject-webhooks (8.3.1)

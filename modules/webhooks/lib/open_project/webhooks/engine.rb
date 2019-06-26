@@ -22,12 +22,12 @@ module OpenProject::Webhooks
 
     register 'openproject-webhooks',
              author_url: 'https://github.com/opf/openproject-webhooks' do
-        menu :admin_menu,
-             :plugin_webhooks,
-             { controller: 'webhooks/outgoing/admin', action: :index },
-             after: :plugins,
-             caption: ->(*) { I18n.t('webhooks.plural') },
-             icon: 'icon2 icon-relations'
+        # menu :admin_menu,
+        #      :plugin_webhooks,
+        #      { controller: 'webhooks/outgoing/admin', action: :index },
+        #      after: :plugins,
+        #      caption: ->(*) { I18n.t('webhooks.plural') },
+        #      icon: 'icon2 icon-relations'
     end
 
     config.before_configuration do |app|
