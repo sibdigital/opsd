@@ -962,7 +962,6 @@ DEPENDENCIES
   openproject-reporting!
   openproject-token (~> 1.0.1)
   openproject-translations!
-  openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-xls_export!
   parallel_tests (~> 2.27.1)
