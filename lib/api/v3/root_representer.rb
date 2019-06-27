@@ -66,14 +66,6 @@ module API
         }
       end
 
-      #zbd(
-      link :contracts do
-        {
-          href: api_v3_paths.contracts
-        }
-      end
-      # )
-
       link :relations do
         {
           href: api_v3_paths.relations

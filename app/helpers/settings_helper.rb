@@ -41,8 +41,8 @@ module SettingsHelper
       { name: 'projects', partial: 'settings/projects', label: :label_project_plural },
       { name: 'work_packages', partial: 'settings/work_packages', label: :label_work_package_tracking },
       { name: 'notifications', partial: 'settings/notifications', label: Proc.new { User.human_attribute_name(:mail_notification) } },
-      { name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails },
-      { name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural }
+      { name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails }#,
+      #{ name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural }
     ]
   end
 

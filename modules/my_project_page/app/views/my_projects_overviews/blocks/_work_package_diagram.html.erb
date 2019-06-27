@@ -1,0 +1,16 @@
+<%#-- copyright
+created at 25/06/19
+by bbm
+++#%>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-calendar') %>
+  <span class="widget-box--header-title"><%=t(:label_work_package_diagram)%></span>
+</h3>
+
+<wp-overview-status-diagram chart-data='<%=work_packages_by_status_amount%>'>
+</wp-overview-status-diagram>

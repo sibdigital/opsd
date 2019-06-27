@@ -43,7 +43,9 @@ module API
         associated_resource :author,
                             v3_path: :user,
                             representer: ::API::V3::Users::UserRepresenter
-
+        #bbm(
+        associated_resource :attach_type
+        # )
         cached_representer key_parts: %i[author container]
 
         def self.associated_container_getter
@@ -86,7 +88,15 @@ module API
             href: location
           }
         end
-
+        #bbm(
+        link :updateImmediately,
+             cache_if: -> { represented.deletable?(current_user) } do
+          {
+            href: api_v3_paths.attachment(represented.id),
+            method: :patch
+          }
+        end
+        # )
         link :delete,
              cache_if: -> { represented.deletable?(current_user) } do
           {

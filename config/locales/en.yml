@@ -1034,6 +1034,7 @@ en:
         description_html: "Upgrade to %{link} to filter and sort on custom fields"
 
   enumeration_activities: "Activities (time tracking)"
+  enumeration_attach_type: "Filetype"
   enumeration_work_package_priorities: "Work package priorities"
   enumeration_risk_importance: "Impact degrees of risk"
   enumeration_risk_possibilities: "Possibilities of risk occurrence"

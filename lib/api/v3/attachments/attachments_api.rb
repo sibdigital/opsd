@@ -39,6 +39,13 @@ module API
             def container
               nil
             end
+            #bbm(
+            def save_attachment(attachment)
+              unless attachment.save
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(attachment.errors)
+              end
+            end
+            # )
           end
 
           post do
@@ -73,6 +80,18 @@ module API
 
               status 204
             end
+
+            #bbm(
+            patch do
+              if(params[:attach_type_id]) then
+                new_attach_type = AttachType.find(params[:attach_type_id])
+                @attachment.attach_type = new_attach_type
+              else
+                @attachment.attach_type = nil
+              end
+              save_attachment(@attachment)
+            end
+            # )
 
             namespace :content do
               get do

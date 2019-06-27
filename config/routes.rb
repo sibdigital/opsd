@@ -388,7 +388,7 @@ OpenProject::Application.routes.draw do
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
     delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'
-    get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
+    #get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     resource :custom_style, only: %i[update show create], path: 'design'
 

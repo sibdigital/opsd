@@ -193,6 +193,15 @@ module API
             "#{root}/principals"
           end
 
+          #bbm(
+          def self.attach_types
+            "#{root}/attachTypes"
+          end
+
+          def self.attach_type(id)
+            "#{attach_types}/#{id}"
+          end
+          #)
           def self.priorities
             "#{root}/priorities"
           end

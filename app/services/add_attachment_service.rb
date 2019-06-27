@@ -41,9 +41,16 @@ class AddAttachmentService
   # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
   def add_attachment(uploaded_file:, description:)
     attachment = Attachment.new(file: uploaded_file,
+                                #bbm(
+                                filename: uploaded_file.original_filename,
+                                # )
                                 container: container,
                                 description: description,
                                 author: author)
+    #bbm(
+    version = Attachment.where(:container => container, :filename => uploaded_file.original_filename).maximum("version").to_i
+    attachment.version = version + 1
+    # )
     save attachment
 
     attachment

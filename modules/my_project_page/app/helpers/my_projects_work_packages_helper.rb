@@ -17,6 +17,7 @@
 #
 # See doc/COPYRIGHT.md for more details.
 #++
+require 'json'
 
 module MyProjectsWorkPackagesHelper
   include WorkPackagesFilterHelper
@@ -24,6 +25,24 @@ module MyProjectsWorkPackagesHelper
   def types
     @types ||= project.rolled_up_types
   end
+
+  #bbm(
+  def work_packages_by_status_amount
+    @statuses ||= Status.all.map(&:name)
+    amounts = []
+    for status in @statuses do
+      amount = Hash.new
+      amount['data'] = []
+      amount['data'] << WorkPackage
+        .joins(:status)
+        .where(statuses: { name: status }, project_id: @project.id)
+        .count
+      amount['label'] = status
+      amounts << amount
+    end
+    amounts.to_json
+  end
+  #)
 
   def subproject_condition
     @subproject_condition ||= project.project_condition(Setting.display_subprojects_work_packages?)

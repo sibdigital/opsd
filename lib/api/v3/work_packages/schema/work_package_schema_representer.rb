@@ -265,6 +265,9 @@ module API
                                          required: false,
                                          has_default: true
 
+          #bbm(
+
+          # )
           def attribute_groups
             (represented.type && represented.type.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)
