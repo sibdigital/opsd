@@ -31,7 +31,7 @@ require_relative 'base'
 class Tables::Statuses < Tables::Base
   def self.table(migration)
     create_table migration do |t|
-      t.string :name, limit: 100, default: '', null: false #+-tan 2019.06.27
+      t.string :name, limit: 100, default: '', null: false
       t.boolean :is_closed, default: false, null: false
       t.boolean :is_default, default: false, null: false
       t.integer :position, default: 1
