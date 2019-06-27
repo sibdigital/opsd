@@ -59,6 +59,7 @@ class RootSeeder < Seeder
       AdminUserSeeder.new.seed!
 
       puts '*** Seeding demo data'
+      #+-TAN 2019.06.27
       DemoDataSeeder.new.seed!
 
       if Rails.env.development?
