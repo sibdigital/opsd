@@ -98,7 +98,7 @@ Redmine::AccessControl.map do |map|
     #zbd(
     wpt.permission :manage_contracts,
                    { project_settings: [:show],
-                     contractss: %i[new create edit update destroy] },
+                     contracts: %i[new create edit update destroy] },
                    require: :member
     #)
     # Issues
@@ -323,15 +323,7 @@ Redmine::AccessControl.map do |map|
   # )
 
   #zbd(
-  #map.project_module :stages
-  # map.project_module :project_stages do |stg|
-  #   stg.permission :view_project,
-  #                  {
-  #                    stages: %i[index]},
-  #                  #},
-  #                  public: true
-  #
-  # end
+  map.project_module :stages
   # )
 
 end

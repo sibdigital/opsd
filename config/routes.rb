@@ -380,9 +380,9 @@ OpenProject::Application.routes.draw do
     resources :control_levels
     # )
 
-
     #zbd(
     resources :contracts
+    #resources :stages
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'

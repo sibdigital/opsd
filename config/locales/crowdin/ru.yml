@@ -1458,6 +1458,7 @@ ru:
   label_contacts: Контактная информация
 
   label_stages: Этапы
+  label_stages_plural: Этапы
   label_stage_init: Инициирование
   label_stage_analysis: Анализ
   label_stage_planning: Планирование

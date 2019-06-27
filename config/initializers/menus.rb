@@ -256,7 +256,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-info1'
 
   ##zbd(
-  menu.push :project_stages,
+  menu.push :stages,
             { controller: '/stages', action: 'index' },
             caption: :label_stages,
             param: :project_id,
