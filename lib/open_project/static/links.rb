@@ -75,86 +75,86 @@ module OpenProject
         def static_links
           {
             upsale: {
-              href: 'https://www.openproject.org/enterprise-edition',
+              href: '',
               label: 'homescreen.links.upgrade_enterprise_edition'
             },
             user_guides: {
-              href: 'https://www.openproject.org/help/',
+              href: '',
               label: 'homescreen.links.user_guides'
             },
             configuration_guide: {
-              href: 'https://www.openproject.org/operations/configuration/',
+              href: '',
               label: 'links.configuration_guide'
             },
             glossary: {
-              href: 'https://www.openproject.org/help/glossary/',
+              href: '',
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
-              href: 'https://www.openproject.org/help/keyboard-shortcuts-access-keys/',
+              href: '',
               label: 'homescreen.links.shortcuts'
             },
             boards: {
-              href: 'https://community.openproject.com/projects/openproject/boards',
+              href: '',
               label: 'homescreen.links.boards'
             },
             professional_support: {
-              href: 'https://www.openproject.org/pricing/#support',
+              href: '',
               label: :label_professional_support
             },
             website: {
-              href: 'https://www.openproject.org',
+              href: '',
               label: 'label_openproject_website'
             },
             newsletter: {
-              href: 'https://www.openproject.org/newsletter',
+              href: '',
               label: 'homescreen.links.newsletter'
             },
             blog: {
-              href: 'https://www.openproject.org/blog',
+              href: '',
               label: 'homescreen.links.blog'
             },
             release_notes: {
-              href: 'https://www.openproject.org/release-notes/',
+              href: '',
               label: :label_release_notes
             },
             data_privacy: {
-              href: 'https://www.openproject.org/data-privacy-and-security/',
+              href: '',
               label: :label_privacy_policy
             },
             report_bug: {
-              href: 'https://www.openproject.org/development/report-a-bug/',
+              href: '',
               label: :label_report_bug
             },
             roadmap: {
-              href: 'https://community.openproject.org/projects/openproject/roadmap',
+              href: '',
               label: :label_development_roadmap
             },
             crowdin: {
-              href: 'https://crowdin.com/projects/opf',
+              href: '',
               label: :label_add_edit_translations
             },
             api_docs: {
-              href: 'https://www.openproject.org/api',
+              href: '',
               label: :label_api_documentation
             },
             text_formatting: {
-              href: 'https://www.openproject.org/help/wiki/',
+              href: '',
               label: :setting_text_formatting
             },
             oauth_authorization_code_flow: {
-              href: 'https://oauth.net/2/grant-types/authorization-code/',
+              href: '',
               label: 'oauth.flows.authorization_code'
             },
             client_credentials_code_flow: {
-              href: 'https://oauth.net/2/grant-types/client-credentials/',
+              href: '',
               label: 'oauth.flows.client_credentials'
             },
             ldap_encryption_documentation: {
-              href: 'https://www.rubydoc.info/gems/net-ldap/Net/LDAP#constructor_details',
+              href: '',
             },
             security_badge_documentation: {
-              href: 'https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md#security-badge'
+              href: ''
             }
           }
         end

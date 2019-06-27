@@ -60,9 +60,9 @@ module Redmine::MenuManager::TopMenu::HelpMenu
       drop_down_class: 'drop-down--help'
     ) do
       result = ''.html_safe
-      render_onboarding result
+      #render_onboarding result
       render_help_and_support result
-      render_additional_resources result
+      #render_additional_resources result
 
       result
     end
@@ -71,11 +71,11 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   private
 
   def render_onboarding(result)
-    result << content_tag(:li) do
-      content_tag(:span, l('top_menu.getting_started'),
-                  class: 'drop-down--help-headline',
-                  title: l('top_menu.getting_started'))
-    end
+    # result << content_tag(:li) do
+    #   content_tag(:span, l('top_menu.getting_started'),
+    #               class: 'drop-down--help-headline',
+    #               title: l('top_menu.getting_started'))
+    # end
     result << render_onboarding_menu_item
     result << content_tag(:hr, '', class: 'form--separator')
   end
@@ -85,59 +85,59 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_help_and_support(result)
-    result << content_tag(:li) do
-      content_tag :span, l('top_menu.help_and_support'),
-                  class: 'drop-down--help-headline',
-                  title: l('top_menu.help_and_support')
-    end
-    if EnterpriseToken.show_banners?
-      result << static_link_item(:upsale, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
-    end
+    # result << content_tag(:li) do
+    #   content_tag :span, l('top_menu.help_and_support'),
+    #               class: 'drop-down--help-headline',
+    #               title: l('top_menu.help_and_support')
+    # end
+    # if EnterpriseToken.show_banners?
+    #   result << static_link_item(:upsale, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
+    # end
     result << static_link_item(:user_guides)
-    result << content_tag(:li) {
-      link_to l('label_videos'),
-              OpenProject::Configuration.youtube_channel,
-              title: l('label_videos'),
-              target: '_blank'
-    }
-    result << content_tag(:li) {
-      link_to l('homescreen.links.shortcuts'),
-              '',
-              class: 'help-link-shortcuts-link',
-              title: l('homescreen.links.shortcuts')
-    }
-    result << static_link_item(:boards)
-    result << static_link_item(:professional_support)
-    result << content_tag(:hr, '', class: 'form--separator')
+    # result << content_tag(:li) {
+    #   link_to l('label_videos'),
+    #           OpenProject::Configuration.youtube_channel,
+    #           title: l('label_videos'),
+    #           target: '_blank'
+    # }
+    # result << content_tag(:li) {
+    #   link_to l('homescreen.links.shortcuts'),
+    #           '',
+    #           class: 'help-link-shortcuts-link',
+    #           title: l('homescreen.links.shortcuts')
+    # }
+    # result << static_link_item(:boards)
+    # result << static_link_item(:professional_support)
+    # result << content_tag(:hr, '', class: 'form--separator')
   end
 
   def render_additional_resources(result)
-    result << content_tag(:li) do
-      content_tag :span,
-                  l('top_menu.additional_resources'),
-                  class: 'drop-down--help-headline',
-                  title: l('top_menu.additional_resources')
-    end
-
-    if OpenProject::Static::Links.has? :impressum
-      result << static_link_item(:impressum)
-    end
-
-    result << static_link_item(:data_privacy)
-    result << static_link_item(
-      :website,
-      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"
-    )
-    result << static_link_item(
-      :newsletter,
-      href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu"
-    )
-    result << static_link_item(:blog)
-    result << static_link_item(:release_notes)
-    result << static_link_item(:report_bug)
-    result << static_link_item(:roadmap)
-    result << static_link_item(:crowdin)
-    result << static_link_item(:api_docs)
+    # result << content_tag(:li) do
+    #   content_tag :span,
+    #               l('top_menu.additional_resources'),
+    #               class: 'drop-down--help-headline',
+    #               title: l('top_menu.additional_resources')
+    # end
+    #
+    # if OpenProject::Static::Links.has? :impressum
+    #   result << static_link_item(:impressum)
+    # end
+    #
+    # result << static_link_item(:data_privacy)
+    # result << static_link_item(
+    #   :website,
+    #   href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=website-help-menu"
+    # )
+    # result << static_link_item(
+    #   :newsletter,
+    #   href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=newsletter-help-menu"
+    # )
+    # result << static_link_item(:blog)
+    # result << static_link_item(:release_notes)
+    # result << static_link_item(:report_bug)
+    # result << static_link_item(:roadmap)
+    # result << static_link_item(:crowdin)
+    # result << static_link_item(:api_docs)
   end
 
   def static_link_item(key, options = {})
