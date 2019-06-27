@@ -145,6 +145,10 @@ class Project < ActiveRecord::Base
   has_many :project_risks
   # )
 
+  #zbd(
+  has_one :stages, dependent: :destroy
+  # )
+
   acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable

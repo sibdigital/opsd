@@ -1,0 +1,99 @@
+<%#--
+by zbd
+22.06.2019
+++#%>
+<% html_title l(:label_administration), l(:label_contracts) %>
+<%= toolbar title: l(:label_contracts) do %>
+  <li class="toolbar-item">
+    <%= link_to new_contract_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_contracts_new)},
+                  title: t(:label_contracts_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text">Гос.контракт</span>
+    <% end %>
+  </li>
+<% end %>
+
+<% if @contracts.empty? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="contract_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:contract_date) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:contract_num) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:contract_subject) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:price) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Contract.human_attribute_name(:executor) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="6"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= render :partial => 'contracts/form/list', :locals => {:contracts => @contracts} %>
+  <%= pagination_links_full @contracts %>
+<% end %>

@@ -60,6 +60,10 @@ module API
               IssuePriority.active
             when :category
               project.categories if project.respond_to?(:categories)
+            #zbd(
+            when :contract
+              Contract.all
+            #)
             end
           end
 

@@ -145,6 +145,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_role_and_permissions,
             icon: 'icon2 icon-settings'
 
+  ##zbd(
+  menu.push :contracts,
+            { controller: '/contracts' },
+            icon: 'icon2 icon-enumerations'
+
+  # )
+
   menu.push :types,
             { controller: '/types' },
             caption: :label_work_package_types,
@@ -251,6 +258,14 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
             { controller: '/projects', action: 'show' },
             icon: 'icon2 icon-info1'
+
+  ##zbd(
+  menu.push :stages,
+            { controller: '/stages', action: 'index' },
+            caption: :label_stages,
+            param: :project_id,
+            icon: 'icon2 icon-info1'
+  # )
 
   menu.push :activity,
             { controller: '/activities', action: 'index' },

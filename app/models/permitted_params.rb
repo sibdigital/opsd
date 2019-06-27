@@ -423,6 +423,12 @@ class PermittedParams
   end
   # )
 
+  # zbd (
+  def contract
+    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor)
+  end
+  # )
+
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end
@@ -559,6 +565,7 @@ class PermittedParams
           :assigned_to_id,
           { attachments: %i[file description] },
           :category_id,
+          :contract_id,
           :description,
           :done_ratio,
           :due_date,
@@ -646,10 +653,17 @@ class PermittedParams
         user: %i(
           firstname
           lastname
+          patronymic
           mail
           mail_notification
           language
           custom_fields
+          mail_add
+          phone_wrk
+          phone_wrk_add
+          phone_mobile
+          address
+          cabinet
         ),
         wiki_page: %i(
           title
@@ -663,6 +677,7 @@ class PermittedParams
         ),
         move_to: [:move_to]
       }
+#zbd line:649 - added patronymic
 
       # Accept new parameters, defaulting to an empty array
       params.default = []

@@ -1,0 +1,20 @@
+<%#--
+by zbd
+23.06.2019
+++#%>
+
+<% html_title l(:label_administration), l(:label_edit) %>
+
+<% local_assigns[:additional_breadcrumb] = l(:label_edit) %>
+<%= toolbar title: l(:label_contracts) %>
+<%= breadcrumb_toolbar "Правка контракта №: "+@contract.contract_num %>
+
+
+<%= labelled_tabular_form_for @contract do |f| %>
+
+  <%= render partial: 'contracts/form/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+<% end %>
+
+

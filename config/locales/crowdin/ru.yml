@@ -739,6 +739,7 @@ ru:
     base: 'Общая ошибка:'
     blocks_ids: Идентификаторы заблокированных рабочих пакетов
     category: Категория
+    contract: Гос.контракт
     code: Код
     comment: Комментарий
     comments: Комментарий
@@ -768,6 +769,12 @@ ru:
     lastname: Фамилия
     login: Входное имя
     mail: Электронная почта
+    mail_add: Эл.почта (дополнительная)
+    phone_wrk: Рабочий телефон
+    phone_wrk_add: Добавочный номер
+    phone_mobile: Мобильный телефон
+    address: Адрес
+    cabinet: Кабинет
     name: Имя
     password: Пароль
     possibility: Вероятность наступления
@@ -779,6 +786,11 @@ ru:
     start_date: Дата начала
     status: Состояние
     subject: Тема
+    contract_subject: Предмет контракта
+    contract_num: № контракта
+    contract_date: Дата контракта
+    price: Цена контракта
+    executor: Исполнитель
     summary: Сводка
     title: Заголовок
     type: Тип
@@ -1272,7 +1284,7 @@ ru:
   label_active: Активно
   label_activate_user: Активировать пользователя
   label_active_in_new_projects: Активное участие в новых проектах
-  label_activity: Деятельность
+  label_activity: Стратегическая карта
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще один файл
   label_add_columns: Добавить выбранные столбцы
@@ -1453,6 +1465,18 @@ ru:
   label_gantt: Гантт
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие
+
+  label_contacts: Контактная информация
+
+  label_stages: Этапы
+  label_stages_plural: Этапы
+  label_stage_init: Инициирование
+  label_stage_analysis: Анализ
+  label_stage_planning: Планирование
+  label_stage_execution: Исполнение
+  label_stage_control: Контроль
+  label_stage_completion: Завершение
+
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
   label_greater_or_equal: ">="
@@ -1724,6 +1748,9 @@ ru:
   label_typed_risks: Типовые риски
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
+  label_contracts: Государственные контракты
+  label_contracts_new: Новый гос.контракт
+  label_contracts_value: Значение гос.контракта
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
@@ -2128,6 +2155,7 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
+  project_module_stages: Этапы
   project_module_project_risks: Проектные риски
   project_module_activity: Деятельность
   project_module_boards: Форумы
