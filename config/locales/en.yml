@@ -946,6 +946,12 @@ en:
   default_color_red: "Red"
   default_color_white: "White"
   default_color_yellow: "Yellow"
+  default_status_not_start: Не начат
+  default_status_in_work: В работе
+  default_status_completed: Завершен
+  default_status_cancelled: Отменен
+  default_status_postpone: Отложен
+  default_status_on_check: На проверке
   default_status_closed: "Closed"
   default_status_confirmed: "Confirmed"
   default_status_developed: "Developed"
