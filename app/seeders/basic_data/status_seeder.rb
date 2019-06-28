@@ -31,6 +31,7 @@ module BasicData
     def seed_data!
       Status.transaction do
         data.each do |attributes|
+          puts attributes
           Status.create!(attributes)
         end
       end

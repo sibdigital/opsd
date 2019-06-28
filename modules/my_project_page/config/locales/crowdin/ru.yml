@@ -9,7 +9,8 @@ ru:
   label_custom_element: "Добавить тизер..."
   info_custom_text: "Пользовательский текст"
   label_confirm_delete: "Действительно удалить этот элемент?"
-  label_work_package_diagram: "Диаграмма по количеству задач в статусе"
+  label_work_package_diagram_status: "Диаграмма по количеству задач в статусе"
+  label_work_package_diagram_date: "Диаграмма по датам"
   label_work_packages_reported_by_me: "Пакеты работ, за которые я отчитался"
   label_work_packages_responsible_for: "Пакеты работ, за которые я несу ответственность"
   label_work_packages_assigned_to_me: "Пакеты работ, предназначенные мне"
@@ -22,3 +23,9 @@ ru:
   project_page:
     all: "Показывать всё"
     x_more: "... (более %{count})"
+  activities:
+    label_performed: 'Исполнено'
+    label_expired: 'Просрочено'
+    label_urgently: 'Срочно исполнить'
+    label_soon: 'В ближайшее время'
+    label_inwork: 'В работе'

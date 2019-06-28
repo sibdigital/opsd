@@ -4,14 +4,14 @@ import {Label} from 'ng2-charts';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
-  selector: 'wp-overview-status-diagram',
+  selector: 'wp-overview-date-diagram',
   templateUrl: './wp-overview-diagram.html'
 })
-export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
+export class WorkPackageOverviewDateDiagramComponent implements OnInit {
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
-  public barChartLabels: Label[] = [this.I18n.t('js.work_packages.properties.status')];
+  public barChartLabels: Label[] = [this.I18n.t('js.activities')];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];

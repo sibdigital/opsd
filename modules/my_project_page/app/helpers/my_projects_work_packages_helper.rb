@@ -42,6 +42,34 @@ module MyProjectsWorkPackagesHelper
     end
     amounts.to_json
   end
+
+  def work_packages_by_date_amount
+    periods = [I18n.t('activities.label_performed'),
+               I18n.t('activities.label_expired'),
+               I18n.t('activities.label_urgently'),
+               I18n.t('activities.label_soon'),
+               I18n.t('activities.label_inwork')]
+    amounts = []
+    periods.each_index do |period, index|
+      amount = Hash.new
+      amount['data'] = []
+      case index
+      when 0
+        amount['data'] << WorkPackage
+                            .joins(:status)
+                            .where(statuses: { is_closed: true }, project_id: @project.id)
+                            .count
+      when 1
+        amount['data'] << WorkPackage
+                            .joins(:status)
+                            .where(statuses: { is_closed: false }, project_id: @project.id)
+                            .count
+      end
+      amount['label'] = period
+      amounts << amount
+    end
+    amounts.to_json
+  end
   #)
 
   def subproject_condition
