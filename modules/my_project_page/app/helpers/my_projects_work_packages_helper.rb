@@ -50,7 +50,7 @@ module MyProjectsWorkPackagesHelper
                I18n.t('activities.label_soon'),
                I18n.t('activities.label_inwork')]
     amounts = []
-    periods.each_index do |period, index|
+    periods.each_with_index do |period, index|
       amount = Hash.new
       amount['data'] = []
       case index
@@ -63,6 +63,25 @@ module MyProjectsWorkPackagesHelper
         amount['data'] << WorkPackage
                             .joins(:status)
                             .where(statuses: { is_closed: false }, project_id: @project.id)
+                            .where('due_date < ?', Time.zone.now.beginning_of_day)
+                            .count
+      when 2
+        amount['data'] << WorkPackage
+                            .joins(:status)
+                            .where(statuses: { is_closed: false }, project_id: @project.id)
+                            .where('due_date = ? or due_date = ?', Time.zone.now.beginning_of_day, (Time.zone.now+1).beginning_of_day)
+                            .count
+      when 3
+        amount['data'] << WorkPackage
+                            .joins(:status)
+                            .where(statuses: { is_closed: false }, project_id: @project.id)
+                            .where('due_date > ? and due_date <= ?', (Time.zone.now+1).beginning_of_day, (Time.zone.now + 14).beginning_of_day)
+                            .count
+      when 4
+        amount['data'] << WorkPackage
+                            .joins(:status)
+                            .where(statuses: { is_closed: false }, project_id: @project.id)
+                            .where('due_date > ?', (Time.zone.now + 14).beginning_of_day)
                             .count
       end
       amount['label'] = period
