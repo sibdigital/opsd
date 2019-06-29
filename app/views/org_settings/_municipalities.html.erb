@@ -1,0 +1,6 @@
+<%#--
+This file written by TAN,XCC
+25/04/2019
+++#%>
+<% html_title l(:label_administration), l(:label_municipalities) %>
+<%= cell ::Organizations::TableCell, Organization.where(org_type: @municipalities.id, parent_id: @parent_id)%>

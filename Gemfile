@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.6.1'
+ruby '~> 2.5.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -315,3 +315,4 @@ gemfiles.each do |file|
 
   eval_gemfile(file)
 end
+

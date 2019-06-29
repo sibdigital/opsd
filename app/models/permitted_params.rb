@@ -194,6 +194,14 @@ class PermittedParams
     permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
   end
 
+  # +tan 2019.04.26
+  def org_settings
+    permitted_params = params.require(:org_settings).permit
+    all_valid_keys = AllowedSettings.all
+
+    permitted_params.merge(params[:org_settings].to_unsafe_hash.slice(*all_valid_keys))
+  end
+  # -tan 2019.04.26
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
     permitted_params = permitted_params.merge(custom_field_values(:user))
@@ -422,6 +430,17 @@ class PermittedParams
     params.require(:risk_charact).permit(:description, :type, :name, :move_to)
   end
   # )
+  # +tan 2019.04.26
+  def position
+    params.require(:position).permit(:name)
+  end
+  def organization
+    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id)
+  end
+  def depart
+    params.require(:depart).permit(:organization_id, :name)
+  end
+  # -tan
 
   # zbd (
   def contract
