@@ -1,6 +1,6 @@
 class StagesController < ApplicationController
   menu_item :stages
-
+  before_action :find_optional_project
   include StagesHelper
 
   def index
@@ -21,4 +21,13 @@ class StagesController < ApplicationController
   def show_local_breadcrumb
     true
   end
+
+  def find_optional_project
+    return true unless params[:project_id]
+    @project = Project.find(params[:project_id])
+    authorize
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
 end

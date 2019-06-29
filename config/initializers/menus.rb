@@ -149,7 +149,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :contracts,
             { controller: '/contracts' },
             icon: 'icon2 icon-enumerations'
-
   # )
 
   menu.push :types,
@@ -264,6 +263,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/stages', action: 'index' },
             caption: :label_stages,
             param: :project_id,
+            if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-info1'
   # )
 
