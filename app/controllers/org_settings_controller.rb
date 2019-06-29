@@ -8,6 +8,11 @@ class OrgSettingsController < ApplicationController
   before_action :require_admin
 
   def index
+    @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
+    @municipalities = Enumeration.find_by(name: "Муниципальное образование")
+    @counterparties = Enumeration.find_by(name: "Контрагент")
+    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
+    @parent_id = parent_id_param
     edit
     render action: 'edit'
   end
@@ -55,10 +60,17 @@ class OrgSettingsController < ApplicationController
   # end
 
   def default_breadcrumb
-    l(:label_system_settings)
+    l(:label_org_settings)
   end
 
   def show_local_breadcrumb
     true
   end
+
+  private
+
+ def parent_id_param
+    params.fetch(:parent_id){0}
+  end
+
 end

@@ -24,8 +24,8 @@ module BasicData
 
       [
         { name: "Контрагент", position: 1, type: "OrganizationType", active: true },
-        { name: "Орган исполнительной власти", position: 1, type: "OrganizationType", active: true },
-        { name: "Муниципальное образование", position: 1, type: "OrganizationType", active: true },
+        { name: "Орган исполнительной власти", position: 2, type: "OrganizationType", active: true },
+        { name: "Муниципальное образование", position: 3, type: "OrganizationType", active: true },
       ]
 
     end

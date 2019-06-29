@@ -183,7 +183,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :org_settings,
             { controller: '/org_settings' },
-            caption: :label_system_settings,
+            caption: :label_org_settings,
             icon: 'icon2 icon-risks'
   # -tan
 

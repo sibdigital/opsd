@@ -9,8 +9,10 @@ class OrganizationsController < ApplicationController
   respond_to :html, :json
 
   protect_from_forgery with: :exception
+  include OrgSettingsHelper
 
   def index;
+    @tab = params[:tab]
   end
 
   def choose
@@ -37,14 +39,22 @@ class OrganizationsController < ApplicationController
 
   def new
     @organization = Organization.new
+    @organization.org_type = params[:org_type]
+    @parent_id = 0
+    if params[:parent_id] != nil
+      @parent_id = params[:parent_id]
+    end
+    @organization.parent_id = @parent_id
+
   end
 
   def create
+
     @organization = Organization.new(permitted_params.organization)
 
     if @organization.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to controller: 'org_settings', action: 'index', tab:'organizations'
+      redirect_to org_settings_path #controller: 'org_settings', action: 'index', tab:'iogv'
     else
       render action: 'new'
     end
@@ -53,7 +63,7 @@ class OrganizationsController < ApplicationController
   def update
     if @organization.update_attributes(permitted_params.organization)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to controller: 'org_settings', action: 'index', tab:'organizations'
+      redirect_to org_settings_path#controller: 'org_settings', action: 'index', tab:'organizations'
     else
       render action: 'edit'
     end
@@ -61,7 +71,7 @@ class OrganizationsController < ApplicationController
 
   def destroy
     @organization.destroy
-    redirect_to controller: 'org_settings', action: 'index', tab:'organizations'
+    redirect_to org_settings_path #controller: 'org_settings', action: 'index', tab:'organizations'
     return
   end
 
