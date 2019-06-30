@@ -32,16 +32,46 @@ class HomescreenController < ApplicationController
 
   layout 'no_menu'
 
+  before_action :set_current_user
+
+  include DateAndTime::Calculations
+  include WorkPackages
+
   def index
     @newest_projects = Project.visible.newest.take(3)
     @newest_users = User.active.newest.take(3)
     @news = News.latest(count: 3)
     @announcement = Announcement.active_and_current
 
+    #zbd(
+    #@work_packages = WorkPackage.allowed_visible_project(@user)
+
+
+    now = Date.today + 14
+
+    if !@user.nil?
+      @works = []
+      #@works = Project.visible.newest.joins(:work_packages).where({work_packages: {due_date: (Date.today)..now }}) #   do |prj|
+      #@projects =
+      Project.visible.newest.find_each do |prj|
+        @works = WorkPackage.where({due_date: (Date.today)..now }) #find_by(project_id: prj)
+        #@works << @wrk
+      end
+      #.joins(:work_packages)
+      #.where('work_packages.due_date < ?', now)
+    end
+    # )
+
     @homescreen = OpenProject::Static::Homescreen
+
   end
 
   def robots
     @projects = Project.active.public_projects
   end
+
+  def set_current_user
+    @user = current_user
+  end
+
 end
