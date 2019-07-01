@@ -44,8 +44,6 @@ class HomescreenController < ApplicationController
     @announcement = Announcement.active_and_current
 
     #zbd(
-    #@work_packages = WorkPackage.allowed_visible_project(@user)
-
     @remaining_days = Setting.remaining_count_days.to_i
     now = Date.today + 14
 
@@ -53,12 +51,17 @@ class HomescreenController < ApplicationController
       @works = []
       #@works = Project.visible.newest.joins(:work_packages).where({work_packages: {due_date: (Date.today)..now }}) #   do |prj|
       #@projects =
-      Project.visible.newest.find_each do |prj|
-        @works = WorkPackage.where({due_date: (Date.today)..now }) #.order("due_date DESC")
+      #Project.visible.newest.find_each do |prj|
+
+      @works = WorkPackage.where({due_date: (Date.today)..now, assigned_to: @user.id}) #.order("due_date DESC")
+
+      #@memb = Member.visible(@user).joins(:member_roles).where({role_id: 35..37})
+        #@roles = @user.roles_for_project(prj)
+        #role_id: 39, 33, 35,36,37,30
         #@works.each do |work|
         #  work.prj = prj
         #end
-      end
+      #end
 
       #.joins(:work_packages)
       #.where('work_packages.due_date < ?', now)
