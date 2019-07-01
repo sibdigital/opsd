@@ -757,6 +757,7 @@ ru:
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
     firstname: Имя
+    patronymic: Отчество
     group: Группа
     groups: Группы
     groupname: Имя группы
@@ -1648,7 +1649,7 @@ ru:
   label_project_view_all: Реестр проектов
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
-  label_work_packages_remaining_plural: Пакеты работ до даты завершения < 14 дней
+  label_work_packages_remaining_plural: Пакеты работ, дней до даты завершения менее
   label_public_projects: Проекты, доступные всем
   label_query_new: Новый запрос
   label_query_plural: Пользовательские запросы
@@ -2443,6 +2444,7 @@ ru:
   setting_work_package_list_default_highlighting_mode: Способ выделения по умолчанию
   setting_work_package_list_default_highlighted_attributes: Выделенные встроенные
     атрибуты по умолчанию
+  setting_remaining_count_days: Кол-во дней до даты завершения
   settings:
     general: Общие
     other: Другие
