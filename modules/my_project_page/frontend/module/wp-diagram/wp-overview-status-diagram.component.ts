@@ -5,7 +5,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'wp-overview-status-diagram',
-  templateUrl: './wp-overview-status-diagram.html'
+  templateUrl: './wp-overview-diagram.html'
 })
 export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
   public barChartOptions: ChartOptions = {

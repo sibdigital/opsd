@@ -29,7 +29,7 @@ en:
   seeders:
     demo_data:
       welcome:
-        title: "Добро пожаловать в ИСУП РБ Улан-Удэ!"
+        title: Добро пожаловать в ИСУП РБ Улан-Удэ!
         text: |
           Выберите один из демо проектов чтобы начать работу с ознакомительными данными, подготовленными для вас.
 
@@ -327,7 +327,7 @@ en:
               duration: 17
               children:
                 - subject: Great feature
-                  status: :default_status_developed
+                  status: :default_status_in_work
                   type: :default_type_feature
                   start: 7
                   plan_type: execution
@@ -382,7 +382,7 @@ en:
                     - to: Wonderful feature
                       type: follows
             - subject: Go-Live v1.1
-              status: :default_status_to_be_scheduled
+              status: :default_status_not_start
               type: :default_type_milestone
               start: 32
               plan_type: execution
@@ -615,7 +615,7 @@ en:
               story_points: 5
               children:
                 - subject: Make screenshots for feature tour
-                  status: :default_status_closed
+                  status: :default_status_completed
                   type: :default_type_task
                   version: Sprint 1
             - subject: Wrong hover color

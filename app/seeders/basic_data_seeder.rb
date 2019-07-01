@@ -41,6 +41,9 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::ImportanceSeeder,
       BasicData::AttachTypeSeeder,
       # )
+      # #xcc(
+      BasicData::OrganizationTypeSeeder,
+      # )
       BasicData::SettingSeeder
     ]
   end

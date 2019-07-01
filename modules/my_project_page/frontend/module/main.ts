@@ -31,8 +31,9 @@ import {ChartsModule} from 'ng2-charts';
 import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
 import {OverviewResource} from './hal/resources/overview-resource';
 import {multiInput} from 'reactivestates';
-import {WorkPackageOverviewStatusDiagramComponent} from "./wp-diagram/wp-overview-status-diagram.component";
 import {HookService} from "../../hook-service";
+import {WorkPackageOverviewStatusDiagramComponent} from "./wp-diagram/wp-overview-status-diagram.component";
+import {WorkPackageOverviewDateDiagramComponent} from "./wp-diagram/wp-overview-date-diagram.component";
 
 export function initializeMyProjectPagePlugin(injector:Injector) {
     return () => {
@@ -47,7 +48,8 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
       const hookService = injector.get(HookService);
       hookService.register('openProjectAngularBootstrap', () => {
           return [
-              { selector: 'wp-overview-status-diagram', cls: WorkPackageOverviewStatusDiagramComponent }
+              { selector: 'wp-overview-status-diagram', cls: WorkPackageOverviewStatusDiagramComponent },
+              { selector: 'wp-overview-date-diagram', cls: WorkPackageOverviewDateDiagramComponent }
           ];
       });
     };
@@ -59,12 +61,14 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
     ],
     declarations: [
         WorkPackageOverviewStatusDiagramComponent,
+        WorkPackageOverviewDateDiagramComponent
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: initializeMyProjectPagePlugin, deps: [Injector], multi: true },
     ],
     entryComponents: [
-        WorkPackageOverviewStatusDiagramComponent
+        WorkPackageOverviewStatusDiagramComponent,
+        WorkPackageOverviewDateDiagramComponent
     ]
 })
 export class PluginModule {
