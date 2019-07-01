@@ -1,6 +1,6 @@
 <h3 class="widget-box--header">
   <%= op_icon('icon-context icon-projects') %>
-  <span class="widget-box--header-title"><%= l(:label_work_packages_remaining_plural) %></span>
+  <span class="widget-box--header-title"><%= l(:label_work_packages_remaining_plural) %> <%= @remaining_days %> дней</span>
 </h3>
 
 <% if @works.empty? %>
@@ -13,8 +13,9 @@
     <% @works.each do |task| %>
     <li>
       <%#= link_to task, work_packages_path(task), title: task.subject %>
-      <%= link_to task, work_packages_path(task) %>
-      <small>(<%#= format_date(task.created_on) %>)</small>
+      <%= link_to task.project.identifier, project_path(task.project.identifier), title: task.project.identifier %>
+      <%= link_to task.subject, project_work_package_path(task.project.identifier, task.id, 'activity') + '?plan_type=execution', title: task.subject %>
+      <small>(<%= format_date(task.created_at) %>)</small>
     </li>
     <% end %>
   </ul>
