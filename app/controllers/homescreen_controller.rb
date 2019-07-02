@@ -35,7 +35,6 @@ class HomescreenController < ApplicationController
   before_action :set_current_user
 
   include DateAndTime::Calculations
-  include WorkPackages
 
   def index
     @newest_projects = Project.visible.newest.take(3)
@@ -49,22 +48,13 @@ class HomescreenController < ApplicationController
 
     if !@user.nil?
       @works = []
-      #@works = Project.visible.newest.joins(:work_packages).where({work_packages: {due_date: (Date.today)..now }}) #   do |prj|
-      #@projects =
-      #Project.visible.newest.find_each do |prj|
-
-      @works = WorkPackage.where({due_date: (Date.today)..now, assigned_to: @user.id}) #.order("due_date DESC")
-
-      #@memb = Member.visible(@user).joins(:member_roles).where({role_id: 35..37})
-        #@roles = @user.roles_for_project(prj)
-        #role_id: 39, 33, 35,36,37,30
-        #@works.each do |work|
-        #  work.prj = prj
-        #end
-      #end
-
-      #.joins(:work_packages)
-      #.where('work_packages.due_date < ?', now)
+      if (MemberRole.joins("INNER JOIN members ON member_roles.member_id=members.id INNER JOIN roles ON member_roles.role_id=roles.id")
+           .where("position in (?) and user_id = ?", [6, 7, 9, 10, 11, 12, 14, 15, 16], @user.id)
+           .count > 0) or (@user.admin)
+        @works = WorkPackage.visible(@user).where({due_date: (Date.today)..now})
+      else
+        @works = WorkPackage.with_assigned(@user).where({due_date: (Date.today)..now})
+      end
     end
     # )
 
