@@ -1,0 +1,14 @@
+<%#--
+This file written by TAN
+25/04/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :position %>
+<section class="form--section">
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+</section>

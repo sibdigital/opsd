@@ -379,6 +379,23 @@ OpenProject::Application.routes.draw do
     end
     resources :control_levels
     # )
+    # +tan 2019.04.25
+    #  в том числе необходимо, чтобы работал ресурсный роутинг типа new_depart_path и тд
+    resources :positions
+    resources :organizations #do
+      #get '/new/:tab', action: 'new'
+      #collection do
+        #  match :select, via: %i[get post]
+        #end
+      #match '/choose_from_depart' => 'organizations#choose_from_depart', via: %i[post]
+    #end
+    #match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
+    scope 'departs/:depart_id', controller: 'organizations' do
+      get '/choose_from_depart', action: 'choose_from_depart', as: 'choose_from_depart_organizations'
+      post '/choose_from_depart', action: 'choose_from_depart'
+    end
+    resources :departs
+    # -tan 2019.04.25
 
     #zbd(
     resources :contracts
@@ -433,6 +450,13 @@ OpenProject::Application.routes.draw do
     match 'edit', action: 'edit', via: %i[get post]
     match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
+
+  #+ 2019.04.26 TAN
+  get '/org_settings' => 'org_settings#index'
+  #scope 'org_settings', controller: 'org_settings' do
+  #  match 'edit', action: 'edit', via: %i[get post]
+  #end
+  # - TAN
 
   # We should fix this crappy routing (split up and rename controller methods)
   get '/workflows' => 'workflows#index'

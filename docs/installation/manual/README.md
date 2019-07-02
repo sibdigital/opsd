@@ -331,11 +331,11 @@ prevents you from such errors.
 [openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
-**NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+**NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`, but this operation doesn't work currently and will not  appear in future probably. E.g.
 ```bash
 [openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
 ```
-will seed the database in the french language.
+this is how it should work but it's now working.
 
 ### Secret token
 

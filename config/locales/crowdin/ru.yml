@@ -214,6 +214,9 @@ ru:
       typed_risk_color_text: |
         Щелкните, чтобы задать или изменить цвет этого типового риска.
         Этот цвет может использоваться незнамо где.
+  organizations:
+    edit:
+      properties: Свойства
   statuses:
     edit:
       status_readonly_html: |
@@ -723,6 +726,11 @@ ru:
       workflow: Рабочий поток
       work_package: Пакет работ
       doorkeeper/application: Приложение OAuth
+      #xss 2019.06.27
+      organization:
+        one: Организация
+        few: Организации
+        many: Организации
   errors:
     header_invalid_fields: 'Были проблемы со следующими полями:'
     field_erroneous_label: 'Значение этого поля неверно: %{full_errors}. Пожалуйста,
@@ -799,6 +807,10 @@ ru:
     user: Пользователь
     version: Этап
     work_package: Пакет работ
+    #(xcc
+    inn: ИНН
+    is_legal_entity: Юридическое лицо
+    #)
   button_add: Добавить
   button_add_member: Добавить участника
   button_add_watcher: Добавить наблюдателя
@@ -855,6 +867,9 @@ ru:
   button_unarchive: Разархивировать
   button_uncheck_all: Снять все отметки
   button_unlock: Разблокировать
+  #(xcc
+  button_up: Подняться на уровень выше
+  #)
   button_unwatch: Прекратить наблюдение
   button_update: Обновление
   button_upgrade: Обновить
@@ -1382,6 +1397,7 @@ ru:
   label_confirmation: Подтверждение
   label_contains: содержит
   label_content: Содержание
+  label_counterparties: "Контрагенты"
   label_copied: Скопировано
   label_copy_to_clipboard: Копировать в буфер обмена
   label_copy_same_as_target: Так, как намечено
@@ -1508,6 +1524,8 @@ ru:
   label_internal: Внутренние
   label_introduction_video: Вводное видео
   label_invite_user: Пригласить пользователя
+  label_iogv: ИОГВ
+
   label_show_hide: Показать/скрыть
   label_show_all_registered_users: Показать всех зарегистрированных пользователей
   label_journal: Журнал
@@ -1564,6 +1582,7 @@ ru:
   label_more: Более
   label_more_than_ago: больше, чем дней назад
   label_move_work_package: Переместить пакет работ
+  label_municipalities: "Муниципалитеты"
   label_my_account: Моя учетная запись
   label_my_account_data: Данные моей учетной записи
   label_my_page: Моя страница
@@ -1598,6 +1617,8 @@ ru:
   label_openproject_website: веб-сайт
   label_optional_description: Описание
   label_options: Опции
+  label_org_settings: "Организации"
+  label_organization: "Организация"
   label_other: Другие
   label_overall_activity: Общая деятельность
   label_overall_spent_time: Суммарное потраченное время
@@ -1642,6 +1663,12 @@ ru:
   label_project_plural: Проекты
   label_project_risks: Проектные риски
   label_project_risk_new: Новый проектный риск
+  label_positions: "Должности"
+  label_position_new: "Добавить должность"
+  label_position_value: "Должность"
+  label_organizations: "Организации"
+  label_organization_new: "Добавить организацию"
+  label_organization_value: "Организация"
   label_project_risk_value: Значение проектного риска
   label_project_settings: Настройки проекта
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
@@ -2700,7 +2727,7 @@ ru:
         assigned_to: Назначенный
         type: Тип
         due_date: Дате окончания
-        name: Имя
+        name: Наименование
         status: Состояние
         start_date: Дата начала
       columns: Столбцы
@@ -3092,3 +3119,5 @@ ru:
   setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
     получать письма с командами (например, для создания и обновления пакетов
     работы).
+
+  choose: "Выбрать"
