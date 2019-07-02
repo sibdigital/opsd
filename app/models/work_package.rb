@@ -129,6 +129,12 @@ class WorkPackage < ActiveRecord::Base
     where(author_id: author.id)
   }
 
+  #zbd(
+  scope :with_assigned, ->(user) {
+    where(assigned_to_id: user.id)
+  }
+  #)
+
   acts_as_watchable
 
   before_create :default_assign
