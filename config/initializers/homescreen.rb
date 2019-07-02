@@ -39,6 +39,12 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     {
       partial: 'projects'
     },
+    #zbd(
+    {
+      partial: 'work_packages',
+      if: Proc.new { User.current.logged? }
+    },
+    # )
     {
       partial: 'users',
       if: Proc.new { User.current.admin? }

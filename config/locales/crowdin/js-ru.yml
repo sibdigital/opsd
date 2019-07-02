@@ -168,6 +168,8 @@ ru:
           title: Пакеты работ, в которых я подотчетен
         work_packages_assigned:
           title: Переданные мне пакеты работ
+        work_packages_remaining:
+          title: Пакеты работ до даты завершения <14 дней
         work_packages_created:
           title: Пакеты работ, созданные мной
         work_packages_watched:
