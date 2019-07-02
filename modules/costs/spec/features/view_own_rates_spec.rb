@@ -85,8 +85,8 @@ describe 'Only see your own rates', type: :feature, js: true do
     # All the values do not include the entries made by the other user
     wp_page.expect_attributes spent_time: '1 hour',
                               costs_by_type: '2 Translations',
-                              overall_costs: '24.00 EUR',
-                              labor_costs: '10.00 EUR',
-                              material_costs: '14.00 EUR'
+                              overall_costs: '24.00 руб',
+                              labor_costs: '10.00 руб',
+                              material_costs: '14.00 руб'
   end
 end

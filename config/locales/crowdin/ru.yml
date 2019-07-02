@@ -1083,14 +1083,17 @@ ru:
   default_role_reader: Читатель
   default_role_member: Участник
   default_type: Пакет работ
-  default_type_bug: Ошибка
+  #default_type_bug: Ошибка
   default_type_deliverable: Готово к предоставлению
-  default_type_epic: Эпический
-  default_type_feature: Функция
-  default_type_milestone: Веха
-  default_type_phase: Фаза
-  default_type_task: Задание
-  default_type_user_story: Описание пользователя
+  #tan 01.07.2019
+  #default_type_epic: Эпический
+  #default_type_feature: Функция
+  default_type_milestone: Контрольная точка
+  default_type_result: Тип результата
+  #default_type_phase: Фаза
+  default_type_task: Мероприятие
+  #default_type_user_story: Описание пользователя
+  #-tan 01.07.2019
   description_active: Активно?
   description_attachment_toggle: Показать/скрыть вложения
   description_autocomplete: 'Это поле заполняется автоматически. При наборе заголовка
@@ -1298,10 +1301,10 @@ ru:
   label_account: Учетная запись
   label_active: Активно
   label_activate_user: Активировать пользователя
-  label_active_in_new_projects: Активное участие в новых проектах
+  label_active_in_new_projects: Используется по умолчанию
   label_activity: Стратегическая карта
   label_add_edit_translations: Добавить и редактировать перевод
-  label_add_another_file: Добавьте еще один файл
+  label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
   label_add_note: Добавить заметку
   label_add_related_work_packages: Добавить связанные пакеты работ

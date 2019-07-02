@@ -39,7 +39,7 @@ en:
     custom_styles:
       custom_colors: "Custom colors"
       customize: "Customize your OpenProject installation with your own logo. Note: This logo will be publicly accessible."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+#      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
       manage_colors: "Edit color select options"
       instructions:
         alternative_color: "Strong accent color, typically used for most the important button on a screen."
@@ -52,14 +52,14 @@ en:
         header_item_font_hover_color: "Font color of clickable header items when hovered with the mouse."
         header_border_bottom_color: "Thin line under the header. Leave this field empty if you don't want any line."
         main_menu_bg_color: "Left side menu's background color."
-    enterprise:
-      upgrade_to_ee: "Upgrade to Enterprise Edition"
-      add_token: "Upload an Enterprise Edition support token"
-      replace_token: "Replace your current support token"
-      order: "Order Enterprise Edition"
-      paste: "Paste your Enterprise Edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
-      enterprise_link: "For more information, click here."
+#    enterprise:
+#      upgrade_to_ee: "Upgrade to Enterprise Edition"
+#      add_token: "Upload an Enterprise Edition support token"
+#      replace_token: "Replace your current support token"
+#      order: "Order Enterprise Edition"
+#      paste: "Paste your Enterprise Edition support token"
+#      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
+#      enterprise_link: "For more information, click here."
 
   announcements:
     show_until: Show until
@@ -119,7 +119,7 @@ en:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: ''
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
 
   custom_fields:
@@ -408,12 +408,12 @@ en:
         visible: "Visible"
       custom_value:
         value: "Value"
-      enterprise_token:
-        starts_at: "Valid since"
-        expires_at: "Expires at"
-        subscriber: "Subscriber"
-        encoded_token: "Enterprise support token"
-        active_user_count_restriction: "Maximum active users"
+#      enterprise_token:
+#        starts_at: "Valid since"
+#        expires_at: "Expires at"
+#        subscriber: "Subscriber"
+#        encoded_token: "Enterprise support token"
+#        active_user_count_restriction: "Maximum active users"
       grids/grid:
         page: "Page"
         row_count: "Number of rows"
@@ -579,7 +579,7 @@ en:
             scopes:
               not_match_configured: "doesn't match available scopes."
         enterprise_token:
-          unreadable: "can't be read. Are you sure it is a support token?"
+          unreadable: ""
         grids/grid:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
@@ -983,14 +983,17 @@ en:
   default_role_reader: "Reader"
   default_role_member: "Member"
   default_type: "Work Package"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Deliverable"
-  default_type_epic: "Epic"
-  default_type_feature: "Feature"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Phase"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
+  #default_type_bug: Ошибка
+  default_type_deliverable: Готово к предоставлению
+  #tan 01.07.2019
+  #default_type_epic: Эпический
+  #default_type_feature: Функция
+  default_type_milestone: Контрольная точка
+  default_type_result: Тип результата
+  #default_type_phase: Фаза
+  default_type_task: Мероприятие
+    #default_type_user_story: Описание пользователя
+    #-tan 01.07.2019
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -1060,7 +1063,7 @@ en:
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_dependent_work_package: "Error in dependent work package #%{related_id} %{related_subject}: %{error}"
-  error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_activation_user_limit: ""
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_invalid_selected_value: "Invalid selected value."
   error_invalid_group_by: "Can't group by: %{value}"
@@ -1147,14 +1150,14 @@ en:
       community: "OpenProject community"
       upsale:
         become_hero: "Become a hero!"
-        title: "Upgrade to Enterprise Edition"
+        title: ""
         description: "What are the benefits?"
         more_info: "More information"
         additional_features: "Additional powerful premium features"
         professional_support: "Professional support from the OpenProject experts"
-        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
+        you_contribute: ""
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
+#      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
       user_guides: "User guides"
       faq: "FAQ"
       glossary: "Glossary"
@@ -1337,9 +1340,9 @@ en:
   label_enumeration_new: "New enumeration value"
   label_enumeration_value: "Enumeration value"
   label_enumerations: "Enumerations"
-  label_enterprise: "Enterprise"
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
-  label_enterprise_edition: "Enterprise Edition"
+#  label_enterprise: "Enterprise"
+#  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+#  label_enterprise_edition: "Enterprise Edition"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"
@@ -2562,7 +2565,7 @@ en:
       years: "Years"
 
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
-  title_enterprise_upgrade: "Upgrade to unlock more users."
+#  title_enterprise_upgrade: "Upgrade to unlock more users."
 
   tooltip_user_default_timezone: >
     The default time zone for new users. Can be changed in a user's settings.
@@ -2643,8 +2646,8 @@ en:
     User limit reached. You cannot activate any more users.
     Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users).
-    Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+    You reached your user limit .
+    .
 
   menu_item: "Menu item"
   menu_item_setting: "Visibility"

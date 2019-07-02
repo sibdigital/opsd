@@ -71,7 +71,7 @@ module BasicData
 
       #+-tan 2019-06-25
       [
-        { name: I18n.t(:default_status_not_start),        color_id: colors[0], is_closed: false, is_default: true,  position: 1  },
+        { name: I18n.t(:default_status_not_start),        color_id: colors[12], is_closed: false, is_default: true,  position: 1  },
         { name: I18n.t(:default_status_in_work),          color_id: colors[1], is_closed: false, is_default: false, position: 2  },
         { name: I18n.t(:default_status_completed),        color_id: colors[2], is_closed: true, is_default: false, position: 3  },
         { name: I18n.t(:default_status_cancelled),        color_id: colors[3], is_closed: true, is_default: false, position: 4  },

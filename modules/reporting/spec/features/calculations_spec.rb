@@ -41,9 +41,9 @@ describe 'Cost report calculations', type: :feature, js: true do
 
 
   it 'shows the correct calculations' do
-    expect(page).to have_text '10.00' # 1 EUR x 10
-    expect(page).to have_text '50.00' # 5 EUR x 10
-    expect(page).to have_text '100.00' # 10 EUR x 10
+    expect(page).to have_text '10.00' # 1 руб x 10
+    expect(page).to have_text '50.00' # 5 руб x 10
+    expect(page).to have_text '100.00' # 10 руб x 10
     expect(page).to have_text '160.00'
   end
 end

@@ -66,17 +66,17 @@ describe 'Work Package cost fields', type: :feature, js: true do
     fill_in 'cost_entry_units', with: '1'
     sleep 1
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
-    expect(page).to have_selector('#cost_entry_costs', text: '1.00 EUR')
+    expect(page).to have_selector('#cost_entry_costs', text: '1.00 руб')
 
     fill_in 'cost_entry_units', with: '2'
     sleep 1
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A plural')
-    expect(page).to have_selector('#cost_entry_costs', text: '2.00 EUR')
+    expect(page).to have_selector('#cost_entry_costs', text: '2.00 руб')
 
     # Switch cost type
     select 'B', from: 'cost_entry_cost_type_id'
     expect(page).to have_selector('#cost_entry_unit_name', text: 'B plural')
-    expect(page).to have_selector('#cost_entry_costs', text: '4.00 EUR')
+    expect(page).to have_selector('#cost_entry_costs', text: '4.00 руб')
 
     # Override costs
     find('#cost_entry_costs').click
@@ -93,6 +93,6 @@ describe 'Work Package cost fields', type: :feature, js: true do
     expect(entry.real_costs).to eq(15.0)
 
     visit edit_cost_entry_path(entry)
-    expect(page).to have_selector('#cost_entry_costs', text: '15.00 EUR')
+    expect(page).to have_selector('#cost_entry_costs', text: '15.00 руб')
   end
 end

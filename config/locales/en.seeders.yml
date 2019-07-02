@@ -87,15 +87,15 @@ en:
           types:
             - :default_type_task
             - :default_type_milestone
-            - :default_type_phase
-            - :default_type_feature
-            - :default_type_bug
+            - :default_type_result
+            #- :default_type_task
+            #- :default_type_task
           categories:
             - Category 1 (to be changed in Project settings)
           queries:
             - name: Bugs
               status: open
-              type: :default_type_bug
+              type: :default_type_task
             - name: Project plan
               status: open
               timeline: true
@@ -115,7 +115,7 @@ en:
               sort_by: id
             - name: Tasks
               status: open
-              type: :default_type_task
+              type: :default_type_result
               hierarchy: true
               sort_by: id
               columns:
@@ -148,7 +148,7 @@ en:
                 * ##child:6
                 * ##child:7
               status: :default_status_in_work
-              type: :default_type_phase
+              type: :default_type_result
               priority: :default_priority_high
               estimated_hours: 8
               start: 0
@@ -321,20 +321,20 @@ en:
                     - edit_work_package.jpg
             - subject: Develop v1.0
               status: :default_status_in_work
-              type: :default_type_phase
+              type: :default_type_result
               start: 7
               plan_type: execution
               duration: 17
               children:
                 - subject: Great feature
                   status: :default_status_in_work
-                  type: :default_type_feature
+                  type: :default_type_result
                   start: 7
                   plan_type: execution
                   duration: 8
                 - subject: Best feature
                   status: :default_status_not_start
-                  type: :default_type_feature
+                  type: :default_type_result
                   start: 16
                   plan_type: execution
                   duration: 5
@@ -343,7 +343,7 @@ en:
                       type: follows
                 - subject: Terrible bug
                   status: :default_status_completed
-                  type: :default_type_bug
+                  type: :default_type_task
                   start: 22
                   plan_type: execution
                   duration: 2
@@ -361,20 +361,20 @@ en:
                   type: follows
             - subject: Develop v1.1
               status: :default_status_in_work
-              type: :default_type_phase
+              type: :default_type_result
               start: 28
               plan_type: execution
               duration: 2
               children:
                 - subject: Wonderful feature
                   status: :default_status_not_start
-                  type: :default_type_feature
+                  type: :default_type_result
                   start: 28
                   plan_type: execution
                   duration: 1
                 - subject: Ugly bug
                   status: :default_status_not_start
-                  type: :default_type_bug
+                  type: :default_type_task
                   start: 30
                   plan_type: execution
                   duration: 1
@@ -509,10 +509,10 @@ en:
           types:
             - :default_type_task
             - :default_type_milestone
-            - :default_type_phase
-            - :default_type_epic
-            - :default_type_user_story
-            - :default_type_bug
+            - :default_type_result
+            #- :default_type_result
+            #- :default_type_user_story
+            #- :default_type_bug
           categories:
             - Category 1 (to be changed in Project settings)
           queries:
@@ -521,7 +521,7 @@ en:
               sort_by: id
               type:
                 - :default_type_milestone
-                - :default_type_phase
+                - :default_type_result
               timeline: true
             - name: Product backlog
               status: open
@@ -556,34 +556,34 @@ en:
           work_packages:
             - subject: New login screen
               status: :default_status_in_work
-              type: :default_type_user_story
+              type: :default_type_task
               version: Product Backlog
               position: 3
             - subject: Password reset does not send email
               status: :default_status_completed
-              type: :default_type_bug
+              type: :default_type_task
               version: Bug Backlog
               position: 1
             - subject: New website
               status: :default_status_not_start
-              type: :default_type_epic
+              type: :default_type_result
               start: 26
               plan_type: execution
               duration: 0
               children:
                 - subject: Newsletter registration form
                   status: :default_status_not_start
-                  type: :default_type_user_story
+                  type: :default_type_task
                   version: Product Backlog
                   position: 6
                 - subject: Implement product tour
                   status: :default_status_not_start
-                  type: :default_type_user_story
+                  type: :default_type_task
                   version: Product Backlog
                   position: 4
                 - subject: New landing page
                   status: :default_status_not_start
-                  type: :default_type_user_story
+                  type: :default_type_task
                   version: Sprint 1
                   position: 2
                   story_points: 3
@@ -600,7 +600,7 @@ en:
                       duration: 0
             - subject: Contact form
               status: :default_status_not_start
-              type: :default_type_user_story
+              type: :default_type_task
               version: Sprint 1
               position: 5
               start: 21
@@ -609,7 +609,7 @@ en:
               story_points: 1
             - subject: Feature carousel
               status: :default_status_not_start
-              type: :default_type_user_story
+              type: :default_type_task
               version: Sprint 1
               position: 3
               story_points: 5
@@ -620,7 +620,7 @@ en:
                   version: Sprint 1
             - subject: Wrong hover color
               status: :default_status_completed
-              type: :default_type_bug
+              type: :default_type_task
               version: Sprint 1
               position: 4
               story_points: 1
@@ -629,7 +629,7 @@ en:
               duration: 0
             - subject: SSL certificate
               status: :default_status_not_start
-              type: :default_type_user_story
+              type: :default_type_task
               version: Product Backlog
               position: 1
               start: 22
@@ -637,7 +637,7 @@ en:
               duration: 1
             - subject: Set-up Staging environment
               status: :default_status_in_work
-              type: :default_type_user_story
+              type: :default_type_task
               version: Product Backlog
               position: 2
               start: 23
@@ -645,7 +645,7 @@ en:
               duration: 0
             - subject: Choose a content management system
               status: :default_status_not_start
-              type: :default_type_user_story
+              type: :default_type_task
               version: Product Backlog
               position: 7
               start: 24
@@ -653,7 +653,7 @@ en:
               duration: 1
             - subject: Website navigation structure
               status: :default_status_not_start
-              type: :default_type_user_story
+              type: :default_type_task
               version: Sprint 1
               position: 7
               story_points: 3
@@ -670,7 +670,7 @@ en:
                   duration: 0
             - subject: Internal link structure
               status: :default_status_not_start
-              type: :default_type_user_story
+              type: :default_type_task
               version: Product Backlog
               position: 5
               start: 25
@@ -678,7 +678,7 @@ en:
               duration: 0
             - subject: Develop v1.0
               status: :default_status_not_start
-              type: :default_type_phase
+              type: :default_type_result
               start: 14
               plan_type: execution
               duration: 3
@@ -693,7 +693,7 @@ en:
                   type: follows
             - subject: Develop v1.1
               status: :default_status_not_start
-              type: :default_type_phase
+              type: :default_type_result
               start: 21
               plan_type: execution
               duration: 3
@@ -708,7 +708,7 @@ en:
                   type: follows
             - subject: Develop v2.0
               status: :default_status_not_start
-              type: :default_type_phase
+              type: :default_type_result
               start: 28
               plan_type: execution
               duration: 3

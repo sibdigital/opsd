@@ -212,7 +212,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a laborCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('laborCosts')
           end
         end
 
@@ -230,7 +230,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a laborCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('laborCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('laborCosts')
           end
         end
 
@@ -264,7 +264,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a materialCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('materialCosts')
           end
         end
 
@@ -282,7 +282,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a materialCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('materialCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('materialCosts')
           end
         end
 
@@ -316,7 +316,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('overallCosts')
           end
         end
 
@@ -334,7 +334,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('overallCosts')
           end
         end
 
@@ -352,7 +352,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('overallCosts')
           end
         end
 
@@ -370,7 +370,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is expected to have a overallCosts attribute' do
-            is_expected.to be_json_eql('6,000.00 EUR'.to_json).at_path('overallCosts')
+            is_expected.to be_json_eql('6,000.00 руб'.to_json).at_path('overallCosts')
           end
         end
 

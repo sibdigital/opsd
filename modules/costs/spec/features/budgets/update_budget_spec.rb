@@ -53,13 +53,13 @@ describe 'updating a budget', type: :feature, js: true do
       expect(budget_page).to have_content('Successful update')
 
       budget_page.toggle_unit_costs!
-      expect(page).to have_selector('tbody td.currency', text: '150.00 EUR')
-      expect(budget_page.overall_unit_costs).to have_content '150.00 EUR'
+      expect(page).to have_selector('tbody td.currency', text: '150.00 руб')
+      expect(budget_page.overall_unit_costs).to have_content '150.00 руб'
 
       budget_page.toggle_labor_costs!
-      expect(page).to have_selector('tbody td.currency', text: '125.00 EUR')
-      expect(budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
-      expect(budget_page.overall_labor_costs).to have_content '125.00 EUR'
+      expect(page).to have_selector('tbody td.currency', text: '125.00 руб')
+      expect(budget_page.labor_costs_at(1)).to have_content '125.00 руб'
+      expect(budget_page.overall_labor_costs).to have_content '125.00 руб'
     end
   end
 
@@ -107,14 +107,14 @@ describe 'updating a budget', type: :feature, js: true do
       expect(budget_page).to have_content('Successful update')
 
       budget_page.toggle_unit_costs!
-      expect(page).to have_selector('tbody td.currency', text: '250.00 EUR')
-      expect(budget_page.unit_costs_at(1)).to have_content '250.00 EUR'
-      expect(budget_page.overall_unit_costs).to have_content '250.00 EUR'
+      expect(page).to have_selector('tbody td.currency', text: '250.00 руб')
+      expect(budget_page.unit_costs_at(1)).to have_content '250.00 руб'
+      expect(budget_page.overall_unit_costs).to have_content '250.00 руб'
 
       budget_page.toggle_labor_costs!
-      expect(page).to have_selector('tbody td.currency', text: '75.00 EUR')
-      expect(budget_page.labor_costs_at(1)).to have_content '75.00 EUR'
-      expect(budget_page.overall_labor_costs).to have_content '75.00 EUR'
+      expect(page).to have_selector('tbody td.currency', text: '75.00 руб')
+      expect(budget_page.labor_costs_at(1)).to have_content '75.00 руб'
+      expect(budget_page.overall_labor_costs).to have_content '75.00 руб'
     end
 
     context 'with two material budget items' do
@@ -131,15 +131,15 @@ describe 'updating a budget', type: :feature, js: true do
         # Update first element
         budget_page.edit_planned_costs! material_budget_item.id, type: :material, costs: 123
         expect(budget_page).to have_content('Successful update')
-        expect(page).to have_selector('tbody td.currency', text: '123.00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '123.00 руб')
 
         click_on 'Update'
 
         # Update second element
         budget_page.edit_planned_costs! material_budget_item_2.id, type: :material, costs: 543
         expect(budget_page).to have_content('Successful update')
-        expect(page).to have_selector('tbody td.currency', text: '123.00 EUR')
-        expect(page).to have_selector('tbody td.currency', text: '543.00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '123.00 руб')
+        expect(page).to have_selector('tbody td.currency', text: '543.00 руб')
 
         # Expect overridden costs on both
         material_budget_item.reload
@@ -169,15 +169,15 @@ describe 'updating a budget', type: :feature, js: true do
         # Update first element
         budget_page.edit_planned_costs! labor_budget_item.id, type: :labor, costs: 456
         expect(budget_page).to have_content('Successful update')
-        expect(page).to have_selector('tbody td.currency', text: '456.00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '456.00 руб')
 
         click_on 'Update'
 
         # Update second element
         budget_page.edit_planned_costs! labor_budget_item_2.id, type: :labor, costs: 987
         expect(budget_page).to have_content('Successful update')
-        expect(page).to have_selector('tbody td.currency', text: '456.00 EUR')
-        expect(page).to have_selector('tbody td.currency', text: '987.00 EUR')
+        expect(page).to have_selector('tbody td.currency', text: '456.00 руб')
+        expect(page).to have_selector('tbody td.currency', text: '987.00 руб')
 
         # Expect overridden costs on both
         labor_budget_item.reload
@@ -201,7 +201,7 @@ describe 'updating a budget', type: :feature, js: true do
       page.find("#cost_object_existing_labor_budget_item_attributes_#{labor_budget_item.id} a.delete-budget-item").click
       click_on 'Submit'
 
-      expect(budget_page.labor_costs_at(1)).not_to have_content '125.00 EUR'
+      expect(budget_page.labor_costs_at(1)).not_to have_content '125.00 руб'
     end
   end
 end

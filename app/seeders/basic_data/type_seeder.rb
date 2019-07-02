@@ -72,11 +72,13 @@ module BasicData
       { # position is_default color_id is_in_roadmap is_milestone
         task:       [1, true, :default_color_blue,        true,  false],
         milestone:  [2, true, :default_color_green_light, false, true],
-        phase:      [3, true, :default_color_blue_dark,   false, false],
-        feature:    [4, true, :default_color_blue,        true,  false],
-        epic:       [5, true, :default_color_orange,      true,  false],
-        user_story: [6, true, :default_color_grey_dark,   true,  false],
-        bug:        [7, true, :default_color_red,         true,  false]
+        #+-tan 2019.07.01
+        result:     [3, true, :default_color_orange,   false, false],
+        # phase:      [3, true, :default_color_blue_dark,   false, false],
+        # feature:    [4, true, :default_color_blue,        true,  false],
+        # epic:       [5, true, :default_color_orange,      true,  false],
+        # user_story: [6, true, :default_color_grey_dark,   true,  false],
+        # bug:        [7, true, :default_color_red,         true,  false]
       }
     end
   end
