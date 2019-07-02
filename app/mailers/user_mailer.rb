@@ -35,7 +35,7 @@ class UserMailer < BaseMailer
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'OpenProject Test'
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - тестовое сообщение'
     end
   end
 
