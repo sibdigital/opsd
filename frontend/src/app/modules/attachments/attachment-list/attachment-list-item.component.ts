@@ -47,7 +47,7 @@ export interface ValueOption {
   templateUrl: './attachment-list-item.html',
   styleUrls: ['./attachment-list-item.sass']
 })
-export class AttachmentListItemComponent implements OnInit{
+export class AttachmentListItemComponent implements OnInit {
   @Input() public resource:HalResource;
   @Input() public attachment:any;
   @Input() public index:any;
@@ -84,12 +84,12 @@ export class AttachmentListItemComponent implements OnInit{
   }
 
   //bbm(
-  ngOnInit(): void {
-    let attachType: any = this.attachment.attachType;
+  ngOnInit():void {
+    let attachType:any = this.attachment.attachType;
     if (attachType) {
       const resource = this.halResourceService.createHalResourceOfType('HalResource', this.attachment.attachType.$source);
       this.value = {name: resource.name, $href: resource.$href};
-    }else{
+    } else {
       this.value = {name: "-", $href: ""};
     }
   }
@@ -127,23 +127,23 @@ export class AttachmentListItemComponent implements OnInit{
   public handleUserSubmit() {
     if (this.selectedOption && this.selectedOption.$href) {
       this.halResourceService.get<HalResource>(this.selectedOption.$href).toPromise()
-        .then((attachType: HalResource) => {
-          let attachTypeId: string = attachType.getId();
+        .then((attachType:HalResource) => {
+          let attachTypeId:string = attachType.getId();
           this.attachment.updateImmediately({attach_type_id: attachTypeId})
             .then(() => {
               this.notificationsService.addSuccess(this.text.successful);
             })
-            .catch((error: any) => {
+            .catch((error:any) => {
               this.notificationsService.addError(error);
             });
         });
     }
-    else{
+    else {
       this.attachment.updateImmediately()
         .then(() => {
           this.notificationsService.addSuccess(this.text.successful);
         })
-        .catch((error: any) => {
+        .catch((error:any) => {
           this.notificationsService.addError(error);
         });
       this.value = {name: "-", $href: ""};

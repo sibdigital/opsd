@@ -39,6 +39,12 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     {
       partial: 'projects'
     },
+    #zbd(
+    {
+      partial: 'work_packages',
+      if: Proc.new { User.current.logged? }
+    },
+    # )
     {
       partial: 'users',
       if: Proc.new { User.current.admin? }
@@ -47,6 +53,12 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       partial: 'my_account',
       if: Proc.new { User.current.logged? }
     },
+    #bbm(
+    {
+      partial: 'diagram_done_ratio',
+      if: Proc.new { User.current.logged? }
+    },
+    # )
     {
       partial: 'news',
       if: Proc.new { !@news.empty? }

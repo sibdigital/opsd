@@ -33,6 +33,7 @@ import {Injector} from "@angular/core";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
 
 export const OPENPROJECT_ROUTES = [
   {
@@ -47,6 +48,13 @@ export const OPENPROJECT_ROUTES = [
       projects: {type: 'path', value: null, squash: true},
     }
   },
+  //bbm(
+  {
+    name: 'homescreen',
+    url: '/',
+    component: WorkPackageHomescreenDoneRatioDiagramComponent,
+  },
+  //)
   // We could lazily load work packages module already,
   // but e.g., the plugin context requires service from it.
   // {

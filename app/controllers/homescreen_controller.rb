@@ -32,16 +32,42 @@ class HomescreenController < ApplicationController
 
   layout 'no_menu'
 
+  before_action :set_current_user
+
+  include DateAndTime::Calculations
+
   def index
     @newest_projects = Project.visible.newest.take(3)
     @newest_users = User.active.newest.take(3)
     @news = News.latest(count: 3)
     @announcement = Announcement.active_and_current
 
+    #zbd(
+    @remaining_days = Setting.remaining_count_days.to_i
+    now = Date.today + 14
+
+    if !@user.nil?
+      @works = []
+      if (MemberRole.joins("INNER JOIN members ON member_roles.member_id=members.id INNER JOIN roles ON member_roles.role_id=roles.id")
+           .where("position in (?) and user_id = ?", [6, 7, 9, 10, 11, 12, 14, 15, 16], @user.id)
+           .count > 0) or (@user.admin)
+        @works = WorkPackage.visible(@user).where({due_date: (Date.today)..now})
+      else
+        @works = WorkPackage.with_assigned(@user).where({due_date: (Date.today)..now})
+      end
+    end
+    # )
+
     @homescreen = OpenProject::Static::Homescreen
+
   end
 
   def robots
     @projects = Project.active.public_projects
   end
+
+  def set_current_user
+    @user = current_user
+  end
+
 end
