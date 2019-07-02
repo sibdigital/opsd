@@ -324,6 +324,9 @@ module API
         #bbm(
         property :plan_type,
                  render_nil: true
+
+        property :sed_href,
+                 render_nil: true
         # )
 
         property :description,

@@ -120,6 +120,11 @@ module API
                  type: 'String',
                  min_length: 1,
                  max_length: 255
+          schema :sed_href,
+                 type: 'String',
+                 required: false,
+                 min_length: 1,
+                 max_length: 255
           # )
           schema :description,
                  type: 'Formattable',
@@ -265,9 +270,6 @@ module API
                                          required: false,
                                          has_default: true
 
-          #bbm(
-
-          # )
           def attribute_groups
             (represented.type && represented.type.attribute_groups || []).map do |group|
               if group.is_a?(Type::QueryGroup)

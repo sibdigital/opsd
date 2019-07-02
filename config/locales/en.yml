@@ -738,6 +738,8 @@ en:
     description: "Description"
     display_sums: "Display Sums"
     due_date: "Finish date"
+    contract: "Gov contract"
+    sed_href: "SED Link"
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
     firstname: "First name"
