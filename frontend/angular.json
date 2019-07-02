@@ -57,6 +57,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "OpenProject:build",
+            "poll": 2000,
             "proxyConfig": "cli_to_rails_proxy.js",
             "aot": true
           },
