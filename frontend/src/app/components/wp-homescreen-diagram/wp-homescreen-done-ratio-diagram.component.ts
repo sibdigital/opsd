@@ -26,8 +26,8 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
   public barChartLegend = true;
   public barChartPlugins = [];
   public barChartData:ChartDataSets[] = [
-    {data:[], label: 'Количество'},
-    {data:[], label: 'Процент выполнения'}
+    {data:[], label: this.I18n.t('js.project.wp_count')},
+    {data:[], label: this.I18n.t('js.project.percentage_done')}
   ];
   public wpCounts:number[] = [];
   public percentageDones:number[] = [];
@@ -47,11 +47,13 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
   }
 
   protected registerDataSet(projectResource:ProjectResource):void {
-    this.wpCounts.push(projectResource.wpCount);
-    this.percentageDones.push(projectResource.percentageDone);
-    this.barChartLabels.push(projectResource.name);
-    this.barChartData[0].data = this.wpCounts;
-    this.barChartData[1].data = this.percentageDones;
+    if (projectResource.wpCount) {
+      this.wpCounts.push(projectResource.wpCount);
+      this.percentageDones.push(projectResource.percentageDone);
+      this.barChartLabels.push(projectResource.name);
+      this.barChartData[0].data = this.wpCounts;
+      this.barChartData[1].data = this.percentageDones;
+    }
   }
 }
 
