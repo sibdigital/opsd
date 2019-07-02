@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors     = 'OpenProject GmbH'
   s.email       = 'info@openproject.com'
   s.homepage    = 'https://community.openproject.org/projects/plugin-global-roles'
-  s.summary     = 'OpenProject Global Roles'
+  s.summary     = 'Глобальные роли'
   s.description = "Adds global roles not bound to a project. A user can have a global role allowing to
   perform actions outside of the scope of a specific project normally only allowed for administrators.
   By assigning the permission to create projects to a global role, non-administrators can create top-level projects."

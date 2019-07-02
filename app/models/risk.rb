@@ -12,7 +12,7 @@ class Risk < ActiveRecord::Base
   # удаление должно быть каскадное, пока нечего каскадить
 
   validates_presence_of :name
-  validates_length_of :name, maximum: 30 #не знаю зачем, но пусть будет
+  #validates_length_of :name, maximum: 30 #не знаю зачем, но пусть будет
 
   # отфильтровывает элементы на TypedRisks и не TypedRisks
   #scope :shared, -> { where(project_id: nil) }

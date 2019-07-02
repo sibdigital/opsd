@@ -42,6 +42,6 @@ en:
         costObject: "Budget"
         overallCosts: "Overall costs"
         spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+    button_log_costs: "Учесть затраты"
     label_hour: "hour"
     label_hours: "hours"
