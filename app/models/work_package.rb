@@ -66,8 +66,14 @@ class WorkPackage < ActiveRecord::Base
   }
 
 
+  #include WorkPackageValidator
   #zbd(
-  validates :subject, presence: true, uniqueness: true
+  #validates :subject, presence: true, uniqueness: true
+  validates_each :subject do |record, attr, value|
+    if WorkPackage.where("project_id = ? and upper(subject) = ?", record.project_id, value.upcase).count > 1
+      record.errors.add(attr, "Такая запись уже присутствует в проекте")
+    end
+  end
   # )
 
   scope :recently_updated, ->() {
@@ -122,6 +128,12 @@ class WorkPackage < ActiveRecord::Base
   scope :with_author, ->(author) {
     where(author_id: author.id)
   }
+
+  #zbd(
+  scope :with_assigned, ->(user) {
+    where(assigned_to_id: user.id)
+  }
+  #)
 
   acts_as_watchable
 
@@ -787,4 +799,5 @@ class WorkPackage < ActiveRecord::Base
 
     related.select(&:present?)
   end
+
 end

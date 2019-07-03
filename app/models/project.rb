@@ -146,7 +146,7 @@ class Project < ActiveRecord::Base
   # )
 
   #zbd(
-  has_one :stages, dependent: :destroy
+  has_many :stages, dependent: :destroy
   # )
 
   acts_as_nested_set order_column: :name, dependent: :destroy
@@ -188,6 +188,7 @@ class Project < ActiveRecord::Base
   scope :newest, -> { order(created_on: :desc) }
 
   def visible?(user = User.current)
+    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))
   end
 

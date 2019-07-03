@@ -36,6 +36,9 @@ import {FormsModule} from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {WidgetWpAssignedComponent} from "core-app/modules/grids/widgets/wp-assigned/wp-assigned.component.ts";
+//#zbd(
+import {WidgetWpRemainingComponent} from "core-app/modules/grids/widgets/wp-remaining/wp-remaining.component.ts";
+//)
 import {WidgetWpCreatedComponent} from "core-app/modules/grids/widgets/wp-created/wp-created.component.ts";
 import {WidgetWpWatchedComponent} from "core-app/modules/grids/widgets/wp-watched/wp-watched.component.ts";
 import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
@@ -73,6 +76,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     DynamicModule.withComponents([WidgetDocumentsComponent,
                                   WidgetNewsComponent,
                                   WidgetWpAssignedComponent,
+                                  //zbd
+                                  WidgetWpRemainingComponent,
+                                  //
                                   WidgetWpAccountableComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
@@ -96,6 +102,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetDocumentsComponent,
     WidgetNewsComponent,
     WidgetWpAssignedComponent,
+    //zbd
+    WidgetWpRemainingComponent,
+    //
     WidgetWpAccountableComponent,
     WidgetWpCreatedComponent,
     WidgetWpWatchedComponent,
@@ -130,6 +139,12 @@ export function registerWidgets(injector:Injector) {
           identifier: 'work_packages_assigned',
           component: WidgetWpAssignedComponent
         },
+        //zbd(
+        {
+          identifier: 'work_packages_remaining',
+          component: WidgetWpRemainingComponent
+        },
+        //)
         {
           identifier: 'work_packages_accountable',
           component: WidgetWpAccountableComponent
