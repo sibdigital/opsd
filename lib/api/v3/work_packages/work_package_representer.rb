@@ -326,6 +326,15 @@ module API
                  render_nil: true
         # )
 
+        #zbd(
+        property :result_agreed,
+                 # exec_context: :decorator,
+                 # getter: ->(*) do
+                 #   represented.result_agreed
+                 # end,
+                 render_nil: true
+        # )
+
         property :description,
                  exec_context: :decorator,
                  getter: ->(*) {

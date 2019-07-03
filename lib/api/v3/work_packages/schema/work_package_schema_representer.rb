@@ -121,6 +121,14 @@ module API
                  min_length: 1,
                  max_length: 255
           # )
+
+          #zbd(
+          schema :result_agreed,
+                 type: 'Boolean',
+                 required: false,
+                show_if: ->(*) { !represented.milestone? }
+          # )
+
           schema :description,
                  type: 'Formattable',
                  required: false

@@ -49,6 +49,10 @@ module WorkPackages
     attribute :category_id
     #zbd(
     attribute :contract_id
+    attribute :result_agreed,
+      writeable: ->(*) {
+        model.leaf?
+      }
     # )
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable
