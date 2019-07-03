@@ -435,7 +435,7 @@ class PermittedParams
     params.require(:position).permit(:name)
   end
   def organization
-    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id)
+    params.require(:organizations).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id)
   end
   def depart
     params.require(:depart).permit(:organization_id, :name)

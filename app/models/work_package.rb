@@ -54,6 +54,10 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :fixed_version, class_name: 'Version', foreign_key: 'fixed_version_id'
   belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
+  #xcc(
+  belongs_to :org_performer, class_name: 'Organization', foreign_key: 'org_performer_id'
+  belongs_to :org_controlling, class_name: 'Organization', foreign_key: 'org_controlling_id'
+  # )
 
   #zbd(
   belongs_to :contract, class_name: 'Contract', foreign_key: 'contract_id'

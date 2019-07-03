@@ -99,3 +99,4 @@ node_modules/
 /package-lock.json
 plaintext.yml
 structure.sql
+Gemfile.lock

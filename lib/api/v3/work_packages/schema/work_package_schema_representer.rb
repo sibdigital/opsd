@@ -254,6 +254,17 @@ module API
                                          },
                                          required: false
 
+#          #xcc(
+#          schema_with_allowed_collection :organization,
+#                                         value_representer: Organizations::OrganizationRepresenter,
+#                                         link_factory: ->(organization) {
+#                                           {
+#                                             href: api_v3_paths.organization(organization.id),
+#                                             title: organization.name
+#                                           }
+#                                         },
+#                                         required: false
+#          # )
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: ->(priority) {

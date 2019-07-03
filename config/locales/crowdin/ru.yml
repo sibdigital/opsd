@@ -785,6 +785,9 @@ ru:
     address: Адрес
     cabinet: Кабинет
     name: Имя
+    #(xcc
+    parent_organization: Вышестоящая организация
+    #)
     password: Пароль
     possibility: Вероятность наступления
     priority: Приоритет
@@ -1637,7 +1640,7 @@ ru:
   label_path_encoding: Кодирование пути
   label_pdf_with_descriptions: PDF с описаниями
   label_per_page: Постранично
-  label_people: Люди
+  label_people: Ответственные
   label_permissions: Разрешения
   label_permissions_report: Отчёт о разрешениях
   label_personalize_page: Персонализация страницы
