@@ -33,7 +33,7 @@ require_relative 'base'
 class Tables::Enumerations < Tables::Base
   def self.table(migration)
     create_table migration do |t|
-      t.string :name, limit: 30, default: '', null: false
+      t.string :name, limit: 100, default: '', null: false #+-tan 2019.07.03
       t.integer :position, default: 1
       t.boolean :is_default, default: false, null: false
       t.string :type

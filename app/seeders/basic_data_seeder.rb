@@ -46,6 +46,10 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::TargetStatusSeeder,
       BasicData::TargetTypeSeeder,
       # )
+      # #tan(
+      BasicData::ProjectStatusSeeder,
+      BasicData::ProjectApproveStatusSeeder,
+      # )
       BasicData::SettingSeeder
     ]
   end

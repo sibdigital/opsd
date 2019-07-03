@@ -149,6 +149,16 @@ class Project < ActiveRecord::Base
   has_many :stages, dependent: :destroy
   # )
 
+  #tan(
+  # эти статусы необходимы для того, чтобы соблюсти требования ТТ (стр 27) - ProjectStatus
+  # ProjectApproveStatus - для соблюдения 469 постановления, чтобы с помощью эжтого статуса можно было проводить
+  # согласование
+  # поле status используется чтобы передавать проект в архив т.е могут быть завершенные проекты, но в архив их
+  # передавать еще рано, например по ним проводится анализ или есть связанные с ними проекты
+  belongs_to :project_approve_status_id, class_name: 'ProjectApproveStatus', foreign_key: 'project_approve_status_id'
+  belongs_to :project_status_id, class_name: 'ProjectStatus', foreign_key: 'project_status_id'
+  #   #)
+
   acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable

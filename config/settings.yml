@@ -61,7 +61,7 @@ additional_footer_content:
   default: ''
 # The instance name
 app_title:
-  default: ИСУП РБ Улан-Удэ 2019©
+  default: Цифровой проект 2018 - 2019
 app_subtitle:
   default: Информационная система управления проектами
 brute_force_block_minutes:
