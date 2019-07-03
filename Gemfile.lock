@@ -934,7 +934,6 @@ DEPENDENCIES
   html-pipeline (~> 2.8.0)
   htmldiff
   i18n-js (~> 3.2.0)
-  jquery-rails
   json_spec (~> 1.1.4)
   ladle
   launchy (~> 2.4.3)
