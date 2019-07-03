@@ -76,6 +76,17 @@ module API
         property :name,         render_nil: true
         property :description,  render_nil: true
 
+        #bbm(
+        property :percentage_done,
+                 getter: ->(*) {
+                   completed_percent_sd
+                 }
+        property :wp_count,
+                 getter: ->(*) {
+                   total_wps
+                 }
+        # )
+
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,

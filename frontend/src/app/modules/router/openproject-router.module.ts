@@ -35,6 +35,8 @@ import {
   OPENPROJECT_ROUTES,
   uiRouterConfiguration
 } from "core-app/modules/router/openproject.routes";
+import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
   imports: [
@@ -43,6 +45,9 @@ import {
       useHash: false,
       config: uiRouterConfiguration,
     } as any),
+    //bbm(
+    ChartsModule
+    //)
   ],
   providers: [
     {
@@ -51,13 +56,22 @@ import {
       deps: [Injector],
       multi: true
     },
-    FirstRouteService
+    FirstRouteService,
+    //bbm(
+    WorkPackageHomescreenDoneRatioDiagramComponent
+    //)
   ],
   declarations: [
-    ApplicationBaseComponent
+    ApplicationBaseComponent,
+    //bbm(
+    WorkPackageHomescreenDoneRatioDiagramComponent
+    //)
   ],
   entryComponents: [
-    ApplicationBaseComponent
+    ApplicationBaseComponent,
+    //bbm(
+    WorkPackageHomescreenDoneRatioDiagramComponent
+    //)
   ],
   exports: [
   ]

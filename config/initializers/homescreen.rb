@@ -53,6 +53,12 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       partial: 'my_account',
       if: Proc.new { User.current.logged? }
     },
+    #bbm(
+    {
+      partial: 'diagram_done_ratio',
+      if: Proc.new { User.current.logged? }
+    },
+    # )
     {
       partial: 'news',
       if: Proc.new { !@news.empty? }

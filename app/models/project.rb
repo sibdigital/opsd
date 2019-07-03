@@ -603,6 +603,23 @@ class Project < ActiveRecord::Base
     end
   end
 
+  #bbm(
+  # SibDigital version of overage_percent_done
+  def completed_percent_sd
+    quantity = total_wps
+    if quantity > 0
+      total = work_packages.where(:plan_type => :execution).map(&:done_ratio).sum
+      total / quantity
+    else
+      0
+    end
+  end
+
+  def total_wps
+    work_packages.where(:plan_type => :execution).count
+  end
+  # )
+
   # Return true if this project is allowed to do the specified action.
   # action can be:
   # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
