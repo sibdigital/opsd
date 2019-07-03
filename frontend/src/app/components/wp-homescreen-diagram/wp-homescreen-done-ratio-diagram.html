@@ -1,4 +1,12 @@
 <div style="display: block;">
+    <div>
+        <input type="checkbox"
+               id="wp_button_rukovoditel_proekta"
+               (change)="filterChart()"
+               [checked]="rukovoditel_proekta"
+               name="button_rukovoditel_proekta" />
+        Руководитель проекта
+    </div>
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"

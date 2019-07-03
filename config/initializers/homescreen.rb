@@ -58,6 +58,11 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       partial: 'diagram_done_ratio',
       if: Proc.new { User.current.logged? }
     },
+
+    {
+      partial: 'diagram_date_ratio',
+      if: Proc.new { User.current.logged? }
+    },
     # )
     {
       partial: 'news',
