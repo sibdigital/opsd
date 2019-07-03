@@ -2005,7 +2005,7 @@ ru:
   notice_account_unknown_email: Неизвестный пользователь.
   notice_account_update_failed: Настройки учетной записи не могут быть сохранены.
     Пожалуйста, просмотрите страницу Вашей учетной записи ещё раз.
-  notice_account_updated: Учетная запись успешно обновлёна.
+  notice_account_updated: Учетная запись успешно обновлена.
   notice_account_other_session_expired: Все другие сессии, связанные с вашей учетной
     записью, были аннулированы.
   notice_account_wrong_password: Неправильный пароль
