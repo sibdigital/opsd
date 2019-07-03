@@ -1,0 +1,3 @@
+class ProjectStatus < Enumeration
+
+end
