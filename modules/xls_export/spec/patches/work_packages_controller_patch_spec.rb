@@ -83,7 +83,7 @@ describe WorkPackagesController, 'rendering to xls', type: :controller do
         column.caption =~ /cost/i
       end
 
-      allow(Setting).to receive(:plugin_openproject_costs).and_return('costs_currency' => 'EUR', 'costs_currency_format' => '%n %u')
+      allow(Setting).to receive(:plugin_openproject_costs).and_return('costs_currency' => 'РУБ', 'costs_currency_format' => '%n %u')
 
       get 'index',
           params: {

@@ -73,8 +73,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if inline_create_link %>
       <div class="wp-inline-create-button">
         <%= inline_create_link %>
-        <% if inline_up_link %>
-          <%= inline_up_link %>
+        <% if respond_to? :inline_up_link %>
+          <% if inline_up_link %>
+            <%= inline_up_link %>
+          <% end %>
         <% end %>
       </div>
     <% end %>

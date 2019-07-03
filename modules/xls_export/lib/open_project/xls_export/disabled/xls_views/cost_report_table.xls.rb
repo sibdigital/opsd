@@ -129,7 +129,7 @@ class CostReportTable < XlsViews
   def label
     "#{l(:caption_cost_type)}: " + case unit_id
     when -1 then l(:field_hours)
-    when 0  then "EUR"
+    when 0  then "руб"
     else cost_type.unit_plural
     end
   end
