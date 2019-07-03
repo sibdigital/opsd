@@ -3,8 +3,8 @@ ru:
   no_results_title_text: Список пуст.
   activities:
     index:
-      no_results_title_text: В течение этого периода времени не было никакой деятельности
-        по проекту.
+      no_results_title_text: В течение этого времени деятельности по проекту не было
+        .
   admin:
     plugins:
       no_results_title_text: Дополнения отсутствуют.
@@ -46,10 +46,10 @@ ru:
     is_active: теперь отображается
     is_inactive: теперь не отображается
   attribute_help_texts:
-    text_overview: В этом представлении можно создать пользовательскую текстовую справку
-      для атрибутов представления. При ее наличии, она будет показана по клику по
+    text_overview: Здесь можно создать текстовую справку
+      для атрибутов представления. При наличии, она будет показана при клике по
       значку справки возле атрибута.
-    label_plural: Атрибут текстов справки
+    label_plural: Атрибут текста справки
     show_preview: Предпросмотр текста
     add_new: Добавить текст справки
     edit: Редактировать текст справки для %{attribute_caption}
@@ -97,10 +97,10 @@ ru:
     new: Новое пользовательское действие
     edit: Редактировать пользовательское действие %{name}
     execute: Выполнить %{name}
-    upsale:
-      title: Пользовательские действия — особенность Корпоративной версии
-      description: Пользовательские действия автоматизируют повседневную работу, объединяя
-        отдельные шаги в одну кнопку.
+    #upsale:
+    #  title: Пользовательские действия
+    #  description: Пользовательские действия автоматизируют повседневную работу, объединяя
+    #    отдельные шаги в одну кнопку.
   custom_fields:
     text_add_new_custom_field: 'Прежде чем добавлять настраиваемые поля в проект,
       нужно создать их.
@@ -132,12 +132,12 @@ ru:
       messages: Форум
   groups:
     index:
-      no_results_title_text: На данный момент группы отсутствуют.
+      no_results_title_text: Сейчас группы отсутствуют.
       no_results_content_text: Создать новую группу
     users:
-      no_results_title_text: На данный момент пользователи этой группы отсутствуют.
+      no_results_title_text: Сейчас в группе отсутствуют пользователи.
     memberships:
-      no_results_title_text: На данный момент проектов этой группы нет.
+      no_results_title_text: Сейчас в этой группе нет проектов.
   incoming_mails:
     ignore_filenames: 'Укажите список имен для игнорирования при обработке вложений
       для входящих почтовых сообщений (например, подписей или значков). Введите одно
@@ -186,42 +186,40 @@ ru:
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
   news:
     index:
-      no_results_title_text: На данный момент новостей для отчета нет.
+      no_results_title_text: На данный момент новостей нет.
       no_results_content_text: Добавить новость
     my_page:
-      no_results_title_text: Ничего нового для отчета.
+      no_results_title_text: Новые данные отсутствуют.
   users:
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   prioritiies:
     edit:
       priority_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого приоритета.
-        Этот цвет может использоваться для выделения пакетов работ в таблице.
+        Щелкните, чтобы изменить цвет приоритета.
+        Цвет используется для выделения пакетов работ в таблице.
   project_risks:
     edit:
       project_risk_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого проектного риска.
-        Этот цвет может использоваться незнамо где.
+        Щелкните, чтобы изменить цвет риска.
   reportings:
     index:
-      no_results_title_text: В данный момент статусы отчётов отсутствуют.
+      no_results_title_text: Сейчас статусы отчётов отсутствуют.
       no_results_content_text: Добавить статус отчёта
   typed_risks:
     edit:
       properties: Свойства
-      risk_characts: Таблицы характеристик
+      risk_characts: Характеристики
       typed_risk_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого типового риска.
-        Этот цвет может использоваться незнамо где.
+        Щелкните, изменить цвет типового риска.
   organizations:
     edit:
       properties: Свойства
   statuses:
     edit:
       status_readonly_html: |
-        Установите этот флажок, чтобы пометить пакеты работ как доступные только для чтения.
-        Никакие атрибуты не могут быть изменены за исключением статуса.
+        Установите флажок, чтобы пометить пакеты работ доступными только для чтения.
+        Никакие атрибуты не будут изменяться кроме статуса.
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
       status_color_text: |
@@ -1143,8 +1141,8 @@ ru:
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_attach_type: Тип файла
   enumeration_work_package_priorities: Приоритеты пакета работ
-  enumeration_risk_importance: Степень влияния рисков на проект
-  enumeration_risk_possibilities: Вероятность наступления рисков
+  enumeration_risk_importance: Степень влияния на проект
+  enumeration_risk_possibilities: Вероятность наступления
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
@@ -1665,15 +1663,15 @@ ru:
   label_project_hierarchy: Иерархия проектов
   label_project_new: Новый проект
   label_project_plural: Проекты
-  label_project_risks: Проектные риски
-  label_project_risk_new: Новый проектный риск
+  label_project_risks: Риски и возможности
+  label_project_risk_new: Добавить риск
   label_positions: "Должности"
   label_position_new: "Добавить должность"
   label_position_value: "Должность"
   label_organizations: "Организации"
   label_organization_new: "Добавить организацию"
   label_organization_value: "Организация"
-  label_project_risk_value: Значение проектного риска
+  label_project_risk_value: Значение риска
   label_project_settings: Настройки проекта
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
     пространства"
@@ -1718,7 +1716,7 @@ ru:
   label_revision: Редакция
   label_revision_id: Редакция %{value}
   label_revision_plural: Редакции
-  label_risk_characts_new: Новая характеристика риска
+  label_risk_characts_new: Добавить характеристику риска
   label_risk_characts_value: Значение характеристики риска
   label_risk_characts: Характеристики риска
   label_roadmap: Дорожная карта
@@ -2189,7 +2187,7 @@ ru:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_stages: Этапы
-  project_module_project_risks: Проектные риски
+  project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность
   project_module_boards: Форумы
   project_module_calendar: Календарь
@@ -3043,7 +3041,7 @@ ru:
           unknown: Недопустимый маркер доступа
   unsupported_browser:
     title: Ваш браузер устарел и не поддерживается.
-    message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.
+    message: Страница может отображаться некорректно.
     update_message: Пожалуйста, обновите свой браузер.
     close_warning: Игнорировать это предупреждение.
   oauth:
