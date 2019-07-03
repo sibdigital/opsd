@@ -85,6 +85,10 @@ module API
                  getter: ->(*) {
                    total_wps
                  }
+        property :is_rukovoditel,
+                 getter: ->(*) {
+                   has_role_rukovoditel
+                 }
         # )
 
         property :created_on,

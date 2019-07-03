@@ -628,6 +628,16 @@ class Project < ActiveRecord::Base
   def total_wps
     work_packages.where(:plan_type => :execution).count
   end
+
+  def has_role_rukovoditel
+    exist = false
+    User.current.roles(self).map do |role|
+      if role == Role.find_by(name: "Руководитель проекта")
+        exist = true
+      end
+    end
+    exist
+  end
   # )
 
   # Return true if this project is allowed to do the specified action.
