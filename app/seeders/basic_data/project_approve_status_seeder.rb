@@ -5,15 +5,15 @@
 module BasicData
   class ProjectApproveStatusSeeder < Seeder
     def seed_data!
-      ProjectApproveStatusSeeder.transaction do
+      ProjectApproveStatus.transaction do
         data.each do |attributes|
-          ProjectApproveStatusSeeder.create!(attributes)
+          ProjectApproveStatus.create!(attributes)
         end
       end
     end
 
     def applicable?
-      ProjectApproveStatusSeeder.all.empty?
+      ProjectApproveStatus.all.empty?
     end
 
     def not_applicable_message
