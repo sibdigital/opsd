@@ -121,7 +121,7 @@ module API
                  min_length: 1,
                  max_length: 255
           schema :sed_href,
-                 type: 'String',
+                 type: 'Href',
                  required: false,
                  min_length: 1,
                  max_length: 255
