@@ -3,7 +3,7 @@
         <input type="checkbox"
                id="wp_button_rukovoditel_proekta"
                (change)="filterChart()"
-               [(ngModel)]="rukovoditel_proekta"
+               [(ngModel)]="rukovoditelProekta"
                name="button_rukovoditel_proekta" />
         Руководитель проекта
     </div>
@@ -14,6 +14,14 @@
                [(ngModel)]="kurator"
                name="button_kurator" />
         Куратор проекта
+    </div>
+    <div>
+        <input type="checkbox"
+               id="wp_button_ruk_proekt_ofisa"
+               (change)="filterChart()"
+               [(ngModel)]="rukProektOfisa"
+               name="button_ruk_proekt_ofisa" />
+        Руководитель проектного офиса
     </div>
     <canvas baseChart
             [datasets]="barChartData"
