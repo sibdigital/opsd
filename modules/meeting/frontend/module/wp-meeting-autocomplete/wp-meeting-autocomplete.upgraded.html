@@ -1,0 +1,16 @@
+<div class="form--field">
+  <label class="form--label -required" title="Пакет работ" for="meeting_work_package_id">
+    Пакет работ
+    <span class="form--label-required" aria-hidden="true">*</span>
+  </label>
+  <span class="form--field-container">
+    <span class="form--text-field-container -wide">
+      <input required="required" size="60" container_class="-wide" class="form--text-field" aria-required="true" type="text"
+             value="1" name="meeting[work_package_id]" id="meeting_work_package_id" style="display: none;">
+      {{selectedWP}}
+      <button mat-raised-button (click)="openDialog()" style="width: 30px; float: right;">...</button>
+    </span>
+  </span>
+</div>
+
+

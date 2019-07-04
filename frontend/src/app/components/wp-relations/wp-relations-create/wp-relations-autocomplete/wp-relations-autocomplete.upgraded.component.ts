@@ -70,7 +70,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService,
               //bbm(
-              public dialog: MatDialog){
+              public dialog:MatDialog) {
               // )
   }
 
@@ -159,7 +159,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   //bbm(
-  openDialog(): void {
+  openDialog():void {
     let ELEMENT_DATA:PeriodicElement[] = [];
     this.candidateWorkPackages().then((values) => {
       values.map(wp => {
@@ -167,8 +167,8 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
           subject: wp.subject,
           type: wp.type.$link.title,
           status: wp.status.$link.title,
-          assignee: wp.assignee.$link.title});
-      })
+          assignee: wp.assignee ? wp.assignee.$link.title :null});
+      });
       const dialogRef = this.dialog.open(WpRelationsDialogComponent, {
         width: '750px',
         data: {
@@ -177,7 +177,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
         }
       });
       dialogRef.afterClosed().subscribe(result => {
-        if(result){
+        if (result) {
           this.$element = jQuery(this.elementRef.nativeElement);
           const input = this.$input = this.$element.find('.wp-relations--autocomplete');
           input.val(this.getIdentifier(result));
@@ -191,8 +191,8 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
     return this.workPackage.availableRelationCandidates.$link.$fetch({
       query: '',
       type: this.selectedRelationType,
-      pageSize: 1024,//as unlimited
-    }).then((collection: CollectionResource) => {
+      pageSize: 1024, //as unlimited
+    }).then((collection:CollectionResource) => {
       return collection.elements || [];
     }).catch(() => {
       return [];

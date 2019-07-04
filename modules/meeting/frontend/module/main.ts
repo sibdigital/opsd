@@ -26,30 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, Injector, defineInjectable, NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
+import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ChartsModule} from 'ng2-charts';
-import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
-import {OverviewResource} from './hal/resources/overview-resource';
-import {multiInput} from 'reactivestates';
 import {HookService} from "../../hook-service";
-import {WorkPackageOverviewStatusDiagramComponent} from "./wp-diagram/wp-overview-status-diagram.component";
-import {WorkPackageOverviewDateDiagramComponent} from "./wp-diagram/wp-overview-date-diagram.component";
+import {WpMeetingDialogComponent} from "./wp-meeting-dialog/wp-meeting-dialog.component";
+import {MatPaginatorIntlRussian} from "./wp-meeting-dialog/MatPaginatorIntlRussian";
+import {WpMeetingAutocompleteComponent} from "./wp-meeting-autocomplete/wp-meeting-autocomplete.upgraded.component";
+import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
 
-export function initializeMyProjectPagePlugin(injector:Injector) {
+export function initializeMeetingPlugin(injector:Injector) {
     return () => {
         window.OpenProject.getPluginContext()
             .then((pluginContext:OpenProjectPluginContext) => {
                 let halResourceService = pluginContext.services.halResource;
-                halResourceService.registerResource('Overview', { cls: OverviewResource });
-
-                let states = pluginContext.services.states;
-                states.add('overviews', multiInput<OverviewResource>());
-            });
+        });
         const hookService = injector.get(HookService);
         hookService.register('openProjectAngularBootstrap', () => {
             return [
-                { selector: 'wp-overview-status-diagram', cls: WorkPackageOverviewStatusDiagramComponent },
-                { selector: 'wp-overview-date-diagram', cls: WorkPackageOverviewDateDiagramComponent }
+                { selector: 'wp-meeting-dialog', cls: WpMeetingDialogComponent },
+                { selector: 'wp-meeting-autocomplete-upgraded', cls: WpMeetingAutocompleteComponent }
             ];
         });
     };
@@ -57,18 +54,23 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
 
 @NgModule({
     imports: [
-        ChartsModule
+        ChartsModule,
+        MatDialogModule,
+        MatTableModule,
+        MatPaginatorModule,
+        BrowserAnimationsModule
     ],
     declarations: [
-        WorkPackageOverviewStatusDiagramComponent,
-        WorkPackageOverviewDateDiagramComponent
+        WpMeetingDialogComponent,
+        WpMeetingAutocompleteComponent
     ],
     providers: [
-        { provide: APP_INITIALIZER, useFactory: initializeMyProjectPagePlugin, deps: [Injector], multi: true },
+        { provide: APP_INITIALIZER, useFactory: initializeMeetingPlugin, deps: [Injector], multi: true },
+        { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
     ],
     entryComponents: [
-        WorkPackageOverviewStatusDiagramComponent,
-        WorkPackageOverviewDateDiagramComponent
+        WpMeetingDialogComponent,
+        WpMeetingAutocompleteComponent
     ]
 })
 export class PluginModule {
