@@ -177,8 +177,6 @@ en:
                     **Visuals:**
                     ![project overview](##attachment:"project_overview.jpg")
 
-                    **Find out more:**
-                    * https://www.openproject.org/help/project-setup/
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 0
