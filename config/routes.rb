@@ -190,6 +190,12 @@ OpenProject::Application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
+
+      #zbd(
+      #resources :stages, only: :index, controller: 'stages'
+      get 'stages(/:tab)', controller: 'stages', action: 'show' #, as: :stages
+      # )
+
     end
 
     collection do
@@ -277,14 +283,6 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
-    # )
-
-    #zbd(
-    resources :stages, only: :index, controller: 'stages'
-    #resources :stages do
-    #  get '/edit/:tab' => 'stages#edit', on: :member, as: 'edit_tab'
-      #match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
-    #end
     # )
 
     resources :activity, :activities, only: :index, controller: 'activities'
