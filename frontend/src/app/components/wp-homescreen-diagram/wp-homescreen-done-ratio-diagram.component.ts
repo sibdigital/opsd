@@ -68,7 +68,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
     }
   }
 
-  protected filterChart() {
+  public filterChart() {
     this.rukovoditel_proekta = !this.rukovoditel_proekta;
     if (this.rukovoditel_proekta) {
       let wpCountsLocal:number[] = [];
