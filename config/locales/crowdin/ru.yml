@@ -156,7 +156,7 @@ ru:
       completed_text: Запрос на удаление проекта '%{name}' был завершен.
     index:
       no_results_title_text: На данный момент проектов нет
-      no_results_content_text: Создать новый проект
+      no_results_content_text: Инициировать проект
     settings:
       activities:
         no_results_title_text: В настоящее время никакой активности.
@@ -1302,7 +1302,7 @@ ru:
   label_active: Активно
   label_activate_user: Активировать пользователя
   label_active_in_new_projects: Используется по умолчанию
-  label_activity: Стратегическая карта
+  label_activity: Мониторинг
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
@@ -1663,7 +1663,7 @@ ru:
   label_project_latest: Последние проекты
   label_project_default_type: Разрешить пустой тип
   label_project_hierarchy: Иерархия проектов
-  label_project_new: Новый проект
+  label_project_new: Инициировать проект
   label_project_plural: Проекты
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск

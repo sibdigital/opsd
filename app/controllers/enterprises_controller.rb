@@ -63,7 +63,7 @@ class EnterprisesController < ApplicationController
   private
 
   def default_breadcrumb
-    t(:label_enterprise)
+    ''#t(:label_enterprise)
   end
 
   def show_local_breadcrumb

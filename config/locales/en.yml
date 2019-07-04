@@ -1661,7 +1661,7 @@ en:
   label_project_latest: Последние проекты
   label_project_default_type: Разрешить пустой тип
   label_project_hierarchy: Иерархия проектов
-  label_project_new: Новый проект
+  label_project_new: Инициировать проект
   label_project_plural: Проекты
   label_project_risks: Проектные риски
   label_project_risk_new: Новый проектный риск
