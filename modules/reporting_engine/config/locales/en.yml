@@ -1,54 +1,30 @@
-#-- copyright
-# ReportingEngine
-#
-# Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# version 3.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#++
-
----
 en:
-  description_drill_down: "Show details"
-
-  label_click_to_edit: "Click to edit."
-  label_columns: "Columns"
-  label_count: "Count"
-  label_filter: "Filter"
-  label_filter_add: "Add Filter"
-  label_filter_plural: "Filters"
+  description_drill_down: "Показать в деталях"
+  label_click_to_edit: "Щелкнуть для изменения."
+  label_columns: "Столбцы"
+  label_count: "Количество"
+  label_filter: "Фильтр"
+  label_filter_add: "Добавить фильтр"
+  label_filter_plural: "Фильтры"
   label_greater: ">"
-  label_group_by: "Group by"
-  label_group_by_add: "Add Group-by Attribute"
-  label_inactive: "«inactive»"
+  label_group_by: "Группировать по"
+  label_group_by_add: "Добавить атрибут \"Группировать по\""
+  label_inactive: "«неактивен»"
   label_less: "<"
-  label_no: "No"
-  label_none: "(no data)"
-  label_progress_bar_explanation: "Generating report..."
-  label_really_delete_question: "Are you sure you want to delete this report?"
-  label_report: "Report"
-  label_rows: "Rows"
-  label_saving: "Saving ..."
-  label_sum: "Sum"
-  label_yes: "Yes"
-  load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
-
-  units: "Units"
-
-  validation_failure_date: "is not a valid date"
-  validation_failure_integer: "is not a valid integer"
-
+  label_no: "Нет"
+  label_none: "(нет данных)"
+  label_progress_bar_explanation: "Создание отчета..."
+  label_really_delete_question: "Вы действительно хотите удалить этот отчет?"
+  label_report: "Отчет"
+  label_rows: "Строки"
+  label_saving: "Сохранение ..."
+  label_sum: "Сумма"
+  label_yes: "Да"
+  load_query_question: "Отчет будет иметь %{size} ячеек таблицы и может занять некоторое время для визуализации. Вы все еще хотите его сформировать?"
+  units: "Модули"
+  validation_failure_date: "не является допустимой датой"
+  validation_failure_integer: "не является допустимым целым числом"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Выбранные столбцы"
+      selected_rows: "Выбранные строки"

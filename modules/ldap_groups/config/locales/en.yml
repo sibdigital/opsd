@@ -9,7 +9,6 @@ en:
   ldap_groups:
     label_menu_item: 'Group synchronization'
     label_group_key: 'LDAP group filter key'
-    label_group_key: 'LDAP group filter key'
     settings:
       group_key: 'LDAP group attribute'
       group_key_text: 'The LDAP attribute name used to identify the groups.'
