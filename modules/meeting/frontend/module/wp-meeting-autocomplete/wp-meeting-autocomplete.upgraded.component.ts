@@ -52,7 +52,6 @@ export class WpMeetingAutocompleteComponent {
       .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpBySubjectOrId('1', true).toString())
       .toPromise()
       .then((wps:CollectionResource<WorkPackageResource>) => {
-        console.log(wps);
         if(wps.count>0){
           this.selectedWP = wps.elements[0].subject || '';
         }
@@ -62,38 +61,30 @@ export class WpMeetingAutocompleteComponent {
   //bbm(
   openDialog():void {
     let ELEMENT_DATA:PeriodicElement[] = [];
-    this.candidateWorkPackages().then((values) => {
-      values.map(wp => {
-        ELEMENT_DATA.push({id: wp.id,
-          subject: wp.subject,
-          type: wp.type.$link.title,
-          status: wp.status.$link.title,
-          assignee: wp.assignee ? wp.assignee.$link.title :null});
-      });
-      const dialogRef = this.dialog.open(WpMeetingDialogComponent, {
-        width: '750px',
-        data: ELEMENT_DATA
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.selectedWP = result.name;
-          /*this.$element = jQuery(this.elementRef.nativeElement);
-          const input = this.$input = this.$element.find('.wp-relations--autocomplete');
-          input.val(this.getIdentifier(result));
-          this.onSelect.emit(result.id);*/
-        }
-      });
-    });
-  }
-
-  private candidateWorkPackages():Promise<HalResource[]> {
-    return this.halResourceService
-      .get<CollectionResource>(this.pathHelper.api.v3.work_packages.toString())
+    this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString())
       .toPromise()
-      .then((collection:CollectionResource) => {
-        return collection.elements || [];
-      }).catch(() => {
-      return [];
-    });
+      .then((values:CollectionResource<WorkPackageResource>) => {
+        values.elements.map(wp => {
+          ELEMENT_DATA.push({id: wp.id,
+            subject: wp.subject,
+            type: wp.type.$link.title,
+            status: wp.status.$link.title,
+            assignee: wp.assignee ? wp.assignee.$link.title :null});
+        });
+        const dialogRef = this.dialog.open(WpMeetingDialogComponent, {
+          width: '750px',
+          data: ELEMENT_DATA
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.selectedWP = result.name;
+            /*this.$element = jQuery(this.elementRef.nativeElement);
+            const input = this.$input = this.$element.find('.wp-relations--autocomplete');
+            input.val(this.getIdentifier(result));
+            this.onSelect.emit(result.id);*/
+          }
+        });
+      });
   }
 }
