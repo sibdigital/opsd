@@ -23,6 +23,14 @@
                name="button_ruk_proekt_ofisa" />
         Руководитель проектного офиса
     </div>
+    <div>
+        <input type="checkbox"
+               id="wp_button_koordinator"
+               (change)="filterChart()"
+               [(ngModel)]="koordinator"
+               name="button_koordinator" />
+        Координатор от проектного офиса
+    </div>
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"
