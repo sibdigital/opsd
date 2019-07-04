@@ -28,7 +28,8 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
       }]
     }
   };
-  public rukovoditel_proekta:boolean = false;
+  public rukovoditelProekta:boolean = false;
+  public rukProektOfisa:boolean = false;
   public kurator:boolean = false;
   public barChartLabels:Label[] = [];
   public barChartType:ChartType = 'bar';
@@ -42,6 +43,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
   public percentageDones:number[] = [];
   public isRukovoditel:boolean[] = [];
   public isKurator:boolean[] = [];
+  public isRukProektOfisa:boolean[] = [];
   public wpNames:string[] = [];
 
   constructor(protected I18n:I18nService,
@@ -65,6 +67,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
       this.wpNames.push(projectResource.name);
       this.isRukovoditel.push(projectResource.isRukovoditel);
       this.isKurator.push(projectResource.isKurator);
+      this.isRukProektOfisa.push(projectResource.isRukProektOfisa);
       this.barChartData[0].data = this.wpCounts;
       this.barChartData[1].data = this.percentageDones;
       this.barChartLabels = this.wpNames;
@@ -77,13 +80,18 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
     let wpNamesLocal:string[] = [];
     for (let i = 0; i < this.isRukovoditel.length; i++) {
       let allowed = true;
-      if (this.rukovoditel_proekta) {
+      if (this.rukovoditelProekta) {
         if (!this.isRukovoditel[i]) {
           allowed = false;
         }
       }
       if (this.kurator) {
         if (!this.isKurator[i]) {
+          allowed = false;
+        }
+      }
+      if (this.rukProektOfisa) {
+        if (!this.isRukProektOfisa[i]) {
           allowed = false;
         }
       }
