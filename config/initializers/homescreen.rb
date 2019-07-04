@@ -60,7 +60,22 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     },
 
     {
-      partial: 'diagram_date_ratio',
+      partial: 'diagram_date_ratio_as_rukovoditel',
+      if: Proc.new { User.current.logged? }
+    },
+
+    {
+      partial: 'diagram_date_ratio_as_kurator',
+      if: Proc.new { User.current.logged? }
+    },
+
+    {
+      partial: 'diagram_date_ratio_as_ruk_proekt_ofisa',
+      if: Proc.new { User.current.logged? }
+    },
+
+    {
+      partial: 'diagram_date_ratio_as_koordinator',
       if: Proc.new { User.current.logged? }
     },
     # )

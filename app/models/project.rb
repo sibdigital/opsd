@@ -638,6 +638,36 @@ class Project < ActiveRecord::Base
     end
     exist
   end
+
+  def has_role_kurator
+    exist = false
+    User.current.roles(self).map do |role|
+      if role == Role.find_by(name: "Куратор проекта")
+        exist = true
+      end
+    end
+    exist
+  end
+
+  def has_role_ruk_proekt_ofisa
+    exist = false
+    User.current.roles(self).map do |role|
+      if role == Role.find_by(name: "Рук-ль Проектного офиса")
+        exist = true
+      end
+    end
+    exist
+  end
+
+  def has_role_koordinator
+    exist = false
+    User.current.roles(self).map do |role|
+      if role == Role.find_by(name: "Коорд-р от Проектного офиса")
+        exist = true
+      end
+    end
+    exist
+  end
   # )
 
   # Return true if this project is allowed to do the specified action.

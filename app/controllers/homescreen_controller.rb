@@ -62,15 +62,26 @@ class HomescreenController < ApplicationController
 
     #bbm(
     @rukovoditel_proekta_dlya_etih_proektov = []
+    @kurator_dlya_etih_proektov = []
+    @ruk_proekt_ofisa_dlya_etih_proektov = []
+    @koordinator_dlya_etih_proektov = []
     Project.all.map do |project|
       current_user.roles(project).map do |role|
         if role == Role.find_by(name: "Руководитель проекта")
           @rukovoditel_proekta_dlya_etih_proektov << project
         end
+        if role == Role.find_by(name: "Куратор проекта")
+          @kurator_dlya_etih_proektov << project
+        end
+        if role == Role.find_by(name: "Рук-ль Проектного офиса")
+          @ruk_proekt_ofisa_dlya_etih_proektov << project
+        end
+        if role == Role.find_by(name: "Коорд-р от Проектного офиса")
+          @koordinator_dlya_etih_proektov << project
+        end
       end
     end
     # )
-    @rukovoditel_proekta_dlya_etih_proektov
   end
 
   def robots

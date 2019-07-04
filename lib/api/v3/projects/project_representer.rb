@@ -89,6 +89,18 @@ module API
                  getter: ->(*) {
                    has_role_rukovoditel
                  }
+        property :is_kurator,
+                 getter: ->(*) {
+                   has_role_kurator
+                 }
+        property :is_ruk_proekt_ofisa,
+                 getter: ->(*) {
+                   has_role_ruk_proekt_ofisa
+                 }
+        property :is_koordinator,
+                 getter: ->(*) {
+                   has_role_koordinator
+                 }
         # )
 
         property :created_on,
