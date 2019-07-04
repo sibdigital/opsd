@@ -1,3 +1,3 @@
-class Stage < ApplicationRecord
+class Stage < ActiveRecord::Base
   belongs_to :project
 end

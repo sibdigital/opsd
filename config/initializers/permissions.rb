@@ -39,9 +39,9 @@ Redmine::AccessControl.map do |map|
                                    destroy],
                    # )
                    #zbd(
-                   stages: %i[index]},
-                   # )
-                   #},
+                   stages: %i[show]
+                   #)
+                   },
                  public: true
 
   map.permission :search_project,

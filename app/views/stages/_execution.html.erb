@@ -1,11 +1,13 @@
 <div style="display: block;">
-  <div style="margin: 10px;">
-    <%= link_to 'Новости', project_news_index_path(@project)  %>
-  </div>
-  <div style="margin: 10px;">
-    <%= link_to 'Календарь', project_work_packages_calendar_index_path(@project)  %>
-  </div>
-  <div style="margin: 10px;">
-    <%= link_to 'Совещания', meetings_path(@project)  %>
-  </div>
+  <ul class="widget-box--arrow-links">
+    <li style="margin: 10px;">
+      <%= link_to 'Новости', project_news_index_path(@project)  %>
+    </li>
+    <li style="margin: 10px;">
+      <%= link_to 'Календарь', project_work_packages_calendar_index_path(@project)  %>
+    </li>
+    <li style="margin: 10px;">
+      <%= link_to 'Совещания', meetings_path(@project)  %>
+    </li>
+  </ul>
 </div>
