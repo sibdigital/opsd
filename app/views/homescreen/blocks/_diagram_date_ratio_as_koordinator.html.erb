@@ -1,0 +1,10 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-projects') %>
+  <span class="widget-box--header-title"><%= l(:label_diagram_date_ratio) %> для роли Координатор</span>
+</h3>
+
+<% @koordinator_dlya_etih_proektov.each do |project| %>
+  <p><%= project %></p>
+  <wp-overview-date-diagram chart-data='<%=diagram_by_date_amount(project)%>'>
+  </wp-overview-date-diagram>
+<% end %>

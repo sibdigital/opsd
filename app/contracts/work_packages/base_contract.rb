@@ -40,6 +40,7 @@ module WorkPackages
 
     #bbm(
     attribute :plan_type
+    attribute :sed_href
     # )
     attribute :subject
     attribute :description

@@ -3,6 +3,7 @@
   <span class="widget-box--header-title"><%= l(:label_project_plural) %></span>
 </h3>
 
+
 <% if @newest_projects.empty? %>
   <p class="widget-box--additional-info">
     <%= t('homescreen.additional.no_visible_projects') %>
@@ -18,6 +19,48 @@
     <% end %>
   </ul>
 <% end %>
+
+<!--bbm(-->
+<p class="widget-box--additional-info">Проекты по которым я являюсь руководителем проекта (<%= @rukovoditel_proekta_dlya_etih_proektov.count %>)</p>
+<ul class="widget-box--arrow-links">
+  <% @rukovoditel_proekta_dlya_etih_proektov.each do |project| %>
+    <li>
+      <%= link_to project, project_path(project), title: project.short_description %>
+      <small>(<%= format_date(project.created_on) %>)</small>
+    </li>
+  <% end %>
+</ul>
+
+<p class="widget-box--additional-info">Проекты по которым я являюсь куратором проекта (<%= @kurator_dlya_etih_proektov.count %>)</p>
+<ul class="widget-box--arrow-links">
+  <% @kurator_dlya_etih_proektov.each do |project| %>
+    <li>
+      <%= link_to project, project_path(project), title: project.short_description %>
+      <small>(<%= format_date(project.created_on) %>)</small>
+    </li>
+  <% end %>
+</ul>
+
+<p class="widget-box--additional-info">Проекты по которым я являюсь руководителем проектного офиса (<%= @ruk_proekt_ofisa_dlya_etih_proektov.count %>)</p>
+<ul class="widget-box--arrow-links">
+  <% @ruk_proekt_ofisa_dlya_etih_proektov.each do |project| %>
+    <li>
+      <%= link_to project, project_path(project), title: project.short_description %>
+      <small>(<%= format_date(project.created_on) %>)</small>
+    </li>
+  <% end %>
+</ul>
+
+<p class="widget-box--additional-info">Проекты по которым я являюсь координатором от проектного офиса (<%= @koordinator_dlya_etih_proektov.count %>)</p>
+<ul class="widget-box--arrow-links">
+  <% @koordinator_dlya_etih_proektov.each do |project| %>
+    <li>
+      <%= link_to project, project_path(project), title: project.short_description %>
+      <small>(<%= format_date(project.created_on) %>)</small>
+    </li>
+  <% end %>
+</ul>
+<!--)-->
 
 <div class="widget-box--blocks--buttons">
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>

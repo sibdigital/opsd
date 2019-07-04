@@ -42,12 +42,14 @@ import {WorkPackageDisplayField} from "core-app/modules/fields/display/field-typ
 import {SpentTimeDisplayField} from "core-app/modules/fields/display/field-types/wp-display-spent-time-field.module";
 import {IdDisplayField} from "core-app/modules/fields/display/field-types/wp-display-id-field.module";
 import {HighlightedResourceDisplayField} from "core-app/modules/fields/display/field-types/wp-display-highlighted-resource-field.module";
+import {HrefDisplayField} from "core-app/modules/fields/display/field-types/wp-display-href-field.module";
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
     displayFieldService.defaultFieldType = 'text';
     displayFieldService
       .addFieldType(TextDisplayField, 'text', ['String'])
+      .addFieldType(HrefDisplayField, 'href', ['Href'])
       .addFieldType(FloatDisplayField, 'float', ['Float'])
       .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
       .addFieldType(HighlightedResourceDisplayField, 'highlight', [
