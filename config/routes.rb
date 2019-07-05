@@ -173,6 +173,8 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
 
+      get 'stages', controller: 'stages', action: 'show' #, as: :stages
+
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
@@ -190,11 +192,20 @@ OpenProject::Application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
+
     end
 
     collection do
       get :level_list
     end
+
+    #zbd(
+    # resources :stages, only: :show, controller: 'stages' do
+    #   get 'stages(/:tab)'=>'stages#show', on: :member #, as: :stages
+    # end
+    get 'stages', controller: 'stages', action: 'show', as: :stages
+    #get 'stages(/:id)', to: 'stages#show', as: :stages #, controller: 'stages', action: 'show' #, on: :member #, as: :stages
+    # )
 
     resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
 
@@ -279,17 +290,6 @@ OpenProject::Application.routes.draw do
     end
     # )
 
-    #zbd(
-    resources :stages, only: :index, controller: 'stages'
-    #resources :stages do
-    #  get '/edit/:tab' => 'stages#edit', on: :member, as: 'edit_tab'
-      #match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
-    #end
-    # )
-
-    #xcc(
-    resources :targets, only: :index, controller: 'targets'
-    # )
     resources :activity, :activities, only: :index, controller: 'activities'
 
     resources :boards do

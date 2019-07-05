@@ -50,6 +50,10 @@ module WorkPackages
     attribute :category_id
     #zbd(
     attribute :contract_id
+    attribute :result_agreed,
+      writeable: ->(*) {
+        model.leaf?
+      }
     # )
     #xcc(
     attribute :organization_id

@@ -278,9 +278,9 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   ##zbd(
   menu.push :stages,
-            { controller: '/stages', action: 'index' },
-            caption: :label_stages,
+            { controller: '/stages', action: 'show' },
             param: :project_id,
+            caption: :label_stages,
             if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-info1'
   # )
