@@ -444,7 +444,7 @@ class PermittedParams
 
   # zbd (
   def contract
-    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor)
+    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :eis_href)
   end
   # )
 

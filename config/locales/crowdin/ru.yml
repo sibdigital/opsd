@@ -799,6 +799,7 @@ ru:
     contract_subject: Предмет контракта
     contract_num: № контракта
     contract_date: Дата контракта
+    eis_href: Ссылка на ЕИС
     price: Цена контракта
     executor: Исполнитель
     summary: Сводка
