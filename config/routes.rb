@@ -173,6 +173,8 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
 
+      get 'stages', controller: 'stages', action: 'show' #, as: :stages
+
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
@@ -191,16 +193,19 @@ OpenProject::Application.routes.draw do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
 
-      #zbd(
-      #resources :stages, only: :index, controller: 'stages'
-      get 'stages(/:tab)', controller: 'stages', action: 'show' #, as: :stages
-      # )
-
     end
 
     collection do
       get :level_list
     end
+
+    #zbd(
+    # resources :stages, only: :show, controller: 'stages' do
+    #   get 'stages(/:tab)'=>'stages#show', on: :member #, as: :stages
+    # end
+    get 'stages', controller: 'stages', action: 'show', as: :stages
+    #get 'stages(/:id)', to: 'stages#show', as: :stages #, controller: 'stages', action: 'show' #, on: :member #, as: :stages
+    # )
 
     resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
 
