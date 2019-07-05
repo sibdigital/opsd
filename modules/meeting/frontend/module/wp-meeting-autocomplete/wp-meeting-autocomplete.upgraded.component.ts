@@ -76,15 +76,15 @@ export class WpMeetingAutocompleteComponent {
           width: '750px',
           data: ELEMENT_DATA
         });
-        dialogRef.afterClosed().subscribe(result => {
+        /*dialogRef.afterClosed().subscribe(result => {
           if (result) {
             this.selectedWP = result.name;
-            /*this.$element = jQuery(this.elementRef.nativeElement);
+            this.$element = jQuery(this.elementRef.nativeElement);
             const input = this.$input = this.$element.find('.wp-relations--autocomplete');
             input.val(this.getIdentifier(result));
-            this.onSelect.emit(result.id);*/
+            this.onSelect.emit(result.id);
           }
-        });
+        });*/
       });
   }
 }

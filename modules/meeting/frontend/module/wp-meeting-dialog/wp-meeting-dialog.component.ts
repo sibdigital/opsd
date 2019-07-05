@@ -17,6 +17,7 @@ export interface PeriodicElement {
 })
 export class WpMeetingDialogComponent implements OnInit{
   displayedColumns: string[] = ['id', 'subject', 'type', 'status', 'assignee'];
+  dataSource:MatTableDataSource<PeriodicElement>;
 
   public text = {
     subject: this.I18n.t('js.work_packages.properties.subject'),
@@ -30,13 +31,14 @@ export class WpMeetingDialogComponent implements OnInit{
   constructor(
     public dialogRef: MatDialogRef<WpMeetingDialogComponent>,
     readonly I18n:I18nService,
-    @Inject(MAT_DIALOG_DATA) public data: PeriodicElement) {
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.dataSource = data;
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.data.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
 
   onNoClick(): void {
