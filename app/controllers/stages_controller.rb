@@ -8,14 +8,15 @@ class StagesController < ApplicationController
   before_action :get_tab_stages
 
   def show
-    #@tab = params[:tab] || 'init'
+    #params['id'] = params['project_id']
+    @tab = params[:tab]
+    @id = params['project_id']
   end
 
   private
 
   def stages_init
     @altered_project = @project
-    params['id'] = params['project_id']
   end
 
   def stages_control
@@ -64,7 +65,13 @@ class StagesController < ApplicationController
   end
 
   def find_project
-    @project = Project.find(params[:id])
+    #params['id'] = params['project_id']
+    if !params[:id].nil?
+      @project = Project.find(params[:id])
+    else
+      @project = Project.find(params[:project_id])
+      params['id'] = params['project_id']
+    end
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
