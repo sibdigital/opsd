@@ -362,9 +362,9 @@ class PermittedParams
   # all the time.
   def message(instance = nil)
     if instance && current_user.allowed_to?(:edit_messages, instance.project)
-      params.fetch(:message, {}).permit(:subject, :content, :board_id, :locked, :sticky)
+      params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id, :locked, :sticky)
     else
-      params.fetch(:message, {}).permit(:subject, :content, :board_id)
+      params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id)
     end
   end
 

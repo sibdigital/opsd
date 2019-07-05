@@ -56,6 +56,7 @@ export interface WorkPackageResourceEmbedded {
   category:HalResource|any;
   //zbd(
   contract:HalResource|any;
+  result_agreed:boolean;
   //)
   children:WorkPackageResource[];
   parent:HalResource|any;

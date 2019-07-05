@@ -51,9 +51,9 @@ class HomescreenController < ApplicationController
       if (MemberRole.joins("INNER JOIN members ON member_roles.member_id=members.id INNER JOIN roles ON member_roles.role_id=roles.id")
            .where("position in (?) and user_id = ?", [6, 7, 9, 10, 11, 12, 14, 15, 16], @user.id)
            .count > 0) or (@user.admin)
-        @works = WorkPackage.visible(@user).where({due_date: (Date.today)..now})
+        @works = WorkPackage.visible(@user).where("due_date >= :d1 and due_date <= :d2 and done_ratio<100", {d1: Date.today, d2: now})
       else
-        @works = WorkPackage.with_assigned(@user).where({due_date: (Date.today)..now})
+        @works = WorkPackage.with_assigned(@user).where("due_date >= :d1 and due_date <= :d2 and done_ratio<100", {d1: Date.today, d2: now}) #{due_date: (Date.today)..now})
       end
     end
     # )
