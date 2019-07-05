@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatPaginator, MatTableDataSource} from "@angular/material";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
@@ -11,14 +11,13 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'wp-relations-dialog',
-  templateUrl: './wp-relations-dialog.html',
-  styleUrls: ['./wp-relations-dialog.sass']
+  selector: 'wp-boards-dialog',
+  templateUrl: './wp-topics-dialog.html',
+  styleUrls: ['./wp-topics-dialog.sass']
 })
-export class WpRelationsDialogComponent implements OnInit {
+export class WpTopicsDialogComponent implements OnInit {
   displayedColumns:string[] = ['id', 'subject', 'type', 'status', 'assignee'];
   dataSource:MatTableDataSource<PeriodicElement>;
-  planType:string|undefined;
 
   public text = {
     subject: this.I18n.t('js.work_packages.properties.subject'),
@@ -30,11 +29,10 @@ export class WpRelationsDialogComponent implements OnInit {
   };
 
   constructor(
-    public dialogRef:MatDialogRef<WpRelationsDialogComponent>,
+    public dialogRef:MatDialogRef<WpTopicsDialogComponent>,
     readonly I18n:I18nService,
     @Inject(MAT_DIALOG_DATA) public data:any) {
-    this.dataSource = new MatTableDataSource<PeriodicElement>(data.wp_array);
-    this.planType = data.planType;
+    this.dataSource = data;
   }
 
   @ViewChild(MatPaginator) paginator:MatPaginator;
@@ -45,15 +43,5 @@ export class WpRelationsDialogComponent implements OnInit {
 
   onNoClick():void {
     this.dialogRef.close();
-  }
-
-  description():string {
-    if (this.planType === 'execution') {
-      return this.text.execution;
-    }
-    if (this.planType === 'planning') {
-      return this.text.planning;
-    }
-    return "";
   }
 }
