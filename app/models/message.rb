@@ -31,6 +31,9 @@ class Message < ActiveRecord::Base
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :board
+  #bbm(
+  belongs_to :work_package
+  # )
   has_one :project, through: :board
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
