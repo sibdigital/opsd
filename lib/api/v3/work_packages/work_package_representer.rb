@@ -430,8 +430,8 @@ module API
         # )
 
          #xcc(
-#         associated_resource :organizations,
-#                             link_title_attribute: :name
+         associated_resource :organization,
+                             link_title_attribute: :name
 
          # )
 

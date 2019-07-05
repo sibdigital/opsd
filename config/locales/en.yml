@@ -808,6 +808,8 @@ en:
     version: Этап
     work_package: Пакет работ
     #(xcc
+    organization: Организация
+    parent_organization: Вышестоящая организация
     inn: ИНН
     is_legal_entity: Юридическое лицо
     #)
@@ -1635,7 +1637,7 @@ en:
   label_path_encoding: Кодирование пути
   label_pdf_with_descriptions: PDF с описаниями
   label_per_page: Постранично
-  label_people: Люди
+  label_people: Ответственные
   label_permissions: Разрешения
   label_permissions_report: Отчёт о разрешениях
   label_personalize_page: Персонализация страницы

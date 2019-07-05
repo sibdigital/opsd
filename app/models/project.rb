@@ -148,6 +148,9 @@ class Project < ActiveRecord::Base
   #zbd(
   has_many :stages, dependent: :destroy
   # )
+  #xcc(
+    has_many :targets, dependent: :destroy
+  # )
 
   #tan(
   # эти статусы необходимы для того, чтобы соблюсти требования ТТ (стр 27) - ProjectStatus

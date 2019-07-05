@@ -51,10 +51,9 @@ module WorkPackages
     #zbd(
     attribute :contract_id
     # )
-#    #xcc(
-#    attribute :org_controlling_id
-#    attribute :org_performer_id
-#    # )
+    #xcc(
+    attribute :organization_id
+    # )
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable
     end

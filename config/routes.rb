@@ -287,6 +287,9 @@ OpenProject::Application.routes.draw do
     #end
     # )
 
+    #xcc(
+    resources :targets, only: :index, controller: 'targets'
+    # )
     resources :activity, :activities, only: :index, controller: 'activities'
 
     resources :boards do

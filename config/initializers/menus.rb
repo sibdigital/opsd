@@ -267,6 +267,14 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
             { controller: '/projects', action: 'show' },
             icon: 'icon2 icon-info1'
+  #xcc(
+  menu.push :targets,
+            { controller: '/targets', action: 'index' },
+            caption: :label_targets,
+            param: :project_id,
+            if: Proc.new { |p| p.module_enabled?('targets') },
+            icon: 'icon2 icon-info1'
+  # )
 
   ##zbd(
   menu.push :stages,

@@ -55,8 +55,8 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
   #xcc(
-  belongs_to :org_performer, class_name: 'Organization', foreign_key: 'org_performer_id'
-  belongs_to :org_controlling, class_name: 'Organization', foreign_key: 'org_controlling_id'
+  belongs_to :organization, class_name: 'Organization', foreign_key: 'organization_id'
+
   # )
 
   #zbd(

@@ -56,6 +56,10 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         //zbd(
         'Contract',
         //)
+        //xcc(
+        'Organization',
+        //)
+
         'CustomOption',
         'Project'])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [

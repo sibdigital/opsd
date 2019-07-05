@@ -785,6 +785,7 @@ ru:
     cabinet: Кабинет
     name: Имя
     #(xcc
+    organization: Организация
     parent_organization: Вышестоящая организация
     #)
     password: Пароль
@@ -1500,6 +1501,8 @@ ru:
   label_stage_execution: Исполнение
   label_stage_control: Контроль
   label_stage_completion: Завершение
+
+  label_targets: Целевые показатели
 
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
