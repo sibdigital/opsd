@@ -2153,6 +2153,9 @@ ru:
   permission_log_time: Учитывать потраченное время
   permission_manage_boards: Управление форумами
   permission_manage_categories: Управление категориями пакета работ
+  #zbd(
+  permission_manage_contracts: Управление гос.контрактами
+  #)
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
   permission_manage_news: Управление новостями

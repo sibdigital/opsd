@@ -131,7 +131,7 @@ module API
           schema :result_agreed,
                  type: 'Boolean',
                  required: false,
-                show_if: ->(*) { !represented.milestone? }
+                 show_if: ->(*) { !represented.milestone? }
           # )
 
           schema :description,
