@@ -794,6 +794,7 @@ ru:
     contract_date: Дата контракта
     price: Цена контракта
     executor: Исполнитель
+    eis_href: Ссылка на ЕИС
     #)
     possibility: Вероятность наступления
     priority: Приоритет
@@ -804,12 +805,6 @@ ru:
     start_date: Дата начала
     status: Состояние
     subject: Тема
-    contract_subject: Предмет контракта
-    contract_num: № контракта
-    contract_date: Дата контракта
-    eis_href: Ссылка на ЕИС
-    price: Цена контракта
-    executor: Исполнитель
     summary: Сводка
     title: Заголовок
     type: Тип
