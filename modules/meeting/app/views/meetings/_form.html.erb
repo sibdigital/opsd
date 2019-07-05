@@ -27,7 +27,7 @@ See doc/COPYRIGHT.md for more details.
     <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
   </div>
 
-  <wp-meeting-autocomplete-upgraded>
+  <wp-meeting-autocomplete-upgraded wpId='<%= @meeting.work_package ? @meeting.work_package.id : '' %>'>
   </wp-meeting-autocomplete-upgraded>
 
   <div class="form--field">

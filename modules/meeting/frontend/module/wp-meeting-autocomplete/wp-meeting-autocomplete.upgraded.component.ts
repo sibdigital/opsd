@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from '@angular/core';
+import {Component, ElementRef} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
@@ -41,21 +41,25 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
   templateUrl: './wp-meeting-autocomplete.upgraded.html'
 })
 export class WpMeetingAutocompleteComponent {
-  public selectedWP: string;
+  public selectedWP: string = '';
+  public selectedWPid: string;
 
   constructor(readonly pathHelper:PathHelperService,
+              readonly element:ElementRef,
               protected halResourceService:HalResourceService,
               readonly I18n:I18nService,
               public dialog:MatDialog) {
-    this.selectedWP="Hello";
-    this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpBySubjectOrId('1', true).toString())
-      .toPromise()
-      .then((wps:CollectionResource<WorkPackageResource>) => {
-        if(wps.count>0){
-          this.selectedWP = wps.elements[0].subject || '';
-        }
-      });
+    if (this.element.nativeElement.getAttribute('wpId')) {
+      this.selectedWPid = JSON.parse(this.element.nativeElement.getAttribute('wpId'));
+      this.halResourceService
+        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpBySubjectOrId(this.selectedWPid, true).toString())
+        .toPromise()
+        .then((wps: CollectionResource<WorkPackageResource>) => {
+          if (wps.count > 0) {
+            this.selectedWP = wps.elements[0].subject || '';
+          }
+        });
+    }
   }
 
   //bbm(
@@ -76,15 +80,12 @@ export class WpMeetingAutocompleteComponent {
           width: '750px',
           data: ELEMENT_DATA
         });
-        /*dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            this.selectedWP = result.name;
-            this.$element = jQuery(this.elementRef.nativeElement);
-            const input = this.$input = this.$element.find('.wp-relations--autocomplete');
-            input.val(this.getIdentifier(result));
-            this.onSelect.emit(result.id);
+            this.selectedWP = result.subject;
+            this.selectedWPid = result.id;
           }
-        });*/
+        });
       });
   }
 }
