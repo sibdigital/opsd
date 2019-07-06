@@ -39,7 +39,7 @@ class Role < ActiveRecord::Base
   BUILTIN_PROJECT_CURATOR = 4
   BUILTIN_PROJECT_CUSTOMER = 5
   BUILTIN_PROJECT_OFFICE_MANAGER = 6
-  PROJECT_ACTIVITY_COORDINATOR = 7
+  BUILTIN_PROJECT_ACTIVITY_COORDINATOR = 7
   BUILTIN_PROJECT_OFFICE_COORDINATOR = 8
   BUILTIN_EVENTS_RESPONSIBLE = 9
   BUILTIN_PROJECT_HEAD = 10
@@ -205,6 +205,10 @@ class Role < ActiveRecord::Base
   end
   def self.project_office_coordinator
     finded_role = where(builtin: BUILTIN_PROJECT_OFFICE_COORDINATOR).first
+    finded_role
+  end
+  def self.project_activity_coordinator
+    finded_role = where(builtin: BUILTIN_PROJECT_ACTIVITY_COORDINATOR).first
     finded_role
   end
   def self.events_responsible

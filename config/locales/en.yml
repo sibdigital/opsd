@@ -1092,6 +1092,19 @@ en:
   default_role_member: Участник
   default_type: Пакет работ
   #default_type_bug: Ошибка
+  default_project_status_not_start: не начат
+  default_project_status_in_work: в работе
+  default_project_status_ready_to_check: готов к проверке
+  default_project_status_completed: завершен
+  default_project_status_cancel: отменен
+  default_project_status_waiting: отложен
+  default_project_approve_status_init: инициирован
+  default_project_approve_status_approve_project_head: утвержден руководителем проекта
+  default_project_approve_status_agreed_project_office_coordinator: согласован координатором Проектного офиса
+  default_project_approve_status_agreed_project_office_manager: утвержден руководителем Проектного офиса
+  default_project_approve_status_approve_curator: утвержден куратором проекта
+  default_project_approve_status_approve_glava: утвержден Главой
+
   default_type_deliverable: Готово к предоставлению
   #tan 01.07.2019
   #default_type_epic: Эпический

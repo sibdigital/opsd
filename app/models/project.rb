@@ -158,6 +158,31 @@ class Project < ActiveRecord::Base
     ProjectStatus.find(project_status_id)
   end
 
+  def get_allowed_project_statuses
+    ProjectStatus.all
+  end
+
+  def get_allowed_project_approve_status
+    if User.current.admin? && false
+      statuses = ProjectApproveStatus.all
+    else
+      statuses = ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_init)
+
+      if User.current.project_head? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_approve_project_head)
+      elsif User.current.project_office_coordinator? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_agreed_project_office_coordinator)
+      elsif User.current.project_office_manager? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_agreed_project_office_manager)
+      elsif User.current.project_curator? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_approve_curator)
+      elsif User.current.project_activity_coordinator? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_approve_glava)
+      end
+    end
+    statuses
+  end
+
   def get_done_ratio
 
     sql = "with
