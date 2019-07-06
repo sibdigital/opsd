@@ -7,8 +7,20 @@ en:
   enumeration_doc_categories: "Категории документов"
   enumeration:
     document_category:
-      documentation: Документация
-      specification: Спецификация
+      sogl: "Соглашение"
+      npa: "Нормативно-правовой акт"
+      prikaz: "Приказ"
+      raspor: "Распоряжение"
+      letter: "Письмо"
+      kontrakt: "Контракт"
+      documentation: "Документация"
+      report: "Отчет"
+      etap_report: "Отчет о заверешнеии этапа"
+      end_report: "Отчет о завершении проекта"
+      info: "Информация"
+      analit_zap: "Аналитическая записка"
+      #documentation: Документация
+      #specification: Спецификация
       other: Прочее
   label_document_added: "Документ добавлен"
   label_document_new: "Новый документ"

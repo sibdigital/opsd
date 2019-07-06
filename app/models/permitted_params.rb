@@ -308,6 +308,8 @@ class PermittedParams
                                                 :responsible_id,
                                                 :identifier,
                                                 :project_type_id,
+                                                :project_approve_status_id, #+-tan 2019.07.06
+                                                :project_status_id,
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],

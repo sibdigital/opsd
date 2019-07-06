@@ -1079,6 +1079,14 @@ en:
   default_role_anonymous: Анонимно
   default_role_developer: Разработчик
   default_role_project_admin: Администратор проекта
+  default_role_project_curator: Куратор проекта
+  default_role_project_customer: Заказчик проекта
+  default_role_project_office_manager: Руководитель проектного офиса
+  default_role_project_activity_coordinator: Координатор проектной деятельности
+  default_role_project_office_coordinator: Координатор от проектного офиса
+  default_role_events_responsible: Ответственный за блок мероприятий
+  default_role_project_head: Руководитель проекта
+  default_role_project_office_admin: Администратор проектного офиса
   default_role_non_member: Не участник
   default_role_reader: Читатель
   default_role_member: Участник

@@ -773,6 +773,9 @@ ru:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     is_public: Общий
+    project_status: Статус
+    project_approve_status: Этап согласования
+
     issue: Пакет работ
     lastname: Фамилия
     login: Входное имя
@@ -1079,6 +1082,14 @@ ru:
   default_role_anonymous: Анонимно
   default_role_developer: Разработчик
   default_role_project_admin: Администратор проекта
+  default_role_project_curator: Куратор проекта
+  default_role_project_customer: Заказчик проекта
+  default_role_project_office_manager: Руководитель проектного офиса
+  default_role_project_activity_coordinator: Координатор проектной деятельности
+  default_role_project_office_coordinator: Координатор от проектного офиса
+  default_role_events_responsible: Ответственный за блок мероприятий
+  default_role_project_head: Руководитель проекта
+  default_role_project_office_admin: Администратор проектного офиса
   default_role_non_member: Не участник
   default_role_reader: Читатель
   default_role_member: Участник
@@ -1665,6 +1676,8 @@ ru:
   label_project_hierarchy: Иерархия проектов
   label_project_new: Инициировать проект
   label_project_plural: Проекты
+  label_project_reestr: Реестр проектов
+  label_done_ratio_project: Процент исполнения
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
   label_positions: "Должности"

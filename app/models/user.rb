@@ -682,6 +682,62 @@ class User < Principal
     User.current.admin? ? Role.all : User.current.roles_for_project(project)
   end
 
+  #+tan 2019.07.05
+  #project_admin, project_curator, project_customer,
+  #  project_office_manager, project_activity_coordinator, project_office_coordinator,
+  #  events_responsible, project_head, project_office_admin
+
+  def project_admin?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_admin.builtin}.size != null
+  end
+
+  def project_curator?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_curator.builtin}.size != null
+  end
+
+  def project_customer?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_customer.builtin}.size != null
+  end
+
+  def project_office_manager?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_office_manager.builtin}.size != null
+  end
+
+  def project_activity_coordinator?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_activity_coordinator.builtin}.size != null
+  end
+
+  def project_office_coordinator?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_office_coordinator.builtin}.size != null
+  end
+
+  def events_responsible?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.events_responsible.builtin}.size != null
+  end
+
+  def project_office_admin?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_office_admin.builtin}.size != null
+  end
+
+  def project_head?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.project_head.builtin}.size != null
+  end
+
+  def events_responsible?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.builtin == Role.events_responsible.builtin}.size != null
+  end
+  #-tan 2019.07.05
+
   ##
   # Returns true if no authentication method has been chosen for this user yet.
   # There are three possible methods currently:
