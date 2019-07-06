@@ -32,3 +32,33 @@
 
 <% end %>
 
+
+<% if !@exp_works.nil? %>
+  <br>
+  <h3 class="widget-box--header">
+    <%= op_icon('icon-context icon-projects') %>
+    <span class="widget-box--header-title"><%= 'Просроченные пакеты работ' %></span>
+  </h3>
+<!--  <p class="widget-box--additional-info"><%#=  %></p>-->
+  <table>
+    <thead>
+    <tr>
+      <th>Проект</th>
+      <th>Задача</th>
+      <th>Ответственный</th>
+      <th>Срок</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @exp_works.each do |task| %>
+      <tr>
+        <%= content_tag(:td, link_to(task.project.identifier, project_path(task.project.identifier), title: task.project.identifier)) %>
+        <%= content_tag(:td, link_to(task.subject, project_work_package_path(task.project.identifier, task.id, 'activity') + '?plan_type=execution', title: task.subject)) %>
+        <%= task.assigned_to_id == nil ? content_tag(:td, "-") : content_tag(:td, User.find(task.assigned_to_id).name) %>
+        <%= content_tag(:td, format_date(task.due_date)) %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+<% end %>

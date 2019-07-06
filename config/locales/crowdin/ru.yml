@@ -745,7 +745,6 @@ ru:
     base: 'Общая ошибка:'
     blocks_ids: Идентификаторы заблокированных рабочих пакетов
     category: Категория
-    contract: Гос.контракт
     sed_href: Ссылка СЭД
     code: Код
     comment: Комментарий
@@ -764,7 +763,6 @@ ru:
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
     firstname: Имя
-    patronymic: Отчество
     group: Группа
     groups: Группы
     groupname: Имя группы
@@ -781,6 +779,9 @@ ru:
     lastname: Фамилия
     login: Входное имя
     mail: Электронная почта
+    #zbd(
+    contract: Гос.контракт
+    patronymic: Отчество
     mail_add: Эл.почта (дополнительная)
     phone_wrk: Рабочий телефон
     phone_wrk_add: Добавочный номер
@@ -789,6 +790,14 @@ ru:
     cabinet: Кабинет
     name: Наименование
     password: Пароль
+    result_agreed: Результат согласован
+    contract_subject: Предмет контракта
+    contract_num: № контракта
+    contract_date: Дата контракта
+    price: Цена контракта
+    executor: Исполнитель
+    eis_href: Ссылка на ЕИС
+    #)
     possibility: Вероятность наступления
     priority: Приоритет
     project: Проект
@@ -798,11 +807,6 @@ ru:
     start_date: Дата начала
     status: Состояние
     subject: Тема
-    contract_subject: Предмет контракта
-    contract_num: № контракта
-    contract_date: Дата контракта
-    price: Цена контракта
-    executor: Исполнитель
     summary: Сводка
     title: Заголовок
     type: Тип
@@ -1795,9 +1799,11 @@ ru:
   label_typed_risks: Типовые риски
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
+  #zbd(
   label_contracts: Государственные контракты
   label_contracts_new: Новый гос.контракт
   label_contracts_value: Значение гос.контракта
+  #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
@@ -2156,6 +2162,9 @@ ru:
   permission_log_time: Учитывать потраченное время
   permission_manage_boards: Управление форумами
   permission_manage_categories: Управление категориями пакета работ
+  #zbd(
+  permission_manage_contracts: Управление гос.контрактами
+  #)
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
   permission_manage_news: Управление новостями

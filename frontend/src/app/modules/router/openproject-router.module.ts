@@ -38,6 +38,11 @@ import {
 import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
 import {ChartsModule} from "ng2-charts";
 import {FormsModule} from "@angular/forms";
+import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topics-dialog.component";
+import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
+import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatPaginatorIntlRussian";
 
 @NgModule({
   imports: [
@@ -49,6 +54,10 @@ import {FormsModule} from "@angular/forms";
     //bbm(
     ChartsModule,
     FormsModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule
     //)
   ],
   providers: [
@@ -58,21 +67,28 @@ import {FormsModule} from "@angular/forms";
       deps: [Injector],
       multi: true
     },
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
     FirstRouteService,
     //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent
+    WorkPackageHomescreenDoneRatioDiagramComponent,
+    WpTopicsAutocompleteComponent,
+    WpTopicsDialogComponent
     //)
   ],
   declarations: [
     ApplicationBaseComponent,
     //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent
+    WorkPackageHomescreenDoneRatioDiagramComponent,
+    WpTopicsAutocompleteComponent,
+    WpTopicsDialogComponent
     //)
   ],
   entryComponents: [
     ApplicationBaseComponent,
     //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent
+    WorkPackageHomescreenDoneRatioDiagramComponent,
+    WpTopicsAutocompleteComponent,
+    WpTopicsDialogComponent
     //)
   ],
   exports: [

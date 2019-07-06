@@ -39,9 +39,9 @@ Redmine::AccessControl.map do |map|
                                    destroy],
                    # )
                    #zbd(
-                   stages: %i[index]},
-                   # )
-                   #},
+                   stages: [:show]
+                   #)
+                   },
                  public: true
 
   map.permission :search_project,
@@ -56,6 +56,7 @@ Redmine::AccessControl.map do |map|
   map.permission :edit_project,
                  { projects: %i[edit update custom_fields],
                    project_settings: [:show],
+                   stages: [:show],
                    members: [:paginate_users] },
                  require: :member
 
