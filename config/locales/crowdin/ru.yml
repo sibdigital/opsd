@@ -775,6 +775,7 @@ ru:
     is_public: Общий
     project_status: Статус
     project_approve_status: Этап согласования
+    is_approve: Утвержден
 
     issue: Пакет работ
     lastname: Фамилия
@@ -786,7 +787,7 @@ ru:
     phone_mobile: Мобильный телефон
     address: Адрес
     cabinet: Кабинет
-    name: Имя
+    name: Наименование
     password: Пароль
     possibility: Вероятность наступления
     priority: Приоритет
@@ -1937,6 +1938,8 @@ ru:
     списка (того же списка)
   label_keyboard_shortcut_focus_next_item: Сфокусироваться на следующем элементе списка
     (того же списка)
+  label_approve: Утвержден
+  label_approve_in_progress: На утверждении
   auth_source:
     using_abstract_auth_source: Нельзя использовать абстрактную аутентификацию.
     ldap_error: 'LDAP-ошибка: %{error_message}'

@@ -413,11 +413,11 @@ class PermittedParams
   end
 
   def typed_risk
-    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
   end
 
   def project_risk
-    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
   end
 
   def choose_typed
@@ -434,10 +434,10 @@ class PermittedParams
   # )
   # +tan 2019.04.26
   def position
-    params.require(:position).permit(:name)
+    params.require(:position).permit(:name, :is_approve)
   end
   def organization
-    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id)
+    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve)
   end
   def depart
     params.require(:depart).permit(:organization_id, :name)
@@ -446,7 +446,7 @@ class PermittedParams
 
   # zbd (
   def contract
-    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor)
+    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve)
   end
   # )
 

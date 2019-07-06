@@ -40,4 +40,13 @@ This file written by BBM
                    label: @typed_risk.color_label
                } %>
   <% end %>
+  <% if User.current.admin?%>
+    <div class="form--field">
+      <%= f.check_box 'is_approve', container_class: '-middle'%>
+    </div>
+  <% else%>
+    <div class="form--field">
+      <%= f.check_box 'is_approve', container_class: '-middle', readonly: true, disabled: true %>
+    </div>
+  <% end %>
 </section>
