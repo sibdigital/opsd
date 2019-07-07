@@ -72,7 +72,7 @@ class RootSeeder < Seeder
           raise e unless e.message.downcase.include? "factory already registered"
         end
 
-        DevelopmentDataSeeder.new.seed!
+        #DevelopmentDataSeeder.new.seed!
       end
 
       rails_engines.each do |engine|

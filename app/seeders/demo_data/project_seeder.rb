@@ -30,7 +30,7 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
-      ["scrum-project", "demo-project"].each do |key|
+      ["umts", "cultura"].each do |key|
         puts " ↳ Creating #{key} project..."
 
         puts '   -Creating/Resetting project'
@@ -102,6 +102,7 @@ module DemoData
     end
 
     def create_project(key)
+      puts project_data(key)
       Project.create! project_data(key)
     end
 

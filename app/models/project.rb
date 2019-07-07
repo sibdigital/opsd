@@ -157,7 +157,11 @@ class Project < ActiveRecord::Base
     if project_approve_status_id == nil
       ProjectApproveStatus.default
     else
-      ProjectApproveStatus.find(project_approve_status_id)
+      begin
+        ProjectApproveStatus.find(project_approve_status_id)
+      rescue
+        ProjectApproveStatus.default
+      end
     end
   end
 
@@ -165,7 +169,11 @@ class Project < ActiveRecord::Base
     if project_status_id == nil
       ProjectStatus.default
     else
-      ProjectStatus.find(project_status_id)
+      begin
+        ProjectStatus.find(project_status_id)
+      rescue
+        ProjectStatus.default
+      end
     end
   end
 
@@ -317,6 +325,15 @@ class Project < ActiveRecord::Base
     if !initialized.key?('types') && !initialized.key?('type_ids')
       self.types = ::Type.default
     end
+
+    #+tan
+    if !initialized.key?('project_status_id')
+      self.project_status_id = ProjectStatus.default.id
+    end
+    if !initialized.key?('project_approve_status_id')
+      self.project_approve_status_id = ProjectApproveStatus.default.id
+    end
+    # -tan
   end
 
   def possible_members(criteria, limit)
