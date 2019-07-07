@@ -434,6 +434,12 @@ module API
         associated_resource :contract, link_title_attribute: :contract_subject
         # )
 
+         #xcc(
+         associated_resource :organization,
+                             link_title_attribute: :name
+
+         # )
+
         associated_resource :type
 
         associated_resource :priority

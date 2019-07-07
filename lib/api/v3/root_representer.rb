@@ -95,7 +95,13 @@ module API
           href: api_v3_paths.work_packages
         }
       end
-
+      #xcc(
+      link :organizations do
+        {
+          href: api_v3_paths.organizations
+        }
+      end
+      #)
       property :instance_name,
                getter: ->(*) { Setting.app_title }
 

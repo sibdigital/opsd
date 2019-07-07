@@ -1,0 +1,3 @@
+class TargetStatus < Enumeration
+
+end
