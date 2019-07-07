@@ -34,6 +34,7 @@ import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
 import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
+import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
 
 export const OPENPROJECT_ROUTES = [
   {

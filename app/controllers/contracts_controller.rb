@@ -18,6 +18,7 @@ class ContractsController < ApplicationController
                     'contract_date' => "#{Contract.table_name}.contract_date",
                     'contract_num' => "#{Contract.table_name}.contract_num",
                     'contract_subject' => "#{Contract.table_name}.contract_subject",
+                    'eis_href' => "#{Contract.table_name}.eis_href",
                     'price' => "#{Contract.table_name}.price",
                     'executor' => "#{Contract.table_name}.executor"
     }
@@ -39,7 +40,7 @@ class ContractsController < ApplicationController
   end
 
   def create
-    @contract = Contract.new(permitted_params.contract)
+   @contract = Contract.new(permitted_params.contract)
 
     if @contract.save
       flash[:notice] = l(:notice_successful_create)

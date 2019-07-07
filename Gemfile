@@ -148,6 +148,10 @@ gem 'cells-rails', '~> 0.0.9'
 
 gem 'meta-tags', '~> 2.11.0'
 
+#+tan 2019.07.07
+gem "roo", "~> 2.8.2"
+# -tan
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+

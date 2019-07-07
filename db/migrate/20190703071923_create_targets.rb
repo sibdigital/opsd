@@ -3,7 +3,7 @@ class CreateTargets < ActiveRecord::Migration[5.2]
     create_table :targets do |t|
       t.integer :status
       t.string :name
-      t.integer :type
+      t.integer :typen
       t.string :unit
       t.decimal :basic_value
       t.decimal :plan_value

@@ -267,12 +267,22 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
             { controller: '/projects', action: 'show' },
             icon: 'icon2 icon-info1'
+  #xcc(
+  menu.push :targets,
+            { controller: '/targets', action: 'index' },
+            param: :project_id,
+            caption: :label_target,
+            if: Proc.new { |p| p.module_enabled?('targets') },
+            icon: 'icon2 icon-info1'
+
+  # )
+
 
   ##zbd(
   menu.push :stages,
-            { controller: '/stages', action: 'index' },
-            caption: :label_stages,
+            { controller: '/stages', action: 'show' },
             param: :project_id,
+            caption: :label_stages,
             if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-info1'
   # )
@@ -308,23 +318,23 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_all_open_wps
 
   #bbm(
-  menu.push :work_packages_planning,
-            { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
-            param: :project_id,
-            caption: :label_plan_stage_package_plural,
-            icon: 'icon2 icon-view-timeline',
-            html: {
-              id: 'main-menu-plan-packages',
-              :'psp-query-menu' => 'psp-query-menu'
-            }
-
-  menu.push :work_packages_planning_query_select,
-            { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
-            param: :project_id,
-            parent: :work_packages_planning,
-            partial: 'work_packages/menu_query_select_planning',
-            last: true,
-            caption: :label_all_open_wps
+  # menu.push :work_packages_planning,
+  #           { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
+  #           param: :project_id,
+  #           caption: :label_plan_stage_package_plural,
+  #           icon: 'icon2 icon-view-timeline',
+  #           html: {
+  #             id: 'main-menu-plan-packages',
+  #             :'psp-query-menu' => 'psp-query-menu'
+  #           }
+  #
+  # menu.push :work_packages_planning_query_select,
+  #           { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
+  #           param: :project_id,
+  #           parent: :work_packages_planning,
+  #           partial: 'work_packages/menu_query_select_planning',
+  #           last: true,
+  #           caption: :label_all_open_wps
   # )
 
   menu.push :calendar,

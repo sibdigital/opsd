@@ -61,22 +61,22 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
 
     {
       partial: 'diagram_date_ratio_as_rukovoditel',
-      if: Proc.new { User.current.logged? }
+      if: Proc.new { User.current.logged? && !@rukovoditel_proekta_dlya_etih_proektov.empty? }
     },
 
     {
       partial: 'diagram_date_ratio_as_kurator',
-      if: Proc.new { User.current.logged? }
+      if: Proc.new { User.current.logged? && !@kurator_dlya_etih_proektov.empty? }
     },
 
     {
       partial: 'diagram_date_ratio_as_ruk_proekt_ofisa',
-      if: Proc.new { User.current.logged? }
+      if: Proc.new { User.current.logged? && !@ruk_proekt_ofisa_dlya_etih_proektov.empty? }
     },
 
     {
       partial: 'diagram_date_ratio_as_koordinator',
-      if: Proc.new { User.current.logged? }
+      if: Proc.new { User.current.logged? && !@koordinator_dlya_etih_proektov.empty? }
     },
     # )
     {

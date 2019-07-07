@@ -66,7 +66,7 @@ migrate() {
 	/etc/init.d/memcached start
 	bundle exec rake db:migrate db:seed db:structure:dump
 	/etc/init.d/memcached stop
-	chown app:app db/structure.sql
+	chown app:app db/_structure.sql
 	popd
 }
 

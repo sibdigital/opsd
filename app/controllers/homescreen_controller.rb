@@ -51,9 +51,9 @@ class HomescreenController < ApplicationController
       if (MemberRole.joins("INNER JOIN members ON member_roles.member_id=members.id INNER JOIN roles ON member_roles.role_id=roles.id")
            .where("position in (?) and user_id = ?", [6, 7, 9, 10, 11, 12, 14, 15, 16], @user.id)
            .count > 0) or (@user.admin)
-        @works = WorkPackage.visible(@user).where({due_date: (Date.today)..now})
+        @works = WorkPackage.visible(@user).where("due_date >= :d1 and due_date <= :d2 and done_ratio<100", {d1: Date.today, d2: now})
       else
-        @works = WorkPackage.with_assigned(@user).where({due_date: (Date.today)..now})
+        @works = WorkPackage.with_assigned(@user).where("due_date >= :d1 and due_date <= :d2 and done_ratio<100", {d1: Date.today, d2: now}) #{due_date: (Date.today)..now})
       end
     end
     # )
@@ -65,18 +65,19 @@ class HomescreenController < ApplicationController
     @kurator_dlya_etih_proektov = []
     @ruk_proekt_ofisa_dlya_etih_proektov = []
     @koordinator_dlya_etih_proektov = []
+    @all = Project.all
     Project.all.map do |project|
       current_user.roles(project).map do |role|
-        if role == Role.find_by(name: "Руководитель проекта")
+        if role == Role.find_by(name: I18n.t(:default_role_project_head))
           @rukovoditel_proekta_dlya_etih_proektov << project
         end
-        if role == Role.find_by(name: "Куратор проекта")
+        if role == Role.find_by(name: I18n.t(:default_role_project_curator))
           @kurator_dlya_etih_proektov << project
         end
-        if role == Role.find_by(name: "Рук-ль Проектного офиса")
+        if role == Role.find_by(name: I18n.t(:default_role_project_office_manager))
           @ruk_proekt_ofisa_dlya_etih_proektov << project
         end
-        if role == Role.find_by(name: "Коорд-р от Проектного офиса")
+        if role == Role.find_by(name: I18n.t(:default_role_project_office_coordinator))
           @koordinator_dlya_etih_proektov << project
         end
       end

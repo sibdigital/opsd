@@ -41,10 +41,9 @@ module BasicData
       end
 
       def category_i18n_keys
-        ['Соглашение', 'Нормативно-правовой акт', 'Приказ', 'Распоряжение', 'Письмо',
-         'Контракт', 'Документация', 'Отчет',
-         'Отчет о заверешнеии этапа', 'Отчет о завершении проекта', 'Информация',
-        'Аналитическая записка'].map do |name|
+        ['sogl', 'npa', 'prikaz', 'raspor', 'letter',
+         'kontrakt', 'documentation', 'report',
+         'etap_report', 'end_report', 'info','analit_zap'].map do |name|
           ['enumeration', 'document_category', name].join('.')
         end
       end

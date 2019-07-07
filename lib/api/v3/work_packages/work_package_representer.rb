@@ -329,6 +329,11 @@ module API
                  render_nil: true
         # )
 
+        #zbd(
+        property :result_agreed,
+                 render_nil: true
+        #)
+
         property :description,
                  exec_context: :decorator,
                  getter: ->(*) {
@@ -428,6 +433,12 @@ module API
         #zbd(
         associated_resource :contract, link_title_attribute: :contract_subject
         # )
+
+         #xcc(
+         associated_resource :organization,
+                             link_title_attribute: :name
+
+         # )
 
         associated_resource :type
 

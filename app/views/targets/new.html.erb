@@ -1,0 +1,16 @@
+<%#--
+This file written by xcc
+06/07/2019
+++#%>
+
+<% html_title l(:label_target_new) %>
+<%= breadcrumb_toolbar l(:label_target_new) %>
+<%= labelled_tabular_form_for [@project, @target], html: { id: 'target-form' } do |f| %>
+<%= render partial: 'targets/form', locals: { f: f } %>
+<%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+
+
+
+

@@ -672,7 +672,7 @@ ru:
         description: Ничего не найдено.
       property_groups:
         details: Детали
-        people: Люди
+        people: Ответственные
         estimatesAndTime: Смета & время
         other: Другие
       properties:

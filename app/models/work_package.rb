@@ -54,12 +54,20 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :fixed_version, class_name: 'Version', foreign_key: 'fixed_version_id'
   belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
+  #xcc(
+  belongs_to :organization, class_name: 'Organization', foreign_key: 'organization_id'
+
+  # )
 
   #zbd(
   belongs_to :contract, class_name: 'Contract', foreign_key: 'contract_id'
   #)
 
   has_many :time_entries, dependent: :delete_all
+  #bbm(
+  has_many :meetings, dependent: :delete_all
+  has_many :messages, dependent: :delete_all
+  # )
 
   has_and_belongs_to_many :changesets, -> {
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")

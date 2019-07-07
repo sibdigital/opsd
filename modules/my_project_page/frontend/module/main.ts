@@ -45,13 +45,13 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
                 let states = pluginContext.services.states;
                 states.add('overviews', multiInput<OverviewResource>());
             });
-      const hookService = injector.get(HookService);
-      hookService.register('openProjectAngularBootstrap', () => {
-          return [
-              { selector: 'wp-overview-status-diagram', cls: WorkPackageOverviewStatusDiagramComponent },
-              { selector: 'wp-overview-date-diagram', cls: WorkPackageOverviewDateDiagramComponent }
-          ];
-      });
+        const hookService = injector.get(HookService);
+        hookService.register('openProjectAngularBootstrap', () => {
+            return [
+                { selector: 'wp-overview-status-diagram', cls: WorkPackageOverviewStatusDiagramComponent },
+                { selector: 'wp-overview-date-diagram', cls: WorkPackageOverviewDateDiagramComponent }
+            ];
+        });
     };
 }
 

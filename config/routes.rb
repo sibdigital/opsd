@@ -173,6 +173,8 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
 
+      get 'stages', controller: 'stages', action: 'show' #, as: :stages
+
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
@@ -190,11 +192,20 @@ OpenProject::Application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
+
     end
 
     collection do
       get :level_list
     end
+
+    #zbd(
+    # resources :stages, only: :show, controller: 'stages' do
+    #   get 'stages(/:tab)'=>'stages#show', on: :member #, as: :stages
+    # end
+    get 'stages', controller: 'stages', action: 'show', as: :stages
+    #get 'stages(/:id)', to: 'stages#show', as: :stages #, controller: 'stages', action: 'show' #, on: :member #, as: :stages
+    # )
 
     resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
 
@@ -210,7 +221,9 @@ OpenProject::Application.routes.draw do
     match '/roadmap' => 'versions#index', via: :get
 
     resources :news, only: %i[index new create]
-
+    # xcc(
+    resources :targets#, only: %i[index new create edit]
+    #)
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
@@ -277,14 +290,6 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
-    # )
-
-    #zbd(
-    resources :stages, only: :index, controller: 'stages'
-    #resources :stages do
-    #  get '/edit/:tab' => 'stages#edit', on: :member, as: 'edit_tab'
-      #match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
-    #end
     # )
 
     resources :activity, :activities, only: :index, controller: 'activities'
@@ -401,6 +406,9 @@ OpenProject::Application.routes.draw do
     #zbd(
     resources :contracts
     # )
+    # +tan 2019.07.07
+    resources :plan_uploaders
+    #-tan
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
@@ -457,6 +465,14 @@ OpenProject::Application.routes.draw do
   #  match 'edit', action: 'edit', via: %i[get post]
   #end
   # - TAN
+  #
+   #xcc(
+  #get '/project_targets' => 'project_targets#index'
+
+   #scope '/project_targets' do
+  #resources :targets %i[index destroy update edit show]
+
+  # )
 
   # We should fix this crappy routing (split up and rename controller methods)
   get '/workflows' => 'workflows#index'

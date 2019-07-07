@@ -185,6 +185,16 @@ module API
             "#{newses}/#{id}"
           end
 
+          #xcc(
+          def self.organizations
+            "#{root}/organizations"
+          end
+
+          def self.organization(id)
+            "#{organizations}/#{id}"
+          end
+          # )
+
           def self.post(id)
             "#{root}/posts/#{id}"
           end

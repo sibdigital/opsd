@@ -1,0 +1,3 @@
+class TargetType < Enumeration
+
+end

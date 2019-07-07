@@ -79,15 +79,15 @@ en:
           categories:
             - Category 1 (to be changed in Project settings)
           queries:
-            - name: Bugs
+            - name: Мероприятия
               status: open
               type: :default_type_task
-            - name: Project plan
+            - name: План
               status: open
               timeline: true
               sort_by: id
               hierarchy: true
-            - name: Milestones
+            - name: Контрольные точки
               status: open
               type: :default_type_milestone
               timeline: true
@@ -99,7 +99,7 @@ en:
                 - start_date
                 - due_date
               sort_by: id
-            - name: Tasks
+            - name: Результаты
               status: open
               type: :default_type_result
               hierarchy: true

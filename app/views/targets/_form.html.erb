@@ -1,0 +1,16 @@
+<%#--
+This file written by XCC
+06/07/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :targets %>
+<section class="form--section">
+
+    <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+
+</section>

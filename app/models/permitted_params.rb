@@ -308,6 +308,8 @@ class PermittedParams
                                                 :responsible_id,
                                                 :identifier,
                                                 :project_type_id,
+                                                :project_approve_status_id, #+-tan 2019.07.06
+                                                :project_status_id,
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
@@ -362,9 +364,9 @@ class PermittedParams
   # all the time.
   def message(instance = nil)
     if instance && current_user.allowed_to?(:edit_messages, instance.project)
-      params.fetch(:message, {}).permit(:subject, :content, :board_id, :locked, :sticky)
+      params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id, :locked, :sticky)
     else
-      params.fetch(:message, {}).permit(:subject, :content, :board_id)
+      params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id)
     end
   end
 
@@ -411,11 +413,11 @@ class PermittedParams
   end
 
   def typed_risk
-    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
   end
 
   def project_risk
-    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id)
+    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
   end
 
   def choose_typed
@@ -432,19 +434,30 @@ class PermittedParams
   # )
   # +tan 2019.04.26
   def position
-    params.require(:position).permit(:name)
+    params.require(:position).permit(:name, :is_approve)
   end
   def organization
-    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id)
+    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve)
   end
   def depart
     params.require(:depart).permit(:organization_id, :name)
   end
+  def plan_uploader
+    params.require(:plan_uploader).permit(:name, :status, :upload_at)
+  end
+  #xcc(
+  def target
+    params.require(:target).permit(:status, :name, :type, :unit, :basic_value, :plan_value, :comment, :project_id)
+  end
+  def target_execution_values
+    params.require(:target).permit(:target_id, :year, :quarter, :value)
+  end
+  #)
   # -tan
 
   # zbd (
   def contract
-    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor)
+    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href)
   end
   # )
 

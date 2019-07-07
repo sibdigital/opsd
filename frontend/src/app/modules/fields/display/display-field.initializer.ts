@@ -58,6 +58,9 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         //zbd(
         'Contract',
         // )
+        //xcc(
+        'Organization',
+        // )
         'Priority'
       ])
       .addFieldType(ResourceDisplayField, 'resource', [

@@ -35,6 +35,7 @@ module BasicData
         end
 
         builtin_roles.each do |attributes|
+          puts attributes[:name]
           Role.find_by!(name: attributes[:name]).update_attributes(attributes)
         end
      end
@@ -49,16 +50,21 @@ module BasicData
     end
 
     def roles
-     [project_admin, member, reader,
-      #zbd(
-      project_curator, project_customer, project_office_manager, project_activity_coordinator,
-      project_office_coordinator, project_office_admin, project_head, events_responsible
+     [#project_admin,
+      member, reader,
+      #zbd( +tan 2019.07.05
+      #project_curator, project_customer, project_office_manager, project_activity_coordinator,
+      #project_office_coordinator, project_office_admin, project_head, events_responsible
       #)
       ]
     end
 
+    # 2019.07.05. tan: добавлены роли по умолчанию
     def builtin_roles
-      [non_member, anonymous]
+      [non_member, anonymous, project_admin, project_curator, project_customer,
+      project_office_manager, project_activity_coordinator, project_office_coordinator,
+      events_responsible, project_head, project_office_admin]
+
     end
 
     def member
@@ -142,7 +148,7 @@ module BasicData
 
     #zbd(
     def project_curator
-      { name: "Куратор проекта", position: 6, permissions: [
+      { name: I18n.t(:default_role_project_curator), position: 6, permissions: [
         :view_work_packages,
         :export_work_packages,
         :add_work_packages,
@@ -195,7 +201,7 @@ module BasicData
     end
 
     def project_customer
-      { name: "Заказчик проекта", position: 7, permissions: [
+      { name: I18n.t(:default_role_project_customer), position: 7, permissions: [
         :view_work_packages,
         :export_work_packages,
         :add_work_packages,
@@ -248,7 +254,7 @@ module BasicData
     end
 
     def project_office_manager
-      { name: "Рук-ль Проектного офиса", position: 8, permissions: [
+      { name: I18n.t(:default_role_project_office_manager), position: 8, permissions: [
         :view_work_packages,
         :export_work_packages,
         :add_work_packages,
@@ -301,7 +307,7 @@ module BasicData
     end
 
     def project_activity_coordinator
-      { name: "Координатор проектной деят.", position: 9, permissions: [
+      { name: I18n.t(:default_role_project_activity_coordinator), position: 9, permissions: [
         :view_work_packages,
         :export_work_packages,
         :add_work_packages,
@@ -354,19 +360,19 @@ module BasicData
     end
 
     def project_office_coordinator
-      { name: "Коорд-р от Проектного офиса", position: 10, permissions: Role.new.setable_permissions.map(&:name) }
+      { name: I18n.t(:default_role_project_office_coordinator), position: 10, permissions: Role.new.setable_permissions.map(&:name) }
     end
 
     def events_responsible
-      { name: "Отв. за блок мероприятий", position: 11, permissions: Role.new.setable_permissions.map(&:name) }
+      { name: I18n.t(:default_role_events_responsible), position: 11, permissions: Role.new.setable_permissions.map(&:name) }
     end
 
     def project_head
-      { name: "Руководитель проекта", position: 12, permissions: Role.new.setable_permissions.map(&:name) }
+      { name: I18n.t(:default_role_project_head), position: 12, permissions: Role.new.setable_permissions.map(&:name) }
     end
 
     def project_office_admin
-      { name: "Администратор проектного офиса", position: 13, permissions: Role.new.setable_permissions.map(&:name) }
+      { name: I18n.t(:default_role_project_office_admin), position: 13, permissions: Role.new.setable_permissions.map(&:name) }
     end
     # )
 

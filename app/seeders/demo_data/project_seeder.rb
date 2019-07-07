@@ -112,14 +112,17 @@ module DemoData
     end
 
     def set_members(project)
-      role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
-      user = User.admin.first
-
-      Member.create!(
-        project: project,
-        user: user,
-        roles: [role]
-      )
+      # +-tan 2019.07.06 need FIX !
+      # role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
+      # user = User.admin.first
+      # puts translate_with_base_url(:default_role_project_admin)
+      # puts role.builtin
+      #
+      # Member.create!(
+      #   project: project,
+      #   user: user,
+      #   roles: [role]
+      # )
     end
 
     def set_types(project, key)

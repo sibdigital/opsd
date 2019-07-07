@@ -1,0 +1,18 @@
+<%#--
+This file written by XCC
+06/07/2019
+++#%>
+
+<% html_title l(:label_administration), "#{l(:label_edit)} #{Target.model_name.human} #{h @target.name}" %>
+
+<% local_assigns[:additional_breadcrumb] =  @target %>
+<%= breadcrumb_toolbar @target %>
+
+<%= labelled_tabular_form_for @target do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(target_path(@target), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>
