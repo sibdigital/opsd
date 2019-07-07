@@ -405,6 +405,9 @@ OpenProject::Application.routes.draw do
     #zbd(
     resources :contracts
     # )
+    # +tan 2019.07.07
+    resources :plan_uploaders
+    #-tan
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
