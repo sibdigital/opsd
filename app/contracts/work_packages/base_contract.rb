@@ -38,6 +38,7 @@ module WorkPackages
       WorkPackage
     end
 
+
     #bbm(
     attribute :plan_type
     attribute :sed_href
@@ -50,14 +51,12 @@ module WorkPackages
     attribute :category_id
     #zbd(
     attribute :contract_id
-    attribute :result_agreed,
-      writeable: ->(*) {
-        model.leaf?
-      }
+
+    attribute :result_agreed do
+      validate_user_allowed_to_set_result_agreed :result_agreed, 'result_agreed'
+    end
     # )
-    #xcc(
-    attribute :organization_id
-    # )
+    #
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable
     end
@@ -119,6 +118,7 @@ module WorkPackages
                       message: :greater_than_or_equal_to_start_date,
                       allow_blank: true },
               unless: Proc.new { |wp| wp.start_date.blank? }
+
     validate :validate_enabled_type
 
     validate :validate_milestone_constraint
@@ -302,5 +302,16 @@ module WorkPackages
         query
       end
     end
+
+    #zbd(
+    def validate_user_allowed_to_set_result_agreed(attribute, id_attribute)
+      if model.changed.include?(id_attribute)
+        unless @user.allowed_to_in_project?(:manage_categories, model.project)
+          errors.add attribute, "У вас нет прав для изменения поля" #id_attribute, :error_unauthorized
+        end
+      end
+    end
+    #)
+
   end
 end

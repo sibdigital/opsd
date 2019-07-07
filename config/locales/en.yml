@@ -1081,11 +1081,32 @@ en:
   default_role_anonymous: Анонимно
   default_role_developer: Разработчик
   default_role_project_admin: Администратор проекта
+  default_role_project_curator: Куратор проекта
+  default_role_project_customer: Заказчик проекта
+  default_role_project_office_manager: Руководитель проектного офиса
+  default_role_project_activity_coordinator: Координатор проектной деятельности
+  default_role_project_office_coordinator: Координатор от проектного офиса
+  default_role_events_responsible: Ответственный за блок мероприятий
+  default_role_project_head: Руководитель проекта
+  default_role_project_office_admin: Администратор проектного офиса
   default_role_non_member: Не участник
   default_role_reader: Читатель
   default_role_member: Участник
   default_type: Пакет работ
   #default_type_bug: Ошибка
+  default_project_status_not_start: не начат
+  default_project_status_in_work: в работе
+  default_project_status_ready_to_check: готов к проверке
+  default_project_status_completed: завершен
+  default_project_status_cancel: отменен
+  default_project_status_waiting: отложен
+  default_project_approve_status_init: инициирован
+  default_project_approve_status_approve_project_head: утвержден руководителем проекта
+  default_project_approve_status_agreed_project_office_coordinator: согласован координатором Проектного офиса
+  default_project_approve_status_agreed_project_office_manager: утвержден руководителем Проектного офиса
+  default_project_approve_status_approve_curator: утвержден куратором проекта
+  default_project_approve_status_approve_glava: утвержден Главой
+
   default_type_deliverable: Готово к предоставлению
   #tan 01.07.2019
   #default_type_epic: Эпический
@@ -1666,7 +1687,7 @@ en:
   label_project_latest: Последние проекты
   label_project_default_type: Разрешить пустой тип
   label_project_hierarchy: Иерархия проектов
-  label_project_new: Новый проект
+  label_project_new: Инициировать проект
   label_project_plural: Проекты
   label_project_risks: Проектные риски
   label_project_risk_new: Новый проектный риск

@@ -72,7 +72,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
     Redmine::MenuManager::MenuItem.new(
       :new_project,
       { controller: '/projects', action: 'new' },
-      caption: Project.model_name.human,
+      caption: t(:label_project_new),
       icon: "icon-add icon4",
       html: {
         accesskey: OpenProject::AccessKeys.key_for(:new_project),

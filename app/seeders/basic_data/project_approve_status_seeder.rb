@@ -23,12 +23,12 @@ module BasicData
     def data
 
       [
-        { name: "инициирован", position: 1, type: "ProjectApproveStatus", active: true },
-        { name: "утвержден руководителем проекта", position: 2, type: "ProjectApproveStatus", active: true },
-        { name: "согласован координатором Проектного офиса", position: 4, type: "ProjectApproveStatus", active: true },
-        { name: "утвержден руководителем Проектного офиса", position: 5, type: "ProjectApproveStatus", active: true },
-        { name: "утвержден куратором проекта", position: 6, type: "ProjectApproveStatus", active: true },
-        { name: "утвержден Главой", position: 7, type: "ProjectApproveStatus", active: true }
+        { name: I18n.t(:default_project_approve_status_init), position: 1, type: "ProjectApproveStatus", active: true, is_default: true},
+        { name: I18n.t(:default_project_approve_status_approve_project_head), position: 2, type: "ProjectApproveStatus", active: true, is_default: false },
+        { name: I18n.t(:default_project_approve_status_agreed_project_office_coordinator), position: 4, type: "ProjectApproveStatus", active: true , is_default: false},
+        { name: I18n.t(:default_project_approve_status_agreed_project_office_manager), position: 5, type: "ProjectApproveStatus", active: true, is_default: false },
+        { name: I18n.t(:default_project_approve_status_approve_curator), position: 6, type: "ProjectApproveStatus", active: true, is_default: false },
+        { name: I18n.t(:default_project_approve_status_approve_glava), position: 7, type: "ProjectApproveStatus", active: true, is_default: false }
       ]
 
     end

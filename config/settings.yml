@@ -61,7 +61,7 @@ additional_footer_content:
   default: ''
 # The instance name
 app_title:
-  default: Цифровой проект 2018 - 2019
+  default: Цифровой проект
 app_subtitle:
   default: Информационная система управления проектами
 brute_force_block_minutes:
@@ -78,7 +78,7 @@ consent_time:
 consent_info:
   serialized: true
   default:
-    en: "## Consent\n\nYou need to agree to the [privacy and security policy](https://www.openproject.org/data-privacy-and-security/) of this OpenProject instance."
+    en: "##"
 # Indicates wether or not users need to consent to something such as privacy policy.
 consent_required:
   default: 0
@@ -122,9 +122,9 @@ password_days_valid:
   format: int
   default: 0
 software_name:
-  default: ИСУП - OpenProject
+  default: ИСУП
 software_url:
-  default: 'https://www.openproject.org/'
+  default: ''
 attachment_max_size:
   format: int
   default: 5120
