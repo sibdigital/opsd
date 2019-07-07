@@ -49,7 +49,7 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
       let(:summable_columns) { ['material_costs'] }
 
       it 'is represented' do
-        expected = "5.00 EUR"
+        expected = "5.00 руб"
         expect(subject).to be_json_eql(expected.to_json).at_path('materialCosts')
       end
     end
@@ -66,7 +66,7 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
       let(:summable_columns) { ['labor_costs'] }
 
       it 'is represented' do
-        expected = "10.00 EUR"
+        expected = "10.00 руб"
         expect(subject).to be_json_eql(expected.to_json).at_path('laborCosts')
       end
     end
@@ -83,7 +83,7 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
       let(:summable_columns) { ['overall_costs'] }
 
       it 'is represented' do
-        expected = "15.00 EUR"
+        expected = "15.00 руб"
         expect(subject).to be_json_eql(expected.to_json).at_path('overallCosts')
       end
     end

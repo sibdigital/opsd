@@ -30,7 +30,7 @@ module OpenProject::Costs
              author_url: 'http://finn.de',
              requires_openproject: "= #{OpenProject::Costs::VERSION}",
              settings: {
-               default: { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
+               default: { 'costs_currency' => 'руб','costs_currency_format' => '%n %u' },
                partial: 'settings/openproject_costs'
              },
              name: 'OpenProject Costs' do
@@ -238,7 +238,7 @@ module OpenProject::Costs
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
-      # format and not a string like "10 EUR"
+      # format and not a string like "10 руб"
       schema :overall_costs,
              type: 'String',
              required: false,

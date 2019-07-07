@@ -68,12 +68,13 @@ module DevelopmentData
     end
 
     def set_members(projects)
-      %w(reader member project_admin).each do |id|
-        user = User.find_by!(login: id)
-        role = Role.find_by!(name: I18n.t("default_role_#{id}"))
-
-        projects.each { |p| Member.create! project: p, user: user, roles: [role] }
-      end
+      # +-tan 2019.07.06 need FIX !
+      # %w(reader member project_admin).each do |id|
+      #   user = User.find_by!(login: id)
+      #   role = Role.find_by!(name: I18n.t("default_role_#{id}"))
+      #
+      #   projects.each { |p| Member.create! project: p, user: user, roles: [role] }
+      # end
     end
 
     def seed_versions(projects)

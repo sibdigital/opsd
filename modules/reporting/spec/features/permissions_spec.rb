@@ -70,7 +70,7 @@ describe 'Cost report calculations', type: :feature, js: true do
       report_page.switch_to_type 'Translations'
 
       expect(page).to have_content '3.0 plural_unit'
-      expect(page).to have_content '21.00 EUR'
+      expect(page).to have_content '21.00 default_type_task'
     end
   end
 

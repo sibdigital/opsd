@@ -149,6 +149,90 @@ class Project < ActiveRecord::Base
   has_many :stages, dependent: :destroy
   # )
 
+  #tan(
+  def get_project_approve_status
+    ProjectApproveStatus.find(project_approve_status_id)
+  end
+
+  def get_project_status
+    ProjectStatus.find(project_status_id)
+  end
+
+  def get_allowed_project_statuses
+    ProjectStatus.all
+  end
+
+  def get_allowed_project_approve_status
+    if User.current.admin? && false
+      statuses = ProjectApproveStatus.all
+    else
+      statuses = ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_init)
+
+      if User.current.project_head? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_approve_project_head)
+      elsif User.current.project_office_coordinator? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_agreed_project_office_coordinator)
+      elsif User.current.project_office_manager? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_agreed_project_office_manager)
+      elsif User.current.project_curator? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_approve_curator)
+      elsif User.current.project_activity_coordinator? self
+        statuses += ProjectApproveStatus.where name: I18n.t(:default_project_approve_status_approve_glava)
+      end
+    end
+    statuses
+  end
+
+  def get_done_ratio
+
+    sql = "with
+         rels as (
+           select from_id, to_id
+           from relations as r
+           where  hierarchy > 0 and from_id <> to_id
+         )
+         ,
+         only_childs as(
+           select distinct to_id as child_id
+           from rels
+         ),
+         wp as(
+           select id, done_ratio
+           from work_packages as w
+           where project_id = #{id}
+         ),
+         rels_wp as( select distinct w.id as id, from_id
+           from wp as w
+           inner join rels as r
+           on w.id = from_id
+         ),
+         done_wp as( select distinct w.id as id, done_ratio, from_id, child_id
+           from wp as w
+           left join rels_wp as r
+           on w.id = from_id
+           left join only_childs as o
+           on w.id = o.child_id
+         ),
+         only_parents as (select *
+           from done_wp as r
+           where r.child_id is null or (not r.from_id is null and r.child_id is null)
+         )
+    select avg(done_ratio) as done_ratio
+    from only_parents"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+
+    res = records_array[0]['done_ratio'].to_i
+    res
+  end
+  # эти статусы необходимы для того, чтобы соблюсти требования ТТ (стр 27) - ProjectStatus
+  # ProjectApproveStatus - для соблюдения 469 постановления, чтобы с помощью эжтого статуса можно было проводить
+  # согласование
+  # поле status используется чтобы передавать проект в архив т.е могут быть завершенные проекты, но в архив их
+  # передавать еще рано, например по ним проводится анализ или есть связанные с ними проекты
+  #belongs_to :project_approve_status#, class_name: 'ProjectApproveStatus'#, foreign_key: 'project_approve_status_id'
+  #belongs_to :project_status#, class_name: 'ProjectStatus', foreign_key: 'project_status_id'
+  #   #)
+
   acts_as_nested_set order_column: :name, dependent: :destroy
 
   acts_as_customizable

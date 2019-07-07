@@ -24,6 +24,20 @@ module BasicData
       color_names = [
         'orange-0', # fire
         'blue-1', # flood
+        'indigo-1', #
+        'teal-3', #
+        'red-6', #
+        'yellow-2', #
+        'lime-2', #
+        'cyan-3', #
+        'cyan-3', #
+        'teal-6', #
+        'teal-7', #
+        'teal-9', #
+        'red-9', #
+        'gray-3', #
+        'orange-3',
+        'red-3', #
       ]
 
       # When selecting for an array of values, implicit order is applied
@@ -32,8 +46,14 @@ module BasicData
       colors = color_names.collect { |name| colors_by_name[name].id }
 
       [
-        { name: I18n.t(:default_typed_risk_fire),    color_id: colors[0], position: 1 },
-        { name: I18n.t(:default_typed_risk_flood),    color_id: colors[1], position: 2 },
+        { name: "Не получено финасирование",    color_id: colors[0], position: 1 },
+        { name: "Не заключен государственный контракт",    color_id: colors[1], position: 2 },
+        { name: "Увеличен объем работ",    color_id: colors[2], position: 3 },
+        { name: "Превышены сроки исполнения работ",    color_id: colors[3], position: 4 },
+        { name: "Не выпущен необходимый нормативно-правовой акт",    color_id: colors[4], position: 5 },
+        { name: "Не пройдены надзорные мероприятия",    color_id: colors[5], position: 6 },
+        { name: "Изменено законодательство",    color_id: colors[6], position: 7 },
+        { name: "Не найден подрядчик",    color_id: colors[7], position: 8 }
       ]
     end
   end

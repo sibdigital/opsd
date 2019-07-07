@@ -33,7 +33,18 @@ class Role < ActiveRecord::Base
 
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
-  BUILTIN_ANONYMOUS  = 2
+  BUILTIN_ANONYMOUS = 2
+  #+tan 2019.07.05
+  BUILTIN_PROJECT_ADMIN = 3
+  BUILTIN_PROJECT_CURATOR = 4
+  BUILTIN_PROJECT_CUSTOMER = 5
+  BUILTIN_PROJECT_OFFICE_MANAGER = 6
+  BUILTIN_PROJECT_ACTIVITY_COORDINATOR = 7
+  BUILTIN_PROJECT_OFFICE_COORDINATOR = 8
+  BUILTIN_EVENTS_RESPONSIBLE = 9
+  BUILTIN_PROJECT_HEAD = 10
+  BUILTIN_PROJECT_OFFICE_ADMIN = 11
+  #-tan
 
   scope :builtin, ->(*args) {
     compare = 'not' if args.first == true
@@ -64,7 +75,7 @@ class Role < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_length_of :name, maximum: 30
+  #validates_length_of :name, maximum: 30
 
   def self.givable
     where('builtin = 0').order(Arel.sql('position'))
@@ -174,6 +185,45 @@ class Role < ActiveRecord::Base
     end
     anonymous_role
   end
+
+  # +tan 2019.07.05
+  def self.project_admin
+    finded_role = where(builtin: BUILTIN_PROJECT_ADMIN).first
+    finded_role
+  end
+  def self.project_curator
+    finded_role = where(builtin: BUILTIN_PROJECT_CURATOR).first
+    finded_role
+  end
+  def self.project_customer
+    finded_role = where(builtin: BUILTIN_PROJECT_CUSTOMER).first
+    finded_role
+  end
+  def self.project_office_manager
+    finded_role = where(builtin: BUILTIN_PROJECT_OFFICE_MANAGER).first
+    finded_role
+  end
+  def self.project_office_coordinator
+    finded_role = where(builtin: BUILTIN_PROJECT_OFFICE_COORDINATOR).first
+    finded_role
+  end
+  def self.project_activity_coordinator
+    finded_role = where(builtin: BUILTIN_PROJECT_ACTIVITY_COORDINATOR).first
+    finded_role
+  end
+  def self.events_responsible
+    finded_role = where(builtin: BUILTIN_EVENTS_RESPONSIBLE).first
+    finded_role
+  end
+  def self.project_head
+    finded_role = where(builtin: BUILTIN_PROJECT_HEAD).first
+    finded_role
+  end
+  def self.project_office_admin
+    finded_role = where(builtin: BUILTIN_PROJECT_OFFICE_ADMIN).first
+    finded_role
+  end
+  #-tan
 
   def self.by_permission(permission)
     all.select do |role|

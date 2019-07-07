@@ -1,15 +1,15 @@
 en:
-  export_to_excel: "Export as Excel spreadsheet"
-  print_with_description: "Print preview with description"
-  sentence_separator_or: "or"
-  different_formats: Different formats
+  export_to_excel: "Сохранить как XLS"
+  print_with_description: "Предпросмотр"
+  sentence_separator_or: "или"
+  different_formats: Другие форматы
 
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "XLS with descriptions"
-      xls_with_relations: "XLS with relations"
+      xls_with_descriptions: "XLS с описанием"
+      xls_with_relations: "XLS со связями"
 
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: наследник
+    parent_of: родитель

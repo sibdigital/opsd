@@ -3,8 +3,8 @@ ru:
   no_results_title_text: Список пуст.
   activities:
     index:
-      no_results_title_text: В течение этого периода времени не было никакой деятельности
-        по проекту.
+      no_results_title_text: В течение этого времени деятельности по проекту не было
+        .
   admin:
     plugins:
       no_results_title_text: Дополнения отсутствуют.
@@ -46,10 +46,10 @@ ru:
     is_active: теперь отображается
     is_inactive: теперь не отображается
   attribute_help_texts:
-    text_overview: В этом представлении можно создать пользовательскую текстовую справку
-      для атрибутов представления. При ее наличии, она будет показана по клику по
+    text_overview: Здесь можно создать текстовую справку
+      для атрибутов представления. При наличии, она будет показана при клике по
       значку справки возле атрибута.
-    label_plural: Атрибут текстов справки
+    label_plural: Атрибут текста справки
     show_preview: Предпросмотр текста
     add_new: Добавить текст справки
     edit: Редактировать текст справки для %{attribute_caption}
@@ -97,10 +97,10 @@ ru:
     new: Новое пользовательское действие
     edit: Редактировать пользовательское действие %{name}
     execute: Выполнить %{name}
-    upsale:
-      title: Пользовательские действия — особенность Корпоративной версии
-      description: Пользовательские действия автоматизируют повседневную работу, объединяя
-        отдельные шаги в одну кнопку.
+    #upsale:
+    #  title: Пользовательские действия
+    #  description: Пользовательские действия автоматизируют повседневную работу, объединяя
+    #    отдельные шаги в одну кнопку.
   custom_fields:
     text_add_new_custom_field: 'Прежде чем добавлять настраиваемые поля в проект,
       нужно создать их.
@@ -110,7 +110,7 @@ ru:
     enabled_in_project: Разрешено в проекте
     contained_in_type: Содержится в типе
     confirm_destroy_option: Удаление опции приведет к удалению всех ее вхождений (например,
-      в пакеты работ). Вы уверены, что вы хотите удалить ее?
+      в меропрития). Вы уверены, что вы хотите удалить ее?
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
@@ -132,12 +132,12 @@ ru:
       messages: Форум
   groups:
     index:
-      no_results_title_text: На данный момент группы отсутствуют.
+      no_results_title_text: Сейчас группы отсутствуют.
       no_results_content_text: Создать новую группу
     users:
-      no_results_title_text: На данный момент пользователи этой группы отсутствуют.
+      no_results_title_text: Сейчас в группе отсутствуют пользователи.
     memberships:
-      no_results_title_text: На данный момент проектов этой группы нет.
+      no_results_title_text: Сейчас в этой группе нет проектов.
   incoming_mails:
     ignore_filenames: 'Укажите список имен для игнорирования при обработке вложений
       для входящих почтовых сообщений (например, подписей или значков). Введите одно
@@ -156,7 +156,7 @@ ru:
       completed_text: Запрос на удаление проекта '%{name}' был завершен.
     index:
       no_results_title_text: На данный момент проектов нет
-      no_results_content_text: Создать новый проект
+      no_results_content_text: Инициировать проект
     settings:
       activities:
         no_results_title_text: В настоящее время никакой активности.
@@ -186,42 +186,40 @@ ru:
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
   news:
     index:
-      no_results_title_text: На данный момент новостей для отчета нет.
+      no_results_title_text: На данный момент новостей нет.
       no_results_content_text: Добавить новость
     my_page:
-      no_results_title_text: Ничего нового для отчета.
+      no_results_title_text: Новые данные отсутствуют.
   users:
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   prioritiies:
     edit:
       priority_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого приоритета.
-        Этот цвет может использоваться для выделения пакетов работ в таблице.
+        Щелкните, чтобы изменить цвет приоритета.
+        Цвет используется для выделения пакетов работ в таблице.
   project_risks:
     edit:
       project_risk_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого проектного риска.
-        Этот цвет может использоваться незнамо где.
+        Щелкните, чтобы изменить цвет риска.
   reportings:
     index:
-      no_results_title_text: В данный момент статусы отчётов отсутствуют.
+      no_results_title_text: Сейчас статусы отчётов отсутствуют.
       no_results_content_text: Добавить статус отчёта
   typed_risks:
     edit:
       properties: Свойства
-      risk_characts: Таблицы характеристик
+      risk_characts: Характеристики
       typed_risk_color_text: |
-        Щелкните, чтобы задать или изменить цвет этого типового риска.
-        Этот цвет может использоваться незнамо где.
+        Щелкните, изменить цвет типового риска.
   organizations:
     edit:
       properties: Свойства
   statuses:
     edit:
       status_readonly_html: |
-        Установите этот флажок, чтобы пометить пакеты работ как доступные только для чтения.
-        Никакие атрибуты не могут быть изменены за исключением статуса.
+        Установите флажок, чтобы пометить меропрития доступными только для чтения.
+        Никакие атрибуты не будут изменяться кроме статуса.
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
       status_color_text: |
@@ -245,7 +243,7 @@ ru:
       query_group_placeholder: Дайте таблице название
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
-        цвет позволяет различать пакеты работ на диаграммах Гантта.
+        цвет позволяет различать меропрития на диаграммах Гантта.
 
 '
   versions:
@@ -265,7 +263,7 @@ ru:
       few: 'Пакетов работ, являющихся потомками: %{count}'
       many: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
-      could_not_be_saved: 'Не удалось сохранить следующие пакеты работ:'
+      could_not_be_saved: 'Не удалось сохранить следующие меропрития:'
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -307,7 +305,7 @@ ru:
     deletion_info:
       data_consequences:
         other: Данные, созданные пользователем (адрес электронной почты, предпочтения,
-          пакеты работ, wiki-записи) полностью не удаляются. Рабочие пакеты, wiki-записи
+          меропрития, wiki-записи) полностью не удаляются. Рабочие пакеты, wiki-записи
           и пр. могут влиять на работы других пользователей, поэтому такие данные
           не удаляются, а закрепляются за другой, специальной учетной записью, именуемой
           «Удаленный пользователь». После такого переназначения определить кому принадлежали
@@ -439,7 +437,7 @@ ru:
       repository:
         url: URL
       role:
-        assignable: Пакеты работ могут быть привязаны к пользователям и группам в
+        assignable: Мероприятия могут быть назначены пользователям и группам в
           зависимости от этой роли в рамках соответствующего проекта
       time_entry:
         activity: Деятельность
@@ -548,9 +546,9 @@ ru:
         regex_invalid: не может быть проверен связанным регулярным выражением.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной
           длине.
-        taken: уже принято.
-        too_long: слишком длинно (максимум — %{count} знаков).
-        too_short: слишком коротко (минимум — %{count} знаков).
+        taken: уже существует.
+        too_long: превышена максимальная длина (максимум — %{count} знаков).
+        too_short: длина должна быть не менее — %{count} знаков.
         unchangeable: изменить нельзя.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
@@ -773,6 +771,10 @@ ru:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     is_public: Общий
+    project_status: Статус
+    project_approve_status: Этап согласования
+    is_approve: Утвержден
+
     issue: Пакет работ
     lastname: Фамилия
     login: Входное имя
@@ -786,7 +788,7 @@ ru:
     phone_mobile: Мобильный телефон
     address: Адрес
     cabinet: Кабинет
-    name: Имя
+    name: Наименование
     password: Пароль
     result_agreed: Результат согласован
     contract_subject: Предмет контракта
@@ -1085,18 +1087,41 @@ ru:
   default_role_anonymous: Анонимно
   default_role_developer: Разработчик
   default_role_project_admin: Администратор проекта
+  default_role_project_curator: Куратор проекта
+  default_role_project_customer: Заказчик проекта
+  default_role_project_office_manager: Руководитель проектного офиса
+  default_role_project_activity_coordinator: Координатор проектной деятельности
+  default_role_project_office_coordinator: Координатор от проектного офиса
+  default_role_events_responsible: Ответственный за блок мероприятий
+  default_role_project_head: Руководитель проекта
+  default_role_project_office_admin: Администратор проектного офиса
   default_role_non_member: Не участник
   default_role_reader: Читатель
   default_role_member: Участник
   default_type: Пакет работ
-  default_type_bug: Ошибка
+  default_project_status_not_start: не начат
+  default_project_status_in_work: в работе
+  default_project_status_ready_to_check: готов к проверке
+  default_project_status_completed: завершен
+  default_project_status_cancel: отменен
+  default_project_status_waiting: отложен
+  default_project_approve_status_init: инициирован
+  default_project_approve_status_approve_project_head: утвержден руководителем проекта
+  default_project_approve_status_agreed_project_office_coordinator: согласован координатором Проектного офиса
+  default_project_approve_status_agreed_project_office_manager: утвержден руководителем Проектного офиса
+  default_project_approve_status_approve_curator: утвержден куратором проекта
+  default_project_approve_status_approve_glava: утвержден Главой
+  #default_type_bug: Ошибка
   default_type_deliverable: Готово к предоставлению
-  default_type_epic: Эпический
-  default_type_feature: Функция
-  default_type_milestone: Веха
-  default_type_phase: Фаза
-  default_type_task: Задание
-  default_type_user_story: Описание пользователя
+  #tan 01.07.2019
+  #default_type_epic: Эпический
+  #default_type_feature: Функция
+  default_type_milestone: Контрольная точка
+  default_type_result: Тип результата
+  #default_type_phase: Фаза
+  default_type_task: Мероприятие
+  #default_type_user_story: Описание пользователя
+  #-tan 01.07.2019
   description_active: Активно?
   description_attachment_toggle: Показать/скрыть вложения
   description_autocomplete: 'Это поле заполняется автоматически. При наборе заголовка
@@ -1145,8 +1170,8 @@ ru:
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_attach_type: Тип файла
   enumeration_work_package_priorities: Приоритеты пакета работ
-  enumeration_risk_importance: Степень влияния рисков на проект
-  enumeration_risk_possibilities: Вероятность наступления рисков
+  enumeration_risk_importance: Степень влияния на проект
+  enumeration_risk_possibilities: Вероятность наступления
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
@@ -1304,13 +1329,13 @@ ru:
   label_account: Учетная запись
   label_active: Активно
   label_activate_user: Активировать пользователя
-  label_active_in_new_projects: Активное участие в новых проектах
-  label_activity: Стратегическая карта
+  label_active_in_new_projects: Используется по умолчанию
+  label_activity: Мониторинг
   label_add_edit_translations: Добавить и редактировать перевод
-  label_add_another_file: Добавьте еще один файл
+  label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
   label_add_note: Добавить заметку
-  label_add_related_work_packages: Добавить связанные пакеты работ
+  label_add_related_work_packages: Добавить связанные меропрития
   label_add_subtask: Добавить подзадачу
   label_added: Добавлено
   label_added_time_by: Добавлено %{author} %{age} назад
@@ -1334,7 +1359,7 @@ ru:
   label_applied_status: Прикладной статус
   label_archive_project: Архивировать проект
   label_ascending: По возрастанию
-  label_assigned_to_me_work_packages: Переданные мне пакеты работ
+  label_assigned_to_me_work_packages: Переданные мне меропрития
   label_associated_revisions: Связанные изменения
   label_attachment_delete: Удалить файл
   label_attachment_new: Новый файл
@@ -1434,8 +1459,8 @@ ru:
   label_descending: По убыванию
   label_details: Детали
   label_development_roadmap: Дорожная карта разработки
-  label_diagram_done_ratio: Диаграмма по исполнению проектов
-  label_diagram_date_ratio: Диаграмма с исполненными, просроченными и др. задачами
+  label_diagram_done_ratio: Динамика проектов
+  label_diagram_date_ratio: Исполнение мероприятий
   label_diff: отличия
   label_diff_inline: Встроенный
   label_diff_side_by_side: Рядом
@@ -1666,24 +1691,26 @@ ru:
   label_project_latest: Последние проекты
   label_project_default_type: Разрешить пустой тип
   label_project_hierarchy: Иерархия проектов
-  label_project_new: Новый проект
+  label_project_new: Инициировать проект
   label_project_plural: Проекты
-  label_project_risks: Проектные риски
-  label_project_risk_new: Новый проектный риск
+  label_project_reestr: Реестр проектов
+  label_done_ratio_project: Процент исполнения
+  label_project_risks: Риски и возможности
+  label_project_risk_new: Добавить риск
   label_positions: "Должности"
   label_position_new: "Добавить должность"
   label_position_value: "Должность"
   label_organizations: "Организации"
   label_organization_new: "Добавить организацию"
   label_organization_value: "Организация"
-  label_project_risk_value: Значение проектного риска
+  label_project_risk_value: Значение риска
   label_project_settings: Настройки проекта
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
     пространства"
   label_project_view_all: Реестр проектов
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
-  label_work_packages_remaining_plural: Пакеты работ, до даты завершения менее
+  label_work_packages_remaining_plural: Мероприятия, до даты завершения менее
   label_public_projects: Проекты, доступные всем
   label_query_new: Новый запрос
   label_query_plural: Пользовательские запросы
@@ -1696,7 +1723,7 @@ ru:
     почте
   label_registration_automatic_activation: Автоматическая активация учетной записи
   label_registration_manual_activation: Ручная активация учетной записи
-  label_related_work_packages: Связанные пакеты работ
+  label_related_work_packages: Связанные меропрития
   label_relates: Связан с
   label_relates_to: Связан с
   label_relation_delete: Удалить связь
@@ -1708,7 +1735,7 @@ ru:
   label_report: Отчет
   label_report_bug: Сообщить об ошибке
   label_report_plural: Отчеты
-  label_reported_work_packages: Отчетные пакеты работ
+  label_reported_work_packages: Отчетные меропрития
   label_reporting: Отчетность
   label_reporting_plural: Отчетности
   label_repository: Репозиторий
@@ -1721,13 +1748,13 @@ ru:
   label_revision: Редакция
   label_revision_id: Редакция %{value}
   label_revision_plural: Редакции
-  label_risk_characts_new: Новая характеристика риска
+  label_risk_characts_new: Добавить характеристику риска
   label_risk_characts_value: Значение характеристики риска
   label_risk_characts: Характеристики риска
   label_roadmap: Дорожная карта
   label_roadmap_edit: Редактировать дорожную карту %{name}
   label_roadmap_due_in: Завершится через %{value}
-  label_roadmap_no_work_packages: На этом этапе пакеты работ отсутствуют
+  label_roadmap_no_work_packages: На этом этапе меропрития отсутствуют
   label_roadmap_overdue: "%{value} запаздывание"
   label_role_and_permissions: Роли и разрешения
   label_role_new: Новая роль
@@ -1822,7 +1849,7 @@ ru:
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
   label_view_revisions: Просмотр версий
-  label_watched_work_packages: Наблюдаемые пакеты работ
+  label_watched_work_packages: Наблюдаемые меропрития
   label_what_is_this: Что это?
   label_week: Неделя
   label_wiki_content_added: Wiki-страница добавлена
@@ -1850,23 +1877,20 @@ ru:
   label_work_package_new: Новый пакет работ
   label_work_package_note_added: Добавлено примечание к пакету работ
   label_work_package_edit: Редактирование пакета работ %{name}
-  label_work_package_plural: Пакеты работ
-  label_plan_stage_package_plural: Этапы плана работ
-  label_work_package_priority_updated: Приоритет пакета работ обновлен
+  label_work_package_plural: Мероприятия
+  label_plan_stage_package_plural: Базовый план
+  label_work_package_priority_updated: Приоритет мероприятия обновлен
   label_work_package_status: Состояние группы работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
   label_work_package_types: Типы рабочих пакетов
   label_work_package_updated: Пакет работ обновлен
-  label_work_package_tracking: Отслеживание пакета работ
-  label_work_package_view_all: Посмотреть все пакеты работ
-  label_work_package_view_all_assigned_to_me: Просмотреть все переданные мне пакеты
-    работ
-  label_work_package_view_all_reported_by_me: Посмотреть все комплексы работ, описанные
-    мной
-  label_work_package_view_all_responsible_for: Посмотреть все пакеты работ, в которых
-    я подотчетен
-  label_work_package_view_all_watched: Посмотреть все наблюдаемые пакеты работ
+  label_work_package_tracking: Отслеживание меропрития
+  label_work_package_view_all: Посмотреть все меропрития
+  label_work_package_view_all_assigned_to_me: Входящая информация по мероприятиям
+  label_work_package_view_all_reported_by_me: Исходящая информация по меропритиям
+  label_work_package_view_all_responsible_for: Входящая информация (подотчетные мероприятия)
+  label_work_package_view_all_watched: Исходящая информация (наблюдаемые меропрития)
   label_work_package_watchers: Наблюдатель
   label_workflow: Рабочий поток
   label_workflow_plural: Рабочие потоки
@@ -1932,6 +1956,8 @@ ru:
     списка (того же списка)
   label_keyboard_shortcut_focus_next_item: Сфокусироваться на следующем элементе списка
     (того же списка)
+  label_approve: Утвержден
+  label_approve_in_progress: На утверждении
   auth_source:
     using_abstract_auth_source: Нельзя использовать абстрактную аутентификацию.
     ldap_error: 'LDAP-ошибка: %{error_message}'
@@ -2012,7 +2038,7 @@ ru:
   notice_account_unknown_email: Неизвестный пользователь.
   notice_account_update_failed: Настройки учетной записи не могут быть сохранены.
     Пожалуйста, просмотрите страницу Вашей учетной записи ещё раз.
-  notice_account_updated: Учетная запись успешно обновлёна.
+  notice_account_updated: Учетная запись успешно обновлена.
   notice_account_other_session_expired: Все другие сессии, связанные с вашей учетной
     записью, были аннулированы.
   notice_account_wrong_password: Неправильный пароль
@@ -2124,7 +2150,7 @@ ru:
   permission_commit_access: Возможность чтения/записи в репозиторий (commit)
   permission_copy_projects: Копировать проект
   permission_delete_work_package_watchers: Удалить наблюдателей
-  permission_delete_work_packages: Удалить пакеты работ
+  permission_delete_work_packages: Удалить меропрития
   permission_delete_messages: Удалить сообщения
   permission_delete_own_messages: Удалить свои сообщения
   permission_delete_reportings: Удалить отчеты
@@ -2132,7 +2158,7 @@ ru:
   permission_delete_wiki_pages: Удалить wiki-страницы
   permission_delete_wiki_pages_attachments: Удалить вложения
   permission_edit_work_package_notes: Редактировать заметки
-  permission_edit_work_packages: Редактировать пакеты работ
+  permission_edit_work_packages: Редактировать меропрития
   permission_edit_messages: Редактировать сообщения
   permission_edit_own_work_package_notes: Редактировать собственные заметки
   permission_edit_own_messages: Редактировать свои сообщения
@@ -2197,7 +2223,7 @@ ru:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_stages: Этапы
-  project_module_project_risks: Проектные риски
+  project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность
   project_module_boards: Форумы
   project_module_calendar: Календарь
@@ -2399,8 +2425,8 @@ ru:
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
-  setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в
-    основном проекте по-умолчанию
+  setting_display_subprojects_work_packages: Отображать меропрития подпроектов в
+    основном проекте по умолчанию
   setting_emails_footer: содержимое  нижней части почтовых сообщений
   setting_emails_header: Заголовок письма
   setting_email_login: Использовать e-mail для входа
@@ -2520,7 +2546,7 @@ ru:
     доступ к ресурсам.
   text_analyze: 'Дополнительный анализ: %{subject}'
   text_are_you_sure: Вы уверены?
-  text_are_you_sure_with_children: Удалить пакет работ и все дочерние пакеты работ?
+  text_are_you_sure_with_children: Удалить меропритие и все дочерние меропрития?
   text_assign_to_project: Назначить на проект
   text_form_configuration: 'Вы можете настроить, какие поля будут показываться в формах
     пакетов работ. Вы можете свободно сгруппировать поля с учетом потребностей вашего
@@ -2583,9 +2609,9 @@ ru:
   text_hours_between: Между %{min} и %{max} часами.
   text_work_package_added: Автор %{author} отчитался по пакету работ %{id}.
   text_work_package_category_destroy_assignments: Удаление категории назначений
-  text_work_package_category_destroy_question: Некоторые пакеты работ (%{count}) принадлежат
+  text_work_package_category_destroy_question: Некоторые меропрития (%{count}) принадлежат
     для этой категории. Что вы хотите сделать?
-  text_work_package_category_reassign_to: Переназначить пакеты работ этой категории
+  text_work_package_category_reassign_to: Переназначить мероприятия этой категории
   text_work_package_updated: "%{author} обновил пакет работ %{id}."
   text_work_package_watcher_added: Вы были добавлены как наблюдатель к пакету работ
     %{id}, %{watcher_setter}.
@@ -2645,10 +2671,10 @@ ru:
     Посмотреть разницу между любыми двумя записями можно, выбрав флажки и нажав на
     кнопку. Под таблицей будут показаны различия.
   text_time_logged_by_changeset: Применены в наборе изменений %{value}.
-  text_tip_work_package_begin_day: пакет работ начинающийся в этот день
-  text_tip_work_package_begin_end_day: пакет работ начинающийся и заканчивающийся
+  text_tip_work_package_begin_day: меропрития начинающиеся в этот день
+  text_tip_work_package_begin_end_day: мероприятия начинающиеся и заканчивающиеся
     в этот день
-  text_tip_work_package_end_day: Пакеты работ завершающиеся на этот день
+  text_tip_work_package_end_day: Мероприятия завершающиеся в этот день
   text_type_no_workflow: Для этого типа рабочий поток не определен
   text_unallowed_characters: Запрещенные символы
   text_user_invited: Пользователь был приглашен и подлежит регистрации.
@@ -2757,7 +2783,7 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
-      exclude_own_work_packages: Скрыть пакеты работ из этого проекта
+      exclude_own_work_packages: Скрыть меропрития из этого проекта
       exclude_reporters: Скрыть другие проекты
       exclude_empty: Скрыть пустые проекты
       grouping: Группировка
@@ -2770,9 +2796,9 @@ ru:
       noneSelection: "(нет)"
       outline: Первоначальная схема детализации
       parent: Показывать подпроекты
-      work_package_filters: Фильтровать пакеты работ
-      work_package_responsible: Показать пакеты работ с подотчетными
-      work_package_assignee: Показать пакеты работ с назначениями
+      work_package_filters: Фильтровать меропрития
+      work_package_responsible: Показать меропрития с подотчетными
+      work_package_assignee: Показать меропрития с назначеными
       types: Показать типы
       status: Показать состояние
       project_time_filter: Проекты пакета работ определенного типа в определенные
@@ -2836,7 +2862,7 @@ ru:
     timeline: Отчет по графику
     timelines: Отчеты по графикам
     settings: Графики
-    vertical_work_package: Вертикальные пакеты работ
+    vertical_work_package: Вертикальные меропрития
     you_are_viewing_the_selected_timeline: Вы просматриваете выбранный отчет по графику
     zoom:
       in: Увеличить
@@ -3051,7 +3077,7 @@ ru:
           unknown: Недопустимый маркер доступа
   unsupported_browser:
     title: Ваш браузер устарел и не поддерживается.
-    message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.
+    message: Страница может отображаться некорректно.
     update_message: Пожалуйста, обновите свой браузер.
     close_warning: Игнорировать это предупреждение.
   oauth:

@@ -22,9 +22,15 @@ module BasicData
 
     def data
       [
-        { name: "Word",     position: 1, is_default: true },
-        { name: "Excel",    position: 2, is_default: false },
-        { name: "Pdf",      position: 3, is_default: false }
+        #+-tan 2019.07.03 см прил 12 тт
+        { name: "Отчет",     position: 1, is_default: true },
+        { name: "Акт",    position: 2, is_default: false },
+        { name: "Контракт",      position: 3, is_default: false },
+        { name: "Протокол",      position: 4, is_default: false },
+        { name: "Справка",      position: 5, is_default: false },
+        { name: "НПА",      position: 6, is_default: false },
+        { name: "Соглашение",      position: 7, is_default: false },
+        { name: "Иной документ",      position: 8, is_default: false }
       ]
     end
   end

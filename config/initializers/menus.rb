@@ -183,9 +183,9 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-control-levels'
   # )
   # +tan 2019.04.25
-  menu.push :positions,
-            { controller: '/positions' },
-            icon: 'icon2 icon-risks'
+  # menu.push :positions,
+  #           { controller: '/positions' },
+  #           icon: 'icon2 icon-risks'
 
   menu.push :org_settings,
             { controller: '/org_settings' },
@@ -308,23 +308,23 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_all_open_wps
 
   #bbm(
-  menu.push :work_packages_planning,
-            { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
-            param: :project_id,
-            caption: :label_plan_stage_package_plural,
-            icon: 'icon2 icon-view-timeline',
-            html: {
-              id: 'main-menu-plan-packages',
-              :'psp-query-menu' => 'psp-query-menu'
-            }
-
-  menu.push :work_packages_planning_query_select,
-            { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
-            param: :project_id,
-            parent: :work_packages_planning,
-            partial: 'work_packages/menu_query_select_planning',
-            last: true,
-            caption: :label_all_open_wps
+  # menu.push :work_packages_planning,
+  #           { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
+  #           param: :project_id,
+  #           caption: :label_plan_stage_package_plural,
+  #           icon: 'icon2 icon-view-timeline',
+  #           html: {
+  #             id: 'main-menu-plan-packages',
+  #             :'psp-query-menu' => 'psp-query-menu'
+  #           }
+  #
+  # menu.push :work_packages_planning_query_select,
+  #           { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
+  #           param: :project_id,
+  #           parent: :work_packages_planning,
+  #           partial: 'work_packages/menu_query_select_planning',
+  #           last: true,
+  #           caption: :label_all_open_wps
   # )
 
   menu.push :calendar,

@@ -44,6 +44,10 @@ class BasicDataSeeder < CompositeSeeder
       # #xcc(
       BasicData::OrganizationTypeSeeder,
       # )
+      # #tan(
+      BasicData::ProjectStatusSeeder,
+      BasicData::ProjectApproveStatusSeeder,
+      # )
       BasicData::SettingSeeder
     ]
   end

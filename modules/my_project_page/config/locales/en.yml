@@ -1,51 +1,31 @@
-#-- copyright
-# OpenProject My Project Page Plugin
-#
-# Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License version 3.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-# See doc/COPYRIGHT.md for more details.
-#++
-
 en:
-  button_edit_this_page: "Edit this page"
-  error_block_not_saved: "The text block could not be saved."
-  error_saving_changes: "The changes could not be saved: %{errors}"
-  label_hidden_elements: "Hidden elements"
-  label_visible_elements: "Visible elements"
-  label_project_description: "Project description"
-  label_project_details: "Project details"
-  label_custom_element: "Add teaser ..."
-  info_custom_text: "Custom text"
-  label_confirm_delete: "Really delete this element?"
-  label_work_package_diagram_status: "Work package by status diagram"
-  label_work_package_diagram_date: "Work package by date diagram"
-  label_work_packages_reported_by_me: "Work packages reported by me"
-  label_work_packages_responsible_for: "Work packages I am accountable for"
-  label_work_packages_assigned_to_me: "Work packages assigned to me"
-  label_work_packages_watched: "Watched work packages"
-  label_work_package_tracking: "Work package tracking"
-  label_members: "Members"
-  label_member_view_all: "View all members"
-  label_no_visible_members: "This project has no visible members."
-  label_subprojects: "Subprojects"
+  button_edit_this_page: "Редактировать эту страницу"
+  error_saving_changes: "Не удалось сохранить изменения: %{errors}"
+  error_textile_not_saved: "Не удалось сохранить textile-блок."
+  label_hidden_elements: "Скрытые элементы"
+  label_visible_elements: "Видимые элементы"
+  label_project_description: "Описание проекта"
+  label_project_details: "Детали проекта"
+  label_custom_element: "Добавить тизер..."
+  info_custom_text: "Пользовательский текст"
+  label_confirm_delete: "Действительно удалить этот элемент?"
+  label_work_package_diagram_status: "Диаграмма по количеству задач в статусе"
+  label_work_package_diagram_date: "Диаграмма по датам"
+  label_work_packages_reported_by_me: "Пакеты работ, за которые я отчитался"
+  label_work_packages_responsible_for: "Пакеты работ, за которые я несу ответственность"
+  label_work_packages_assigned_to_me: "Пакеты работ, предназначенные мне"
+  label_work_packages_watched: "Наблюдаемые пакеты работ"
+  label_work_package_tracking: " Отслеживание комплекса работ"
+  label_members: "Участники"
+  label_member_view_all: "Просмотреть всех участников"
+  label_no_visible_members: "В этом проекте нет видимых участников."
+  label_subprojects: "Подпроекты"
   project_page:
-    all: "Show all"
-    x_more: "...(%{count} more)"
+    all: "Показывать всё"
+    x_more: "... (более %{count})"
   activities:
-    label_performed: 'Performed'
-    label_expired: 'Expired'
-    label_urgently: 'Urgently perform'
-    label_soon: 'Soon'
-    label_inwork: 'In work'
+    label_performed: 'Исполнено'
+    label_expired: 'Просрочено'
+    label_urgently: 'Срочно исполнить'
+    label_soon: 'В ближайшее время'
+    label_inwork: 'В работе'

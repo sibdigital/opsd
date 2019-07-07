@@ -131,7 +131,7 @@ class Sprint < Version
 
   def days(cutoff = nil, alldays = false)
     # TODO: Assumes mon-fri are working days, sat-sun are not. This assumption
-    # is not globally right, we need to make this configurable.
+    # is not globally right, we need to make this configurable
     cutoff = effective_date if cutoff.nil?
 
     (start_date..cutoff).select { |d| alldays || (d.wday > 0 and d.wday < 6) }
