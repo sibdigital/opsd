@@ -151,11 +151,19 @@ class Project < ActiveRecord::Base
 
   #tan(
   def get_project_approve_status
-    ProjectApproveStatus.find(project_approve_status_id)
+    if project_approve_status_id == nil
+      ProjectApproveStatus.default
+    else
+      ProjectApproveStatus.find(project_approve_status_id)
+    end
   end
 
   def get_project_status
-    ProjectStatus.find(project_status_id)
+    if project_status_id == nil
+      ProjectStatus.default
+    else
+      ProjectStatus.find(project_status_id)
+    end
   end
 
   def get_allowed_project_statuses

@@ -48,6 +48,8 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
   public isKoordinator:boolean[] = [];
   public wpNames:string[] = [];
 
+  public wpNameLimit:number = 30;
+
   constructor(protected I18n:I18nService,
               //bbm(
               protected halResourceService:HalResourceService,
@@ -73,7 +75,8 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
       this.isKoordinator.push(projectResource.isKoordinator);
       this.barChartData[0].data = this.wpCounts;
       this.barChartData[1].data = this.percentageDones;
-      this.barChartLabels = this.wpNames;
+      this.barChartLabels = this.wpNames.map(s => s.substr(0, this.wpNameLimit))
+        //this.wpNames;
     }
   }
 
@@ -106,7 +109,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
       if (allowed) {
         wpCountsLocal.push(this.wpCounts[i]);
         percentageDonesLocal.push(this.percentageDones[i]);
-        wpNamesLocal.push(this.wpNames[i]);
+        wpNamesLocal.push(this.wpNames[i].substr(0, this.wpNameLimit));
       }
     }
     this.barChartData[0].data = wpCountsLocal;
