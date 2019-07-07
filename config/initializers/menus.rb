@@ -270,11 +270,13 @@ Redmine::MenuManager.map :project_menu do |menu|
   #xcc(
   menu.push :targets,
             { controller: '/targets', action: 'index' },
-            caption: :label_targets,
             param: :project_id,
+            caption: :label_target,
             if: Proc.new { |p| p.module_enabled?('targets') },
             icon: 'icon2 icon-info1'
+
   # )
+
 
   ##zbd(
   menu.push :stages,

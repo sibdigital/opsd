@@ -1498,6 +1498,9 @@ en:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
+  label_target: Целевые показатели
+  label_target_execution_values: Плановые значения исполнения
+
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
   label_greater_or_equal: ">="

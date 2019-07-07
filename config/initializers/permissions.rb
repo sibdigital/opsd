@@ -39,8 +39,8 @@ Redmine::AccessControl.map do |map|
                                    destroy],
                    # )
                    #xcc(
-                   targets: %i[index],
-                 # )
+                   targets: %i[index new create edit update destroy],
+                   #)
                    #zbd(
                    stages: [:show]
                    #)
@@ -59,6 +59,7 @@ Redmine::AccessControl.map do |map|
   map.permission :edit_project,
                  { projects: %i[edit update custom_fields],
                    project_settings: [:show],
+                   project_target: [:index],
                    stages: [:show],
                    members: [:paginate_users] },
                  require: :member

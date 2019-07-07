@@ -221,7 +221,9 @@ OpenProject::Application.routes.draw do
     match '/roadmap' => 'versions#index', via: :get
 
     resources :news, only: %i[index new create]
-
+    # xcc(
+    resources :targets#, only: %i[index new create edit]
+    #)
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
@@ -459,6 +461,14 @@ OpenProject::Application.routes.draw do
   #  match 'edit', action: 'edit', via: %i[get post]
   #end
   # - TAN
+  #
+   #xcc(
+  #get '/project_targets' => 'project_targets#index'
+
+   #scope '/project_targets' do
+  #resources :targets %i[index destroy update edit show]
+
+  # )
 
   # We should fix this crappy routing (split up and rename controller methods)
   get '/workflows' => 'workflows#index'

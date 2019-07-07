@@ -1,12 +1,23 @@
-##xcc
+#xcc
 #
 module TargetsHelper
 
   def targets_tabs
-    [
-      { name: 'StageInitCustomField', partial: 'targets/tab', label: :label_stage_init },
-      { name: 'StageCompletionCustomField', partial: 'targets/tab', label: :label_stage_completion }
+    tabs = [
+      {
+        name: 'target',
+        action: :edit_project,
+        partial: 'targets/target',
+        label: :label_target
+      },
+      {
+        name: 'target_execution_values',
+        action: :edit_project,
+        partial: 'targets/target_execution_values',
+        label: :label_target_execution_values
+      }
     ]
+    tabs.select { |tab| User.current.allowed_to?(tab[:action], @project) }
   end
 
 end

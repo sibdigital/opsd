@@ -8,11 +8,10 @@ This file written by TAN
   f: labelled form builder
 %>
 
-<%= error_messages_for :organizations %>
+<%= error_messages_for :organization %>
 <section class="form--section">
   <%= f.hidden_field 'org_type' %>
   <%= f.hidden_field 'parent_id' %>
-
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'inn', container_class: '-middle' %></div>
   <div class="form--field"><%= f.check_box 'is_legal_entity', container_class: '-middle' %></div>
