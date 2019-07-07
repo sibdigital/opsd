@@ -102,6 +102,13 @@ module API
         }
       end
       #)
+      #zbd(
+      link :targets do
+        {
+          href: api_v3_paths.targets
+        }
+      end
+      #)
       property :instance_name,
                getter: ->(*) { Setting.app_title }
 

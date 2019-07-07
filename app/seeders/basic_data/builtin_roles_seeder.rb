@@ -47,7 +47,7 @@ module BasicData
         { name: I18n.t(:default_role_project_curator), builtin: Role::BUILTIN_PROJECT_CURATOR },
         { name: I18n.t(:default_role_project_customer), builtin: Role::BUILTIN_PROJECT_CUSTOMER },
         { name: I18n.t(:default_role_project_office_manager), builtin: Role::BUILTIN_PROJECT_OFFICE_MANAGER },
-        { name: I18n.t(:default_role_project_activity_coordinator), builtin: Role::PROJECT_ACTIVITY_COORDINATOR },
+        { name: I18n.t(:default_role_project_activity_coordinator), builtin: Role::BUILTIN_PROJECT_ACTIVITY_COORDINATOR },
         { name: I18n.t(:default_role_project_office_coordinator), builtin: Role::BUILTIN_PROJECT_OFFICE_COORDINATOR },
         { name: I18n.t(:default_role_events_responsible), builtin: Role::BUILTIN_EVENTS_RESPONSIBLE },
         { name: I18n.t(:default_role_project_head), builtin: Role::BUILTIN_PROJECT_HEAD },

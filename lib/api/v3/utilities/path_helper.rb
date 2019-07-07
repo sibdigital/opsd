@@ -115,6 +115,14 @@ module API
           def self.contract(id)
             "#{root}/contracts/#{id}"
           end
+
+          def self.targets
+            "#{root}/targets"
+          end
+
+          def self.target(id)
+            "#{root}/targets/#{id}"
+          end
           # )
 
           def self.configuration
