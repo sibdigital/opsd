@@ -64,6 +64,10 @@ module API
             when :contract
               Contract.all
             #)
+            #xcc(
+            when :organization
+              Organization.all
+            # )
             end
           end
 

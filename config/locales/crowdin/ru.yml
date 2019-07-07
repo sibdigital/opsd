@@ -788,6 +788,10 @@ ru:
     phone_mobile: Мобильный телефон
     address: Адрес
     cabinet: Кабинет
+    #(xcc
+    organization: Организация
+    parent_organization: Вышестоящая организация
+    #)
     name: Наименование
     password: Пароль
     result_agreed: Результат согласован
@@ -1526,6 +1530,8 @@ ru:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
+  label_target: Целевые показатели
+  label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
   label_greater_or_equal: ">="
@@ -1665,7 +1671,7 @@ ru:
   label_path_encoding: Кодирование пути
   label_pdf_with_descriptions: PDF с описаниями
   label_per_page: Постранично
-  label_people: Люди
+  label_people: Ответственные
   label_permissions: Разрешения
   label_permissions_report: Отчёт о разрешениях
   label_personalize_page: Персонализация страницы
@@ -2158,7 +2164,7 @@ ru:
   permission_delete_wiki_pages: Удалить wiki-страницы
   permission_delete_wiki_pages_attachments: Удалить вложения
   permission_edit_work_package_notes: Редактировать заметки
-  permission_edit_work_packages: Редактировать меропрития
+  permission_edit_work_packages: Редактировать мероприятия
   permission_edit_messages: Редактировать сообщения
   permission_edit_own_work_package_notes: Редактировать собственные заметки
   permission_edit_own_messages: Редактировать свои сообщения
@@ -2546,7 +2552,7 @@ ru:
     доступ к ресурсам.
   text_analyze: 'Дополнительный анализ: %{subject}'
   text_are_you_sure: Вы уверены?
-  text_are_you_sure_with_children: Удалить меропритие и все дочерние меропрития?
+  text_are_you_sure_with_children: Удалить мероприятие и все дочерние меропрития?
   text_assign_to_project: Назначить на проект
   text_form_configuration: 'Вы можете настроить, какие поля будут показываться в формах
     пакетов работ. Вы можете свободно сгруппировать поля с учетом потребностей вашего
@@ -2609,7 +2615,7 @@ ru:
   text_hours_between: Между %{min} и %{max} часами.
   text_work_package_added: Автор %{author} отчитался по пакету работ %{id}.
   text_work_package_category_destroy_assignments: Удаление категории назначений
-  text_work_package_category_destroy_question: Некоторые меропрития (%{count}) принадлежат
+  text_work_package_category_destroy_question: Некоторые мероприятия (%{count}) принадлежат
     для этой категории. Что вы хотите сделать?
   text_work_package_category_reassign_to: Переназначить мероприятия этой категории
   text_work_package_updated: "%{author} обновил пакет работ %{id}."
@@ -2671,7 +2677,7 @@ ru:
     Посмотреть разницу между любыми двумя записями можно, выбрав флажки и нажав на
     кнопку. Под таблицей будут показаны различия.
   text_time_logged_by_changeset: Применены в наборе изменений %{value}.
-  text_tip_work_package_begin_day: меропрития начинающиеся в этот день
+  text_tip_work_package_begin_day: мероприятия начинающиеся в этот день
   text_tip_work_package_begin_end_day: мероприятия начинающиеся и заканчивающиеся
     в этот день
   text_tip_work_package_end_day: Мероприятия завершающиеся в этот день
@@ -2783,7 +2789,7 @@ ru:
         days: дней
         weeks: недели
         months: месяцев
-      exclude_own_work_packages: Скрыть меропрития из этого проекта
+      exclude_own_work_packages: Скрыть мероприятия из этого проекта
       exclude_reporters: Скрыть другие проекты
       exclude_empty: Скрыть пустые проекты
       grouping: Группировка
@@ -2796,9 +2802,9 @@ ru:
       noneSelection: "(нет)"
       outline: Первоначальная схема детализации
       parent: Показывать подпроекты
-      work_package_filters: Фильтровать меропрития
-      work_package_responsible: Показать меропрития с подотчетными
-      work_package_assignee: Показать меропрития с назначеными
+      work_package_filters: Фильтровать мероприятия
+      work_package_responsible: Показать мероприятия с подотчетными
+      work_package_assignee: Показать мероприятия с назначеными
       types: Показать типы
       status: Показать состояние
       project_time_filter: Проекты пакета работ определенного типа в определенные
@@ -2862,7 +2868,7 @@ ru:
     timeline: Отчет по графику
     timelines: Отчеты по графикам
     settings: Графики
-    vertical_work_package: Вертикальные меропрития
+    vertical_work_package: Вертикальные мероприятия
     you_are_viewing_the_selected_timeline: Вы просматриваете выбранный отчет по графику
     zoom:
       in: Увеличить

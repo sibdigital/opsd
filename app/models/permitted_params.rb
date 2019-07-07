@@ -442,6 +442,14 @@ class PermittedParams
   def depart
     params.require(:depart).permit(:organization_id, :name)
   end
+  #xcc(
+  def target
+    params.require(:target).permit(:status, :name, :type, :unit, :basic_value, :plan_value, :comment, :project_id)
+  end
+  def target_execution_values
+    params.require(:target).permit(:target_id, :year, :quarter, :value)
+  end
+  #)
   # -tan
 
   # zbd (

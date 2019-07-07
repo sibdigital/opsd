@@ -148,6 +148,9 @@ class Project < ActiveRecord::Base
   #zbd(
   has_many :stages, dependent: :destroy
   # )
+  #xcc(
+    has_many :targets, dependent: :destroy
+  # )
 
   #tan(
   def get_project_approve_status
