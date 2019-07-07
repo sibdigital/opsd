@@ -1,0 +1,2 @@
+class TargetExecutionValue < ApplicationRecord
+end
