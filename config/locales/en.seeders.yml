@@ -111,7 +111,7 @@ en:
                 - type
                 - status
                 - assigned_to
-          work_packages:work_packages
+          work_packages:
             - subject: Project kick-off
               description: Plan and execute the project kick-off.
               status: :default_status_in_work
