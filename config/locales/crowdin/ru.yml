@@ -788,6 +788,8 @@ ru:
     phone_mobile: Мобильный телефон
     address: Адрес
     cabinet: Кабинет
+    target: Целевой показатель
+    #)
     #(xcc
     organization: Организация
     parent_organization: Вышестоящая организация
