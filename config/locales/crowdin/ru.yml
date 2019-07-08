@@ -829,7 +829,10 @@ ru:
     plan_value: Плановое значение
     arbitary_object_type: Тип
     arbitary_object: Произвольный объект
-    #)
+    target_status: Статус
+    target_type: Тип
+    label_targets: Целевые показатели
+  #)
   button_add: Добавить
   button_add_member: Добавить участника
   button_add_watcher: Добавить наблюдателя
