@@ -440,6 +440,9 @@ module API
         associated_resource :organization,
                              link_title_attribute: :name
 
+        associated_resource :arbitary_object,
+                            link_title_attribute: :name
+
         # )
 
         associated_resource :type

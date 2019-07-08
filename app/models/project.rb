@@ -150,6 +150,7 @@ class Project < ActiveRecord::Base
   # )
   #xcc(
     has_many :targets
+    has_many :arbitary_objects
   # )
 
   #tan(

@@ -296,6 +296,11 @@ OpenProject::Application.routes.draw do
     resources :targets do
       get '/edit/:tab' => 'targets#edit', on: :member, as: 'edit_tab'
     end
+
+    resources :arbitary_objects do
+      get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
+    end
+
     #)
     resources :activity, :activities, only: :index, controller: 'activities'
 
@@ -590,6 +595,11 @@ OpenProject::Application.routes.draw do
   scope '/projects/:project_id/targets/:target_id' do
     resources :target_execution_values
   end
+
+  scope '/projects/:project_id/arbitary_objects/:arbitary_object_id' do
+
+  end
+
   # )
 
   scope controller: 'sys' do
