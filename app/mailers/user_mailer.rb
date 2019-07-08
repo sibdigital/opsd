@@ -81,9 +81,18 @@ class UserMailer < BaseMailer
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - Вам отправлено напоминание.'
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие.'
     end
   end
+
+#tan (
+  # def notify_forum_notify_assignee(mail)
+  #   @welcome_url = url_for(controller: '/homescreen')
+  #
+  #   headers['X-OpenProject-Type'] = 'Test'
+  #
+  #   mail to: "\"#{name}\" <#{mail}>", subject: 'Вы приглашены в дискуссию'
+  # end
 
   def work_package_notify_assignee1(user, work_package , author = User.current)
     User.execute_as user do
@@ -106,7 +115,7 @@ class UserMailer < BaseMailer
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - Вам отправлено напоминание.'
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Ответьте на сообщение в дискуссии.'
     end
   end
 # )

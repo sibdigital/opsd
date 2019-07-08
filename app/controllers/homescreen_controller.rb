@@ -83,6 +83,28 @@ class HomescreenController < ApplicationController
       end
     end
     # )
+    #
+    # +tan 2019.07.09
+    sql = "select u.*, wu.done_ratio, wu.wp_count
+          from users as u
+          left join(
+            select w.assigned_to_id as user_id, avg(done_ratio) as done_ratio, count(id) as wp_count
+            from work_packages as w
+            group by w.assigned_to_id
+          ) as wu
+          on u.id = wu.user_id
+          where u.status > 0"
+
+    @users_stat = ActiveRecord::Base.connection.execute(sql)
+
+    sql = "select p.name as project_name, count(d.id) as count_doc
+          from projects as p
+          left join documents as d
+          on p.id = d.project_id
+          group by p.name"
+
+    @docs_stat = ActiveRecord::Base.connection.execute(sql)
+    # -tan
   end
 
   def robots

@@ -82,6 +82,20 @@ class AdminController < ApplicationController
   end
  # )
 
+ # iag(
+ #  def send_email_from_forum
+ #    raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
+ #    # Force ActionMailer to raise delivery errors so we can catch it
+ #    ActionMailer::Base.raise_delivery_errors = true
+ #    begin
+ #      UserMailer.notify_forum_notify_assignee(params[:mail]).deliver_now
+ #    rescue => e
+ #      flash[:error] = I18n.t(:notice_email_error, value: Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup))
+ #    end
+ #    ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
+ #
+ #  end
+ # )
 
   def force_user_language
     available_languages = Setting.find_by(name: 'available_languages').value
