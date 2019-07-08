@@ -61,6 +61,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         // )
         //xcc(
         'Organization',
+        'ArbitaryObject',
         // )
         'Priority'
       ])

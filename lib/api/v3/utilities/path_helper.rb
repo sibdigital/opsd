@@ -201,6 +201,15 @@ module API
           def self.organization(id)
             "#{organizations}/#{id}"
           end
+
+          def self.arbitary_objects
+            "#{root}/arbitary_objects"
+          end
+
+          def self.arbitary_object(id)
+            "#{arbitary_objects}/#{id}"
+          end
+
           # )
 
           def self.post(id)

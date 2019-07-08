@@ -36,4 +36,14 @@ This file written by XCC
   <div class="form--field"><%= f.text_field 'basic_value', container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'plan_value', container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'comment', container_class: '-middle' %></div>
+  <% if User.current.admin?%>
+    <div class="form--field">
+      <%= f.check_box 'is_approve', container_class: '-middle'%>
+    </div>
+  <% else%>
+    <div class="form--field">
+      <%= f.check_box 'is_approve', container_class: '-middle', readonly: true, disabled: true %>
+    </div>
+  <% end %>
+
 </section>

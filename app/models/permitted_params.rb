@@ -447,11 +447,15 @@ class PermittedParams
   end
   #xcc(
   def target
-    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id)
+    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve)
   end
   def target_execution_values
     params.require(:target_execution_values).permit(:target_id, :year, :quarter, :value)
   end
+  def arbitary_object
+    params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
+  end
+
   #)
   # -tan
 

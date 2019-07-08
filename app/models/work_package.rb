@@ -56,7 +56,7 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
   #xcc(
   belongs_to :organization, class_name: 'Organization', foreign_key: 'organization_id'
-
+  belongs_to :arbitary_object, class_name: 'ArbitaryObject', foreign_key: 'arbitary_object_id'
   # )
 
   #zbd(

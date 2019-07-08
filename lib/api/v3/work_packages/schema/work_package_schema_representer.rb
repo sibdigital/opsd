@@ -288,6 +288,17 @@ module API
                                            }
                                          },
                                          required: false
+
+          schema_with_allowed_collection :arbitary_object,
+                                         value_representer: ArbitaryObjects::ArbitaryObjectRepresenter,
+                                         link_factory: ->(arbitary_object) {
+                                           {
+                                             href: api_v3_paths.arbitary_object(arbitary_object.id),
+                                             title: arbitary_object.name
+                                           }
+                                         },
+                                         required: false
+
           # )
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
