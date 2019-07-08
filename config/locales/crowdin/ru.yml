@@ -824,6 +824,9 @@ ru:
     #(xcc
     inn: ИНН
     is_legal_entity: Юридическое лицо
+    unit: Единица измерения
+    basic_value: Базовое значение
+    plan_value: Плановое значение
     #)
   button_add: Добавить
   button_add_member: Добавить участника
@@ -1178,6 +1181,8 @@ ru:
   enumeration_work_package_priorities: Приоритеты пакета работ
   enumeration_risk_importance: Степень влияния на проект
   enumeration_risk_possibilities: Вероятность наступления
+  enumeration_target_statuses: Статус целевого показателя
+  enumeration_target_types: Тип целевого показателя
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
@@ -1718,6 +1723,9 @@ ru:
   label_project_view_all: Реестр проектов
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
+  label_targets: Целевые показатели
+  label_target_new: Добавить целевой показатель
+  label_target_value: Целевой показатель
   label_work_packages_remaining_plural: Мероприятия, до даты завершения менее
   label_public_projects: Проекты, доступные всем
   label_query_new: Новый запрос

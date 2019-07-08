@@ -8,9 +8,14 @@ This file written by XCC
   f: labelled form builder
 %>
 
-<%= error_messages_for :targets %>
+<%= error_messages_for :target %>
 <section class="form--section">
-
+    <%= f.hidden_field 'project_id' %>
     <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
-
+    <div class="form--field"><%= f.number_field 'status_id', required: true, container_class: '-xslim' %></div>
+    <div class="form--field"><%= f.number_field 'type_id', required: true, container_class: '-xslim' %></div>
+    <div class="form--field"><%= f.text_field 'unit', required: true, container_class: '-middle' %></div>
+    <div class="form--field"><%= f.text_field 'basic_value', container_class: '-middle' %></div>
+    <div class="form--field"><%= f.text_field 'plan_value', container_class: '-middle' %></div>
+    <div class="form--field"><%= f.text_field 'comment', container_class: '-middle' %></div>
 </section>

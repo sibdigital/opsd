@@ -1,54 +1,66 @@
 class TargetsController < ApplicationController
 #  menu_item :targets
 
-  include PaginationHelper
-  include Concerns::Layout
-
   default_search_scope :targets
 
-  before_action :disable_api
-  before_action :find_targets_object, except: %i[new create index update destroy]
-  before_action :find_project_from_association, except: %i[new create index]
-  before_action :find_project, only: %i[new create update destroy]
-  before_action :authorize, except: [:index]
-  before_action :find_optional_project, only: [:index]
-  accept_key_auth :index
+
+
+  before_action :find_optional_project, :verify_targets_module_activated
+  before_action :find_target, only: [:edit, :update, :destroy]
+
+  helper :sort
+  include SortHelper
+  include PaginationHelper
+  include ::IconsHelper
+  include ::ColorsHelper
 
   def index
-    scope = @project ? @project.targets : Target.all
+    sort_columns = {'id' => "#{Target.table_name}.id",
+                    'name' => "#{Target.table_name}.name",
+                    'status' => "#{Target.table_name}.status_id",
+                    'type' => "#{Target.table_name}.type_id"
+    }
+
+    sort_init 'id', 'desc'
+    sort_update sort_columns
+
+    @targets = @project.targets
+                       .order(sort_clause)
+                       .page(page_param)
+                       .per_page(per_page_param)
 
    end
 
-  current_menu_item :index do
-    :targets
-  end
-
-  def show
-
+  def edit
+    if params[:tab].blank?
+      redirect_to tab: :properties
+    else
+      @tab = params[:tab]
+    end
   end
 
   def new
-    @target = Target.new(project: @project)
+    @target = Target.new
   end
 
+
+
+
   def create
-    @target = Target.new(project: @project)
-    @target.attributes = permitted_params.target
+    @target = @project.targets.create(permitted_params.target)
+
     if @target.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to controller: '/targets', action: 'index', project_id: @project
+      redirect_to action: 'index'
     else
       render action: 'new'
     end
   end
 
-  def edit; end
-
   def update
-    @target.attributes = permitted_params.target
-    if @target.save
+    if @target.update_attributes(permitted_params.target)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'show', id: @target
+      redirect_to project_targets_path()
     else
       render action: 'edit'
     end
@@ -56,30 +68,51 @@ class TargetsController < ApplicationController
 
   def destroy
     @target.destroy
-    flash[:notice] = l(:notice_successful_delete)
-    redirect_to action: 'index', project_id: @project
+    redirect_to action: 'index'
+    nil
+  end
+
+  protected
+
+  def find_target
+    @target = @project.targets.find(params[:id])
+  end
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_targets)
+    else
+      ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path(project_id: @project.identifier))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
   end
 
   private
 
-  def find_targets_object
-    @target = @object = Target.find(params[:id].to_i)
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
-  def find_project
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
+  # TODO: см. find_optional_project в ActivitiesController
   def find_optional_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def verify_targets_module_activated
+    render_403 if @project && !@project.module_enabled?('targets')
+  end
+
+
+  def remove_quotations(str)
+    if str.start_with?('"')
+      str = str.slice(1..-1)
+    end
+    if str.end_with?('"')
+      str = str.slice(0..-2)
+    end
   end
 
 end

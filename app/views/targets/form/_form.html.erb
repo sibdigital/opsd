@@ -1,0 +1,39 @@
+<%#--
+This file written by XCC
+06/07/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :target %>
+<section class="form--section">
+  <%= f.hidden_field 'project_id' %>
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <% @selected_status_id = if @target.id
+                             @target.status_id
+                           elsif TargetStatus.default
+                             TargetStatus.default.id
+                           end
+     @selected_type_id = if @target.id
+                           @target.type_id
+                         elsif TargetType.default
+                           TargetType.default.id
+                         end
+  %>
+  <div class="form--field">  <%= f.select :status_id,
+                                          options_for_select(TargetStatus.where(active: true).map {|u| [u.name, u.id]}, @selected_status_id),
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+  <div class="form--field">  <%= f.select :type_id,
+                                          options_for_select(TargetType.where(active: true).map {|u| [u.name, u.id]}, @selected_type_id),
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+
+  <div class="form--field"><%= f.text_field 'unit', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'basic_value', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'plan_value', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'comment', container_class: '-middle' %></div>
+</section>

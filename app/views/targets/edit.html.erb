@@ -4,15 +4,23 @@ This file written by XCC
 ++#%>
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{Target.model_name.human} #{h @target.name}" %>
+<% breadcrumb_paths(default_breadcrumb, @target) %>
+<%= toolbar title: @target %>
 
-<% local_assigns[:additional_breadcrumb] =  @target %>
-<%= breadcrumb_toolbar @target %>
+<div class="tabs">
+  <ul>
+    <li>
+      <%= link_to "Свойства",
+                  edit_tab_project_target_path(id: @target.id, tab: :properties),
+                  class: "#{'selected' if @tab == "properties" }"  %>
+    </li>
+    <li>
+      <%= link_to "Плановые значения исполнения цели",
+                  edit_tab_project_target_path(id: @target.id, tab: :target_execution_values),
+                  class: "#{'selected' if @tab == 'target_execution_values' }"  %>
+    </li>
 
-<%= labelled_tabular_form_for @target do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<% end %>
+  </ul>
+</div>
 
-<%= styled_form_tag(target_path(@target), method: :delete) do %>
-  <%= styled_submit_tag l(:button_delete) %>
-<% end %>
+<%= render partial: "targets/form/#{@tab}"%>

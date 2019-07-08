@@ -1,0 +1,8 @@
+<%= labelled_tabular_form_for @target, url: project_target_path(project_id: @project) do |f| %>
+  <%= render partial: 'targets/form/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(project_target_path(id: @target.id), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

@@ -60,7 +60,7 @@ module WorkPackages
 
     attribute :organization_id
     # )
-
+    #
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable
     end
