@@ -777,7 +777,7 @@ ru:
 
     issue: Пакет работ
     lastname: Фамилия
-    login: Входное имя
+    login: Логин
     mail: Электронная почта
     #zbd(
     contract: Гос.контракт
@@ -788,6 +788,8 @@ ru:
     phone_mobile: Мобильный телефон
     address: Адрес
     cabinet: Кабинет
+    target: Целевой показатель
+    #)
     #(xcc
     organization: Организация
     parent_organization: Вышестоящая организация
@@ -1291,9 +1293,9 @@ ru:
   gui_validation_error_plural: "%{count} ошибок"
   homescreen:
     additional:
-      projects: Новые видимые проекты в данном экземпляре.
-      no_visible_projects: Не видимые проекты в данном экземпляре.
-      users: Новые зарегистрированные пользователи в данном экземпляре.
+      projects: Новые проекты.
+      no_visible_projects: Не видимые проекты.
+      users: Новые зарегистрированные пользователи.
     blocks:
       community: сообщество
       upsale:

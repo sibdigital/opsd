@@ -55,11 +55,12 @@ module WorkPackages
     attribute :result_agreed do
       validate_user_allowed_to_set_result_agreed :result_agreed, 'result_agreed'
     end
-    # )
-    #
-    #xcc(
+
+    attribute :target_id
+
     attribute :organization_id
     # )
+    #
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable
     end

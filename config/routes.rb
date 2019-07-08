@@ -206,6 +206,9 @@ OpenProject::Application.routes.draw do
     get 'stages', controller: 'stages', action: 'show', as: :stages
     #get 'stages(/:id)', to: 'stages#show', as: :stages #, controller: 'stages', action: 'show' #, on: :member #, as: :stages
     # )
+    # +tan 2019.07.07
+    resources :plan_uploaders, controller: 'plan_uploaders'
+    #-tan
 
     resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
 
@@ -360,6 +363,7 @@ OpenProject::Application.routes.draw do
       get :info
       post :force_user_language
       post :test_email
+      get :send_email_assignee_from_task  # iag
     end
   end
 

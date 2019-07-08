@@ -1,6 +1,6 @@
-<!---- copyright
+<%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -23,33 +23,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See doc/COPYRIGHT.rdoc for more details.
+See docs/COPYRIGHT.rdoc for more details.
 
-++-->
+++#%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<title>500 error</title>
-<style>
-body{
-font-family: Trebuchet MS,Georgia,"Times New Roman",serif;
-color:#303030;
-margin:10px;
-}
-h1{
-font-size:1.5em;
-}
-p{
-font-size:0.8em;
-}
-</style>
-<body>
-  <h1>Ошибка в приложении</h1>
-  <p>На текущей странице возникла ошибка.<br />
-  Если ошбка повторяется, обратитесь к администратору.</p>
 
-  <p>Если вы являетесь администратором, проверьте лог-файлы системы.</p>
-  <p><a href="javascript:history.back()">Back</a></p>
-</body>
-</html>
+
+<p>Вам отправлено уведомление о y<br />
+  Перейти к задаче Вы можете по ссылке:: <%= link_to @welcome_url, @welcome_url %></p>

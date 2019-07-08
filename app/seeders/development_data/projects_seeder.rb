@@ -78,16 +78,16 @@ module DevelopmentData
     end
 
     def seed_versions(projects)
-      projects.each do |p|
-        version_data = I18n.t('seeders.demo_data.projects.scrum-project.versions')
-        version_data.each do |attributes|
-          p.versions << Version.create!(
-            name:    attributes[:name],
-            status:  attributes[:status],
-            sharing: attributes[:sharing]
-          )
-        end
-      end
+      # projects.each do |p|
+      #   version_data = I18n.t('seeders.demo_data.projects.scrum-project.versions')
+      #   version_data.each do |attributes|
+      #     p.versions << Version.create!(
+      #       name:    attributes[:name],
+      #       status:  attributes[:status],
+      #       sharing: attributes[:sharing]
+      #     )
+      #   end
+      # end
     end
 
     def link_custom_fields(cf_project)

@@ -442,6 +442,9 @@ class PermittedParams
   def depart
     params.require(:depart).permit(:organization_id, :name)
   end
+  def plan_uploader
+    params.require(:plan_uploader).permit(:name, :status, :upload_at)
+  end
   #xcc(
   def target
     params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id)

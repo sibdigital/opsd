@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ChartOptions, ChartType, ChartDataSets} from 'chart.js';
-import {Label} from 'ng2-charts';
+import {Label, BaseChartDirective} from 'ng2-charts';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
@@ -48,6 +48,10 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
   public isKoordinator:boolean[] = [];
   public wpNames:string[] = [];
 
+  public wpNameLimit:number = 30;
+
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
   constructor(protected I18n:I18nService,
               //bbm(
               protected halResourceService:HalResourceService,
@@ -73,8 +77,30 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
       this.isKoordinator.push(projectResource.isKoordinator);
       this.barChartData[0].data = this.wpCounts;
       this.barChartData[1].data = this.percentageDones;
-      this.barChartLabels = this.wpNames;
+      this.barChartLabels = this.wpNames.map(s => s.substr(0, this.wpNameLimit))
+        //this.wpNames;
     }
+  }
+
+  public changeChartType(){
+    this.chart.chartType = this.barChartType;
+    this.chart.chart.update();
+    // let _this = this;
+    // this.halResourceService
+    //   .get<CollectionResource>(this.pathHelper.api.v3.projects.toString())
+    //   .toPromise()
+    //   .then((resource:CollectionResource<ProjectResource>) => {
+    //     //_this.chart.chart.destroy();
+    //     _this.barChartLabels= []
+    //     //_this.chart.chart.data.datasets.;
+    //
+    //     _this.chart.chartType = _this.barChartType;
+    //     resource.elements.map(project => this.registerDataSet(project));
+    //     //_this.filterChart(); //promise????
+    //     _this.chart.chart.update();
+    //     _this.chart.update();
+    //   });
+
   }
 
   public filterChart() {
@@ -106,7 +132,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
       if (allowed) {
         wpCountsLocal.push(this.wpCounts[i]);
         percentageDonesLocal.push(this.percentageDones[i]);
-        wpNamesLocal.push(this.wpNames[i]);
+        wpNamesLocal.push(this.wpNames[i].substr(0, this.wpNameLimit));
       }
     }
     this.barChartData[0].data = wpCountsLocal;

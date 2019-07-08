@@ -21,7 +21,7 @@
                (change)="filterChart()"
                [(ngModel)]="rukProektOfisa"
                name="button_ruk_proekt_ofisa" />
-        Руководитель проектного офиса
+        Руководитель Проектного офиса
     </div>
     <div>
         <input type="checkbox"
@@ -29,14 +29,35 @@
                (change)="filterChart()"
                [(ngModel)]="koordinator"
                name="button_koordinator" />
-        Координатор от проектного офиса
+        Координатор от Проектного офиса
     </div>
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="barChartLabels"
-            [options]="barChartOptions"
-            [plugins]="barChartPlugins"
-            [legend]="barChartLegend"
-            [chartType]="barChartType">
-    </canvas>
+    <div class="chart">
+        <canvas id="chart" baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+        </canvas>
+    </div>
+    <div>
+        <select
+                id="wp_select_chart_type"
+                (change)="changeChartType()"
+                [(ngModel)]="barChartType"
+                name="select_chart_type"
+                value="bar">
+            <option value="line">Линейная</option>
+            <option selected value="bar">Столбчатая</option>
+            <option value="horizontalBar">Столбчатая горизонтальная</option>
+            <option value="radar">Радар</option>
+            <option value="doughnut">Кольцевая</option>
+            <option value="polarArea">Радиальная</option>
+            <option value="bubble">Пузырьковая</option>
+            <option value="pie">Круговая</option>
+            <option value="scatter">Рассеяние</option>
+        </select>
+        Тип диаграммы
+    </div>
 </div>

@@ -20,55 +20,67 @@
   </ul>
 <% end %>
 
-<!--bbm(-->
-<% unless @rukovoditel_proekta_dlya_etih_proektov.empty? %>
-  <p class="widget-box--additional-info">Проекты по которым я являюсь руководителем проекта (<%= @rukovoditel_proekta_dlya_etih_proektov.count %>)</p>
+<% if User.current.admin? %>
+  <p class="widget-box--additional-info">Всего проектов (<%= @all.count %>)</p>
   <ul class="widget-box--arrow-links">
-    <% @rukovoditel_proekta_dlya_etih_proektov.each do |project| %>
+    <% @all.each do |project| %>
       <li>
         <%= link_to project, project_path(project), title: project.short_description %>
         <small>(<%= format_date(project.created_on) %>)</small>
       </li>
     <% end %>
   </ul>
-<% end %>
+<% else%>
+  <!--bbm(-->
+  <% unless @rukovoditel_proekta_dlya_etih_proektov.empty? %>
+    <p class="widget-box--additional-info">Я - руководитель <%= @rukovoditel_proekta_dlya_etih_proektov.count %> проектов</p>
+    <ul class="widget-box--arrow-links">
+      <% @rukovoditel_proekta_dlya_etih_proektov.each do |project| %>
+        <li>
+          <%= link_to project, project_path(project), title: project.short_description %>
+          <small>(<%= format_date(project.created_on) %>)</small>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<% unless @kurator_dlya_etih_proektov.empty? %>
-  <p class="widget-box--additional-info">Проекты по которым я являюсь куратором проекта (<%= @kurator_dlya_etih_proektov.count %>)</p>
-  <ul class="widget-box--arrow-links">
-    <% @kurator_dlya_etih_proektov.each do |project| %>
-      <li>
-        <%= link_to project, project_path(project), title: project.short_description %>
-        <small>(<%= format_date(project.created_on) %>)</small>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+  <% unless @kurator_dlya_etih_proektov.empty? %>
+    <p class="widget-box--additional-info">Я - куратор (<%= @kurator_dlya_etih_proektov.count %>) проектов</p>
+    <ul class="widget-box--arrow-links">
+      <% @kurator_dlya_etih_proektov.each do |project| %>
+        <li>
+          <%= link_to project, project_path(project), title: project.short_description %>
+          <small>(<%= format_date(project.created_on) %>)</small>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<% unless @ruk_proekt_ofisa_dlya_etih_proektov.empty? %>
-  <p class="widget-box--additional-info">Проекты по которым я являюсь руководителем проектного офиса (<%= @ruk_proekt_ofisa_dlya_etih_proektov.count %>)</p>
-  <ul class="widget-box--arrow-links">
-    <% @ruk_proekt_ofisa_dlya_etih_proektov.each do |project| %>
-      <li>
-        <%= link_to project, project_path(project), title: project.short_description %>
-        <small>(<%= format_date(project.created_on) %>)</small>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+  <% unless @ruk_proekt_ofisa_dlya_etih_proektov.empty? %>
+    <p class="widget-box--additional-info">Для руководителя Проектного офиса (<%= @ruk_proekt_ofisa_dlya_etih_proektov.count %>)</p>
+    <ul class="widget-box--arrow-links">
+      <% @ruk_proekt_ofisa_dlya_etih_proektov.each do |project| %>
+        <li>
+          <%= link_to project, project_path(project), title: project.short_description %>
+          <small>(<%= format_date(project.created_on) %>)</small>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 
-<% unless @koordinator_dlya_etih_proektov.empty? %>
-  <p class="widget-box--additional-info">Проекты по которым я являюсь координатором от проектного офиса (<%= @koordinator_dlya_etih_proektov.count %>)</p>
-  <ul class="widget-box--arrow-links">
-    <% @koordinator_dlya_etih_proektov.each do |project| %>
-      <li>
-        <%= link_to project, project_path(project), title: project.short_description %>
-        <small>(<%= format_date(project.created_on) %>)</small>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+  <% unless @koordinator_dlya_etih_proektov.empty? %>
+    <p class="widget-box--additional-info">Для координатор от Проектного офиса (<%= @koordinator_dlya_etih_proektov.count %>)</p>
+    <ul class="widget-box--arrow-links">
+      <% @koordinator_dlya_etih_proektov.each do |project| %>
+        <li>
+          <%= link_to project, project_path(project), title: project.short_description %>
+          <small>(<%= format_date(project.created_on) %>)</small>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 <!--)-->
+<% end %>
 
 <div class="widget-box--blocks--buttons">
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>
