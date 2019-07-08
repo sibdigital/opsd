@@ -799,7 +799,12 @@ ru:
     result_agreed: Результат согласован
     contract_subject: Предмет контракта
     contract_num: № контракта
-    contract_date: Дата контракта
+    contract_date: Дата заключения контракта
+    sposob: Способ заключения
+    gos_zakaz: Государственный заказчик
+    date_begin: Дата начала
+    date_end: Дата завершения
+    etaps: Этапы
     price: Цена контракта
     executor: Исполнитель
     eis_href: Ссылка на ЕИС
@@ -824,6 +829,12 @@ ru:
     #(xcc
     inn: ИНН
     is_legal_entity: Юридическое лицо
+    org_prav_forma: Организационно-правовая форма
+    ur_addr: Юридический адрес
+    post_addr: Почтовый адрес
+    otrasl: Отрасль
+    gorod: Город
+    capital: Установной капитал
     unit: Единица измерения
     basic_value: Базовое значение
     plan_value: Плановое значение
