@@ -111,6 +111,26 @@
                      [displayPlaceholder]="text.description.placeholder">
       </wp-edit-field>
     </div>
+
+    <!--zbd( -->
+    <div class="-columns-2">
+      <div class="attributes-key-value">
+        <div class="attributes-key-value--key">
+          <wp-replacement-label ng-reflect-field-name="target">
+            <span class="wp-replacement-label" tabindex="-1">Целевой показатель:</span>
+          </wp-replacement-label>
+        </div>
+        <div class="attributes-key-value--value-container">
+          <wp-edit-field [fieldName]="'target'"
+                         [workPackageId]="workPackage.id"
+                         [isDropTarget]="true"
+                         [wrapperClasses]="'-no-label'">
+          </wp-edit-field>
+        </div>
+      </div>
+    </div>
+    <!--) -->
+
   </div>
 
   <div *ngFor="let group of groupedFields; trackBy:trackByName"

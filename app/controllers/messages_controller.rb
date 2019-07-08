@@ -99,6 +99,9 @@ class MessagesController < ApplicationController
     @reply.attach_files(permitted_params.attachments.to_h)
 
     @topic.children << @reply
+    #iag(
+    UserMailer.reply_to_message_notify(@message.author).deliver_now
+    # )
     unless @reply.new_record?
       render_attachment_warning_if_needed(@reply)
       call_hook(:controller_messages_reply_after_save, params: params, message: @reply)

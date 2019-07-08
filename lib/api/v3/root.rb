@@ -40,6 +40,7 @@ module API
       mount ::API::V3::Categories::CategoriesAPI
       #zbd(
       mount ::API::V3::Contracts::ContractsAPI
+      mount ::API::V3::Targets::TargetsAPI
       # )
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
