@@ -1,0 +1,84 @@
+<%#--
+This file written by BBM
+26/04/2019
+++#%>
+
+<%= form_tag({}) do -%>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="targets_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("name", :caption => Target.human_attribute_name(:name)) %>
+          <%= sort_header_tag("status", :caption => Target.human_attribute_name(:target_status)) %>
+          <%= sort_header_tag("type", :caption => Target.human_attribute_name(:target_type)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Target.human_attribute_name(:unit) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Target.human_attribute_name(:basic_value) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Target.human_attribute_name(:plan_value) %>
+                </span>
+              </div>
+            </div>
+          </th>
+
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% targets.each do |target| %>
+          <tr id="target-<%= target.id %>">
+            <td><%= link_to target.id, edit_project_target_path(id: target.id) %></td>
+            <%= content_tag(:td, link_to(h(target.name), edit_project_target_path(id: target.id))) %>
+            <%= content_tag(:td, target.target_status) %>
+            <%= content_tag(:td, target.target_type) %>
+            <%= content_tag(:td, target.unit) %>
+            <%= content_tag(:td, target.basic_value) %>
+            <%= content_tag(:td, target.plan_value) %>
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-delete'),
+                project_target_path(id: target.id),
+                method: :delete,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                title: t(:button_delete))) %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<% end -%>
