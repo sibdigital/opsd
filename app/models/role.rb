@@ -186,41 +186,51 @@ class Role < ActiveRecord::Base
     anonymous_role
   end
 
+  # default_role_project_admin: Администратор проекта
+  # default_role_project_curator: Куратор проекта
+  # default_role_project_customer: Заказчик проекта
+  # default_role_project_office_manager: Руководитель проектного офиса
+  # default_role_project_activity_coordinator: Координатор проектной деятельности
+  # default_role_project_office_coordinator: Координатор от проектного офиса
+  # default_role_events_responsible: Ответственный за блок мероприятий
+  # default_role_project_head: Руководитель проекта
+  # default_role_project_office_admin: Администратор проектного офиса
+
   # +tan 2019.07.05
   def self.project_admin
-    finded_role = where(builtin: BUILTIN_PROJECT_ADMIN).first
+    finded_role = where(name: I18n.t(:default_role_project_admin)).first
     finded_role
   end
   def self.project_curator
-    finded_role = where(builtin: BUILTIN_PROJECT_CURATOR).first
+    finded_role = where(name: I18n.t(:default_role_project_curator)).first
     finded_role
   end
   def self.project_customer
-    finded_role = where(builtin: BUILTIN_PROJECT_CUSTOMER).first
+    finded_role = where(name: I18n.t(:default_role_project_customer)).first
     finded_role
   end
   def self.project_office_manager
-    finded_role = where(builtin: BUILTIN_PROJECT_OFFICE_MANAGER).first
+    finded_role = where(name: I18n.t(:default_role_project_office_manager)).first
     finded_role
   end
   def self.project_office_coordinator
-    finded_role = where(builtin: BUILTIN_PROJECT_OFFICE_COORDINATOR).first
+    finded_role = where(name: I18n.t(:default_role_project_office_coordinator)).first
     finded_role
   end
   def self.project_activity_coordinator
-    finded_role = where(builtin: BUILTIN_PROJECT_ACTIVITY_COORDINATOR).first
+    finded_role = where(name: I18n.t(:default_role_project_activity_coordinator)).first
     finded_role
   end
   def self.events_responsible
-    finded_role = where(builtin: BUILTIN_EVENTS_RESPONSIBLE).first
+    finded_role = where(name: I18n.t(:default_role_events_responsible)).first
     finded_role
   end
   def self.project_head
-    finded_role = where(builtin: BUILTIN_PROJECT_HEAD).first
+    finded_role = where(name: I18n.t(:default_role_project_head)).first
     finded_role
   end
   def self.project_office_admin
-    finded_role = where(builtin: BUILTIN_PROJECT_OFFICE_ADMIN).first
+    finded_role = where(name: I18n.t(:default_role_project_office_admin)).first
     finded_role
   end
   #-tan
