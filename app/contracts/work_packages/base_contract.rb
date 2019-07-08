@@ -57,6 +57,8 @@ module WorkPackages
     end
 
     attribute :target_id
+
+    attribute :organization_id
     # )
 
     attribute :fixed_version_id do
