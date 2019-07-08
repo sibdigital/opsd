@@ -1,0 +1,46 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-projects') %>
+  <span class="widget-box--header-title">Статистика</span>
+</h3>
+<div class="wiki">
+<p class="widget-box--additional-info">
+  <%= 'Активность сотрудников по ключевым показателям деятельности' %>
+</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Сотрудник</th>
+        <th>KPI (%)</th>
+        <th>Количество мероприятий</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @users_stat.each do |ustat| %>
+      <tr>
+        <%= content_tag(:td, "#{ustat['firstname']} #{ustat['lastname']}") %>
+        <%= content_tag(:td, ustat['done_ratio'].to_i) %>
+        <%= content_tag(:td, ustat['wp_count']) %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<p class="widget-box--additional-info">
+  <%= 'Статистика документов' %>
+</p>
+<table>
+  <thead>
+  <tr>
+    <th>Проект</th>
+    <th>Количество документов</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @docs_stat.each do |ustat| %>
+    <tr>
+      <%= content_tag(:td, ustat['project_name']) %>
+      <%= content_tag(:td, ustat['count_doc']) %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>

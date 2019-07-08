@@ -78,6 +78,10 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
       partial: 'diagram_date_ratio_as_koordinator',
       if: Proc.new { User.current.logged? && !@koordinator_dlya_etih_proektov.empty? }
     },
+    { #+tan
+      partial: 'statistik',
+      if: Proc.new { User.current.logged? && (User.current.admin? || @koordinator_dlya_etih_proektov.empty? || !@ruk_proekt_ofisa_dlya_etih_proektov.empty? || !@kurator_dlya_etih_proektov.empty? || !@rukovoditel_proekta_dlya_etih_proektov.empty?)}
+    },
     # )
     {
       partial: 'news',

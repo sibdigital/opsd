@@ -81,7 +81,7 @@ class UserMailer < BaseMailer
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - Вам отправлено напоминание.'
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие.'
     end
   end
 
@@ -106,7 +106,7 @@ class UserMailer < BaseMailer
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - Вам отправлено напоминание.'
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Ответьте на сообщение в дискуссии.'
     end
   end
 # )

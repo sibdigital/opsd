@@ -75,7 +75,7 @@ ru:
 '
   boards:
     show:
-      no_results_title_text: На данный момент сообщений для форума нет.
+      no_results_title_text: В дискуссии нет тем.
   colors:
     index:
       no_results_title_text: На данный момент цветов нет.
@@ -129,7 +129,7 @@ ru:
   global_search:
     overwritten_tabs:
       wiki_pages: Wiki
-      messages: Форум
+      messages: Дискуссия
   groups:
     index:
       no_results_title_text: Сейчас группы отсутствуют.
@@ -161,8 +161,8 @@ ru:
       activities:
         no_results_title_text: В настоящее время никакой активности.
       boards:
-        no_results_title_text: Форумы в этом проекте отсутствуют.
-        no_results_content_text: Создать новый форум
+        no_results_title_text: Дискуссии в этом проекте отсутствуют.
+        no_results_content_text: Создать новую дискуссию
       categories:
         no_results_title_text: На данный момент категории пакетов работ отсутствуют.
         no_results_content_text: Создать новую категорию пакета работ
@@ -483,7 +483,7 @@ ru:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
         children: Вложенные элементы
-        done_ratio: Прогресс (%)
+        done_ratio: KPI (Прогресс %)
         end_insertion: Завершение вставки
         end_deletion: Завершение удаления
         fixed_version: Этап
@@ -491,7 +491,7 @@ ru:
         parent_issue: Родитель
         parent_work_package: Родитель
         priority: Приоритет
-        progress: Прогресс (%)
+        progress: KPI (Прогресс %)
         spent_hours: Затраченное время
         spent_time: Затраченное время
         subproject: Подпроект
@@ -700,7 +700,7 @@ ru:
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
-      board: Форум
+      board: Дискуссия
       comment: Комментарий
       custom_action: Пользовательское действие
       custom_field: Настраиваемое поле
@@ -1314,9 +1314,9 @@ ru:
       faq: Ответы на вопросы
       glossary: Глоссарий
       shortcuts: Ярлыки
-      forums: Форумы
+      forums: Дискуссии
 #      blog:  блог
-      boards: Форум
+      boards: Дискуссия
       newsletter: Оповещения системы безопасности / Новости
   links:
     configuration_guide: Руководство по конфигурации
@@ -1383,7 +1383,7 @@ ru:
   label_authentication: Аутентификация
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
-  label_available_project_boards: Доступные форумы
+  label_available_project_boards: Доступные дискуссии
   label_available_project_versions: Имеющиеся этапы проекта
   label_available_project_repositories: Доступные репозитории
   label_api_documentation: Документация по API
@@ -1392,8 +1392,8 @@ ru:
   label_blocks: блоки
   label_blog: Блог
   label_board_locked: Закрыто
-  label_board_new: Новый форум
-  label_board_plural: Форумы
+  label_board_new: Новая дискуссия
+  label_board_plural: Дискуссии
   label_board_sticky: Стикер
   label_boolean: Логическое значение
   label_branch: Ветка
@@ -1470,8 +1470,8 @@ ru:
   label_descending: По убыванию
   label_details: Детали
   label_development_roadmap: Дорожная карта разработки
-  label_diagram_done_ratio: Динамика проектов
-  label_diagram_date_ratio: Исполнение мероприятий
+  label_diagram_done_ratio: Мониторинг целевых показателей
+  label_diagram_date_ratio: Статистика по проектам
   label_diff: отличия
   label_diff_inline: Встроенный
   label_diff_side_by_side: Рядом
@@ -1638,7 +1638,7 @@ ru:
   label_new_statuses_allowed: Новые статусы разрешены
   label_news_added: Новость добавлена
   label_news_comment_added: Комментарий добавлен в Новости
-  label_news_latest: Последние новости
+  label_news_latest: Уведомления о событиях
   label_news_new: Добавить новость
   label_news_edit: Редактировать новость
   label_news_plural: Новости
@@ -1699,15 +1699,14 @@ ru:
   label_profile: Профиль
   label_project_all: Все проекты
   label_project_count: Общее количество проектов
-  label_project_copy_notifications: Уведомлять по электронной почте по ходу копирования
-    проекта
+  label_project_copy_notifications: Уведомлять по электронной почте при копировании проекта
   label_project_latest: Последние проекты
   label_project_default_type: Разрешить пустой тип
   label_project_hierarchy: Иерархия проектов
   label_project_new: Инициировать проект
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
-  label_done_ratio_project: Процент исполнения
+  label_done_ratio_project: Процент исполнения (KPI)
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
   label_positions: "Должности"
@@ -2188,7 +2187,7 @@ ru:
   permission_export_wiki_pages: Экспорт wiki-страниц
   permission_list_attachments: Отобразить список прикреплённых файлов
   permission_log_time: Учитывать потраченное время
-  permission_manage_boards: Управление форумами
+  permission_manage_boards: Управление дискуссиями
   permission_manage_categories: Управление категориями пакета работ
   #zbd(
   permission_manage_contracts: Управление гос.контрактами
@@ -2241,7 +2240,7 @@ ru:
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность
-  project_module_boards: Форумы
+  project_module_boards: Дискуссии
   project_module_calendar: Календарь
   project_module_work_package_tracking: Отслеживание пакета работ
   project_module_news: Новости
@@ -2456,7 +2455,7 @@ ru:
     коэфицентами
   setting_work_package_done_ratio_field: Использовать поле пакета работ
   setting_work_package_done_ratio_status: Использовать статус пакета работ
-  setting_work_package_done_ratio_disabled: Отключить (скрыть прогресс)
+  setting_work_package_done_ratio_disabled: Cкрыть KPI (прогресс)
   setting_work_package_list_default_columns: Отображать по умолчанию
   setting_work_package_list_summable_columns: Суммируемое
   setting_work_package_properties: Свойства пакета работ
@@ -2623,7 +2622,7 @@ ru:
     изменены на нежелательные даты.
   text_hint_disable_with_0: 'Примечание: Отключить с 0'
   text_hours_between: Между %{min} и %{max} часами.
-  text_work_package_added: Автор %{author} отчитался по пакету работ %{id}.
+  text_work_package_added: Пользователь %{author} добавил новое мероприятие %{id} %{subject}.
   text_work_package_category_destroy_assignments: Удаление категории назначений
   text_work_package_category_destroy_question: Некоторые мероприятия (%{count}) принадлежат
     для этой категории. Что вы хотите сделать?
@@ -2728,7 +2727,7 @@ ru:
       color: Цвет
       colors: Цвета
     associations: Связи
-    board_could_not_be_saved: Форум сохранён быть не может
+    board_could_not_be_saved: Дискуссия не может быть сохранена
     button_delete_all: Удалить всё
     change: Изменения в планировании
     children: Дочерние элементы
@@ -2914,7 +2913,7 @@ ru:
     additional_resources: Дополнительные ресурсы
     getting_started: Приступая к работе
     help_and_support: Помощь и поддержка
-  total_progress: Общий прогресс
+  total_progress: Общий прогресс (KPI)
   user:
     all: все
     active: Активно
