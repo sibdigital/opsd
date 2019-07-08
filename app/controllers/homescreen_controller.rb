@@ -65,18 +65,19 @@ class HomescreenController < ApplicationController
     @kurator_dlya_etih_proektov = []
     @ruk_proekt_ofisa_dlya_etih_proektov = []
     @koordinator_dlya_etih_proektov = []
+    @all = Project.all
     Project.all.map do |project|
       current_user.roles(project).map do |role|
-        if role == Role.find_by(name: "Руководитель проекта")
+        if role == Role.find_by(name: I18n.t(:default_role_project_head))
           @rukovoditel_proekta_dlya_etih_proektov << project
         end
-        if role == Role.find_by(name: "Куратор проекта")
+        if role == Role.find_by(name: I18n.t(:default_role_project_curator))
           @kurator_dlya_etih_proektov << project
         end
-        if role == Role.find_by(name: "Рук-ль Проектного офиса")
+        if role == Role.find_by(name: I18n.t(:default_role_project_office_manager))
           @ruk_proekt_ofisa_dlya_etih_proektov << project
         end
-        if role == Role.find_by(name: "Коорд-р от Проектного офиса")
+        if role == Role.find_by(name: I18n.t(:default_role_project_office_coordinator))
           @koordinator_dlya_etih_proektov << project
         end
       end

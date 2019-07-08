@@ -91,6 +91,9 @@ import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-create.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
+
+import {WpSendEmailButtonComponent} from 'core-components/wp-buttons/wp-send-email-button/wp-send-email-button.component';
+
 import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackageBreadcrumbParentComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
@@ -369,6 +372,9 @@ import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations
     WorkPackageTimelineTableController,
 
     WorkPackageCreateButtonComponent,
+    //iag(
+    WpSendEmailButtonComponent,
+    //)
     WorkPackageFilterByTextInputComponent,
 
     // Single view

@@ -74,6 +74,33 @@ class UserMailer < BaseMailer
     end
   end
 
+#iag (
+  def work_package_notify_assignee(user)
+    @welcome_url = url_for(controller: '/homescreen')
+
+    headers['X-OpenProject-Type'] = 'Test'
+
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - Вам отправлено напоминание.'
+    end
+  end
+
+  def work_package_notify_assignee1(user, work_package , author = User.current)
+    User.execute_as user do
+      # instance variables are used in the view
+      @issue = work_package
+
+      set_work_package_headers(work_package)
+
+      references work_package, user
+
+      with_locale_for(user) do
+        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+      end
+    end
+  end
+# )
+
   def work_package_watcher_added(work_package, user, watcher_setter)
     User.execute_as user do
       @issue = work_package

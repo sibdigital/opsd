@@ -61,6 +61,28 @@ class AdminController < ApplicationController
     redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
   end
 
+ # iag(
+  def send_email_assignee_from_task
+    raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
+    # Force ActionMailer to raise delivery errors so we can catch it
+    ActionMailer::Base.raise_delivery_errors = true
+    begin
+      @workPackageId = params[:workPackageId];
+
+      @workPackage = WorkPackage.find(@workPackageId);
+
+      @assigneee = User.find(@workPackage.assigned_to_id);
+
+      UserMailer.work_package_notify_assignee(@assigneee).deliver_now
+    rescue => e
+      flash[:error] = I18n.t(:notice_email_error, value: Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup))
+    end
+    ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
+    #redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
+  end
+ # )
+
+
   def force_user_language
     available_languages = Setting.find_by(name: 'available_languages').value
     User.where(['language not in (?)', available_languages]).each do |u|

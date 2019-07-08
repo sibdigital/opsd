@@ -69,6 +69,8 @@ module DemoData
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
+      puts wp_attr
+
       work_package = WorkPackage.create wp_attr
 
       create_children! work_package, attributes
@@ -115,6 +117,7 @@ module DemoData
     end
 
     def find_status(attributes)
+      puts "#{attributes[:status]} - #{translate_with_base_url(attributes[:status])}"
       Status.find_by!(name: translate_with_base_url(attributes[:status]))
     end
 
