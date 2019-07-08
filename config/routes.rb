@@ -206,6 +206,9 @@ OpenProject::Application.routes.draw do
     get 'stages', controller: 'stages', action: 'show', as: :stages
     #get 'stages(/:id)', to: 'stages#show', as: :stages #, controller: 'stages', action: 'show' #, on: :member #, as: :stages
     # )
+    # +tan 2019.07.07
+    resources :plan_uploaders, controller: 'plan_uploaders'
+    #-tan
 
     resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
 
@@ -406,9 +409,6 @@ OpenProject::Application.routes.draw do
     #zbd(
     resources :contracts
     # )
-    # +tan 2019.07.07
-    resources :plan_uploaders
-    #-tan
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'

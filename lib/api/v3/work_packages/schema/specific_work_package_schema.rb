@@ -63,6 +63,8 @@ module API
             #zbd(
             when :contract
               Contract.all
+            when :target
+              Target.where('project_id = ?', project_id)
             #)
             #xcc(
             when :organization

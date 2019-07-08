@@ -247,6 +247,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
                   "t":
                   "id:asc",
                   "f": [{ "n": "status", "o": "o", "v": [] },
+                    //zbd(
+                        { "n": "assignee", "o": "=", "v": ["me"] },
+                    //)
                         { "n": "datesInterval", "o": "<>d", "v": [startDate, endDate] }],
                   "pp": WorkPackagesCalendarController.MAX_DISPLAYED };
 

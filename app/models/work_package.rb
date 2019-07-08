@@ -61,6 +61,7 @@ class WorkPackage < ActiveRecord::Base
 
   #zbd(
   belongs_to :contract, class_name: 'Contract', foreign_key: 'contract_id'
+  belongs_to :target, class_name: 'Target', foreign_key: 'target_id'
   #)
 
   has_many :time_entries, dependent: :delete_all

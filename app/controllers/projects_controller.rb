@@ -349,7 +349,7 @@ class ProjectsController < ApplicationController
 
   def update_demo_project_settings(project, value)
     # e.g. when one of the demo projects gets deleted or a archived
-    if project.identifier == 'your-scrum-project' || project.identifier == 'demo-project'
+    if project.identifier == 'cultura' || project.identifier == 'umts'
       Setting.demo_projects_available = value
     end
   end
