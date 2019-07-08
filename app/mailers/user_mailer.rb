@@ -99,6 +99,16 @@ class UserMailer < BaseMailer
       end
     end
   end
+
+  def reply_to_message_notify(user)
+    @welcome_url = url_for(controller: '/homescreen')
+
+    headers['X-OpenProject-Type'] = 'Test'
+
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - Вам отправлено напоминание.'
+    end
+  end
 # )
 
   def work_package_watcher_added(work_package, user, watcher_setter)
