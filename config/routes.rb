@@ -369,6 +369,7 @@ OpenProject::Application.routes.draw do
       post :force_user_language
       post :test_email
       get :send_email_assignee_from_task  # iag
+      #post :send_email_from_forum  # tan
     end
   end
 

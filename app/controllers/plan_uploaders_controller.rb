@@ -28,7 +28,11 @@ class PlanUploadersController < ApplicationController
 
     if @plan_uploader.save
       puts @plan_uploader.name.store_path
-      load
+      if @plan_uploader.status
+        load_eb
+      else
+        load
+      end
       #render "new"
        redirect_to project_stages_path, notice: "Данные загружены."
     else
@@ -101,6 +105,47 @@ class PlanUploadersController < ApplicationController
             re.attributes = params
             re.save!
           end
+        end
+      end
+    end
+  end
+
+  def load_eb
+    prepare_roo
+    filename = Rails.root.join('public',@plan_uploader.name.store_path)
+    puts File.file?(filename)
+    xlsx = Roo::Excelx.new(filename)
+    ebrows = []
+    xlsx.each_row_streaming do |row|
+      r = EBRow.new row[1].value, row[2].value, row[3].value, row[4].value, row[5].value, row[6].value, row[7].value
+      ebrows.push r
+    end
+
+    @project_for_load = Project.find_by(identifier: params[:project_id])
+
+    ebrows.each do |erow|
+      puts erow.to_s
+      if !erow.is_empty?
+        wp_name = "#{erow.serial_number} #{erow.name.to_s}"
+        wp_list = WorkPackage.where(subject: wp_name).to_a
+        if wp_list.size == 0
+          wp = WorkPackage.new
+          params = {}
+          params['subject'] = wp_name[0,250]
+          params['description'] = wp_name
+          params['project_id'] = @project_for_load.id
+          params['type_id'] = Type.find_by(name: I18n.t(:default_type_task)).id
+          params['status_id'] = Status.default.id# find_by(name: I18n.t(:default_status_new))
+          params['plan_type'] = 'execution'
+          params['author_id'] = User.current.id
+          params['position'] = 1
+          params['priority_id'] = IssuePriority.default.id
+          params['due_date'] = erow.date_end
+          #params['assigned_to'] = 1
+          wp.attributes = params
+          wp.save!
+        else
+
         end
       end
     end

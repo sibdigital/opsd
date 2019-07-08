@@ -85,6 +85,15 @@ class UserMailer < BaseMailer
     end
   end
 
+#tan (
+  # def notify_forum_notify_assignee(mail)
+  #   @welcome_url = url_for(controller: '/homescreen')
+  #
+  #   headers['X-OpenProject-Type'] = 'Test'
+  #
+  #   mail to: "\"#{name}\" <#{mail}>", subject: 'Вы приглашены в дискуссию'
+  # end
+
   def work_package_notify_assignee1(user, work_package , author = User.current)
     User.execute_as user do
       # instance variables are used in the view
