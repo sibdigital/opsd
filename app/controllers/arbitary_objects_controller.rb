@@ -14,7 +14,7 @@ class ArbitaryObjectsController < ApplicationController
   def index
     sort_columns = {'id' => "#{ArbitaryObject.table_name}.id",
                     'name' => "#{ArbitaryObject.table_name}.name",
-                    'obj_type' => "#{ArbitaryObject.table_name}.obj_type"
+                    'type_id' => "#{ArbitaryObject.table_name}.type_id"
     }
 
     sort_init 'id', 'desc'
