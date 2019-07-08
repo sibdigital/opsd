@@ -66,6 +66,7 @@ class PlanUploadersController < ApplicationController
           params['author_id'] = User.current.id
           params['position'] = 1
           params['priority_id'] = IssuePriority.default.id
+          params['due_date'] = erow.date_end
           #params['assigned_to'] = 1
           wp.attributes = params
           wp.save!
