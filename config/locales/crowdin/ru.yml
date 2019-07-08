@@ -827,6 +827,8 @@ ru:
     unit: Единица измерения
     basic_value: Базовое значение
     plan_value: Плановое значение
+    arbitary_object_type: Тип
+    arbitary_object: Произвольный объект
     #)
   button_add: Добавить
   button_add_member: Добавить участника
@@ -1537,6 +1539,8 @@ ru:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
+  label_arbitary_object: Произвольный объект
+  label_arbitary_objects: Произвольные объекты
   label_target: Целевые показатели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
@@ -1722,6 +1726,7 @@ ru:
   label_project_view_all: Реестр проектов
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
+  label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
   label_target_new: Добавить целевой показатель
   label_target_value: Целевой показатель
@@ -2237,6 +2242,8 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
+  project_module_targets: Целевые показатели
+  project_module_arbitary_objects: Произвольные объекты
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность

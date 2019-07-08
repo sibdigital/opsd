@@ -101,6 +101,12 @@ module API
           href: api_v3_paths.organizations
         }
       end
+      link :arbitary_objects do
+        {
+          href: api_v3_paths.arbitary_objects
+        }
+      end
+
       #)
       #zbd(
       link :targets do

@@ -385,6 +385,16 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-risks'
   # )
 
+  #xcc(
+  menu.push :arbitary_objects,
+            { controller: '/arbitary_objects', action: 'index' },
+            param: :project_id,
+            caption: :label_arbitary_objects,
+            if: Proc.new { |p| p.module_enabled?('arbitary_objects') },
+            icon: 'icon2 icon-info1'
+
+  # )
+
   menu.push :settings,
             { controller: '/project_settings', action: 'show' },
             caption: :label_project_settings,

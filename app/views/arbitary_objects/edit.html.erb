@@ -1,0 +1,18 @@
+<%#--
+This file written by XCC
+06/07/2019
+++#%>
+
+<% html_title l(:label_administration), "#{l(:label_edit)} #{ArbitaryObject.model_name.human} #{h @arbitary_object.name}" %>
+<% breadcrumb_paths(default_breadcrumb, @arbitary_object) %>
+<%= toolbar title: @arbitary_object %>
+
+
+<%= labelled_tabular_form_for @arbitary_object, url: project_arbitary_object_path(project_id: @project) do |f| %>
+  <%= render partial: 'arbitary_objects/form/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(project_arbitary_object_path(id: @arbitary_object.id), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

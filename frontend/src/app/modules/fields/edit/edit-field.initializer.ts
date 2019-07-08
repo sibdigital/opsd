@@ -59,6 +59,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         //)
         //xcc(
         'Organization',
+        'ArbitaryObject',
         //)
 
         'CustomOption',
