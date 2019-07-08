@@ -55,15 +55,20 @@ module BasicData
       #zbd( +tan 2019.07.05
       #project_curator, project_customer, project_office_manager, project_activity_coordinator,
       #project_office_coordinator, project_office_admin, project_head, events_responsible
+      project_admin, project_curator, project_customer,
+      project_office_manager, project_activity_coordinator, project_office_coordinator,
+      events_responsible, project_head, project_office_admin
       #)
       ]
     end
 
     # 2019.07.05. tan: добавлены роли по умолчанию
     def builtin_roles
-      [non_member, anonymous, project_admin, project_curator, project_customer,
-      project_office_manager, project_activity_coordinator, project_office_coordinator,
-      events_responsible, project_head, project_office_admin]
+      [non_member, anonymous
+      # , project_admin, project_curator, project_customer,
+      # project_office_manager, project_activity_coordinator, project_office_coordinator,
+      # events_responsible, project_head, project_office_admin
+      ]
 
     end
 
