@@ -224,9 +224,7 @@ OpenProject::Application.routes.draw do
     match '/roadmap' => 'versions#index', via: :get
 
     resources :news, only: %i[index new create]
-    # xcc(
-    resources :targets#, only: %i[index new create edit]
-    #)
+
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
     end
@@ -294,7 +292,16 @@ OpenProject::Application.routes.draw do
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
     # )
+    #xcc(
+    resources :targets do
+      get '/edit/:tab' => 'targets#edit', on: :member, as: 'edit_tab'
+    end
 
+    resources :arbitary_objects do
+      get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
+    end
+
+    #)
     resources :activity, :activities, only: :index, controller: 'activities'
 
     resources :boards do
@@ -362,6 +369,7 @@ OpenProject::Application.routes.draw do
       post :force_user_language
       post :test_email
       get :send_email_assignee_from_task  # iag
+      #post :send_email_from_forum  # tan
     end
   end
 
@@ -466,13 +474,6 @@ OpenProject::Application.routes.draw do
   #end
   # - TAN
   #
-   #xcc(
-  #get '/project_targets' => 'project_targets#index'
-
-   #scope '/project_targets' do
-  #resources :targets %i[index destroy update edit show]
-
-  # )
 
   # We should fix this crappy routing (split up and rename controller methods)
   get '/workflows' => 'workflows#index'
@@ -590,6 +591,16 @@ OpenProject::Application.routes.draw do
   scope '/projects/:project_id/project_risks/:risk_id' do
     resources :project_risk_characts
   end
+  # )
+  #xcc(
+  scope '/projects/:project_id/targets/:target_id' do
+    resources :target_execution_values
+  end
+
+  scope '/projects/:project_id/arbitary_objects/:arbitary_object_id' do
+
+  end
+
   # )
 
   scope controller: 'sys' do

@@ -11,6 +11,12 @@ by zbd
   <div class="form--field"><%= f.text_field 'eis_href', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'price', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'executor', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'name', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'sposob', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'gos_zakaz', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'date_begin', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'date_end', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'etaps', container_class: '-middle' %></div>
   <% if User.current.admin?%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>

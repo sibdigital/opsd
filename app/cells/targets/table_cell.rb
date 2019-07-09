@@ -15,13 +15,13 @@ module Targets
     def columns
       if action_name == 'index'
 
-        return ['name', 'status', 'typen', 'unit', 'basic_value', 'plan_value', 'comment', 'project_id']
+        return ['name', 'status', 'type', 'unit', 'basic_value', 'plan_value', 'comment', 'project']
       end
       if action_name == 'show'
-        return ['name', 'status', 'typen', 'unit', 'basic_value', 'plan_value', 'comment', 'project_id']
+        return ['name', 'status', 'type', 'unit', 'basic_value', 'plan_value', 'comment', 'project']
       end
 
-      ['name', 'status', 'typen', 'unit', 'basic_value', 'plan_value', 'comment', 'project_id']
+      ['name', 'status', 'type', 'unit', 'basic_value', 'plan_value', 'comment', 'project']
     end
 
     def inline_create_link
@@ -48,12 +48,12 @@ module Targets
       [
         ['name', caption: Target.human_attribute_name(:name)],
         ['status', caption: Target.human_attribute_name(:status)],
-        ['typen', caption: Target.human_attribute_name(:typen)],
+        ['type', caption: Target.human_attribute_name(:type)],
         ['unit', caption: Target.human_attribute_name(:unit)],
         ['basic_value', caption: Target.human_attribute_name(:basic_value)],
         ['plan_value', caption: Target.human_attribute_name(:plan_value)],
         ['comment', caption: Target.human_attribute_name(:comment)],
-        ['project_id', caption: Target.human_attribute_name(:project_id)]
+        ['project', caption: Target.human_attribute_name(:project)]
       ]
     end
 

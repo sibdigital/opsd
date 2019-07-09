@@ -437,7 +437,7 @@ class PermittedParams
     params.require(:position).permit(:name, :is_approve)
   end
   def organization
-    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve)
+    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
   end
   def depart
     params.require(:depart).permit(:organization_id, :name)
@@ -447,17 +447,21 @@ class PermittedParams
   end
   #xcc(
   def target
-    params.require(:target).permit(:status, :name, :type, :unit, :basic_value, :plan_value, :comment, :project_id)
+    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve)
   end
   def target_execution_values
-    params.require(:target).permit(:target_id, :year, :quarter, :value)
+    params.require(:target_execution_values).permit(:target_id, :year, :quarter, :value)
   end
+  def arbitary_object
+    params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
+  end
+
   #)
   # -tan
 
   # zbd (
   def contract
-    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href)
+    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
   end
   # )
 

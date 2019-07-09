@@ -217,9 +217,13 @@ class WorkPackagesController < ApplicationController
   end
 
   def load_plan_type
-    if params[:plan_type] != 'planning' and params[:plan_type] != 'execution' then
-      deny_access
+    #2019.07.09 temporary fix (
+    if params[:plan_type] != 'execution'
+      params[:plan_type] = 'execution'
     end
+    #if params[:plan_type] != 'planning' and params[:plan_type] != 'execution' then
+    #  deny_access
+    #end
   end
 
   def login_back_url_params

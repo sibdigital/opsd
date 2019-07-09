@@ -689,52 +689,52 @@ class User < Principal
 
   def project_admin?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_admin.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_admin.name}.size > 0
   end
 
   def project_curator?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_curator.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_curator.name}.size > 0
   end
 
   def project_customer?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_customer.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_customer.name}.size > 0
   end
 
   def project_office_manager?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_office_manager.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_office_manager.name}.size > 0
   end
 
   def project_activity_coordinator?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_activity_coordinator.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_activity_coordinator.name}.size > 0
   end
 
   def project_office_coordinator?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_office_coordinator.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_office_coordinator.name}.size > 0
   end
 
   def events_responsible?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.events_responsible.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.events_responsible.name}.size > 0
   end
 
   def project_office_admin?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_office_admin.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_office_admin.name}.size > 0
   end
 
   def project_head?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.project_head.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.project_head.name}.size > 0
   end
 
   def events_responsible?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.builtin == Role.events_responsible.builtin}.size > 0
+    roles.find_all{ |r| r.name == Role.events_responsible.name}.size > 0
   end
   #-tan 2019.07.05
 

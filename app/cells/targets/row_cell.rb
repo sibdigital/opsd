@@ -11,16 +11,17 @@ module Targets
     end
 
     def name
-      #link_to h(target.name), edit_project_target_path(target)
-       target.name
+      link_to h(target.name), edit_project_target_path(id: target.id)
+
+#       target.name
     end
 
     def status
       target.status
     end
 
-    def typen
-      target.typen
+    def type
+      target.type
     end
 
     def unit
@@ -39,8 +40,8 @@ module Targets
       target.comment
     end
 
-    def project_id
-      target.project_id
+    def project
+      target.project
     end
 
 
@@ -53,7 +54,8 @@ module Targets
     def delete_link
       link_to(
         op_icon('icon icon-delete'),
-        project_targets_path(target),
+#        project_targets_path(target.id),
+        project_target_path(id: target.id),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) },
         title: t(:button_delete)

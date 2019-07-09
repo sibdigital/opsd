@@ -62,13 +62,15 @@ module API
               project.categories if project.respond_to?(:categories)
             #zbd(
             when :contract
-              Contract.all
+              Contract.where('is_approve = ?', true)
             when :target
-              Target.where('project_id = ?', project_id)
+              Target.where('project_id = ?  and is_approve = ?', project_id, true)
             #)
             #xcc(
             when :organization
-              Organization.all
+              Organization.where('is_approve = ?', true)
+            when :arbitary_object
+              ArbitaryObject.where('project_id = ? and is_approve = ? ', project_id, true)
             # )
             end
           end

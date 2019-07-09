@@ -1,0 +1,16 @@
+<%#--
+This file written by XCC
+06/07/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :arbitary_object %>
+<section class="form--section">
+    <%= f.hidden_field 'project_id' %>
+    <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+    <div class="form--field"><%= f.number_field 'type_id', required: true, container_class: '-xslim' %></div>
+</section>

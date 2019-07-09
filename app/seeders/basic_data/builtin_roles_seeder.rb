@@ -42,16 +42,16 @@ module BasicData
     def data
       [
         { name: I18n.t(:default_role_non_member), position: 0, builtin: Role::BUILTIN_NON_MEMBER },
-        { name: I18n.t(:default_role_anonymous),  position: 1, builtin: Role::BUILTIN_ANONYMOUS  },
-        { name: I18n.t(:default_role_project_admin), builtin: Role::BUILTIN_PROJECT_ADMIN },
-        { name: I18n.t(:default_role_project_curator), builtin: Role::BUILTIN_PROJECT_CURATOR },
-        { name: I18n.t(:default_role_project_customer), builtin: Role::BUILTIN_PROJECT_CUSTOMER },
-        { name: I18n.t(:default_role_project_office_manager), builtin: Role::BUILTIN_PROJECT_OFFICE_MANAGER },
-        { name: I18n.t(:default_role_project_activity_coordinator), builtin: Role::BUILTIN_PROJECT_ACTIVITY_COORDINATOR },
-        { name: I18n.t(:default_role_project_office_coordinator), builtin: Role::BUILTIN_PROJECT_OFFICE_COORDINATOR },
-        { name: I18n.t(:default_role_events_responsible), builtin: Role::BUILTIN_EVENTS_RESPONSIBLE },
-        { name: I18n.t(:default_role_project_head), builtin: Role::BUILTIN_PROJECT_HEAD },
-        { name: I18n.t(:default_role_project_office_admin), builtin: Role::BUILTIN_PROJECT_OFFICE_ADMIN }
+         { name: I18n.t(:default_role_anonymous),  position: 1, builtin: Role::BUILTIN_ANONYMOUS  }
+        # { name: I18n.t(:default_role_project_admin), builtin: Role::BUILTIN_PROJECT_ADMIN },
+        # { name: I18n.t(:default_role_project_curator), builtin: Role::BUILTIN_PROJECT_CURATOR },
+        # { name: I18n.t(:default_role_project_customer), builtin: Role::BUILTIN_PROJECT_CUSTOMER },
+        # { name: I18n.t(:default_role_project_office_manager), builtin: Role::BUILTIN_PROJECT_OFFICE_MANAGER },
+        # { name: I18n.t(:default_role_project_activity_coordinator), builtin: Role::BUILTIN_PROJECT_ACTIVITY_COORDINATOR },
+        # { name: I18n.t(:default_role_project_office_coordinator), builtin: Role::BUILTIN_PROJECT_OFFICE_COORDINATOR },
+        # { name: I18n.t(:default_role_events_responsible), builtin: Role::BUILTIN_EVENTS_RESPONSIBLE },
+        # { name: I18n.t(:default_role_project_head), builtin: Role::BUILTIN_PROJECT_HEAD },
+        # { name: I18n.t(:default_role_project_office_admin), builtin: Role::BUILTIN_PROJECT_OFFICE_ADMIN }
       ]
     end
   end
