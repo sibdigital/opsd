@@ -35,4 +35,5 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
     this.chart.chart.update();
   }
 }
+
 DynamicBootstrapper.register({ selector: dateDiagramSelector, cls: WorkPackageOverviewDateDiagramComponent });
