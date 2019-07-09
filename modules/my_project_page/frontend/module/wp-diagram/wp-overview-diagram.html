@@ -1,10 +1,35 @@
-<div style="display: block;">
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="barChartLabels"
-            [options]="barChartOptions"
-            [plugins]="barChartPlugins"
-            [legend]="barChartLegend"
-            [chartType]="barChartType">
-    </canvas>
+
+<div style="display: block">
+    <div class="chart">
+        <canvas id="chart" baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+        </canvas>
+    </div>
+    <div>
+        Тип диаграммы
+        <select
+                (change)="changeChartType()"
+                [(ngModel)]="barChartType"
+                id="wp_select_chart_type"
+                value="bar"
+                name="select_chart_type"
+             >
+            <option value="line">Линейная</option>
+            <option selected value="bar">Столбчатая</option>
+            <option value="horizontalBar">Столбчатая горизонтальная</option>
+            <option value="radar">Радар</option>
+            <option value="doughnut">Кольцевая</option>
+            <option value="polarArea">Радиальная</option>
+            <option value="bubble">Пузырьковая</option>
+            <option value="pie">Круговая</option>
+            <option value="scatter">Рассеяние</option>
+        </select>
+
+    </div>
 </div>
+
