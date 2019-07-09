@@ -28,6 +28,9 @@
 
 import {APP_INITIALIZER, Injector, defineInjectable, NgModule} from '@angular/core';
 import {ChartsModule} from 'ng2-charts';
+import {FormsModule} from "@angular/forms";
+import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
 import {OverviewResource} from './hal/resources/overview-resource';
 import {multiInput} from 'reactivestates';
@@ -57,7 +60,12 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
 
 @NgModule({
     imports: [
-        ChartsModule
+        ChartsModule,
+      FormsModule,
+      MatDialogModule,
+      MatTableModule,
+      MatPaginatorModule,
+      BrowserAnimationsModule
     ],
     declarations: [
         WorkPackageOverviewStatusDiagramComponent,
