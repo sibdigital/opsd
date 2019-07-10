@@ -24,10 +24,13 @@ class TargetsController < ApplicationController
     sort_init 'id', 'desc'
     sort_update sort_columns
 
-    @targets = @project.targets
+    @parent_id = parent_id_param
+
+    @targets = @project.targets.where(parent_id: @parent_id)
                        .order(sort_clause)
                        .page(page_param)
                        .per_page(per_page_param)
+
 
    end
 
@@ -41,10 +44,12 @@ class TargetsController < ApplicationController
 
   def new
     @target = Target.new
+
+    if params[:parent_id] != nil
+      @parent_id = params[:parent_id]
+    end
+    @target.parent_id = @parent_id
   end
-
-
-
 
   def create
     @target = @project.targets.create(permitted_params.target)
@@ -113,6 +118,10 @@ class TargetsController < ApplicationController
     if str.end_with?('"')
       str = str.slice(0..-2)
     end
+  end
+
+  def parent_id_param
+    params.fetch(:parent_id){0}
   end
 
 end

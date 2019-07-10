@@ -56,6 +56,13 @@ This file written by BBM
               </div>
             </div>
           </th>
+
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -68,6 +75,12 @@ This file written by BBM
             <%= content_tag(:td, target.unit) %>
             <%= content_tag(:td, target.basic_value) %>
             <%= content_tag(:td, target.plan_value) %>
+
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-add'),
+                project_targets_path(:parent_id => target.id),
+                title: t(:button_click_to_reveal))) %>
+
             <%= content_tag(:td, link_to(
                 op_icon('icon icon-delete'),
                 project_target_path(id: target.id),

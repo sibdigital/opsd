@@ -41,7 +41,7 @@ module Organizations
               aria: { label: t(:button_click_to_reveal) },
               class: 'wp-inline-create--add-link',
               title: t(:button_click_to_reveal) do
-        op_icon('icon icon-add')
+       op_icon('icon icon-add')
       end
     end
 

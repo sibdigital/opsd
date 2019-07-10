@@ -112,10 +112,24 @@ This file written by XCC
   <%= pagination_links_full @targets %>
 <% end %>
 <div class="wp-inline-create-button">
-  <%= link_to new_project_target_path(),
+  <%=
+    link_to new_project_target_path(:parent_id => params[:parent_id]),
               aria: {label: t(:label_target_new)},
               class: 'wp-inline-create--add-link',
               title: t(:label_target_new) do
     op_icon('icon icon-add')
   end %>
+  <%=
+    @target = Target.find_by(id: params[:parent_id])
+    if @target == nil
+      @parent_id = 0
+    else  @parent_id = @target.parent_id
+    end
+    link_to project_targets_path(:parent_id => @parent_id),
+              aria: { label: t(:button_up) },
+              class: 'wp-inline-create--split-link',
+              title: t(:button_up) do
+    op_icon('icon-arrow-up2')
+  end %>
+
 </div>
