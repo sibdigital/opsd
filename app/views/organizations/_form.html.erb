@@ -15,6 +15,12 @@ This file written by TAN
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'inn', container_class: '-middle' %></div>
   <div class="form--field"><%= f.check_box 'is_legal_entity', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'org_prav_forma', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'ur_addr', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'post_addr', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'otrasl', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'gorod', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'capital', container_class: '-middle' %></div>
   <% if User.current.admin?%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>

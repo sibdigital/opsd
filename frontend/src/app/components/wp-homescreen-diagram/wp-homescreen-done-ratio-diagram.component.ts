@@ -82,7 +82,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
     }
   }
 
-  public changeChartType(){
+  public changeChartType() {
     this.chart.chartType = this.barChartType;
     this.chart.chart.update();
     // let _this = this;
