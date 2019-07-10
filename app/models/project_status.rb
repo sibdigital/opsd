@@ -2,7 +2,7 @@ class ProjectStatus < Enumeration
 
   #has_many :projects#, class_name: 'Project', foreign_key: 'project_status_id'
 
-  OptionName = :project_status
+  OptionName = :enumeration_project_status
 
   def option_name
     OptionName

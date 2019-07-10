@@ -28,12 +28,17 @@
 
 import {APP_INITIALIZER, Injector, defineInjectable, NgModule} from '@angular/core';
 import {ChartsModule} from 'ng2-charts';
+import {FormsModule} from "@angular/forms";
+import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
 import {OverviewResource} from './hal/resources/overview-resource';
 import {multiInput} from 'reactivestates';
 import {HookService} from "../../hook-service";
 import {WorkPackageOverviewStatusDiagramComponent} from "./wp-diagram/wp-overview-status-diagram.component";
 import {WorkPackageOverviewDateDiagramComponent} from "./wp-diagram/wp-overview-date-diagram.component";
+
+
 
 export function initializeMyProjectPagePlugin(injector:Injector) {
     return () => {
@@ -57,7 +62,12 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
 
 @NgModule({
     imports: [
-        ChartsModule
+      ChartsModule,
+      FormsModule,
+      MatDialogModule,
+      MatTableModule,
+      MatPaginatorModule,
+      BrowserAnimationsModule
     ],
     declarations: [
         WorkPackageOverviewStatusDiagramComponent,
