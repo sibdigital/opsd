@@ -1169,6 +1169,10 @@ en:
   enumeration_risk_possibilities: Вероятность наступления рисков
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
+  enumeration_project_status: Статус проекта
+  enumeration_project_approve_status: Статус утверждения проекта
+  enumeration_organization_type: Тип организации
+
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
     по крайней мере один пакет работ, назначенный для версии, определенной в этом

@@ -170,6 +170,19 @@ class Enumeration < ActiveRecord::Base
     end.map(&:first)
   end
 
+  #zbd(
+  def self.descendants
+    File.basename('organization_type.rb', '.*').camelize.constantize
+    File.basename('target_status.rb', '.*').camelize.constantize
+    File.basename('target_type.rb', '.*').camelize.constantize
+    File.basename('project_approve_status.rb', '.*').camelize.constantize
+    File.basename('project_status.rb', '.*').camelize.constantize
+    File.basename('arbitary_object_type.rb', '.*').camelize.constantize
+
+    ObjectSpace.each_object(::Class).select { |klass| klass < self }
+  end
+  # )
+
   private
 
   def check_integrity

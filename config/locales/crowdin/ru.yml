@@ -1190,6 +1190,7 @@ ru:
   enumeration_target_types: Тип целевого показателя
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
+  enumeration_arbitary_objects_types: Тип произвольного объекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
     по крайней мере один пакет работ, назначенный для версии, определенной в этом
