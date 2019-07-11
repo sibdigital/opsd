@@ -463,6 +463,10 @@ class PermittedParams
   def contract
     params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
   end
+
+  def plan_uploader_setting
+    params.require(:plan_uploader_setting).permit(:column_name, :column_num, :is_pk)
+  end
   # )
 
   def watcher

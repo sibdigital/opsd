@@ -149,8 +149,8 @@ class Project < ActiveRecord::Base
   has_many :stages, dependent: :destroy
   # )
   #xcc(
-    has_many :targets
-    has_many :arbitary_objects
+  has_many :targets
+  has_many :arbitary_objects
   # )
 
   #tan(

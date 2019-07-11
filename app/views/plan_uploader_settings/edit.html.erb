@@ -1,0 +1,16 @@
+<%#--
+by zbd
+11.07.2019
+++#%>
+
+<% html_title l(:label_administration), l(:label_edit) %>
+
+<% local_assigns[:additional_breadcrumb] = l(:label_edit) %>
+<%= toolbar title: "Изменение поля" %>
+
+<%= labelled_tabular_form_for @plan_uploader_setting do |f| %>
+
+  <%= render partial: 'settings', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+<% end %>

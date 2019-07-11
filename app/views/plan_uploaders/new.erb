@@ -2,10 +2,8 @@
 <%= breadcrumb_toolbar "Загрузить" %>
 <%= labelled_tabular_form_for [@project, @plan_uploader] do |f| %>
   <div class = "upload">
-     <div class="form--field"><%= f.text_field 'status', container_class: '-middle' %></div>
-      <%= f.file_field :name %>
-      <%= f.submit "Загрузить", class: "btn btn-primary" %>
+    <div class="form--field"><%= f.text_field 'status', container_class: '-middle' %></div>
+    <%= f.file_field :name %>
+    <%= f.submit "Загрузить", class: "btn btn-primary" %>
   </div>
 <% end %>
-
-

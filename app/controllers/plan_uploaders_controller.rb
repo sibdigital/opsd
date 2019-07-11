@@ -18,7 +18,6 @@ class PlanUploadersController < ApplicationController
   end
 
   def new
-    #@project = Project.find_by(identifier: params[:project_id])
     @project = Project.find(params[:project_id])
     @plan_uploader = PlanUploader.new
   end

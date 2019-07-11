@@ -200,11 +200,7 @@ OpenProject::Application.routes.draw do
     end
 
     #zbd(
-    # resources :stages, only: :show, controller: 'stages' do
-    #   get 'stages(/:tab)'=>'stages#show', on: :member #, as: :stages
-    # end
     get 'stages', controller: 'stages', action: 'show', as: :stages
-    #get 'stages(/:id)', to: 'stages#show', as: :stages #, controller: 'stages', action: 'show' #, on: :member #, as: :stages
     # )
     # +tan 2019.07.07
     resources :plan_uploaders, controller: 'plan_uploaders'
@@ -416,6 +412,9 @@ OpenProject::Application.routes.draw do
 
     #zbd(
     resources :contracts
+
+    resources :plan_uploader_settings,  controller: 'plan_uploader_settings'
+
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
