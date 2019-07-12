@@ -3,6 +3,8 @@
 class Contract < ActiveRecord::Base
   has_many :work_packages, foreign_key: 'contract_id', dependent: :nullify
 
+  acts_as_customizable
+
   validates :contract_num, presence: true, uniqueness: true
 
   def option_name
@@ -14,4 +16,5 @@ class Contract < ActiveRecord::Base
   end
 
   def to_s; name end
+
 end

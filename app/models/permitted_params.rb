@@ -464,7 +464,10 @@ class PermittedParams
 
   # zbd (
   def contract
-    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
+    permitted_params = params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
+
+    permitted_params = permitted_params.merge(custom_field_values(:contract))
+    permitted_params
   end
 
   def plan_uploader_setting
