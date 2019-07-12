@@ -50,7 +50,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
 
   public wpNameLimit:number = 30;
 
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+  @ViewChild(BaseChartDirective) chart:BaseChartDirective;
 
   constructor(protected I18n:I18nService,
               //bbm(
@@ -77,7 +77,7 @@ export class WorkPackageHomescreenDoneRatioDiagramComponent implements OnInit {
       this.isKoordinator.push(projectResource.isKoordinator);
       this.barChartData[0].data = this.wpCounts;
       this.barChartData[1].data = this.percentageDones;
-      this.barChartLabels = this.wpNames.map(s => s.substr(0, this.wpNameLimit))
+      this.barChartLabels = this.wpNames.map(s => s.substr(0, this.wpNameLimit));
         //this.wpNames;
     }
   }

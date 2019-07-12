@@ -43,6 +43,9 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
 import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatPaginatorIntlRussian";
+import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
+import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
+import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
 
 @NgModule({
   imports: [
@@ -72,7 +75,10 @@ import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatP
     //bbm(
     WorkPackageHomescreenDoneRatioDiagramComponent,
     WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent
+    WpTopicsDialogComponent,
+    WorkPackageOverviewDiagramComponent,
+    WorkPackageOverviewDiagramTabComponent,
+    WorkPackageOverviewDiagramQueriesTabComponent
     //)
   ],
   declarations: [
@@ -80,7 +86,10 @@ import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatP
     //bbm(
     WorkPackageHomescreenDoneRatioDiagramComponent,
     WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent
+    WpTopicsDialogComponent,
+    WorkPackageOverviewDiagramComponent,
+    WorkPackageOverviewDiagramTabComponent,
+    WorkPackageOverviewDiagramQueriesTabComponent
     //)
   ],
   entryComponents: [
@@ -88,7 +97,10 @@ import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatP
     //bbm(
     WorkPackageHomescreenDoneRatioDiagramComponent,
     WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent
+    WpTopicsDialogComponent,
+    WorkPackageOverviewDiagramComponent,
+    WorkPackageOverviewDiagramTabComponent,
+    WorkPackageOverviewDiagramQueriesTabComponent
     //)
   ],
   exports: [
