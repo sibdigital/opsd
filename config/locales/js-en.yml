@@ -1,5 +1,5 @@
 ---
-en:
+ru:
   js:
     ajax:
       hide: Скрыть
@@ -168,6 +168,8 @@ en:
           title: Пакеты работ, в которых я подотчетен
         work_packages_assigned:
           title: Переданные мне пакеты работ
+        work_packages_remaining:
+          title: Пакеты работ до даты завершения <14 дней
         work_packages_created:
           title: Пакеты работ, созданные мной
         work_packages_watched:
@@ -390,7 +392,7 @@ en:
       percentage_done: Процент выполнения
       wp_count: Количество мероприятий
       required_outside_context: Вы находитесь вне контекста проекта. Пожалуйста, выберите
-          вначале контекст проекта для того, чтобы выбрать тип и состояние
+        вначале контекст проекта для того, чтобы выбрать тип и состояние
       context: Контекст проекта
       work_package_belongs_to: Этот пакет работ относится к проекту %{projectname}.
       click_to_switch_context: Открыть пакет работ в этом проекте.

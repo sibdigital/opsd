@@ -1,0 +1,20 @@
+<div class="work-packages--panel-inner">
+    <span class="hidden-for-sighted" tabindex="-1" focus [textContent]="focusAnchorLabel"></span>
+    <div id="tabs">
+        <ul class="tabrow">
+            <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+            properly. Thus, don't remove the hrefs or the empty URLs! -->
+            <li uiSref="homescreen.overview"
+                uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.overview"></a>
+            </li>
+            <li uiSref="homescreen.queries"
+                uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.queries"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tabcontent" ui-view>
+    </div>
+</div>

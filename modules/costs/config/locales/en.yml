@@ -1,4 +1,4 @@
-en:
+ru:
   activerecord:
     attributes:
       cost_entry:
@@ -14,14 +14,14 @@ en:
         created_on: "Создано"
         description: "Описание"
         fixed_date: "Фиксированная Дата"
-        spent: "Потрачено"
+        spent: "Израсходовано"
         status: "Состояние"
         subject: "Тема"
-        type: "Тип расходов"
+        type: "Бюджет"
         updated_on: "Обновлено"
       cost_type:
-        unit: "Наименование количественного показателя"
-        unit_plural: "Множественное наименование количественного показателя"
+        unit: "Объект/Результат проекта"
+        unit_plural: "Множественное наименование объекта/результата проека"
       work_package:
         costs_by_type: "Затраченное количество"
         cost_object_subject: "Название бюджета"
@@ -35,8 +35,8 @@ en:
       user:
         default_rates: "Тариф по умолчанию"
       variable_cost_object:
-        labor_budget: "Запланированные трудозатраты"
-        material_budget: "Запланированные затраты по количеству"
+        labor_budget: "Плановые трудозатраты"
+        material_budget: "Плановые количественные затраты "
     models:
       cost_object: "Бюджет"
       cost_type:

@@ -35,6 +35,11 @@ import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
 import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
 import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
+import {WorkPackageOverviewTabComponent} from "core-components/wp-single-view-tabs/overview-tab/overview-tab.component";
+import {WorkPackageActivityTabComponent} from "core-components/wp-single-view-tabs/activity-panel/activity-tab.component";
+import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
+import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
+import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 
 export const OPENPROJECT_ROUTES = [
   {
@@ -53,7 +58,26 @@ export const OPENPROJECT_ROUTES = [
   {
     name: 'homescreen',
     url: '/',
-    component: WorkPackageHomescreenDoneRatioDiagramComponent,
+    abstract: true,
+    params: {
+      focus: {
+        dynamic: true,
+        value: true
+      }
+    },
+    data: {
+      bodyClasses: 'action-index'
+    },
+  },
+  {
+    name: 'homescreen.overview',
+    url: '/overview',
+    component: WorkPackageOverviewDiagramTabComponent
+  },
+  {
+    name: 'homescreen.queries',
+    url: '/queries',
+    component: WorkPackageOverviewDiagramQueriesTabComponent
   },
   //)
   // We could lazily load work packages module already,
