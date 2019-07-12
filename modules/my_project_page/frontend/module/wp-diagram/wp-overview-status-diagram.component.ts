@@ -31,7 +31,6 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
   public barChartLegend = true;
   public barChartPlugins = [];
 
-  public barChartBubbleData: ChartDataSets[] = new Array(5);
   public barChartData: ChartDataSets[];
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
