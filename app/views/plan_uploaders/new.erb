@@ -2,8 +2,17 @@
 <%= breadcrumb_toolbar "Загрузить" %>
 <%= labelled_tabular_form_for [@project, @plan_uploader] do |f| %>
   <div class = "upload">
-    <div class="form--field"><%= f.text_field 'status', container_class: '-middle' %></div>
-    <%= f.file_field :name %>
-    <%= f.submit "Загрузить", class: "btn btn-primary" %>
+    <div class="form--field">
+      <%= f.text_field 'status', container_class: '-middle' %>
+      <%= f.file_field :name, container_class: '-middle' %>
+      <%#= f.text_field 'first_row_num', container_class: '-middle' %>
+      <label for="row_num">№ первой строки (по умолчанию):</label>
+      <span class="form--field-container">
+        <span class="form--text-field-container -middle">
+          <input id="row_num" type="text" name="first_row_num" value="5" class="-form--text-field" container_class="-middle">
+        </span>
+      </span>
+      <%= f.submit "Загрузить", class: "btn btn-primary" %>
+    </div>
   </div>
 <% end %>
