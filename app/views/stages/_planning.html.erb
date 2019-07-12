@@ -10,7 +10,15 @@
       <%= link_to 'Стратегическая карта', project_activity_index_path(@project)  %>
     </li>
     <li style="margin: 10px;">
-      <%= link_to 'Загрузка плана мероприятий(XLS)', new_project_plan_uploader_path(@project)  %>
+      Загрузка плана мероприятий (XLS)
+      <ul style="clear: both;">
+        <li style="clear: both;">
+          <%= link_to 'Загрузить', new_project_plan_uploader_path(@project)  %>
+        </li>
+        <li style="clear: both;">
+          <%= link_to 'Настройки полей', plan_uploader_settings_path %>
+        </li>
+      </ul>
     </li>
   </ul>
 </div>
