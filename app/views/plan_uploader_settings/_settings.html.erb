@@ -1,6 +1,12 @@
 <%= error_messages_for :setting %>
 <section class="form--section">
-  <div class="form--field"><%= f.text_field 'column_name', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'table_name', required: true, readonly: true, container_class: '-middle' %></div>
+<!--  <div class="form--field"><%#= f.text_field 'column_name', required: true, container_class: '-middle' %></div>-->
+
+  <div class="form--field">
+    <%= f.select :column_name, options_for_select(columns), container_class: '-middle' %>
+  </div>
+
   <div class="form--field"><%= f.text_field 'column_num', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.check_box 'is_pk', required: false , container_class: '-middle' %></div>
 </section>

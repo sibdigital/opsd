@@ -3,9 +3,10 @@ class PlanUploaderSettingsController < ApplicationController
   layout 'admin'
 
   before_action :find_setting, only: [:edit, :update, :destroy]
+  before_action :get_columns, only: [:new, :edit, :update]
 
   def index
-    @plan_uploader_settings = PlanUploaderSetting.order('column_num asc').all
+    @plan_uploader_settings = PlanUploaderSetting.order('table_name asc, column_num asc').all
   end
 
   def edit
@@ -14,6 +15,7 @@ class PlanUploaderSettingsController < ApplicationController
 
   def new
     @plan_uploader_setting = PlanUploaderSetting.new
+    @plan_uploader_setting.table_name = 'work_packages'
   end
 
   def create
@@ -46,5 +48,15 @@ class PlanUploaderSettingsController < ApplicationController
 
   def find_setting
     @plan_uploader_setting = PlanUploaderSetting.find(params[:id])
+  end
+
+  def get_columns
+    not_permit_fields = ["id", "created_at", "updated_at"]
+    @columns = []
+    WorkPackage.column_names.each_with_index do |col, index|
+      if !col.in?(not_permit_fields)
+        @columns << [WorkPackage.human_attribute_name(col), col]
+      end
+    end
   end
 end

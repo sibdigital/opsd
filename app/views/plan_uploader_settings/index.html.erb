@@ -1,6 +1,6 @@
-<% html_title 'Настройки полей' %>
+<% html_title 'Настройка соответствия полей' %>
 
-<%= toolbar title: 'Настройки полей' do %>
+<%= toolbar title: 'Настройка соответствия полей' do %>
   <li class="toolbar-item">
     <%= link_to new_plan_uploader_setting_path,
                 { class: 'button -alt-highlight',
@@ -28,13 +28,13 @@
         <thead>
         <tr>
           <th>
-            <%= PlanUploaderSetting.human_attribute_name(:id) %>
-          </th>
-          <th>
             <%= PlanUploaderSetting.human_attribute_name(:column_num) %>
           </th>
           <th>
             <%= PlanUploaderSetting.human_attribute_name(:column_name) %>
+          </th>
+          <th>
+            <%= PlanUploaderSetting.human_attribute_name(:table_name) %>
           </th>
           <th>
             <%= PlanUploaderSetting.human_attribute_name(:is_pk) %>
@@ -47,16 +47,25 @@
         <tbody>
         <% @plan_uploader_settings.each do |setting| %>
           <tr id="setting-<%= setting.id %>">
-            <%= content_tag(:td, link_to(h(setting.id), edit_plan_uploader_setting_path(setting.id))) %>
-            <%= content_tag(:td, setting.column_num) %>
-            <%= content_tag(:td, setting.column_name) %>
+            <%= content_tag(:td, link_to(h(setting.column_num), edit_plan_uploader_setting_path(setting.id))) %>
+            <%= content_tag(:td, WorkPackage.human_attribute_name(setting.column_name)) %>
+            <%= content_tag(:td, WorkPackage.human_attribute_name(setting.table_name)) %>
             <%= content_tag(:td, setting.is_pk) %>
-            <%= content_tag(:td, link_to(
-                op_icon('icon icon-delete'),
-                plan_uploader_settings_path(setting),
-                method: :delete,
-                data: {confirm: I18n.t(:text_are_you_sure)},
-                title: t(:button_delete))) %>
+            <%= content_tag(:td,
+                            link_to(
+                                op_icon('icon icon-edit'),
+                                edit_plan_uploader_setting_path(setting.id),
+                                title: "Редактировать"
+                            ) +' '+
+                            link_to(
+                                op_icon('icon icon-delete'),
+                                plan_uploader_settings_path(setting),
+                                method: :delete,
+                                data: {confirm: I18n.t(:text_are_you_sure)},
+                                title: t(:button_delete)
+                            )
+                )
+            %>
           </tr>
         <% end %>
         </tbody>

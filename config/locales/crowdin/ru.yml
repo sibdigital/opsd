@@ -789,6 +789,11 @@ ru:
     address: Адрес
     cabinet: Кабинет
     target: Целевой показатель
+
+    table_name: Имя таблицы
+    column_num: Номер поля во входном файле
+    column_name: Название поля
+    is_pk: Входит в первичный ключ
     #)
     #(xcc
     organization: Организация

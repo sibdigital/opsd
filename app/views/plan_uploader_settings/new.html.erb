@@ -2,12 +2,12 @@
     11.07.2019
 ++#%>
 
-<% html_title l(:label_administration), l(:label_contracts_new) %>
-<% local_assigns[:additional_breadcrumb] =  l(:label_contracts_new) %>
+<% html_title l(:label_administration), 'Новое поле' %>
+<% local_assigns[:additional_breadcrumb] =  'Новое поле' %>
 <%= breadcrumb_toolbar 'Новое поле' %>
 <%= labelled_tabular_form_for @plan_uploader_setting do |f| %>
 
-  <%= render partial: 'settings', locals: { f: f } %>
+  <%= render partial: 'settings', locals: { f: f, columns: @columns} %>
 
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
