@@ -10,6 +10,7 @@ class OrganizationsController < ApplicationController
 
   protect_from_forgery with: :exception
   include OrgSettingsHelper
+  # include CustomFieldsHelper
 
   def index;
     @tab = params[:tab]
@@ -39,6 +40,7 @@ class OrganizationsController < ApplicationController
 
   def new
     @organization = Organization.new
+
     @organization.org_type = params[:org_type]
     @parent_id = 0
     if params[:parent_id] != nil
@@ -72,7 +74,7 @@ class OrganizationsController < ApplicationController
   def destroy
     @organization.destroy
     redirect_to org_settings_path #controller: 'org_settings', action: 'index', tab:'organizations'
-    return
+
   end
 
   protected

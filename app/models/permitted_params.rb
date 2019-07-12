@@ -437,7 +437,10 @@ class PermittedParams
     params.require(:position).permit(:name, :is_approve)
   end
   def organization
-    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
+    permitted_params = params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
+
+    permitted_params = permitted_params.merge(custom_field_values(:organization))
+    permitted_params
   end
   def depart
     params.require(:depart).permit(:organization_id, :name)
