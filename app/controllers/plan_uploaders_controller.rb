@@ -5,6 +5,7 @@
 class PlanUploadersController < ApplicationController
   require 'roo'
   require 'date'
+  require 'translit'
 
   RUSSIAN_MONTH_NAMES_SUBSTITUTION = {
     'январь' => 'jan', 'февраль' => 'feb', 'март' => 'mar',
@@ -58,7 +59,6 @@ class PlanUploadersController < ApplicationController
     xlsx = Roo::Excelx.new(filename)
     xlsx.each_row_streaming(offset: @first_row_num.to_i - 1) do |row|
       rr = {}
-      #settings.each { |setting| rr[setting.column_name] = row[setting.column_num].value }
       settings.each { |setting| rr[setting.column_name] = Hash['column_name', setting.column_name, setting.column_name, row[setting.column_num].value] }
       rows.push rr
     end
@@ -68,23 +68,75 @@ class PlanUploadersController < ApplicationController
     rows.each do |row|
       if row.present?
         wp_name = (row['subject']['subject']).to_s
-        wp_list = WorkPackage.where(subject: wp_name).to_a
+        #wp_list = WorkPackage.where(subject: wp_name).to_a
+        wp_list = WorkPackage.find_or_create_by(subject: wp_name) do |wp|
         if wp_list.empty?
           # если такой задачи нет
+          #wp = WorkPackage.find_or_initialize_by do |task|
           wp = WorkPackage.new
           params = {}
           row.to_h.each do |r|
-            params[r['column_name'].value] = r[r['column_name'].value].value
+            params[r[0]] = r[1][r[0]]
           end
 
-          if params['assigned_to_id'].present?
-            # find user
+          if params['assigned_to_id'] == 0
+            params['assigned_to_id'] = nil
           end
+
+          if (params['assigned_to_id'].present?)&&(params['assigned_to_id'] != 0)
+            fio = params['assigned_to_id'].split(' ')
+            user = User.find_or_create_by(firstname: fio[1], lastname: fio[0], patronymic: fio[2]) do |u|
+              u.login = fio[0] + fio[1][0] + fio[2][0]
+              u.login = Translit.convert(u.login.downcase, :english)
+              u.admin = 0
+              u.status = 1
+              u.language = Setting.default_language
+              u.type = User
+              u.mail_notification = Setting.default_notification_option
+              if Setting.mail_from.index("@") != nil
+                u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
+              else
+                u.mail = u.login + '@example.net'
+              end
+              u.first_login = true
+            end
+
+            #include project member
+            #
+            #project_members_path(project_id: @project_for_load, )
+            #
+
+            # member = {}
+            # member['user_id'] = user.id
+            # member['role_id'] = Role.where(name: "Участник").first.id
+            # members[user.id] = new_member(user_id)
+            # @project_for_load.members << member
+
+            # @member = Member.new
+            # member_params = {}
+            # member_params['user_id'] = user.id
+            # member_params['project_id'] = @project_for_load.id
+            # member_params['mail_notification'] = false
+            #
+            # member_roles_params = {}
+            # member_roles_params['role_id'] = Role.where(name: "Участник").first.id
+            # @member.attributes = member_params
+            # #@member.member_roles.attributes = member_roles_params
+            # @member.save
+            # #@member.member_roles.new(role_id: Role.where(name: "Участник").first.id)
+
+            params['assigned_to_id'] = user.id
+          end
+
           if params['control_level_id'].present?
             # find control_level
+
           end
-          if (!params['start_date'].present?) # || (row[:start_date] == '')
-            params['start_date'] = @project.created_on
+
+          if params['start_date'].present?
+            if params['start_date'] == Date.parse('1899-12-30')
+              params['start_date'] = @project_for_load.created_on
+            end
           end
 
           params['project_id'] = @project_for_load.id
@@ -98,7 +150,26 @@ class PlanUploadersController < ApplicationController
           wp.attributes = params
           wp.save!
 
-          # erow.wp_id = WorkPackage.last.id
+          # ищем id родителя
+          parent_id = nil
+          plan_num_pp = params['plan_num_pp'].to_s
+          if !plan_num_pp.rindex(".").nil?
+            plan_num_pp = plan_num_pp[0..plan_num_pp.rindex(".")]
+            plan_num_pp = plan_num_pp[0..plan_num_pp.size-2]
+            parent_id = WorkPackage.where(project_id: @project_for_load.id, plan_num_pp: plan_num_pp).first.id
+
+            # добавляем связи иерархии
+            if parent_id.present?
+              p = {}
+              p['from_id'] = parent_id
+              p['to_id'] = wp.id
+              p['hierarchy'] = 1
+              re = Relation.new
+              re.attributes = p
+              re.save!
+            end
+          end
+
         else
           # обновить запись
           # добавить запись в w_p_journals
@@ -106,6 +177,7 @@ class PlanUploadersController < ApplicationController
         end
       end
     end
+
     #
     #     ebrows.each do |erow|
     #       if erow.wp_id != nil
@@ -287,4 +359,11 @@ class PlanUploadersController < ApplicationController
   def russian_to_english_date(date_string)
     date_string.downcase.gsub(/январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь/, RUSSIAN_MONTH_NAMES_SUBSTITUTION)
   end
+
+  def new_member(user_id)
+    Member.new(permitted_params.member).tap do |member|
+      member.user_id = user_id if user_id
+    end
+  end
+
 end

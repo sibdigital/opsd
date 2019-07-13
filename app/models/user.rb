@@ -125,7 +125,7 @@ class User < Principal
   validates_format_of :login, with: /\A[a-z0-9_\-@\.+ ]*\z/i
   validates_length_of :login, maximum: 256
   validates_length_of :firstname, :lastname, maximum: 30
-  #zbd
+  #zbd(
   validates_length_of :patronymic, maximum: 30
   validates_format_of :mail_add, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
   validates_length_of :mail_add, maximum: 60, allow_nil: true
@@ -134,7 +134,7 @@ class User < Principal
   validates_format_of :phone_mobile, with: /\A^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}\z/i, allow_blank: true
   validates_length_of :address, maximum: 160
   validates_length_of :cabinet, maximum: 6
-  #zbd
+  #)
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
   validates_length_of :mail, maximum: 60, allow_nil: true
   validates_confirmation_of :password, allow_nil: true

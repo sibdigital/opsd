@@ -152,6 +152,10 @@ gem 'meta-tags', '~> 2.11.0'
 gem "roo", "~> 2.8.2"
 # -tan
 
+#zbd(
+gem "translit", "~>0.1.5"
+# )
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
