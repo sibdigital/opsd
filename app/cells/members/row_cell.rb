@@ -24,6 +24,12 @@ module Members
       link_to user.firstname, user_path(user) if user
     end
 
+    #zbd(
+    def patronymic
+      link_to user.patronymic, user_path(user) if user
+    end
+    #)
+
     def mail
       if user
         link = mail_to(user.mail)
