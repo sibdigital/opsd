@@ -1,0 +1,19 @@
+<%#-- copyright
+# This file written by xcc
+# 12/07/2019
+++#%>
+
+<% html_title "#{l(:label_edit)} #{TargetExecutionValue.model_name.human} #{h @target_execution_value.id}" %>
+
+<% breadcrumb_paths(default_breadcrumb, @target_execution_value) %>
+<%= toolbar title: @target_execution_value %>
+
+<%= labelled_tabular_form_for @target_execution_value,
+                              url: target_execution_value_path(id: @target_execution_value.id,  target_id: @target_execution_value.target_id) do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(target_execution_value_path(id: @target_execution_value.id,  target_id: @target_execution_value.target_id), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete) %>
+<% end %>

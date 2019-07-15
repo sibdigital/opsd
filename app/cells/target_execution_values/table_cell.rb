@@ -7,30 +7,24 @@ module TargetExecutionValues
       options[:target_id]
     end
 
-    def project_id
-      options[:project_id]
-    end
+    # def project_id
+    #   options[:project_id]
+    # end
+    #
+     def target?
+       !Target.where(id: target_id).empty?
+     end
 
-    def target?
-      !Target.where(id: target_id).empty?
-    end
 
-
-    def initial_sort
-      %i[id asc]
-    end
-
-    def sortable?
-      false
-    end
 
     def columns
-      %i[id sort]
+#      %i[year sort]
+      ['year', 'quarter', 'value']
     end
 
     def inline_create_link
 
-        link_to new_target_execution_value_path(project_id: project_id, target_id: target_id),
+        link_to new_target_execution_value_path( target_id: target_id), #project_id: project_id,
                 aria: { label: t(:label_target_execution_values_new) },
                 class: 'wp-inline-create--add-link',
                 title: t(:label_target_execution_values_new) do
@@ -49,8 +43,10 @@ module TargetExecutionValues
 
     def headers
       [
-        ['id', caption: TargetExecutionValue.human_attribute_name(:id)],
-        ['sort', caption: I18n.t(:label_sort)]
+        ['year', caption: TargetExecutionValue.human_attribute_name(:year)],
+        ['quarter', caption: TargetExecutionValue.human_attribute_name(:quarter)],
+        ['value', caption: TargetExecutionValue.human_attribute_name(:value)]
+#        ['sort', caption: I18n.t(:label_sort)]
       ]
     end
   end
