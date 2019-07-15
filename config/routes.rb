@@ -32,7 +32,9 @@ OpenProject::Application.routes.draw do
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   #bbm(
-  get '/queries', to: 'homescreen#index'
+  get '/vkladka1' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
+  # state for show view in homescreen context
+  get '/vkladka2(/*state)' => 'homescreen#vkladka2', as: 'edit_tab_homescreen2'
   # )
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")

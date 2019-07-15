@@ -31,6 +31,7 @@ import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {UIRouterModule} from "@uirouter/angular";
 import {ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
 import {
+  HOMESCREEN_ROUTES,
   initializeUiRouterListeners,
   OPENPROJECT_ROUTES,
   uiRouterConfiguration
@@ -46,15 +47,19 @@ import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatP
 import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
 import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
 import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
+import {WORK_PACKAGES_ROUTES} from "core-app/modules/work_packages/routing/work-packages-routes";
 
 @NgModule({
   imports: [
     UIRouterModule.forRoot({
       states: OPENPROJECT_ROUTES,
       useHash: false,
-      config: uiRouterConfiguration,
+      config: uiRouterConfiguration
     } as any),
     //bbm(
+    UIRouterModule.forChild({
+      states: HOMESCREEN_ROUTES
+    }),
     ChartsModule,
     FormsModule,
     MatDialogModule,
