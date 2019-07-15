@@ -3,7 +3,7 @@
 <%= labelled_tabular_form_for [@project, @plan_uploader] do |f| %>
   <div class = "upload">
     <div class="form--field">
-      <%= f.text_field 'status', container_class: '-middle' %>
+      <%#= f.text_field 'status', container_class: '-middle' %>
       <%= f.file_field :name, container_class: '-middle' %>
       <%#= f.text_field 'first_row_num', container_class: '-middle' %>
       <label for="row_num">№ первой строки (по умолчанию):</label>
