@@ -15,16 +15,16 @@ module TargetExecutionValues
       !Target.where(id: model.target_id).empty?
     end
 
-
-#    def name
-#        link_to h(target_execution_value.name), edit_target_execution_value_path(id: target_execution_value, target_id: target_execution_value.target_id, project_id: project.identifier)
-#      end
+    def year
+      link_to h(target_execution_value.year), edit_target_execution_value_path(id: target_execution_value.id, target_id: target_execution_value.target_id,)#, project_id: project.identifier
     end
 
-    def sort
-        reorder_links 'target_execution_value',
-                      { controller: 'target_execution_values', action: 'update', id: target_execution_value, target_id: target_execution_value.target_id, project_id: project.identifier },
-                      method: :put
+    def quarter
+      target_execution_value.quarter
+    end
+
+    def value
+      target_execution_value.value
     end
 
     def button_links
@@ -44,4 +44,5 @@ module TargetExecutionValues
 
     end
 
+  end
 end

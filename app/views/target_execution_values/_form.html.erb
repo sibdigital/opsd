@@ -1,0 +1,17 @@
+<%#-- copyright
+# This file written by BBM
+# 29/04/2019
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :target_execution_value %>
+<section class="form--section">
+  <%= f.hidden_field 'target_id' %>
+  <div class="form--field"><%= f.text_field 'year', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'quarter', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'value', required: true, container_class: '-middle' %></div>
+</section>
