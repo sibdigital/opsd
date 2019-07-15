@@ -40,6 +40,7 @@ import {WorkPackageActivityTabComponent} from "core-components/wp-single-view-ta
 import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
 import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
 import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
+import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
 
 export const OPENPROJECT_ROUTES = [
   {
@@ -58,24 +59,10 @@ export const OPENPROJECT_ROUTES = [
   {
     name: 'homescreen',
     url: '/',
-    abstract: true,
-    params: {
-      focus: {
-        dynamic: true,
-        value: true
-      }
-    },
-    data: {
-      bodyClasses: 'action-index'
-    },
+    component: WorkPackageOverviewDiagramTabComponent,
   },
   {
-    name: 'homescreen.overview',
-    url: '/overview',
-    component: WorkPackageOverviewDiagramTabComponent
-  },
-  {
-    name: 'homescreen.queries',
+    name: 'queries',
     url: '/queries',
     component: WorkPackageOverviewDiagramQueriesTabComponent
   },

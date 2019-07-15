@@ -1,5 +1,5 @@
 ---
-ru:
+en:
   js:
     ajax:
       hide: Скрыть
@@ -791,6 +791,7 @@ ru:
         relations: Связи
         watchers: Наблюдатель
         attachments: Вложения
+        queries: Сохранить
       time_relative:
         days: дней
         weeks: недели
