@@ -56,12 +56,12 @@ class PlanUploadersController < ApplicationController
 
     settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("table_name = 'work_packages'").order('column_num ASC').all
 
+    row_num = @first_row_num.to_i
     rows = []
     xlsx = Roo::Excelx.new(filename)
     xlsx.each_row_streaming(offset: @first_row_num.to_i - 1) do |row|
       rr = {}
       settings.each { |setting| rr[setting.column_name] = Hash['column_name', setting.column_name, setting.column_name, row[setting.column_num].value, 'is_pk', setting.is_pk] }
-
       rows.push rr
     end
 
@@ -72,6 +72,10 @@ class PlanUploadersController < ApplicationController
         params = {}
         row.to_h.each do |r|
           params[r[0]] = r[1][r[0]]
+        end
+
+        if params['subject'] == 0 || params['subject'] == nil || params['subject'] == ''
+          next
         end
 
         is_new_record = false
@@ -88,9 +92,10 @@ class PlanUploadersController < ApplicationController
 
           if (params['assigned_to_id'].present?)&&(params['assigned_to_id'] != 0)
             fio = params['assigned_to_id'].split(' ')
-            user = User.find_or_create_by(firstname: fio[1], lastname: fio[0], patronymic: fio[2]) do |u|
+            user = User.where(:firstname => fio[1], :lastname => fio[0], :patronymic => fio[2]).first_or_create! do |u|
               u.login = fio[0] + fio[1][0] + fio[2][0]
               u.login = Translit.convert(u.login.downcase, :english)
+              #u.login = 'testuser'
               u.admin = 0
               u.status = 1
               u.language = Setting.default_language
@@ -122,11 +127,13 @@ class PlanUploadersController < ApplicationController
             else
               wp.start_date  = Date.parse(params['start_date'].to_s)
             end
+          else
+            params['start_date'] = @project_for_load.created_on
           end
 
           wp.project_id = @project_for_load.id
           wp.type_id = Type.find_by(name: I18n.t(:default_type_task)).id
-          wp.status_id = Status.default.id # find_by(name: I18n.t(:default_status_new))
+          wp.status_id = Status.default.id
           wp.plan_type = 'execution'
           wp.author_id = User.current.id
           wp.position = 1
@@ -142,7 +149,8 @@ class PlanUploadersController < ApplicationController
 
           if (params['assigned_to_id'].present?)&&(params['assigned_to_id'] != 0)
             fio = params['assigned_to_id'].split(' ')
-            user = User.find_or_create_by(firstname: fio[1], lastname: fio[0], patronymic: fio[2]) do |u|
+            #user = User.find_or_create_by(firstname: fio[1], lastname: fio[0], patronymic: fio[2]) do |u|
+            user = User.where(:firstname => fio[1], :lastname => fio[0], :patronymic => fio[2]).first_or_create! do |u|
               u.login = fio[0] + fio[1][0] + fio[2][0]
               u.login = Translit.convert(u.login.downcase, :english)
               u.admin = 0
@@ -177,6 +185,8 @@ class PlanUploadersController < ApplicationController
             else
               params['start_date'] = Date.parse(params['start_date'].to_s)
             end
+          else
+            params['start_date'] = @project_for_load.created_on
           end
 
           params['project_id'] = @project_for_load.id
@@ -226,11 +236,6 @@ class PlanUploadersController < ApplicationController
         end
       end
     end
-  end
-
-
-  def is_empty?
-      #(@serial_number == nil || @serial_number == 0 || @serial_number == '') && (@name == nil || @name == 0 || @name == '')
   end
 
 
