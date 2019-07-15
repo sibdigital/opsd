@@ -5,14 +5,8 @@
 class PlanUploadersController < ApplicationController
   require 'roo'
   require 'date'
-  require 'translit'
-
-  RUSSIAN_MONTH_NAMES_SUBSTITUTION = {
-    'январь' => 'jan', 'февраль' => 'feb', 'март' => 'mar',
-    'апрель' => 'apr', 'май' => 'may', 'июнь' => 'jun',
-    'июль' => 'jul', 'август' => 'aug', 'сентябрь' => 'sep',
-    'октябрь' => 'oct', 'ноябрь' => 'nov', 'декабрь' => 'dec'
-  }.freeze
+  #require 'translit'
+  include PlanUploadersHelper
 
   def index
     @plan_uploaders = PlanUploader.all
@@ -94,7 +88,7 @@ class PlanUploadersController < ApplicationController
             fio = params['assigned_to_id'].split(' ')
             user = User.where(:firstname => fio[1], :lastname => fio[0], :patronymic => fio[2]).first_or_create! do |u|
               u.login = fio[0] + fio[1][0] + fio[2][0]
-              u.login = Translit.convert(u.login.downcase, :english)
+              u.login = convert(u.login.downcase, :english)
               #u.login = 'testuser'
               u.admin = 0
               u.status = 1
@@ -152,7 +146,7 @@ class PlanUploadersController < ApplicationController
             #user = User.find_or_create_by(firstname: fio[1], lastname: fio[0], patronymic: fio[2]) do |u|
             user = User.where(:firstname => fio[1], :lastname => fio[0], :patronymic => fio[2]).first_or_create! do |u|
               u.login = fio[0] + fio[1][0] + fio[2][0]
-              u.login = Translit.convert(u.login.downcase, :english)
+              u.login = convert(u.login.downcase, :english)
               u.admin = 0
               u.status = 1
               u.language = Setting.default_language
@@ -240,10 +234,6 @@ class PlanUploadersController < ApplicationController
 
 
   private
-
-  def russian_to_english_date(date_string)
-    date_string.downcase.gsub(/январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь/, RUSSIAN_MONTH_NAMES_SUBSTITUTION)
-  end
 
   def new_member(user_id)
     Member.new(permitted_params.member).tap do |member|

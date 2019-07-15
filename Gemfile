@@ -153,7 +153,7 @@ gem "roo", "~> 2.8.2"
 # -tan
 
 #zbd(
-gem "translit", "~>0.1.5"
+#gem "translit", "~>0.1.5"
 # )
 
 group :production do
