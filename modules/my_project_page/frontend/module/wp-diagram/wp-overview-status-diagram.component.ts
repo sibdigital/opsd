@@ -5,7 +5,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 
-export const statusDiagramSelector = 'wp-overview-diagram';
+export const statusDiagramSelector = 'wp-overview-status-diagram';
 
 @Component(
 {
