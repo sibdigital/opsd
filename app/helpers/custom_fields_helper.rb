@@ -38,7 +38,9 @@ module CustomFieldsHelper
       { name: 'UserCustomField', partial: 'custom_fields/tab', label: :label_user_plural },
       { name: 'GroupCustomField', partial: 'custom_fields/tab', label: :label_group_plural },
       { name: 'TimeEntryActivityCustomField', partial: 'custom_fields/tab', label: TimeEntryActivity::OptionName },
-      { name: 'IssuePriorityCustomField', partial: 'custom_fields/tab', label: IssuePriority::OptionName }
+      { name: 'IssuePriorityCustomField', partial: 'custom_fields/tab', label: IssuePriority::OptionName },
+      { name: 'OrganizationCustomField', partial: 'custom_fields/tab', label: :label_organizations },
+      { name: 'ContractCustomField', partial: 'custom_fields/tab', label: :label_contracts }
      ]
   end
 

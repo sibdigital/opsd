@@ -437,7 +437,10 @@ class PermittedParams
     params.require(:position).permit(:name, :is_approve)
   end
   def organization
-    params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
+    permitted_params = params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
+
+    permitted_params = permitted_params.merge(custom_field_values(:organization))
+    permitted_params
   end
   def depart
     params.require(:depart).permit(:organization_id, :name)
@@ -461,7 +464,10 @@ class PermittedParams
 
   # zbd (
   def contract
-    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
+    permitted_params = params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
+
+    permitted_params = permitted_params.merge(custom_field_values(:contract))
+    permitted_params
   end
 
   def plan_uploader_setting

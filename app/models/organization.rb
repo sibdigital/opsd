@@ -3,6 +3,7 @@
 class Organization < ActiveRecord::Base
     has_many :work_packages, foreign_key: 'organization_id', dependent: :nullify
 
+    acts_as_customizable
 
     validates :name, uniqueness: true
     # validates_uniqueness_of :inn, conditions: -> { where.not(is_legal_entity: 0) } # позволяет создавать сколько угодно подразделений с одинаковым инн, пока нет юридического лица с таким инн
@@ -14,5 +15,9 @@ class Organization < ActiveRecord::Base
 
     def to_s
       name
+    end
+
+    def all_fields
+      true
     end
 end
