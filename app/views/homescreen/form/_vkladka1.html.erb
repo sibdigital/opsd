@@ -1,0 +1,24 @@
+<% if @homescreen[:blocks].any? %>
+  <section class="widget-boxes -flex">
+    <% @homescreen[:blocks].each do |block| %>
+      <% if block[:if].nil? || instance_eval(&block[:if]) %>
+        <div class="widget-box <%= block[:partial] %>">
+          <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
+        </div>
+      <% end %>
+    <% end %>
+  </section>
+<% end %>
+
+<!--tan 2019.06.24: переделать вкладку, а пока закомментируем -->
+<% if false && show_homescreen_links? && @homescreen[:links].any? %>
+  <section class="homescreen--links">
+    <% @homescreen[:links].each do |link| %>
+      <% title = I18n.t(link[:label], scope: 'homescreen.links', default: I18n.t(link[:label])) %>
+      <a class="homescreen--links--item" href="<%= link[:url] %>" target="_blank" title="<%= title %>">
+        <%= op_icon(link[:icon]) %>
+        <%= title %>
+      </a>
+    <% end %>
+  </section>
+<% end %>

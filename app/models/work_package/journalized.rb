@@ -92,7 +92,8 @@ module WorkPackage::Journalized
                                   :assigned_to_id, :priority_id,
                                   :category_id, :fixed_version_id,
                                   :planning_element_status_id,
-                                  :author_id, :responsible_id
+                                  :author_id, :responsible_id,
+                                  :contract_id
     register_on_journal_formatter :datetime, :start_date, :due_date
     register_on_journal_formatter :plaintext, :subject
   end

@@ -1,4 +1,4 @@
-ru:
+en:
   button_edit_this_page: "Редактировать эту страницу"
   error_saving_changes: "Не удалось сохранить изменения: %{errors}"
   error_textile_not_saved: "Не удалось сохранить textile-блок."

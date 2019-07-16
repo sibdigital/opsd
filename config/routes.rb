@@ -31,6 +31,11 @@ OpenProject::Application.routes.draw do
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
+  #bbm(
+  get '/vkladka1' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
+  # state for show view in homescreen context
+  get '/vkladka2(/*state)' => 'homescreen#vkladka2', as: 'edit_tab_homescreen2'
+  # )
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
@@ -292,6 +297,20 @@ OpenProject::Application.routes.draw do
     resources :targets do
       get '/edit/:tab' => 'targets#edit', on: :member, as: 'edit_tab'
     end
+
+    scope 'targets/:target_id/target_execution_values', controller: 'target_execution_values' do
+      get '/', action: 'index', as: 'target_execution_values'
+      get '/new', action: 'new', as: 'new_target_execution_value'
+      get '/:id', action: 'show', as: 'target_execution_value'
+      get '/:id/edit', action: 'edit', as: 'edit_target_execution_value'
+      post '/', action: 'create'
+      patch '/:id', action: 'update'
+      put '/:id', action: 'update'
+      delete '/:id', action: 'destroy'
+    end
+    # )
+
+
 
     resources :arbitary_objects do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'

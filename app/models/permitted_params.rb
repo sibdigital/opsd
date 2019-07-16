@@ -452,8 +452,8 @@ class PermittedParams
   def target
     params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id)
   end
-  def target_execution_values
-    params.require(:target_execution_values).permit(:target_id, :year, :quarter, :value)
+  def target_execution_value
+    params.require(:target_execution_value).permit(:target_id, :year, :quarter, :value)
   end
   def arbitary_object
     params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
@@ -464,7 +464,10 @@ class PermittedParams
 
   # zbd (
   def contract
-    params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
+    permitted_params = params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
+
+    permitted_params = permitted_params.merge(custom_field_values(:contract))
+    permitted_params
   end
 
   def plan_uploader_setting
