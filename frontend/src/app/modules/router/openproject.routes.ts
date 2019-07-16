@@ -60,6 +60,7 @@ export const HOMESCREEN_ROUTES = [
     url: '/vkladka2',
     // Redirect to 'overview' by default.
     redirectTo: 'diagram.overview',
+    component: WorkPackageOverviewDiagramComponent,
   },
   {
     name: 'diagram.overview',

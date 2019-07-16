@@ -1,6 +1,13 @@
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {Component, ElementRef, OnInit} from "@angular/core";
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {Component, ElementRef, Injector, OnInit} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {States} from "core-components/states.service";
+import {FirstRouteService} from "core-app/modules/router/first-route-service";
+import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import {WorkPackageTableSelection} from "core-components/wp-fast-table/state/wp-table-selection.service";
+import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {StateService} from "@uirouter/core";
 
 export const overviewDiagramSelector = 'wp-overview-diagram';
 
@@ -12,7 +19,10 @@ export class WorkPackageOverviewDiagramComponent implements OnInit {
   public text:any = {};
   public focusAnchorLabel:string;
 
-  constructor(protected I18n:I18nService,
+  constructor(public injector:Injector,
+              public states:States,
+              readonly $state:StateService,
+              protected I18n:I18nService,
               readonly element:ElementRef) { }
 
   ngOnInit():void {
@@ -24,4 +34,4 @@ export class WorkPackageOverviewDiagramComponent implements OnInit {
   }
 
 }
-DynamicBootstrapper.register({ selector: overviewDiagramSelector, cls: WorkPackageOverviewDiagramComponent });
+//DynamicBootstrapper.register({ selector: overviewDiagramSelector, cls: WorkPackageOverviewDiagramComponent });

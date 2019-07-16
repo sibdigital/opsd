@@ -81,6 +81,7 @@ import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-c
 import {FullCalendarModule} from "ng-fullcalendar";
 import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
+import {OverviewDiagramRouterModule} from "core-app/modules/router/overview-diagram-router.module";
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import {DeviceService} from "core-app/modules/common/browser/device.service";
     OpenprojectCommonModule,
     // Router module
     OpenprojectRouterModule,
+    OverviewDiagramRouterModule,
     // Hal Module
     OpenprojectHalModule,
 
