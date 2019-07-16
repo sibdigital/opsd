@@ -26,76 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {FirstRouteService} from "core-app/modules/router/first-route-service";
+import {NgModule} from '@angular/core';
 import {UIRouterModule} from "@uirouter/angular";
-import {ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
 import {
-  initializeUiRouterListeners,
-  OPENPROJECT_ROUTES,
-  uiRouterConfiguration
+  HOMESCREEN_ROUTES,
 } from "core-app/modules/router/openproject.routes";
-import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
 import {ChartsModule} from "ng2-charts";
 import {FormsModule} from "@angular/forms";
-import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topics-dialog.component";
-import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
-import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatPaginatorIntlRussian";
 import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
 import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
 import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
+import {BrowserModule} from "@angular/platform-browser";
 
 @NgModule({
   imports: [
-    UIRouterModule.forRoot({
-      states: OPENPROJECT_ROUTES,
-      useHash: false,
-      config: uiRouterConfiguration
-    } as any),
-    //bbm(
+    UIRouterModule.forChild({
+      states: HOMESCREEN_ROUTES
+    }),
+    BrowserModule,
     ChartsModule,
     FormsModule,
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
     BrowserAnimationsModule
-    //)
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeUiRouterListeners,
-      deps: [Injector],
-      multi: true
-    },
-    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
-    FirstRouteService,
-    //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent,
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
+    WorkPackageOverviewDiagramComponent,
+    WorkPackageOverviewDiagramTabComponent,
+    WorkPackageOverviewDiagramQueriesTabComponent
   ],
   declarations: [
-    ApplicationBaseComponent,
-    //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent,
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
+    WorkPackageOverviewDiagramComponent,
+    WorkPackageOverviewDiagramTabComponent,
+    WorkPackageOverviewDiagramQueriesTabComponent
   ],
   entryComponents: [
-    ApplicationBaseComponent,
-    //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent,
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
+    WorkPackageOverviewDiagramComponent,
+    WorkPackageOverviewDiagramTabComponent,
+    WorkPackageOverviewDiagramQueriesTabComponent
   ],
   exports: [
+  ],
+  bootstrap: [
+    WorkPackageOverviewDiagramComponent
   ]
 })
-export class OpenprojectRouterModule {
+export class OverviewDiagramRouterModule {
 }
