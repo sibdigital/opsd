@@ -36,7 +36,22 @@ class HomescreenController < ApplicationController
 
   include DateAndTime::Calculations
 
+  def vkladka1
+    @tab = :vkladka1
+    index
+  end
+
+  def vkladka2
+    @tab = :vkladka2
+    index
+  end
+
   def index
+    #bbm(
+    if @tab.blank?
+      redirect_to edit_tab_homescreen1_path
+    end
+    # )
     @newest_projects = Project.visible.newest.take(3)
     @newest_users = User.active.newest.take(3)
     @news = News.latest(count: 3)

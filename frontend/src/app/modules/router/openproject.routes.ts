@@ -33,14 +33,11 @@ import {Injector} from "@angular/core";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
-import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
-import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
-import {WorkPackageOverviewTabComponent} from "core-components/wp-single-view-tabs/overview-tab/overview-tab.component";
-import {WorkPackageActivityTabComponent} from "core-components/wp-single-view-tabs/activity-panel/activity-tab.component";
 import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
 import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
-import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
+import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
+
 
 export const OPENPROJECT_ROUTES = [
   {
@@ -54,15 +51,24 @@ export const OPENPROJECT_ROUTES = [
       projectPath: {type: 'path', value: null, squash: true},
       projects: {type: 'path', value: null, squash: true},
     }
-  },
-  //bbm(
+  }
+];
+//bbm(
+export const HOMESCREEN_ROUTES = [
   {
-    name: 'homescreen',
-    url: '/',
+    name: 'diagram',
+    url: '/vkladka2',
+    // Redirect to 'overview' by default.
+    redirectTo: 'diagram.overview',
+    component: WorkPackageOverviewDiagramComponent,
+  },
+  {
+    name: 'diagram.overview',
+    url: '/overview',
     component: WorkPackageOverviewDiagramTabComponent,
   },
   {
-    name: 'queries',
+    name: 'diagram.queries',
     url: '/queries',
     component: WorkPackageOverviewDiagramQueriesTabComponent
   },

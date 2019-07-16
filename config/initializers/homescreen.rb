@@ -55,11 +55,6 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     },
     #bbm(
     {
-      partial: 'overview_diagram',
-      if: Proc.new { User.current.logged? }
-    },
-
-    {
       partial: 'diagram_done_ratio',
       if: Proc.new { User.current.logged? }
     },

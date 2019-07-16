@@ -3,7 +3,4 @@
 # 08/07/2019
 ++#%>
 <% html_title l(:label_administration), l(:label_target_execution_values) %>
-<% TargetExecutionValue.descendants.each do |klass| %>
-  <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
-  <%= cell ::TargetExecutionValues::TableCell, klass.at_target(@target), project_id: @project.identifier, target_id: @target.id %>
-<% end %>
+<%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id), target_id: @target.id%>
