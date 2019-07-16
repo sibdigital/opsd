@@ -203,7 +203,7 @@ class Project < ActiveRecord::Base
     statuses
   end
 
-  def get_done_ratio
+  def get_done_ratio #TODO: plan type execution!
 
     sql = "with
          rels as (
