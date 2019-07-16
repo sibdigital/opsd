@@ -2,6 +2,15 @@
 This file written by XCC
 06/07/2019
 ++#%>
+<% html_title l(:label_administration), l(:label_targets) %>
+<%=
+ if @parent_id.to_i == 0
+    toolbar title: l(:label_targets)
+ else
+    toolbar title: l(:label_targets) + " (уровень #{@parent_id})"
+ end
+%>
+
 <% if @targets.empty? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
