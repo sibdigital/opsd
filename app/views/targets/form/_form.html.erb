@@ -24,11 +24,11 @@ This file written by XCC
                            TargetType.default.id
                          end
   %>
-  <div class="form--field">  <%= f.select :status_id,
+  <div class="form--field">  <%= f.select :status,
                                           options_for_select(TargetStatus.where(active: true).map {|u| [u.name, u.id]}, @selected_status_id),
                                           include_blank: true,
                                           container_class: '-slim' %></div>
-  <div class="form--field">  <%= f.select :type_id,
+  <div class="form--field">  <%= f.select :typen,
                                           options_for_select(TargetType.where(active: true).map {|u| [u.name, u.id]}, @selected_type_id),
                                           include_blank: true,
                                           container_class: '-slim' %></div>

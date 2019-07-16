@@ -303,7 +303,7 @@ OpenProject::Application.routes.draw do
       get '/new', action: 'new', as: 'new_target_execution_value'
       get '/:id', action: 'show', as: 'target_execution_value'
       get '/:id/edit', action: 'edit', as: 'edit_target_execution_value'
-      post '/', action: 'create'
+      #post '/', action: 'create'
       patch '/:id', action: 'update'
       put '/:id', action: 'update'
       delete '/:id', action: 'destroy'
