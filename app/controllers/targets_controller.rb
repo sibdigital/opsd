@@ -30,8 +30,6 @@ class TargetsController < ApplicationController
                        .order(sort_clause)
                        .page(page_param)
                        .per_page(per_page_param)
-
-
    end
 
   def edit
@@ -47,6 +45,8 @@ class TargetsController < ApplicationController
 
     if params[:parent_id] != nil
       @parent_id = params[:parent_id]
+    else
+      @parent_id = 0
     end
     @target.parent_id = @parent_id
   end

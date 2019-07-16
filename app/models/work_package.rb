@@ -79,7 +79,7 @@ class WorkPackage < ActiveRecord::Base
   #zbd(
   #validates :subject, presence: true, uniqueness: true
   validates_each :subject do |record, attr, value|
-    if WorkPackage.where("project_id = ? and upper(subject) = ?", record.project_id, value.upcase).count > 1
+    if WorkPackage.where("project_id = ? and upper(subject) = ? and plan_num_pp = ?", record.project_id, value.upcase, record.plan_num_pp).count > 1
       record.errors.add(attr, "Такая запись уже присутствует в проекте")
     end
   end
