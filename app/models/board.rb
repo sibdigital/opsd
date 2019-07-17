@@ -39,6 +39,7 @@ class Board < ActiveRecord::Base
   belongs_to :last_message, class_name: 'Message', foreign_key: :last_message_id
   acts_as_list scope: :project_id
   acts_as_watchable permission: :view_messages
+  acts_as_customizable
 
   validates_presence_of :name, :description
   validates_length_of :name, maximum: 30
