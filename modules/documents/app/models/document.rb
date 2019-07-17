@@ -48,6 +48,8 @@ class Document < ActiveRecord::Base
                      include: :project,
                      references: :projects
 
+  acts_as_customizable
+
   validates_presence_of :project, :title, :category
   validates_length_of :title, maximum: 60
 

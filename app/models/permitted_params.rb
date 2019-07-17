@@ -68,7 +68,10 @@ class PermittedParams
   end
 
   def board
-    params.require(:board).permit(*self.class.permitted_attributes[:board])
+    permitted_params = params.require(:board).permit(*self.class.permitted_attributes[:board])
+
+    permitted_params = permitted_params.merge(custom_field_values(:board))
+    permitted_params
   end
 
   def board?
@@ -413,11 +416,18 @@ class PermittedParams
   end
 
   def typed_risk
-    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+
+    permitted_params = permitted_params.merge(custom_field_values(:typed_risk))
+    permitted_params
   end
+
 
   def project_risk
     params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+
+    permitted_params = permitted_params.merge(custom_field_values(:project_risk))
+    permitted_params
   end
 
   def choose_typed
@@ -434,8 +444,11 @@ class PermittedParams
   # )
   # +tan 2019.04.26
   def position
-    params.require(:position).permit(:name, :is_approve)
+    permitted_params = params.require(:position).permit(:name, :is_approve)
+    permitted_params = permitted_params.merge(custom_field_values(:permitted_params))
   end
+
+
   def organization
     permitted_params = params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
 
@@ -456,7 +469,10 @@ class PermittedParams
     params.require(:target_execution_value).permit(:target_id, :year, :quarter, :value)
   end
   def arbitary_object
-    params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
+    permitted_params = params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
+
+    permitted_params = permitted_params.merge(custom_field_values(:arbitary_object))
+    permitted_params
   end
 
   #)
@@ -469,6 +485,7 @@ class PermittedParams
     permitted_params = permitted_params.merge(custom_field_values(:contract))
     permitted_params
   end
+
 
   def plan_uploader_setting
     params.require(:plan_uploader_setting).permit(:column_name, :column_num, :is_pk, :table_name)
