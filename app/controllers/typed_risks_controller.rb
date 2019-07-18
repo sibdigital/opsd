@@ -83,7 +83,7 @@ class TypedRisksController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def find_typed_risk

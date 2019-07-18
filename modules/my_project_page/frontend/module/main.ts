@@ -37,6 +37,7 @@ import {multiInput} from 'reactivestates';
 import {HookService} from "../../hook-service";
 import {WorkPackageOverviewStatusDiagramComponent} from "./wp-diagram/wp-overview-status-diagram.component";
 import {WorkPackageOverviewDateDiagramComponent} from "./wp-diagram/wp-overview-date-diagram.component";
+import {WorkPackageOverviewStatusDiagram2Component} from "./wp-diagram/wp-overview-status-diagram2.component";
 
 
 
@@ -54,6 +55,7 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
         hookService.register('openProjectAngularBootstrap', () => {
             return [
                 { selector: 'wp-overview-status-diagram', cls: WorkPackageOverviewStatusDiagramComponent },
+                { selector: 'wp-overview-status-diagram2', cls: WorkPackageOverviewStatusDiagram2Component },
                 { selector: 'wp-overview-date-diagram', cls: WorkPackageOverviewDateDiagramComponent }
             ];
         });
@@ -71,6 +73,7 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
     ],
     declarations: [
         WorkPackageOverviewStatusDiagramComponent,
+      WorkPackageOverviewStatusDiagram2Component,
         WorkPackageOverviewDateDiagramComponent
     ],
     providers: [
@@ -78,6 +81,7 @@ export function initializeMyProjectPagePlugin(injector:Injector) {
     ],
     entryComponents: [
         WorkPackageOverviewStatusDiagramComponent,
+        WorkPackageOverviewStatusDiagram2Component,
         WorkPackageOverviewDateDiagramComponent
     ]
 })
