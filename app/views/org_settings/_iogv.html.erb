@@ -3,4 +3,11 @@ This file written by TAN,XCC
 25/04/2019
 ++#%>
 <% html_title l(:label_administration), l(:label_iogv) %>
+<% if @organization_parent != nil %>
+  <div class="form--field">
+    <%= l(:label_organization_parent )  %>
+    <%= ':' %>
+    <%= @organization_parent %>
+  </div>
+<% end %>
 <%= cell ::Organizations::TableCell, Organization.where(org_type: @iogv.id, parent_id: @parent_id)%>
