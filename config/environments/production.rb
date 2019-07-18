@@ -41,7 +41,7 @@ OpenProject::Application.configure do
   # We force some rake tasks to use eager_load through enhancing with environment:eager_load
   # DISABLE those when you change this setting!
   config.eager_load = true
-
+  config.require_master_key = true
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
