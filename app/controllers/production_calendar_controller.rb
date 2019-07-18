@@ -12,10 +12,11 @@ class ProductionCalendarController < ApplicationController
   def index
     # @production_calendar = ProductionCalendar.all
     # @production_calendar = ProductionCalendar.order(Arel.sql('date'))
-    # respond_to do |format|
-    #   format.html # index.html.erb
-    #   format.xml  do render xml: @production_calendar end
-    end
+     respond_to do |format|
+       format.html do render html: @production_calendar end
+       format.xml  do render xml: @production_calendar end
+
+     end
     # sort_columns = {'id' => "#{ProductionCalendar.table_name}.id",
     #                 'type' => "#{ProductionCalendar.table_name}.type",
     #                 'date' => "#{ProductionCalendar.table_name}.date",
@@ -29,7 +30,7 @@ class ProductionCalendarController < ApplicationController
     #                  .order(sort_clause)
     #                  .page(page_param)
     #                  .per_page(per_page_param)
-  #end
+  end
   #
   # def edit
   #   if params[:tab].blank?
