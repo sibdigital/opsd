@@ -40,7 +40,14 @@ module CustomFieldsHelper
       { name: 'TimeEntryActivityCustomField', partial: 'custom_fields/tab', label: TimeEntryActivity::OptionName },
       { name: 'IssuePriorityCustomField', partial: 'custom_fields/tab', label: IssuePriority::OptionName },
       { name: 'OrganizationCustomField', partial: 'custom_fields/tab', label: :label_organizations },
-      { name: 'ContractCustomField', partial: 'custom_fields/tab', label: :label_contracts }
+      { name: 'ContractCustomField', partial: 'custom_fields/tab', label: :label_contracts },
+      { name: 'TypedRiskCustomField', partial: 'custom_fields/tab', label: :label_typed_risks },
+      { name: 'BoardCustomField', partial: 'custom_fields/tab', label: :label_board_plural },
+      { name: 'CostObjectCustomField', partial: 'custom_fields/tab', label: :label_cost_object },
+      { name: 'DocumentCustomField', partial: 'custom_fields/tab', label: :label_document_plural },
+      { name: 'ArbitaryObjectCustomField', partial: 'custom_fields/tab', label: :label_arbitary_object },
+      { name: 'ProjectRiskCustomField', partial: 'custom_fields/tab', label: :label_project_risks },
+      { name: 'PositionCustomField', partial: 'custom_fields/tab', label: :label_positions },
      ]
   end
 

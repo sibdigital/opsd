@@ -30,7 +30,12 @@ class TargetsController < ApplicationController
                        .order(sort_clause)
                        .page(page_param)
                        .per_page(per_page_param)
-   end
+
+    if @parent_id.to_i != 0
+      @target_parent = Target.find(@parent_id)
+    end
+
+  end
 
   def edit
     if params[:tab].blank?
@@ -49,6 +54,9 @@ class TargetsController < ApplicationController
       @parent_id = 0
     end
     @target.parent_id = @parent_id
+    if @target.parent_id != 0
+       @target_parent = Target.find(@parent_id)
+    end
   end
 
   def create
@@ -81,6 +89,10 @@ class TargetsController < ApplicationController
 
   def find_target
     @target = @project.targets.find(params[:id])
+    if @target.parent_id != 0
+      @target_parent = Target.find(@target.parent_id)
+    end
+
   end
 
   def default_breadcrumb

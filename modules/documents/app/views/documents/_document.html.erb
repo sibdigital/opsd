@@ -36,3 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="wiki">
 	<%= format_text(truncate_lines(document.description)) %>
 </div>
+
+<% document.custom_field_values.each do |element| %>
+	<p><%= element %></p>
+<% end %>

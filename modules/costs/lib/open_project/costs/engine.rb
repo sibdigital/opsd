@@ -69,11 +69,7 @@ module OpenProject::Costs
       end
 
       # Menu extensions
-      menu :admin_menu,
-           :cost_types,
-           { controller: '/cost_types', action: 'index' },
-           icon: 'icon2 icon-cost-types',
-           caption: :label_cost_type_plural
+
 
       menu :project_menu,
            :cost_objects,

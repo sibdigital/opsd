@@ -35,4 +35,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= f.text_field :description, required: true, container_class: '-wide' %>
 </div>
 <hr class="form--separator" />
+
+<h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+<%= render partial: 'customizable/form', locals: { form: f,
+                                                   all_fields: true,
+                                                   only_required: false } %>
 <!--[eoform:board]-->
