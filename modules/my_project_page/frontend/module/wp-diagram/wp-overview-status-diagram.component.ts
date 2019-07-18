@@ -17,6 +17,7 @@ export const statusDiagramSelector = 'wp-overview-status-diagram';
 export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
   public barChartOptions: ChartOptions = {
     responsive: true,
+
     scales: {
       yAxes: [{
         ticks: {
@@ -26,8 +27,8 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
     }
   };
 
-  public barChartLabels: Label[] = [this.I18n.t('js.work_packages.properties.status')];
-  public barChartType: ChartType = 'bar';
+  public barChartLabels: Label[] = ['Решено','Предстоящие в 2 недели','Не исполнено','Проблем'];
+  public barChartType: ChartType = 'pie';
   public barChartLegend = true;
   public barChartPlugins = [];
 
