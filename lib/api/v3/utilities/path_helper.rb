@@ -221,6 +221,10 @@ module API
           end
 
           #bbm(
+          def self.diagrams
+            "#{root}/diagrams"
+          end
+
           def self.attach_types
             "#{root}/attachTypes"
           end
