@@ -14,6 +14,7 @@ export const dateDiagramSelector = 'wp-overview-date-diagram';
 export class WorkPackageOverviewDateDiagramComponent implements OnInit {
   public barChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       xAxes: [{
         ticks: {
@@ -53,7 +54,6 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
   public barChartPlugins = [];
 
   public barChartData: ChartDataSets[];
-  public barChartData2: ChartDataSets[];
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -63,7 +63,6 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
   ngOnInit() {
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
     this.barChartData[0].backgroundColor = ["#4f81bd", "#c0504d", "#9bbb59", "#8064a2"];
-    this.barChartData2 = JSON.parse(this.element.nativeElement.getAttribute('chart-data-2'));
   }
 
   public changeChartType() {

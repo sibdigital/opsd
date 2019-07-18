@@ -65,7 +65,7 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
   ngOnInit() {
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
     this.barChartData[0].backgroundColor = ["#4f81bd", "#c0504d", "#9bbb59", "#8064a2"];
-    if(this.barChartData[0].label === 'false'){
+    if(this.barChartData[0].label === 'false' && this.barChartOptions.legend){
       this.barChartOptions.legend.display = false;
     }
   }
