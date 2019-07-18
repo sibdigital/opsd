@@ -17,6 +17,7 @@ export const statusDiagramSelector = 'wp-overview-status-diagram2';
 export class WorkPackageOverviewStatusDiagram2Component implements OnInit {
   public barChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       xAxes: [{
         ticks: {
