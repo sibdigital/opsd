@@ -172,7 +172,9 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_custom_field_plural,
             icon: 'icon2 icon-custom-fields',
             html: { class: 'custom_fields' }
-
+  menu.push :production_calendars,
+            {controller: '/production_calendar'},
+            icon: 'icon2 icon-risks'
   #bbm(
   menu.push :typed_risks,
             { controller: '/typed_risks' },

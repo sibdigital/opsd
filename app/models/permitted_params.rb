@@ -358,6 +358,10 @@ class PermittedParams
     permitted_params.merge(custom_field_values(:version, required: false))
   end
 
+  def production_calendar
+    params.require(:production_calendar).permit(:type, :date, :is_first, :hours)
+  end
+
   def comment
     params.require(:comment).permit(:commented, :author, :comments)
   end
@@ -422,7 +426,6 @@ class PermittedParams
     permitted_params
   end
 
-
   def project_risk
     params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
 
@@ -447,8 +450,6 @@ class PermittedParams
     permitted_params = params.require(:position).permit(:name, :is_approve)
     permitted_params = permitted_params.merge(custom_field_values(:permitted_params))
   end
-
-
   def organization
     permitted_params = params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
 
@@ -485,7 +486,6 @@ class PermittedParams
     permitted_params = permitted_params.merge(custom_field_values(:contract))
     permitted_params
   end
-
 
   def plan_uploader_setting
     params.require(:plan_uploader_setting).permit(:column_name, :column_num, :is_pk, :table_name)

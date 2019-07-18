@@ -33,10 +33,7 @@ module MyProjectsWorkPackagesHelper
     for status in @statuses do
       amount = Hash.new
       amount['data'] = []
-      amount['data'] << WorkPackage
-        .joins(:status)
-        .where(statuses: { name: status }, project_id: @project.id)
-        .count
+      amount['data'] << WorkPackage.joins(:status).where(statuses: { name: status }, project_id: @project.id).count
       amount['label'] = status
       amounts << amount
     end
