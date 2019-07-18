@@ -358,10 +358,6 @@ class PermittedParams
     permitted_params.merge(custom_field_values(:version, required: false))
   end
 
-  def production_calendar
-    params.require(:production_calendar).permit(:type, :date, :is_first, :hours)
-  end
-
   def comment
     params.require(:comment).permit(:commented, :author, :comments)
   end
