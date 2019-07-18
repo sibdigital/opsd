@@ -111,6 +111,6 @@ class StatusesController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    false
   end
 end
