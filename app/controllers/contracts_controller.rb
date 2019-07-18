@@ -76,7 +76,7 @@ class ContractsController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def find_contracts
