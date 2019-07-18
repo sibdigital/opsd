@@ -355,6 +355,10 @@ class PermittedParams
     permitted_params.merge(custom_field_values(:version, required: false))
   end
 
+  def production_calendar
+    params.require(:production_calendar).permit(:type, :date, :is_first, :hours)
+  end
+
   def comment
     params.require(:comment).permit(:commented, :author, :comments)
   end
@@ -413,11 +417,11 @@ class PermittedParams
   end
 
   def typed_risk
-    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
   end
 
   def project_risk
-    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
   end
 
   def choose_typed

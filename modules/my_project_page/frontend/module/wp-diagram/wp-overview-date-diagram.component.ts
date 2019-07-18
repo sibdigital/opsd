@@ -20,6 +20,7 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
   public barChartPlugins = [];
 
   public barChartData: ChartDataSets[];
+  public barChartBubbleData: ChartDataSets[]=new Array(5);
 
   constructor(protected I18n:I18nService,
               readonly element:ElementRef) { }
@@ -28,6 +29,22 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
 
   ngOnInit() {
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
+    //   for (let i=0;i<this.barChartData.length;i++)
+    //   {
+    //     let newDataset ={
+    //       label: this.barChartData[i].label,
+    //       hidden: this.barChartData[i].data[0]===0,
+    //       data: [{
+    //         x: parseInt(this.barChartData[i].data[0].toString()),
+    //         y: parseInt(this.barChartData[i].data[0].toString()),
+    //         r: 10
+    //       }]
+    //     };
+    //
+    //     this.barChartBubbleData[i]= newDataset;
+    //   }
+    //   this.barChartData=this.barChartBubbleData;
+    // }
   }
 
   public changeChartType(){
