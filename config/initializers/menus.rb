@@ -131,8 +131,8 @@ Redmine::MenuManager.map :my_menu do |menu|
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
-  menu.push :groups,
-            { controller: '/groups' },
+  menu.push :users,
+            { controller: '/users' },
             caption: 'Предстоящие задачи'
   menu.push :roles,
             { controller: '/roles' },
