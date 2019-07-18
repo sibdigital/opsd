@@ -44,13 +44,16 @@ module Redmine::MenuManager::WikiMenuHelper
   end
 
   def push_wiki_main_menu(menu, main_item, project)
-    menu.push main_item.menu_identifier,
-              { controller: '/wiki', action: 'show', id: main_item.slug },
-              param: :project_id,
-              caption: main_item.title,
-              after: :repository,
-              icon: 'icon2 icon-wiki',
-              html:    { class: 'wiki-menu--main-item' }
+    #if ! menu.exists?(:analyze)
+      menu.push main_item.menu_identifier,
+                { controller: '/wiki', action: 'show', id: main_item.slug },
+                param: :project_id,
+                caption: :project_module_wiki, #main_item.title,
+                after: :repository,
+                icon: 'icon2 icon-wiki',
+                html:    { class: 'wiki-menu--main-item' },
+                parent: :analyze #+-tan
+    #end
 
     if project.wiki.pages.any?
       push_wiki_menu_partial(main_item, menu)
