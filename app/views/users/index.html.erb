@@ -28,40 +28,23 @@
     <div class="scrollable-div">
       <!--%= render partial: "homescreen/form/main"%-->
 
-
-      <table class="fckdup" border="2" bordercolor="black" bgcolor="#b0c4de" >
+    </div>
+    <div class="row">
+      <table class="blueTable">
         <thead>
         <tr>
-          <td class="first-header" ><b>Республика Бурятия</b></td>
-          <th><b>Куратор</b></th>
-          <th><b>РП</b></th>
-          <th><b>План срок завершения</b></th>
-          <th><b>Предстоящие мероприятия</b></th>
-          <th><b>Просроченные мероприятия</b></th>
-          <th><b>Проблемы</b></th>
-          <th><b>Прогресс</b></th>
-          <th><b>Исполнение бюджета</b></th>
+          <th><b>Республика Бурятия</b></th>
+          <th><b>Куратор/<br>РП</b></th>
+          <th id="c40"><b>План срок завершения</b></th>
+          <th id="c40"><b>Предстоящие мероприятия<br></b></th>
+          <th id="c40"><b>Просроченные мероприятия/<br>Проблемы</b></th>
+          <th id="c40"><b>Прогресс<br>Исполнение бюджета</b></th>
           <th><b>KPI</b></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="second-header"><b>Здравоохранение</b></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td class="third-header">Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td style="padding-left: 10px"><b>Здравоохранение</b></td>
           <td></td>
           <td></td>
           <td></td>
@@ -70,26 +53,29 @@
           <td></td>
         </tr>
         <tr>
-          <td class="fourth-header"><a>Создание региональный цифровой платформы ИСЗ</a></td>
-          <td>Цыбикжапов В.Б.</td>
-          <td>Самбуев Д.Ц.</td>
+          <td style="padding-left: 20px">Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr id="colored-row">
+          <td style="padding-left: 30px"><a>Создание региональный цифровой платформы ИСЗ</a></td>
+          <td>Цыбикжапов В.Б.<br>Самбуев Д.Ц.</td>
           <td>01.08.2020</td>
           <td><a>10</a></td>
-          <td><a>8</a></td>
-          <td><a>3</a></td>
+          <td><a>8 </a>/<a> 3</a></td>
           <td><div class="border-progress"><div class="progressbar70">
             <div align="center">70%</div>
-          </div></div></td>
-          <td><div class="border-progress"><div class="progressbar92">
+          </div></div><br><div class="border-progress"><div class="progressbar92">
             <div align="center">92%</div>
           </div></div></td>
           <td><a>Посмотреть</a></td>
         </tr>
         <tr>
-          <td class="third-header">Снижение смертности населения трудоспособного возраста</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td style="padding-left: 20px">Снижение смертности населения трудоспособного возраста</td>
           <td></td>
           <td></td>
           <td></td>
@@ -97,39 +83,21 @@
           <td></td>
           <td></td>
         </tr>
-        <tr>
-          <td class="fourth-header"><a>Внедрение системы контроля качества медицинской помощи в РБ</a></td>
-          <td>Цыбикжапов В.Д.</td>
-          <td>Самбуев Д.Ц.</td>
+        <tr id="colored-row">
+          <td style="padding-left: 30px"><a>Внедрение системы контроля качества медицинской помощи в РБ</a></td>
+          <td>Цыбикжапов В.Д.<br>Самбуев Д.Ц.</td>
           <td>31.12.2020</td>
           <td><a>16</a></td>
-          <td><a>4</a></td>
-          <td><a>0</a></td>
+          <td><a>4 </a>/<a> 0</a></td>
           <td><div class="border-progress"><div class="progressbar54">
             <div align="center">54%</div>
-          </div></div></td>
-          <td><div class="border-progress"><div class="progressbar70">
+          </div></div><br><div class="border-progress"><div class="progressbar70">
             <div align="center">70%</div>
           </div></div></td>
           <td><a>Посмотреть</a></td>
         </tr>
         <tr>
-          <td class="second-header"><b>Образование</b></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td class="third-header">Современная школа</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td style="padding-left: 10px"><b>Образование</b></td>
           <td></td>
           <td></td>
           <td></td>
@@ -138,71 +106,55 @@
           <td></td>
         </tr>
         <tr>
-          <td class="fourth-header"><a>Современная школа в РБ</a></td>
-          <td>Цыбикжапов В.Б.</td>
-          <td>Жалсанов Б.Б.</td>
+          <td style="padding-left: 20px">Современная школа</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr id="colored-row">
+          <td style="padding-left: 30px"><a>Современная школа в РБ</a></td>
+          <td>Цыбикжапов В.Б.<br>Жалсанов Б.Б.</td>
           <td>31.12.2019</td>
           <td><a>8</a></td>
-          <td><a>15</a></td>
-          <td><a>7</a></td>
+          <td><a>15 </a>/<a> 7</a></td>
           <td><div class="border-progress"><div class="progressbar70">
             <div align="center">70%</div>
-          </div></div></td>
-          <td><div class="border-progress"><div class="progressbar70">
+          </div></div><br><div class="border-progress"><div class="progressbar70">
             <div align="center">70%</div>
           </div></div></td>
           <td><a>Посмотреть</a></td>
         </tr>
-        <tr>
-          <td class="fifth-header"><a>Строительство школы в Кижингинском районе</a></td>
-          <td>Цыбикжапов В.Б.</td>
-          <td>Лхасаранов Г.З.</td>
+        <tr id="colored-row">
+          <td style="padding-left: 40px"><a>Строительство школы в Кижингинском районе</a></td>
+          <td>Цыбикжапов В.Б.<br>Лхасаранов Г.З.</td>
           <td>20.12.2019</td>
           <td><a>5</a></td>
-          <td><a>7</a></td>
-          <td><a>0</a></td>
+          <td><a>7 </a>/<a> 0</a></td>
           <td><div class="border-progress"><div class="progressbar92">
             <div align="center">92%</div>
-          </div></div></td>
-          <td><div class="border-progress"><div class="progressbar92">
+          </div></div><br><div class="border-progress"><div class="progressbar92">
             <div align="center">92%</div>
           </div></div></td>
           <td><a>Посмотреть</a></td>
         </tr>
-        <tr>
-          <td class="fifth-header"><a>Переоснащение школы №17 в г.Улан-Удэ</a></td>
-          <td>Цыбикжапов В.Б.</td>
-          <td>Шутенков И.Ю.</td>
+        <tr id="colored-row">
+          <td style="padding-left: 40px"><a>Переоснащение школы №17 в г.Улан-Удэ</a></td>
+          <td>Цыбикжапов В.Б.<br>Шутенков И.Ю.</td>
           <td>30.11.2019</td>
           <td><a>4</a></td>
-          <td><a>1</a></td>
-          <td><a>2</a></td>
+          <td><a>1 </a>/<a> 2</a></td>
           <td><div class="border-progress"><div class="progressbar54">
             <div align="center">54%</div>
-          </div></div></td>
-          <td><div class="border-progress"><div class="progressbar70">
+          </div></div><br><div class="border-progress"><div class="progressbar70">
             <div align="center">70%</div>
           </div></div></td>
           <td><a>Посмотреть</a></td>
         </tr>
         <tr>
-          <td class="second-header"><b>Производительность труда</b></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td
-            class="second-header"><b>Вне нацпроектов</b></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td style="padding-left: 10px"><b>Производительность труда</b></td>
           <td></td>
           <td></td>
           <td></td>
@@ -211,87 +163,172 @@
           <td></td>
         </tr>
         <tr>
-          <td class="third-header"><a>Создание технопарка</a></td>
-          <td>Зураев И.И.</td>
-          <td>Оловянников А.А.</td>
+          <td style="padding-left: 10px"><b>Вне нацпроектов</b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr id="colored-row">
+          <td style="padding-left: 30px"><a>Создание технопарка</a></td>
+          <td>Зураев И.И.<br>Оловянников А.А.</td>
           <td>31.12.2021</td>
           <td><a>11</a></td>
-          <td><a>15</a></td>
-          <td><a>8</a></td>
+          <td><a>15 </a>/<a> 8</a></td>
           <td><div class="border-progress"><div class="progressbar18">
             <div align="center">18%</div>
-          </div></div></td>
-          <td><div class="border-progress"><div class="progressbar18">
+          </div></div><br><div class="border-progress"><div class="progressbar18">
             <div align="center">18%</div>
           </div></div></td>
           <td><a>Посмотреть</a></td>
         </tr>
-        <tr align="center" class="row-white"x>
-          <th colspan="2"><b>Предстоящие мероприятия:</b></th>
-          <th colspan="3"><b>Просроченные мероприятия:</b></th>
-          <th colspan="3"><b>Проблемы:</b></th>
-          <th colspan="2"><b>Бюджет:</b></td>
-        </tr>
-        <tr class="row-white">
-          <td colspan="2">
-            <ol>
-              <li>Подготовка конкурсной документации</li>
-              <li>Разработка ТТ</li>
-              <li>Подготовка аналитического отчета</li>
-              <li>Установка ПАК</li>
-              <li>Проведение обучение</li>
-            </ol>
-          </td>
-          <td colspan="3">
-            <ol>
-              <li>Разработка информационного портала</li>
-              <li>Подготовка заявки на финансирование</li>
-            </ol>
-          </td>
-          <td colspan="3">
-            <ol>
-              <li>Задержка поставки оборудования</li>
-              <li>Не представлен техпаспорт</li>
-              <li>Нет согласования юристов</li>
-            </ol>
-          </td>
-          <td colspan="2">
-            <ol>
-              <li>Современная школа в РБ</li>
-              <li>Создание региональной цифровой платформы в РБ</li>
-              <li>Внедрение системы контроля качества</li>
-            </ol>
-          </td>
-        </tr>
+
         </tbody>
+        <tfoot>
+
+        </tfoot>
       </table>
     </div>
     <div class="row">
-      <table>
+      <table class="blueTable" border="0" >
         <thead>
-
+        <tr>
+          <th id="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
+          <th id="colored-col-red" colspan="3">Просроченные КТ</th>
+          <th id="colored-col-orange" colspan="3">Проблемы:</th>
+          <th id="colored-col-purple" colspan="2">Бюджет:</th>
+        </tr>
         </thead>
         <tbody>
+        <tr>
+          <td id="colored-col-green">1</td>
+          <td id="colored-col-green">Подготовка конкурсной документации</td>
+          <td id="colored-col-green">Строительство школы</td>
+          <td id="colored-col-red">1</td>
+          <td id="colored-col-red">Разработка информационного портала</td>
+          <td id="colored-col-red">Современная школа</td>
+          <td id="colored-col-orange">1</td>
+          <td id="colored-col-orange">Задержка поставки оборудования</td>
+          <td id="colored-col-orange">ООО "Комп"</td>
+          <td id="colored-col-purple">Современная школа в РБ</td>
+          <td id="colored-col-purple">700/1500</td>
+        </tr>
+        <tr>
+          <td id="colored-col-green">2</td>
+          <td id="colored-col-green">Разработка ТТ</td>
+          <td id="colored-col-green">Создание технопарка</td>
+          <td id="colored-col-red">2</td>
+          <td id="colored-col-red">Подготовка заявки на финансирование</td>
+          <td id="colored-col-red">Создание региональной цифровой платформы</td>
+          <td id="colored-col-orange">2</td>
+          <td id="colored-col-orange">Не представлен техпаспорт</td>
+          <td id="colored-col-orange">ГКУ ХТК</td>
+          <td id="colored-col-purple">Создание региональной цифровой платформы в РБ</td>
+          <td id="colored-col-purple">580/2400</td>
+        </tr>
+        <tr>
+          <td id="colored-col-green">3</td>
+          <td id="colored-col-green">Подготовка аналитического отчета</td>
+          <td id="colored-col-green">Внедрение системы</td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-orange">3</td>
+          <td id="colored-col-orange">Нет согласования юристов</td>
+          <td id="colored-col-orange">ЮО</td>
+          <td id="colored-col-purple">Внедрение системы контроля качества</td>
+          <td id="colored-col-purple">1100/1200</td>
+        </tr>
+        <tr>
+          <td id="colored-col-green">4</td>
+          <td id="colored-col-green">Установка ПАК</td>
+          <td id="colored-col-green">Современная школа</td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-purple"></td>
+          <td id="colored-col-purple"></td>
+        </tr>
+        <tr>
+          <td id="colored-col-green">5</td>
+          <td id="colored-col-green">Проведение обучения</td>
+          <td id="colored-col-green">Современная школа</td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-purple"></td>
+          <td id="colored-col-purple"></td>
+        </tr>
+        <tr>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-purple"></td>
+          <td id="colored-col-purple"></td>
+        </tr>
+        <tr>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-purple"></td>
+          <td id="colored-col-purple"></td>
+        </tr>
+        <tr>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-green"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-red"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-orange"></td>
+          <td id="colored-col-purple"></td>
+          <td id="colored-col-purple"></td>
+        </tr>
 
         </tbody>
       </table>
     </div>
-
     <style>
-      td, th {
-        border: 1px solid black;
-        padding-left: 1px;
-        padding-right: 1px;
-      }
-      th{
-        align: center;
-      }
-      td {
-        border-bottom: none;
-        border-top: none
-      }
-      a{
-        align: center;
+      /*td, th {*/
+      /*  border: 1px solid black;*/
+      /*  padding-left: 1px;*/
+      /*  padding-right: 1px;*/
+      /*}*/
+      /*th{*/
+      /*  align: center;*/
+      /*}*/
+      /*td {*/
+      /*  border-bottom: none;*/
+      /*  border-top: none*/
+      /*}*/
+      /*a{*/
+      /*  align: center;*/
+      /*}*/
+      .important-row
+      {
+        color: #CCCCCC;
       }
       .first-header{
         font-size: xx-large;
@@ -351,24 +388,28 @@
         background-color: whitesmoke;
         /* (height of inner div) / 2 + padding */
         padding: 0px;
+        border-radius: 10px;
         z-index: 2;
       }
       .progressbar92 {
         background-color: whitesmoke;
         /* (height of inner div) / 2 + padding */
         padding: 0px;
+        border-radius: 10px;
         z-index: 2;
       }
       .progressbar54 {
         background-color: whitesmoke;
         /* (height of inner div) / 2 + padding */
         padding: 0px;
+        border-radius: 10px;
         z-index: 2;
       }
       .progressbar18 {
         background-color: whitesmoke;
         /* (height of inner div) / 2 + padding */
         padding: 0px;
+        border-radius: 10px;
         z-index: 2;
       }
 
@@ -376,6 +417,7 @@
         background-color: #88ee88;
         /* Adjust with JavaScript */
         width: 70%;
+        border-radius: 10px;
         height: 90%;
         z-index: 3;
       }
@@ -383,6 +425,7 @@
          background-color: #88ee88;
          /* Adjust with JavaScript */
          z-index: 3;
+        border-radius: 10px;
          width: 92%;
          height: 90%;
 
@@ -391,6 +434,7 @@
           background-color: #eeee88;
           /* Adjust with JavaScript */
           width: 54%;
+        border-radius: 10px;
           height: 90%;
           z-index: 3;
         }
@@ -398,15 +442,17 @@
            background-color: #ee8888;
            /* Adjust with JavaScript */
            width: 18%;
+        border-radius: 10px;
            height: 90%;
            z-index: 3;
          }
       .border-progress{
-        background-color: #1c7430;
+        background-color: #CCCCCC;
         padding: 1px;
         width: 100px;
         margin: auto;
         z-index: 1;
+        border-radius: 10px;
       }
         @media only screen and (max-width: 1024px){
           table
@@ -457,7 +503,101 @@
             font-size: 7px;
           }
         }
+      table.blueTable {
+        border: 1px solid #1A67A3;
+        background-color: #EAEAEA;
+        width: 98%;
+        text-align: left;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      table.blueTable td, table.blueTable th {
+        border: 1px solid #CCCCCC;
+        padding: 3px 3px;
+      }
+      table.blueTable tbody td {
+        font-size: 12px;
+        color: #333333;
+      }
 
+      #colored-row{
+        background: #D0E4F5;
+      }
+      #colored-col-green{
+        background: #bbeebb;
+        border: none;
+        color: #000000;
+        border-right: 1px;
+        border-left: 1px;
+      }
+      #colored-col-red{
+        background: #eebbbb;
+        color: #000000;
+        border: none;
+        border-right: 1px;
+        border-left: 1px;
+      }
+      #colored-col-orange{
+        background: #ffdab9;
+        color: #000000;
+        border: none;
+        border-right: 1px;
+        border-left: 1px;
+      }
+      #colored-col-purple{
+        background: #eebbee;
+        color: #000000;
+        border: none;
+        border-right: 1px;
+        border-left: 1px;
+      }
+      table.blueTable thead {
+        background: #1A67A3;
+        background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+        background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+        background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+        border-bottom: 0px solid #878787;
+      }
+      table.blueTable thead th {
+        font-size: 13px;
+        font-weight: 100;
+        color: #FFFFFF;
+        border-left: 2px solid #D0E4F5;
+      }
+      #c40{
+        width: 40px;
+      }
+
+      table.blueTable thead th:first-child {
+        border-left: none;
+      }
+
+      table.blueTable tfoot {
+        font-size: 12px;
+        font-weight: 100;
+        color: #FFFFFF;
+        background: #D0E4F5;
+        background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+        background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+        background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+      }
+      table.blueTable tfoot td {
+        font-size: 12px;
+      }
+      table.blueTable tfoot .links {
+        text-align: right;
+      }
+      table.blueTable tfoot .links a{
+        display: inline-block;
+        background: #1C6EA4;
+        color: #FFFFFF;
+        padding: 2px 8px;
+        border-radius: 5px;
+      }
+      .table_block {
+        border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;
+        border:1px solid #000;
+        display: block;}​
     </style>
 
     </div>
