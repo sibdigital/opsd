@@ -151,8 +151,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: 'KPI'
   menu.push :statuses,
             { controller: '/statuses' },
-            caption: 'Мои вопросы',
+            caption: 'Электронный протокол',
             html: { class: 'statuses' }
+  menu.push :settings,
+            { controller: '/settings' },
+            caption: 'Обсуждения'
 end
 
 Redmine::MenuManager.map :project_menu do |menu|

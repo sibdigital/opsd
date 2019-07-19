@@ -48,12 +48,12 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
     },
   };
 
-  public barChartLabels: Label[] = ['Фактически исполнено','Риски исполнения','Остаток финансовых средств'];
+  public barChartLabels: Label[];
   public barChartType: ChartType = 'pie';
   public barChartLegend = true;
   public barChartPlugins = [];
 
-  public barChartData: ChartDataSets[];
+  public barChartData: ChartDataSets[] = [{label:'undefined',backgroundColor: ['#00b050', '#ffc000', '#c00000', '#1f497d']}];
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -61,8 +61,15 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
               readonly element:ElementRef) { }
 
   ngOnInit() {
-    this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
-    this.barChartData[0].backgroundColor = ["#4f81bd", "#c0504d", "#9bbb59", "#8064a2"];
+    this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
+    let arr = [];
+    for(let i=0;i<this.barChartLabels.length;i++){
+      arr.push(0);
+    }
+//  if(this.barChartData[0].data){
+    this.barChartData[0].data = arr;
+//}
+    this.barChartData[0].backgroundColor = ["#00b050", "#ffc000", "#c00000", "#1f497d"];
   }
 
   public changeChartType() {

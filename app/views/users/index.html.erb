@@ -4,22 +4,26 @@
     <div class="grid-block">
       <div style="flex: 0 0 30%; max-width: 30%;">
         <p style="text-align: center;font-weight: bold;">Здравоохранение</p>
-        <wp-overview-status-diagram chart-data='[{"data":[64,32,15,8],"label":"Исполнено"}]'>
+        <wp-overview-status-diagram chart-data='[{"data":[64,32,15,8],"label":"false"}]'>
         </wp-overview-status-diagram>
       </div>
       <div style="flex: 0 0 30%; max-width: 30%;">
         <p style="text-align: center;font-weight: bold;">Образование</p>
-        <wp-overview-status-diagram chart-data='[{"data":[45,28,10,14],"label":"Исполнено"}]'>
+        <wp-overview-status-diagram chart-data='[{"data":[45,28,10,14],"label":"false"}]'>
         </wp-overview-status-diagram>
       </div>
       <div style="flex: 0 0 30%; max-width: 30%;">
         <p style="text-align: center;font-weight: bold;">Производительность труда</p>
-        <wp-overview-status-diagram chart-data='[{"data":[53,25,1,8],"label":"Исполнено"}]'>
+        <wp-overview-status-diagram chart-data='[{"data":[53,25,1,8],"label":"false"}]'>
         </wp-overview-status-diagram>
       </div>
       <div style="text-align: center; width: 10%; background-color: #c0504d;">
         <p style="font-weight: bold; color: white; position:relative; top:40%">Проблем<br>20</p>
       </div>
+    </div>
+    <div>
+      <wp-overview-date-diagram chart-labels='["Решено","Предстоящие в 2 недели","Не исполнено","Проблем"]'>
+      </wp-overview-date-diagram>
     </div>
     <div>
       <!--%= render partial: "homescreen/form/main"%-->

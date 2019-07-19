@@ -39,7 +39,7 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
       }]
     },
     legend: {
-      position: 'right',
+      position: 'top',
     },
     plugins: {
       labels: {
@@ -65,7 +65,7 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
 
   ngOnInit() {
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
-    this.barChartData[0].backgroundColor = ["#4f81bd", "#c0504d", "#9bbb59", "#8064a2"];
+    this.barChartData[0].backgroundColor = ["#00b050", "#ffc000", "#c00000", "#1f497d"];
     if(this.barChartData[0].label === 'false' && this.barChartOptions.legend){
       this.barChartOptions.legend.display = false;
     }
