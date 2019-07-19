@@ -1,10 +1,116 @@
-<%#--
-#-- encoding: UTF-8
-#+-tan 2019.04.25
-++#%>
+<!--%= render partial: "homescreen/form/main"%-->
 
-<% html_title l(:label_administration), l(:label_org_settings) -%>
+<table>
+  <tr>
+    <td>Проект</td>
+    <td><b>Создание региональной цифровой платформы ИСЗ</b></td>
+  </tr>
 
-<%= toolbar title: l(:label_org_settings) %>
+  <tr>
+    <td>Куратор</td>
+    <td><b>Цыбикжапов В.Б.</b></td>
+  </tr>
 
-<%= render_tabs org_settings_tabs %>
+  <tr>
+    <td>Руководитель</td>
+    <td><b>Самбуев Д.Ц.</b></td>
+  </tr>
+
+  <tr>
+    <td>Фильтр</td>
+    <td>
+      <a href="">Все</a> /
+      <a href="">Не решены</a> /
+      <a href="">Решены</a>
+    </td>
+  </tr>
+</table>
+<h2>Перечень проблем по проекту</h2>
+
+<table border="1" width="100%" cellpadding="5" class="table-main">
+  <tr class="row-header">
+    <th>№ п/п</th>
+    <th>Рег. проект</th>
+    <th>Инициатор</th>
+    <th>Проблема</th>
+    <th>Адресат</th>
+    <th>Статус</th>
+    <th>Дата решения</th>
+  </tr>
+  <tr class="row-odd">
+    <td align="center">1</td>
+    <td align="center">Создание региональной цифровой платформы ИСЗ</td>
+    <td align="center">Самбуев Д. Ц.</td>
+    <td align="center">Задержка поставки</td>
+    <td align="center">ООО "Комп"</td>
+    <td align="center">Не решена</td>
+    <td align="center">01.08.2019</td>
+  </tr>
+  <tr class="row-even">
+    <td align="center">2</td>
+    <td align="center">Создание региональной цифровой платформы ИСЗ</td>
+    <td align="center">Доржиева Е. Б.</td>
+    <td align="center">Не предоставлена информация (техпаспорт) для проведения экспертизы</td>
+    <td align="center">ГКУ ХТК АГРБ</td>
+    <td align="center">Не решена</td>
+    <td align="center">09.08.2019</td>
+  </tr>
+  <tr class="row-odd">
+    <td align="center">3</td>
+    <td align="center">...</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+  </tr>
+  <tr class="row-even">
+    <td align="center">4</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+  </tr>
+  <tr class="row-odd">
+    <td align="center">5</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+  </tr>
+</table>
+<style>
+  .underline-offset {
+    margin-left: 15px;
+  }
+
+  .table-main {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .row-odd {
+
+  }
+
+  .row-even {
+    background-color: #cce0ff
+  }
+
+  .row-header {
+    height: 30px;
+    background-color: #dcdee0;
+  }
+
+  .row-danger {
+    background-color: #ff707e;
+  }
+
+  .row-success {
+    background-color: #9ce69e;
+  }
+</style>

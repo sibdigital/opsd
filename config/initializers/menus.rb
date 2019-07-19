@@ -133,9 +133,12 @@ end
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users,
             { controller: '/users' },
+            caption: 'Рабочий стол'
+  menu.push :typed_risks,
+            { controller: '/typed_risks' },
             caption: 'Предстоящие задачи'
-  menu.push :roles,
-            { controller: '/roles' },
+  menu.push :org_settings,
+            { controller: '/org_settings' },
             caption: 'Проблемы'
   menu.push :contracts,
             { controller: '/contracts' },
@@ -143,11 +146,16 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :types,
             { controller: '/types' },
             caption: 'Исполнение бюджета'
+  menu.push :enumerations,
+            { controller: '/enumerations' },
+            caption: 'KPI'
   menu.push :statuses,
             { controller: '/statuses' },
-            caption: 'Мои вопросы',
+            caption: 'Электронный протокол',
             html: { class: 'statuses' }
-
+  menu.push :settings,
+            { controller: '/settings' },
+            caption: 'Обсуждения'
 end
 
 Redmine::MenuManager.map :project_menu do |menu|

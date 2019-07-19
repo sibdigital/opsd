@@ -1,17 +1,20 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
-import {BaseChartDirective, Label} from "ng2-charts";
+import {Component, ElementRef, Input, OnInit,ViewChild} from "@angular/core";
+import {ChartOptions, ChartType, ChartDataSets} from "chart.js";
+import {Label, BaseChartDirective} from "ng2-charts";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import 'chartjs-plugin-labels';
 
-export const dateDiagramSelector = 'wp-overview-date-diagram';
+export const statusDiagramSelector = 'wp-overview-status-diagram2';
 
-@Component({
-  selector: dateDiagramSelector,
-  templateUrl: './wp-overview-diagram-2.html'
+@Component(
+{
+  selector: statusDiagramSelector,
+  templateUrl: './wp-overview-diagram.html'
 })
-export class WorkPackageOverviewDateDiagramComponent implements OnInit {
+
+
+export class WorkPackageOverviewStatusDiagram2Component implements OnInit {
   public barChartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -36,7 +39,7 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
       }]
     },
     legend: {
-      position: 'top',
+      position: 'right',
     },
     plugins: {
       labels: {
@@ -48,7 +51,7 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
     },
   };
 
-  public barChartLabels: Label[] = ['Фактически исполнено','Риски исполнения','Остаток финансовых средств'];
+  public barChartLabels: Label[] = ['Нет отклонений','Небольшие отклонения','Значительные отклонения','Нет данных'];
   public barChartType: ChartType = 'pie';
   public barChartLegend = true;
   public barChartPlugins = [];
@@ -63,6 +66,9 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
   ngOnInit() {
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
     this.barChartData[0].backgroundColor = ["#00b050", "#ffc000", "#c00000", "#1f497d"];
+    if(this.barChartData[0].label === 'false' && this.barChartOptions.legend){
+      this.barChartOptions.legend.display = false;
+    }
   }
 
   public changeChartType() {
@@ -70,5 +76,4 @@ export class WorkPackageOverviewDateDiagramComponent implements OnInit {
     this.chart.chart.update();
   }
 }
-
-DynamicBootstrapper.register({ selector: dateDiagramSelector, cls: WorkPackageOverviewDateDiagramComponent });
+DynamicBootstrapper.register({ selector: statusDiagramSelector, cls: WorkPackageOverviewStatusDiagram2Component });
