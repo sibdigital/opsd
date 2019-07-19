@@ -39,7 +39,7 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
       }]
     },
     legend: {
-      position: 'right',
+      position: 'top',
     },
     plugins: {
       labels: {
