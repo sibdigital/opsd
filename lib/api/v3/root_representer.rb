@@ -115,6 +115,13 @@ module API
         }
       end
       #)
+      # bbm(
+      link :diagrams do
+        {
+          href: api_v3_paths.diagrams
+        }
+      end
+      # )
       property :instance_name,
                getter: ->(*) { Setting.app_title }
 

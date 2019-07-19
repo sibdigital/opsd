@@ -65,7 +65,12 @@ export class ApiV3Paths {
 
   //bbm(
 
+  public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
+
+  public readonly organizations = new SimpleResourceCollection(this.apiV3Base, 'organizations');
+
   public readonly attachTypes = new SimpleResourceCollection(this.apiV3Base, 'attachTypes');
+
   //)
 
   // /api/v3/time_entries

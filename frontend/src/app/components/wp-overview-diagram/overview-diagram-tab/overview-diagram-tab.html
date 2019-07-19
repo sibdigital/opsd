@@ -1,3 +1,132 @@
+<div>
+    <input type="checkbox"
+           id="diagram_status_check"
+           (change)="filterChart()"
+           [(ngModel)]="statusCheck"
+           name="status_check" />
+    Статус
+    <select
+            id="diagram_status_select"
+            (change)="filterChart()"
+            [(ngModel)]="statusSelect"
+            name="status_select">
+        <option
+                *ngFor="let value of statusSelectOptions"
+                [attr.label]="value.name"
+                [ngValue]="value"
+                [textContent]="value.name">
+        </option>
+    </select>
+</div>
+<div>
+    <input type="checkbox"
+           id="diagram_project_check"
+           (change)="filterChart()"
+           [(ngModel)]="projectCheck"
+           name="project_check" />
+    Проект
+    <select
+            id="diagram_project_select"
+            (change)="filterChart()"
+            [(ngModel)]="projectSelect"
+            name="project_select">
+        <option
+                *ngFor="let value of projectSelectOptions"
+                [attr.label]="value.name"
+                [ngValue]="value"
+                [textContent]="value.name">
+        </option>
+    </select>
+</div>
+<div>
+    <input type="checkbox"
+           id="diagram_assignee_check"
+           (change)="filterChart()"
+           [(ngModel)]="assigneeCheck"
+           name="assignee_check" />
+    Ответственный
+    <select
+            id="diagram_assignee_select"
+            (change)="filterChart()"
+            [(ngModel)]="assigneeSelect"
+            name="assignee_select">
+        <option
+                *ngFor="let value of assigneeSelectOptions"
+                [attr.label]="value.name"
+                [ngValue]="value"
+                [textContent]="value.name">
+        </option>
+    </select>
+</div>
+<div>
+    <input type="checkbox"
+           id="diagram_organization_check"
+           (change)="filterChart()"
+           [(ngModel)]="organizationCheck"
+           name="organization_check" />
+    Организация
+    <select
+            id="diagram_organization_select"
+            (change)="filterChart()"
+            [(ngModel)]="organizationSelect"
+            name="organization_select">
+        <option
+                *ngFor="let value of organizationSelectOptions"
+                [attr.label]="value.name"
+                [ngValue]="value"
+                [textContent]="value.name">
+        </option>
+    </select>
+</div>
+<div>
+    <input type="checkbox"
+           id="diagram_date_check"
+           (change)="filterChart()"
+           [(ngModel)]="dateCheck"
+           name="date_check" />
+    Дата исполнения
+    <op-date-picker (onChange)="dateBegin = parser($event); filterChart()">
+        <input [ngModel]="formatter(dateBegin)"
+               (ngModelChange)="dateBegin = parser($event); filterChart()"
+               id="diagram_date_begin"
+               name="date_begin_dp"
+               class="advanced-filters--date-field"
+               size="10"
+               type="text"/>
+    </op-date-picker>
+    <op-date-picker (onChange)="dateEnd = parser($event); filterChart()">
+        <input [ngModel]="formatter(dateEnd)"
+               (ngModelChange)="dateEnd = parser($event); filterChart()"
+               id="diagram_date_end"
+               name="date_end_dp"
+               class="advanced-filters--date-field"
+               size="10"
+               type="text"/>
+    </op-date-picker>
+</div>
+<div>
+    <input type="checkbox"
+           id="diagram_kpi_check"
+           (change)="filterChart()"
+           [(ngModel)]="kpiCheck"
+           name="kpi_check" />
+    KPI
+    <select
+            id="diagram_kpi_select"
+            (change)="filterChart()"
+            [(ngModel)]="kpiOperation"
+            name="kpi_select">
+        <option value=">=">Больше или равно</option>
+        <option value="=">Равно</option>
+        <option value="<=">Меньше или равно</option>
+    </select>
+    <input type="text"
+           size="10"
+           id="diagram_kpi_value"
+           (change)="filterChart()"
+           [(ngModel)]="kpiValue"
+           name="kpi_value" />
+</div>
 <div style="display: block;">
     <canvas baseChart
             [datasets]="barChartData"
@@ -7,4 +136,57 @@
             [legend]="barChartLegend"
             [chartType]="barChartType">
     </canvas>
+</div>
+<div>
+    Выбор серии X
+    <select
+            id="diagram_seriex_select"
+            (change)="filterChart()"
+            [(ngModel)]="seriexSelect"
+            name="seriex_select">
+        <option value="0">Мероприятия</option>
+        <option value="1">Ответственный</option>
+        <option value="2">Статус</option>
+        <option value="3">Организация</option>
+    </select>
+</div>
+<div>
+    Выбор серии Y
+    <select
+            id="diagram_seriey_select"
+            (change)="filterChart()"
+            [(ngModel)]="serieySelect"
+            name="seriey_select">
+        <option value="0">% исполнения KPI</option>
+        <option value="1">Количество</option>
+    </select>
+</div>
+<div>
+    Выбор серии R
+    <select
+            id="diagram_serier_select"
+            (change)="filterChart()"
+            [(ngModel)]="serierSelect"
+            name="serier_select">
+        <option value="0">РАДИУС</option>
+    </select>
+</div>
+<div>
+    Тип диаграммы
+    <select
+            id="wp_select_chart_type"
+            (change)="changeChartType()"
+            [(ngModel)]="barChartType"
+            name="select_chart_type"
+            value="bar">
+        <option value="line">Линейная</option>
+        <option selected value="bar">Столбчатая</option>
+        <option value="horizontalBar">Столбчатая горизонтальная</option>
+        <option value="radar">Радар</option>
+        <option value="doughnut">Кольцевая</option>
+        <option value="polarArea">Радиальная</option>
+        <option value="bubble">Пузырьковая</option>
+        <option value="pie">Круговая</option>
+        <option value="scatter">Рассеяние</option>
+    </select>
 </div>
