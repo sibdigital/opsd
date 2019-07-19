@@ -48,6 +48,7 @@
 //= require tooltips
 //= require danger_zone_validation
 //= require flash_messages
+//= require pokaz
 
 
 
@@ -385,7 +386,27 @@ var setupServerResponse = function() {
 
   jQuery(document).ajaxComplete(activateFlashNotice);
   jQuery(document).ajaxComplete(activateFlashError);
+
+    jQuery('a.chtbl').click(function(){
+        //window.alert('1111');
+        show_div(event.target.value);
+    });
 };
 
 jQuery(document).ready(setupServerResponse);
 
+function show_div(showId){
+    if (document.getElementById('tab' + event.target.innerText)) {
+        for (var i = 1; i < 5; ++i) {
+            if (('tab' + i) != 'tab' + event.target.innerText) {
+                if (document.getElementById('tab' + i)) {
+                    document.getElementById('tab' + i).style.display = 'none';
+                }
+            }
+            console.log('tab' + i);
+        }
+        document.getElementById('tab' + event.target.innerText).style.display = 'block';
+    }
+    console.log('->'  + 'tab' + event.target.innerText)
+
+}
