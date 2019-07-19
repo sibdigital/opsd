@@ -10,6 +10,7 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
+import {getParams} from "@uirouter/core";
 
 export interface ValueOption {
   name:string;
@@ -133,44 +134,8 @@ export class WorkPackageOverviewDiagramTabComponent implements OnInit {
   }
 
   public filterChart() {
-    let params:any = {};
-    params['statusCheck'] = this.statusCheck;
-    params['projectCheck'] = this.projectCheck;
-    params['assigneeCheck'] = this.assigneeCheck;
-    params['organizationCheck'] = this.organizationCheck;
-    params['dateCheck'] = this.dateCheck;
-    params['kpiCheck'] = this.kpiCheck;
-    params['seriexSelect[0]'] = this.seriexSelect;
-    params['serieySelect[0]'] = this.serieySelect;
-    params['serierSelect'] = this.serierSelect;
-    params['barChartType'] = this.barChartType;
-    if (this.statusCheck && this.statusSelect) {
-      params['status[0]'] = this.statusSelect.id;
-      params['status[1]'] = 10;
-    }
-    if (this.projectCheck && this.projectSelect) {
-      params['project[0]'] = this.projectSelect.id;
-    }
-    if (this.assigneeCheck && this.assigneeSelect) {
-      params['assignee[0]'] = this.assigneeSelect.id;
-    }
-    if (this.organizationCheck && this.organizationSelect) {
-      params['organization[0]'] = this.organizationSelect.id;
-    }
-    if (this.dateCheck && this.dateBegin) {
-      params['dateBegin'] = this.dateBegin;
-    }
-    if (this.dateCheck && this.dateEnd) {
-      params['dateEnd'] = this.dateEnd;
-    }
-    if (this.kpiCheck && this.kpiOperation) {
-      params['kpiOperation'] = this.kpiOperation;
-    }
-    if (this.kpiCheck && this.kpiValue) {
-      params['kpiValue'] = this.kpiValue;
-    }
     this.halResourceService
-      .get<HalResource>(this.pathHelper.api.v3.diagrams.toString(), params)
+      .get<HalResource>(this.pathHelper.api.v3.diagrams.toString(), this.getParams())
       .toPromise()
       .then((resource:HalResource) => {
         this.statusSelect = this.statusSelectOptions.find( x => {return x.id.toString() === resource.status; });
@@ -242,5 +207,51 @@ export class WorkPackageOverviewDiagramTabComponent implements OnInit {
     this.chart.chartType = this.barChartType;
     this.chart.chart.update();
     this.filterChart();
+  }
+
+  public save() {
+    this.halResourceService
+      .post<HalResource>(this.pathHelper.api.v3.diagram_queries.toString(), this.getParams())
+      .toPromise();
+  }
+
+  private getParams():any {
+    let params:any = {};
+    params['statusCheck'] = this.statusCheck;
+    params['projectCheck'] = this.projectCheck;
+    params['assigneeCheck'] = this.assigneeCheck;
+    params['organizationCheck'] = this.organizationCheck;
+    params['dateCheck'] = this.dateCheck;
+    params['kpiCheck'] = this.kpiCheck;
+    params['seriexSelect[0]'] = this.seriexSelect;
+    params['serieySelect[0]'] = this.serieySelect;
+    params['serierSelect'] = this.serierSelect;
+    params['barChartType'] = this.barChartType;
+    if (this.statusCheck && this.statusSelect) {
+      params['status[0]'] = this.statusSelect.id;
+      params['status[1]'] = 10;
+    }
+    if (this.projectCheck && this.projectSelect) {
+      params['project[0]'] = this.projectSelect.id;
+    }
+    if (this.assigneeCheck && this.assigneeSelect) {
+      params['assignee[0]'] = this.assigneeSelect.id;
+    }
+    if (this.organizationCheck && this.organizationSelect) {
+      params['organization[0]'] = this.organizationSelect.id;
+    }
+    if (this.dateCheck && this.dateBegin) {
+      params['dateBegin'] = this.dateBegin;
+    }
+    if (this.dateCheck && this.dateEnd) {
+      params['dateEnd'] = this.dateEnd;
+    }
+    if (this.kpiCheck && this.kpiOperation) {
+      params['kpiOperation'] = this.kpiOperation;
+    }
+    if (this.kpiCheck && this.kpiValue) {
+      params['kpiValue'] = this.kpiValue;
+    }
+    return params;
   }
 }

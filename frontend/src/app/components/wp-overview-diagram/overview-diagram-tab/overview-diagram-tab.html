@@ -161,7 +161,7 @@
         <option value="1">Количество</option>
     </select>
 </div>
-<div>
+<div *ngIf="barChartType==='bubble'">
     Выбор серии R
     <select
             id="diagram_serier_select"
@@ -190,3 +190,4 @@
         <option value="scatter">Рассеяние</option>
     </select>
 </div>
+<button type="button" (click)="save()">Сохранить</button>

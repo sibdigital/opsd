@@ -57,6 +57,7 @@ module API
       #bbm(
       mount ::API::V3::AttachTypes::AttachTypesAPI
       mount ::API::V3::Diagrams::DiagramsAPI
+      mount ::API::V3::DiagramQueries::DiagramQueriesAPI
       # )
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
