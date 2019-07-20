@@ -21,19 +21,19 @@ class TargetsController < ApplicationController
                     'type' => "#{Target.table_name}.type_id"
     }
 
-    sort_init 'id', 'desc'
+    sort_init 'id', 'asc'
     sort_update sort_columns
 
     @parent_id = parent_id_param
 
-    @targets = @project.targets.where(parent_id: @parent_id)
+    @targets = @project.targets
                        .order(sort_clause)
                        .page(page_param)
                        .per_page(per_page_param)
 
-    if @parent_id.to_i != 0
-      @target_parent = Target.find(@parent_id)
-    end
+    #if @parent_id.to_i != 0
+    #  @target_parent = Target.find(@parent_id)
+    #end
 
   end
 

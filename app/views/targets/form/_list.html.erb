@@ -15,10 +15,12 @@ This file written by BBM
           <col highlight-col>
           <col highlight-col>
           <col highlight-col>
+          <col highlight-col>
         </colgroup>
         <thead>
         <tr>
           <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <th></th>
           <%= sort_header_tag("name", :caption => Target.human_attribute_name(:name)) %>
           <%= sort_header_tag("status", :caption => Target.human_attribute_name(:target_status)) %>
           <%= sort_header_tag("type", :caption => Target.human_attribute_name(:target_type)) %>
@@ -66,9 +68,11 @@ This file written by BBM
         </tr>
         </thead>
         <tbody>
+        <%= parent_id = 0 %>
         <% targets.each do |target| %>
           <tr id="target-<%= target.id %>">
             <td><%= link_to target.id, edit_project_target_path(id: target.id) %></td>
+            <td><%= %></td>
             <%= content_tag(:td, link_to(h(target.name), edit_project_target_path(id: target.id))) %>
             <%= content_tag(:td, target.target_status) %>
             <%= content_tag(:td, target.target_type) %>
@@ -88,6 +92,7 @@ This file written by BBM
                 data: {confirm: I18n.t(:text_are_you_sure)},
                 title: t(:button_delete))) %>
           </tr>
+          <%= parent_id = target.parent_id %>
         <% end %>
         </tbody>
       </table>
