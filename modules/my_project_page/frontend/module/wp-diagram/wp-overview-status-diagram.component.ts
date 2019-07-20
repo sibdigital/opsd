@@ -69,7 +69,7 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
   ngOnInit() {
     this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
-    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors'));
+    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d'];
     if(this.barChartData[0].label === 'false' && this.barChartOptions.legend){
       this.barChartOptions.legend.display = false;
       //this.barChartOptions.legend.labels.boxWidth
