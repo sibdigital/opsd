@@ -1,358 +1,372 @@
 <!--%= render partial: "homescreen/form/main"%-->
+<%=javascript_include_tag 'chartchange.js' %>
+<div ng-app="OpenProjectLegacy" class="ng-scope">
+
+  </div>
+  <div>
+    <table class="blueTable">
+      <thead>
+      <tr>
+        <th id="c40">Показатель</th>
+        <th id="c40">Значение</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <ol start="1">
+          <li>
+            <a href="#" id="changeChart1" onClick="changeData('changeChart1')">Уровень доверия к власти (Президенту Российской Федерации, высшим должностным лицам (руководителям высших исполнительных органов государственной власти) субъектов Российской Федерации).</a>
+          </li>
+        </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr id="colored-row" >
+        <td>
+          <ol start="2">
+          <li>
+            <a href="#" id="changeChart2" onclick="changeData('changeChart2')">Количество высокопроизводительных рабочих мест во внебюджетном секторе экономики.</a>
+          </li>
+        </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>
+          <ol start="3">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Численность занятых в сфере малого и среднего предпринимательства, включая индивидуальных предпринимателей.</a>
+          </li>
+        </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr id="colored-row">
+        <td>
+          <ol start="4">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Производительность труда в базовых несырьевых отраслях экономики.</a>
+          </li>
+        </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>
+          <ol start="5">
+            <li>
+              <a href="#" id="changeChart" onclick="changeData()">Уровень реальной среднемесячной заработной платы.</a>
+            </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr id="colored-row">
+        <td>
+          <ol start="6">
+            <li>
+              <a href="#" id="changeChart" onclick="changeData()">Объем инвестиций в основной капитал, за исключением инвестиций инфраструктурных монополий (федеральные проекты) и бюджетных ассигнований федерального бюджета.</a>
+            </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>
+          <ol start="7">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Уровень бедности.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr id="colored-row">
+        <td>
+          <ol start="8">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Ожидаемая продолжительность жизни при рождении.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>
+          <ol start="9">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Естественный прирост населения.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr id="colored-row">
+        <td>
+          <ol start="10">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Количество семей, улучшивших жилищные условия.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>
+          <ol start="11">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Уровень доступности жилья.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr id="colored-row">
+        <td>
+          <ol start="12">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Доля городов с благоприятной городской средой.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>
+          <ol start="13">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Качество окружающей среды.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr id="colored-row">
+        <td>
+          <ol start="14">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Уровень образования.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      <tr>
+        <td>
+          <ol start="15">
+          <li>
+            <a href="#" id="changeChart" onclick="changeData()">Доля соответствующих нормативным требованиям автомобильных дорог регионального значения и автомобильных дорог в городских агломерациях с учетом загруженности.</a>
+          </li>
+          </ol>
+        </td>
+        <td>100</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+<div>
+  <div id="invisible-grid" class="widget-boxes project-overview">
+    <div class="grid-block">
+      <div style="flex: 0 0 50%; max-width: 50%; width: 600px; margin: auto;">
+        <p id="chartlabel" style="text-align: center;font-weight: bold;margin: -2px;">Уровень доверия к власти (Президенту Российской Федерации, высшим должностным лицам (руководителям высших исполнительных органов государственной власти) субъектов Российской Федерации).</p>
+        <wp-overview-status-diagram id="chartone" chart-data='[{"data":[80,90,95,100],"label":"false"}]' chart-type='bar'>
+        </wp-overview-status-diagram>
+      </div>
+
+    </div>
+    <div>
+    <wp-overview-date-diagram chart-labels='["I","II","III","IV"]'>
+    </wp-overview-date-diagram>
+  </div>
+  </div>
 
 
-<table class="fckdup" border="2" bordercolor="black" bgcolor="#b0c4de" >
-  <thead>
-  <tr>
-    <td class="first-header" ><b>Республика Бурятия</b></td>
-    <td><b>Куратор</b></td>
-    <td><b>РП</b></td>
-    <td><b>План срок завершения</b></td>
-    <td><b>Предстоящие мероприятия</b></td>
-    <td><b>Просроченные мероприятия</b></td>
-    <td><b>Проблемы</b></td>
-    <td><b>Прогресс</b></td>
-    <td><b>Исполнение бюджета</b></td>
-    <td><b>KPI</b></td>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td class="second-header"><b>Здравоохранение</b></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="third-header">Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="fourth-header"><a>Создание региональный цифровой платформы ИСЗ</a></td>
-    <td>Цыбикжапов В.Б.</td>
-    <td>Самбуев Д.Ц.</td>
-    <td>01.08.2020</td>
-    <td><a>10</a></td>
-    <td><a>8</a></td>
-    <td><a>3</a></td>
-    <td><div class="border-progress"><div class="progressbar70">
-      <div align="center">70%</div>
-    </div></div></td>
-    <td><div class="border-progress"><div class="progressbar92">
-      <div align="center">92%</div>
-    </div></div></td>
-    <td><a>Посмотреть</a></td>
-  </tr>
-  <tr>
-    <td class="third-header">Снижение смертности населения трудоспособного возраста</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="fourth-header"><a>Внедрение системы контроля качества медицинской помощи в РБ</a></td>
-    <td>Цыбикжапов В.Д.</td>
-    <td>Самбуев Д.Ц.</td>
-    <td>31.12.2020</td>
-    <td><a>16</a></td>
-    <td><a>4</a></td>
-    <td><a>0</a></td>
-    <td><div class="border-progress"><div class="progressbar54">
-      <div align="center">54%</div>
-    </div></div></td>
-    <td><div class="border-progress"><div class="progressbar70">
-      <div align="center">70%</div>
-    </div></div></td>
-    <td><a>Посмотреть</a></td>
-  </tr>
-  <tr>
-    <td class="second-header"><b>Образование</b></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="third-header">Современная школа</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="fourth-header"><a>Современная школа в РБ</a></td>
-    <td>Цыбикжапов В.Б.</td>
-    <td>Жалсанов Б.Б.</td>
-    <td>31.12.2019</td>
-    <td><a>8</a></td>
-    <td><a>15</a></td>
-    <td><a>7</a></td>
-    <td><div class="border-progress"><div class="progressbar70">
-      <div align="center">70%</div>
-    </div></div></td>
-    <td><div class="border-progress"><div class="progressbar70">
-      <div align="center">70%</div>
-    </div></div></td>
-    <td><a>Посмотреть</a></td>
-  </tr>
-  <tr>
-    <td class="fifth-header"><a>Строительство школы в Кижингинском районе</a></td>
-    <td>Цыбикжапов В.Б.</td>
-    <td>Лхасаранов Г.З.</td>
-    <td>20.12.2019</td>
-    <td><a>5</a></td>
-    <td><a>7</a></td>
-    <td><a>0</a></td>
-    <td><div class="border-progress"><div class="progressbar92">
-      <div align="center">92%</div>
-    </div></div></td>
-    <td><div class="border-progress"><div class="progressbar92">
-      <div align="center">92%</div>
-    </div></div></td>
-    <td><a>Посмотреть</a></td>
-  </tr>
-  <tr>
-    <td class="fifth-header"><a>Переоснащение школы №17 в г.Улан-Удэ</a></td>
-    <td>Цыбикжапов В.Б.</td>
-    <td>Шутенков И.Ю.</td>
-    <td>30.11.2019</td>
-    <td><a>4</a></td>
-    <td><a>1</a></td>
-    <td><a>2</a></td>
-    <td><div class="border-progress"><div class="progressbar54">
-      <div align="center">54%</div>
-    </div></div></td>
-    <td><div class="border-progress"><div class="progressbar70">
-      <div align="center">70%</div>
-    </div></div></td>
-    <td><a>Посмотреть</a></td>
-  </tr>
-  <tr>
-    <td class="second-header"><b>Производительность труда</b></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td
-      class="second-header"><b>Вне нацпроектов</b></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="third-header"><a>Создание технопарка</a></td>
-    <td>Зураев И.И.</td>
-    <td>Оловянников А.А.</td>
-    <td>31.12.2021</td>
-    <td><a>11</a></td>
-    <td><a>15</a></td>
-    <td><a>8</a></td>
-    <td><div class="border-progress"><div class="progressbar18">
-      <div align="center">18%</div>
-    </div></div></td>
-    <td><div class="border-progress"><div class="progressbar18">
-      <div align="center">18%</div>
-    </div></div></td>
-    <td><a>Посмотреть</a></td>
-  </tr>
-  <tr align="center" class="row-white">
-    <td colspan="2"><b>Предстоящие мероприятия:</b></td>
-    <td colspan="3"><b>Просроченные мероприятия:</b></td>
-    <td colspan="3"><b>Проблемы:</b></td>
-    <td colspan="2"><b>Бюджет:</b></td>
-  </tr>
-  <tr class="row-white">
-    <td colspan="2">
-      <ol>
-        <li>Подготовка конкурсной документации</li>
-        <li>Разработка ТТ</li>
-        <li>Подготовка аналитического отчета</li>
-        <li>Установка ПАК</li>
-        <li>Проведение обучение</li>
-      </ol>
-    </td>
-    <td colspan="3">
-      <ol>
-        <li>Разработка информационного портала</li>
-        <li>Подготовка заявки на финансирование</li>
-      </ol>
-    </td>
-    <td colspan="3">
-      <ol>
-        <li>Задержка поставки оборудования</li>
-        <li>Не представлен техпаспорт</li>
-        <li>Нет согласования юристов</li>
-      </ol>
-    </td>
-    <td colspan="2">
-      <ol>
-        <li>Современная школа в РБ</li>
-        <li>Создание региональной цифровой платформы в РБ</li>
-        <li>Внедрение системы контроля качества</li>
-      </ol>
-    </td>
-  </tr>
-  </tbody>
-</table>
 </div>
-<div class="row">
-  <table>
-    <thead>
-
-    </thead>
-    <tbody>
-
-    </tbody>
-  </table>
-</div>
-
 <style>
-  td, th {
-    border: 1px solid black;
-  }
-  th {
-    border-color: white;
-  }
-  .first-header{
-    font-size: xx-large;
-    padding-left: 5px;
-    border-bottom-width: 0px;
-  }
-  .second-header{
-    font-size: x-large;
-    padding-left: 20px;
-  }
-  .third-header{
-    font-size: large;
-    padding-left: 30px;
-  }
-  .fourth-header{
-    font-size: medium;
-    padding-left: 40px;
-  }
-  .fifth-header{
-    padding-left: 50px;
-    font-size: small;
-  }
-  .no-border {
-    border: none;
-  }
-  .row-white{
-    background-color: white;
-  }
-  .progress-bar-custom{
-    height: 3%;
-    background-color: white;
-    border: 1px;
+
+
+  .progress-label
+  {
+    position: relative;
+    margin: auto;
   }
   .progress {
-    width: 50%;
-    border: 1px solid black;
+    height: 1em;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
     position: relative;
-    padding: 3px;
   }
-
-  .percent {
+  .progress:before {
+    content: attr(data-label);
+    font-size: 0.8em;
     position: absolute;
-    left: 50%;
+    text-align: center;
+    border-radius: 10px;
+    top: 1px;
+    left: 0;
+    right: 0;
   }
-
-  .bar {
-    height: 3em;
-    background-color: green;
-    width: 30%;
+  .progress .value {
+    background-color: #7cc4ff;
+    display: block;
+    border-radius: 10px;
+    height: 100%;
   }
-  .progressbar70 {
-    background-color: whitesmoke;
-    /* (height of inner div) / 2 + padding */
-    padding: 0px;
-    margin: auto
-  }
-  .progressbar92 {
-    background-color: whitesmoke;
-    /* (height of inner div) / 2 + padding */
-    padding: 0px;
-  }
-  .progressbar54 {
-    background-color: whitesmoke;
-    /* (height of inner div) / 2 + padding */
-    padding: 0px;
-  }
-  .progressbar18 {
-    background-color: whitesmoke;
-    /* (height of inner div) / 2 + padding */
-    padding: 0px;
-  }
-
-  .progressbar70>div {
-    background-color: #4cb300;
-    /* Adjust with JavaScript */
-    width: 70%;
-
-    height: 20px;
-  }.progressbar92>div {
-     background-color: #12ed00;
-     /* Adjust with JavaScript */
-     width: 92%;
-     height: 20px;
-   }.progressbar54>div {
-      background-color: #758a00;
-      /* Adjust with JavaScript */
-      width: 54%;
-      height: 20px;
-    }.progressbar18>div {
-       background-color: #cd3200;
-       /* Adjust with JavaScript */
-       width: 18%;
-       height: 20px;
-     }
   .border-progress{
-    background-color: #1c7430;
+    background-color: #CCCCCC;
     padding: 1px;
     width: 100px;
     margin: auto;
+    z-index: 1;
+    border-radius: 10px;
   }
+  @media only screen and (max-width: 1024px){
+    table
+    {
+      font-size: 14px;
+
+    }
+    ol{
+      font-size: 14px;
+    }
+
+    .border-progress{
+      width: 50px;
+      height: 10px;
+    }
+    .progress:before{
+      font-size: 0.6em;
+    }
+    .progress
+    {
+      height: 0.7em;
+    }
+
+  }
+  table.blueTable {
+    border: 1px solid #1A67A3;
+    background-color: #EAEAEA;
+    width: 98%;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #CCCCCC;
+    padding: 3px 3px;
+  }
+  table.blueTable tbody td {
+    font-size: 12px;
+    color: #333333;
+  }
+
+  #colored-row{
+    background: #D0E4F5;
+  }
+  #colored-col-bright-green{
+    background: #D8F6D8;
+    border: none;
+    color: #000000;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-red{
+    background: #F6D8D8;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-orange{
+    background: #FFEAD7;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-purple{
+    background: #F6D8F6;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-green{
+    background: #bbeebb;
+    border: none;
+    color: #000000;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-red{
+    background: #eebbbb;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-orange{
+    background: #ffdab9;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-purple{
+    background: #eebbee;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  table.blueTable thead {
+    background: #1A67A3;
+    background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    border-bottom: 0px solid #878787;
+  }
+  table.blueTable thead th {
+    font-size: 13px;
+    font-weight: 100;
+    color: #FFFFFF;
+    border-left: 2px solid #D0E4F5;
+  }
+  #c40{
+    width: 40px;
+  }
+
+  table.blueTable thead th:first-child {
+    border-left: none;
+  }
+
+  table.blueTable tfoot {
+    font-size: 12px;
+    font-weight: 100;
+    color: #FFFFFF;
+    background: #D0E4F5;
+    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  }
+  table.blueTable tfoot td {
+    font-size: 12px;
+  }
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  .table_block {
+    border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;
+    border:1px solid #000;
+    display: block;}​
 </style>
+</div>

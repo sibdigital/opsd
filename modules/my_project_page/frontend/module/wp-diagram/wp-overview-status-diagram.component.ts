@@ -30,6 +30,8 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
       }],
       yAxes: [{
         ticks: {
+          min:0,
+          max:120,
           display: false
         },
         gridLines: {
@@ -65,6 +67,12 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
 
   ngOnInit() {
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
+    this.barChartType = this.element.nativeElement.getAttribute('chart-type');
+    if(this.barChartType===null)
+    {
+      this.barChartType='pie';
+    }
+
     this.barChartData[0].backgroundColor = ["#00b050", "#ffc000", "#c00000", "#1f497d"];
     if(this.barChartData[0].label === 'false' && this.barChartOptions.legend){
       this.barChartOptions.legend.display = false;
