@@ -10,6 +10,10 @@ module API
         def initialize(query: {}, params: {}, current_user:)
           @query = query
 
+          @status = params[:status]
+          @project = params[:project]
+          @assignee = params[:assignee]
+          @organization = params[:organization]
           @status = params[:status]?params[:status]['0']:nil
           @project = params[:project]?params[:project]['0']:nil
           @assignee = params[:assignee]?params[:assignee]['0']:nil
@@ -182,6 +186,26 @@ module API
                    end
                  },
                  render_nil: true
+        property :wp_count,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   Project.all.map(&:total_wps)
+                 },
+                 render_nil: false
+
+        property :percentage_done,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   Project.all.map(&:completed_percent_sd)
+                 },
+                 render_nil: false
+
+        property :metrics,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   Project.all.map(&:name)
+                 },
+                 render_nil: false
 
         def _type
           'Diagram'

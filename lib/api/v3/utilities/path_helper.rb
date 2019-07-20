@@ -233,6 +233,10 @@ module API
             "#{diagram_queries}/#{id}"
           end
 
+          def self.diagrams
+            "#{root}/diagrams"
+          end
+
           def self.attach_types
             "#{root}/attach_types"
           end

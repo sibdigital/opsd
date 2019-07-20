@@ -16,7 +16,9 @@ class ProjectRisksController < ApplicationController
   def index
     sort_columns = {'id' => "#{ProjectRisk.table_name}.id",
                     'name' => "#{ProjectRisk.table_name}.name",
+                    'owner' => "#{ProjectRisk.table_name}.owner_id",
                     'possibility' => "#{ProjectRisk.table_name}.possibility_id",
+                    'isPossibility' => "#{ProjectRisk.table_name}.is_possibility",
                     'importance' => "#{ProjectRisk.table_name}.importance_id"
     }
 

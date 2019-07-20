@@ -17,7 +17,9 @@ class TypedRisksController < ApplicationController
   def index
     sort_columns = {'id' => "#{TypedRisk.table_name}.id",
                     'name' => "#{TypedRisk.table_name}.name",
+                    'owner' => "#{TypedRisk.table_name}.owner_id",
                     'possibility' => "#{TypedRisk.table_name}.possibility_id",
+                    'isPossibility' => "#{TypedRisk.table_name}.is_possibility",
                     'importance' => "#{TypedRisk.table_name}.importance_id"
     }
 
@@ -81,7 +83,7 @@ class TypedRisksController < ApplicationController
   end
 
   def show_local_breadcrumb
-    true
+    false
   end
 
   def find_typed_risk

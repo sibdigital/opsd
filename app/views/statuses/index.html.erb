@@ -1,51 +1,54 @@
-<%#-- copyright
-OpenProject is a project management system.
-Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License version 3.
-
-OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2017 Jean-Philippe Lang
-Copyright (C) 2010-2013 the ChiliProject Team
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-See docs/COPYRIGHT.rdoc for more details.
-
-++#%>
-
-<% html_title l(:label_administration), l(:label_work_package_status_plural) -%>
-<%= toolbar title: l(:label_work_package_status_plural) do %>
-  <li class="toolbar-item">
-    <%= link_to new_status_path,
-          { class: 'button -alt-highlight',
-            aria: {label: t(:label_work_package_status_new)},
-            title: t(:label_work_package_status_new)} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t(:label_status) %></span>
-    <% end %>
-  </li>
-  <% if WorkPackage.use_status_for_done_ratio? %>
-    <li class="toolbar-item">
-      <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', method: :post, data: { confirm: l(:text_are_you_sure) } do %>
-        <%= op_icon('button--icon icon-reload') %>
-        <span class="button--text"><%= l(:label_update_work_package_done_ratios) %></span>
-      <% end %>
-    </li>
-  <% end %>
-<% end %>
-
-<%= cell ::Statuses::TableCell, @statuses %>
+<table style="font-weight: bold; width: 100%; text-align: center" border="1">
+  <tr>
+    <td></td>
+    <td>Ответственный</td>
+    <td>Срок</td>
+    <td>Исполнение</td>
+  </tr>
+  <tr>
+    <td style="text-align: left">
+      <p>Здравоохранение</p>
+      <p style="margin-left: 50px;">Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ</p>
+      <p style="margin-left: 100px;">Создание региональной цифровой платформы ИСЗ</p>
+      <p style="margin-left: 150px;">Поручение: представить документы</p>
+      <p style="margin-left: 200px; color: green">Поручение: подготовить отчеты</p>
+      <p style="margin-left: 100px;">Снижение смертности населения трудоспособного возраста</p>
+      <p style="margin-left: 150px;">Внедрение системы контроля качества медицинской помощи в РБ</p>
+      <p style="margin-left: 200px; color: orange">Поручение: дать предложение</p>
+      <p style="margin-left: 200px; color: red">Поручение: подготовить доклад</p>
+    </td>
+    <td>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="margin-left: 0px;">Цыбикжапов В.Б</p>
+      <p style="margin-left: 0px; color: green">Цыбикжапов В.Б</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="margin-left: 0px; color: orange">Самбуев Д.Ц.</p>
+      <p style="margin-left: 0px; color: red">Cамбуев Д.Ц.</p>
+    </td>
+    <td>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="margin-left: 0px;">11.11.2019</p>
+      <p style="margin-left: 0px; color: green">08.07.2019</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="margin-left: 0px; color: orange">24.07.2019</p>
+      <p style="margin-left: 0px; color: red">04.07.2019</p>
+    </td>
+    <td>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="margin-left: 0px;">В работе</p>
+      <p style="margin-left: 0px; color: green">Исполнено</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="width: 300px;">&nbsp</p>
+      <p style="margin-left: 0px; color: orange">В работе</p>
+      <p style="margin-left: 0px; color: red">Просрочено</p>
+    </td>
+  </tr>
+</table>

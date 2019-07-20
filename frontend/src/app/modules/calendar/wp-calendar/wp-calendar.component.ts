@@ -24,6 +24,7 @@ import {OpTitleService} from "core-components/html/op-title.service";
 })
 export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   calendarOptions:Options;
+  calendarOptionsYear:Options;
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
@@ -193,8 +194,10 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   private setCalendarOptions() {
     if (this.static) {
       this.calendarOptions = this.staticOptions;
+      this.calendarOptionsYear = this.staticOptionsYear;
     } else {
       this.calendarOptions = this.dynamicOptions;
+      this.calendarOptionsYear = this.dynamicOptions;
     }
   }
 
@@ -237,6 +240,16 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
         return heightElement.height()! - (topOfCalendar - topOfHeightElement);
       },
+      header: false,
+      defaultView: 'basicWeek'
+    };
+  }
+  private get staticOptionsYear() {
+    return {
+      editable: false,
+      eventLimit: false,
+      locale: this.i18n.locale,
+      height: 100,
       header: false,
       defaultView: 'basicWeek'
     };

@@ -79,7 +79,7 @@ module OpenProject
       'header-search-field-bg-color'                         => "#FFFFFF",
       'header-search-field-font-color'                       => "#000000",
       'header-search-field-border'                           => "0",
-      'main-menu-width'                                      => "230px",
+      'main-menu-width'                                      => "200px",
       'main-menu-folded-width'                               => "0px",
       'main-menu-border-color'                               => "#EAEAEA",
       'main-menu-border-width'                               => "0px",

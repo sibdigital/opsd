@@ -64,6 +64,9 @@ export class ApiV3Paths {
   public readonly priorities = new SimpleResourceCollection(this.apiV3Base, 'priorities');
 
   //bbm(
+  public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
+
+  public readonly organizations = new SimpleResourceCollection(this.apiV3Base, 'organizations');
 
   public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
 

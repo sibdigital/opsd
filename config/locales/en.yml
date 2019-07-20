@@ -815,6 +815,8 @@ en:
     eis_href: Ссылка на ЕИС
     #)
     possibility: Вероятность наступления
+    owner: Владелец риска
+    is_possibility: Является возможностью?
     priority: Приоритет
     project: Проект
     responsible: Подотчетный
@@ -1587,6 +1589,7 @@ en:
   label_in_more_than: более чем
   label_inactive: Неактивен
   label_incoming_emails: Входящие e-mail
+  label_work_calendar: Производственный календарь
   label_includes: включает
   label_index_by_date: Индекс по дате
   label_index_by_title: Индекс по названию
@@ -1858,6 +1861,8 @@ en:
   label_typed_risks: Типовые риски
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
+  label_production_calendar: Производственный календарь
+  label_production_calendars: Производственные календари
   #zbd(
   label_contracts: Государственные контракты
   label_contracts_new: Новый гос.контракт
