@@ -2,31 +2,25 @@
 <div ng-app="OpenProjectLegacy" class="ng-scope">
   <div id="invisible-grid" class="widget-boxes project-overview">
     <div class="grid-block">
-      <div style="flex: 0 0 30%; max-width: 30%;">
-        <p style="text-align: center;font-weight: bold;margin: -2px;">Здравоохранение</p>
-        <wp-overview-status-diagram chart-data='[{"data":[64,32,15,8],"label":"false"}]'>
+      <div style="flex: 0 0 29%; max-width: 29%;">
+        <p style="text-align: center;font-weight: bold;margin: -2px;">Показатели</p>
+        <wp-overview-status-diagram chart-data='[{"data":[64,32,15],"label":"false1"}]' chart-labels='["Исп.","Не исп.","В работе"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
         </wp-overview-status-diagram>
       </div>
-      <div style="flex: 0 0 30%; max-width: 30%;">
-        <p style="text-align: center;font-weight: bold;margin: -2px;">Образование</p>
-        <wp-overview-status-diagram chart-data='[{"data":[45,28,10,14],"label":"false"}]'>
+      <div style="flex: 0 0 29%; max-width: 29%;">
+        <p style="text-align: center;font-weight: bold;margin: -2px;">КТ</p>
+        <wp-overview-status-diagram chart-data='[{"data":[45,28,10,14],"label":"false1"}]' chart-labels='["Исп.","Не исп.","В работе","Риски"]' chart-colors='["#00b050", "#c00000", "#1f497d", "#ffc000"]'>
         </wp-overview-status-diagram>
       </div>
-      <div style="flex: 0 0 30%; max-width: 30%;">
-        <p style="text-align: center;font-weight: bold;margin: -2px;">Производительность труда</p>
-        <wp-overview-status-diagram chart-data='[{"data":[53,25,1,8],"label":"false"}]'>
+      <div style="flex: 0 0 29%; max-width: 29%;">
+        <p style="text-align: center;font-weight: bold;margin: -2px;">Бюджет</p>
+        <wp-overview-status-diagram chart-data='[{"data":[53,25,1],"label":"false1"}]' chart-labels='["Исп.","Не исп.","Остаток"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
         </wp-overview-status-diagram>
       </div>
-      <div style="text-align: center; width: 10%; background-color: #c0504d;">
-        <p style="font-weight: bold; color: white; position:relative; top:40%">Проблем<br>20</p>
+      <div style="text-align: center; width: 13%; background-color: #c0504d;" >
+        <a style="font-weight: bold; color: white; position:relative; top:40%" href="/org_settings">Проблем<br>20</a>
       </div>
     </div>
-    <div>
-      <wp-overview-date-diagram chart-labels='["Решено","Предстоящие в 2 недели","Не исполнено","Проблем"]'>
-      </wp-overview-date-diagram>
-    </div>
-
-
     </div>
   <div style="display: block;" id="tab1">
   <table class="blueTable">

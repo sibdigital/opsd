@@ -41,7 +41,10 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
       }]
     },
     legend: {
-      position: 'top',
+      position: 'right',
+      labels: {
+        boxWidth: 15
+      }
     },
     plugins: {
       labels: {
@@ -53,7 +56,7 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
     },
   };
 
-  public barChartLabels: Label[] = ['Решено','Предстоящие в 2 недели','Не исполнено','Проблем'];
+  public barChartLabels: Label[] = [];
   public barChartType: ChartType = 'pie';
   public barChartLegend = true;
   public barChartPlugins = [];
@@ -66,16 +69,18 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
               readonly element:ElementRef) { }
 
   ngOnInit() {
+    this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
     this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
+    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d'];
     this.barChartType = this.element.nativeElement.getAttribute('chart-type');
     if(this.barChartType===null)
     {
       this.barChartType='pie';
     }
 
-    this.barChartData[0].backgroundColor = ["#00b050", "#ffc000", "#c00000", "#1f497d"];
     if(this.barChartData[0].label === 'false' && this.barChartOptions.legend){
       this.barChartOptions.legend.display = false;
+      //this.barChartOptions.legend.labels.boxWidth
     }
   }
 
