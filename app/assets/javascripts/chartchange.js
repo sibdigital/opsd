@@ -30,4 +30,4 @@ function changing(showInfo)
 }
 
 
-JQuery(document).ready(startChange);
+jQuery(document).ready(startChange);
