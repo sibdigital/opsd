@@ -1,0 +1,368 @@
+<%=javascript_include_tag 'chartchange.js' %>
+<div ng-app="OpenProjectLegacy" class="ng-scope">
+
+</div>
+<div>
+  <table class="blueTable">
+    <thead>
+    <tr>
+      <th id="c40">Показатель</th>
+      <th id="c40">Значение</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <ol start="1">
+          <li>
+            <a href="#" id="1" class="changeChart" >Уровень доверия к власти (Президенту Российской Федерации, высшим должностным лицам (руководителям высших исполнительных органов государственной власти) субъектов Российской Федерации).</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row" >
+      <td>
+        <ol start="2">
+          <li>
+            <a href="#" id="2" class="changeChart">Количество высокопроизводительных рабочих мест во внебюджетном секторе экономики.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="3">
+          <li>
+            <a href="#" id="3" class="changeChart">Численность занятых в сфере малого и среднего предпринимательства, включая индивидуальных предпринимателей.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="4">
+          <li>
+            <a href="#" id="4" class="changeChart" >Производительность труда в базовых несырьевых отраслях экономики.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="5">
+          <li>
+            <a href="#" id="5" class="changeChart" >Уровень реальной среднемесячной заработной платы.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="6">
+          <li>
+            <a href="#" id="6" class="changeChart" >Объем инвестиций в основной капитал, за исключением инвестиций инфраструктурных монополий (федеральные проекты) и бюджетных ассигнований федерального бюджета.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="7">
+          <li>
+            <a href="#" id="7" class="changeChart" >Уровень бедности.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="8">
+          <li>
+            <a href="#" id="8" class="changeChart" >Ожидаемая продолжительность жизни при рождении.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="9">
+          <li>
+            <a href="#" id="9" class="changeChart" >Естественный прирост населения.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="10">
+          <li>
+            <a href="#" id="10" class="changeChart" >Количество семей, улучшивших жилищные условия.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="11">
+          <li>
+            <a href="#" id="11" class="changeChart" >Уровень доступности жилья.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="12">
+          <li>
+            <a href="#" id="12" class="changeChart" >Доля городов с благоприятной городской средой.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="13">
+          <li>
+            <a href="#" id="13" class="changeChart" >Качество окружающей среды.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="14">
+          <li>
+            <a href="#" id="14" class="changeChart" >Уровень образования.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="15">
+          <li>
+            <a href="#" id="15" class="changeChart" >Доля соответствующих нормативным требованиям автомобильных дорог регионального значения и автомобильных дорог в городских агломерациях с учетом загруженности.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div>
+  <div id="invisible-grid" class="widget-boxes project-overview">
+    <div class="grid-block">
+      <div style="flex: 0 0 50%; max-width: 50%; width: 600px; margin: auto;">
+        <p id="chartlabel" style="text-align: center;font-weight: bold;margin: -2px;">Уровень доверия к власти (Президенту Российской Федерации, высшим должностным лицам (руководителям высших исполнительных органов государственной власти) субъектов Российской Федерации).</p>
+        <wp-overview-status-diagram id="chartone" chart-data='[{"data":[80,90,95,100],"label":"false"}]' chart-labels='["I","II","III","IV"]' chart-colors='["#00b050", "#c00000", "#1f497d", "#ffc000"]' chart-type='bar'>
+
+        </wp-overview-status-diagram>
+      </div>
+
+    </div>
+    <div>
+      <wp-overview-date-diagram chart-labels='["I","II","III","IV"]'>
+      </wp-overview-date-diagram>
+    </div>
+  </div>
+
+
+</div>
+<style>
+  .progress-label
+  {
+    position: relative;
+    margin: auto;
+  }
+  .progress {
+    height: 1em;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    position: relative;
+  }
+  .progress:before {
+    content: attr(data-label);
+    font-size: 0.8em;
+    position: absolute;
+    text-align: center;
+    border-radius: 10px;
+    top: 1px;
+    left: 0;
+    right: 0;
+  }
+  .progress .value {
+    background-color: #7cc4ff;
+    display: block;
+    border-radius: 10px;
+    height: 100%;
+  }
+  .border-progress{
+    background-color: #CCCCCC;
+    padding: 1px;
+    width: 100px;
+    margin: auto;
+    z-index: 1;
+    border-radius: 10px;
+  }
+  @media only screen and (max-width: 1024px){
+    table
+    {
+      font-size: 14px;
+    }
+    ol{
+      font-size: 14px;
+    }
+    .border-progress{
+      width: 50px;
+      height: 10px;
+    }
+    .progress:before{
+      font-size: 0.6em;
+    }
+    .progress
+    {
+      height: 0.7em;
+    }
+  }
+  table.blueTable {
+    border: 1px solid #1A67A3;
+    background-color: #EAEAEA;
+    width: 98%;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  table.blueTable ol {
+    margin-bottom: 0.75rem;
+    line-height: 1;
+  }
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #CCCCCC;
+    padding: 3px 3px;
+  }
+  table.blueTable tbody td {
+    font-size: 12px;
+    color: #333333;
+  }
+  #colored-row{
+    background: #D0E4F5;
+  }
+  #colored-col-bright-green{
+    background: #D8F6D8;
+    border: none;
+    color: #000000;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-red{
+    background: #F6D8D8;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-orange{
+    background: #FFEAD7;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-purple{
+    background: #F6D8F6;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-green{
+    background: #bbeebb;
+    border: none;
+    color: #000000;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-red{
+    background: #eebbbb;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-orange{
+    background: #ffdab9;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-purple{
+    background: #eebbee;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  table.blueTable thead {
+    background: #1A67A3;
+    background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    border-bottom: 0px solid #878787;
+  }
+  table.blueTable thead th {
+    font-size: 13px;
+    font-weight: 100;
+    color: #FFFFFF;
+    border-left: 2px solid #D0E4F5;
+  }
+  #c40{
+    width: 40px;
+  }
+  table.blueTable thead th:first-child {
+    border-left: none;
+  }
+  table.blueTable tfoot {
+    font-size: 12px;
+    font-weight: 100;
+    color: #FFFFFF;
+    background: #D0E4F5;
+    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  }
+  table.blueTable tfoot td {
+    font-size: 12px;
+  }
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  .table_block {
+    border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;
+    border:1px solid #000;
+    display: block;}​
+</style>
+</div>

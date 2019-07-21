@@ -24,5 +24,6 @@ OpenProject::Application.configure do
     vendor/enjoyhint.js
     bundles/openproject-legacy-app.js
     desktops.js
+    chartchange.js
   )
 end

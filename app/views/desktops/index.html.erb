@@ -54,11 +54,11 @@
       <%= render :partial => 'desktops/pages/protocol' %>
     </div>
 
-    <div id="protocol" class="test1" style="display:none">
+    <div id="discuss" class="test1" style="display:none">
       <%= render :partial => 'desktops/pages/discuss' %>
     </div>
 
-    <div id="protocol" class="test1" style="display:none">
+    <div id="activity" class="test1" style="display:none">
       <%= render :partial => 'desktops/pages/activity' %>
     </div>
   </div>
@@ -183,228 +183,380 @@
 
 /* tables */
 
-    .scrollable-div{
-      overflow: auto;
-    }
-    .progressbar70>div {
-      background-color: #88ee88;
-      /* Adjust with JavaScript */
-      width: 70%;
-      border-radius: 10px;
-      height: 90%;
-      z-index: 3;
-    }
-    .progressbar92>div {
-      background-color: #88ee88;
-      /* Adjust with JavaScript */
-      z-index: 3;
-      border-radius: 10px;
-      width: 92%;
-      height: 90%;
-
-    }
-    .progressbar54>div {
-      background-color: #eeee88;
-      /* Adjust with JavaScript */
-      width: 54%;
-      border-radius: 10px;
-      height: 90%;
-      z-index: 3;
-    }
-    .progressbar18>div {
-      background-color: #ee8888;
-      /* Adjust with JavaScript */
-      width: 18%;
-      border-radius: 10px;
-      height: 90%;
-      z-index: 3;
-    }
-    .progress-label
+  .progress {
+    height: 1em;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    position: relative;
+  }
+  .progress:before {
+    content: attr(data-label);
+    font-size: 0.8em;
+    position: absolute;
+    text-align: center;
+    border-radius: 10px;
+    top: 1px;
+    left: 0;
+    right: 0;
+  }
+  .progress .value {
+    background-color: #7cc4ff;
+    display: block;
+    border-radius: 10px;
+    height: 100%;
+  }
+  .border-progress{
+    background-color: #CCCCCC;
+    padding: 1px;
+    width: 100px;
+    margin: auto;
+    z-index: 1;
+    border-radius: 10px;
+  }
+  @media only screen and (max-width: 1024px){
+    table
     {
-      position: relative;
-      margin: auto;
+      font-size: 14px;
     }
-    .progress {
-      height: 1em;
-      width: 100%;
-      background-color: #ffffff;
-      border-radius: 10px;
-      position: relative;
+    ol{
+      font-size: 14px;
     }
-    .progress:before {
-      content: attr(data-label);
-      font-size: 0.8em;
-      position: absolute;
-      text-align: center;
-      border-radius: 10px;
-      top: 1px;
-      left: 0;
-      right: 0;
+    .row-white
+    {
+      font-size: 14px;
     }
-    .progress .value {
-      background-color: #7cc4ff;
-      display: block;
-      border-radius: 10px;
-      height: 100%;
+    .first-header
+    {
+      font-size: 14px;
+    }
+    .second-header
+    {
+      font-size: 14px;
+    }
+    .third-header
+    {
+      font-size: 14px;
+    }
+    .fourth-header{
+      font-size: 14px;
+    }
+    .fifth-header
+    {
+      font-size: 10px;
     }
     .border-progress{
-      background-color: #CCCCCC;
-      padding: 1px;
-      width: 100px;
-      margin: auto;
-      z-index: 1;
-      border-radius: 10px;
+      width: 50px;
+      height: 10px;
     }
-    @media only screen and (max-width: 1024px){
-      table
-      {
-        font-size: 14px;
+    .progress:before{
+      font-size: 0.6em;
+    }
+    .progress
+    {
+      height: 0.7em;
+    }
+  }
+  table.blueTable {
+    border: 1px solid #1A67A3;
+    background-color: #EAEAEA;
+    width: 98%;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #CCCCCC;
+    padding: 3px 3px;
+  }
+  table.blueTable tbody td {
+    font-size: 12px;
+    color: #333333;
+  }
+  #colored-row{
+    background: #D0E4F5;
+  }
+  #colored-col-bright-green{
+    background: #D8F6D8;
+    border: none;
+    color: #000000;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-red{
+    background: #F6D8D8;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-orange{
+    background: #FFEAD7;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-bright-purple{
+    background: #F6D8F6;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-green{
+    background: #bbeebb;
+    border: none;
+    color: #000000;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-red{
+    background: #eebbbb;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-orange{
+    background: #ffdab9;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-purple{
+    background: #eebbee;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  table.blueTable thead {
+    background: #1A67A3;
+    background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    border-bottom: 0px solid #878787;
+  }
+  table.blueTable thead th {
+    font-size: 13px;
+    font-weight: 100;
+    color: #FFFFFF;
+    border-left: 2px solid #D0E4F5;
+  }
+  #c40{
+    width: 40px;
+  }
+  table.blueTable thead th:first-child {
+    border-left: none;
+  }
+  table.blueTable tfoot {
+    font-size: 12px;
+    font-weight: 100;
+    color: #FFFFFF;
+    background: #D0E4F5;
+    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  }
+  table.blueTable tfoot td {
+    font-size: 12px;
+  }
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+  .table_block {
+    border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;
+    border:1px solid #000;
+    display: block;}​
 
-      }
-      ol{
-        font-size: 14px;
-      }
-      .row-white
-      {
-        font-size: 14px;
-      }
-      .first-header
-      {
-        font-size: 14px;
-      }
-      .second-header
-      {
-        font-size: 14px;
-      }
-      .third-header
-      {
-        font-size: 14px;
-      }
-      .fourth-header{
-        font-size: 14px;
-      }
-      .fifth-header
-      {
-        font-size: 10px;
-      }
-      .border-progress{
-        width: 50px;
-        height: 10px;
-      }
-      .progressbar70>div{
-        font-size: 7px;
-      }
-      .progressbar92>div{
-        font-size: 7px;
-      }
-      .progressbar54>div{
-        font-size: 7px;
-      }
-      .progressbar18>div{
-        font-size: 7px;
-      }
-      .progress:before{
-        font-size: 0.6em;
-      }
-      .progress
-      {
-        height: 0.7em;
-      }
 
-    }
-    table.blueTable {
-      border: 1px solid #1A67A3;
-      background-color: #EAEAEA;
-      width: 98%;
-      text-align: left;
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-    table.blueTable td, table.blueTable th {
-      border: 1px solid #CCCCCC;
-      padding: 3px 3px;
-    }
-    table.blueTable tbody td {
-      font-size: 12px;
-      color: #333333;
-    }
+/*  xdfbgdgfhnd */
 
-    #colored-row{
-      background: #D0E4F5;
+         table.ass td{
+           padding: 03px 6px;
+         }
+  .progressbar70>div {
+    background-color: #88ee88;
+    /* Adjust with JavaScript */
+    width: 70%;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 3;
+  }
+  .progressbar92>div {
+    background-color: #88ee88;
+    /* Adjust with JavaScript */
+    z-index: 3;
+    border-radius: 10px;
+    width: 92%;
+    height: 90%;
+  }
+  .progressbar54>div {
+    background-color: #eeee88;
+    /* Adjust with JavaScript */
+    width: 54%;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 3;
+  }
+  .progressbar18>div {
+    background-color: #ee8888;
+    /* Adjust with JavaScript */
+    width: 18%;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 3;
+  }
+  @media only screen and (max-width: 1024px){
+    table
+    {
+      font-size: 14px;
     }
-    #colored-col-green{
-      background: #bbeebb;
-      border: none;
-      color: #000000;
-      border-right: 1px;
-      border-left: 1px;
+    ol{
+      font-size: 14px;
     }
-    #colored-col-red{
-      background: #eebbbb;
-      color: #000000;
-      border: none;
-      border-right: 1px;
-      border-left: 1px;
+    .row-white
+    {
+      font-size: 14px;
     }
-    #colored-col-orange{
-      background: #ffdab9;
-      color: #000000;
-      border: none;
-      border-right: 1px;
-      border-left: 1px;
+    .first-header
+    {
+      font-size: 14px;
     }
-    #colored-col-purple{
-      background: #eebbee;
-      color: #000000;
-      border: none;
-      border-right: 1px;
-      border-left: 1px;
+    .second-header
+    {
+      font-size: 14px;
     }
-    table.blueTable thead {
-      background: #1A67A3;
-      background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
-      background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
-      background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
-      border-bottom: 0px solid #878787;
+    .third-header
+    {
+      font-size: 14px;
     }
-    table.blueTable thead th {
-      font-size: 13px;
-      font-weight: 100;
-      color: #FFFFFF;
-      border-left: 2px solid #D0E4F5;
+    .fourth-header{
+      font-size: 14px;
     }
-    #c40{
-      width: 40px;
+    .fifth-header
+    {
+      font-size: 10px;
     }
+    .border-progress{
+      width: 50px;
+      height: 10px;
+    }
+    .progressbar70>div{
+      font-size: 7px;
+    }
+    .progressbar92>div{
+      font-size: 7px;
+    }
+    .progressbar54>div{
+      font-size: 7px;
+    }
+    .progressbar18>div{
+      font-size: 7px;
+    }
+    .progress:before{
+      font-size: 0.6em;
+    }
+    .progress
+    {
+      height: 0.7em;
+    }
+  }
+  table.blueTable {
+    border: 1px solid #1A67A3;
+    background-color: #EAEAEA;
+    width: 98%;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #CCCCCC;
+    padding: 3px 3px;
+  }
+  table.blueTable tbody td {
+    font-size: 13px;
+    color: #333333;
+  }
+  table.blueTable thead {
+    background: #1A67A3;
+    background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    border-bottom: 0px solid #878787;
+  }
+  table.blueTable thead th {
+    font-size: 13px;
+    font-weight: 100;
+    color: #FFFFFF;
+    border-left: 2px solid #D0E4F5;
+  }
+  table.blueTable thead th:first-child {
+    border-left: none;
+  }
+  table.blueTable tfoot {
+    font-size: 13px;
+    font-weight: 100;
+    color: #FFFFFF;
+    background: #D0E4F5;
+    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  }
+  table.blueTable tfoot td {
+    font-size: 13px;
+  }
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
 
-    table.blueTable thead th:first-child {
-      border-left: none;
-    }
+/* tabs on page KPI*/
 
-    table.blueTable tfoot {
-      font-size: 12px;
-      font-weight: 100;
-      color: #FFFFFF;
-      background: #D0E4F5;
-      background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-      background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-      background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-    }
-    table.blueTable tfoot td {
-      font-size: 12px;
-    }
-    table.blueTable tfoot .links {
-      text-align: right;
-    }
-    table.blueTable tfoot .links a{
-      display: inline-block;
-      background: #1C6EA4;
-      color: #FFFFFF;
-      padding: 2px 8px;
-      border-radius: 5px;
-    }
-    .table_block {
-      border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-khtml-border-radius:10px;
-      border:1px solid #000;
-      display: block;}​
+           /* Style the tab */
+         .tab {
+           overflow: hidden;
+           border: 1px solid #ccc;
+         }
+  /* Style the buttons that are used to open the tab content */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+
   </style>
