@@ -1,4 +1,5 @@
 <h2>Исполнение бюджета</h2>
+
 <div ng-app="OpenProjectLegacy" class="ng-scope">
   <div id="invisible-grid" class="widget-boxes project-overview">
     <div class="grid-block">
@@ -18,15 +19,15 @@
         </wp-overview-status-diagram>
       </div>
     </div>
-<!--    <div>-->
-<!--      <wp-overview-date-diagram chart-labels='["Фактически исполнено","Риски исполнения","Остаток финансовых средств"]'>-->
-<!--      </wp-overview-date-diagram>-->
-<!--    </div>-->
+    <div>
+      <wp-overview-date-diagram chart-labels='["Фактически исполнено","Риски исполнения","Остаток финансовых средств"]'>
+      </wp-overview-date-diagram>
+    </div>
   </div>
 </div>
 
 
-<div style="display: block;" id="tab1" style="margin-top: 10px;">
+<div class="tab-budget" style="display: block;" id="tab-1">
   <table class="blueTable">
     <thead>
     <tr>
@@ -45,10 +46,10 @@
     <tr>
       <td colspan="9">
         <div class="links"><a href="#">&laquo;</a>
-          <a class="chtbl" href="#">1</a>
-          <a class="chtbl" href="#">2</a>
-          <a class="chtbl" href="#">3</a>
-          <a class="chtbl" href="#">4</a>
+          <a class="chtbl2" href="#">1</a>
+          <a class="chtbl2" href="#">2</a>
+          <a class="chtbl2" href="#">3</a>
+          <a class="chtbl2" href="#">4</a>
           <a class="links" href="#">&raquo;</a>
         </div>
       </td>
@@ -130,7 +131,7 @@
 </div>
 
 
-<div style="display: none;" id="tab2">
+<div class="tab-budget" style="display: none;" id="tab-2">
   <table class="blueTable">
     <thead>
     <tr>
@@ -149,11 +150,11 @@
     <tr>
       <td colspan="9">
         <div class="links"><a href="#">&laquo;</a>
-          <a class="chtbl" href="#">1</a>
-          <a class="chtbl" href="#">2</a>
-          <a class="chtbl" href="#">3</a>
-          <a class="chtbl" href="#">4</a>
-          <a class="chtbl" href="#">&raquo;
+          <a class="chtbl2" href="#">1</a>
+          <a class="chtbl2" href="#">2</a>
+          <a class="chtbl2" href="#">3</a>
+          <a class="chtbl2" href="#">4</a>
+          <a class="chtbl2" href="#">&raquo;
           </a>
         </div>
       </td>
@@ -240,7 +241,7 @@
   </table>
 </div>
 
-<div style="display: none;" id="tab3">
+<div class="tab-budget" style="display: none;" id="tab-3">
   <table class="blueTable">
     <thead>
     <tr>
@@ -259,11 +260,11 @@
     <tr>
       <td colspan="9">
         <div class="links"><a href="#">&laquo;</a>
-          <a class="chtbl" href="#">1</a>
-          <a class="chtbl" href="#">2</a>
-          <a class="chtbl" href="#">3</a>
-          <a class="chtbl" href="#">4</a>
-          <a class="chtbl" href="#">&raquo;
+          <a class="chtbl2" href="#">1</a>
+          <a class="chtbl2" href="#">2</a>
+          <a class="chtbl2" href="#">3</a>
+          <a class="chtbl2" href="#">4</a>
+          <a class="chtbl2" href="#">&raquo;
           </a>
         </div>
       </td>
@@ -285,8 +286,9 @@
   </table>
 </div>
 
-<div style="display: none;" id="tab4">
-  <table class="blueTable">
+<div class="tab-budget" style="display: none;" id="tab-4">
+
+<table class="blueTable">
     <thead>
     <tr>
       <th id="c80"><b>Республика бурятия</b></th>
@@ -304,11 +306,11 @@
     <tr>
       <td colspan="9">
         <div class="links"><a href="#">&laquo;</a>
-          <a class="chtbl" href="#">1</a>
-          <a class="chtbl" href="#">2</a>
-          <a class="chtbl" href="#">3</a>
-          <a class="chtbl" href="#">4</a>
-          <a class="chtbl" href="#">&raquo;
+          <a class="chtbl2" href="#">1</a>
+          <a class="chtbl2" href="#">2</a>
+          <a class="chtbl2" href="#">3</a>
+          <a class="chtbl2" href="#">4</a>
+          <a class="chtbl2" href="#">&raquo;
           </a>
         </div>
       </td>
@@ -348,6 +350,8 @@
   </table>
 </div>
 
+
+
 <table class="blueTable" border="0" >
   <thead>
   <tr>
@@ -368,5 +372,213 @@
     <td id="colored-col-orange"></td>
     <td id="colored-col-orange"></td>
   </tr>
+
+
   </tbody>
 </table>
+
+
+<style>
+  .scrollable-div{
+    overflow: auto;
+  }
+  .progressbar70>div {
+    background-color: #88ee88;
+    /* Adjust with JavaScript */
+    width: 70%;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 3;
+  }
+  .progressbar92>div {
+    background-color: #88ee88;
+    /* Adjust with JavaScript */
+    z-index: 3;
+    border-radius: 10px;
+    width: 92%;
+    height: 90%;
+  }
+  .progressbar54>div {
+    background-color: #eeee88;
+    /* Adjust with JavaScript */
+    width: 54%;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 3;
+  }
+  .progressbar18>div {
+    background-color: #ee8888;
+    /* Adjust with JavaScript */
+    width: 18%;
+    border-radius: 10px;
+    height: 90%;
+    z-index: 3;
+  }
+  .progress-label
+  {
+    position: relative;
+    margin: auto;
+  }
+  .progress {
+    height: 1em;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    position: relative;
+  }
+  .progress:before {
+    content: attr(data-label);
+    font-size: 0.8em;
+    position: absolute;
+    text-align: center;
+    border-radius: 10px;
+    top: 1px;
+    left: 0;
+    right: 0;
+  }
+  .progress .value {
+    background-color: #7cc4ff;
+    display: block;
+    border-radius: 10px;
+    height: 100%;
+  }
+  .border-progress{
+    background-color: #CCCCCC;
+    padding: 1px;
+    width: 100px;
+    margin: auto;
+    z-index: 1;
+    border-radius: 10px;
+  }
+  @media only screen and (max-width: 1024px){
+    table
+    {
+      font-size: 14px;
+    }
+    ol{
+      font-size: 14px;
+    }
+    .border-progress{
+      width: 50px;
+      height: 10px;
+    }
+    .progressbar70>div{
+      font-size: 7px;
+    }
+    .progressbar92>div{
+      font-size: 7px;
+    }
+    .progressbar54>div{
+      font-size: 7px;
+    }
+    .progressbar18>div{
+      font-size: 7px;
+    }
+    .progress:before{
+      font-size: 0.6em;
+    }
+    .progress
+    {
+      height: 0.7em;
+    }
+  }
+  table.blueTable {
+    border: 1px solid #1A67A3;
+    background-color: #EAEAEA;
+    width: 98%;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  table.blueTable td, table.blueTable th {
+    border: 1px solid #CCCCCC;
+    padding: 3px 3px;
+  }
+  table.blueTable tbody td {
+    font-size: 12px;
+    color: #333333;
+  }
+  #colored-row{
+    background: #D0E4F5;
+  }
+  #colored-col-green{
+    background: #bbeebb;
+    border: none;
+    color: #000000;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-red{
+    background: #eebbbb;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-orange{
+    background: #ffdab9;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-light-brown{
+    background: #fcf1c2;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  #colored-col-purple{
+    background: #eebbee;
+    color: #000000;
+    border: none;
+    border-right: 1px;
+    border-left: 1px;
+  }
+  table.blueTable thead {
+    background: #1A67A3;
+    background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
+    border-bottom: 0px solid #878787;
+  }
+  table.blueTable thead th {
+    font-size: 13px;
+    font-weight: 100;
+    color: #FFFFFF;
+    border-left: 2px solid #D0E4F5;
+  }
+  #c40{
+    width: 40px;
+  }
+  #c80 {
+    width: 80px;
+  }
+  table.blueTable thead th:first-child {
+    border-left: none;
+  }
+  table.blueTable tfoot {
+    font-size: 12px;
+    font-weight: 100;
+    color: #FFFFFF;
+    background: #D0E4F5;
+    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  }
+  table.blueTable tfoot td {
+    font-size: 12px;
+  }
+  table.blueTable tfoot .links {
+    text-align: right;
+  }
+  table.blueTable tfoot .links a{
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+</style>
+
