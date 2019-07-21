@@ -408,5 +408,33 @@ function show_div(showId){
         document.getElementById('tab' + event.target.innerText).style.display = 'block';
     }
     console.log('->'  + 'tab' + event.target.innerText)
-
 }
+
+var openTab = function () {
+    jQuery('#consolidated-tab').click(function () {
+        hideTabs();
+        document.getElementById('consolidated').style.display = "block";
+    });
+
+    jQuery('#project-tab').click(function () {
+        hideTabs();
+        document.getElementById('project').style.display = "block";
+    });
+};
+
+var hideTabs = function() {
+    var i, tabcontent, tablinks;
+
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+}
+
+jQuery(document).ready(openTab);

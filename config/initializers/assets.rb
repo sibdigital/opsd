@@ -15,6 +15,7 @@ OpenProject::Application.configure do
     project/responsible_attribute.js
     project/description_handling.js
     project/filters.js
+    opentab.js
     repository_navigation.js
     repository_settings.js
     select_list_move.js
