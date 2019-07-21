@@ -391,6 +391,11 @@ var setupServerResponse = function() {
         //window.alert('1111');
         show_div(event.target.value);
     });
+
+    jQuery('a.chtbl2').click(function(){
+        //window.alert('1111');
+        show_div2(event.target.value);
+    });
 //jquery entry for enabling function
     jQuery('a.changeChart').click(function(){
         changing(event.target.value);
@@ -446,4 +451,20 @@ function show_div(showId){
     }
     console.log('->'  + 'tab' + event.target.innerText)
 }
+
+function show_div2(showId){
+    if (document.getElementById('tab-' + event.target.innerText)) {
+        for (var i = 1; i < 5; ++i) {
+            if (('tab-' + i) != 'tab-' + event.target.innerText) {
+                if (document.getElementById('tab-' + i)) {
+                    document.getElementById('tab-' + i).style.display = 'none';
+                }
+            }
+            console.log('tab-' + i);
+        }
+        document.getElementById('tab-' + event.target.innerText).style.display = 'block';
+    }
+    console.log('->'  + 'tab-' + event.target.innerText)
+}
+
 //)
