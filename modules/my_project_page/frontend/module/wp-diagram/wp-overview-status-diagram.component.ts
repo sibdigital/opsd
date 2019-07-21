@@ -1,9 +1,9 @@
-import {Component, ElementRef, Input, OnInit,ViewChild} from "@angular/core";
+import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {ChartOptions, ChartType, ChartDataSets} from "chart.js";
 import {Label, BaseChartDirective} from "ng2-charts";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import 'chartjs-plugin-labels';
+//import 'chartjs-plugin-labels';
 
 export const statusDiagramSelector = 'wp-overview-status-diagram';
 

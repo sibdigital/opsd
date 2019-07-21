@@ -3,7 +3,7 @@ import {ChartDataSets, ChartOptions, ChartType} from "chart.js";
 import {BaseChartDirective, Label} from "ng2-charts";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import 'chartjs-plugin-labels';
+//import 'chartjs-plugin-labels';
 
 export const dateDiagramSelector = 'wp-overview-date-diagram';
 
