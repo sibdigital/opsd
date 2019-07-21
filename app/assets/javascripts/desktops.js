@@ -18,10 +18,6 @@ function menuSpan() {
   }
 
   function showMenu(){
-    console.log(currentMenu);
-
-    //jQuery('#' + currentMenu).css({'background-color': '#16598c'});
-
     jQuery('.menu').animate({ //выбираем класс menu и метод animate
       left: '0px' /* теперь при клике по иконке, меню, скрытое за
                  левой границей на 285px, изменит свое положение на 0px и станет видимым */
@@ -49,8 +45,8 @@ function menuSpan() {
     jQuery('#glava').show();
     hideMenu();
     currentMenu = event.target.id;
-    console.log(currentMenu);
-    jQuery(event.target.id).css({'background-color': '#16598c'});
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#tasks-li').click(function () {
@@ -58,8 +54,8 @@ function menuSpan() {
     jQuery('#tasks').show();
     hideMenu();
     currentMenu = event.target.id;
-    console.log(currentMenu);
-    jQuery(event.target.id).css({'background-color': '#16598c'});
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#problems-li').click(function () {
@@ -67,45 +63,59 @@ function menuSpan() {
     jQuery('#problems').show();
     hideMenu();
     currentMenu = event.target.id;
-    console.log(currentMenu);
-    jQuery(event.target.id).attr('style', 'background-color: #16598c');
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#targets-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#targets').show();
     hideMenu();
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#budget-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#budget').show();
     hideMenu();
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#kpi-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#kpi').show();
     hideMenu();
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#protocol-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#protocol').show();
     hideMenu();
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#discuss-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#discuss').show();
     hideMenu();
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
   jQuery('#activity-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#activity').show();
     hideMenu();
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
+
+
 
   jQuery('.icon-menu-span').click(function() { /* выбираем класс icon-menu и
                добавляем метод click с функцией, вызываемой при клике */
