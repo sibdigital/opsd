@@ -88,5 +88,12 @@ export class WorkPackageOverviewStatusDiagramComponent implements OnInit {
     this.chart.chartType = this.barChartType;
     this.chart.chart.update();
   }
+  public refresh()
+  {
+    this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
+    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d'];
+    this.chart.chart.update();
+    console.log("refreshed");
+  }
 }
 DynamicBootstrapper.register({ selector: statusDiagramSelector, cls: WorkPackageOverviewStatusDiagramComponent });

@@ -391,6 +391,11 @@ var setupServerResponse = function() {
         //window.alert('1111');
         show_div(event.target.value);
     });
+    //jquery entry for enabling function
+    jQuery('a.changeChart').click(function(){
+        changing(event.target.value);
+    });
+    //
 };
 
 jQuery(document).ready(setupServerResponse);
