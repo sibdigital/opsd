@@ -28,7 +28,13 @@
 #++
 
 OpenProject::Application.routes.draw do
-  root to: 'homescreen#index', as: 'home'
+
+  #zbd(
+  root to: 'desktops#index', as: 'home'
+  #root to: 'homescreen#index', as: 'home'
+  get '/desktops', to: 'desktops#index'
+  # )
+
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   #bbm(
