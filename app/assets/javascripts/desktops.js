@@ -6,18 +6,22 @@
 //   jQuery(id).style.display = 'block';
 // };
 
+var currentMenu = '';
+var glavaVisible = false;
+
 function menuSpan() {
 
-  var glavaVisible = false;
-  var currentMenu = '';
 
   if(!glavaVisible){
     jQuery('#glava').show();
-    currentMenu = 'glava';
+    //currentMenu = 'glava';
   }
 
   function showMenu(){
-    //jQuery('#'+currentMenu)
+    console.log(currentMenu);
+
+    //jQuery('#' + currentMenu).css({'background-color': '#16598c'});
+
     jQuery('.menu').animate({ //выбираем класс menu и метод animate
       left: '0px' /* теперь при клике по иконке, меню, скрытое за
                  левой границей на 285px, изменит свое положение на 0px и станет видимым */
@@ -44,18 +48,27 @@ function menuSpan() {
     jQuery('.test1').hide();
     jQuery('#glava').show();
     hideMenu();
+    currentMenu = event.target.id;
+    console.log(currentMenu);
+    jQuery(event.target.id).css({'background-color': '#16598c'});
   });
 
   jQuery('#tasks-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#tasks').show();
     hideMenu();
+    currentMenu = event.target.id;
+    console.log(currentMenu);
+    jQuery(event.target.id).css({'background-color': '#16598c'});
   });
 
   jQuery('#problems-li').click(function () {
     jQuery('.test1').hide();
     jQuery('#problems').show();
     hideMenu();
+    currentMenu = event.target.id;
+    console.log(currentMenu);
+    jQuery(event.target.id).attr('style', 'background-color: #16598c');
   });
 
   jQuery('#targets-li').click(function () {
