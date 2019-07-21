@@ -8,12 +8,12 @@
     <li><div id="glava-li">Рабочий стол</div></li>
     <li id="tasks-li">Предстоящие задачи</li>
     <li id="problems-li">Проблемы</li>
-    <li id="target-li">Исполнение показателей</li>
+    <li id="targets-li">Исполнение показателей</li>
     <li id="budget-li">Исполнение бюджета</li>
     <li id="kpi-li">KPI</li>
     <li id="protocol-li">Электронный протокол</li>
-    <li>Обсуждения</li>
-    <li>Оценка деятельности</li>
+    <li id="discuss-li">Обсуждения</li>
+    <li id="activity-li">Оценка деятельности</li>
   </ul>
 </div>
 <div class="background">
@@ -52,6 +52,14 @@
 
     <div id="protocol" class="test1" style="display:none">
       <%= render :partial => 'desktops/pages/protocol' %>
+    </div>
+
+    <div id="protocol" class="test1" style="display:none">
+      <%= render :partial => 'desktops/pages/discuss' %>
+    </div>
+
+    <div id="protocol" class="test1" style="display:none">
+      <%= render :partial => 'desktops/pages/activity' %>
     </div>
   </div>
 </div>
