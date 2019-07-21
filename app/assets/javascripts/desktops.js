@@ -116,6 +116,20 @@ function menuSpan() {
   });
 
 
+  jQuery('.kpi-a').click(function () {
+    jQuery('.test1').hide();
+    jQuery('#kpi').show();
+  });
+
+  jQuery('.tasks-a').click(function () {
+    jQuery('.test1').hide();
+    jQuery('#tasks').show();
+  });
+
+  jQuery('.problems-a').click(function () {
+    jQuery('.test1').hide();
+    jQuery('#problems').show();
+  });
 
   jQuery('.icon-menu-span').click(function() { /* выбираем класс icon-menu и
                добавляем метод click с функцией, вызываемой при клике */
