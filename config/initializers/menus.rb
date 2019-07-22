@@ -401,3 +401,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             last: true,
             icon: 'icon2 icon-settings2'
 end
+
+Redmine::MenuManager.map :dashboard_menu do |menu|
+  menu.push :rabocii_stol,
+            '',
+            caption: 'Рабочий стол',
+            icon: 'icon2 icon-info1'
+  menu.push :other_stol,
+            '',
+            caption: 'KPI',
+            icon: 'icon2 icon-settings2'
+end

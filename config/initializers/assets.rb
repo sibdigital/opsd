@@ -7,6 +7,7 @@ OpenProject::Application.configure do
     accessibility.css
     admin_users.js
     autocompleter.js
+    desktops.js
     copy_issue_actions.js
     locales/*.js
     members_form.js
