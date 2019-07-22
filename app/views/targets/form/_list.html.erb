@@ -68,35 +68,16 @@ This file written by BBM
         </tr>
         </thead>
         <tbody>
-        <%= parent_id = 0 %>
-        <% targets.each do |target| %>
-          <tr id="target-<%= target.id %>">
-            <td><%= link_to target.id, edit_project_target_path(id: target.id) %></td>
-            <td><%= %></td>
-            <%= content_tag(:td, link_to(h(target.name), edit_project_target_path(id: target.id))) %>
-            <%= content_tag(:td, target.target_status) %>
-            <%= content_tag(:td, target.target_type) %>
-            <%= content_tag(:td, target.unit) %>
-            <%= content_tag(:td, target.basic_value) %>
-            <%= content_tag(:td, target.plan_value) %>
 
-            <%= content_tag(:td, link_to(
-                op_icon('icon icon-add'),
-                project_targets_path(:parent_id => target.id),
-                title: t(:button_click_to_reveal))) %>
 
-            <%= content_tag(:td, link_to(
-                op_icon('icon icon-delete'),
-                project_target_path(id: target.id),
-                method: :delete,
-                data: {confirm: I18n.t(:text_are_you_sure)},
-                title: t(:button_delete))) %>
-          </tr>
-          <%= parent_id = target.parent_id %>
-        <% end %>
         </tbody>
       </table>
+
+        <%= simple_format(get_tree(targets, 0)) %>
+
     </div>
   </div>
+
+
 
 <% end -%>

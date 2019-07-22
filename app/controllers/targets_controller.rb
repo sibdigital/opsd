@@ -1,9 +1,6 @@
 class TargetsController < ApplicationController
 #  menu_item :targets
-
   default_search_scope :targets
-
-
 
   before_action :find_optional_project, :verify_targets_module_activated
   before_action :find_target, only: [:edit, :update, :destroy]
@@ -13,6 +10,7 @@ class TargetsController < ApplicationController
   include PaginationHelper
   include ::IconsHelper
   include ::ColorsHelper
+  include TargetsHelper
 
   def index
     sort_columns = {'id' => "#{Target.table_name}.id",
