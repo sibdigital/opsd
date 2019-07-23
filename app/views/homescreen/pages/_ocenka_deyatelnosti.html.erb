@@ -1,0 +1,176 @@
+<h2>Оценка деятельности высшего должностного лица</h2>
+<div ng-app="OpenProjectLegacy" class="ng-scope">
+</div>
+<div>
+  <table class="blueTable">
+    <thead>
+    <tr>
+      <th id="c40">Показатель</th>
+      <th id="c40">Значение</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <ol start="1">
+          <li>
+            <a href="#" id="1" class="changeChart" >Уровень доверия к власти (Президенту Российской Федерации, высшим должностным лицам (руководителям высших исполнительных органов государственной власти) субъектов Российской Федерации).</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row" >
+      <td>
+        <ol start="2">
+          <li>
+            <a href="#" id="2" class="changeChart">Количество высокопроизводительных рабочих мест во внебюджетном секторе экономики.</a>
+          </li>
+        </ol>
+      </td>
+      <td>10000</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="3">
+          <li>
+            <a href="#" id="3" class="changeChart">Численность занятых в сфере малого и среднего предпринимательства, включая индивидуальных предпринимателей.</a>
+          </li>
+        </ol>
+      </td>
+      <td>15000</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="4">
+          <li>
+            <a href="#" id="4" class="changeChart" >Производительность труда в базовых несырьевых отраслях экономики.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="5">
+          <li>
+            <a href="#" id="5" class="changeChart" >Уровень реальной среднемесячной заработной платы.</a>
+          </li>
+        </ol>
+      </td>
+      <td>35000</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="6">
+          <li>
+            <a href="#" id="6" class="changeChart" >Объем инвестиций в основной капитал, за исключением инвестиций инфраструктурных монополий (федеральные проекты) и бюджетных ассигнований федерального бюджета.</a>
+          </li>
+        </ol>
+      </td>
+      <td>10000000</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="7">
+          <li>
+            <a href="#" id="7" class="changeChart" >Уровень бедности.</a>
+          </li>
+        </ol>
+      </td>
+      <td>7%</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="8">
+          <li>
+            <a href="#" id="8" class="changeChart" >Ожидаемая продолжительность жизни при рождении.</a>
+          </li>
+        </ol>
+      </td>
+      <td>80</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="9">
+          <li>
+            <a href="#" id="9" class="changeChart" >Естественный прирост населения.</a>
+          </li>
+        </ol>
+      </td>
+      <td>10000</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="10">
+          <li>
+            <a href="#" id="10" class="changeChart" >Количество семей, улучшивших жилищные условия.</a>
+          </li>
+        </ol>
+      </td>
+      <td>10000</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="11">
+          <li>
+            <a href="#" id="11" class="changeChart" >Уровень доступности жилья.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="12">
+          <li>
+            <a href="#" id="12" class="changeChart" >Доля городов с благоприятной городской средой.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="13">
+          <li>
+            <a href="#" id="13" class="changeChart" >Качество окружающей среды.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr id="colored-row">
+      <td>
+        <ol start="14">
+          <li>
+            <a href="#" id="14" class="changeChart" >Уровень образования.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>
+        <ol start="15">
+          <li>
+            <a href="#" id="15" class="changeChart" >Доля соответствующих нормативным требованиям автомобильных дорог регионального значения и автомобильных дорог в городских агломерациях с учетом загруженности.</a>
+          </li>
+        </ol>
+      </td>
+      <td>100</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div>
+  <div id="invisible-grid" class="widget-boxes project-overview">
+    <div class="grid-block">
+      <div style="flex: 0 0 50%; max-width: 50%; width: 600px; margin: auto;">
+        <p id="chartlabel" style="text-align: center;font-weight: bold;margin: -2px;">Уровень доверия к власти (Президенту Российской Федерации, высшим должностным лицам (руководителям высших исполнительных органов государственной власти) субъектов Российской Федерации).</p>
+        <wp-homescreen-done-ratio-diagram id="chartone" chart-data='[{"data":[80,90,95,100],"label":"false"}]' chart-labels='["I","II","III","IV"]' chart-colors='["#00b050", "#c00000", "#1f497d", "#ffc000"]' chart-type='bar'>
+        </wp-homescreen-done-ratio-diagram>
+      </div>
+    </div>
+  </div>
+</div>

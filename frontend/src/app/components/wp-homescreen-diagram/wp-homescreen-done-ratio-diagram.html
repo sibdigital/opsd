@@ -1,63 +1,11 @@
-<div style="display: block;">
-    <div>
-        <input type="checkbox"
-               id="wp_button_rukovoditel_proekta"
-               (change)="filterChart()"
-               [(ngModel)]="rukovoditelProekta"
-               name="button_rukovoditel_proekta" />
-        Руководитель проекта
-    </div>
-    <div>
-        <input type="checkbox"
-               id="wp_button_kurator"
-               (change)="filterChart()"
-               [(ngModel)]="kurator"
-               name="button_kurator" />
-        Куратор проекта
-    </div>
-    <div>
-        <input type="checkbox"
-               id="wp_button_ruk_proekt_ofisa"
-               (change)="filterChart()"
-               [(ngModel)]="rukProektOfisa"
-               name="button_ruk_proekt_ofisa" />
-        Руководитель Проектного офиса
-    </div>
-    <div>
-        <input type="checkbox"
-               id="wp_button_koordinator"
-               (change)="filterChart()"
-               [(ngModel)]="koordinator"
-               name="button_koordinator" />
-        Координатор от Проектного офиса
-    </div>
-    <div class="chart">
-        <canvas id="chart" baseChart
-                [datasets]="barChartData"
-                [labels]="barChartLabels"
-                [options]="barChartOptions"
-                [plugins]="barChartPlugins"
-                [legend]="barChartLegend"
-                [chartType]="barChartType">
-        </canvas>
-    </div>
-    <div>
-        <select
-                id="wp_select_chart_type"
-                (change)="changeChartType()"
-                [(ngModel)]="barChartType"
-                name="select_chart_type"
-                value="bar">
-            <option value="line">Линейная</option>
-            <option selected value="bar">Столбчатая</option>
-            <option value="horizontalBar">Столбчатая горизонтальная</option>
-            <option value="radar">Радар</option>
-            <option value="doughnut">Кольцевая</option>
-            <option value="polarArea">Радиальная</option>
-            <option value="bubble">Пузырьковая</option>
-            <option value="pie">Круговая</option>
-            <option value="scatter">Рассеяние</option>
-        </select>
-        Тип диаграммы
-    </div>
+<div class="chart">
+    <button type="button" (click)="refresh()" style="display: none"></button>
+    <canvas id="chart" baseChart height="170px"
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+    </canvas>
 </div>
