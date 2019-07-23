@@ -1,19 +1,24 @@
 <div ng-app="OpenProjectLegacy" class="ng-scope">
   <div id="invisible-grid" class="widget-boxes project-overview">
     <div class="grid-block">
-      <div style="flex: 0 0 29%; max-width: 29%;">
+      <div style="flex: 0 0 29%; max-width: 22%;">
         <p style="text-align: center;font-weight: bold;margin: -2px;">Показатели</p>
         <wp-overview-status-diagram chart-data='[{"data":[64,32,15],"label":"false1"}]' chart-labels='["Исп.","Не исп.","В работе"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
         </wp-overview-status-diagram>
       </div>
-      <div style="flex: 0 0 29%; max-width: 29%;">
+      <div style="flex: 0 0 29%; max-width: 22%;">
         <p style="text-align: center;font-weight: bold;margin: -2px;">КТ</p>
         <wp-overview-status-diagram chart-data='[{"data":[45,28,10,14],"label":"false1"}]' chart-labels='["Исп.","Не исп.","В работе","Риски"]' chart-colors='["#00b050", "#c00000", "#1f497d", "#ffc000"]'>
         </wp-overview-status-diagram>
       </div>
-      <div style="flex: 0 0 29%; max-width: 29%;">
+      <div style="flex: 0 0 29%; max-width: 22%;">
         <p style="text-align: center;font-weight: bold;margin: -2px;">Бюджет</p>
         <wp-overview-status-diagram chart-data='[{"data":[52,18,30],"label":"false1"}]' chart-labels='["Исп.","Не исп.","Остаток"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
+        </wp-overview-status-diagram>
+      </div>
+      <div style="flex: 0 0 29%; max-width: 22%;">
+        <p style="text-align: center;font-weight: bold;margin: -2px;">Риски</p>
+        <wp-overview-status-diagram chart-data='[{"data":[52,18,30],"label":"false1"}]' chart-labels='["Отсутств.","Незначит.","Критич."]' chart-colors='["#00b050", "#ffc000", "#c00000"]'>
         </wp-overview-status-diagram>
       </div>
       <div style="text-align: center; width: 13%; background-color: #c0504d;" >
@@ -30,7 +35,7 @@
         <th id="c40"><b>План срок завершения</b></th>
         <th id="c40"><b>Предстоящие мероприятия<br></b></th>
         <th id="c40"><b>Просроченные мероприятия/<br>Проблемы</b></th>
-        <th id="c40"><b>Прогресс<br>Исполнение бюджета</b></th>
+        <th id="c40"><b>Прогресс/<br>Исполнение бюджета</b></th>
         <th><b>KPI</b></th>
       </tr>
       </thead>
@@ -68,10 +73,10 @@
       </tr>
       <tr id="colored-row">
         <td style="padding-left: 30px"><a>Создание региональный цифровой платформы ИСЗ</a></td>
-        <td>Цыбикжапов В.Б.<br>Самбуев Д.Ц.</td>
+        <td>Цыбикжапов&nbspВ.Б.<br>Самбуев Д.Н.</td>
         <td>01.08.2020</td>
-        <td><a class="tasks-a" href="#">10</a></td>
-        <td><a class="tasks-a" href="#">8 </a>/<a class="problems-a" href="#"> 3</a></td>
+        <td align="center"><a class="tasks-a" href="#">10</a></td>
+        <td align="center"><a class="tasks-a" href="#">8 </a>/<a class="problems-a" href="#"> 3</a></td>
         <td>
 
           <div class="border-progress">
@@ -101,10 +106,10 @@
       </tr>
       <tr id="colored-row">
         <td style="padding-left: 30px"><a>Внедрение системы контроля качества медицинской помощи в РБ</a></td>
-        <td>Цыбикжапов В.Д.<br>Самбуев Д.Ц.</td>
+        <td>Цыбикжапов&nbspВ.Б.<br>Самбуев Д.Н.</td>
         <td>31.12.2020</td>
-        <td><a class="tasks-a" href="#">16</a></td>
-        <td><a class="tasks-a" href="#">4 </a>/<a class="problems-a" href="#"> 0</a></td>
+        <td align="center"><a class="tasks-a" href="#">16</a></td>
+        <td align="center"><a class="tasks-a" href="#">4 </a>/<a class="problems-a" href="#"> 0</a></td>
         <td>
           <div class="border-progress">
             <div class="progress" data-label="54%">
@@ -174,10 +179,10 @@
       </tr>
       <tr id="colored-row">
         <td style="padding-left: 30px"><a>Современная школа в РБ</a></td>
-        <td>Цыбикжапов В.Б.<br>Жалсанов Б.Б.</td>
+        <td>Цыбикжапов&nbspВ.Б.<br>Жалсанов Б.Б.</td>
         <td>31.12.2019</td>
-        <td><a class="tasks-a" href="#">8</a></td>
-        <td><a class="tasks-a" href="#">15 </a>/<a class="problems-a" href="#"> 7</a></td>
+        <td align="center"><a class="tasks-a" href="#">8</a></td>
+        <td align="center"><a class="tasks-a" href="#">15 </a>/<a class="problems-a" href="#"> 7</a></td>
         <td>
           <div class="border-progress">
             <div class="progress" data-label="70%">
@@ -197,10 +202,10 @@
       </tr>
       <tr id="colored-row">
         <td style="padding-left: 40px"><a>Строительство школы в Кижингинском районе</a></td>
-        <td>Цыбикжапов В.Б.<br>Лхасаранов Г.З.</td>
+        <td>Цыбикжапов&nbspВ.Б.<br>Лхасаранов&nbspГ.З.</td>
         <td>20.12.2019</td>
-        <td><a class="tasks-a" href="#">5</a></td>
-        <td><a class="tasks-a" href="#">7 </a>/<a class="problems-a" href="#"> 0</a></td>
+        <td align="center"><a class="tasks-a" href="#">5</a></td>
+        <td align="center"><a class="tasks-a" href="#">7 </a>/<a class="problems-a" href="#"> 0</a></td>
         <td>
           <div class="border-progress">
             <div class="progress" data-label="92%">
@@ -220,10 +225,10 @@
       </tr>
       <tr id="colored-row">
         <td style="padding-left: 40px"><a>Переоснащение школы №17 в г.Улан-Удэ</a></td>
-        <td>Цыбикжапов В.Б.<br>Шутенков И.Ю.</td>
+        <td>Цыбикжапов&nbspВ.Б.<br>Шутенков И.Ю.</td>
         <td>30.11.2019</td>
-        <td><a class="tasks-a" href="#">4</a></td>
-        <td><a class="tasks-a" href="#">1 </a>/<a class="problems-a" href="#"> 2</a></td>
+        <td align="center"><a class="tasks-a" href="#">4</a></td>
+        <td align="center"><a class="tasks-a" href="#">1 </a>/<a class="problems-a" href="#"> 2</a></td>
         <td>
           <div class="border-progress">
             <div class="progress" data-label="54%">
@@ -292,10 +297,10 @@
       </tr>
       <tr id="colored-row">
         <td style="padding-left: 30px"><a>Создание технопарка</a></td>
-        <td>Зураев И.И.<br>Оловянников А.А.</td>
+        <td>Зураев И.И.<br>Оловянников&nbspА.А.</td>
         <td>31.12.2021</td>
-        <td><a class="tasks-a" href="#">11</a></td>
-        <td><a class="tasks-a" href="#">15 </a>/<a class="problems-a" href="#"> 8</a></td>
+        <td align="center"><a class="tasks-a" href="#">11</a></td>
+        <td align="center"><a class="tasks-a" href="#">15 </a>/<a class="problems-a" href="#"> 8</a></td>
         <td>
           <div class="border-progress">
             <div class="progress" data-label="18%">
@@ -393,7 +398,7 @@
       <td id="colored-col-bright-purple"></td>
       <td id="colored-col-bright-purple"></td>
     </tr>
-    <tr>
+    <!--<tr>
       <td id="colored-col-green"></td>
       <td id="colored-col-green"></td>
       <td id="colored-col-green"></td>
@@ -431,7 +436,7 @@
       <td id="colored-col-orange"></td>
       <td id="colored-col-purple"></td>
       <td id="colored-col-purple"></td>
-    </tr>
+    </tr> -->
     </tbody>
   </table>
   </div>
