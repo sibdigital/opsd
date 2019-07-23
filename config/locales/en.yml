@@ -1547,6 +1547,7 @@ en:
   label_force_user_language_to_default: Язык, который пользователям нельзя установить
     как действующий по-умолчанию
   label_form_configuration: Настройка форм
+  label_formula: Формула
   label_gantt: Гантт
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие

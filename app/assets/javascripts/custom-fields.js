@@ -40,6 +40,7 @@
     var format                = $('#custom_field_field_format'),
         lengthField           = $('#custom_field_length'),
         regexpField           = $('#custom_field_regexp'),
+        formulaField          = $('#custom_field_formula'),
         multiSelect           = $('#custom_field_multi_select'),
         possibleValues        = $('#custom_field_possible_values_attributes'),
         defaultValueFields    = $('#custom_field_default_value_attributes'),
@@ -72,9 +73,17 @@
       activate(spanDefaultText);
 
       switch (format.val()) {
+        case 'formula':
+          deactivate(defaultValueFields);
+          deactivate(possibleValues);
+          show(formulaField);
+          hide(lengthField, regexpField, defaultValueFields);
+          unsearchable();
+          break;
+
         case 'list':
           deactivate(defaultValueFields);
-          hide(lengthField, regexpField, defaultValueFields);
+          hide(lengthField, regexpField, defaultValueFields, formulaField);
           show(searchable, multiSelect);
           activate(multiSelect);
           activate(possibleValues);
@@ -83,32 +92,35 @@
           activate(spanDefaultBool);
           deactivate(spanDefaultText);
           deactivate(possibleValues);
-          hide(lengthField, regexpField, searchable);
+          hide(lengthField, regexpField, searchable, formulaField);
           unsearchable();
           break;
         case 'date':
           deactivate(defaultValueFields);
           deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields);
+          hide(lengthField, regexpField, defaultValueFields, formulaField);
           unsearchable();
           break;
         case 'float':
         case 'int':
           deactivate(possibleValues);
+          hide(formulaField);
           show(lengthField, regexpField);
           unsearchable();
           break;
         case 'user':
           show(multiSelect);
+          hide(formulaField);
           activate(multiSelect);
+          break;
         case 'version':
           deactivate(defaultValueFields);
           deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields);
+          hide(lengthField, regexpField, defaultValueFields, formulaField);
           unsearchable();
           break;
         default:
-          show(lengthField, regexpField, searchable);
+          show(lengthField, regexpField, searchable, formulaField);
           deactivate(possibleValues);
           break;
       }
