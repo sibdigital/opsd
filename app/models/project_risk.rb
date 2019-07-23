@@ -6,6 +6,8 @@ class ProjectRisk < Risk
   belongs_to :project
   OptionName = :risk_project_risks
 
+  acts_as_customizable
+
   def option_name
     OptionName
   end

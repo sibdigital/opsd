@@ -121,6 +121,21 @@ class DocumentsController < ApplicationController
   private
 
   def document_params
-    params.fetch(:document, {}).permit('category_id', 'title', 'description')
+    document_params = params.fetch(:document, {}).permit('category_id', 'title', 'description', 'document')
+    document_params = document_params.merge(custom_field_values(:document))
+
+  end
+
+  def custom_field_values(key, required: true)
+    # a hash of arbitrary values is not supported by strong params
+    # thus we do it by hand
+    object = params.fetch(key, {})
+    values = object[:custom_field_values] || ActionController::Parameters.new
+
+    # only permit values following the schema
+    # 'id as string' => 'value as string'
+    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
+
+    values.empty? ? {} : { 'custom_field_values' => values.permit! }
   end
 end

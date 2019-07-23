@@ -298,20 +298,6 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'targets#edit', on: :member, as: 'edit_tab'
     end
 
-    scope 'targets/:target_id/target_execution_values', controller: 'target_execution_values' do
-      get '/', action: 'index', as: 'target_execution_values'
-      get '/new', action: 'new', as: 'new_target_execution_value'
-      get '/:id', action: 'show', as: 'target_execution_value'
-      get '/:id/edit', action: 'edit', as: 'edit_target_execution_value'
-      post '/', action: 'create'
-      patch '/:id', action: 'update'
-      put '/:id', action: 'update'
-      delete '/:id', action: 'destroy'
-    end
-    # )
-
-
-
     resources :arbitary_objects do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
     end

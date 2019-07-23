@@ -1691,6 +1691,7 @@ en:
   label_options: Опции
   label_org_settings: "Организации"
   label_organization: "Организация"
+  label_organization_parent: Вышестоящая организация
   label_other: Другие
   label_overall_activity: Общая деятельность
   label_overall_spent_time: Суммарное потраченное время
@@ -1752,6 +1753,7 @@ en:
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
   label_target_new: Добавить целевой показатель
+  label_target_parent: Вышестоящий целевой показатель
   label_target_value: Целевой показатель
   label_target_execution_values_new: Добавить плановые значения исполнения цели
   label_target_execution_value: Плановое значения исполнения цели
