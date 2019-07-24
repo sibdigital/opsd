@@ -51,6 +51,11 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 
+  <div class="form--field" id="custom_field_formula">
+    <%= f.text_field(:formula, container_class: '-wide') %>
+  </div>
+
+
   <div class="form--field">
     <%= f.text_field :regexp,
                      size: 50,
@@ -59,6 +64,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= t(:text_regexp_info) %>
     </span>
   </div>
+
 
   <% if @custom_field.class.name == 'WorkPackageCustomField' %>
 

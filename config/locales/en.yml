@@ -394,6 +394,7 @@ en:
         regexp: Регулярное выражение
         searchable: Доступно для поиска
         visible: Видимый
+        formula: Формула
       custom_value:
         value: Значение
       #+-tan 2019.06.24

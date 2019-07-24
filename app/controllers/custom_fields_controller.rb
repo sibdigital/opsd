@@ -38,7 +38,7 @@ class CustomFieldsController < ApplicationController
 
   def index
     # loading wp cfs exclicity to allow for eager loading
-    @custom_fields_by_type = CustomField.all.where.not(type: 'WorkPackageCustomField').group_by { |f| f.class.name }
+    @custom_fields_by_type = CustomField.all.where.not(tygrepe: 'WorkPackageCustomField').group_by { |f| f.class.name }
     @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
 
     @tab = params[:tab] || 'WorkPackageCustomField'
@@ -163,5 +163,9 @@ class CustomFieldsController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def convert
+    @data = CustomField.where(:created_at => @date_range)
   end
 end

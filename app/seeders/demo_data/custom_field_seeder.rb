@@ -51,7 +51,8 @@ module DemoData
           editable: true,
           possible_values: '',
           visible: true,
-          field_format: 'text'
+          field_format: 'text',
+          formula: ''
         )
         print '.'
 

@@ -22,6 +22,8 @@ class OrganizationsController < ApplicationController
     if @parent_id != 0
       @organizarion_parent = Organization.find(@parent_id)
     end
+
+    # @data =
   end
 
   def choose

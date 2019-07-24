@@ -120,8 +120,9 @@
           unsearchable();
           break;
         default:
-          show(lengthField, regexpField, searchable, formulaField);
+          show(lengthField, regexpField, searchable);
           deactivate(possibleValues);
+          hide(formulaField);
           break;
       }
     };
