@@ -1,171 +1,51 @@
-<table style="font-weight: bold; width: 100%; text-align: center; margin-top: 30px;" border="1" class="blueTable">
-  <thead>
-  <tr>
-      <td style="color: white;"></td>
-      <td style="color: white;">Ответственный</td>
-      <td style="color: white;">Срок</td>
-      <td style="color: white;">Исполнение</td>
-  </tr>
-  </thead>
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
 
-  <tbody>
-    <tr>
-      <td style="padding-left: 20px; text-align: left;">Здравоохранение</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="padding-left: 50px; text-align: left;">Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="padding-left: 80px; text-align: left">Создание региональной цифровой платформы ИСЗ</td>
-      <td>&nbsp</td>
-      <td>&nbsp</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="padding-left: 110px; text-align: left">Поручение: представить документы</td>
-      <td>Цыбикжапов В.Б.</td>
-      <td>11.11.2019</td>
-      <td>В работе</td>
-    </tr>
-    <tr id="colored-col-green">
-      <td style="padding-left: 140px; text-align: left">Поручение: представить документы</td>
-      <td>Цыбикжапов В.Б.</td>
-      <td>08.07.2019</td>
-      <td>Исполнено</td>
-    </tr>
-    <tr>
-      <td style="padding-left: 80px; text-align: left">Снижение смертности населения трудоспособного возраста</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td style="padding-left: 110px; text-align: left">Внедрение системы контроля качества медицинской помощи в РБ</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr id="colored-col-orange">
-      <td style="padding-left: 140px; text-align: left">Поручение: представить документы</td>
-      <td>Самбуев Д.Ц.</td>
-      <td>24.07.2019</td>
-      <td>В работе</td>
-    </tr>
-    <tr id="colored-col-red">
-      <td style="padding-left: 140px; text-align: left">Поручение: подготовить доклад</td>
-      <td>Самбуев Д.Ц.</td>
-      <td>04.07.2019</td>
-      <td>Просрочено</td>
-    </tr>
-  </tbody>
-</table>
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
 
-<style>
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
 
-  table.blueTable {
-    border: 1px solid #1A67A3;
-    background-color: #EAEAEA;
-    width: 98%;
-    text-align: left;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-  table.blueTable td, table.blueTable th {
-    border: 1px solid #CCCCCC;
-    padding: 3px 3px;
-  }
-  table.blueTable tbody td {
-    font-size: 12px;
-    color: #333333;
-  }
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
 
-  #colored-row{
-    background: #D0E4F5;
-  }
-  #colored-col-green{
-    background: #bbeebb;
-    border: none;
-    color: #000000;
-    border-right: 1px;
-    border-left: 1px;
-  }
-  #colored-col-red{
-    background: #eebbbb;
-    color: #000000;
-    border: none;
-    border-right: 1px;
-    border-left: 1px;
-  }
-  #colored-col-orange{
-    background: #ffdab9;
-    color: #000000;
-    border: none;
-    border-right: 1px;
-    border-left: 1px;
-  }
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  #colored-col-light-brown{
-    background: #fcf1c2;
-    color: #000000;
-    border: none;
-    border-right: 1px;
-    border-left: 1px;
-  }
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+See docs/COPYRIGHT.rdoc for more details.
 
-  #colored-col-purple{
-    background: #eebbee;
-    color: #000000;
-    border: none;
-    border-right: 1px;
-    border-left: 1px;
-  }
+++#%>
 
-  table.blueTable thead {
-    background: #1A67A3;
-    background: -moz-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
-    background: -webkit-linear-gradient(top, #538dba 0%, #3176ac 66%, #1A67A3 100%);
-    background: linear-gradient(to bottom, #538dba 0%, #3176ac 66%, #1A67A3 100%);
-    border-bottom: 0px solid #878787;
-  }
-  table.blueTable thead th {
-    font-size: 13px;
-    font-weight: 100;
-    color: #FFFFFF;
-    border-left: 2px solid #D0E4F5;
-  }
+<% html_title l(:label_administration), l(:label_work_package_status_plural) -%>
+<%= toolbar title: l(:label_work_package_status_plural) do %>
+  <li class="toolbar-item">
+    <%= link_to new_status_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_work_package_status_new)},
+            title: t(:label_work_package_status_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_status) %></span>
+    <% end %>
+  </li>
+  <% if WorkPackage.use_status_for_done_ratio? %>
+    <li class="toolbar-item">
+      <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', method: :post, data: { confirm: l(:text_are_you_sure) } do %>
+        <%= op_icon('button--icon icon-reload') %>
+        <span class="button--text"><%= l(:label_update_work_package_done_ratios) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
 
-
-  table.blueTable thead th:first-child {
-    border-left: none;
-  }
-
-  table.blueTable tfoot {
-    font-size: 12px;
-    font-weight: 100;
-    color: #FFFFFF;
-    background: #D0E4F5;
-    background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-    background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-    background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
-  }
-  table.blueTable tfoot td {
-    font-size: 12px;
-  }
-  table.blueTable tfoot .links {
-    text-align: right;
-  }
-  table.blueTable tfoot .links a{
-    display: inline-block;
-    background: #1C6EA4;
-    color: #FFFFFF;
-    padding: 2px 8px;
-    border-radius: 5px;
-  }
-</style>
+<%= cell ::Statuses::TableCell, @statuses %>

@@ -5,8 +5,6 @@
 class TypedRisk < Risk
   OptionName = :risk_typed_risks
 
-  acts_as_customizable
-
   def option_name
     OptionName
   end

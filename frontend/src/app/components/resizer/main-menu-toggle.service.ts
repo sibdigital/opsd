@@ -39,7 +39,7 @@ export class MainMenuToggleService {
 
   private elementWidth:number;
   private readonly localStorageKey:string = 'openProject-mainMenuWidth';
-  private readonly defaultWidth:number = 200;
+  private readonly defaultWidth:number = 230;
   private readonly currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
 
   private global = (window as any);

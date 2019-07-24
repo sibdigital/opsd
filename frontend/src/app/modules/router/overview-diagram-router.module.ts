@@ -38,7 +38,6 @@ import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overvie
 import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
 import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
 import {BrowserModule} from "@angular/platform-browser";
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 
 @NgModule({
   imports: [
@@ -48,8 +47,7 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
     BrowserModule,
     ChartsModule,
     FormsModule,
-    BrowserAnimationsModule,
-    OpenprojectCommonModule
+    BrowserAnimationsModule
   ],
   providers: [
     WorkPackageOverviewDiagramComponent,

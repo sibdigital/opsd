@@ -143,6 +143,7 @@ class Project < ActiveRecord::Base
 
   #bbm(
   has_many :project_risks
+  has_many :production_calendars
   # )
 
   #zbd(

@@ -3,8 +3,7 @@ class CreateProductionCalendars < ActiveRecord::Migration[5.2]
     create_table :production_calendars do |t|
       t.integer :type
       t.date :date
-      t.boolean :is_first
-      t.integer :hours
+      t.integer :year
     end
   end
 end

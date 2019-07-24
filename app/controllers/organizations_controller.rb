@@ -10,18 +10,10 @@ class OrganizationsController < ApplicationController
 
   protect_from_forgery with: :exception
   include OrgSettingsHelper
+  # include CustomFieldsHelper
 
   def index;
     @tab = params[:tab]
-
-    @parent_id = 0
-    if params[:parent_id] != nil
-      @parent_id = params[:parent_id]
-    else  @parent_id = 0
-    end
-    if @parent_id != 0
-      @organizarion_parent = Organization.find(@parent_id)
-    end
   end
 
   def choose
@@ -53,12 +45,9 @@ class OrganizationsController < ApplicationController
     @parent_id = 0
     if params[:parent_id] != nil
       @parent_id = params[:parent_id]
-      else  @parent_id = 0
     end
     @organization.parent_id = @parent_id
-    if @organization.parent_id != 0
-       @organization_parent = Organization.find(@parent_id)
-    end
+
   end
 
   def create
@@ -67,7 +56,7 @@ class OrganizationsController < ApplicationController
 
     if @organization.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to org_settings_path
+      redirect_to org_settings_path #controller: 'org_settings', action: 'index', tab:'iogv'
     else
       render action: 'new'
     end
@@ -76,7 +65,7 @@ class OrganizationsController < ApplicationController
   def update
     if @organization.update_attributes(permitted_params.organization)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to org_settings_path
+      redirect_to org_settings_path#controller: 'org_settings', action: 'index', tab:'organizations'
     else
       render action: 'edit'
     end
@@ -84,7 +73,7 @@ class OrganizationsController < ApplicationController
 
   def destroy
     @organization.destroy
-    redirect_to org_settings_path
+    redirect_to org_settings_path #controller: 'org_settings', action: 'index', tab:'organizations'
 
   end
 
@@ -104,9 +93,6 @@ class OrganizationsController < ApplicationController
 
   def find_organization
     @organization = Organization.find(params[:id])
-    if @organization.parent_id != 0
-       @organization_parent = Organization.find(@organization.parent_id)
-    end
   end
 
   private

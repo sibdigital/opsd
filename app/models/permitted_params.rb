@@ -68,10 +68,7 @@ class PermittedParams
   end
 
   def board
-    permitted_params = params.require(:board).permit(*self.class.permitted_attributes[:board])
-
-    permitted_params = permitted_params.merge(custom_field_values(:board))
-    permitted_params
+    params.require(:board).permit(*self.class.permitted_attributes[:board])
   end
 
   def board?
@@ -358,6 +355,10 @@ class PermittedParams
     permitted_params.merge(custom_field_values(:version, required: false))
   end
 
+  def production_calendar
+    params.require(:production_calendar).permit(:type_of_day, :date, :year)
+  end
+
   def comment
     params.require(:comment).permit(:commented, :author, :comments)
   end
@@ -416,17 +417,11 @@ class PermittedParams
   end
 
   def typed_risk
-    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
-
-    permitted_params = permitted_params.merge(custom_field_values(:typed_risk))
-    permitted_params
+    params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
   end
 
   def project_risk
-    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
-
-    permitted_params = permitted_params.merge(custom_field_values(:project_risk))
-    permitted_params
+    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
   end
 
   def choose_typed
@@ -443,8 +438,7 @@ class PermittedParams
   # )
   # +tan 2019.04.26
   def position
-    permitted_params = params.require(:position).permit(:name, :is_approve)
-    permitted_params = permitted_params.merge(custom_field_values(:permitted_params))
+    params.require(:position).permit(:name, :is_approve)
   end
   def organization
     permitted_params = params.require(:organization).permit(:name, :org_type, :is_legal_entity, :inn, :parent_id, :is_approve, :org_prav_forma, :ur_addr, :post_addr, :otrasl, :gorod, :capital)
@@ -466,10 +460,7 @@ class PermittedParams
     params.require(:target_execution_value).permit(:target_id, :year, :quarter, :value)
   end
   def arbitary_object
-    permitted_params = params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
-
-    permitted_params = permitted_params.merge(custom_field_values(:arbitary_object))
-    permitted_params
+    params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
   end
 
   #)

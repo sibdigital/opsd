@@ -48,7 +48,6 @@
 //= require tooltips
 //= require danger_zone_validation
 //= require flash_messages
-//= require pokaz
 
 
 
@@ -383,63 +382,10 @@ var setupServerResponse = function() {
   focusFirstErroneousField();
   activateFlashNotice();
   activateFlashError();
-
   jQuery(document).ajaxComplete(activateFlashNotice);
   jQuery(document).ajaxComplete(activateFlashError);
 
-    jQuery('a.chtbl').click(function(){
-        //window.alert('1111');
-        show_div(event.target.value);
-    });
-    //jquery entry for enabling function
-    jQuery('a.changeChart').click(function(){
-        changing(event.target.value);
-    });
-    //
 };
 
 jQuery(document).ready(setupServerResponse);
 
-function show_div(showId){
-    if (document.getElementById('tab' + event.target.innerText)) {
-        for (var i = 1; i < 5; ++i) {
-            if (('tab' + i) != 'tab' + event.target.innerText) {
-                if (document.getElementById('tab' + i)) {
-                    document.getElementById('tab' + i).style.display = 'none';
-                }
-            }
-            console.log('tab' + i);
-        }
-        document.getElementById('tab' + event.target.innerText).style.display = 'block';
-    }
-    console.log('->'  + 'tab' + event.target.innerText)
-}
-
-var openTab = function () {
-    jQuery('#consolidated-tab').click(function () {
-        hideTabs();
-        document.getElementById('consolidated').style.display = "block";
-    });
-
-    jQuery('#project-tab').click(function () {
-        hideTabs();
-        document.getElementById('project').style.display = "block";
-    });
-};
-
-var hideTabs = function() {
-    var i, tabcontent, tablinks;
-
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-}
-
-jQuery(document).ready(openTab);

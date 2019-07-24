@@ -303,7 +303,7 @@ OpenProject::Application.routes.draw do
       get '/new', action: 'new', as: 'new_target_execution_value'
       get '/:id', action: 'show', as: 'target_execution_value'
       get '/:id/edit', action: 'edit', as: 'edit_target_execution_value'
-      post '/', action: 'create'
+      #post '/', action: 'create'
       patch '/:id', action: 'update'
       put '/:id', action: 'update'
       delete '/:id', action: 'destroy'
@@ -410,6 +410,19 @@ OpenProject::Application.routes.draw do
       delete '/:id', action: 'destroy'
     end
     resources :control_levels
+    #knm(
+    # resources :production_calendar do
+    #   # get '/', action: 'production_calendar_controller#index'
+    #   get '/' => 'production_calendar#index', on: :member, as: 'index'
+    #   # get '/edit/:tab' => 'production_calendar_controller#edit', on: :member, as: 'edit_tab'
+    # end
+    resources :production_calendars
+    # scope 'production_calendar/:calendar_id', controller: 'production_calendar' do
+    #   get '/new', action: 'new'
+    #   get '/id/edit', action: 'edit'
+    #   get '/', action: 'index'
+    # end
+    #)
     # )
     # +tan 2019.04.25
     #  в том числе необходимо, чтобы работал ресурсный роутинг типа new_depart_path и тд

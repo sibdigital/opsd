@@ -5,6 +5,8 @@ OpenProject::Application.configure do
     favicon.ico
     openproject.css
     accessibility.css
+    layout/_animate
+    layout/_bootstrap
     admin_users.js
     autocompleter.js
     copy_issue_actions.js
@@ -15,7 +17,6 @@ OpenProject::Application.configure do
     project/responsible_attribute.js
     project/description_handling.js
     project/filters.js
-    opentab.js
     repository_navigation.js
     repository_settings.js
     select_list_move.js
@@ -24,6 +25,8 @@ OpenProject::Application.configure do
     vendor/ckeditor/ckeditor.*js
     vendor/enjoyhint.js
     bundles/openproject-legacy-app.js
-    chartchange.js
+    notify.js
+    notifyme.js
+
   )
 end

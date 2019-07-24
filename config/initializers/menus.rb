@@ -133,29 +133,136 @@ end
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users,
             { controller: '/users' },
-            caption: 'Рабочий стол'
-  menu.push :typed_risks,
-            { controller: '/typed_risks' },
-            caption: 'Предстоящие задачи'
-  menu.push :org_settings,
-            { controller: '/org_settings' },
-            caption: 'Проблемы'
+            caption: :label_user_plural,
+            icon: 'icon2 icon-user'
+
+  menu.push :groups,
+            { controller: '/groups' },
+            caption: :label_group_plural,
+            icon: 'icon2 icon-group'
+  menu.push :roles,
+            { controller: '/roles' },
+            caption: :label_role_and_permissions,
+            icon: 'icon2 icon-settings'
+
+  ##zbd(
   menu.push :contracts,
             { controller: '/contracts' },
-            caption: 'Исполнение показателей'
+            icon: 'icon2 icon-enumerations'
+  # )
+
   menu.push :types,
             { controller: '/types' },
-            caption: 'Исполнение бюджета'
-  menu.push :enumerations,
-            { controller: '/enumerations' },
-            caption: 'KPI'
+            caption: :label_work_package_types,
+            icon: 'icon2 icon-types'
+
   menu.push :statuses,
             { controller: '/statuses' },
-            caption: 'Электронный протокол',
+            caption: :label_work_package_status_plural,
+            icon: 'icon2 icon-flag',
             html: { class: 'statuses' }
+
+  menu.push :workflows,
+            { controller: '/workflows', action: 'edit' },
+            caption: Proc.new { Workflow.model_name.human },
+            icon: 'icon2 icon-workflow'
+
+  menu.push :custom_fields,
+            { controller: '/custom_fields' },
+            caption: :label_custom_field_plural,
+            icon: 'icon2 icon-custom-fields',
+            html: { class: 'custom_fields' }
+  menu.push :production_calendars,
+            {controller: '/production_calendars'},
+            icon: 'icon2 icon-risks'
+  #bbm(
+  menu.push :typed_risks,
+            { controller: '/typed_risks' },
+            icon: 'icon2 icon-risks'
+
+  menu.push :control_levels,
+            { controller: '/control_levels' },
+            icon: 'icon2 icon-control-levels'
+  # )
+  # +tan 2019.04.25
+  # menu.push :positions,
+  #           { controller: '/positions' },
+  #           icon: 'icon2 icon-risks'
+
+  menu.push :org_settings,
+            { controller: '/org_settings' },
+            caption: :label_org_settings,
+            icon: 'icon2 icon-risks'
+  # -tan
+
+  #+-tan 2019.06.24
+  # menu.push :custom_actions,
+  #           { controller: '/custom_actions' },
+  #           caption: :'custom_actions.plural',
+  #           icon: 'icon2 icon-play'
+
+  menu.push :attribute_help_texts,
+            { controller: '/attribute_help_texts' },
+            caption: :'attribute_help_texts.label_plural',
+            icon: 'icon2 icon-help2',
+            if: Proc.new {
+              EnterpriseToken.allows_to?(:attribute_help_texts)
+            }
+
+  menu.push :enumerations,
+            { controller: '/enumerations' },
+            icon: 'icon2 icon-enumerations'
+
   menu.push :settings,
             { controller: '/settings' },
-            caption: 'Обсуждения'
+            caption: :label_system_settings,
+            icon: 'icon2 icon-settings2'
+
+  menu.push :ldap_authentication,
+            { controller: '/ldap_auth_sources', action: 'index' },
+            html: { class: 'server_authentication' },
+            icon: 'icon2 icon-flag',
+            if: proc { !OpenProject::Configuration.disable_password_login? }
+
+  #+-tan 2019.06.24
+  # menu.push :oauth_applications,
+  #           { controller: '/oauth/applications', action: 'index' },
+  #           html: { class: 'oauth_applications' },
+  #           icon: 'icon2 icon-key'
+  #
+  # menu.push :announcements,
+  #           { controller: '/announcements', action: 'edit' },
+  #           caption: 'Announcement',
+  #           icon: 'icon2 icon-news'
+
+  # menu.push :plugins,
+  #           { controller: '/admin', action: 'plugins' },
+  #           last: true,
+  #           icon: 'icon2 icon-plugins'
+
+  menu.push :info,
+            { controller: '/admin', action: 'info' },
+            caption: :label_information_plural,
+            last: true,
+            icon: 'icon2 icon-info1'
+
+  # +-tan 2019.06.24
+  # menu.push :custom_style,
+  #           { controller: '/custom_styles', action: 'show' },
+  #           caption:    :label_custom_style,
+  #           icon: 'icon2 icon-design'
+
+  menu.push :colors,
+            { controller: '/colors', action: 'index' },
+            caption:    :'timelines.admin_menu.colors',
+            icon: 'icon2 icon-status'
+
+  # +-tan 2019.06.24
+  # menu.push :enterprise,
+  #           { controller: '/enterprises', action: 'show' },
+  #           caption:    :label_enterprise_edition,
+  #           icon: 'icon2 icon-headset',
+  #           if: proc { OpenProject::Configuration.ee_manager_visible? }
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
