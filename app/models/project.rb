@@ -152,6 +152,10 @@ class Project < ActiveRecord::Base
   has_many :targets
   has_many :arbitary_objects
   # )
+  #tan(
+  has_many :work_package_problems, foreign_key: 'work_package_id'
+  has_many :work_package_targets, foreign_key: 'work_package_id'
+  # )
 
   #tan(
   def get_project_approve_status
@@ -203,7 +207,7 @@ class Project < ActiveRecord::Base
     statuses
   end
 
-  def get_done_ratio
+  def get_done_ratio #TODO: plan type execution!
 
     sql = "with
          rels as (
