@@ -17,6 +17,7 @@ export const homescreenDiagramSelector = 'homescreen-diagram';
 export class HomescreenDiagramComponent implements OnInit {
   public barChartOptions:ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       xAxes: [{
         ticks: {
@@ -59,7 +60,9 @@ export class HomescreenDiagramComponent implements OnInit {
   public barChartType:ChartType;
   public barChartLegend = true;
   public barChartPlugins = [];
-  public barChartData:ChartDataSets[] = [];
+  public barChartData:ChartDataSets[] = [
+    {data:[]}
+  ];
 
   @ViewChild(BaseChartDirective) chart:BaseChartDirective;
 
@@ -71,9 +74,9 @@ export class HomescreenDiagramComponent implements OnInit {
   ngOnInit() {
     this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
     this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
-    let barChartName = JSON.parse(this.element.nativeElement.getAttribute('chart-name')) || 0;
+    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
     this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString(), barChartName)
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.barChartData.push(resource);
