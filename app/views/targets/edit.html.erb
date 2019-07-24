@@ -6,22 +6,30 @@ This file written by XCC
 <% html_title l(:label_administration), "#{l(:label_edit)} #{Target.model_name.human} #{h @target.name}" %>
 <% local_assigns[:additional_breadcrumb] = @target %>
 <% breadcrumb_paths(default_breadcrumb, @target) %>
+<% if @target_parent != nil %>
+  <div class="breadcrumb" style="margin-bottom: 5px;">
+    <%= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target_parent).name, edit_project_target_path(id: @target_parent))).html_safe %>
+  </div>
+<% end %>
 <%= breadcrumb_toolbar @target %>
 
-<div class="tabs">
-  <ul>
-    <li>
-      <%= link_to "Свойства",
-                  edit_tab_project_target_path(id: @target.id, tab: :properties),
-                  class: "#{'selected' if @tab == "properties" }"  %>
-    </li>
-    <li>
-      <%= link_to "Плановые значения исполнения цели",
-                  edit_tab_project_target_path(id: @target.id, tab: :target_execution_values),
-                  class: "#{'selected' if @tab == 'target_execution_values' }"  %>
-    </li>
+<div style="position: relative; display: block;">
 
-  </ul>
+  <section style="display: block; width: 45%; float: left; margin-right: 30px;">
+    <h4>Свойства</h4>
+    <%= labelled_tabular_form_for @target, url: project_target_path(project_id: @project) do |f| %>
+      <%= render partial: 'targets/form/form', locals: { f: f } %>
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <% end %>
+
+    <%#= styled_form_tag(project_target_path(id: @target.id), method: :delete) do %>
+      <%#= styled_submit_tag l(:button_delete) %>
+    <%# end %>
+  </section>
+
+  <section style="display: block; width: 50%; float: left;">
+    <h4><%= l(:label_target_execution_values) %></h4>
+    <%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id), target_id: @target.id%>
+  </section>
 </div>
 
-<%= render partial: "targets/form/#{@tab}"%>
