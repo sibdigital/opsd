@@ -151,6 +151,7 @@ class Project < ActiveRecord::Base
   #xcc(
   has_many :targets
   has_many :arbitary_objects
+  has_many :agreements
   # )
   #tan(
   has_many :work_package_problems, foreign_key: 'work_package_id'

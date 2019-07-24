@@ -851,6 +851,15 @@ en:
     target_status: Статус
     target_type: Тип
     label_targets: Целевые показатели
+    date_agreement: Дата
+    number_agreement: Номер
+    count_days: Количество рабочих дней (направление разъяснений по Соглашению)
+    state_program: Государственная программа
+    other_liabilities_2141: инные обязательства п.п. 2.1.4.1
+    other_liabilities_2142: инные обязательства п.п. 2.1.4.2
+    other_liabilities_2281: инные обязательства п.п. 2.2.8.1
+    other_liabilities_2282: инные обязательства п.п. 2.2.8.2
+
   #)
   button_add: Добавить
   button_add_member: Добавить участника
@@ -1562,6 +1571,8 @@ en:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
+  label_agreements: Соглашение
+  label_agreement: Соглашение о реализации регионального проекта
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
   label_target: Целевые показатели
@@ -2270,6 +2281,7 @@ en:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_targets: Целевые показатели
+  project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности

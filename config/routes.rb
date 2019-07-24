@@ -180,6 +180,7 @@ OpenProject::Application.routes.draw do
 
       get 'stages', controller: 'stages', action: 'show' #, as: :stages
 
+
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
@@ -302,6 +303,8 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
     end
 
+    resources :agreements do
+    end
     #)
     resources :activity, :activities, only: :index, controller: 'activities'
 
@@ -602,8 +605,10 @@ OpenProject::Application.routes.draw do
   end
 
   scope '/projects/:project_id/arbitary_objects/:arbitary_object_id' do
-
   end
+
+  #scope '/projects/:project_id/agreements/:agreement_id/edit' do
+  #end
 
   # )
 

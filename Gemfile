@@ -156,6 +156,10 @@ gem "roo", "~> 2.8.2"
 #gem "translit", "~>0.1.5"
 # )
 
+#xcc(
+gem 'rtf-templater'
+# )
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
