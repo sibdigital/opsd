@@ -356,7 +356,7 @@ class PermittedParams
   end
 
   def production_calendar
-    params.require(:production_calendar).permit(:type_of_day, :date, :year)
+    params.require(:production_calendar).permit(:day_type, :date, :year)
   end
 
   def comment

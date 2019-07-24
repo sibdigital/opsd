@@ -11,17 +11,17 @@ class ProductionCalendarsController < ApplicationController
 
   def index
     sort_columns = {'id' => "#{ProductionCalendar.table_name}.id",
-                   'day_type'=>"#{ProductionCalendar.table_name}.day_type",
-                   'date'=>"#{ProductionCalendar.table_name}.date",
-                   'year'=>"#{ProductionCalendar.table_name}.year"
+                    'day_type'=>"#{ProductionCalendar.table_name}.day_type",
+                    'date'=>"#{ProductionCalendar.table_name}.date",
+                    'year'=>"#{ProductionCalendar.table_name}.year"
     }
     sort_init 'id', 'desc'
     sort_update sort_columns
     @production_calendars = ProductionCalendar
-                       .order(sort_clause)
-                       .page(page_param)
-                       .per_page(per_page_param)
-     # @production_calendar = ProductionCalendar.all
+                              .order(sort_clause)
+                              .page(page_param)
+                              .per_page(per_page_param)
+    # @production_calendar = ProductionCalendar.all
     # @production_calendar = ProductionCalendar.order(Arel.sql('date'))
 
   end
@@ -31,14 +31,14 @@ class ProductionCalendarsController < ApplicationController
       redirect_to tab: :properties
     else
       @production_calendar = production_calendar
-                      .find(params[:id])
+                               .find(params[:id])
       @tab = params[:tab]
     end
   end
 
   def new
-     #@production_calendar = ProductionCalendar.new
-     @calend = ProductionCalendar.new
+    #@production_calendar = ProductionCalendar.new
+    @calend = ProductionCalendar.new
   end
 
   def default_breadcrumb
