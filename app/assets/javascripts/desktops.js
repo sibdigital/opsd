@@ -1,11 +1,6 @@
 function menuSpan() {
   jQuery('#rabocii-stol').show();
 
-  jQuery('.rabocii-stol-menu-item').click(function () {
-    jQuery('.homescreen-page--invisible').hide();
-    jQuery('#rabocii-stol').show();
-  });
-
   jQuery('.kontrolnie-tochki-menu-item').click(function () {
     jQuery('.homescreen-page--invisible').hide();
     jQuery('#kontrolnie-tochki').show();
@@ -24,11 +19,6 @@ function menuSpan() {
   jQuery('.ispolnenie-budzheta-menu-item').click(function () {
     jQuery('.homescreen-page--invisible').hide();
     jQuery('#ispolnenie-budzheta').show();
-  });
-
-  jQuery('.kpi-menu-item').click(function () {
-    jQuery('.homescreen-page--invisible').hide();
-    jQuery('#kpi').show();
   });
 
   jQuery('.elektronnyi-protokol-menu-item').click(function () {

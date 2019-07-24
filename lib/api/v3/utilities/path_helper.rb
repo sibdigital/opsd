@@ -225,6 +225,10 @@ module API
             "#{root}/diagrams"
           end
 
+          def self.diagram_query(name)
+            "#{diagrams}/#{name}"
+          end
+
           def self.diagram_queries
             "#{root}/diagram_queries"
           end

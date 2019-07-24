@@ -1,0 +1,438 @@
+<div ng-app="OpenProjectLegacy" class="ng-scope">
+    <div id="invisible-grid" class="widget-boxes project-overview">
+        <div class="grid-block">
+            <div style="flex: 0 0 29%; max-width: 29%;">
+                <p style="text-align: center;font-weight: bold;margin: -2px;">Показатели</p>
+                <homescreen-diagram chart-name='pokazateli' chart-labels='["Исп.","Не исп.","В работе"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
+                </homescreen-diagram>
+            </div>
+            <div style="flex: 0 0 29%; max-width: 29%;">
+                <p style="text-align: center;font-weight: bold;margin: -2px;">КТ</p>
+                <homescreen-diagram chart-data='kt' chart-labels='["Исп.","Не исп.","В работе","Риски"]' chart-colors='["#00b050", "#c00000", "#1f497d", "#ffc000"]'>
+                </homescreen-diagram>
+            </div>
+            <div style="flex: 0 0 29%; max-width: 29%;">
+                <p style="text-align: center;font-weight: bold;margin: -2px;">Бюджет</p>
+                <homescreen-diagram chart-data='budjet' chart-labels='["Исп.","Не исп.","Остаток"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
+                </homescreen-diagram>
+            </div>
+            <div style="text-align: center; width: 13%; background-color: #c0504d;" >
+                <a style="font-weight: bold; color: white; position:relative; top:40%" class="problems-a" href="#">Проблем<br>20</a>
+            </div>
+        </div>
+    </div>
+    <div style="display: block;" id="tab1">
+        <table class="blueTable">
+            <thead>
+            <tr>
+                <th><b>Проект</b></th>
+                <th><b>Куратор/<br>РП</b></th>
+                <th id="c40"><b>План срок завершения</b></th>
+                <th id="c40"><b>Предстоящие мероприятия<br></b></th>
+                <th id="c40"><b>Просроченные мероприятия/<br>Проблемы</b></th>
+                <th id="c40"><b>Прогресс<br>Исполнение бюджета</b></th>
+                <th><b>KPI</b></th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="7">
+                    <div class="links"><a href="#">&laquo;</a>
+                        <a class="chtbl" href="#">1</a>
+                        <a class="chtbl" href="#">2</a>
+                        <a class="chtbl" href="#">3</a>
+                        <!--            <a class="chtbl" href="#">4</a>-->
+                        <a class="links" href="#">&raquo;</a>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr>
+                <td style="padding-left: 10px"><b>Здравоохранение</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 20px">Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr id="colored-row">
+                <td style="padding-left: 30px"><a>Создание региональный цифровой платформы ИСЗ</a></td>
+                <td>Цыбикжапов В.Б.<br>Самбуев Д.Ц.</td>
+                <td>01.08.2020</td>
+                <td><a class="tasks-a" href="#">10</a></td>
+                <td><a class="tasks-a" href="#">8 </a>/<a class="problems-a" href="#"> 3</a></td>
+                <td>
+
+                    <div class="border-progress">
+                        <div class="progress" data-label="70%">
+              <span class="value" style="width:70%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="border-progress">
+                        <div class="progress" data-label="92%">
+              <span class="value" style="width:92%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                </td>
+                <td><a class="kpi-a" href="#">Посмотреть</a></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 20px">Снижение смертности населения трудоспособного возраста</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr id="colored-row">
+                <td style="padding-left: 30px"><a>Внедрение системы контроля качества медицинской помощи в РБ</a></td>
+                <td>Цыбикжапов В.Д.<br>Самбуев Д.Ц.</td>
+                <td>31.12.2020</td>
+                <td><a class="tasks-a" href="#">16</a></td>
+                <td><a class="tasks-a" href="#">4 </a>/<a class="problems-a" href="#"> 0</a></td>
+                <td>
+                    <div class="border-progress">
+                        <div class="progress" data-label="54%">
+              <span class="value" style="width:54%; background-color: #eeee88;">
+              </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="border-progress">
+                        <div class="progress" data-label="70%">
+              <span class="value" style="width:70%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                </td>
+                <td><a class="kpi-a" href="#">Посмотреть</a></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div style="display: none;" id="tab2">
+        <table class="blueTable">
+            <thead>
+            <tr>
+                <th><b>Проект</b></th>
+                <th><b>Куратор/<br>РП</b></th>
+                <th id="c40"><b>План срок завершения</b></th>
+                <th id="c40"><b>Предстоящие мероприятия<br></b></th>
+                <th id="c40"><b>Просроченные мероприятия/<br>Проблемы</b></th>
+                <th id="c40"><b>Прогресс<br>Исполнение бюджета</b></th>
+                <th><b>KPI</b></th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="7">
+                    <div class="links"><a href="#">&laquo;</a>
+                        <a class="chtbl" href="#">1</a>
+                        <a class="chtbl" href="#">2</a>
+                        <a class="chtbl" href="#">3</a>
+                        <!--            <a class="chtbl" href="#">4</a>-->
+                        <a class="chtbl" href="#">&raquo;
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr>
+                <td style="padding-left: 10px"><b>Образование</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 20px">Современная школа</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr id="colored-row">
+                <td style="padding-left: 30px"><a>Современная школа в РБ</a></td>
+                <td>Цыбикжапов В.Б.<br>Жалсанов Б.Б.</td>
+                <td>31.12.2019</td>
+                <td><a class="tasks-a" href="#">8</a></td>
+                <td><a class="tasks-a" href="#">15 </a>/<a class="problems-a" href="#"> 7</a></td>
+                <td>
+                    <div class="border-progress">
+                        <div class="progress" data-label="70%">
+              <span class="value" style="width:70%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="border-progress">
+                        <div class="progress" data-label="70%">
+              <span class="value" style="width:70%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                </td>
+                <td ><a class="kpi-a" href="#">Посмотреть</a></td>
+            </tr>
+            <tr id="colored-row">
+                <td style="padding-left: 40px"><a>Строительство школы в Кижингинском районе</a></td>
+                <td>Цыбикжапов В.Б.<br>Лхасаранов Г.З.</td>
+                <td>20.12.2019</td>
+                <td><a class="tasks-a" href="#">5</a></td>
+                <td><a class="tasks-a" href="#">7 </a>/<a class="problems-a" href="#"> 0</a></td>
+                <td>
+                    <div class="border-progress">
+                        <div class="progress" data-label="92%">
+              <span class="value" style="width:92%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="border-progress">
+                        <div class="progress" data-label="92%">
+              <span class="value" style="width:92%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                </td>
+                <td><a class="kpi-a" href="#">Посмотреть</a></td>
+            </tr>
+            <tr id="colored-row">
+                <td style="padding-left: 40px"><a>Переоснащение школы №17 в г.Улан-Удэ</a></td>
+                <td>Цыбикжапов В.Б.<br>Шутенков И.Ю.</td>
+                <td>30.11.2019</td>
+                <td><a class="tasks-a" href="#">4</a></td>
+                <td><a class="tasks-a" href="#">1 </a>/<a class="problems-a" href="#"> 2</a></td>
+                <td>
+                    <div class="border-progress">
+                        <div class="progress" data-label="54%">
+              <span class="value" style="width:54%; background-color: #eeee88;">
+              </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="border-progress">
+                        <div class="progress" data-label="70%">
+              <span class="value" style="width:70%; background-color: #88ee88;">
+              </span>
+                        </div>
+                    </div>
+                </td>
+                <td><a class="kpi-a" href="#">Посмотреть</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="display: none;" id="tab3">
+        <table class="blueTable">
+            <thead>
+            <tr>
+                <th><b>Проект</b></th>
+                <th><b>Куратор/<br>РП</b></th>
+                <th id="c40"><b>План срок завершения</b></th>
+                <th id="c40"><b>Предстоящие мероприятия<br></b></th>
+                <th id="c40"><b>Просроченные мероприятия/<br>Проблемы</b></th>
+                <th id="c40"><b>Прогресс<br>Исполнение бюджета</b></th>
+                <th><b>KPI</b></th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="7">
+                    <div class="links"><a href="#">&laquo;</a>
+                        <a class="chtbl" href="#">1</a>
+                        <a class="chtbl" href="#">2</a>
+                        <a class="chtbl" href="#">3</a>
+                        <!--            <a class="chtbl" href="#">4</a>-->
+                        <a class="chtbl" href="#">&raquo;
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr>
+                <td style="padding-left: 10px"><b>Производительность труда</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 10px"><b>Проекты Республики Бурятия</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr id="colored-row">
+                <td style="padding-left: 30px"><a>Создание технопарка</a></td>
+                <td>Зураев И.И.<br>Оловянников А.А.</td>
+                <td>31.12.2021</td>
+                <td><a class="tasks-a" href="#">11</a></td>
+                <td><a class="tasks-a" href="#">15 </a>/<a class="problems-a" href="#"> 8</a></td>
+                <td>
+                    <div class="border-progress">
+                        <div class="progress" data-label="18%">
+              <span class="value" style="width:18%; background-color: #ee8888;">
+              </span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="border-progress">
+                        <div class="progress" data-label="18%">
+              <span class="value" style="width:18%; background-color: #ee8888;">
+              </span>
+                        </div>
+                    </div>
+                </td>
+                <td><a class="kpi-a" href="#">Посмотреть</a></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="blueTable" border="0" >
+            <thead>
+            <tr>
+                <th id="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
+                <th id="colored-col-red" colspan="3">Просроченные КТ</th>
+                <th id="colored-col-orange" colspan="3">Проблемы:</th>
+                <th id="colored-col-purple" colspan="2">Бюджет:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td id="colored-col-bright-green">1</td>
+                <td id="colored-col-bright-green">Подготовка конкурсной документации</td>
+                <td id="colored-col-bright-green">Строительство школы</td>
+                <td id="colored-col-bright-red">1</td>
+                <td id="colored-col-bright-red">Разработка информационного портала</td>
+                <td id="colored-col-bright-red">Современная школа</td>
+                <td id="colored-col-bright-orange">1</td>
+                <td id="colored-col-bright-orange">Задержка поставки оборудования</td>
+                <td id="colored-col-bright-orange">ООО "Комп"</td>
+                <td id="colored-col-bright-purple">Современная школа в РБ</td>
+                <td id="colored-col-bright-purple">700/1500</td>
+            </tr>
+            <tr>
+                <td id="colored-col-green">2</td>
+                <td id="colored-col-green">Разработка ТТ</td>
+                <td id="colored-col-green">Создание технопарка</td>
+                <td id="colored-col-red">2</td>
+                <td id="colored-col-red">Подготовка заявки на финансирование</td>
+                <td id="colored-col-red">Создание региональной цифровой платформы</td>
+                <td id="colored-col-orange">2</td>
+                <td id="colored-col-orange">Не представлен техпаспорт</td>
+                <td id="colored-col-orange">ГКУ ХТК</td>
+                <td id="colored-col-purple">Создание региональной цифровой платформы в РБ</td>
+                <td id="colored-col-purple">580/2400</td>
+            </tr>
+            <tr>
+                <td id="colored-col-bright-green">3</td>
+                <td id="colored-col-bright-green">Подготовка аналитического отчета</td>
+                <td id="colored-col-bright-green">Внедрение системы</td>
+                <td id="colored-col-bright-red"></td>
+                <td id="colored-col-bright-red"></td>
+                <td id="colored-col-bright-red"></td>
+                <td id="colored-col-bright-orange">3</td>
+                <td id="colored-col-bright-orange">Нет согласования юристов</td>
+                <td id="colored-col-bright-orange">ЮО</td>
+                <td id="colored-col-bright-purple">Внедрение системы контроля качества</td>
+                <td id="colored-col-bright-purple">1100/1200</td>
+            </tr>
+            <tr>
+                <td id="colored-col-green">4</td>
+                <td id="colored-col-green">Установка ПАК</td>
+                <td id="colored-col-green">Современная школа</td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-purple"></td>
+                <td id="colored-col-purple"></td>
+            </tr>
+            <tr>
+                <td id="colored-col-bright-green">5</td>
+                <td id="colored-col-bright-green">Проведение обучения</td>
+                <td id="colored-col-bright-green">Современная школа</td>
+                <td id="colored-col-bright-red"></td>
+                <td id="colored-col-bright-red"></td>
+                <td id="colored-col-bright-red"></td>
+                <td id="colored-col-bright-orange"></td>
+                <td id="colored-col-bright-orange"></td>
+                <td id="colored-col-bright-orange"></td>
+                <td id="colored-col-bright-purple"></td>
+                <td id="colored-col-bright-purple"></td>
+            </tr>
+            <tr>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-purple"></td>
+                <td id="colored-col-purple"></td>
+            </tr>
+            <tr>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-purple"></td>
+                <td id="colored-col-purple"></td>
+            </tr>
+            <tr>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-green"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-red"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-orange"></td>
+                <td id="colored-col-purple"></td>
+                <td id="colored-col-purple"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

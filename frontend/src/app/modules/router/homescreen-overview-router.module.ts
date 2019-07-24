@@ -34,11 +34,15 @@ import {
 import {ChartsModule} from "ng2-charts";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
-import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
-import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
 import {BrowserModule} from "@angular/platform-browser";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import {OverviewDiagramQueriesTabComponent} from "core-components/overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
+import {OverviewDiagramTabComponent} from "core-components/overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
+import {OverviewDiagramComponent} from "core-components/overview-diagram/overview-diagram.component";
+import {KpiTabComponent} from "core-components/homescreen-tabs/kpi-tab/kpi-tab.component";
+import {HomescreenTabsComponent} from "core-components/homescreen-tabs/homescreen-tabs.component";
+import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
+import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
 
 @NgModule({
   imports: [
@@ -52,25 +56,38 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
     OpenprojectCommonModule
   ],
   providers: [
-    WorkPackageOverviewDiagramComponent,
-    WorkPackageOverviewDiagramTabComponent,
-    WorkPackageOverviewDiagramQueriesTabComponent
+    HomescreenDiagramComponent,
+    OverviewDiagramComponent,
+    OverviewDiagramTabComponent,
+    OverviewDiagramQueriesTabComponent,
+    HomescreenTabsComponent,
+    KpiTabComponent,
+    DesktopTabComponent
   ],
   declarations: [
-    WorkPackageOverviewDiagramComponent,
-    WorkPackageOverviewDiagramTabComponent,
-    WorkPackageOverviewDiagramQueriesTabComponent
+    HomescreenDiagramComponent,
+    OverviewDiagramComponent,
+    OverviewDiagramTabComponent,
+    OverviewDiagramQueriesTabComponent,
+    HomescreenTabsComponent,
+    KpiTabComponent,
+    DesktopTabComponent
   ],
   entryComponents: [
-    WorkPackageOverviewDiagramComponent,
-    WorkPackageOverviewDiagramTabComponent,
-    WorkPackageOverviewDiagramQueriesTabComponent
+    HomescreenDiagramComponent,
+    OverviewDiagramComponent,
+    OverviewDiagramTabComponent,
+    OverviewDiagramQueriesTabComponent,
+    HomescreenTabsComponent,
+    KpiTabComponent,
+    DesktopTabComponent
   ],
   exports: [
   ],
   bootstrap: [
-    WorkPackageOverviewDiagramComponent
+    OverviewDiagramComponent,
+    HomescreenTabsComponent
   ]
 })
-export class OverviewDiagramRouterModule {
+export class HomescreenOverviewRouterModule {
 }

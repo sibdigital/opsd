@@ -16,7 +16,10 @@
 
   <tr>
     <td>Руководитель</td>
-    <td><b>Самбуев Д.Ц.</b></td>
+    <td><% white_table['rukovoditel_proekta'].each do |user| %>
+        <b><%= user.firstname %> <%= user.lastname %></b>,&nbsp
+      <% end %>
+    </td>
   </tr>
 
   <tr>
