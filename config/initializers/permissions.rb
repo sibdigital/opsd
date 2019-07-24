@@ -41,6 +41,7 @@ Redmine::AccessControl.map do |map|
                    #xcc(
                    targets: %i[index new create edit update destroy],
                    arbitary_objects: %i[index new create edit update destroy],
+                   agreements: %i[index new create edit update destroy],
                    #)
                    #zbd(
                    stages: [:show]
@@ -334,6 +335,7 @@ Redmine::AccessControl.map do |map|
   #xcc(
   map.project_module :targets
   map.project_module :arbitary_objects
+  map.project_module :agreements
   # )
 
 end

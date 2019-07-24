@@ -393,6 +393,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('arbitary_objects') },
             icon: 'icon2 icon-info1'
 
+  menu.push :agreements,
+            { controller: '/agreements', action: 'index' },
+            param: :project_id,
+            caption: :label_agreements,
+            if: Proc.new { |p| p.module_enabled?('agreements') },
+            icon: 'icon2 icon-info1'
+
+
   # )
 
   menu.push :settings,

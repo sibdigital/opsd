@@ -1,0 +1,20 @@
+<%#--
+This file written by XCC
+06/07/2019
+++#%>
+
+<%= error_messages_for :agreement %>
+<section class="form--section">
+  <%= f.hidden_field 'project_id' %>
+
+  <div class="form--field"><%= f.date_field 'date_agreement', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'number_agreement', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.number_field 'count_days', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'state_program', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'other_liabilities_2141', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'other_liabilities_2142', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'other_liabilities_2281', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'other_liabilities_2282', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.date_field 'date_end', container_class: '-middle' %></div>
+
+</section>

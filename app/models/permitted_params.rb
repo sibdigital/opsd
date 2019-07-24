@@ -475,6 +475,9 @@ class PermittedParams
     permitted_params
   end
 
+  def agreement
+    params.require(:agreement).permit(:date_agreement, :number_agreement, :count_days, :project_id, :national_project_id, :federal_project_id, :state_program, :other_liabilities_2141, :other_liabilities_2142, :other_liabilities_2281, :other_liabilities_2282, :date_end)
+  end
   #)
   # -tan
 
