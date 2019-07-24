@@ -1,13 +1,17 @@
 <h2>Перечень мероприятий по проекту</h2>
-<table>
+<table class="whiteTable">
+  <% white_table = kontrolnie_tochki_white_table_data%>
   <tr>
     <td>Проект</td>
-    <td><b>Создание региональной цифровой платформы ИСЗ</b></td>
+    <td><b><%= white_table['project'].name %></b></td>
   </tr>
 
   <tr>
     <td>Куратор</td>
-    <td><b>Цыбикжапов В.Б.</b></td>
+    <td><% white_table['kurator'].each do |user| %>
+        <b><%= user.firstname %> <%= user.lastname %></b>,&nbsp
+      <% end %>
+    </td>
   </tr>
 
   <tr>
@@ -49,50 +53,17 @@
     <th>Проблемы</th>
   </tr>
   </thead>
-  <tr class="row-success">
-    <td align="center">1</td>
-    <td align="center">Проведение совещания с учреждениями здравоохранения по сбору требований к региональной платформе</td>
-    <td align="center">Самбуев Д. Ц.</td>
-    <td align="center">01.08.2019</td>
-    <td align="center">Исполнено в срок</td>
-    <td align="center">01.08.2019</td>
-    <td align="center"></td>
-  </tr>
-  <tr class="row-danger">
-    <td align="center">2</td>
-    <td align="center">Разработка технических требований</td>
-    <td align="center">Доржиева Е. Б.</td>
-    <td align="center">09.09.2019</td>
-    <td align="center">Исполнено с опозданием</td>
-    <td align="center">15.08.2019</td>
-    <td align="center"><a href="/org_settings">2</a></td>
-  </tr>
-  <tr>
-    <td align="center">3</td>
-    <td align="center">Подготовка конкурсной документации</td>
-    <td align="center">Бухольцева Н. А.</td>
-    <td align="center">31.08.2019</td>
-    <td align="center">В работе</td>
-    <td align="center"></td>
-    <td align="center"><a href="/org_settings">1</a></td>
-  </tr>
-  <tr>
-    <td align="center">4</td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-  </tr>
-
-  <tr>
-    <td align="center">5</td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-  </tr>
+  <tbody>
+  <% kontrolnie_tochki_blue_table_data(white_table['project']).each do |wp| %>
+    <tr>
+      <td align="center"><%= wp.id %></td>
+      <td align="center"><%= wp.subject %></td>
+      <td align="center"><%= wp.assigned_to.firstname %> <%= wp.assigned_to.lastname %></td>
+      <td align="center"><%= wp.due_date %></td>
+      <td align="center">Check if wp.due_date < wp.due_date</td>
+      <td align="center"><%= wp.due_date %></td>
+      <td align="center">Risks</td>
+    </tr>
+  <% end %>
+  </tbody>
 </table>
