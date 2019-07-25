@@ -4,7 +4,7 @@
 #
 
 class TargetExecutionValuesController < ApplicationController
-  layout 'base'
+  #layout 'admin'
   before_action :find_target_execution_value, only: [:edit, :update, :destroy]
 
   def edit; end
@@ -16,7 +16,6 @@ class TargetExecutionValuesController < ApplicationController
   end
 
   def create
-    @target_execution_value.target_id = params[:target_id]
     target_exec_params = permitted_params.target_execution_value
     @target_execution_value = Target.find(params[:target_id]).target_execution_values.build(target_exec_params)
 
@@ -24,7 +23,8 @@ class TargetExecutionValuesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     else
-      render action: 'new'
+      #render action: 'new'
+      edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     end
   end
 
@@ -35,7 +35,8 @@ class TargetExecutionValuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     else
-      render action: 'edit'
+      #render action: 'edit'
+      redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     end
   end
 

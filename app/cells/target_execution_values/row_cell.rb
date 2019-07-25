@@ -16,7 +16,8 @@ module TargetExecutionValues
     end
 
     def year
-      link_to h(target_execution_value.year), edit_target_execution_value_path(id: target_execution_value.id, target_id: target_execution_value.target_id,)#, project_id: project.identifier
+      #link_to h(target_execution_value.year), edit_target_execution_value_path(id: target_execution_value.id, target_id: target_execution_value.target_id,)#, project_id: project.identifier
+      target_execution_value.year
     end
 
     def quarter

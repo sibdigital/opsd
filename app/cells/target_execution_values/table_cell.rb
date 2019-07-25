@@ -16,7 +16,6 @@ module TargetExecutionValues
     end
 
     def columns
-#      %i[year sort]
       ['year', 'quarter', 'value']
     end
 
@@ -35,11 +34,7 @@ module TargetExecutionValues
       #         class: 'wp-inline-create--add-link',
       #         title: t(:label_target_execution_values_new) do op_icon('icon icon-add')
       # end
-      ('<div><span id="target-val-add" class="wp-inline-create--add-link icon icon-add"></span></div>').html_safe
-    end
-
-    def empty_row_message
-      I18n.t :no_results_title_text
+      #('<div><span id="target-val-add" class="wp-inline-create--add-link icon icon-add"></span></div>').html_safe
     end
 
     def row_class
@@ -51,7 +46,6 @@ module TargetExecutionValues
         ['year', caption: TargetExecutionValue.human_attribute_name(:year)],
         ['quarter', caption: TargetExecutionValue.human_attribute_name(:quarter)],
         ['value', caption: TargetExecutionValue.human_attribute_name(:value)]
-#        ['sort', caption: I18n.t(:label_sort)]
       ]
     end
   end

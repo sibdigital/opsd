@@ -294,9 +294,9 @@ OpenProject::Application.routes.draw do
     end
     # )
     #xcc(
-    resources :targets do
-      get '/edit' => 'targets#edit', on: :member, as: 'edit'
-    end
+    resources :targets #do
+    #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
+    #end
 
     resources :arbitary_objects do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'

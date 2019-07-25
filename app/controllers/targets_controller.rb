@@ -1,4 +1,5 @@
 class TargetsController < ApplicationController
+  #layout 'base'
   default_search_scope :targets
 
   before_action :find_optional_project, :verify_targets_module_activated
@@ -27,24 +28,15 @@ class TargetsController < ApplicationController
                        .order(sort_clause)
                        .page(page_param)
                        .per_page(per_page_param)
-
-    #if @parent_id.to_i != 0
-    #  @target_parent = Target.find(@parent_id)
-    #end
-
   end
 
   def edit
-    # if params[:tab].blank?
-    #   redirect_to tab: :properties
-    # else
-    #   @tab = params[:tab]
-    # end
   end
 
   def new
     @target = Target.new
 
+    @target.project_id = find_project_by_project_id.id
     if params[:parent_id] != nil
       @parent_id = params[:parent_id]
     else
@@ -62,7 +54,8 @@ class TargetsController < ApplicationController
 
     if @target.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to edit_project_target_path(id: @target.id) #action: 'edit'
+
     else
       render action: 'new'
     end
@@ -72,7 +65,7 @@ class TargetsController < ApplicationController
     if @target.update_attributes(permitted_params.target)
       flash[:notice] = l(:notice_successful_update)
       #redirect_to project_targets_path()
-      redirect_to edit_project_target_path()
+      redirect_to edit_project_target_path
     else
       render action: 'edit'
     end

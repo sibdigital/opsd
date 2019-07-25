@@ -57,38 +57,38 @@ module TargetsHelper
   end
 
 
-  def render_tree_ul(tree, pid)
-    html = ''
-    tree.each do |target|
-      if target.parent_id == pid
-        html = html + '<li>'
-        #html = html + '<table><tbody><tr>'
-        html = html + link_to(h(target.name), edit_project_target_path(id: target.id))
-        html = html + content_tag(:div, link_to(target.id, edit_project_target_path(id: target.id)))
-        html = html + '<td></td>'
-        html = html + content_tag(:div, link_to(h(target.name), edit_project_target_path(id: target.id)))
-        html = html + content_tag(:div, target.target_status)
-        html = html + content_tag(:div, target.target_type)
-        html = html + content_tag(:div, target.unit)
-        html = html + content_tag(:div, target.basic_value)
-        html = html + content_tag(:div, target.plan_value)
-        html = html + content_tag(:div, link_to(
-          op_icon('icon icon-add'),
-          project_targets_path(:parent_id => target.id),
-          title: t(:button_click_to_reveal)))
-        html = html + content_tag(:div, link_to(
-          op_icon('icon icon-delete'),
-          project_target_path(id: target.id),
-          method: :delete,
-          data: {confirm: I18n.t(:text_are_you_sure)},
-          title: t(:button_delete)))
-
-        html = html + render_tree_ul(tree, target.id)
-        #html = html + '</tr></tbody></table>'
-        html = html + '</li>'
-      end
-    end
-    html.length !=0 ? ('<ul>' + html + '</ul>').html_safe : ''
-  end
+  # def render_tree_ul(tree, pid)
+  #   html = ''
+  #   tree.each do |target|
+  #     if target.parent_id == pid
+  #       html = html + '<li>'
+  #       #html = html + '<table><tbody><tr>'
+  #       html = html + link_to(h(target.name), edit_project_target_path(id: target.id))
+  #       html = html + content_tag(:div, link_to(target.id, edit_project_target_path(id: target.id)))
+  #       html = html + '<td></td>'
+  #       html = html + content_tag(:div, link_to(h(target.name), edit_project_target_path(id: target.id)))
+  #       html = html + content_tag(:div, target.target_status)
+  #       html = html + content_tag(:div, target.target_type)
+  #       html = html + content_tag(:div, target.unit)
+  #       html = html + content_tag(:div, target.basic_value)
+  #       html = html + content_tag(:div, target.plan_value)
+  #       html = html + content_tag(:div, link_to(
+  #         op_icon('icon icon-add'),
+  #         project_targets_path(:parent_id => target.id),
+  #         title: t(:button_click_to_reveal)))
+  #       html = html + content_tag(:div, link_to(
+  #         op_icon('icon icon-delete'),
+  #         project_target_path(id: target.id),
+  #         method: :delete,
+  #         data: {confirm: I18n.t(:text_are_you_sure)},
+  #         title: t(:button_delete)))
+  #
+  #       html = html + render_tree_ul(tree, target.id)
+  #       #html = html + '</tr></tbody></table>'
+  #       html = html + '</li>'
+  #     end
+  #   end
+  #   html.length !=0 ? ('<ul>' + html + '</ul>').html_safe : ''
+  # end
 
 end

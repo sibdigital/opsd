@@ -393,10 +393,12 @@ jQuery(document).ready(setupServerResponse);
 //zbd(
 jQuery( document ).ready(function() {
     jQuery('#target-val-add').click(function(){
+        jQuery(this).hide();
         jQuery('#target-val-form').show("fast");
     });
 
     jQuery('#target-val-cancel').click(function(){
+        jQuery('#target-val-add').show("fast");
         jQuery('#target-val-form').hide("fast");
     });
 });
