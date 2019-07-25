@@ -177,7 +177,7 @@ class CustomField < ActiveRecord::Base
     casted = nil
     unless value.blank?
       case field_format
-      when 'string', 'text', 'list'
+      when 'string', 'text', 'list', 'formula'
         casted = value
       when 'date'
         casted = begin; value.to_date; rescue; nil end

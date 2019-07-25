@@ -38,7 +38,7 @@ class CustomFieldsController < ApplicationController
 
   def index
     # loading wp cfs exclicity to allow for eager loading
-    @custom_fields_by_type = CustomField.all.where.not(tygrepe: 'WorkPackageCustomField').group_by { |f| f.class.name }
+    @custom_fields_by_type = CustomField.all.where.not(type: 'WorkPackageCustomField').group_by { |f| f.class.name }
     @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
 
     @tab = params[:tab] || 'WorkPackageCustomField'
@@ -151,7 +151,7 @@ class CustomFieldsController < ApplicationController
     render_404
   end
 
-  protected
+  # protected
 
   def default_breadcrumb
     if action_name == 'index'
