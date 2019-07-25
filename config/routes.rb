@@ -391,7 +391,11 @@ OpenProject::Application.routes.draw do
       #post :send_email_from_forum  # tan
     end
   end
-
+  #knm(
+  resources :pop_up_alerts do
+    get :get_alerts, on: :collection
+  end
+  #)
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
