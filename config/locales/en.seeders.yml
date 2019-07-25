@@ -48,10 +48,89 @@ en:
         - name: Не выпущен необходимый нормативно-правовой акт
         - name: Не пройдены надзорные мероприятия
         - name: Изменено законодательство
+
+      national_projects:
+        - name: Здравоохранение
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Образование
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Демография
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Культура
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Безопасные и качественные автомобильные дороги
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Жильё и городская среда
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Экология
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Наука
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Цифровая экономика
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Производительность труда и поддержка занятости
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+        - name: Международная кооперация и экспорт
+          type: National
+          leader_position: Министр
+          curator_position: Заместитель Председателя Правительства
+
+      federal_projects:
+        - name: Обеспечение качественно нового уровня развития инфраструктуры культуры «Культурная среда»
+          type: Federal
+          leader_position: Заместитель министра
+          curator_position: Министр
+          parent: Культура
+        - name: Жилье
+          type: Federal
+          leader_position: Заместитель министра
+          curator_position: Министр
+          parent: Жильё и городская среда
+        - name: Формирование комфортной городской среды
+          type: Federal
+          leader_position: Заместитель министра
+          curator_position: Министр
+          parent: Жильё и городская среда
+        - name: Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ
+          type: Federal
+          leader_position: Заместитель министра
+          curator_position: Министр
+          parent: Здравоохранение
+        - name: Снижение смертности населения трудоспособного возраста
+          type: Federal
+          leader_position: Заместитель министра
+          curator_position: Министр
+          parent: Здравоохранение
       projects:
         cultura:
-          name: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда»
+          name: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
           identifier: cultura
+          national_project: Культура
+          federal_project: Обеспечение качественно нового уровня развития инфраструктуры культуры «Культурная среда»
           project_status: :default_project_status_in_work
           project_approve_status: :default_project_approve_status_approve_glava
           description: >
