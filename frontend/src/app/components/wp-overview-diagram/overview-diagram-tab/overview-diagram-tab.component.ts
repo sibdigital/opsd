@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ChartOptions, ChartType, ChartDataSets} from 'chart.js';
-import {Label} from 'ng2-charts';
+import {BaseChartDirective, Label} from 'ng2-charts';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -10,11 +10,29 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
+import {getParams} from "@uirouter/core";
 
 export interface ValueOption {
   name:string;
   id:string;
 }
+
+/*export interface Params {
+  statusCheck:boolean;
+  projectCheck:boolean;
+  assigneeCheck:boolean;
+  organizationCheck:boolean;
+  dateCheck:boolean;
+  kpiCheck:boolean;
+  status:number[];
+  project:number [];
+  assignee:number [];
+  organization:number [];
+  dateBegin:string;
+  dateEnd:string;
+  kpiOperation:string;
+  kpiValue:string;
+}*/
 
 @Component({
   selector: 'wp-overview-diagram-tab',
@@ -31,13 +49,12 @@ export class WorkPackageOverviewDiagramTabComponent implements OnInit {
       }]
     }
   };
-  public barChartLabels:Label[] = [this.I18n.t('js.activities')];
+  public barChartLabels:Label[] = [];
   public barChartType:ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
   public barChartData:ChartDataSets[] = [
-    {data:[], label: this.I18n.t('js.project.wp_count')},
-    {data:[], label: this.I18n.t('js.project.percentage_done')}
+    {data:[]}
   ];
 
   //define logic var-s
@@ -65,6 +82,12 @@ export class WorkPackageOverviewDiagramTabComponent implements OnInit {
 
   public kpiOperation:string;
   public kpiValue:string;
+
+  public seriexSelect:number;
+  public serieySelect:number;
+  public serierSelect:number;
+
+  @ViewChild(BaseChartDirective) chart:BaseChartDirective;
 
   constructor(readonly timezoneService:TimezoneService,
               protected I18n:I18nService,
@@ -100,51 +123,21 @@ export class WorkPackageOverviewDiagramTabComponent implements OnInit {
       .get<HalResource>(this.pathHelper.api.v3.diagrams.toString())
       .toPromise()
       .then((resource:HalResource) => {
-        this.barChartData[0].data = resource.wpCount;
-        this.barChartData[1].data = resource.percentageDone;
-        this.barChartLabels = resource.metrics;
+        this.barChartType = resource.barChartType;
+        this.seriexSelect = resource.seriexSelect;
+        this.serieySelect = resource.serieySelect;
+        this.serierSelect = resource.serierSelect;
+        this.barChartData[0].data = resource.y;
+        this.barChartData[0].label = resource.serieySelect === 0 ? '% исполнения KPI' :'Количество';
+        this.barChartLabels = resource.x;
       });
   }
 
   public filterChart() {
-    let params:any = {};
-    params['statusCheck'] = this.statusCheck;
-    params['projectCheck'] = this.projectCheck;
-    params['assigneeCheck'] = this.assigneeCheck;
-    params['organizationCheck'] = this.organizationCheck;
-    params['dateCheck'] = this.dateCheck;
-    params['kpiCheck'] = this.kpiCheck;
-    if (this.statusCheck && this.statusSelect) {
-      params['status'] = this.statusSelect.id;
-    }
-    if (this.projectCheck && this.projectSelect) {
-      params['project'] = this.projectSelect.id;
-    }
-    if (this.assigneeCheck && this.assigneeSelect) {
-      params['assignee'] = this.assigneeSelect.id;
-    }
-    if (this.organizationCheck && this.organizationSelect) {
-      params['organization'] = this.organizationSelect.id;
-    }
-    if (this.dateCheck && this.dateBegin) {
-      params['dateBegin'] = this.dateBegin;
-    }
-    if (this.dateCheck && this.dateEnd) {
-      params['dateEnd'] = this.dateEnd;
-    }
-    if (this.kpiCheck && this.kpiOperation) {
-      params['kpiOperation'] = this.kpiOperation;
-    }
-    if (this.kpiCheck && this.kpiValue) {
-      params['kpiValue'] = this.kpiValue;
-    }
     this.halResourceService
-      .get<HalResource>(this.pathHelper.api.v3.diagrams.toString(), params)
+      .get<HalResource>(this.pathHelper.api.v3.diagrams.toString(), this.getParams())
       .toPromise()
       .then((resource:HalResource) => {
-        this.barChartData[0].data = resource.wpCount;
-        this.barChartData[1].data = resource.percentageDone;
-        this.barChartLabels = resource.metrics;
         this.statusSelect = this.statusSelectOptions.find( x => {return x.id.toString() === resource.status; });
         this.projectSelect = this.projectSelectOptions.find( x => {return x.id.toString() === resource.project; });
         this.assigneeSelect = this.assigneeSelectOptions.find( x => {return x.id.toString() === resource.assignee; });
@@ -159,6 +152,13 @@ export class WorkPackageOverviewDiagramTabComponent implements OnInit {
         this.organizationCheck = (resource.organizationCheck === 'true');
         this.dateCheck = (resource.dateCheck === 'true');
         this.kpiCheck = (resource.kpiCheck === 'true');
+        this.seriexSelect = resource.seriexSelect;
+        this.serieySelect = resource.serieySelect;
+        this.serierSelect = resource.serierSelect;
+        this.barChartData[0].data = resource.y;
+        this.barChartData[0].label = resource.serieySelect === 0 ? '% исполнения KPI' :'Количество';
+        this.barChartLabels = resource.x;
+        this.barChartType = resource.barChartType;
       });
   }
 
@@ -201,5 +201,57 @@ export class WorkPackageOverviewDiagramTabComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  public changeChartType() {
+    this.chart.chartType = this.barChartType;
+    this.chart.chart.update();
+    this.filterChart();
+  }
+
+  public save() {
+    this.halResourceService
+      .post<HalResource>(this.pathHelper.api.v3.diagram_queries.toString(), this.getParams())
+      .toPromise();
+  }
+
+  private getParams():any {
+    let params:any = {};
+    params['statusCheck'] = this.statusCheck;
+    params['projectCheck'] = this.projectCheck;
+    params['assigneeCheck'] = this.assigneeCheck;
+    params['organizationCheck'] = this.organizationCheck;
+    params['dateCheck'] = this.dateCheck;
+    params['kpiCheck'] = this.kpiCheck;
+    params['seriexSelect[0]'] = this.seriexSelect;
+    params['serieySelect[0]'] = this.serieySelect;
+    params['serierSelect'] = this.serierSelect;
+    params['barChartType'] = this.barChartType;
+    if (this.statusCheck && this.statusSelect) {
+      params['status[0]'] = this.statusSelect.id;
+      params['status[1]'] = 10;
+    }
+    if (this.projectCheck && this.projectSelect) {
+      params['project[0]'] = this.projectSelect.id;
+    }
+    if (this.assigneeCheck && this.assigneeSelect) {
+      params['assignee[0]'] = this.assigneeSelect.id;
+    }
+    if (this.organizationCheck && this.organizationSelect) {
+      params['organization[0]'] = this.organizationSelect.id;
+    }
+    if (this.dateCheck && this.dateBegin) {
+      params['dateBegin'] = this.dateBegin;
+    }
+    if (this.dateCheck && this.dateEnd) {
+      params['dateEnd'] = this.dateEnd;
+    }
+    if (this.kpiCheck && this.kpiOperation) {
+      params['kpiOperation'] = this.kpiOperation;
+    }
+    if (this.kpiCheck && this.kpiValue) {
+      params['kpiValue'] = this.kpiValue;
+    }
+    return params;
   }
 }

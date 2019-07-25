@@ -221,8 +221,20 @@ module API
           end
 
           #bbm(
+          def self.diagrams
+            "#{root}/diagrams"
+          end
+
+          def self.diagram_queries
+            "#{root}/diagram_queries"
+          end
+
+          def self.diagram_query(id)
+            "#{diagram_queries}/#{id}"
+          end
+
           def self.attach_types
-            "#{root}/attachTypes"
+            "#{root}/attach_types"
           end
 
           def self.attach_type(id)

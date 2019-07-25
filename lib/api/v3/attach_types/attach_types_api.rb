@@ -8,7 +8,7 @@ module API
   module V3
     module AttachTypes
       class AttachTypesAPI < ::API::OpenProjectAPI
-        resources :attachTypes do
+        resources :attach_types do
           before do
             authorize(:view_work_packages, global: true)
 
