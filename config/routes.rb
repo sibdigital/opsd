@@ -36,6 +36,7 @@ OpenProject::Application.routes.draw do
   # state for show view in homescreen context
   get '/vkladka2(/*state)' => 'homescreen#vkladka2', as: 'edit_tab_homescreen2'
   # )
+
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   # The URI.escape doesn't escape / unless you ask it to.
@@ -55,6 +56,7 @@ OpenProject::Application.routes.draw do
   get '/auth/failure', to: 'account#omniauth_failure'
   get '/auth/:provider', to: proc { [404, {}, ['']] }, as: 'omniauth_start'
   match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: %i[get post]
+
 
   # In case assets are actually delivered by a node server (e.g. in test env)
   # we redirect all requests to socksjs necessary to support HMR to that server.
@@ -207,6 +209,8 @@ OpenProject::Application.routes.draw do
     #zbd(
     get 'stages', controller: 'stages', action: 'show', as: :stages
     # )
+    #
+
     # +tan 2019.07.07
     resources :plan_uploaders, controller: 'plan_uploaders'
     #-tan
