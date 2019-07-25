@@ -308,13 +308,16 @@ This file written by BBM
 <%= form_tag({}) do -%>
   <div>
     <%="Количество рабочих часов в году:"%>
-    <%=8*247%>
+    <%=8*(247+ProductionCalendar.where(day_type: '0').count-ProductionCalendar.where(day_type: '1').count)%>
     <br>
     <br>
     <%="Рабочие дни:" %>
+<!--    <div id="hidden_checkbox" style="display: none;">-->
+      <%#= work_days_check_box_tag(:checking, true)%>
+      <%#= label_tag(:checking, "Проверка") %>
+<!--    </div>-->
     <div id="work_days">
       <%= work_days_check_box_tag(:day1, (Setting.find_by(name: 'work_days').value.include? '1'))%>
-      <%#= Setting.find_by(name: 'work_days').value.include? '1'%>
       <%= label_tag(:day1, "Понедельник") %>
       <%= work_days_check_box_tag(:day2, (Setting.find_by(name: 'work_days').value.include? '2')) %>
       <%= label_tag(:day2, "Вторник") %>
@@ -331,7 +334,7 @@ This file written by BBM
 
     </div>
     <br>
-    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
   </div>
 
   <div class="generic-table--container">

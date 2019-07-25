@@ -10,6 +10,11 @@ class ProductionCalendarsController < ApplicationController
   include ::ColorsHelper
 
   def index
+    if Setting.find_by(name: 'work_days').value === false
+      setting=Setting.find_by(name: 'work_days')
+      setting.value = "12345"
+      setting.save
+    end
     sort_columns = {'id' => "#{ProductionCalendar.table_name}.id",
                    'day_type'=>"#{ProductionCalendar.table_name}.day_type",
                    'date'=>"#{ProductionCalendar.table_name}.date",
@@ -71,23 +76,25 @@ class ProductionCalendarsController < ApplicationController
   def show
 
   end
-
-  def create
-    if request.env['PATH_INFO'] === "/admin/production_calendars"
-      # render action: 'index'
-      array = Array::[](params[:day1], params[:day2], params[:day3], params[:day4], params[:day5], params[:day6], params[:day7])
-      setting_work_days = ""
-      array.each_with_index do |item, index|
-        if item === "1"
-          setting_work_days += (index + 1).to_s
-        end
+  def refresh
+    # render action: 'index'
+    array = Array::[](params[:day1], params[:day2], params[:day3], params[:day4], params[:day5], params[:day6], params[:day7])
+    setting_work_days = ""
+    array.each_with_index do |item, index|
+      if item === "1"
+        setting_work_days += (index + 1).to_s
       end
-      setting=Setting.find_by(name: 'work_days')
-       # (Setting.where(id: 119).map {|u| [u.value]}).join = value of entity
-      setting.value = setting_work_days
-      setting.save
-      redirect_to action: 'index'
-    else
+    end
+    setting=Setting.find_by(name: 'work_days')
+    # (Setting.where(id: 119).map {|u| [u.value]}).join = value of entity
+    setting.value = setting_work_days
+    setting.save
+    redirect_to action: 'index'
+  end
+  def create
+      if(params[:commit] === "Применить")
+        refresh
+      else
       @production_calendar = ProductionCalendar.new(permitted_params.production_calendar)
       @production_calendar.year = @production_calendar.date.year
       if @production_calendar.save
