@@ -7,7 +7,7 @@ This file written by XCC
 <% local_assigns[:additional_breadcrumb] = @target %>
 <% breadcrumb_paths(default_breadcrumb, @target) %>
 <% if @target_parent != nil %>
-  <div class="breadcrumb" style="margin-bottom: 5px;">
+  <div class="breadcrumb" style="font-size: 10px; margin-bottom: 5px;">
     <%= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target_parent).name, edit_project_target_path(id: @target_parent))).html_safe %>
   </div>
 <% end %>
@@ -17,19 +17,48 @@ This file written by XCC
 
   <section style="display: block; width: 45%; float: left; margin-right: 30px;">
     <h4>Свойства</h4>
-    <%= labelled_tabular_form_for @target, url: project_target_path(project_id: @project) do |f| %>
+    <%#= labelled_tabular_form_for @target, url: project_target_path(project_id: @project) do |f| %>
+    <%= form_with(model: @target, url: project_target_path(project_id: @project)) do |f| %>
       <%= render partial: 'targets/form/form', locals: { f: f } %>
-      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+      <%= styled_button_tag l(:button_save),  class: '-highlight -with-icon icon-checkmark' %>
+      <%= link_to 'Закрыть', project_targets_path %>
     <% end %>
-
-    <%#= styled_form_tag(project_target_path(id: @target.id), method: :delete) do %>
-      <%#= styled_submit_tag l(:button_delete) %>
-    <%# end %>
   </section>
 
   <section style="display: block; width: 50%; float: left;">
     <h4><%= l(:label_target_execution_values) %></h4>
-    <%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id), target_id: @target.id%>
+    <%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id), target_id: @target.id, project_id: @project.id%>
+
+
+    <div id="target-val-form" style="display: none;">
+
+      <%= @target_execution_value = TargetExecutionValue.new %>
+      <%#= @target_execution_value.target_id = @target.id %>
+      <%#= labelled_tabular_form_for @target_execution_value,
+                                    url: target_execution_values_path(target_id: @target_execution_value.target_id) do |f| %>
+      <%= form_with model: @target_execution_value,
+        url: target_execution_values_path(target_id: @target_execution_value.target_id) do |f| %>
+
+        <%#= render partial: 'target_execution_values/form', locals: { f: f } %>
+
+        <%= error_messages_for :target_execution_value %>
+        <section class="form--section">
+          <%= hidden_field_tag(:target_id, @target.id) %>
+          <div class="form--field"><label for="year">Год:</label><%= select_year Date.today, field_name: 'target_execution_value[year]', required: true, container_class: '-middle' %></div>
+          <div class="form--field"><label for="quarter">Квартал:</label>
+            <%= select_tag('quarter',options_for_select([['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], 1)) %>
+          </div>
+          <div class="form--field"><label for="value">Значение:</label><%= f.text_field :value %></div>
+        </section>
+        <%= styled_button_tag 'Добавить', class: '-highlight -with-icon icon-checkmark' %>
+        <%= button_tag l(:button_cancel), type: 'button', class: '-highlight -with-icon icon-checkmark', id: 'target-val-cancel' %>
+<!--        <div><span id="target-val-cancel">Отмена</span></div>-->
+
+        <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark', remote: true %>
+      <% end %>
+    </div>
+
   </section>
+
 </div>
 

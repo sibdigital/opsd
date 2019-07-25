@@ -6,8 +6,32 @@
 <% html_title l(:label_target_execution_values_new) %>
 <% breadcrumb_paths(default_breadcrumb, l(:label_target_execution_values_new)) %>
 <%= toolbar title: l(:label_target_execution_values_new) %>
-<%= labelled_tabular_form_for @target_execution_value,
-                              url: target_execution_values_path(target_id: @target_execution_value.target_id) do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-<% end %>
+
+
+<!--<section style="display: block; width: 45%; float: left; margin-right: 30px;">-->
+<!--  <h4>Свойства</h4>-->
+  <%#= form_with(model: @target) do |f| %>
+    <%#= render partial: 'targets/form/form', readonly: true, locals: { f: f } %>
+    <%#= styled_button_tag l(:button_save),  class: '-highlight -with-icon icon-checkmark' %>
+    <%#= link_to 'Закрыть', project_targets_path %>
+  <%# end %>
+
+<!--  <div class="form--field"><%#= text_field_tag('type', TargetType.where(active: true, id: @selected_type_id).take, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= text_field_tag('name', @target.name, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= text_field_tag('type', TargetStatus.where(active: true, id: @selected_status_id).take, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= text_field_tag('unit', @target.unit, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= text_field_tag('unit', @target.unit, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= text_field_tag('basic_value', @target.basic_value, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= text_field_tag('plan_value', @target.plan_value, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= text_field_tag('comment', @target.comment, readonly: true) %></div>-->
+<!--  <div class="form--field"><%#= check_box_tag('is_approve', @target.is_approve, readonly: true) %></div>-->
+
+<!--</section>-->
+
+<section>
+  <%= labelled_tabular_form_for @target_execution_value,
+                                url: target_execution_values_path(target_id: @target_execution_value.target_id) do |f| %>
+    <%= render partial: 'form', locals: { f: f } %>
+    <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark', remote: true %>
+  <% end %>
+</section>

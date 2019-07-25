@@ -1,5 +1,4 @@
 class TargetsController < ApplicationController
-#  menu_item :targets
   default_search_scope :targets
 
   before_action :find_optional_project, :verify_targets_module_activated
@@ -36,11 +35,11 @@ class TargetsController < ApplicationController
   end
 
   def edit
-    if params[:tab].blank?
-      redirect_to tab: :properties
-    else
-      @tab = params[:tab]
-    end
+    # if params[:tab].blank?
+    #   redirect_to tab: :properties
+    # else
+    #   @tab = params[:tab]
+    # end
   end
 
   def new
@@ -51,9 +50,10 @@ class TargetsController < ApplicationController
     else
       @parent_id = 0
     end
+
     @target.parent_id = @parent_id
     if @target.parent_id != 0
-       @target_parent = Target.find(@parent_id)
+      @target_parent = Target.find(@parent_id)
     end
   end
 
@@ -71,7 +71,8 @@ class TargetsController < ApplicationController
   def update
     if @target.update_attributes(permitted_params.target)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to project_targets_path()
+      #redirect_to project_targets_path()
+      redirect_to edit_project_target_path()
     else
       render action: 'edit'
     end
@@ -90,7 +91,6 @@ class TargetsController < ApplicationController
     if @target.parent_id != 0
       @target_parent = Target.find(@target.parent_id)
     end
-
   end
 
   def default_breadcrumb
@@ -107,7 +107,6 @@ class TargetsController < ApplicationController
 
   private
 
-  # TODO: см. find_optional_project в ActivitiesController
   def find_optional_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
@@ -119,7 +118,6 @@ class TargetsController < ApplicationController
   def verify_targets_module_activated
     render_403 if @project && !@project.module_enabled?('targets')
   end
-
 
   def remove_quotations(str)
     if str.start_with?('"')

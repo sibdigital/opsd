@@ -1,8 +1,7 @@
 class TargetExecutionValue < ActiveRecord::Base
-
-
   belongs_to :target
 
+  #validates :quarter
 
   def option_name
     nil
