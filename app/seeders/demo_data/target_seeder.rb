@@ -25,9 +25,10 @@ module DemoData
       end
 
       work_package_targets.each do |attributes|
-        print '.'
-        tr_attr = target_values_attributes(attributes)
-        targ = TargetExecutionValue.create tr_attr
+         print '.'
+         tr_attr = work_package_targets_attributes(attributes)
+         targ = WorkPackageTarget.create tr_attr
+         #print tr_attr.name
       end
 
     end
@@ -61,7 +62,7 @@ module DemoData
         value:        attributes[:value],
         target_id:    target_by_name(attributes[:target]),
         project_id:  project_by_name(attributes[:project]),
-        work_package_id: work_package_subject(attributes[:work_package_subject])
+        work_package_id: work_package_by_subject(attributes[:work_package_subject])
       }
     end
 
