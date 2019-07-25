@@ -1,7 +1,11 @@
 #-- encoding: UTF-8
 #+-xcc 2019.06.23
 class Organization < ActiveRecord::Base
+
     has_many :work_packages, foreign_key: 'organization_id', dependent: :nullify
+    #tan(
+    has_many :work_package_problems, foreign_key: 'organization_source_id', dependent: :nullify
+    # )
 
     acts_as_customizable
 

@@ -3,7 +3,13 @@
 # 26/04/2019
 
 class ProjectRisk < Risk
+
   belongs_to :project
+
+  #tan(
+  has_many :work_package_problems, foreign_key: 'risk_id', dependent: :nullify
+  # )
+
   OptionName = :risk_project_risks
 
   acts_as_customizable
