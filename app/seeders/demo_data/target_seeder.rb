@@ -10,6 +10,7 @@ module DemoData
     def seed_data!
       targets = translate_with_base_url("seeders.demo_data.project_targets")
       targets_values = translate_with_base_url("seeders.demo_data.target_execution_values")
+      work_package_targets = translate_with_base_url("seeders.demo_data.work_package_targets")
 
       targets.each do |attributes|
         print '.'
@@ -18,6 +19,12 @@ module DemoData
       end
 
       targets_values.each do |attributes|
+        print '.'
+        tr_attr = target_values_attributes(attributes)
+        targ = TargetExecutionValue.create tr_attr
+      end
+
+      work_package_targets.each do |attributes|
         print '.'
         tr_attr = target_values_attributes(attributes)
         targ = TargetExecutionValue.create tr_attr
@@ -44,6 +51,25 @@ module DemoData
         value:        attributes[:value],
         target_id:    target_by_name(attributes[:target])
       }
+    end
+
+    def work_package_targets_attributes(attributes)
+      {
+        year:         attributes[:year],
+        quarter:         attributes[:quarter],
+        month:         attributes[:month],
+        value:        attributes[:value],
+        target_id:    target_by_name(attributes[:target]),
+        project_id:  project_by_name(attributes[:project]),
+        work_package_id: work_package_subject(attributes[:work_package_subject])
+      }
+    end
+
+    def work_package_by_subject(subject)
+      np = WorkPackage.find_by(subject: subject)
+      if np != nil
+        np.id
+      end
     end
 
     def project_by_name(name)
