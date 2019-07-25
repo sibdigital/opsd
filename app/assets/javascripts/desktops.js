@@ -115,6 +115,14 @@ function menuSpan() {
     jQuery('#' + event.target.id).css('background-color', '#16598c');
   });
 
+  jQuery('#raion-li').click(function () {
+    jQuery('.test1').hide();
+    jQuery('#raion').show();
+    hideMenu();
+    jQuery('.test-li').css('background-color', '#333333');
+    jQuery('#' + event.target.id).css('background-color', '#16598c');
+  });
+
 
   jQuery('.kpi-a').click(function () {
     jQuery('.test1').hide();
