@@ -7,7 +7,7 @@
 */
 
 /* global define:false, require: false, jQuery:false */
-
+//added by knm
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.

@@ -1,3 +1,4 @@
+# created by knm
 class PopUpAlertsController < ApplicationController
   def get_alerts
     @alerts=Alert.where(alert_type: 'PopUp')
