@@ -143,6 +143,7 @@ class Project < ActiveRecord::Base
 
   #bbm(
   has_many :project_risks
+  belongs_to :national_project
   # )
 
   #zbd(

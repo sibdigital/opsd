@@ -244,6 +244,14 @@ module API
           def self.attach_type(id)
             "#{attach_types}/#{id}"
           end
+
+          def self.national_projects
+            "#{root}/national_projects"
+          end
+
+          def self.national_project(id)
+            "#{national_projects}/#{id}"
+          end
           #)
           def self.priorities
             "#{root}/priorities"

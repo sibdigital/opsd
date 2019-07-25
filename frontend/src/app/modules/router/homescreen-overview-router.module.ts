@@ -43,6 +43,7 @@ import {KpiTabComponent} from "core-components/homescreen-tabs/kpi-tab/kpi-tab.c
 import {HomescreenTabsComponent} from "core-components/homescreen-tabs/homescreen-tabs.component";
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
 import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
+import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/d
     OverviewDiagramQueriesTabComponent,
     HomescreenTabsComponent,
     KpiTabComponent,
-    DesktopTabComponent
+    DesktopTabComponent,
+    HomescreenBlueTableComponent
   ],
   declarations: [
     HomescreenDiagramComponent,
@@ -71,7 +73,8 @@ import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/d
     OverviewDiagramQueriesTabComponent,
     HomescreenTabsComponent,
     KpiTabComponent,
-    DesktopTabComponent
+    DesktopTabComponent,
+    HomescreenBlueTableComponent
   ],
   entryComponents: [
     HomescreenDiagramComponent,
@@ -80,7 +83,8 @@ import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/d
     OverviewDiagramQueriesTabComponent,
     HomescreenTabsComponent,
     KpiTabComponent,
-    DesktopTabComponent
+    DesktopTabComponent,
+    HomescreenBlueTableComponent
   ],
   exports: [
   ],

@@ -127,6 +127,12 @@ module API
           href: api_v3_paths.diagram_queries
         }
       end
+
+      link :national_projects do
+        {
+          href: api_v3_paths.national_projects
+        }
+      end
       # )
       property :instance_name,
                getter: ->(*) { Setting.app_title }
