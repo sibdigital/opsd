@@ -74,6 +74,7 @@ class AdminController < ApplicationController
       @assigneee = User.find(@workPackage.assigned_to_id);
 
       UserMailer.work_package_notify_assignee(@assigneee).deliver_now
+      #UserMailer.work_package_notify_assignee(@assigneee).deliver_later
     rescue => e
       flash[:error] = I18n.t(:notice_email_error, value: Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup))
     end
