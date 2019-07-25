@@ -73,13 +73,29 @@ class ProductionCalendarsController < ApplicationController
   end
 
   def create
-    @production_calendar = ProductionCalendar.new(permitted_params.production_calendar)
-    @production_calendar.year = @production_calendar.date.year
-    if @production_calendar.save
-      flash[:notice] = l(:notice_successful_create)
+    if request.env['PATH_INFO'] === "/admin/production_calendars"
+      # render action: 'index'
+      array = Array::[](params[:day1], params[:day2], params[:day3], params[:day4], params[:day5], params[:day6], params[:day7])
+      setting_work_days = ""
+      array.each_with_index do |item, index|
+        if item === "1"
+          setting_work_days += (index + 1).to_s
+        end
+      end
+      setting=Setting.find_by(name: 'work_days')
+       # (Setting.where(id: 119).map {|u| [u.value]}).join = value of entity
+      setting.value = setting_work_days
+      setting.save
       redirect_to action: 'index'
     else
-      render action: 'new'
+      @production_calendar = ProductionCalendar.new(permitted_params.production_calendar)
+      @production_calendar.year = @production_calendar.date.year
+      if @production_calendar.save
+        flash[:notice] = l(:notice_successful_create)
+        redirect_to action: 'index'
+      else
+        render action: 'new'
+      end
     end
   end
 

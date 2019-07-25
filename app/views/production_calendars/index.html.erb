@@ -309,7 +309,31 @@ This file written by BBM
   <div>
     <%="Количество рабочих часов в году:"%>
     <%=8*247%>
+    <br>
+    <br>
+    <%="Рабочие дни:" %>
+    <div id="work_days">
+      <%= work_days_check_box_tag(:day1, (Setting.find_by(name: 'work_days').value.include? '1'))%>
+      <%#= Setting.find_by(name: 'work_days').value.include? '1'%>
+      <%= label_tag(:day1, "Понедельник") %>
+      <%= work_days_check_box_tag(:day2, (Setting.find_by(name: 'work_days').value.include? '2')) %>
+      <%= label_tag(:day2, "Вторник") %>
+      <%= work_days_check_box_tag(:day3, (Setting.find_by(name: 'work_days').value.include? '3')) %>
+      <%= label_tag(:day3, "Среда") %>
+      <%= work_days_check_box_tag(:day4, (Setting.find_by(name: 'work_days').value.include? '4'))%>
+      <%= label_tag(:day4, "Четверг") %>
+      <%= work_days_check_box_tag(:day5, (Setting.find_by(name: 'work_days').value.include? '5')) %>
+      <%= label_tag(:day5, "Пятница") %>
+      <%= work_days_check_box_tag(:day6, (Setting.find_by(name: 'work_days').value.include? '6')) %>
+      <%= label_tag(:day6, "Суббота") %>
+      <%= work_days_check_box_tag(:day7, (Setting.find_by(name: 'work_days').value.include? '7')) %>
+      <%= label_tag(:day7, "Воскресенье") %>
+
+    </div>
+    <br>
+    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
   </div>
+
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table" id="production_calendar_items">

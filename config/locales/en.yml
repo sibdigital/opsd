@@ -816,7 +816,8 @@ en:
     #)
     possibility: Вероятность наступления
     owner: Владелец риска
-    is_possibility: Является возможностью?
+    is_possibility: Является возможностью
+    day_type: Выходной / Рабочий
     priority: Приоритет
     project: Проект
     responsible: Подотчетный
@@ -2456,6 +2457,7 @@ en:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
+  setting_days_text: Дни недели
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
     для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
     для GFM Markdown.

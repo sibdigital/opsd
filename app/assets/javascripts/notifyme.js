@@ -22,7 +22,7 @@ function notifying()
   },{
   type: 'info',
     delay: 64,
-    timer: 12,
+    timer: 16,
   animate: {
     enter: 'animated fadeInUp',
     exit: 'animated fadeOutRight'
