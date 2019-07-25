@@ -79,12 +79,13 @@ export class HomescreenDiagramComponent implements OnInit {
       .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
-        this.barChartData.push(resource);
-        this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d']; //default color set
-      });
+        this.barChartData[0].data = resource.data;
+        this.barChartData[0].label = resource.label;
+        });
+    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d']; //default color set
     /*if (this.barChartData[0].label === 'false' && this.barChartOptions.legend) {
-      this.barChartOptions.legend.display = false;
-    }*/
+          this.barChartOptions.legend.display = false;
+        }*/
   }
 
   public changeChartType() {

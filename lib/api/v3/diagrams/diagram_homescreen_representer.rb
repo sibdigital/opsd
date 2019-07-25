@@ -26,7 +26,7 @@ module API
         property :label,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   ''
+                   'false1'
                  },
                  render_nil: true
 
