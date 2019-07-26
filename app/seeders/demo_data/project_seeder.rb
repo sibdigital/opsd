@@ -75,9 +75,17 @@ module DemoData
       puts
       # )
 
+      #tan(
+      print ' ↳ Creating targets'
+      DemoData::TargetSeeder.new.seed!
+      puts
+      # )
+
       puts ' ↳ Updating settings'
       seed_settings
     end
+
+
 
     def applicable?
       Project.count.zero?
