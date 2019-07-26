@@ -12,7 +12,10 @@ class AlertsController < ApplicationController
   #include OrgSettingsHelper
 
   def index
-    find_work_packages
+    notify_by_email
+
+   # render json: @alerts.select([:id, :entity_id, :entity_type, :alert_date])
+     render html: "AlertsController выполнен"
   end
 
 
@@ -35,7 +38,7 @@ class AlertsController < ApplicationController
     alert.save
   end
 
-  def find_work_packages
+  def notify_by_email
 
 =begin
     @WorkPackages = WorkPackage.left_outer_joins(" LEFT JOIN alerts ON WorkPackage.id = alerts.entity_id where
@@ -60,6 +63,7 @@ class AlertsController < ApplicationController
         @assigneee = User.find(workPackage.assigned_to_id);
 
         UserMailer.work_package_notify_assignee(@assigneee).deliver_later
+        #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
 
         @alert = Alert.new
 
@@ -67,14 +71,15 @@ class AlertsController < ApplicationController
         puts workPackage.id, ' entity_id: ', @alert.entity_id
 
         @alert.alert_date = Date.current
-        @alert.entity_type = 'workpackage'
-        @alert.alert_type = 'email'
+        @alert.entity_type = 'WorkPackage'
+        @alert.alert_type = 'Email'
 
-       @alert.save
+        @alert.save
 
         #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
       end
     end
+
 
 
     #add method for delete unassigned records
