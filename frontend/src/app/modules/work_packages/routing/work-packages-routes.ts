@@ -40,6 +40,7 @@ import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/rout
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
+import {WorkPackageTargetsTabComponent} from 'core-components/wp-single-view-tabs/targets-tab/targets-tab.component';
 
 
 
@@ -93,6 +94,14 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/activity',
     component: WorkPackageActivityTabComponent
   },
+  //zbd(
+  {
+    name: 'work-packages.show.targets',
+    url: '/targets',
+    component: WorkPackageTargetsTabComponent
+  },
+  // )
+
   {
     name: 'work-packages.show.activity.details',
     url: '/activity/details/#{activity_no:\d+}',
@@ -158,6 +167,13 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/overview',
     component: WorkPackageOverviewTabComponent
   },
+  //zbd(
+  {
+    name: 'work-packages.list.details.targets',
+    url: '/targets',
+    component: WorkPackageTargetsTabComponent
+  },
+  // )
   {
     name: 'work-packages.list.details.activity',
     url: '/activity',

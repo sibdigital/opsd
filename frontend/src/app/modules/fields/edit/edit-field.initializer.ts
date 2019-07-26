@@ -61,7 +61,6 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         'Organization',
         'ArbitaryObject',
         //)
-
         'CustomOption',
         'Project'])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [

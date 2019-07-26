@@ -18,6 +18,13 @@
           <a href="" [textContent]="text.tabs.relations"></a>
           <wp-relations-count [wpId]="workPackage.id"></wp-relations-count>
         </li>
+        <!-- zbd( -->
+        <li uiSref="work-packages.list.details.targets"
+                    uiSrefActive="selected">
+            <a href="" [textContent]="text.tabs.targets"></a>
+        </li>
+        <!--) -->
+
         <li *ngIf="canViewWorkPackageWatchers()"
             uiSref="work-packages.list.details.watchers"
             uiSrefActive="selected">
