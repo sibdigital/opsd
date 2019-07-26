@@ -850,6 +850,7 @@ en:
     arbitary_object: Произвольный объект
     target_status: Статус
     target_type: Тип
+    target_parent: Родитель
     label_targets: Целевые показатели
   #)
   button_add: Добавить

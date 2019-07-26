@@ -6,11 +6,11 @@ This file written by XCC
 <% html_title l(:label_administration), "#{l(:label_edit)} #{Target.model_name.human} #{h @target.name}" %>
 <% local_assigns[:additional_breadcrumb] = @target %>
 <% breadcrumb_paths(default_breadcrumb, @target) %>
-<% if @target.parent_id != 0 %>
-  <div class="breadcrumb" style="font-size: 14px; font-style: italic; margin-bottom: 5px;">
-    <%= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target.parent_id).name, edit_project_target_path(id: @target.parent_id))).html_safe %>
-  </div>
-<% end %>
+<%# if @target.parent_id != 0 %>
+<!--  <div class="breadcrumb" style="font-size: 14px; font-style: italic; margin-bottom: 5px;">-->
+    <%#= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target.parent_id).name, edit_project_target_path(id: @target.parent_id))).html_safe %>
+<!--  </div>-->
+<%# end %>
 <%= breadcrumb_toolbar @target %>
 
 <%= error_messages_for :target %>

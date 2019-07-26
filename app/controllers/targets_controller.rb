@@ -19,7 +19,7 @@ class TargetsController < ApplicationController
                     'type' => "#{Target.table_name}.type_id"
     }
 
-    sort_init 'id', 'asc'
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
 
     @parent_id = parent_id_param
@@ -31,6 +31,8 @@ class TargetsController < ApplicationController
   end
 
   def edit
+    @targets_arr = [['', 0]]
+    @targets_arr += Target.where('project_id = ? and id <> ?', @project.id, @target.id).map {|u| [u.name, u.id]}
   end
 
   def new
@@ -47,6 +49,10 @@ class TargetsController < ApplicationController
     if @target.parent_id != 0
       @target_parent = Target.find(@parent_id)
     end
+
+    @targets_arr = [['', 0]]
+    @targets_arr += Target.where('project_id = ?', @project.id).map {|u| [u.name, u.id]}
+
   end
 
   def create
