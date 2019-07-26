@@ -392,10 +392,16 @@ OpenProject::Application.routes.draw do
     end
   end
   #knm(
-  resources :pop_up_alerts do
-    get :get_alerts, on: :collection
+  resources :alerts do
+    get :get_pop_up_alerts, on: :collection
+    get :read_alert, on: :collection
   end
+
+  resources :pop_up_alerts
+
+  resources :national_projects
   #)
+
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
@@ -663,10 +669,12 @@ OpenProject::Application.routes.draw do
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'
     get '/my/mail_notifications', action: 'mail_notifications'
+    get '/my/pop_up_notifications', action: 'pop_up_notifications'
 
     patch '/my/account', action: 'update_account'
     patch '/my/settings', action: 'update_settings'
     patch '/my/mail_notifications', action: 'update_mail_notifications'
+    patch '/my/pop_up_notifications', action: 'update_pop_up_notifications'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'

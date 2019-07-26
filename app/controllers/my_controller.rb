@@ -44,6 +44,7 @@ class MyController < ApplicationController
   menu_item :password,            only: [:password]
   menu_item :access_token,        only: [:access_token]
   menu_item :mail_notifications,  only: [:mail_notifications]
+  menu_item :pop_up_notifications,  only: [:pop_up_notifications]
 
   # Show user's page
   def index
@@ -87,6 +88,12 @@ class MyController < ApplicationController
 
   # Configure user's mail notifications
   def mail_notifications; end
+
+  def pop_up_notifications; end
+
+  def update_pop_up_notifications
+
+  end
 
   def update_mail_notifications
     write_email_settings(redirect_to: :mail_notifications)

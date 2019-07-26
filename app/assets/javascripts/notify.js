@@ -298,11 +298,15 @@
     },
     bind: function () {
       var self = this;
-
       this.$ele.find('[data-notify="dismiss"]').on('click', function () {
         self.close();
       });
       this.$ele.find('[data-notify="read"]').on('click', function () {
+        jQuery.ajax({ type: 'GET',
+          url: '/alerts/read_alert',
+          async: true,
+          data: {pop_id: self.$ele[0].id}
+        });
         self.close();
       });
 

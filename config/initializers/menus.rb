@@ -121,7 +121,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'mail_notifications' },
             caption: I18n.t('activerecord.attributes.user.mail_notification'),
             icon: 'icon2 icon-news'
-
+  menu.push :pop_up_notifications,
+            { controller: '/my', action: 'pop_up_notifications' },
+            caption: I18n.t('activerecord.attributes.user.pop_up_notification'),
+            icon: 'icon2 icon-news'
   menu.push :delete_account, :deletion_info_path,
             caption: I18n.t('account.delete'),
             param: :user_id,

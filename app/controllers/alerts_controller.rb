@@ -20,6 +20,20 @@ class AlertsController < ApplicationController
     @emailNotify = EmailNotify.new
   end
 
+  def get_pop_up_alerts
+    @alerts=Alert.where(alert_type: 'PopUp').where(readed: false)
+    if Alert.where(alert_type: 'PopUp').count.positive?
+      # render plain: Alert.where(alert_type: 'PopUp').count
+      render json: @alerts
+    end
+    # render plain: "OK"
+  end
+
+  def read_alert
+    alert=Alert.find_by_id(params["pop_id"])
+    alert.readed=true;
+    alert.save
+  end
 
   def find_work_packages
 
