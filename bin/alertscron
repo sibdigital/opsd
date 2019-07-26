@@ -1,0 +1,1 @@
+crontab bin/alerts_command_to_cron
