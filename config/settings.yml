@@ -360,3 +360,7 @@ installation_uuid:
 remaining_count_days:
   default: 14
 #)
+#xcc(
+region_name:
+  default: Республика Бурятия
+#)

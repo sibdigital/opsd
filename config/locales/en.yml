@@ -855,11 +855,12 @@ en:
     number_agreement: Номер
     count_days: Количество рабочих дней (направление разъяснений по Соглашению)
     state_program: Государственная программа
-    other_liabilities_2141: инные обязательства п.п. 2.1.4.1
-    other_liabilities_2142: инные обязательства п.п. 2.1.4.2
-    other_liabilities_2281: инные обязательства п.п. 2.2.8.1
-    other_liabilities_2282: инные обязательства п.п. 2.2.8.2
-
+    other_liabilities_2141: Иные обязательства п.п. 2.1.4.1
+    other_liabilities_2142: Иные обязательства п.п. 2.1.4.2
+    other_liabilities_2281: Иные обязательства п.п. 2.2.8.1
+    other_liabilities_2282: Иные обязательства п.п. 2.2.8.2
+    national_project: Национальный проект
+    federal_project: Федеральный проект
   #)
   button_add: Добавить
   button_add_member: Добавить участника

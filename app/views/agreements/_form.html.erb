@@ -17,4 +17,28 @@ This file written by XCC
   <div class="form--field"><%= f.text_field 'other_liabilities_2282', container_class: '-middle' %></div>
   <div class="form--field"><%= f.date_field 'date_end', container_class: '-middle' %></div>
 
+  <% @selected_national_project_id = if @agreement.national_project_id
+                                        @agreement.national_project_id
+                                     else
+                                        nil
+                                     end
+
+
+     @selected_federal_project_id =  if @agreement.federal_project_id
+                                        @agreement.federal_project_id
+                                     else
+                                       nil
+                                     end
+
+  %>
+  <div class="form--field">  <%= f.select :national_project_id,
+                                          options_for_select(NationalProject.find_by_sql("SELECT n.* FROM national_projects n INNER JOIN projects p ON n.id = p.national_project_id and p.id="+@project.id.to_s).map {|u| [u.name, u.id]}, @selected_national_project_id),
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+
+  <div class="form--field">  <%= f.select :federal_project_id,
+                                          options_for_select(NationalProject.find_by_sql("SELECT n.* FROM national_projects n INNER JOIN projects p ON n.id = p.federal_project_id and p.id="+@project.id.to_s).map {|u| [u.name, u.id]}, @selected_federal_project_id),
+                                          include_blank: true,
+                                          container_class: '-slim' %></div>
+
 </section>
