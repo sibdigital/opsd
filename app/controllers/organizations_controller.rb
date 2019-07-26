@@ -47,38 +47,34 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-   sql = "SELECT formula FROM custom_fields WHERE type = 'OrganizationCustomField'"
-   records_array = ActiveRecord::Base.connection.execute(sql)
-   formula_array = records_array.values
-   len = @organization.custom_field_values.length
-   org_id = @organization.attributes['id']
-   converted_params = []
-   expr_params = []
+    sql = "SELECT formula FROM custom_fields WHERE type = 'OrganizationCustomField'"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    formula_array = records_array.values
+    len = @organization.custom_field_values.length
+    org_id = @organization.attributes['id']
 
-     for i in 0...len
-       if formula_array[i][0] != ""
-         expr = formula_array[i][0].to_s
-         expr_params = expr.split(/[+\-*\/]/)
+    for i in 0...len
+      if formula_array[i][0] != ""
+        expr = formula_array[i][0].to_s
+        expr_params = expr.split(/[+\-*\/]/)
 
-         a = 1
+        for expr_param in expr_params
+          if expr_param =~ /^([^0-9]*)$/
+            translation = I18n.backend.translations[:en][:attributes].key expr_param
+            query = "SELECT " + translation.to_s + " FROM organizations WHERE id = " + org_id.to_s
+            result = ActiveRecord::Base.connection.execute(query).values
 
-         for expr_param in expr_params
-           if expr_param =~ /^([^0-9]*)$/
-              query = "SELECT " + expr_param + " FROM organizations WHERE id = " + org_id.to_s
-              result = ActiveRecord::Base.connection.execute(query).values
-
-              expr = expr.sub(expr_param, result[0][0])
-           end
-         end
-
-         @organization.custom_field_values[i].value = eval(expr)
-       end
-     end
+            expr = expr.sub(expr_param, result[0][0])
+          end
+        end
 
 
-    # @organization.custom_field_values[i].value = eval(formula_array[i][0].to_s)
-
+        № добавить проверку на nil
+        @organization.custom_field_values[i].value = eval(expr)
+      end
+    end
   end
+
 
   def new
     @organization = Organization.new
