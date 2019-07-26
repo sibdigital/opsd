@@ -69,7 +69,7 @@ class OrganizationsController < ApplicationController
         end
 
 
-        № добавить проверку на nil
+       # добавить проверку на nil
         @organization.custom_field_values[i].value = eval(expr)
       end
     end
