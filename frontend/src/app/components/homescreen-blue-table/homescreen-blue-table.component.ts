@@ -1,10 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Injector, OnInit, Input} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
+import {BlueTableNationalProjectsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-national-projects.service";
+import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kt.service";
 
 @Component({
   selector: 'homescreen-blue-table',
@@ -12,41 +10,30 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
   styleUrls: ['./homescreen-blue-table.sass']
 })
 export class HomescreenBlueTableComponent implements OnInit {
-  public columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные мероприятия/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
+  @Input('template') public template:string;
+  @Input('param') public param:string;
+  public blueTableModule:BlueTableService;
+  public columns:string[] = [];
   public data:any[] = [];
-  public readonly appBasePath:string;
 
-  constructor(protected I18n:I18nService,
-              protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
-    this.appBasePath = window.appBasePath ? window.appBasePath : '';
+  constructor(public readonly injector:Injector,
+              protected I18n:I18nService) {
   }
 
   ngOnInit() {
-    this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
-      .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        resources.elements.map((el:HalResource) => {
-          this.data.push(el);
-          if (el.projects) {
-            el.projects.map( (project:ProjectResource) => {
-              project['_type'] = 'Project';
-              this.data.push(project);
-            });
-          }
-        });
-      });
-  }
-
-  public getClass(row:any):string {
-    if (row._type === 'Project') {
-      return 'project';
+    this.getBlueTable(this.template);
+    if (!!this.blueTableModule) {
+      this.data = this.blueTableModule.getData(this.param);
+      this.columns = this.blueTableModule.getColumns();
     }
-    return row.parentId == null ? 'parent' : 'child';
   }
 
-  public getProjectHref(row:any):string {
-    return this.appBasePath + '/projects/' + row.identifier;
+  public getBlueTable(template:string) {
+    if (template === 'desktop') {
+      this.blueTableModule = this.injector.get(BlueTableNationalProjectsService);
+    }
+    if (template === 'kt') {
+      this.blueTableModule = this.injector.get(BlueTableKtService);
+    }
   }
 }

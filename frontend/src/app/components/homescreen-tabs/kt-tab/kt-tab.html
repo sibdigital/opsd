@@ -1,0 +1,47 @@
+<h2>Перечень мероприятий по проекту</h2>
+<table class="whiteTable">
+    <% white_table = kontrolnie_tochki_white_table_data%>
+    <tr>
+        <td>Проект</td>
+        <td><b><%= white_table['project'].name %></b></td>
+    </tr>
+
+    <tr>
+        <td>Куратор</td>
+        <td><% white_table['kurator'].each do |user| %>
+            <b><%= user.firstname %> <%= user.lastname %></b>,&nbsp
+            <% end %>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Руководитель</td>
+        <td><% white_table['rukovoditel_proekta'].each do |user| %>
+            <b><%= user.firstname %> <%= user.lastname %></b>,&nbsp
+            <% end %>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Фильтр</td>
+        <td>
+            <a href="">Все</a> /
+            <a href="">Исполнено в срок</a> /
+            <a href="">Исполнено с опозданием</a> /
+            <a href="">В работе</a> /
+            <a href="">Предстоящие</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Предстоящие</td>
+        <td>
+            <u>3 дня</u>
+            <u class="underline-offset">2 недели</u>
+            <u class="underline-offset">1 месяц</u>
+            <u class="underline-offset">3 месяца</u>
+        </td>
+    </tr>
+</table>
+
+<homescreen-blue-table [template]="'kt'" [param]="'1'"></homescreen-blue-table>

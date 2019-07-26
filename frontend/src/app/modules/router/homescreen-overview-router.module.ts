@@ -44,6 +44,10 @@ import {HomescreenTabsComponent} from "core-components/homescreen-tabs/homescree
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
 import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
+import {KtTabComponent} from "core-components/homescreen-tabs/kt-tab/kt-tab.component";
+import {HomescreenBlueTableService} from "core-components/homescreen-blue-table/homescreen-blue-table.service";
+import {BlueTableNationalProjectsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-national-projects.service";
+import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kt.service";
 
 @NgModule({
   imports: [
@@ -64,7 +68,11 @@ import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-tabl
     HomescreenTabsComponent,
     KpiTabComponent,
     DesktopTabComponent,
-    HomescreenBlueTableComponent
+    KtTabComponent,
+    HomescreenBlueTableComponent,
+    HomescreenBlueTableService,
+    BlueTableNationalProjectsService,
+    BlueTableKtService
   ],
   declarations: [
     HomescreenDiagramComponent,
@@ -74,6 +82,7 @@ import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-tabl
     HomescreenTabsComponent,
     KpiTabComponent,
     DesktopTabComponent,
+    KtTabComponent,
     HomescreenBlueTableComponent
   ],
   entryComponents: [
@@ -84,6 +93,7 @@ import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-tabl
     HomescreenTabsComponent,
     KpiTabComponent,
     DesktopTabComponent,
+    KtTabComponent,
     HomescreenBlueTableComponent
   ],
   exports: [

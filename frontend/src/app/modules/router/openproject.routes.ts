@@ -39,6 +39,7 @@ import {OverviewDiagramTabComponent} from "core-components/overview-diagram/over
 import {KpiTabComponent} from "core-components/homescreen-tabs/kpi-tab/kpi-tab.component";
 import {HomescreenTabsComponent} from "core-components/homescreen-tabs/homescreen-tabs.component";
 import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
+import {KtTabComponent} from "core-components/homescreen-tabs/kt-tab/kt-tab.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -85,6 +86,11 @@ export const HOMESCREEN_ROUTES = [
     name: 'homescreen.desktop',
     url: '/desktop',
     component: DesktopTabComponent
+  },
+  {
+    name: 'homescreen.kt',
+    url: '/kt',
+    component: KtTabComponent
   },
   {
     name: 'homescreen.kpi',

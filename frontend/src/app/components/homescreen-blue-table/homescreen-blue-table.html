@@ -1,106 +1,31 @@
 <table class="blueTable">
     <thead>
-    <tr>
-        <th *ngFor="let column of columns">
-            <b [textContent]="column"></b>
-        </th>
-    </tr>
+        <tr>
+            <th *ngFor="let column of columns">
+                <b [textContent]="column"></b>
+            </th>
+        </tr>
     </thead>
     <tfoot>
-    <tr>
-        <td [attr.colspan]="columns.length">
-            <div class="links"><a href="#">&laquo;</a>
-                <a class="chtbl" href="#">1</a>
-                <a class="chtbl" href="#">2</a>
-                <a class="chtbl" href="#">3</a>
-                <!--            <a class="chtbl" href="#">4</a>-->
-                <a class="links" href="#">&raquo;</a>
-            </div>
-        </td>
-    </tr>
+        <tr>
+            <td [attr.colspan]="columns.length">
+                <div class="links"><a href="#">&laquo;</a>
+                    <a class="chtbl" href="#">1</a>
+                    <a class="chtbl" href="#">2</a>
+                    <a class="chtbl" href="#">3</a>
+                    <!--            <a class="chtbl" href="#">4</a>-->
+                    <a class="links" href="#">&raquo;</a>
+                </div>
+            </td>
+        </tr>
     </tfoot>
     <tbody>
-    <tr *ngFor="let row of data"
-        [ngClass]="row._type === 'Project' ? 'colored-row' : null">
-        <td [ngClass]="getClass(row)">
-            <span *ngIf="row._type !== 'Project'"
-                  [textContent]="row.name"></span>
-            <a *ngIf="row._type === 'Project'"
-               [textContent]="row.name"
-               [href]="getProjectHref(row)"></a>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr id="colored-row">
-        <td style="padding-left: 30px"><a>Создание региональный цифровой платформы ИСЗ</a></td>
-        <td>Цыбикжапов В.Б.<br>Самбуев Д.Ц.</td>
-        <td>01.08.2020</td>
-        <td><a class="tasks-a" href="#">10</a></td>
-        <td><a class="tasks-a" href="#">8 </a>/<a class="problems-a" href="#"> 3</a></td>
-        <td>
-
-            <div class="border-progress">
-                <div class="progress" data-label="70%">
-              <span class="value" style="width:70%; background-color: #88ee88;">
-              </span>
-                </div>
-            </div>
-            <br>
-            <div class="border-progress">
-                <div class="progress" data-label="92%">
-              <span class="value" style="width:92%; background-color: #88ee88;">
-              </span>
-                </div>
-            </div>
-        </td>
-        <td><a class="kpi-a" href="#">Посмотреть</a></td>
-    </tr>
-    <tr>
-        <td style="padding-left: 20px">Снижение смертности населения трудоспособного возраста</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr id="colored-row">
-        <td style="padding-left: 30px"><a>Внедрение системы контроля качества медицинской помощи в РБ</a></td>
-        <td>Цыбикжапов В.Д.<br>Самбуев Д.Ц.</td>
-        <td>31.12.2020</td>
-        <td><a class="tasks-a" href="#">16</a></td>
-        <td><a class="tasks-a" href="#">4 </a>/<a class="problems-a" href="#"> 0</a></td>
-        <td>
-            <div class="border-progress">
-                <div class="progress" data-label="54%">
-              <span class="value" style="width:54%; background-color: #eeee88;">
-              </span>
-                </div>
-            </div>
-            <br>
-            <div class="border-progress">
-                <div class="progress" data-label="70%">
-              <span class="value" style="width:70%; background-color: #88ee88;">
-              </span>
-                </div>
-            </div>
-        </td>
-        <td><a class="kpi-a" href="#">Посмотреть</a></td>
-    </tr>
-
+        <tr *ngFor="let row of data"
+            [ngClass]="row._type === 'Project' ? 'colored-row' : null">
+            <td *ngFor="let column of columns; let i = index"
+                [ngClass]="this.blueTableModule.getTdClass(row, i)"
+                [innerHTML]="this.blueTableModule.getTdData(row, i)">
+            </td>
+        </tr>
     </tbody>
 </table>
