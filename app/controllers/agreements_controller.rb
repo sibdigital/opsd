@@ -1,4 +1,10 @@
 require 'rtf-templater'
+require 'rubyXL'
+require 'rubyXL/convenience_methods/cell'
+require 'rubyXL/convenience_methods/color'
+require 'rubyXL/convenience_methods/font'
+require 'rubyXL/convenience_methods/workbook'
+require 'rubyXL/convenience_methods/worksheet'
 class AgreementsController < ApplicationController
   include RtfTemplater::Generator
   include Downloadable
@@ -139,6 +145,35 @@ class AgreementsController < ApplicationController
       download
     end
 
+    if  params[:report_id] == 'excel'
+      generate_project_progress_report_out
+      send_to_user filepath: @ready_project_progress_report_path
+    end
+
+  end
+
+  def generate_project_progress_report_out
+#        @agreements = Agreement.all
+#        render xlsx: "report_excel", template: "agreements/report_excel.xlsx.axlsx"
+    @absolute_path = File.absolute_path('.') +'/'+'app/reports/templates/agreement.rtf'
+    template_path = File.absolute_path('.') +'/'+'app/reports/templates/project_progress_report.xlsx'
+    workbook = RubyXL::Parser.parse(template_path)
+    workbook.calc_pr.full_calc_on_load = true
+
+    sheet = workbook['Титульный лист']
+
+    sheet[22][11].change_contents(@project.name)
+
+
+    sheet.sheet_data[27][5].change_fill('0ba53d') #  0ba53d -зеленый
+    sheet.sheet_data[27][9].change_fill('ff0000') #  ff0000 -красный
+    sheet.sheet_data[27][13].change_fill('ffd800') #  ffd800 -желтый
+    sheet.sheet_data[27][17].change_fill('ffd800') #  ffd800 -желтый
+    sheet.sheet_data[27][21].change_fill('ffd800') #  ffd800 -желтый
+
+
+    @ready_project_progress_report_path = File.absolute_path('.') +'/'+'public/reports/project_progress_report_out.xlsx'
+    workbook.write(@ready_project_progress_report_path)
   end
 
   def new
