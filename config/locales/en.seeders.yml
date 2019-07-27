@@ -550,4 +550,193 @@ en:
           quarter: 2
           month: 5
           value: 1
-
+      users:
+        - login:  lev
+          password: password
+          firstname: Луковников
+          lastname: Евгений
+          patronymic: Валентинович
+          mail: t1@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  rnu
+          password: password
+          firstname: Рузавин
+          lastname: Николай
+          patronymic: Юрьевич
+          mail: t2@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  doa
+          password: password
+          firstname: Данилов
+          lastname: Олег
+          patronymic: Александрович
+          mail: t3@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  ggo
+          password: password
+          firstname: Гершман
+          lastname: Галина
+          patronymic: Олеговна
+          mail: t4@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  ttv
+          password: password
+          firstname: Цыденова
+          lastname: Татьяна
+          patronymic: Владимировна
+          mail: t5@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  moi
+          password: password
+          firstname: Макарчук
+          lastname: Ольга
+          patronymic: Ивановна
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  kai
+          password: password
+          firstname: Козлов
+          lastname: Андрей
+          patronymic: Иванович
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  baf
+          password: password
+          firstname: Билдаева
+          lastname: Анна
+          patronymic: Федоровна
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  mos
+          password: password
+          firstname: Медянникова
+          lastname: Олеся
+          patronymic: Сергеевна
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  ang
+          password: password
+          firstname: Асланян
+          lastname: Николь
+          patronymic: Гнунович
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  srk
+          password: password
+          firstname: Санжицыренова
+          lastname: Раиса
+          patronymic: Константиновна
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  vpa
+          password: password
+          firstname: Вершини
+          lastname: Павел
+          patronymic: Александрович
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  tvb
+          password: password
+          firstname: Цыбикжапов
+          lastname: Вячеслав
+          patronymic: Балданович
+          mail: t1@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  blb
+          password: password
+          firstname: Будаев
+          lastname: Леонид
+          patronymic: Борисович
+          mail: t2@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  tvs
+          password: password
+          firstname: Цыренова
+          lastname: В
+          patronymic: С
+          mail: t3@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  bdr
+          password: password
+          firstname: Базаров
+          lastname: Д
+          patronymic: Р
+          mail: t4@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  knn
+          password: password
+          firstname: Камкова
+          lastname: Наталья
+          patronymic: Николаевна
+          mail: t5@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  tas
+          password: password
+          firstname: Цыденов
+          lastname: Алексей
+          patronymic: Самбуевич
+          mail: t1@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  zii
+          password: password
+          firstname: Зураев
+          lastname: Игорь
+          patronymic: Иванович
+          mail: t2@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  siv
+          password: password
+          firstname: Смоляк
+          lastname: Ирина
+          patronymic: Владимировна
+          mail: t3@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
+        - login:  bdt
+          password: password
+          firstname: Бороноева
+          lastname: Д
+          patronymic: Ц
+          mail: t6@sibdigital.net
+          status: 1
+          type: User
+          mail_notification: only_my_events
