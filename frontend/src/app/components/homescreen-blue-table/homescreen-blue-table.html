@@ -64,13 +64,14 @@
                [href]="getProjectHref(row)">
             </a>
         </td>
-        <td>
-            <div class="border-progress">
-                <div class="progress" data-label="92%">
-              <span class="value" style="width:92%; background-color: #88ee88;">
-              </span>
+        <td [ngClass]="getClass(row)">
+            <a *ngIf="row._type === 'Project'">
+                <div class="border-progress" >
+                    <div class="progress" data-label="32%">
+                        <span class="value" [ngStyle]="{'width': row.doneRatio, 'background-color': '#88ee88'}"></span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </td>
         <td></td>
     </tr>

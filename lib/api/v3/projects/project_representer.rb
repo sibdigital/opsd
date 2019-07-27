@@ -132,6 +132,11 @@ module API
                    get_problem_count
                  }
 
+        property :done_ratio,
+                 getter: ->(*) {
+                   get_done_ratio
+                 }
+
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,

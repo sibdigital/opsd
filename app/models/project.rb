@@ -248,8 +248,7 @@ class Project < ActiveRecord::Base
 
     if records_array.any?
       arr = records_array[0]
-      arr['fio'] = arr['lastname'] + arr['firstname'].slice(0...1)
-        +'.' + arr['patronymic'].slice(0...1)+'.'
+      arr['fio'] = arr['lastname'] + arr['firstname'].slice(0...1) +'.' + arr['patronymic'].slice(0...1)+'.'
       arr
     else
       arr = []
@@ -289,8 +288,7 @@ class Project < ActiveRecord::Base
 
     if records_array.any?
       arr = records_array[0]
-      arr['fio'] = arr['lastname'] + arr['firstname'].slice(0...1)
-      +'.' + arr['patronymic'].slice(0...1)+'.'
+      arr['fio'] = arr['lastname'] + arr['firstname'].slice(0...1) +'.' + arr['patronymic'].slice(0...1)+'.'
       arr
     else
       arr = []
@@ -301,7 +299,12 @@ class Project < ActiveRecord::Base
   def get_upcoming_tasks_count
 
     task_alias = I18n.t(:default_type_task)
-    sql = "select count(*) from work_packages
+    # sql = "select count(*) as  from work_packages
+    #         where type_id = (select id from types where name = '#{task_alias}')
+    #         and due_date >= current_date
+    #         and project_id = #{id}"
+
+    sql = "select subject as  from work_packages
             where type_id = (select id from types where name = '#{task_alias}')
             and due_date >= current_date
             and project_id = #{id}"
@@ -310,6 +313,7 @@ class Project < ActiveRecord::Base
 
     if records_array.any?
       arr = records_array[0]
+      arr['count'] = records_array[0].length
       arr
     else
       arr = []
@@ -319,15 +323,21 @@ class Project < ActiveRecord::Base
 
   def get_due_milestone_count
     milestone_alias = I18n.t(:default_type_milestone)
-    sql = "select count(*) from work_packages
-            where type_id = (select id from types where name = '#{milestone_alias}')
-            and due_date <= current_date
-            and project_id = #{id}"
+    # sql = "select count(*) from work_packages
+    #         where type_id = (select id from types where name = '#{milestone_alias}')
+    #         and due_date <= current_date
+    #         and project_id = #{id}"
+
+    sql = "select subject from work_packages
+                 where type_id = (select id from types where name = '#{milestone_alias}')
+                 and due_date <= current_date
+                 and project_id = #{id}"
 
     records_array = ActiveRecord::Base.connection.execute(sql)
 
     if records_array.any?
       arr = records_array[0]
+      arr['count'] = records_array[0].length
       arr
     else
       arr = []
@@ -399,7 +409,8 @@ class Project < ActiveRecord::Base
     from only_parents"
     records_array = ActiveRecord::Base.connection.execute(sql)
 
-    res = records_array[0]['done_ratio'].to_i
+    # res = records_array[0]['done_ratio'].to_i
+    res = records_array[0]['done_ratio'] + "%"
     res
   end
   # эти статусы необходимы для того, чтобы соблюсти требования ТТ (стр 27) - ProjectStatus
