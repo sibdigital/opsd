@@ -23,8 +23,12 @@ class AlertsController < ApplicationController
     @emailNotify = EmailNotify.new
   end
 
+  def get_dues
+    # @due_wp=WorkPackage.where(due_date: )
+  end
+
   def get_pop_up_alerts
-    @alerts=Alert.where(alert_type: 'PopUp').where(readed: false)
+    @alerts=Alert.where(alert_type: 'PopUp').where(created_by: User.current.id).where(readed: false)
     if Alert.where(alert_type: 'PopUp').count.positive?
       # render plain: Alert.where(alert_type: 'PopUp').count
       render json: @alerts
@@ -32,9 +36,15 @@ class AlertsController < ApplicationController
     # render plain: "OK"
   end
 
+  def get_delay_setting
+    delay=Setting.find_by(name: 'notify_delay')
+
+    render plain: delay.value
+  end
+
   def read_alert
     alert=Alert.find_by_id(params["pop_id"])
-    alert.readed=true;
+    alert.readed=true
     alert.save
   end
 
@@ -64,7 +74,7 @@ class AlertsController < ApplicationController
 
         UserMailer.work_package_notify_assignee(@assigneee).deliver_later
         #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
-
+        Alert.create_new_pop_up_alert(workPackage.id, 'WorkPackage', "Due", 0, workPackage.author_id)
         @alert = Alert.new
 
         @alert.entity_id = workPackage.id

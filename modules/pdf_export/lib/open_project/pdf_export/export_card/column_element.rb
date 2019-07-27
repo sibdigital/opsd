@@ -81,6 +81,10 @@ module OpenProject::PdfExport::ExportCard
       Setting.work_days
     end
 
+    def notify_delay
+      Setting.notify_delay
+    end
+
     def label_text(value)
       if @has_label
         custom_label = @config['custom_label']
