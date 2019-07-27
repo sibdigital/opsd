@@ -89,8 +89,11 @@ export const HOMESCREEN_ROUTES = [
   },
   {
     name: 'homescreen.kt',
-    url: '/kt',
-    component: KtTabComponent
+    url: '/kt/{project}',
+    component: KtTabComponent,
+    params: {
+      project: { type: 'string' , dynamic: true},
+    }
   },
   {
     name: 'homescreen.kpi',

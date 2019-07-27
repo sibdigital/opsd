@@ -9,12 +9,13 @@
     <tfoot>
         <tr>
             <td [attr.colspan]="columns.length">
-                <div class="links"><a href="#">&laquo;</a>
-                    <a class="chtbl" href="#">1</a>
-                    <a class="chtbl" href="#">2</a>
-                    <a class="chtbl" href="#">3</a>
-                    <!--            <a class="chtbl" href="#">4</a>-->
-                    <a class="links" href="#">&raquo;</a>
+                <div class="links"
+                     *ngIf="this.blueTableModule.getPages() > 1">
+                    <a *ngFor="let item of [].constructor(this.blueTableModule.getPages() + 2); let i = index"
+                       [textContent]="this.blueTableModule.pagesToText(i)"
+                       (click)="loadPage(i)"
+                       href="#">
+                    </a>
                 </div>
             </td>
         </tr>

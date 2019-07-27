@@ -3,18 +3,52 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 export class BlueTableKtService extends BlueTableService {
-  private data:any[];
+  private project:string;
+  private data:any[] = [];
   private columns:string[] = ['№ п/п', 'Мероприятие', 'Отв. Исполнитель', 'Срок выполнения', 'Статус', 'Факт. выполнение', 'Проблемы'];
+  private pages:number = 0;
 
+  public initialize():void {
+    this.project = this.$state.params['project'];
+    this.halResourceService
+      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString())
+      .toPromise()
+      .then((resources:QueryResource) => {
+        let total:number = resources.results.total; //всего ex 29
+        let pageSize:number = resources.results.pageSize; //в этой выборке ex 20
+        let remainder = total % pageSize;
+        this.pages = (total - remainder) / pageSize;
+        if (remainder !== 0) {
+          this.pages++;
+        }
+        resources.results.elements.map((el:HalResource) => {
+          this.data.push(el);
+        });
+      });
+  }
   public getColumns():string[] {
     return this.columns;
   }
-  public getData(param?:any):any[] {
+  public getPages():number {
+    return this.pages;
+  }
+
+  public getData():any[] {
+    return this.data;
+  }
+
+  public getDataFromPage(i:string):any[] {
     this.data = [];
     this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(param).queries.default.toString())
+      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), {"offset": i})
       .toPromise()
       .then((resources:QueryResource) => {
+        let total:number = resources.results.total; //всего ex 29
+        let remainder = total % 20;
+        this.pages = (total - remainder) / 20;
+        if (remainder !== 0) {
+          this.pages++;
+        }
         resources.results.elements.map((el:HalResource) => {
           this.data.push(el);
         });

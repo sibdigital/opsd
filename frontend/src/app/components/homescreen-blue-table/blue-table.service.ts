@@ -1,19 +1,32 @@
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {StateService} from "@uirouter/core";
+import {OnInit} from "@angular/core";
 
 export abstract class BlueTableService {
   protected readonly appBasePath:string;
 
   constructor(
     protected halResourceService:HalResourceService,
-    protected pathHelper:PathHelperService) {
+    protected pathHelper:PathHelperService,
+    readonly $state:StateService) {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
+    this.initialize();
   }
-  public getData(param?:any):any[] {
+  public initialize():void {
+  }
+
+  public getData():any[] {
+    return [];
+  }
+  public getDataFromPage(i:string):any[] {
     return [];
   }
   public getColumns():string[] {
     return [];
+  }
+  public getPages():number {
+    return 0;
   }
   public getTdData(row:any, i:number):string {
     return '';
@@ -25,5 +38,15 @@ export abstract class BlueTableService {
 
   public getBasePath():string {
     return this.appBasePath;
+  }
+
+  public pagesToText(i:number):string {
+    if ( i === 0) {
+      return '<<';
+    }
+    if (i > this.pages) {
+      return '>>';
+    }
+    return i;
   }
 }

@@ -11,7 +11,6 @@ import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-tab
 })
 export class HomescreenBlueTableComponent implements OnInit {
   @Input('template') public template:string;
-  @Input('param') public param:string;
   public blueTableModule:BlueTableService;
   public columns:string[] = [];
   public data:any[] = [];
@@ -23,7 +22,7 @@ export class HomescreenBlueTableComponent implements OnInit {
   ngOnInit() {
     this.getBlueTable(this.template);
     if (!!this.blueTableModule) {
-      this.data = this.blueTableModule.getData(this.param);
+      this.data = this.blueTableModule.getData();
       this.columns = this.blueTableModule.getColumns();
     }
   }
@@ -34,6 +33,15 @@ export class HomescreenBlueTableComponent implements OnInit {
     }
     if (template === 'kt') {
       this.blueTableModule = this.injector.get(BlueTableKtService);
+    }
+  }
+  public loadPage(i:number) {
+    if ( i === 0) {
+      this.data = this.blueTableModule.getDataFromPage(1);
+    } else if (i > this.blueTableModule.getPages()) {
+      this.data = this.blueTableModule.getDataFromPage(this.blueTableModule.getPages());
+    } else {
+      this.data = this.blueTableModule.getDataFromPage(i);
     }
   }
 }

@@ -20,7 +20,7 @@ export class HomescreenTabsComponent implements OnInit {
       jQuery(event.currentTarget).addClass('selected');
     });
     jQuery('.kontrolnie-tochki-menu-item').on('click', event => {
-      this.$state.go('homescreen.kt');
+      this.$state.go('homescreen.kt', {"project": "1"});
       jQuery('.ellipsis, .selected').removeClass('selected');
       jQuery(event.currentTarget).addClass('selected');
     });
