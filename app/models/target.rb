@@ -6,6 +6,9 @@ class Target < ActiveRecord::Base
   #zbd(
   has_many :work_packages, foreign_key: 'target_id'
   #)
+  #tan(
+  has_many :work_package_targets, foreign_key: 'target_id'
+  # )
 
   def option_name
     nil

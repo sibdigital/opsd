@@ -69,6 +69,10 @@ class WorkPackage < ActiveRecord::Base
   has_many :meetings, dependent: :delete_all
   has_many :messages, dependent: :delete_all
   # )
+  #tan(
+  has_many :work_package_problems, foreign_key: 'project_id'
+  has_many :work_package_targets, foreign_key: 'project_id'
+  # )
 
   has_and_belongs_to_many :changesets, -> {
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
