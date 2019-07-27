@@ -33,6 +33,7 @@ export class HomescreenBlueTableComponent implements OnInit {
             el.projects.map( (project:ProjectResource) => {
               project['_type'] = 'Project';
               this.data.push(project);
+              console.log(this.data);
             });
           }
         });

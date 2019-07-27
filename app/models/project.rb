@@ -208,6 +208,44 @@ class Project < ActiveRecord::Base
     statuses
   end
 
+  # def full
+  #   sql = "SELECT u.first_name, u.last_name, p.due_date FROM projects p JOIN members m ON p.id = m.project_id JOIN users u ON u.id = m.project_id"
+  #   records_array = ActiveRecord::Base.connection.execute(sql).values
+  #
+  #   records_array
+  #
+  # end
+
+  def curator
+    role_name_curator = I18n.t(:default_role_project_curator)
+    sql = "
+        with curators as(
+        select  name, id
+        from roles as r
+        where r.name = 'Куратор проекта'
+    ),
+    members_curator as (
+        select member_id, role_id
+        from member_roles as mr
+                 inner join curators on
+            mr.role_id = curators.id
+    )
+
+    select users.id, login, firstname, lastname, patronymic from
+    (select *
+        from members as m
+        where project_id = 3
+    ) as proj_members
+    inner join members_curator on proj_members.id = members_curator.member_id
+    inner join users on proj_members.user_id = users.id"
+
+    records_array = ActiveRecord::Base.connection.execute(sql).values
+    curator_name = records_array[0] + " " + records_array[0]
+
+    curator_name
+
+  end
+
   def get_done_ratio #TODO: plan type execution!
 
     sql = "with
