@@ -27,13 +27,51 @@
                   [textContent]="row.name"></span>
             <a *ngIf="row._type === 'Project'"
                [textContent]="row.name"
-               [href]="getProjectHref(row)"></a>
+               [href]="getProjectHref(row)">
+            </a>
         </td>
-        <td [textContent]="row.name"></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td [ngClass]="getClass(row)">
+            <a *ngIf="row._type === 'Project'"
+               [textContent]="row.rukovoditel.fio"
+               [href]="getProjectHref(row)">
+            </a>
+            <br>
+            <a *ngIf="row._type === 'Project'"
+               [textContent]="row.curator.fio"
+               [href]="getProjectHref(row)">
+            </a>
+        </td>
+        <td [ngClass]="getClass(row)">
+            <a *ngIf="row._type === 'Project'"
+               [textContent]=""
+               [href]="getProjectHref(row)">
+            </a>
+        </td>
+        <td [ngClass]="getClass(row)">
+            <a *ngIf="row._type === 'Project'"
+               [textContent]="row.upcomingTasksCount.count"
+               [href]="getProjectHref(row)">
+            </a>
+        </td>
+        <td [ngClass]="getClass(row)">
+            <a *ngIf="row._type === 'Project'"
+               [textContent]="row.dueMilestoneCount.count"
+               [href]="getProjectHref(row)">
+            </a>
+            <br>
+            <a *ngIf="row._type === 'Project'"
+               [textContent]="row.problemCount.count"
+               [href]="getProjectHref(row)">
+            </a>
+        </td>
+        <td>
+            <div class="border-progress">
+                <div class="progress" data-label="92%">
+              <span class="value" style="width:92%; background-color: #88ee88;">
+              </span>
+                </div>
+            </div>
+        </td>
         <td></td>
     </tr>
     <tr>
