@@ -107,9 +107,27 @@ module DemoData
         type:          find_type(attributes),
         priority:      find_priority(attributes) || IssuePriority.default,
         #bbm(
-        plan_type:     attributes[:plan_type] || 'execution'
+        plan_type:     attributes[:plan_type] || 'execution',
         # )
+        # +tan
+        organization_id: find_organization_by_name(attributes[:organization]),
+        assigned_to_id:  user_by_login(attributes[:assigned])
+        # -tan
       }
+    end
+
+    def find_organization_by_name(name)
+      o = Organization.find_by(name: name)
+      if (o != nil)
+        o.id
+      end
+    end
+
+    def user_by_login(login)
+      np = User.find_by(login: login)
+      if np != nil
+        np.id
+      end
     end
 
     def find_priority(attributes)
