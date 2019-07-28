@@ -197,6 +197,7 @@ import {WpRelationsDialogComponent} from "core-components/wp-relations/wp-relati
 import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/MatPaginatorIntlRussian";
+import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tabs/targets-tab/targets-tab.component";
 
 @NgModule({
   imports: [
@@ -410,6 +411,9 @@ import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations
     WorkPackageRelationsHierarchyComponent,
     WpRelationsAutocompleteComponent,
     WorkPackageBreadcrumbParentComponent,
+    //zbd(
+    WorkPackageTargetsTabComponent,
+    // )
 
     // Split view
     WorkPackageDetailsViewButtonComponent,
@@ -468,10 +472,14 @@ import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations
     WorkPackageActivityTabComponent,
     WorkPackageRelationsTabComponent,
     WorkPackageWatchersTabComponent,
+    //zbd(
+    WorkPackageTargetsTabComponent,
+    // )
 
     // Single view
     WorkPackageOverviewTabComponent,
     WorkPackageCommentFieldComponent,
+
 
     // Inline create
     WpRelationInlineAddExistingComponent,

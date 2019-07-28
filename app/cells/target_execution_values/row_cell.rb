@@ -16,7 +16,8 @@ module TargetExecutionValues
     end
 
     def year
-      link_to h(target_execution_value.year), edit_target_execution_value_path(id: target_execution_value.id, target_id: target_execution_value.target_id,)#, project_id: project.identifier
+      # link_to h(target_execution_value.year), edit_target_execution_value_path(id: target_execution_value.id, target_id: target_execution_value.target_id,)#, project_id: project.identifier
+      target_execution_value.year
     end
 
     def quarter
@@ -29,20 +30,28 @@ module TargetExecutionValues
 
     def button_links
       [
+        # add_child_link,
         delete_link
       ]
     end
 
+    # def add_child_link
+    #   link_to new_project_target_path(parent_id: model.target_id),
+    #           aria: { label: t(:label_child_target_new) },
+    #           class: 'wp-inline-create--add-link',
+    #           title: t(:label_child_target_new) do
+    #     op_icon('icon icon-add')
+    #   end
+    # end
+
     def delete_link
-        link_to(
-          op_icon('icon icon-delete'),
-          target_execution_value_path(id: target_execution_value, target_id: target_execution_value.target_id, project_id: project.identifier),
-          method: :delete,
-          data: { confirm: I18n.t(:text_are_you_sure) },
-          title: t(:button_delete)
-        )
-
+      link_to(
+        op_icon('icon icon-delete'),
+        target_execution_value_path(id: target_execution_value, target_id: target_execution_value.target_id, project_id: project.identifier),
+        method: :delete,
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
+      )
     end
-
   end
 end

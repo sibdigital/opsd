@@ -17,14 +17,15 @@ module BasicData
     end
 
     def not_applicable_message
-      'Skipping organization types as there are already some configured'
+      'Skipping target types as there are already some configured'
     end
 
     def data
 
       [
         { name: "Цель", position: 1, type: "TargetType", active: true },
-        { name: "Показатель", position: 2, type: "TargetType", active: true }
+        { name: "Показатель", position: 2, type: "TargetType", active: true },
+        { name: "Результат", position: 3, type: "TargetType", active: true }
       ]
 
     end
