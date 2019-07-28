@@ -38,7 +38,7 @@ module DemoData
     def target_attributes(attributes)
       {
         name:         attributes[:name],
-        typen:        type_by_name(attributes[:typen]),
+        type_id:        type_by_name(attributes[:type_id]),
         unit:         attributes[:unit],
         basic_value:  attributes[:basic_value],
         plan_value:   attributes[:plan_value],
