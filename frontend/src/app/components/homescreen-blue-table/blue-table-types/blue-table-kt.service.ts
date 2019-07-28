@@ -37,7 +37,7 @@ export class BlueTableKtService extends BlueTableService {
     return this.data;
   }
 
-  public getDataFromPage(i:string):any[] {
+  public getDataFromPage(i:number):any[] {
     this.data = [];
     this.halResourceService
       .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), {"offset": i})

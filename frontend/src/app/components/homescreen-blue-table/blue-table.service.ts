@@ -13,13 +13,13 @@ export abstract class BlueTableService {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
     this.initialize();
   }
-  public initialize():void {
+  public initialize():void{
   }
 
   public getData():any[] {
     return [];
   }
-  public getDataFromPage(i:string):any[] {
+  public getDataFromPage(i:number):any[] {
     return [];
   }
   public getColumns():string[] {
@@ -44,9 +44,9 @@ export abstract class BlueTableService {
     if ( i === 0) {
       return '<<';
     }
-    if (i > this.pages) {
+    if (i > this.getPages()) {
       return '>>';
     }
-    return i;
+    return String(i);
   }
 }
