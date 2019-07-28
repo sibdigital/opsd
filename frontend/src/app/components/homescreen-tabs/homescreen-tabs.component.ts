@@ -24,6 +24,11 @@ export class HomescreenTabsComponent implements OnInit {
       jQuery('.ellipsis, .selected').removeClass('selected');
       jQuery(event.currentTarget).addClass('selected');
     });
+    jQuery('.riski-i-problemy-menu-item').on('click', event => {
+      this.$state.go('homescreen.problems');
+      jQuery('.ellipsis, .selected').removeClass('selected');
+      jQuery(event.currentTarget).addClass('selected');
+    });
     jQuery('.kpi-menu-item').on('click', event => {
       this.$state.go('homescreen.kpi');
       jQuery('.ellipsis, .selected').removeClass('selected');

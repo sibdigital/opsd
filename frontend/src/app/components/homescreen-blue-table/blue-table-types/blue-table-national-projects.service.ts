@@ -43,35 +43,42 @@ export class BlueTableNationalProjectsService extends BlueTableService {
           break;
         }
         case 1: {
-          let fio1:string = row.curator ? row.curator.fio :'';
-          let fio2:string = row.rukovoditel ? row.rukovoditel.fio :'';
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + fio1 + '</a><br>' +
-            '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + fio2 + '</a>';
+          let result:string = '';
+          if (row.curator) {
+            result += '<a href="' + super.getBasePath() + '/users/' + row.curator.id + '">' + row.curator.fio + '</a>';
+          }
+          result += '<br>';
+          if (row.rukovoditel) {
+            result += '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel.id + '">' + row.rukovoditel.fio + '</a>';
+          }
+          return result;
           break;
         }
         case 2: {
-          let duedate:string = row.dueDate ? row.dueDate.due_date :'';
-          return '<a href="' + super.getBasePath() + '/projects/' + duedate + '</a>';
+          return row.dueDate ? row.dueDate.due_date :'';
           break;
         }
         case 3: {
-          let count:string = row.upcomingTasksCount ? row.upcomingTasksCount.count :'';
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + count + '</a>';
+          if (row.upcomingTasksCount) {
+            return '<a href=\'' + super.getBasePath() + '/projects/' + row.identifier +
+              '/work_packages?plan_type=execution&query_id=3&query_props=%7B"c"%3A%5B"id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%5D%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A""%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"1"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A">t%2B"%2C"v"%3A%5B"0"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + row.upcomingTasksCount.count + '</a>';
+          }
           break;
         }
         case 4: {
           let count1:string = row.dueMilestoneCount ? row.dueMilestoneCount.count :'';
           let count2:string = row.problemCount ? row.problemCount.count :'';
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + count1 + '</a><br>' +
-            '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + count2 + '</a>';
+          return '<a href=\'' + super.getBasePath() + '/projects/' + row.identifier +
+            '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + count1 + '</a><br>' +
+            '<a href="' + super.getBasePath() + '/vkladka1/problems">' + count2 + '</a>';
           break;
         }
         case 5: {
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.doneRatio + '</a>';
+          return row.doneRatio;
           break;
         }
         case 6: {
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">Посмотреть</a>';
+          return '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>';
           break;
         }
       }

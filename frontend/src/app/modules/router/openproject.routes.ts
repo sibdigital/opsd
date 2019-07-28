@@ -40,6 +40,7 @@ import {KpiTabComponent} from "core-components/homescreen-tabs/kpi-tab/kpi-tab.c
 import {HomescreenTabsComponent} from "core-components/homescreen-tabs/homescreen-tabs.component";
 import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
 import {KtTabComponent} from "core-components/homescreen-tabs/kt-tab/kt-tab.component";
+import {ProblemsTabComponent} from "core-components/homescreen-tabs/problems-tab/problems-tab.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -100,6 +101,12 @@ export const HOMESCREEN_ROUTES = [
     url: '/kpi',
     component: KpiTabComponent
   },
+  {
+    name: 'homescreen.problems',
+    url: '/problems',
+    component: ProblemsTabComponent
+  },
+
   //)
   // We could lazily load work packages module already,
   // but e.g., the plugin context requires service from it.

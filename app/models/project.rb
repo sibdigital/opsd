@@ -248,7 +248,7 @@ class Project < ActiveRecord::Base
 
     if records_array.any?
       arr = records_array[0]
-      arr['fio'] = arr['lastname'] + arr['firstname'].slice(0...1) +'.' + arr['patronymic'].slice(0...1)+'.'
+      arr['fio'] = arr['lastname'] + ' ' + arr['firstname'].slice(0...1) +'.' + arr['patronymic'].slice(0...1)+'.'
       arr
     else
       arr = []
@@ -398,8 +398,8 @@ class Project < ActiveRecord::Base
     records_array = ActiveRecord::Base.connection.execute(sql)
 
     # res = records_array[0]['done_ratio'].to_i
-    res = records_array[0]['done_ratio'] + "%"
-    res
+    res = records_array[0]['done_ratio']
+    res.to_f.round
   end
   # эти статусы необходимы для того, чтобы соблюсти требования ТТ (стр 27) - ProjectStatus
   # ProjectApproveStatus - для соблюдения 469 постановления, чтобы с помощью эжтого статуса можно было проводить
