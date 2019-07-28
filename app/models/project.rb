@@ -359,6 +359,34 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def get_target_execution_values
+    sql = "SELECT * FROM target_execution_values tev JOIN targets t ON tev.target_id = t.id"
+    records_array =  ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def get_work_packages_targets
+    sql = "SELECT * FROM work_package_targets wpt JOIN targets t ON wpt.target_id = t.id WHERE wpt.project_id = #{id}"
+    records_array =  ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+
+
   def get_done_ratio #TODO: plan type execution!
 
     sql = "with
