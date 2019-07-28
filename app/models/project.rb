@@ -288,7 +288,7 @@ class Project < ActiveRecord::Base
 
     if records_array.any?
       arr = records_array[0]
-      arr['fio'] = arr['lastname'] + arr['firstname'].slice(0...1) + '.' + arr['patronymic'].slice(0...1)+'.'
+      arr['fio'] = arr['lastname'] + ' ' + arr['firstname'].slice(0...1) + '.' + arr['patronymic'].slice(0...1)+'.'
       arr
     else
       arr = []
@@ -299,7 +299,7 @@ class Project < ActiveRecord::Base
   def get_upcoming_tasks_count
 
     task_alias = I18n.t(:default_type_task)
-    sql = "select count(*) as from work_packages
+    sql = "select count(*) from work_packages
             where type_id = (select id from types where name = '#{task_alias}')
             and due_date >= current_date
             and project_id = #{id}"

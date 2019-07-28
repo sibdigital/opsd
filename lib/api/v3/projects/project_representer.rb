@@ -112,6 +112,31 @@ module API
                    rukovoditel
                  }
 
+        property :due_date,
+                 getter: ->(*) {
+                   get_due_date
+                 }
+
+        property :problem_count,
+                 getter: ->(*) {
+                   get_problem_count
+                 }
+
+        property :upcoming_tasks_count,
+                 getter: ->(*) {
+                   get_upcoming_tasks_count
+                 }
+
+        property :due_milestone_count,
+                 getter: ->(*) {
+                   get_due_milestone_count
+                 }
+
+        property :done_ratio,
+                 getter: ->(*) {
+                   get_done_ratio
+                 }
+
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,

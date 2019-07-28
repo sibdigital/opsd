@@ -50,7 +50,8 @@ export class BlueTableNationalProjectsService extends BlueTableService {
           break;
         }
         case 2: {
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.dueDate + '</a>';
+          let duedate:string = row.dueDate ? row.dueDate.due_date :'';
+          return '<a href="' + super.getBasePath() + '/projects/' + duedate + '</a>';
           break;
         }
         case 3: {
@@ -66,7 +67,7 @@ export class BlueTableNationalProjectsService extends BlueTableService {
           break;
         }
         case 5: {
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '"></a>';
+          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.doneRatio + '</a>';
           break;
         }
         case 6: {
