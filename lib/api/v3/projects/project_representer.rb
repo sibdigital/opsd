@@ -137,6 +137,17 @@ module API
                    get_done_ratio
                  }
 
+        property :target_execution_values,
+                 getter: ->(*) {
+                   get_target_execution_values
+                 }
+
+
+        property :work_packages_targets,
+                 getter: ->(*) {
+                   get_work_packages_targets
+                 }
+
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
