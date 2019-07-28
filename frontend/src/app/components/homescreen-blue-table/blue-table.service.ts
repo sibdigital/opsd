@@ -1,7 +1,6 @@
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {StateService} from "@uirouter/core";
-import {OnInit} from "@angular/core";
 
 export abstract class BlueTableService {
   protected readonly appBasePath:string;
