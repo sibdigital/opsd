@@ -434,6 +434,8 @@ module API
         associated_resource :contract, link_title_attribute: :contract_subject
 
         associated_resource :target, link_title_attribute: :name
+
+        associated_resource :work_package_target, link_title_attribute: :value
         # )
 
         #xcc(

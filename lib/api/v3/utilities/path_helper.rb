@@ -123,6 +123,14 @@ module API
           def self.target(id)
             "#{root}/targets/#{id}"
           end
+
+          def self.work_package_targets
+            "#{root}/work_package_targets"
+          end
+
+          def self.work_package_target(id)
+            "#{root}/work_package_targets/#{id}"
+          end
           # )
 
           def self.configuration
