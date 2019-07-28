@@ -28,7 +28,7 @@ class AlertsController < ApplicationController
   end
 
   def get_pop_up_alerts
-    @alerts=Alert.where(alert_type: 'PopUp').where(created_by: User.current.id).where(readed: false)
+    @alerts=Alert.where(alert_type: 'PopUp').where(user_to: User.current.id).where(readed: false)
     if Alert.where(alert_type: 'PopUp').count.positive?
       # render plain: Alert.where(alert_type: 'PopUp').count
       render json: @alerts
