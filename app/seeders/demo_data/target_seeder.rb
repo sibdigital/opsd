@@ -42,7 +42,8 @@ module DemoData
         unit:         attributes[:unit],
         basic_value:  attributes[:basic_value],
         plan_value:   attributes[:plan_value],
-        project_id:   project_by_name(attributes[:project])
+        project_id:   project_by_name(attributes[:project]),
+        parent_id: attributes[:parent_id]
       }
     end
 

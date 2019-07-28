@@ -59,9 +59,9 @@ This file written by XCC
 
           <section class="form--section">
             <%= hidden_field_tag(:target_id, @target.id) %>
-            <div class="form--field"><label for="year">Год:</label><%= select_year Date.today, prefix: 'target_execution_value', required: true, container_class: '-middle' %></div>
+            <div class="form--field"><label for="year">Год:</label><%= select_year Date.today, start_year: 2010, end_year: 2030, prefix: 'target_execution_value', required: true, container_class: '-middle' %></div>
             <div class="form--field"><label for="quarter">Квартал:</label>
-              <%= select_tag('target_execution_value[quarter]', options_for_select([['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], 1)) %>
+              <%= select_tag('target_execution_value[quarter]', options_for_select([['', nil],['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], 1)) %>
             </div>
             <div class="form--field"><label for="value">Значение:</label><%= f.text_field(:value, required: true)%></div>
           </section>
