@@ -23,65 +23,57 @@
     </div>
     <homescreen-blue-table [template]="'desktop'"></homescreen-blue-table>
     <div style="display: inline-flex;border: 1px solid #1A67A3;width: 100%;">
-        <table border="0" class="coloredTable" style="flex: 0 0 25%;">
+        <table border="0" class="coloredTable">
             <thead>
             <tr>
                 <th class="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of upcoming_tasks_count; let i = index" >
-                <td [ngClass]="getGreenClass(i)"
-                    [textContent]="item.id"></td>
-                <td [ngClass]="getGreenClass(i)">
-                    <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?plan_type=execution"
-                       [textContent]="item.subject"></a>
-                </td>
-                <td [ngClass]="getGreenClass(i)">
-                    <a href="{{this.getBasePath()}}/projects/{{item.projectId}}"
-                    [textContent]="item.project"></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <table border="0" class="coloredTable" style="flex: 0 0 25%;">
-            <thead>
-            <tr>
                 <th class="colored-col-red" colspan="3">Просроченные КТ:</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="colored-col-bright-red">1</td>
-                <td class="colored-col-bright-red">Разработка информационного портала</td>
-                <td class="colored-col-bright-red">Современная школа</td>
-            </tr>
-            </tbody>
-        </table>
-        <table border="0" class="coloredTable" style="flex: 0 0 25%;">
-            <thead>
-            <tr>
                 <th class="colored-col-orange" colspan="3">Проблемы:</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="colored-col-bright-orange">1</td>
-                <td class="colored-col-bright-orange">Задержка поставки оборудования</td>
-                <td class="colored-col-bright-orange">ООО "Комп"</td>
-            </tr>
-            </tbody>
-        </table>
-        <table border="0" class="coloredTable" style="flex: 0 0 25%;">
-            <thead>
-            <tr>
                 <th class="colored-col-purple" colspan="2">Бюджет:</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="colored-col-bright-purple">Создание региональной цифровой платформы в РБ</td>
-                <td class="colored-col-bright-purple">580/2400</td>
+            <tr *ngFor="let item of data; let i = index" >
+                <td *ngIf="item.upcoming_tasks"
+                    [ngClass]="getGreenClass(i)"
+                    [textContent]="i + 1"></td>
+                <td *ngIf="item.upcoming_tasks"
+                    [ngClass]="getGreenClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}/work_packages/{{item.upcoming_tasks.id}}/activity?plan_type=execution"
+                       [textContent]="item.upcoming_tasks.subject"></a>
+                </td>
+                <td *ngIf="item.upcoming_tasks"
+                    [ngClass]="getGreenClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}"
+                    [textContent]="item.upcoming_tasks.project"></a>
+                </td>
+                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
+                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
+                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
+
+                <td *ngIf="item.due_milestone"
+                    [ngClass]="getRedClass(i)"
+                    [textContent]="i + 1"></td>
+                <td *ngIf="item.due_milestone"
+                    [ngClass]="getRedClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}/work_packages/{{item.due_milestone.id}}/activity?plan_type=execution"
+                       [textContent]="item.due_milestone.subject"></a>
+                </td>
+                <td *ngIf="item.due_milestone"
+                    [ngClass]="getRedClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}"
+                       [textContent]="item.due_milestone.project"></a>
+                </td>
+                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
+                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
+                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
+
+                <td *ngIf="!item.problem" [ngClass]="getOrangeClass(i)"></td>
+                <td *ngIf="!item.problem" [ngClass]="getOrangeClass(i)"></td>
+                <td *ngIf="!item.problem" [ngClass]="getOrangeClass(i)"></td>
+
+                <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>
+                <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>
             </tr>
             </tbody>
         </table>
