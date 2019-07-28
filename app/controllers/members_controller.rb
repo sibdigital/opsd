@@ -59,11 +59,12 @@ class MembersController < ApplicationController
 
     if members.present? && members.all?(&:valid?)
       flash[:notice] = members_added_notice members
-
+      Alert.create_new_pop_up_alert(members.first.id, "Member", "Created", User.current.id, members.first.user_id)
       redirect_to project_members_path(project_id: @project, status: 'all')
     else
       if members.present? && params[:member]
         @member = members.first
+        # Alert.create_new_pop_up_alert(@member.id, "Member", "Created", User.current.id, @member.user_id)
       else
         flash[:error] = t(:error_check_user_and_role)
       end
@@ -95,7 +96,7 @@ class MembersController < ApplicationController
     if @member.deletable?
       if @member.disposable?
         flash.notice = I18n.t(:notice_member_deleted, user: @member.principal.name)
-
+        Alert.create_new_pop_up_alert(@member.id, "Member", "Deleted", User.current.id, @member.user_id)
         @member.user.destroy
       else
         flash.notice = I18n.t(:notice_member_removed, user: @member.principal.name)

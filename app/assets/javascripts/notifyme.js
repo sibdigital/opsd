@@ -39,11 +39,14 @@ function notifying()
                 async: true,
                 success: function(text)
                 {
-                  count=text.length;
-                  for (var i=0;i<count;i++)
+                  if (text!==null)
                   {
-                    var date=new Date(text[i].alert_date);
-                    pop(text[i].id, 'Произведено действие с ' + text[i].entity_id + ' записью таблицы ' + text[i].entity_type + ' в ' + date.toLocaleTimeString() + ' '+ date.toLocaleDateString(),time);
+                    count=text.length;
+                    for (var i=0;i<count;i++)
+                    {
+                      var date=new Date(text[i].alert_date);
+                      pop(text[i].id, 'Произведено действие с записями таблицы ' + text[i].entity_type + ' в '+ date.toLocaleDateString(),time);
+                    }
                   }
                 }
   });
@@ -52,7 +55,7 @@ function notifying()
 
 function pop(id, text, time){
   jQuery.notify({
-    title: 'Уведомление '+id,
+    title: 'Уведомление ',
     icon: 'glyphicon glyphicon-star',
     message: text
 

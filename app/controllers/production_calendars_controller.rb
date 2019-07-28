@@ -60,6 +60,7 @@ class ProductionCalendarsController < ApplicationController
 
   def destroy
     @production_calendar.destroy
+    Alert.create_new_pop_up_alert(@production_calendar.id, "ProductionCalendar", "Deleted", User.current.id, User.current.id)
     redirect_to action: 'index'
     nil
   end
@@ -99,7 +100,7 @@ class ProductionCalendarsController < ApplicationController
       @production_calendar.year = @production_calendar.date.year
       if @production_calendar.save
         flash[:notice] = l(:notice_successful_create)
-        # Alert.create_new_pop_up_alert(@production_calendar.id, "ProductionCalendar", "Created", User.current.id, User.current.id)
+        Alert.create_new_pop_up_alert(@production_calendar.id, "ProductionCalendar", "Created", User.current.id, User.current.id)
         redirect_to action: 'index'
       else
         render action: 'new'
