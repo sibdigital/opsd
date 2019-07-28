@@ -80,6 +80,12 @@ module DemoData
       DemoData::TargetSeeder.new.seed!
       puts
       # )
+      #
+      #bbm(
+      print ' ↳ Creating project risks'
+      DemoData::ProjectRiskSeeder.new.seed!
+      puts
+      # )
 
       puts ' ↳ Updating settings'
       seed_settings
