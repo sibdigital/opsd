@@ -75,9 +75,23 @@ module DemoData
       puts
       # )
 
+      #tan(
+      print ' ↳ Creating targets'
+      DemoData::TargetSeeder.new.seed!
+      puts
+      # )
+      #
+      #bbm(
+      print ' ↳ Creating project risks'
+      DemoData::ProjectRiskSeeder.new.seed!
+      puts
+      # )
+
       puts ' ↳ Updating settings'
       seed_settings
     end
+
+
 
     def applicable?
       Project.count.zero?
