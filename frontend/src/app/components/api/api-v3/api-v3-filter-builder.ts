@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-export type FilterOperator = '=' | '!*' | '!' | '~' | 'o' | '>t-' | '**' | '<t+' ;
-
+//bbm export type FilterOperator = '=' | '!*' | '!' | '~' | 'o' | '>t-' | '**' | '<t+' ;
+export type FilterOperator = '=' | '!*' | '!' | '~' | 'o' | '>t-' | '**' | '<t+' | '>t+';
 export interface ApiV3Filter {
   [filter:string]:{ operator:FilterOperator, values:any };
 }

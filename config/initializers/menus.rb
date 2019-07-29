@@ -401,3 +401,42 @@ Redmine::MenuManager.map :project_menu do |menu|
             last: true,
             icon: 'icon2 icon-settings2'
 end
+
+Redmine::MenuManager.map :dashboard_menu do |menu|
+  menu.push :rabocii_stol,
+            '',
+            caption: 'Рабочий стол',
+            icon: 'icon2 icon-info1'
+  menu.push :kontrolnie_tochki,
+            '',
+            caption: 'Контрольные точки',
+            icon: 'icon2 icon-settings2'
+  menu.push :riski_i_problemy,
+            '',
+            caption: 'Риски и проблемы',
+            icon: 'icon2 icon-settings2'
+  menu.push :ispolnenie_pokazatelei,
+            '',
+            caption: 'Исполнение показателей',
+            icon: 'icon2 icon-settings2'
+  menu.push :ispolnenie_budzheta,
+            '',
+            caption: 'Исполнение бюджета',
+            icon: 'icon2 icon-settings2'
+  menu.push :kpi,
+            '',
+            caption: 'KPI',
+            icon: 'icon2 icon-settings2'
+  menu.push :elektronnyi_protokol,
+            '',
+            caption: 'Электронный протокол',
+            icon: 'icon2 icon-settings2'
+  menu.push :obsuzhdeniya,
+            '',
+            caption: 'Обсуждения',
+            icon: 'icon2 icon-settings2'
+  menu.push :ocenka_deyatelnosti,
+            '',
+            caption: 'Оценка деятельности',
+            icon: 'icon2 icon-settings2'
+end

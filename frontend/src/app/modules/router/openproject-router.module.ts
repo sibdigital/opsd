@@ -35,7 +35,6 @@ import {
   OPENPROJECT_ROUTES,
   uiRouterConfiguration
 } from "core-app/modules/router/openproject.routes";
-import {WorkPackageHomescreenDoneRatioDiagramComponent} from "core-components/wp-homescreen-diagram/wp-homescreen-done-ratio-diagram.component";
 import {ChartsModule} from "ng2-charts";
 import {FormsModule} from "@angular/forms";
 import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topics-dialog.component";
@@ -43,9 +42,7 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
 import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatPaginatorIntlRussian";
-import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
-import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
-import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
+import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
 
 @NgModule({
   imports: [
@@ -73,7 +70,6 @@ import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
     FirstRouteService,
     //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent,
     WpTopicsAutocompleteComponent,
     WpTopicsDialogComponent,
     //)
@@ -81,7 +77,6 @@ import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-
   declarations: [
     ApplicationBaseComponent,
     //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent,
     WpTopicsAutocompleteComponent,
     WpTopicsDialogComponent,
     //)
@@ -89,7 +84,6 @@ import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-
   entryComponents: [
     ApplicationBaseComponent,
     //bbm(
-    WorkPackageHomescreenDoneRatioDiagramComponent,
     WpTopicsAutocompleteComponent,
     WpTopicsDialogComponent,
     //)
