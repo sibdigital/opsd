@@ -435,7 +435,26 @@ module API
 
         associated_resource :target, link_title_attribute: :name
 
-        associated_resource :work_package_target, link_title_attribute: :value
+        # associated_resource :work_package_target,
+        #                     v3_path: :work_package_target,
+        #                     representer: ::API::V3::WorkPackageTargets::WorkPackageTargetRepresenter,
+        #                     uncacheable_link: true,
+        #                       link: ->(*) {
+        #                       ordered_custom_actions.map do |action|
+        #                         {
+        #                           href: api_v3_paths.custom_action(action.id),
+        #                           title: action.name
+        #                         }
+        #                       end
+        #                     },
+        #                       getter: ->(*) {
+        #                       ordered_custom_actions.map do |action|
+        #                         ::API::V3::CustomActions::CustomActionRepresenter.new(action, current_user: current_user)
+        #                       end
+        #                     },
+        #                       setter: ->(*) do
+        #                       # noop
+        #                     end
         # )
 
         #xcc(

@@ -12,22 +12,23 @@ module API
         resources :work_package_targets do
           before do
             authorize(:view_work_packages, global: true)
-            @wp_targets = WorkPackageTarget.where('project_id = ?', @project.id)
+            #@work_package_targets = WorkPackageTarget.where('project_id = ? and work_package_id = ?', @project.id, @work_package.id)
+            @work_package_targets = WorkPackageTarget.where('project_id = ? and work_package_id = ?', @work_package.project_id, @work_package.id)
           end
 
           get do
-            WorkPackageTargetCollectionRepresenter.new(@wp_targets,
+            WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
                                            api_v3_paths.work_package_targets,
                                            current_user: current_user)
           end
 
           route_param :id do
             before do
-              @wp_target = WorkPackageTarget.find(params[:id])
+              @work_package_target = WorkPackageTarget.find(params[:id])
             end
 
             get do
-              WorkPackageTargetRepresenter.new(@wp_target, current_user: current_user)
+              WorkPackageTargetRepresenter.new(@work_package_target, current_user: current_user)
             end
           end
         end

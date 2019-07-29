@@ -101,8 +101,11 @@ export class ApiV3Paths {
 
   // /api/v3/grids
   public readonly grids = new Apiv3GridsPaths(this.apiV3Base);
-  //organizations: any;
-  //diagrams: any;
+
+  //zbd(
+  //public readonly targets = new Apiv3ProjectsPaths(this.apiV3Base) + '/targets';
+  // )
+
 
   constructor(readonly appBasePath:string) {
   }

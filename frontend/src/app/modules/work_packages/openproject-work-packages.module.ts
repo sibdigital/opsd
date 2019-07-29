@@ -198,6 +198,8 @@ import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} f
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/MatPaginatorIntlRussian";
 import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tabs/targets-tab/targets-tab.component";
+import {WpTargetComponent} from "core-components/wp-target/wp-target.component";
+
 
 @NgModule({
   imports: [
@@ -413,6 +415,7 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
     WorkPackageBreadcrumbParentComponent,
     //zbd(
     WorkPackageTargetsTabComponent,
+    WpTargetComponent,
     // )
 
     // Split view
@@ -474,6 +477,7 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
     WorkPackageWatchersTabComponent,
     //zbd(
     WorkPackageTargetsTabComponent,
+    WpTargetComponent,
     // )
 
     // Single view

@@ -11,19 +11,29 @@ module API
       class WorkPackageTargetRepresenter < ::API::Decorators::Single
         include ::API::Caching::CachedRepresenter
 
-        # link :self do
-        #   {
-        #     href: api_v3_paths.work_package_target(represented.id),
-        #     title: represented.value
-        #   }
-        # end
+        #self_link
 
-        # link :project do
-        #   {
-        #     href: api_v3_paths.project(represented.project.id),
-        #     title: represented.project.name
-        #   }
-        # end
+        link :self do
+          {
+            href: api_v3_paths.work_package_target(represented.id),
+            title: Target.where(id: represented.target_id).first.name
+          }
+        end
+
+        link :project do
+          {
+            href: api_v3_paths.project(represented.project_id),
+            title: represented.project.name
+          }
+        end
+
+        link :work_package do
+          {
+            href: api_v3_paths.work_package(represented.work_package_id),
+            title: represented.work_package.subject
+          }
+        end
+
         property :id, render_nil: true
         property :project_id
         property :work_package_id

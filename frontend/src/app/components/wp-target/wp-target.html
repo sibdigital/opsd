@@ -1,0 +1,19 @@
+<p>
+  wp-target works! project.identifier: {{ workPackage.project.identifier }}, work_package_id: {{ workPackageId }}
+</p>
+
+<div>
+  Целевой показатель
+  <select
+          id="target_select"
+          [(ngModel)]="targetSelect"
+          name="target_select">
+    <option
+            *ngFor="let value of targetSelectOptions"
+            [attr.label]="value.name"
+            [ngValue]="value"
+            [textContent]="value.name">
+    </option>
+  </select>
+
+</div>
