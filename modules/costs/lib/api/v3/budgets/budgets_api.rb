@@ -55,37 +55,27 @@ module API
           end
 
           get :all do
-            all_budgets = AllBudgetsHelper.all_buget current_user
-            ab = AllBudget.new all_budgets[:spent], all_budgets[:ne_ispoln], all_budgets[:ostatok]
-            AllBudgetRepresenter.new(ab, current_user: current_user)
+            AllBudgetsHelper.all_buget current_user
+          end
+
+          get :all_user do
+            AllBudgetsHelper.user_projects_budgets current_user
+          end
+
+          get :federal do
+            AllBudgetsHelper.all_buget current_user
+          end
+
+          get :regional do
+            AllBudgetsHelper.all_buget current_user
+          end
+
+          get :vnebudget do
+            AllBudgetsHelper.all_buget current_user
           end
         end
         # -tan
       end
-
-      #+tan
-      class AllBudget
-
-        def initialize(ispoln = 0, ne_ispoln = 0, ostatok = 0)
-          @ispoln = ispoln
-          @ne_ispoln = ne_ispoln
-          @ostatok = ostatok
-        end
-
-        def ispoln
-          @ispoln
-        end
-
-        def ne_ispoln
-          @ne_ispoln
-        end
-
-        def ostatok
-          @ostatok
-        end
-
-      end
-      # -tan
     end
   end
 end
