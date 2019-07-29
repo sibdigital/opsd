@@ -1,6 +1,8 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class BlueTableProblemsService extends BlueTableService {
   private project:string;
@@ -9,19 +11,18 @@ export class BlueTableProblemsService extends BlueTableService {
   private pages:number = 0;
 
   public initialize():void {
-    this.project = this.$state.params['project'];
     this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString())
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString())
       .toPromise()
-      .then((resources:QueryResource) => {
-        let total:number = resources.results.total; //всего ex 29
-        let pageSize:number = resources.results.pageSize; //в этой выборке ex 20
+      .then((resources:CollectionResource<HalResource>) => {
+        let total:number = resources.total; //всего ex 29
+        let pageSize:number = resources.pageSize; //в этой выборке ex 20
         let remainder = total % pageSize;
         this.pages = (total - remainder) / pageSize;
         if (remainder !== 0) {
           this.pages++;
         }
-        resources.results.elements.map((el:HalResource) => {
+        resources.elements.map((el:HalResource) => {
           this.data.push(el);
         });
       });
@@ -39,20 +40,7 @@ export class BlueTableProblemsService extends BlueTableService {
 
   public getDataFromPage(i:number):any[] {
     this.data = [];
-    this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), {"offset": i})
-      .toPromise()
-      .then((resources:QueryResource) => {
-        let total:number = resources.results.total; //всего ex 29
-        let remainder = total % 20;
-        this.pages = (total - remainder) / 20;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.results.elements.map((el:HalResource) => {
-          this.data.push(el);
-        });
-      });
+    //TODO:dodelat
     return this.data;
   }
 
@@ -63,19 +51,23 @@ export class BlueTableProblemsService extends BlueTableService {
         break;
       }
       case 1: {
-        return row.name;
+        return row.project ? row.project.$links.self.title :'';
         break;
       }
       case 2: {
-        return row.assignee ? row.assignee.$links.self.title :'';
+        return row.userCreator ? row.userCreator.$links.self.title :'';
         break;
       }
       case 3: {
-        return row.dueDate;
+        return row.risk;
         break;
       }
-      case 4: {
-        return row.status ? row.status.$links.self.title :'';
+      case 5: {
+        return row.status;
+        break;
+      }
+      case 6: {
+        return row.solution_date;
         break;
       }
     }
@@ -84,5 +76,36 @@ export class BlueTableProblemsService extends BlueTableService {
 
   public getTdClass(row:any, i:number):string {
     return '';
+  }
+
+  public getDataWithFilter(param:string):any[] {
+    let filter;
+    switch (param) {
+      case 'solved': {
+        filter = 'solved';
+        break;
+      }
+      case 'notsolved': {
+        filter = 'created';
+        break;
+      }
+    }
+    this.data = [];
+    this.halResourceService
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), filter ? {"status" : filter} : null )
+      .toPromise()
+      .then((resources:CollectionResource<HalResource>) => {
+        let total:number = resources.total; //всего ex 29
+        let pageSize:number = resources.pageSize; //в этой выборке ex 20
+        let remainder = total % pageSize;
+        this.pages = (total - remainder) / pageSize;
+        if (remainder !== 0) {
+          this.pages++;
+        }
+        resources.elements.map((el:HalResource) => {
+          this.data.push(el);
+        });
+      });
+    return this.data;
   }
 }

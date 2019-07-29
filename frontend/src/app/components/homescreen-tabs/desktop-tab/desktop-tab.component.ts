@@ -114,6 +114,19 @@ export class DesktopTabComponent implements OnInit {
           this.data[i] = row;
         });
       });
+    this.halResourceService
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString())
+      .toPromise()
+      .then((resources:CollectionResource<HalResource>) => {
+        resources.elements.map( (el, i) => {
+          let row = this.data[i] ? this.data[i] :{};
+          let id = el.id;
+          let risk = el.risk;
+          let problems = {id: id, risk: risk};
+          row["problems"] = problems;
+          this.data[i] = row;
+        });
+      });
   }
 
   public getGreenClass(i:number):string {

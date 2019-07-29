@@ -75,6 +75,7 @@ export class ApiV3Paths {
 
   public readonly attach_types = new SimpleResourceCollection(this.apiV3Base, 'attach_types');
 
+  public readonly problems = new SimpleResource(this.apiV3Base, 'problems');
   //)
 
   // /api/v3/time_entries

@@ -45,7 +45,6 @@ import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/hom
 import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 import {KtTabComponent} from "core-components/homescreen-tabs/kt-tab/kt-tab.component";
-import {HomescreenBlueTableService} from "core-components/homescreen-blue-table/homescreen-blue-table.service";
 import {BlueTableNationalProjectsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-national-projects.service";
 import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kt.service";
 import {ProblemsTabComponent} from "core-components/homescreen-tabs/problems-tab/problems-tab.component";
@@ -73,7 +72,6 @@ import {BlueTableProblemsService} from "core-components/homescreen-blue-table/bl
     KtTabComponent,
     ProblemsTabComponent,
     HomescreenBlueTableComponent,
-    HomescreenBlueTableService,
     BlueTableNationalProjectsService,
     BlueTableKtService,
     BlueTableProblemsService

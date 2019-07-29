@@ -68,9 +68,16 @@
                 <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
                 <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
 
-                <td *ngIf="!item.problem" [ngClass]="getOrangeClass(i)"></td>
-                <td *ngIf="!item.problem" [ngClass]="getOrangeClass(i)"></td>
-                <td *ngIf="!item.problem" [ngClass]="getOrangeClass(i)"></td>
+                <td *ngIf="item.problems"
+                    [ngClass]="getOrangeClass(i)"
+                    [textContent]="i + 1"></td>
+                <td *ngIf="item.problems"
+                    [ngClass]="getOrangeClass(i)"
+                    [textContent]="item.problems.risk">
+                </td>
+                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
+                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
+                <td [ngClass]="getOrangeClass(i)"></td>
 
                 <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>
                 <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>

@@ -309,7 +309,15 @@ class User < Principal
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
     when :firstname               then firstname
     when :username                then login
-
+    #bbm(
+    when :lastname_f_p then begin
+      fshort = firstname ? firstname.slice(0) : ''
+      fshort += firstname ? '.' : ''
+      pshort = patronymic ? patronymic.slice(0) : ''
+      pshort += patronymic ? '.' : ''
+      "#{lastname} #{fshort}#{pshort}"
+    end
+    #)
     else
       #zbd "#{firstname} #{lastname}"
       "#{firstname} #{patronymic} #{lastname}"

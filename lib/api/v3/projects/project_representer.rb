@@ -93,7 +93,7 @@ module API
                  getter: ->(*) {
                    has_role_kurator
                  }
-          property :is_ruk_proekt_ofisa,
+        property :is_ruk_proekt_ofisa,
                  getter: ->(*) {
                    has_role_ruk_proekt_ofisa
                  }

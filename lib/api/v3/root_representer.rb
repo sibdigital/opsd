@@ -122,6 +122,12 @@ module API
         }
       end
 
+      link :problems do
+        {
+          href: api_v3_paths.problems
+        }
+      end
+
       link :diagram_quieries do
         {
           href: api_v3_paths.diagram_queries

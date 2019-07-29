@@ -221,6 +221,14 @@ module API
           end
 
           #bbm(
+          def self.problems
+            "#{root}/problems"
+          end
+
+          def self.problem(id)
+            "#{problems}/#{id}"
+          end
+
           def self.diagrams
             "#{root}/diagrams"
           end

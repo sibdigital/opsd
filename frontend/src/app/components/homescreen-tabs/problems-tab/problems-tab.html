@@ -18,9 +18,9 @@
     <tr>
         <td>Фильтр</td>
         <td>
-            <a href="">Все</a> /
-            <a href="">Не решены</a> /
-            <a href="">Решены</a>
+            <a href="" (click)="this.blueChild.changeFilter('all')">Все</a> /
+            <a href="" (click)="this.blueChild.changeFilter('notsolved')">Не решены</a> /
+            <a href="" (click)="this.blueChild.changeFilter('solved')">Решены</a>
         </td>
     </tr>
 </table>

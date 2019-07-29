@@ -34,7 +34,7 @@ module API
   module V3
     module NationalProjects
       class NationalProjectRepresenter < ::API::Decorators::Single
-        #include ::API::Caching::CachedRepresenter
+        include ::API::Caching::CachedRepresenter
 
         self_link path: :national_project
 
