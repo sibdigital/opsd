@@ -32,7 +32,7 @@ OpenProject::Application.routes.draw do
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   #bbm(
-  get '/vkladka1' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
+  get '/vkladka1(/*state)' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
   # state for show view in homescreen context
   get '/vkladka2(/*state)' => 'homescreen#vkladka2', as: 'edit_tab_homescreen2'
   # )

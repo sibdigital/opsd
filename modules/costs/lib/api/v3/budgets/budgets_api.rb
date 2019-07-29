@@ -31,6 +31,7 @@ module API
   module V3
     module Budgets
       class BudgetsAPI < ::API::OpenProjectAPI
+        #include AllBudgetsHelper
         resources :budgets do
           route_param :id do
             before do
@@ -46,7 +47,45 @@ module API
             mount ::API::V3::Attachments::AttachmentsByBudgetAPI
           end
         end
+
+        #+tan
+        resources :summary_budgets do
+          before do
+            authorize_any([:view_work_packages, :view_budgets], global: true)
+          end
+
+          get :all do
+            all_budgets = AllBudgetsHelper.all_buget current_user
+            ab = AllBudget.new all_budgets[:spent], all_budgets[:ne_ispoln], all_budgets[:ostatok]
+            AllBudgetRepresenter.new(ab, current_user: current_user)
+          end
+        end
+        # -tan
       end
+
+      #+tan
+      class AllBudget
+
+        def initialize(ispoln = 0, ne_ispoln = 0, ostatok = 0)
+          @ispoln = ispoln
+          @ne_ispoln = ne_ispoln
+          @ostatok = ostatok
+        end
+
+        def ispoln
+          @ispoln
+        end
+
+        def ne_ispoln
+          @ne_ispoln
+        end
+
+        def ostatok
+          @ostatok
+        end
+
+      end
+      # -tan
     end
   end
 end
