@@ -67,12 +67,15 @@ export class ApiV3Paths {
 
   public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
 
+  public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
+
   public readonly diagram_queries = new SimpleResourceCollection(this.apiV3Base, 'diagram_queries');
 
   public readonly organizations = new SimpleResourceCollection(this.apiV3Base, 'organizations');
 
-  public readonly attachTypes = new SimpleResourceCollection(this.apiV3Base, 'attach_types');
+  public readonly attach_types = new SimpleResourceCollection(this.apiV3Base, 'attach_types');
 
+  public readonly problems = new SimpleResource(this.apiV3Base, 'problems');
   //)
 
   // /api/v3/time_entries

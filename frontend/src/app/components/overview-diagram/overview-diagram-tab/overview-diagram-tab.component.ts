@@ -10,7 +10,6 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
-import {getParams} from "@uirouter/core";
 
 export interface ValueOption {
   name:string;
@@ -35,10 +34,10 @@ export interface ValueOption {
 }*/
 
 @Component({
-  selector: 'wp-overview-diagram-tab',
+  selector: 'overview-diagram-tab',
   templateUrl: './overview-diagram-tab.html'
 })
-export class WorkPackageOverviewDiagramTabComponent implements OnInit {
+export class OverviewDiagramTabComponent implements OnInit {
   public barChartOptions:ChartOptions = {
     responsive: true,
     scales: {

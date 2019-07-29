@@ -1,0 +1,88 @@
+<div ng-app="OpenProjectLegacy" class="ng-scope">
+    <div id="invisible-grid" class="widget-boxes project-overview">
+        <div class="grid-block">
+            <div style="flex: 0 0 29%; max-width: 29%;">
+                <p style="text-align: center;font-weight: bold;margin: -2px;">Показатели</p>
+                <homescreen-diagram chart-name='pokazateli' chart-labels='["Исп.","Не исп.","В работе"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
+                </homescreen-diagram>
+            </div>
+            <div style="flex: 0 0 29%; max-width: 29%;">
+                <p style="text-align: center;font-weight: bold;margin: -2px;">КТ</p>
+                <homescreen-diagram chart-name='kt' chart-labels='["Исп.","Не исп.","В работе","Риски"]' chart-colors='["#00b050", "#c00000", "#1f497d", "#ffc000"]'>
+                </homescreen-diagram>
+            </div>
+            <div style="flex: 0 0 29%; max-width: 29%;">
+                <p style="text-align: center;font-weight: bold;margin: -2px;">Бюджет</p>
+                <homescreen-diagram chart-name='budjet' chart-labels='["Исп.","Не исп.","Остаток"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
+                </homescreen-diagram>
+            </div>
+            <div style="text-align: center; width: 13%; background-color: #c0504d;" >
+                <a style="font-weight: bold; color: white; position:relative; top:40%" class="problems-a" href="#">Проблем<br>20</a>
+            </div>
+        </div>
+    </div>
+    <homescreen-blue-table [template]="'desktop'"></homescreen-blue-table>
+    <div style="display: inline-flex;border: 1px solid #1A67A3;width: 100%;">
+        <table border="0" class="coloredTable">
+            <thead>
+            <tr>
+                <th class="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
+                <th class="colored-col-red" colspan="3">Просроченные КТ:</th>
+                <th class="colored-col-orange" colspan="3">Проблемы:</th>
+                <th class="colored-col-purple" colspan="2">Бюджет:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of data; let i = index" >
+                <td *ngIf="item.upcoming_tasks"
+                    [ngClass]="getGreenClass(i)"
+                    [textContent]="i + 1"></td>
+                <td *ngIf="item.upcoming_tasks"
+                    [ngClass]="getGreenClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}/work_packages/{{item.upcoming_tasks.id}}/activity?plan_type=execution"
+                       [textContent]="item.upcoming_tasks.subject"></a>
+                </td>
+                <td *ngIf="item.upcoming_tasks"
+                    [ngClass]="getGreenClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}"
+                    [textContent]="item.upcoming_tasks.project"></a>
+                </td>
+                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
+                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
+                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
+
+                <td *ngIf="item.due_milestone"
+                    [ngClass]="getRedClass(i)"
+                    [textContent]="i + 1"></td>
+                <td *ngIf="item.due_milestone"
+                    [ngClass]="getRedClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}/work_packages/{{item.due_milestone.id}}/activity?plan_type=execution"
+                       [textContent]="item.due_milestone.subject"></a>
+                </td>
+                <td *ngIf="item.due_milestone"
+                    [ngClass]="getRedClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}"
+                       [textContent]="item.due_milestone.project"></a>
+                </td>
+                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
+                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
+                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
+
+                <td *ngIf="item.problems"
+                    [ngClass]="getOrangeClass(i)"
+                    [textContent]="i + 1"></td>
+                <td *ngIf="item.problems"
+                    [ngClass]="getOrangeClass(i)"
+                    [textContent]="item.problems.risk">
+                </td>
+                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
+                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
+                <td [ngClass]="getOrangeClass(i)"></td>
+
+                <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>
+                <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
