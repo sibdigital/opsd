@@ -851,6 +851,7 @@ en:
     arbitary_object: Произвольный объект
     target_status: Статус
     target_type: Тип
+    target_parent: Родитель
     label_targets: Целевые показатели
   #)
   button_add: Добавить
@@ -1755,7 +1756,8 @@ en:
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
   label_target_new: Добавить целевой показатель
-  label_target_parent: Вышестоящий целевой показатель
+  label_child_target_new: Добавить дочерний целевой показатель
+  label_target_parent: Родитель
   label_target_value: Целевой показатель
   label_target_execution_values_new: Добавить плановые значения исполнения цели
   label_target_execution_value: Плановое значения исполнения цели

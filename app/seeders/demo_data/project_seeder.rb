@@ -30,6 +30,13 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
+
+      #tan(
+      print ' ↳ Creating national projects'
+      DemoData::NationalProjectSeeder.new.seed!
+      puts
+      # )
+
       ["umts", "cultura"].each do |key|
         puts " ↳ Creating #{key} project..."
 
@@ -68,9 +75,23 @@ module DemoData
       puts
       # )
 
+      #tan(
+      print ' ↳ Creating targets'
+      DemoData::TargetSeeder.new.seed!
+      puts
+      # )
+      #
+      #bbm(
+      print ' ↳ Creating project risks'
+      DemoData::ProjectRiskSeeder.new.seed!
+      puts
+      # )
+
       puts ' ↳ Updating settings'
       seed_settings
     end
+
+
 
     def applicable?
       Project.count.zero?
@@ -179,9 +200,36 @@ module DemoData
           identifier: project_identifier(key),
           description: project_description(key),
           enabled_module_names: project_modules(key),
-          types: project_types
+          types: project_types,
+          #+tan
+          national_project_id: national_project(key),
+          federal_project_id: federal_project(key)
+          #-tan
         }
       end
+
+      #+tan
+      def national_project_by_name(np_name)
+        np = NationalProject.find_by(name: np_name)
+        if np != nil
+          np.id
+        end
+      end
+
+      def national_project(key)
+        puts "seeders.demo_data.projects.#{key}.national_project"
+        name = translate_with_base_url("seeders.demo_data.projects.#{key}.national_project")
+        puts name
+        national_project_by_name(name)
+      end
+
+      def federal_project(key)
+        puts "seeders.demo_data.projects.#{key}.federal_project"
+        name = translate_with_base_url("seeders.demo_data.projects.#{key}.federal_project")
+        puts name
+        national_project_by_name(name)
+      end
+      #-tan
 
       def project_name(key)
         translate_with_base_url("seeders.demo_data.projects.#{key}.name")
