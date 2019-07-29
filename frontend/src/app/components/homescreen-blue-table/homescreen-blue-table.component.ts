@@ -35,6 +35,7 @@ export class HomescreenBlueTableComponent implements OnInit {
       this.blueTableModule = this.injector.get(BlueTableKtService);
     }
   }
+
   public loadPage(i:number) {
     if ( i === 0) {
       this.data = this.blueTableModule.getDataFromPage(1);
@@ -43,5 +44,13 @@ export class HomescreenBlueTableComponent implements OnInit {
     } else {
       this.data = this.blueTableModule.getDataFromPage(i);
     }
+  }
+
+  public limitDays(i:number) {
+    this.data = this.blueTableModule.getDataWithLimit(i);
+  }
+
+  public changeFilter(param:string) {
+    this.data = this.blueTableModule.getDataWithFilter(param);
   }
 }

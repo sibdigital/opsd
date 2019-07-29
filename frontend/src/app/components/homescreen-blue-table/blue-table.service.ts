@@ -12,13 +12,19 @@ export abstract class BlueTableService {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
     this.initialize();
   }
-  public initialize():void{
+  public initialize():void {
   }
 
   public getData():any[] {
     return [];
   }
   public getDataFromPage(i:number):any[] {
+    return [];
+  }
+  public getDataWithLimit(i:number):any[] {
+    return [];
+  }
+  public getDataWithFilter(param:string):any[] {
     return [];
   }
   public getColumns():string[] {

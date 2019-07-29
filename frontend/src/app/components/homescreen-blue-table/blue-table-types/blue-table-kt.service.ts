@@ -1,6 +1,7 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class BlueTableKtService extends BlueTableService {
   private project:string;
@@ -84,5 +85,58 @@ export class BlueTableKtService extends BlueTableService {
 
   public getTdClass(row:any, i:number):string {
     return '';
+  }
+
+  public getDataWithLimit(i:number):any[] {
+    let filters = new ApiV3FilterBuilder();
+    filters.add('dueDate', '<t+', [i.toString()]);
+    this.data = [];
+    this.halResourceService
+      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), {"filters": filters.toJson()})
+      .toPromise()
+      .then((resources:QueryResource) => {
+        let total:number = resources.results.total; //всего ex 29
+        let remainder = total % 20;
+        this.pages = (total - remainder) / 20;
+        if (remainder !== 0) {
+          this.pages++;
+        }
+        resources.results.elements.map((el:HalResource) => {
+          this.data.push(el);
+        });
+      });
+    return this.data;
+  }
+
+  public getDataWithFilter(param:string):any[] {
+    let filters;
+    switch (param) {
+      case 'vrabote': {
+        filters = new ApiV3FilterBuilder();
+        filters.add('status', '=', ["2"]);
+        break;
+      }
+      case 'predstoyashie': {
+        filters = new ApiV3FilterBuilder();
+        filters.add('dueDate', '>t+', ["0"]);
+        break;
+      }
+    }
+    this.data = [];
+    this.halResourceService
+      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), filters ? {"filters": filters.toJson()} :null)
+      .toPromise()
+      .then((resources:QueryResource) => {
+        let total:number = resources.results.total; //всего ex 29
+        let remainder = total % 20;
+        this.pages = (total - remainder) / 20;
+        if (remainder !== 0) {
+          this.pages++;
+        }
+        resources.results.elements.map((el:HalResource) => {
+          this.data.push(el);
+        });
+      });
+    return this.data;
   }
 }
