@@ -15,82 +15,16 @@ module DemoData
         print '.'
         user = new_user attributes
         unless user.save! validate: false
-          puts 'Seeding admin failed:'
+          puts 'Seeding user failed:'
           user.errors.full_messages.each do |msg|
             puts "  #{msg}"
           end
         end
       end
 
-      add_users
     end
 
     private
-
-    def add_users
-      default_role_project_curator = role_by_name (I18n.t(:default_role_project_curator))
-      default_role_project_customer = role_by_name (I18n.t(:default_role_project_customer))
-      default_role_project_office_manager = role_by_name (I18n.t(:default_role_project_office_manager))
-      default_role_project_activity_coordinator = role_by_name (I18n.t(:default_role_project_activity_coordinator))
-      default_role_project_office_coordinator = role_by_name (I18n.t(:default_role_project_office_coordinator))
-      default_role_events_responsible = role_by_name (I18n.t(:default_role_events_responsible))
-      default_role_project_head = role_by_name (I18n.t(:default_role_project_head))
-      default_role_project_office_admin = role_by_name (I18n.t(:default_role_project_office_admin))
-      default_role_member = role_by_name (I18n.t(:default_role_member))
-
-      cultura = project_by_name "«Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии"
-      umts = project_by_name "Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района."
-
-      puts cultura
-
-      #global
-      tas = user_by_login 'tas'
-      set_project_member umts, tas, default_role_project_activity_coordinator
-      set_project_member cultura, tas, default_role_project_activity_coordinator
-
-      zii = user_by_login 'zii'
-      set_project_member umts, zii, default_role_project_activity_coordinator
-      set_project_member cultura, zii, default_role_project_activity_coordinator
-
-      siv = user_by_login 'siv'
-      set_project_member umts, siv, default_role_project_office_manager
-      set_project_member cultura, siv, default_role_project_office_manager
-
-      #umts
-      lev = user_by_login 'lev'
-      set_project_member umts, lev, default_role_project_curator
-
-      rnu = user_by_login 'rnu'
-      set_project_member umts, rnu, default_role_project_head
-
-      doa = user_by_login 'doa'
-      set_project_member umts, doa, default_role_project_office_coordinator
-
-      ggo = user_by_login 'ggo'
-      set_project_member umts, ggo, default_role_events_responsible
-
-      ttv = user_by_login 'ttv'
-      set_project_member umts, ttv, default_role_events_responsible
-
-      moi = user_by_login 'moi'
-      set_project_member umts, moi, default_role_events_responsible
-
-      #cultura
-      tvb = user_by_login 'tvb'
-      set_project_member cultura, tvb, default_role_project_curator
-
-      blb = user_by_login 'blb'
-      set_project_member cultura, blb, default_role_project_head
-
-      knn = user_by_login 'knn'
-      set_project_member cultura, knn, default_role_project_office_coordinator
-
-      tvs = user_by_login 'tvs'
-      set_project_member cultura, tvs, default_role_events_responsible
-
-      bdr = user_by_login 'bdr'
-      set_project_member cultura, bdr, default_role_events_responsible
-    end
 
     def new_user(attributes)
       User.new.tap do |user|

@@ -1,9 +1,6 @@
 class TargetsController < ApplicationController
-#  menu_item :targets
-
+  #layout 'base'
   default_search_scope :targets
-
-
 
   before_action :find_optional_project, :verify_targets_module_activated
   before_action :find_target, only: [:edit, :update, :destroy]
@@ -13,6 +10,7 @@ class TargetsController < ApplicationController
   include PaginationHelper
   include ::IconsHelper
   include ::ColorsHelper
+  include TargetsHelper
 
   def index
     sort_columns = {'id' => "#{Target.table_name}.id",
@@ -21,42 +19,40 @@ class TargetsController < ApplicationController
                     'type' => "#{Target.table_name}.type_id"
     }
 
-    sort_init 'id', 'desc'
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
 
     @parent_id = parent_id_param
 
-    @targets = @project.targets.where(parent_id: @parent_id)
+    @targets = @project.targets
                        .order(sort_clause)
                        .page(page_param)
                        .per_page(per_page_param)
-
-    if @parent_id.to_i != 0
-      @target_parent = Target.find(@parent_id)
-    end
-
   end
 
   def edit
-    if params[:tab].blank?
-      redirect_to tab: :properties
-    else
-      @tab = params[:tab]
-    end
+    @targets_arr = [['', 0]]
+    @targets_arr += Target.where('project_id = ? and id <> ?', @project.id, @target.id).map {|u| [u.name, u.id]}
   end
 
   def new
     @target = Target.new
 
+    @target.project_id = find_project_by_project_id.id
     if params[:parent_id] != nil
       @parent_id = params[:parent_id]
     else
       @parent_id = 0
     end
+
     @target.parent_id = @parent_id
     if @target.parent_id != 0
-       @target_parent = Target.find(@parent_id)
+      @target_parent = Target.find(@parent_id)
     end
+
+    @targets_arr = [['', 0]]
+    @targets_arr += Target.where('project_id = ?', @project.id).map {|u| [u.name, u.id]}
+
   end
 
   def create
@@ -64,7 +60,8 @@ class TargetsController < ApplicationController
 
     if @target.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to edit_project_target_path(id: @target.id) #action: 'edit'
+
     else
       render action: 'new'
     end
@@ -73,7 +70,8 @@ class TargetsController < ApplicationController
   def update
     if @target.update_attributes(permitted_params.target)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to project_targets_path()
+      #redirect_to project_targets_path()
+      redirect_to edit_project_target_path
     else
       render action: 'edit'
     end
@@ -92,7 +90,6 @@ class TargetsController < ApplicationController
     if @target.parent_id != 0
       @target_parent = Target.find(@target.parent_id)
     end
-
   end
 
   def default_breadcrumb
@@ -109,7 +106,6 @@ class TargetsController < ApplicationController
 
   private
 
-  # TODO: см. find_optional_project в ActivitiesController
   def find_optional_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
@@ -121,7 +117,6 @@ class TargetsController < ApplicationController
   def verify_targets_module_activated
     render_403 if @project && !@project.module_enabled?('targets')
   end
-
 
   def remove_quotations(str)
     if str.start_with?('"')

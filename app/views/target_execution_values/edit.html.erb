@@ -14,6 +14,6 @@
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
 
-<%= styled_form_tag(target_execution_value_path(id: @target_execution_value.id,  target_id: @target_execution_value.target_id), method: :delete) do %>
+<%= styled_form_tag(target_execution_value_path(id: @target_execution_value.id,  target_id: @target_execution_value.target_id), method: :delete, remote: true) do %>
   <%= styled_submit_tag l(:button_delete) %>
 <% end %>

@@ -11,7 +11,16 @@
 <%= error_messages_for :target_execution_value %>
 <section class="form--section">
   <%= f.hidden_field 'target_id' %>
-  <div class="form--field"><%= f.text_field 'year', required: true, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.text_field 'quarter', required: true, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.text_field 'value', required: true, container_class: '-middle' %></div>
+<!--  <div class="form--field"><%#= f.text_field 'year', required: true, container_class: '-middle' %></div>-->
+<!--  <div class="form--field"><%#= f.text_field 'quarter', required: true, container_class: '-middle' %></div>-->
+<!--  <div class="form--field"><%#= f.text_field 'value', required: true, container_class: '-middle' %></div>-->
+
+  <%= hidden_field_tag(:target_id, @target.id) %>
+  <div class="form--field"><label for="year">Год:</label><%= select_year Date.today, field_name: 'year', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><label for="quarter">Квартал:</label>
+    <%= select_tag('quarter',options_for_select([['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], 1)) %>
+  </div>
+  <div class="form--field"><label for="value">Значение:</label><%= text_field_tag('value') %></div>
+
 </section>
+

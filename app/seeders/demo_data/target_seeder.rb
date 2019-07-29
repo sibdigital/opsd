@@ -38,12 +38,20 @@ module DemoData
     def target_attributes(attributes)
       {
         name:         attributes[:name],
-        #typen:         attributes[:typen],
-        unit:    attributes[:unit],
-        basic_value:   attributes[:basic_value],
-        plan_value: attributes[:plan_value],
-        project_id:  project_by_name(attributes[:project])
+        type_id:        type_by_name(attributes[:type_id]),
+        unit:         attributes[:unit],
+        basic_value:  attributes[:basic_value],
+        plan_value:   attributes[:plan_value],
+        project_id:   project_by_name(attributes[:project]),
+        parent_id: attributes[:parent_id]
       }
+    end
+
+    def type_by_name(name)
+      np = TargetType.find_by(name: name)
+      if np != nil
+        np.id
+      end
     end
 
     def target_values_attributes(attributes)

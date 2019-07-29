@@ -9,17 +9,9 @@ This file written by XCC
 %>
 
 <%= error_messages_for :target %>
-<% if @target_parent != nil %>
-  <div class="form--field">
-    <%= l(:label_target_parent )  %>
-    <%= ':' %>
-    <%= @target_parent %>
-  </div>
-<% end %>
 <section class="form--section">
   <%= f.hidden_field 'project_id' %>
   <%= f.hidden_field 'parent_id' %>
-  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
   <% @selected_status_id = if @target.id
                              @target.status_id
                            elsif TargetStatus.default
@@ -31,14 +23,23 @@ This file written by XCC
                            TargetType.default.id
                          end
   %>
-  <div class="form--field">  <%= f.select :status_id,
-                                          options_for_select(TargetStatus.where(active: true).map {|u| [u.name, u.id]}, @selected_status_id),
-                                          include_blank: true,
-                                          container_class: '-slim' %></div>
+
+  <div class="form--field">
+    <%= f.select :parent_id,
+                 options_for_select(@targets_arr, @target.parent_id),
+                 container_class: '-middle'
+    %>
+  </div>
   <div class="form--field">  <%= f.select :type_id,
                                           options_for_select(TargetType.where(active: true).map {|u| [u.name, u.id]}, @selected_type_id),
                                           include_blank: true,
-                                          container_class: '-slim' %></div>
+                                          container_class: '-middle' %></div>
+
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field">  <%= f.select :status_id,
+                                          options_for_select(TargetStatus.where(active: true).map {|u| [u.name, u.id]}, @selected_status_id),
+                                          include_blank: true,
+                                          container_class: '-middle' %></div>
 
   <div class="form--field"><%= f.text_field 'unit', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'basic_value', container_class: '-middle' %></div>
@@ -53,5 +54,4 @@ This file written by XCC
       <%= f.check_box 'is_approve', container_class: '-middle', readonly: true, disabled: true %>
     </div>
   <% end %>
-
 </section>
