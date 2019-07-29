@@ -55,7 +55,7 @@ module Redmine::MenuManager::WikiMenuHelper
                 parent: :analyze #+-tan
     #end
 
-    if project.wiki.pages.any?
+    if project.wiki.pages.any? and params['controller']=='wiki'
       push_wiki_menu_partial(main_item, menu)
     end
   rescue ArgumentError => e
@@ -89,7 +89,8 @@ module Redmine::MenuManager::WikiMenuHelper
     menu.push :wiki_menu_partial,
               { controller: '/wiki', action: 'show' },
               param: :project_id,
-              parent: main_item.menu_identifier,
+              #parent: main_item.menu_identifier,
+              parent: :analyze,
               partial: 'wiki/menu_pages_tree',
               last: true
   end
