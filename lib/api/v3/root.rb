@@ -61,6 +61,9 @@ module API
       mount ::API::V3::NationalProjects::NationalProjectsAPI
       mount ::API::V3::Problems::ProblemsAPI
       # )
+      # +tan 2019.07.30
+      mount ::API::V3::Boards::BoardsAPI
+      # - tan
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
       mount ::API::V3::Render::RenderAPI

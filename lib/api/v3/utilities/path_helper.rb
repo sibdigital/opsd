@@ -546,6 +546,16 @@ module API
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
           end
+
+          #+tan
+          def self.boards
+            "#{root}/boards"
+          end
+
+          def self.board(id)
+            "#{boards}/#{id}"
+          end
+          #-tan
         end
 
         def api_v3_paths
