@@ -1,0 +1,2 @@
+class MeetingProtocol < ApplicationRecord
+end
