@@ -40,6 +40,7 @@ import {Apiv3TypesPaths} from "core-app/modules/common/path-helper/apiv3/types/a
 import {Apiv3GridsPaths} from "core-app/modules/common/path-helper/apiv3/grids/apiv3-grids-paths";
 import {Apiv3NewsesPaths} from "core-app/modules/common/path-helper/apiv3/news/apiv3-newses-paths";
 import {Apiv3TimeEntriesPaths} from "core-app/modules/common/path-helper/apiv3/time-entries/apiv3-time-entries-paths";
+import {Apiv3NotificationsesPaths} from "core-app/modules/common/path-helper/apiv3/notifications/apiv3-notificationses-paths";
 
 export class ApiV3Paths {
   // Base path
@@ -83,6 +84,9 @@ export class ApiV3Paths {
 
   // /api/v3/news
   public readonly news = new Apiv3NewsesPaths(this.apiV3Base);
+
+  // /api/v3/notifications
+  public readonly notifications = new Apiv3NotificationsesPaths(this.apiV3Base);
 
   // /api/v3/types
   public readonly types = new Apiv3TypesPaths(this.apiV3Base);

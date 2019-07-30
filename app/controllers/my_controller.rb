@@ -44,6 +44,7 @@ class MyController < ApplicationController
   menu_item :password,            only: [:password]
   menu_item :access_token,        only: [:access_token]
   menu_item :mail_notifications,  only: [:mail_notifications]
+  menu_item :pop_up_notifications,  only: [:pop_up_notifications]
 
   # Show user's page
   def index
@@ -91,7 +92,12 @@ class MyController < ApplicationController
   def update_mail_notifications
     write_email_settings(redirect_to: :mail_notifications)
   end
+  # configure user's popup notifications
+  def pop_up_notifications; end
 
+  def update_pop_up_notifications
+
+  end
   # Create a new feeds key
   def generate_rss_key
     if request.post?
@@ -153,6 +159,10 @@ class MyController < ApplicationController
       flash[:notice] = l(:notice_account_updated)
       redirect_to(action: redirect_to)
     end
+  end
+
+  def write_pop_up_settings(redirect_to:)
+
   end
 
   def write_settings(current_user, request, permitted_params, params)

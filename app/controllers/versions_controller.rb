@@ -84,6 +84,7 @@ class VersionsController < ApplicationController
     if request.post?
       if @version.save
         flash[:notice] = l(:notice_successful_create)
+        # Alert.create_new_pop_up_alert(@version.id, "Versions", "Created", User.current.id, User.current.id)
         redirect_back_or_default(controller: '/project_settings', action: 'show', tab: 'versions', id: @project)
       else
         render action: 'new'
@@ -101,6 +102,7 @@ class VersionsController < ApplicationController
       @version.attributes = attributes
       if @version.save
         flash[:notice] = l(:notice_successful_update)
+        # Alert.create_new_pop_up_alert(@version.id, "Versions","Changed",User.current.id,User.current.id)
         redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
       else
         respond_to do |format|
@@ -122,6 +124,7 @@ class VersionsController < ApplicationController
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
+      # Alert.create_new_pop_up_alert(@version.id, "Versions", "Deleted", User.current.id, User.current.id)
       redirect_to controller: '/project_settings', action: 'show', tab: 'versions', id: @project
     else
       flash[:error] = l(:notice_unable_delete_version)
