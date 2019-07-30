@@ -12,8 +12,9 @@ module API
         resources :work_package_targets do
           before do
             authorize(:view_work_packages, global: true)
-            #@work_package_targets = WorkPackageTarget.where('project_id = ? and work_package_id = ?', @project.id, @work_package.id)
-            @work_package_targets = WorkPackageTarget.where('project_id = ? and work_package_id = ?', @work_package.project_id, @work_package.id)
+            @work_package_targets = WorkPackageTarget
+                                      .where('project_id = ? and work_package_id = ?', @work_package.project_id, @work_package.id)
+                                      .order('target_id asc, year asc, quarter asc, month asc')
           end
 
           get do
@@ -24,7 +25,8 @@ module API
 
           route_param :id do
             before do
-              @work_package_target = WorkPackageTarget.find(params[:id])
+              @work_package_target = WorkPackageTarget.find(params[:id]).order('year asc, quarter asc, month asc')
+
             end
 
             get do

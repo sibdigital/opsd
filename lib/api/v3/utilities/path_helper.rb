@@ -116,10 +116,6 @@ module API
             "#{root}/contracts/#{id}"
           end
 
-          def self.project_targets(project_id)
-            "#{work_packages_by_project(project_id)}/targets"
-          end
-
           def self.targets
             "#{root}/targets"
           end

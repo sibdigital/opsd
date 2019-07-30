@@ -1,19 +1,40 @@
-<p>
-  wp-target works! project.identifier: {{ workPackage.project.identifier }}, work_package_id: {{ workPackageId }}
-</p>
-
 <div>
-  Целевой показатель
-  <select
-          id="target_select"
-          [(ngModel)]="targetSelect"
-          name="target_select">
-    <option
-            *ngFor="let value of targetSelectOptions"
-            [attr.label]="value.name"
-            [ngValue]="value"
-            [textContent]="value.name">
-    </option>
-  </select>
 
+  <div class="wp-relations-hierarchy-section">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            [textContent]="text.targets_header">
+        </h3>
+      </div>
+    </div>
+  </div>
+
+  <wp-target-create>
+  </wp-target-create>
+
+  <div>
+    <ul *ngFor="let target of wpTargets"
+        [attr.label]="targetSelectOptions.get(target.wp_target_id)">
+      <li>
+        <div>
+        <h4>{{ target.wp_target_id }} - {{ targetSelectOptions.get(target.wp_target_id) }}</h4>
+        <table *ngFor="let value of wpTargets">
+          <tbody>
+            <tr *ngIf="value.wp_target_id === target.wp_target_id">
+              <td>{{ value.wp_target_id }}</td>
+              <td>{{ value.year }}</td>
+              <td>{{ value.quarter }}</td>
+              <td>{{ value.plan_value }}</td>
+              <td>{{ value.value }}</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </li>
+    </ul>
+
+
+
+  </div>
 </div>

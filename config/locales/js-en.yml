@@ -478,6 +478,10 @@ en:
       remove: Удалить связь
       save: Сохранить отношение
       abort: Прервать
+    target_buttons:
+      add_new_target: Добавить целевой показатель
+      save: Сохранить
+      abort: Прервать
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
       parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape

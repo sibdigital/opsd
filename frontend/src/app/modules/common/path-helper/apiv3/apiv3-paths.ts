@@ -106,7 +106,7 @@ export class ApiV3Paths {
   public readonly grids = new Apiv3GridsPaths(this.apiV3Base);
 
   //zbd(
-  //public readonly targets = new Apiv3ProjectsPaths(this.apiV3Base) + '/targets';
+  public readonly targets = new SimpleResourceCollection(this.apiV3Base,'/targets');
   // )
 
 
