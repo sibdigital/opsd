@@ -39,6 +39,9 @@ import {WidgetWpAssignedComponent} from "core-app/modules/grids/widgets/wp-assig
 //#zbd(
 import {WidgetWpRemainingComponent} from "core-app/modules/grids/widgets/wp-remaining/wp-remaining.component.ts";
 //)
+//#knm(
+import {WidgetNotificationsComponent} from "core-app/modules/grids/widgets/notifications/notifications.component";
+//)
 import {WidgetWpCreatedComponent} from "core-app/modules/grids/widgets/wp-created/wp-created.component.ts";
 import {WidgetWpWatchedComponent} from "core-app/modules/grids/widgets/wp-watched/wp-watched.component.ts";
 import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
@@ -75,6 +78,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
 
     DynamicModule.withComponents([WidgetDocumentsComponent,
                                   WidgetNewsComponent,
+                                  //knm
+                                  WidgetNotificationsComponent,
+                                  //
                                   WidgetWpAssignedComponent,
                                   //zbd
                                   WidgetWpRemainingComponent,
@@ -101,6 +107,9 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     GridComponent,
     WidgetDocumentsComponent,
     WidgetNewsComponent,
+    //knm
+    WidgetNotificationsComponent,
+    //
     WidgetWpAssignedComponent,
     //zbd
     WidgetWpRemainingComponent,
@@ -172,6 +181,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'news',
           component: WidgetNewsComponent
+        },
+        {
+          identifier: 'notifications',
+          component: WidgetNotificationsComponent
         }
       ];
     });

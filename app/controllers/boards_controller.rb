@@ -105,6 +105,9 @@ class BoardsController < ApplicationController
   def create
     if @board.save
       flash[:notice] = l(:notice_successful_create)
+      Member.where(project_id: @board.project_id).each do |member|
+        Alert.create_new_pop_up_alert(@board.id, "Boards", "Created", User.current.id, member.user_id)
+      end
       redirect_to_settings_in_projects
     else
       render :new
@@ -116,6 +119,9 @@ class BoardsController < ApplicationController
   def update
     if @board.update_attributes(permitted_params.board)
       flash[:notice] = l(:notice_successful_update)
+      Member.where(project_id: @board.project_id).each do |member|
+        Alert.create_new_pop_up_alert(@board.id, "Boards", "Changed", User.current.id, member.user_id)
+      end
       redirect_to_settings_in_projects
     else
       render :edit
@@ -125,6 +131,9 @@ class BoardsController < ApplicationController
   def move
     if @board.update_attributes(permitted_params.board_move)
       flash[:notice] = l(:notice_successful_update)
+      Member.where(project_id: @board.project_id).each do |member|
+        Alert.create_new_pop_up_alert(@board.id, "Boards", "Moved", User.current.id, member.user_id)
+      end
     else
       flash.now[:error] = l('board_could_not_be_saved')
       render action: 'edit'
@@ -135,6 +144,9 @@ class BoardsController < ApplicationController
   def destroy
     @board.destroy
     flash[:notice] = l(:notice_successful_delete)
+    Member.where(project_id: @board.project_id).each do |member|
+      Alert.create_new_pop_up_alert(@board.id, "Boards", "Deleted", User.current.id, member.user_id)
+    end
     redirect_to_settings_in_projects
   end
 

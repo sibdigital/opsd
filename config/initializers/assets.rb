@@ -23,5 +23,7 @@ OpenProject::Application.configure do
     vendor/ckeditor/ckeditor.*js
     vendor/enjoyhint.js
     bundles/openproject-legacy-app.js
+    notify.js
+    notifyme.js
   )
 end

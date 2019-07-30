@@ -103,6 +103,10 @@ export class PathHelperService {
     return this.projectPath(projectId) + '/news';
   }
 
+  public projectNotificationsPath(projectId:string) {
+    return this.staticBase + '/';
+  }
+
   public projectTimelinesPath(projectId:string) {
     return this.projectPath(projectId) + '/timelines';
   }
