@@ -24,6 +24,10 @@ OpenProject::Application.routes.draw do
     resources :meetings, only: [:new, :create, :index]
   end
 
+  #iag(
+  resources :meeting_protocols
+  #)
+
   resources :meetings, except: [:new, :create, :index] do
 
     resource :agenda, controller: 'meeting_agendas', only: [:update] do
