@@ -36,22 +36,113 @@ See doc/COPYRIGHT.md for more details.
   </div>
 
   <% if can_edit_meeting_content?(content, content_type) -%>
-    <div id="edit-<%= content_type %>"
-         class="edit-<%= content_type %>"
-         style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
-    <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
-    </div>
+    <% if content_type=="meeting_agenda" -%>
+      <div id="edit-<%= content_type %>"
+           class="edit-<%= content_type %>"
+           style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
+        <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
+      </div>
+    <% end -%>
   <% end -%>
 
-  <% if saved_meeting_content_text_present?(content) -%>
-    <div id="<%= content_type %>-text"
-         style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
-         class="wiki show-<%= content_type %>">
-      <%= format_text(content.text, :object => @meeting) %>
-    </div>
-  <% else -%>
-    <%= no_results_box %>
+  <% if content_type=="meeting_agenda" -%>
+    <% if saved_meeting_content_text_present?(content) -%>
+      <div id="<%= content_type %>-text"
+           style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
+           class="wiki show-<%= content_type %>">
+        <%= format_text(content.text, :object => @meeting) %>
+      </div>
+    <% else -%>
+      <%= no_results_box %>
+    <% end -%>
   <% end -%>
+
+  <% if content_type=="meeting_minutes" -%>
+
+    <section style="display: block; width: 50%; float: left;">
+
+
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table" id="meeting_protocol_items">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Ответственный</th>
+              <th>Текст поручения</th>
+              <th>Срок</th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                  </div>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <% content.protocols.each do |meeting_protocol| %>
+              <tr id="meeting_protocol-<%= meeting_protocol.id %>">
+                <td><%= meeting_protocol.id %></td>
+                <td><%= meeting_protocol.assigned_to_id %></td>
+                <%= content_tag(:td, meeting_protocol.text) %>
+                <%= content_tag(:td, meeting_protocol.due_date) %>
+                <td></td>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <% if can_edit_meeting_content?(content, content_type) -%>
+        <div>
+          <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить поручение</span></div>
+        </div>
+      <% end %>
+
+
+      <div id="target-val-form" style="display: none; margin-top: 10px; background: #fafafa; padding: 20px;">
+        <section>
+          <h5>Введите значения:</h5>
+          <% @protocol = MeetingProtocol.new %>
+          <% @protocol.meeting_contents_id = content.id %>
+
+          <%= form_with model: @protocol, url: meeting_protocols_path do |f| %>
+
+            <%#= render partial: 'target_execution_values/form', locals: { f: f } %>
+
+            <section class="form--section">
+              <%= hidden_field_tag(:meeting_contents_id, content.id) %>
+
+              <div class="form--field"><label for="assigned_to_id">Ответственный:</label> <%= f.select :assigned_to_id,
+                                                                                                       options_for_select(MeetingParticipant.where(meeting_id: content.meeting_id).map {|u| [u.id, u.id]}, @selected_participant_id),
+                                                                                                       include_blank: true,
+                                                                                                       container_class: '-middle' %></div>
+              <div class="form--field"><label for="text">Текст поручения:</label><%= f.text_field(:text, required: true)%></div>
+              <div class="form--field"><label for="due_date">Срок:</label><%= f.date_field(:due_date, required: true)%></div>
+
+            </section>
+
+            <% if can_edit_meeting_content?(content, content_type) -%>
+              <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button', remote: true%>
+              <%= button_tag l(:button_cancel), type: 'reset', class: '-highlight -with-icon icon-checkmark button', id: 'target-val-cancel' %>
+            <% end %>
+          <% end %>
+        </section>
+      </div>
+    </section>
+
+  <% end -%>
+
+
 </div>
 
 <%= render :partial => 'shared/meeting_header' %>
