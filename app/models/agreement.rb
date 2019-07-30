@@ -1,5 +1,5 @@
 class Agreement < ActiveRecord::Base
-  acts_as_xlsx
+  #acts_as_xlsx
 
   belongs_to :project
   belongs_to :national_project, foreign_key: 'national_project_id'

@@ -157,13 +157,22 @@ class AgreementsController < ApplicationController
 #        render xlsx: "report_excel", template: "agreements/report_excel.xlsx.axlsx"
     @absolute_path = File.absolute_path('.') +'/'+'app/reports/templates/agreement.rtf'
     template_path = File.absolute_path('.') +'/'+'app/reports/templates/project_progress_report.xlsx'
-    workbook = RubyXL::Parser.parse(template_path)
-    workbook.calc_pr.full_calc_on_load = true
+    @workbook = RubyXL::Parser.parse(template_path)
+    @workbook.calc_pr.full_calc_on_load = true
 
-    sheet = workbook['Титульный лист']
+    generate_title
+
+    generate_key_risk
+
+    @ready_project_progress_report_path = File.absolute_path('.') +'/'+'public/reports/project_progress_report_out.xlsx'
+    @workbook.write(@ready_project_progress_report_path)
+  end
+
+
+  def generate_title
+    sheet = @workbook['Титульный лист']
 
     sheet[22][11].change_contents(@project.name)
-
 
     sheet.sheet_data[27][5].change_fill('0ba53d') #  0ba53d -зеленый
     sheet.sheet_data[27][9].change_fill('ff0000') #  ff0000 -красный
@@ -171,9 +180,47 @@ class AgreementsController < ApplicationController
     sheet.sheet_data[27][17].change_fill('ffd800') #  ffd800 -желтый
     sheet.sheet_data[27][21].change_fill('ffd800') #  ffd800 -желтый
 
+  end
 
-    @ready_project_progress_report_path = File.absolute_path('.') +'/'+'public/reports/project_progress_report_out.xlsx'
-    workbook.write(@ready_project_progress_report_path)
+  def generate_key_risk
+    sheet = @workbook['Ключевые риски']
+    @workPackageProblems = WorkPackageProblem.where(project_id: @project.id)
+
+    data_row = 3
+    @workPackageProblems.each_with_index do |workPackageProblem, i|
+
+       sheet.insert_cell(data_row + i, 0, i+1)
+       sheet.insert_cell(data_row + i, 1, "")
+       sheet.insert_cell(data_row + i, 2, workPackageProblem.work_package.subject)
+       sheet.insert_cell(data_row + i, 3, workPackageProblem.risk.description)
+       sheet.insert_cell(data_row + i, 4, workPackageProblem.description)
+
+       sheet.sheet_data[data_row + i][0].change_border(:top, 'thin')
+       sheet.sheet_data[data_row + i][0].change_border(:bottom, 'thin')
+       sheet.sheet_data[data_row + i][0].change_border(:left, 'thin')
+       sheet.sheet_data[data_row + i][0].change_border(:right, 'thin')
+
+       sheet.sheet_data[data_row + i][1].change_border(:top, 'thin')
+       sheet.sheet_data[data_row + i][1].change_border(:bottom, 'thin')
+       sheet.sheet_data[data_row + i][1].change_border(:left, 'thin')
+       sheet.sheet_data[data_row + i][1].change_border(:right, 'thin')
+
+       sheet.sheet_data[data_row + i][2].change_border(:top, 'thin')
+       sheet.sheet_data[data_row + i][2].change_border(:bottom, 'thin')
+       sheet.sheet_data[data_row + i][2].change_border(:left, 'thin')
+       sheet.sheet_data[data_row + i][2].change_border(:right, 'thin')
+
+       sheet.sheet_data[data_row + i][3].change_border(:top, 'thin')
+       sheet.sheet_data[data_row + i][3].change_border(:bottom, 'thin')
+       sheet.sheet_data[data_row + i][3].change_border(:left, 'thin')
+       sheet.sheet_data[data_row + i][3].change_border(:right, 'thin')
+
+       sheet.sheet_data[data_row + i][4].change_border(:top, 'thin')
+       sheet.sheet_data[data_row + i][4].change_border(:bottom, 'thin')
+       sheet.sheet_data[data_row + i][4].change_border(:left, 'thin')
+       sheet.sheet_data[data_row + i][4].change_border(:right, 'thin')
+
+    end
   end
 
   def new
