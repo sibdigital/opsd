@@ -104,9 +104,9 @@ export class BlueTableBudgetService extends BlueTableService {
     switch (i) {
       case 0: {
         if (row._type === 'Budget') {
-          return 'budget';
+          return 'p30';
         }
-        return row.parentId == null ? 'parent' : 'child';
+        return row.parentId == null ? 'p10' : 'p20';
         break;
       }
     }
