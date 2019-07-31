@@ -1,0 +1,24 @@
+<div class="tab">
+    <button class="tablinks" id="consolidated-tab">Сводный</button>
+    <button class="tablinks" id="project-tab">По проекту</button>
+</div>
+
+<!-- Tab content -->
+<div id="consolidated" class="tabcontent" style="display: block;">
+    <h2>Сводный перечень KPI</h2>
+    <table class="ass">
+        <tr>
+            <td>Дата</td>
+            <td><b>12.01.2021</b></td>
+        </tr>
+
+        <tr>
+            <td>Фильтр</td>
+            <td>
+                <a href="">Все проекты</a> /
+                <a href="">Конкр. проект</a>
+            </td>
+        </tr>
+    </table>
+    <homescreen-blue-table [template]="'kpi'"></homescreen-blue-table>
+</div>

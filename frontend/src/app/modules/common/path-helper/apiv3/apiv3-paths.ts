@@ -40,6 +40,7 @@ import {Apiv3TypesPaths} from "core-app/modules/common/path-helper/apiv3/types/a
 import {Apiv3GridsPaths} from "core-app/modules/common/path-helper/apiv3/grids/apiv3-grids-paths";
 import {Apiv3NewsesPaths} from "core-app/modules/common/path-helper/apiv3/news/apiv3-newses-paths";
 import {Apiv3TimeEntriesPaths} from "core-app/modules/common/path-helper/apiv3/time-entries/apiv3-time-entries-paths";
+import {Apiv3NotificationsesPaths} from "core-app/modules/common/path-helper/apiv3/notifications/apiv3-notificationses-paths";
 
 export class ApiV3Paths {
   // Base path
@@ -67,12 +68,17 @@ export class ApiV3Paths {
 
   public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
 
+  public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
+
+  public readonly work_package_targets = new SimpleResource(this.apiV3Base, 'work_package_targets');
+
   public readonly diagram_queries = new SimpleResourceCollection(this.apiV3Base, 'diagram_queries');
 
   public readonly organizations = new SimpleResourceCollection(this.apiV3Base, 'organizations');
 
-  public readonly attachTypes = new SimpleResourceCollection(this.apiV3Base, 'attach_types');
+  public readonly attach_types = new SimpleResourceCollection(this.apiV3Base, 'attach_types');
 
+  public readonly problems = new SimpleResource(this.apiV3Base, 'problems');
   //)
 
   // /api/v3/time_entries
@@ -80,6 +86,9 @@ export class ApiV3Paths {
 
   // /api/v3/news
   public readonly news = new Apiv3NewsesPaths(this.apiV3Base);
+
+  // /api/v3/notifications
+  public readonly notifications = new Apiv3NotificationsesPaths(this.apiV3Base);
 
   // /api/v3/types
   public readonly types = new Apiv3TypesPaths(this.apiV3Base);

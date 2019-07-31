@@ -48,6 +48,7 @@ class WorkPackages::BulkController < ApplicationController
 
     if @call.success?
       flash[:notice] = t(:notice_successful_update)
+      # Alert.create_new_pop_up_alert(1,"WorkPackage", "Changed", User.current.id,User.current.id)
       redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
     else
       @bulk_errors = @call.errors

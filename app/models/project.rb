@@ -143,6 +143,7 @@ class Project < ActiveRecord::Base
 
   #bbm(
   has_many :project_risks
+  belongs_to :national_project
   # )
 
   #zbd(
@@ -207,6 +208,185 @@ class Project < ActiveRecord::Base
     statuses
   end
 
+  # def full
+  #   sql = "SELECT u.first_name, u.last_name, p.due_date FROM projects p JOIN members m ON p.id = m.project_id JOIN users u ON u.id = m.project_id"
+  #   records_array = ActiveRecord::Base.connection.execute(sql).values
+  #
+  #   records_array
+  #
+  # end
+
+  def curator
+    role_name_curator = I18n.t(:default_role_project_curator)
+    sql = "
+    with curators as(
+        select  name, id
+        from roles as r
+        where r.name = '#{role_name_curator}'
+    ),
+    members_curator as (
+        select member_id, role_id
+        from member_roles as mr
+                 inner join curators on
+            mr.role_id = curators.id
+    )
+
+    select users.id, login,
+    coalesce(firstname,'') as firstname,
+    coalesce(lastname,'') as lastname,
+    coalesce(patronymic,'') as patronymic
+    from
+    (select *
+        from members as m
+        where project_id = #{id}
+    ) as proj_members
+    inner join members_curator on proj_members.id = members_curator.member_id
+    inner join users on proj_members.user_id = users.id"
+
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    # curator_name = records_array[0]['firstname'] + " " + records_array[0]['lastname']
+
+    if records_array.any?
+      arr = records_array[0]
+      arr['fio'] = arr['lastname'] + ' ' + arr['firstname'].slice(0...1) +'.' + arr['patronymic'].slice(0...1)+'.'
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def rukovoditel
+    role_name_rukovoditel = I18n.t(:default_role_project_head)
+    sql = "
+    with rukovoditel as(
+        select  name, id
+        from roles as r
+        where r.name = '#{role_name_rukovoditel}'
+    ),
+    members_rukovoditel as (
+        select member_id, role_id
+        from member_roles as mr
+                 inner join rukovoditel on
+            mr.role_id = rukovoditel.id
+    )
+
+    select users.id, login,
+    coalesce(firstname,'') as firstname,
+    coalesce(lastname,'') as lastname,
+    coalesce(patronymic,'') as patronymic
+    from
+    (select *
+        from members as m
+        where project_id = #{id}
+    ) as proj_members
+    inner join members_rukovoditel on proj_members.id = members_rukovoditel.member_id
+    inner join users on proj_members.user_id = users.id"
+
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    #rukovoditel_name = records_array[0]['firstname'] + " " + records_array[0]['lastname']
+
+    if records_array.any?
+      arr = records_array[0]
+      arr['fio'] = arr['lastname'] + ' ' + arr['firstname'].slice(0...1) + '.' + arr['patronymic'].slice(0...1)+'.'
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def get_upcoming_tasks_count
+
+    task_alias = I18n.t(:default_type_task)
+    sql = "select count(*) from work_packages
+            where type_id = (select id from types where name = '#{task_alias}')
+            and due_date >= current_date
+            and project_id = #{id}"
+
+    records_array = ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def get_due_milestone_count
+    milestone_alias = I18n.t(:default_type_milestone)
+    sql = "select count(*) from work_packages
+            where type_id = (select id from types where name = '#{milestone_alias}')
+            and due_date <= current_date
+            and project_id = #{id}"
+
+    records_array = ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def get_due_date
+    sql = "select due_date from projects where id = #{id}"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def get_problem_count
+    sql = "select count(*) from work_package_problems where project_id = #{id}"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def get_target_execution_values
+    sql = "SELECT * FROM target_execution_values tev JOIN targets t ON tev.target_id = t.id"
+    records_array =  ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+  def get_work_packages_targets
+    sql = "SELECT * FROM work_package_targets wpt JOIN targets t ON wpt.target_id = t.id WHERE wpt.project_id = #{id}"
+    records_array =  ActiveRecord::Base.connection.execute(sql)
+
+    if records_array.any?
+      arr = records_array[0]
+      arr
+    else
+      arr = []
+      arr
+    end
+  end
+
+
+
   def get_done_ratio #TODO: plan type execution!
 
     sql = "with
@@ -245,8 +425,9 @@ class Project < ActiveRecord::Base
     from only_parents"
     records_array = ActiveRecord::Base.connection.execute(sql)
 
-    res = records_array[0]['done_ratio'].to_i
-    res
+    # res = records_array[0]['done_ratio'].to_i
+    res = records_array[0]['done_ratio']
+    res.to_f.round
   end
   # эти статусы необходимы для того, чтобы соблюсти требования ТТ (стр 27) - ProjectStatus
   # ProjectApproveStatus - для соблюдения 469 постановления, чтобы с помощью эжтого статуса можно было проводить

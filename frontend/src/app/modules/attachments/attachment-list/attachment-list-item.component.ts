@@ -120,7 +120,7 @@ export class AttachmentListItemComponent implements OnInit {
   }
 
   protected loadAttachTypes() {
-    const url = this.pathHelper.api.v3.attachTypes.toString();
+    const url = this.pathHelper.api.v3.attach_types.toString();
     return this.halResourceService.get<CollectionResource<HalResource>>(url).toPromise();
   }
 

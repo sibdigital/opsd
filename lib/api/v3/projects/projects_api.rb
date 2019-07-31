@@ -39,9 +39,9 @@ module API
                                                                     params)
           end
 
-          params do
-            requires :id, desc: 'Project id'
-          end
+         params do
+           requires :id, desc: 'Project id'
+         end
 
           route_param :id do
             before do

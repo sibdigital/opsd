@@ -77,6 +77,9 @@ class NewsController < ApplicationController
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = l(:notice_successful_create)
+      Member.where(project_id: @project.id).each do |member|
+        Alert.create_new_pop_up_alert(@news.id, "News", "Created", User.current.id, member.user_id)
+      end
       redirect_to controller: '/news', action: 'index', project_id: @project
     else
       render action: 'new'
@@ -89,6 +92,9 @@ class NewsController < ApplicationController
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = l(:notice_successful_update)
+      Member.where(project_id: @news.project_id).each do |member|
+        Alert.create_new_pop_up_alert(@news.id, "News", "Changed", User.current.id, member.user_id)
+      end
       redirect_to action: 'show', id: @news
     else
       render action: 'edit'
@@ -98,6 +104,9 @@ class NewsController < ApplicationController
   def destroy
     @news.destroy
     flash[:notice] = l(:notice_successful_delete)
+    Member.where(project_id: @news.project_id).each do |member|
+      Alert.create_new_pop_up_alert(@news.id, "News", "Deleted", User.current.id, member.user_id)
+    end
     redirect_to action: 'index', project_id: @project
   end
 

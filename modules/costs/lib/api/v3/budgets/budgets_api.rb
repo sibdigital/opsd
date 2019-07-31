@@ -31,6 +31,7 @@ module API
   module V3
     module Budgets
       class BudgetsAPI < ::API::OpenProjectAPI
+        #include AllBudgetsHelper
         resources :budgets do
           route_param :id do
             before do
@@ -46,6 +47,34 @@ module API
             mount ::API::V3::Attachments::AttachmentsByBudgetAPI
           end
         end
+
+        #+tan
+        resources :summary_budgets do
+          before do
+            authorize_any([:view_work_packages, :view_budgets], global: true)
+          end
+
+          get :all do
+            AllBudgetsHelper.all_buget current_user
+          end
+
+          get :all_user do
+            AllBudgetsHelper.user_projects_budgets current_user
+          end
+
+          get :federal do
+            AllBudgetsHelper.all_buget current_user
+          end
+
+          get :regional do
+            AllBudgetsHelper.all_buget current_user
+          end
+
+          get :vnebudget do
+            AllBudgetsHelper.all_buget current_user
+          end
+        end
+        # -tan
       end
     end
   end

@@ -154,6 +154,10 @@ en:
       add_modal:
         choose_widget: Выберите виджет
       widgets:
+        notifications:
+          title: Уведомления
+          at: на
+          no_results: Уведомлений пока нет.
         documents:
           title: Документы
           no_results: Документов пока нет.

@@ -1,0 +1,49 @@
+<% html_title(l(:label_my_account), I18n.t('activerecord.attributes.user.pop_up_notification')) -%>
+
+<% breadcrumb_paths(l(:label_my_account), I18n.t('activerecord.attributes.user.pop_up_notification')) %>
+<%= toolbar title: I18n.t('activerecord.attributes.user.pop_up_notification') %>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="production_calendar_items">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+      <tr>
+        <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+        <%= sort_header_tag("entity_type", :caption => Alert.human_attribute_name(:entity_type)) %>
+        <%= sort_header_tag("alert_date", :caption => Alert.human_attribute_name(:alert_date)) %>
+        <%= sort_header_tag("created_by", :caption => Alert.human_attribute_name(:created_by)) %>
+        <%= sort_header_tag("about", :caption => Alert.human_attribute_name(:about)) %>
+        <%= sort_header_tag("readed", :caption => Alert.human_attribute_name(:readed)) %>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+            </div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @alerts.each do |alert| %>
+        <tr id="alert-<%= alert.id %>">
+          <%= content_tag(:td, alert.id) %>
+          <%= content_tag(:td, alert.entity_type) %>
+          <%= content_tag(:td, alert.alert_date) %>
+          <%= content_tag(:td, alert.created_by) %>
+          <%= content_tag(:td, alert.about) %>
+          <%= content_tag(:td, alert.readed? ? "Ознакомлен" : "") %>
+
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>
