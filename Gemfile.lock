@@ -733,6 +733,7 @@ GEM
     rspec-retry (0.6.1)
       rspec-core (> 3.3)
     rspec-support (3.8.0)
+    rtf-templater (0.0.2)
     rubocop (0.63.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -753,6 +754,9 @@ GEM
     ruby-rc4 (0.1.5)
     ruby-saml (1.9.0)
       nokogiri (>= 1.5.10)
+    rubyXL (3.4.5)
+      nokogiri (>= 1.4.4)
+      rubyzip (>= 1.1.6)
     rubyzip (1.2.2)
     safe_yaml (1.0.4)
     sanitize (5.0.0)
@@ -1000,11 +1004,14 @@ DEPENDENCIES
   rspec-example_disabler!
   rspec-rails (~> 3.8.1)
   rspec-retry (~> 0.6.1)
+  rtf-templater
   rubocop
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar (~> 1.10.0)
+  rubyXL
   rubytree!
+  rubyzip (>= 1.2.1)
   sanitize (~> 5.0.0)
   sass-rails
   sassc-rails (~> 2.1.0)
