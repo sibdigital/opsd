@@ -4,6 +4,7 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {BlueTableNationalProjectsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-national-projects.service";
 import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kt.service";
 import {BlueTableProblemsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-problems.service";
+import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kpi.service";
 
 @Component({
   selector: 'homescreen-blue-table',
@@ -37,6 +38,9 @@ export class HomescreenBlueTableComponent implements OnInit {
     }
     if (template === 'problems') {
       this.blueTableModule  = this.injector.get(BlueTableProblemsService);
+    }
+    if (template === 'kpi') {
+      this.blueTableModule  = this.injector.get(BlueTableKpiService);
     }
   }
 
