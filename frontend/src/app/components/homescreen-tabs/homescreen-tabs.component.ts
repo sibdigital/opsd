@@ -44,5 +44,10 @@ export class HomescreenTabsComponent implements OnInit {
       jQuery('.ellipsis, .selected').removeClass('selected');
       jQuery(event.currentTarget).addClass('selected');
     });
+    jQuery('.ispolnenie-pokazatelei-menu-item').on('click', event => {
+      this.$state.go('homescreen.indicator');
+      jQuery('.ellipsis, .selected').removeClass('selected');
+      jQuery(event.currentTarget).addClass('selected');
+    });
   }
 }

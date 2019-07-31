@@ -9,7 +9,7 @@ module API
   module V3
     module WorkPackageTargets
       class WorkPackageTargetRepresenter < ::API::Decorators::Single
-        include ::API::Caching::CachedRepresenter
+        #include ::API::Caching::CachedRepresenter
 
         link :self do
           {
@@ -26,6 +26,11 @@ module API
         property :target,
                  exec_context: :decorator,
                  getter: ->(*) { represented.target.name },
+                 render_nil: true
+
+        property :otvetstvenniy,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.project.curator },
                  render_nil: true
 
         property :value, render_nil: true

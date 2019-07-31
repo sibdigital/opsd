@@ -9,6 +9,11 @@ en:
         participants_invited: "Приглашенные"
         start_time: "Время"
         start_time_hour: "Время начала"
+        meeting_protocol_due_date: "Срок исполнения"
+        meeting_protocol_executors: "Ответственный"
+        meeting_protocol_text: "Текст поручения"
+        meeting_protocol_new: "Новое поручение"
+        meeting_protocol_add: "Добавить поручение"
     errors:
       messages:
         invalid_time_format: "недопустимое время. Требуемый формат: ЧЧ:ММ"
