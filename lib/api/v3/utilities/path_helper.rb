@@ -229,6 +229,14 @@ module API
             "#{problems}/#{id}"
           end
 
+          def self.work_package_targets
+            "#{root}/work_package_targets"
+          end
+
+          def self.work_package_target(id)
+            "#{work_package_targets}/#{id}"
+          end
+
           def self.diagrams
             "#{root}/diagrams"
           end
@@ -558,6 +566,14 @@ module API
 
           def self.board(id)
             "#{boards}/#{id}"
+          end
+
+          def self.raions
+            "#{root}/raions"
+          end
+
+          def self.raion(id)
+            "#{raions}/#{id}"
           end
           #-tan
         end

@@ -115,7 +115,7 @@ module DemoData
       member.add_and_save_role role
       #project.members << members
       #project.save
-      member.save!
+      member.save!(:validate => false)
 
       # member.user = user
       #member.add_role role

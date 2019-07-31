@@ -51,6 +51,8 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::ProjectStatusSeeder,
       BasicData::ProjectApproveStatusSeeder,
       BasicData::MeasureUnitSeeder,
+      BasicData::RaionSeeder,
+      BasicData::HeadPerformanceIndicatorSeeder,
       # )
       BasicData::SettingSeeder
     ]

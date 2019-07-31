@@ -433,7 +433,7 @@ module API
         #zbd(
         associated_resource :contract, link_title_attribute: :contract_subject
 
-        associated_resource :target, link_title_attribute: :name
+        #bbm associated_resource :target, link_title_attribute: :name
         # )
 
         #xcc(
@@ -444,6 +444,11 @@ module API
                             link_title_attribute: :name
 
         # )
+        # +tan
+        associated_resource :raion,
+                            link_title_attribute: :name,
+                            representer: ::API::V3::Raions::RaionRepresenter
+        # -tan
 
         associated_resource :type
 

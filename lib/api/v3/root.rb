@@ -60,9 +60,11 @@ module API
       mount ::API::V3::DiagramQueries::DiagramQueriesAPI
       mount ::API::V3::NationalProjects::NationalProjectsAPI
       mount ::API::V3::Problems::ProblemsAPI
+      mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
       # )
       # +tan 2019.07.30
       mount ::API::V3::Boards::BoardsAPI
+      mount ::API::V3::Raions::RaionsAPI
       # - tan
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI

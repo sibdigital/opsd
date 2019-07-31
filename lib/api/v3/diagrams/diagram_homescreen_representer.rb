@@ -17,7 +17,13 @@ module API
                    case @name
                    when 'pokazateli' then desktop_pokazateli_data
                    when 'kt' then desktop_kt_data
-                   when 'budjet' then desktop_budjet_data
+                   when 'budget' then desktop_budget_data
+                   when 'zdravoohranenie' then indicator_zdravoohranenie_data
+                   when 'obrazovanie' then indicator_obrazovanie_data
+                   when 'proizvoditelnost_truda' then indicator_proizvoditelnost_truda_data
+                   when 'fed_budget' then fed_budget_data
+                   when 'reg_budget' then reg_budget_data
+                   when 'other_budget' then other_budget_data
                    else [0,0,0,0]
                    end
                  },
@@ -87,7 +93,7 @@ module API
         end
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
-        def desktop_budjet_data
+        def desktop_budget_data
           ispolneno = 0 # Порядок важен
           ne_ispolneno = 0
           ostatok = 0
@@ -97,6 +103,84 @@ module API
           result << ispolneno
           result << ne_ispolneno
           result << ostatok
+        end
+
+        # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
+        def fed_budget_data
+          cost_objects = CostObject.all
+          total_budget = BigDecimal.new("0")
+          spent = BigDecimal.new("0")
+
+          cost_objects.each do |cost_object|
+            total_budget += cost_object.budget
+            spent += cost_object.spent
+          end
+
+          spent
+          risk_ispoln = 0
+          ostatok = total_budget - spent
+          result = []
+          # Порядок важен
+          result << spent
+          result << risk_ispoln
+          result << ostatok
+        end
+
+        def reg_budget_data
+          cost_objects = CostObject.all
+          total_budget = BigDecimal.new("0")
+          labor_budget = BigDecimal.new("0")
+          spent = BigDecimal.new("0")
+
+          cost_objects.each do |cost_object|
+            total_budget += cost_object.budget
+            labor_budget += cost_object.labor_budget
+            spent += cost_object.spent
+          end
+
+          spent
+          risk_ispoln = 0
+          ostatok = total_budget - spent
+          result = []
+          # Порядок важен
+          result << spent
+          result << risk_ispoln
+          result << ostatok
+        end
+
+        def other_budget_data
+          cost_objects = CostObject.all
+          total_budget = BigDecimal.new("0")
+          material_budget = BigDecimal.new("0")
+          spent = BigDecimal.new("0")
+
+          cost_objects.each do |cost_object|
+            total_budget += cost_object.budget
+            material_budget += cost_object.labor_budget
+            spent += cost_object.spent
+          end
+
+          spent
+          risk_ispoln = 0
+          ostatok = total_budget - spent
+          result = []
+          # Порядок важен
+          result << spent
+          result << risk_ispoln
+          result << ostatok
+        end
+
+
+        def indicator_zdravoohranenie_data
+          [0,0,0,0]
+        end
+
+        def indicator_obrazovanie_data
+          [0,0,0,0]
+        end
+
+        def indicator_proizvoditelnost_truda_data
+          [0,0,0,0]
         end
       end
     end
