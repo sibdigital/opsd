@@ -1,5 +1,5 @@
 class CreateMeetingProtocols < ActiveRecord::Migration[5.2]
-=begin
+
   def change
     create_table :meeting_protocols do |t|
       t.integer :meeting_contents_id
@@ -10,5 +10,5 @@ class CreateMeetingProtocols < ActiveRecord::Migration[5.2]
       t.timestamps
     end
   end
-=end
+
 end
