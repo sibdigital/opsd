@@ -229,6 +229,14 @@ module API
             "#{problems}/#{id}"
           end
 
+          def self.work_package_targets
+            "#{root}/work_package_targets"
+          end
+
+          def self.work_package_target(id)
+            "#{work_package_targets}/#{id}"
+          end
+
           def self.diagrams
             "#{root}/diagrams"
           end

@@ -71,7 +71,7 @@ class WorkPackage < ActiveRecord::Base
   # )
   #tan(
   has_many :work_package_problems, foreign_key: 'project_id'
-  has_many :work_package_targets, foreign_key: 'project_id'
+  has_many :work_package_targets, foreign_key: 'work_package_id'
   # )
 
   has_and_belongs_to_many :changesets, -> {

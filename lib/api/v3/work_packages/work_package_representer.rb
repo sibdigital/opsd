@@ -433,7 +433,7 @@ module API
         #zbd(
         associated_resource :contract, link_title_attribute: :contract_subject
 
-        associated_resource :target, link_title_attribute: :name
+        #bbm associated_resource :target, link_title_attribute: :name
         # )
 
         #xcc(
