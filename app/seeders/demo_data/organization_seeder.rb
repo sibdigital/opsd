@@ -16,7 +16,7 @@ module DemoData
         tr_attr = organization_attributes attributes
 
         org = Organization.create tr_attr
-        org.save!
+        org.save!(:validate => false)
         puts org.name
       end
     end

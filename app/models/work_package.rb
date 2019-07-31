@@ -70,8 +70,9 @@ class WorkPackage < ActiveRecord::Base
   has_many :messages, dependent: :delete_all
   # )
   #tan(
-  has_many :work_package_problems, foreign_key: 'project_id'
+  has_many :work_package_problems, foreign_key: 'work_package_id'
   has_many :work_package_targets, foreign_key: 'work_package_id'
+  belongs_to :raions, class_name: 'Raion', foreign_key: 'raion_id'
   # )
 
   has_and_belongs_to_many :changesets, -> {
