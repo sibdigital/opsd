@@ -559,6 +559,14 @@ module API
           def self.board(id)
             "#{boards}/#{id}"
           end
+
+          def self.raions
+            "#{root}/raions"
+          end
+
+          def self.raion(id)
+            "#{raions}/#{id}"
+          end
           #-tan
         end
 
