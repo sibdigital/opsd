@@ -148,6 +148,8 @@ en:
             - work_package_tracking
             - news
             - wiki
+            - costs
+            - risks
           news:
             - title: Главная страница проекта
               summary: >
@@ -400,6 +402,8 @@ en:
             - news
             - wiki
             - work_package_tracking
+            - costs
+            - risks
           news:
             - title: Новости проекта
               summary: >
@@ -748,8 +752,8 @@ en:
       users:
         - login:  lev
           password: password
-          firstname: Луковников
-          lastname: Евгений
+          lastname: Луковников
+          firstname: Евгений
           patronymic: Валентинович
           mail: t1@sibdigital.net
           status: 1
@@ -758,8 +762,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  rnu
           password: password
-          firstname: Рузавин
-          lastname: Николай
+          lastname: Рузавин
+          firstname: Николай
           patronymic: Юрьевич
           mail: t2@sibdigital.net
           status: 1
@@ -768,8 +772,8 @@ en:
           organization: Министерство строительства
         - login:  doa
           password: password
-          firstname: Данилов
-          lastname: Олег
+          lastname: Данилов
+          firstname: Олег
           patronymic: Александрович
           mail: t3@sibdigital.net
           status: 1
@@ -778,8 +782,8 @@ en:
           organization: Администрация Главы Республики Бурятия и Правительства Республики Бурятия
         - login:  ggo
           password: password
-          firstname: Гершман
-          lastname: Галина
+          lastname: Гершман
+          firstname: Галина
           patronymic: Олеговна
           mail: t4@sibdigital.net
           status: 1
@@ -788,8 +792,8 @@ en:
           organization: Министерство строительства
         - login:  ttv
           password: password
-          firstname: Цыденова
-          lastname: Татьяна
+          lastname: Цыденова
+          firstname: Татьяна
           patronymic: Владимировна
           mail: t5@sibdigital.net
           status: 1
@@ -798,8 +802,8 @@ en:
           organization: Администрация Муйского района
         - login:  moi
           password: password
-          firstname: Макарчук
-          lastname: Ольга
+          lastname: Макарчук
+          firstname: Ольга
           patronymic: Ивановна
           mail: t6@sibdigital.net
           status: 1
@@ -808,8 +812,8 @@ en:
           organization: Администрация г. Улан-Удэ
         - login:  kai
           password: password
-          firstname: Козлов
-          lastname: Андрей
+          lastname: Козлов
+          firstname: Андрей
           patronymic: Иванович
           mail: t6@sibdigital.net
           status: 1
@@ -817,8 +821,8 @@ en:
           mail_notification: only_my_events
         - login:  baf
           password: password
-          firstname: Билдаева
-          lastname: Анна
+          lastname: Билдаева
+          firstname: Анна
           patronymic: Федоровна
           mail: t6@sibdigital.net
           status: 1
@@ -826,8 +830,8 @@ en:
           mail_notification: only_my_events
         - login:  mos
           password: password
-          firstname: Медянникова
-          lastname: Олеся
+          lastname: Медянникова
+          firstname: Олеся
           patronymic: Сергеевна
           mail: t6@sibdigital.net
           status: 1
@@ -835,8 +839,8 @@ en:
           mail_notification: only_my_events
         - login:  ang
           password: password
-          firstname: Асланян
-          lastname: Николь
+          lastname: Асланян
+          firstname: Николь
           patronymic: Гнунович
           mail: t6@sibdigital.net
           status: 1
@@ -844,8 +848,8 @@ en:
           mail_notification: only_my_events
         - login:  srk
           password: password
-          firstname: Санжицыренова
-          lastname: Раиса
+          lastname: Санжицыренова
+          firstname: Раиса
           patronymic: Константиновна
           mail: t6@sibdigital.net
           status: 1
@@ -853,8 +857,8 @@ en:
           mail_notification: only_my_events
         - login:  vpa
           password: password
-          firstname: Вершини
-          lastname: Павел
+          lastname: Вершини
+          firstname: Павел
           patronymic: Александрович
           mail: t6@sibdigital.net
           status: 1
@@ -862,8 +866,8 @@ en:
           mail_notification: only_my_events
         - login:  tvb
           password: password
-          firstname: Цыбикжапов
-          lastname: Вячеслав
+          lastname: Цыбикжапов
+          firstname: Вячеслав
           patronymic: Балданович
           mail: t1@sibdigital.net
           status: 1
@@ -872,8 +876,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  blb
           password: password
-          firstname: Будаев
-          lastname: Леонид
+          lastname: Будаев
+          firstname: Леонид
           patronymic: Борисович
           mail: t2@sibdigital.net
           status: 1
@@ -882,8 +886,8 @@ en:
           organization: Министерство культуры
         - login:  tvs
           password: password
-          firstname: Цыренова
-          lastname: В
+          lastname: Цыренова
+          firstname: В
           patronymic: С
           mail: t3@sibdigital.net
           status: 1
@@ -892,8 +896,8 @@ en:
           organization: Министерство культуры
         - login:  bdr
           password: password
-          firstname: Базаров
-          lastname: Д
+          lastname: Базаров
+          firstname: Д
           patronymic: Р
           mail: t4@sibdigital.net
           status: 1
@@ -901,8 +905,8 @@ en:
           mail_notification: only_my_events
         - login:  knn
           password: password
-          firstname: Камкова
-          lastname: Наталья
+          lastname: Камкова
+          firstname: Наталья
           patronymic: Николаевна
           mail: t5@sibdigital.net
           status: 1
@@ -911,8 +915,8 @@ en:
           organization: Администрация Главы Республики Бурятия и Правительства Республики Бурятия
         - login:  tas
           password: password
-          firstname: Цыденов
-          lastname: Алексей
+          lastname: Цыденов
+          firstname: Алексей
           patronymic: Самбуевич
           mail: t1@sibdigital.net
           status: 1
@@ -921,8 +925,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  zii
           password: password
-          firstname: Зураев
-          lastname: Игорь
+          lastname: Зураев
+          firstname: Игорь
           patronymic: Иванович
           mail: t2@sibdigital.net
           status: 1
@@ -931,8 +935,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  siv
           password: password
-          firstname: Смоляк
-          lastname: Ирина
+          lastname: Смоляк
+          firstname: Ирина
           patronymic: Владимировна
           mail: t3@sibdigital.net
           status: 1
@@ -941,10 +945,66 @@ en:
           organization: Администрация Главы Республики Бурятия и Правительства Республики Бурятия
         - login:  bdt
           password: password
-          firstname: Бороноева
-          lastname: Д
+          lastname: Бороноева
+          firstname: Д
           patronymic: Ц
           mail: t6@sibdigital.net
           status: 1
           type: User
           mail_notification: only_my_events
+
+      cost_types:
+        - name: Федеральный бюджет
+          unit: Результат
+          unit_plural: Результаты
+        - name: Региональный бюджет
+          unit: Результат
+          unit_plural: Результаты
+      rates:
+        - rate: 1
+          type: CostRate
+          cost_type_name: Федеральный бюджет
+        - rate: 1
+          type: CostRate
+          cost_type_name: Региональный бюджет
+      cost_objects:
+        - project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          subject: Переселение микрорайона УМТС-Икибзяк
+          type: VariableCostObject
+        - project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          subject: Переселение района механизированная колонна 136
+          type: VariableCostObject
+      material_budget_items:
+        - cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+          cost_type_name: Федеральный бюджет
+          units: 100000
+        - cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+          cost_type_name: Региональный бюджет
+          units: 200000
+        - cost_object_subject: Переселение района механизированная колонна 136
+          cost_type_name: Федеральный бюджет
+          units: 300000
+        - cost_object_subject: Переселение района механизированная колонна 136
+          cost_type_name: Региональный бюджет
+          units: 400000
+      cost_entries:
+        - work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Федеральный бюджет
+          costs: 10000
+          cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+        - work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Региональный бюджет
+          costs: 20000
+          cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+        - work_package_subject: Предоставление субсидии и оформление сертификатов
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Федеральный бюджет
+          costs: 30000
+          cost_object_subject: Переселение района механизированная колонна 136
+        - work_package_subject: Предоставление субсидии и оформление сертификатов
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Региональный бюджет
+          costs: 40000
+          cost_object_subject: Переселение района механизированная колонна 136

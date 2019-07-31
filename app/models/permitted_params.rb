@@ -474,9 +474,13 @@ class PermittedParams
     permitted_params = permitted_params.merge(custom_field_values(:arbitary_object))
     permitted_params
   end
-
   def agreement
     params.require(:agreement).permit(:date_agreement, :number_agreement, :count_days, :project_id, :national_project_id, :federal_project_id, :state_program, :other_liabilities_2141, :other_liabilities_2142, :other_liabilities_2281, :other_liabilities_2282, :date_end)
+  end
+  #)
+  #iag(
+  def meeting_protocol
+    params.require(:meeting_protocol).permit(:meeting_contents_id, :text, :due_date)
   end
   #)
   # -tan

@@ -221,8 +221,28 @@ module API
           end
 
           #bbm(
+          def self.problems
+            "#{root}/problems"
+          end
+
+          def self.problem(id)
+            "#{problems}/#{id}"
+          end
+
+          def self.work_package_targets
+            "#{root}/work_package_targets"
+          end
+
+          def self.work_package_target(id)
+            "#{work_package_targets}/#{id}"
+          end
+
           def self.diagrams
             "#{root}/diagrams"
+          end
+
+          def self.diagram_query(name)
+            "#{diagrams}/#{name}"
           end
 
           def self.diagram_queries
@@ -239,6 +259,14 @@ module API
 
           def self.attach_type(id)
             "#{attach_types}/#{id}"
+          end
+
+          def self.national_projects
+            "#{root}/national_projects"
+          end
+
+          def self.national_project(id)
+            "#{national_projects}/#{id}"
           end
           #)
           def self.priorities
@@ -526,6 +554,28 @@ module API
           def self.work_packages_by_project(project_id)
             "#{project(project_id)}/work_packages"
           end
+
+          #+tan
+          def self.boards
+            "#{root}/boards"
+          end
+
+          def self.topics
+            "#{root}/topics"
+          end
+
+          def self.board(id)
+            "#{boards}/#{id}"
+          end
+
+          def self.raions
+            "#{root}/raions"
+          end
+
+          def self.raion(id)
+            "#{raions}/#{id}"
+          end
+          #-tan
         end
 
         def api_v3_paths

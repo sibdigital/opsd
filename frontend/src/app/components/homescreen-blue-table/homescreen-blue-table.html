@@ -1,0 +1,32 @@
+<table class="blueTable">
+    <thead>
+        <tr>
+            <th *ngFor="let column of columns">
+                <b [textContent]="column"></b>
+            </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td [attr.colspan]="columns.length">
+                <div class="links"
+                     *ngIf="this.blueTableModule.getPages() > 1">
+                    <a *ngFor="let item of [].constructor(this.blueTableModule.getPages() + 2); let i = index"
+                       [textContent]="this.blueTableModule.pagesToText(i)"
+                       (click)="loadPage(i)"
+                       href="#">
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr *ngFor="let row of data"
+            [ngClass]="row._type === 'National Project' ? null : 'colored-row'">
+            <td *ngFor="let column of columns; let i = index"
+                [ngClass]="this.blueTableModule.getTdClass(row, i)"
+                [innerHTML]="this.blueTableModule.getTdData(row, i)">
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,2 @@
+module AlertsControllerHelper
+end

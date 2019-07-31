@@ -458,6 +458,7 @@ en:
         language: Язык
         last_login_on: Последний вход в систему
         mail_notification: Уведомления по электронной почте
+        pop_up_notification: Всплывающие уведомления
         new_password: Новый пароль
         password_confirmation: Подтверждение
         consented_at: Согласен с
@@ -2999,10 +3000,12 @@ en:
     reset_failed_logins: Сброс неудачных попыток входа
     settings:
       mail_notifications: Отправить уведомление по электронной почте
+      pop_up_notifications: Показывать всплывающие уведомления для
       mail_project_explanaition: Для невыбранных проектов Вы будете получать только
         уведомления о том, за чем Вы наблюдаете или в чем участвуете (например, пакеты
         работ, где Вы автор или критик).
       mail_self_notified: Хочу получать уведомления об изменениях, которые делаю сам
+      pop_up_delay: Задержка обновления уведомлений
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: Смена статуса
     unlock: Разблокировать

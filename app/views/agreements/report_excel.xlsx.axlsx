@@ -1,0 +1,6 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Agreements") do |sheet|
+  @agreements.each do |agreement|
+    sheet.add_row [agreement.date_agreement, agreement.number_agreement, agreement.count_days]
+  end
+end

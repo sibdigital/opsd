@@ -151,6 +151,9 @@ available_languages:
   default:
   - en
   - ru
+notify_delay:
+  format: int
+  default: 10
 default_language:
   default: ru
 default_auto_hide_popups:

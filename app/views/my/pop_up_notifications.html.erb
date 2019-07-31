@@ -1,0 +1,15 @@
+<% html_title(l(:label_my_account), I18n.t('activerecord.attributes.user.pop_up_notification')) -%>
+
+<% breadcrumb_paths(l(:label_my_account), I18n.t('activerecord.attributes.user.pop_up_notification')) %>
+<%= toolbar title: I18n.t('activerecord.attributes.user.pop_up_notification') %>
+
+<%= labelled_tabular_form_for @user,
+                              as: :user,
+                              url: { action: 'pop_up_notifications' },
+                              lang: current_language,
+                              html: { id: 'my_account_form', class: 'form -wide-labels' } do %>
+  <section class="form--section">
+    <%= render partial: 'users/pop_up_notifications' %>
+  </section>
+  <%= styled_button_tag  l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

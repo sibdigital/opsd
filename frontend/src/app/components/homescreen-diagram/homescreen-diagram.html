@@ -1,0 +1,11 @@
+<div class="chart">
+    <button type="button" (click)="refresh()" style="display: none"></button>
+    <canvas id="chart" baseChart height="170px"
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+    </canvas>
+</div>
