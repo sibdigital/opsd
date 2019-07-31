@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+//import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -8,6 +8,9 @@ import {
   PeriodicElement,
   WpRelationsDialogComponent
 } from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
+import {TargetResource} from "core-app/modules/hal/resources/target-resource";
+import {WpTargetsService} from "core-components/wp-target/wp-targets.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 @Component({
   selector: 'wp-target-autocomplete',
@@ -18,13 +21,13 @@ export class WpTargetAutocompleteComponent implements OnInit {
     placeholder: this.I18n.t('js.target_autocomplete.placeholder')
   };
 
-  @Input() workPackage:WorkPackageResource;
+  @Input() workPackage: WorkPackageResource;
   @Input() filterCandidatesFor:string;
-  @Input() initialSelection?:WorkPackageResource;
+  @Input() initialSelection?:TargetResource;
   @Input() inputPlaceholder:string = this.text.placeholder;
   @Input() appendToContainer:string = '#content';
 
-  @Output('onWorkPackageIdSelected') public onSelect = new EventEmitter<string|null>();
+  @Output('onTargetIdSelected') public onSelect = new EventEmitter<string|null>();
   @Output('onEscape') public onEscapePressed = new EventEmitter<KeyboardEvent>();
   @Output('onBlur') public onBlur = new EventEmitter<FocusEvent>();
 
@@ -36,7 +39,8 @@ export class WpTargetAutocompleteComponent implements OnInit {
   private $input:JQuery;
 
   constructor(readonly elementRef:ElementRef,
-              readonly PathHelper:PathHelperService,
+              readonly wpTargetService: WpTargetsService,
+              readonly pathHelper:PathHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService) {
   }
@@ -58,21 +62,21 @@ export class WpTargetAutocompleteComponent implements OnInit {
         'ui-autocomplete': 'wp-target-autocomplete--results'
       },
       source: (request:{ term:string }, response:Function) => {
-        this.autocompleteWorkPackages(request.term).then((values) => {
+        this.loadTargets().then((values) => {
           selected = false;
 
           if (this.initialSelection) {
             values.unshift(this.initialSelection);
           }
 
-          response(values.map(wp => {
-            return {workPackage: wp, value: this.getIdentifier(wp)};
+          response(values.map((wp:any) => {
+            return {target: wp, value: this.getIdentifier(wp)};
           }));
         });
       },
       select: (evt, ui:any) => {
         selected = true;
-        this.onSelect.emit(ui.item.workPackage.id);
+        this.onSelect.emit(ui.item.target.id);
       },
       minLength: 0
     })
@@ -98,72 +102,45 @@ export class WpTargetAutocompleteComponent implements OnInit {
     }
   }
 
-  private getIdentifier(workPackage:WorkPackageResource):string {
-    if (workPackage) {
-      return `#${workPackage.id} - ${workPackage.subject}`;
+  private getIdentifier(target:TargetResource):string {
+    if (target) {
+      return `#${target.id} - ${target.name}`;
     } else {
       return '';
     }
   }
 
-  private autocompleteWorkPackages(query:string):Promise<WorkPackageResource[]> {
-    // Remove prefix # from search
-    query = query.replace(/^#/, '');
-
-    this.$element.find('.ui-autocomplete--loading').show();
-
-    return this.workPackage.availableRelationCandidates.$link.$fetch({
-      query: query,
-      type: this.filterCandidatesFor
-    }).then((collection:CollectionResource) => {
-      this.noResults = collection.count === 0;
-      this.$element.find('.ui-autocomplete--loading').hide();
-      return collection.elements || [];
-    }).catch(() => {
-      this.$element.find('.ui-autocomplete--loading').hide();
-      return [];
-    });
+  private loadTargets(){
+    return this.wpTargetService.getTargets(this.workPackage.project.id);
   }
 
-/*
-  openDialog():void {
-    let ELEMENT_DATA:PeriodicElement[] = [];
-    this.candidateWorkPackages().then((values) => {
-      values.map(wp => {
-        ELEMENT_DATA.push({id: wp.id,
-          subject: wp.subject,
-          type: wp.type.$link.title,
-          status: wp.status.$link.title,
-          assignee: wp.assignee ? wp.assignee.$link.title :null});
-      });
-      const dialogRef = this.dialog.open(WpRelationsDialogComponent, {
-        width: '750px',
-        data: {
-          wp_array: ELEMENT_DATA,
-          planType: this.workPackage.planType
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.$element = jQuery(this.elementRef.nativeElement);
-          const input = this.$input = this.$element.find('.wp-relations--autocomplete');
-          input.val(this.getIdentifier(result));
-          this.onSelect.emit(result.id);
-        }
-      });
-    });
-  }
-
-  private candidateWorkPackages():Promise<WorkPackageResource[]> {
-    return this.workPackage.availableRelationCandidates.$link.$fetch({
-      query: '',
-      pageSize: 1024, //as unlimited
-    }).then((collection:CollectionResource) => {
-      return collection.elements || [];
-    }).catch(() => {
-      return [];
-    });
-  }
-*/
+  // private autocompleteTargets(query:string):Promise<TargetResource> {
+  //   // Remove prefix # from search
+  //   query = query.replace(/^#/, '');
+  //
+  //   this.$element.find('.ui-autocomplete--loading').show();
+  //
+  //   return this.wpTargetService.getTargets('1')
+  //       .then((collection:CollectionResource) => {
+  //           this.noResults = collection.count === 0;
+  //           this.$element.find('.ui-autocomplete--loading').hide();
+  //           return collection.elements || [];
+  //         }).catch(() => {
+  //           this.$element.find('.ui-autocomplete--loading').hide();
+  //           return [];
+  //         });
+  //
+  //   // return this.targets.fetch({
+  //   //   query: query,
+  //   //   type: this.filterCandidatesFor
+  //   // }).then((collection:CollectionResource) => {
+  //   //   this.noResults = collection.count === 0;
+  //   //   this.$element.find('.ui-autocomplete--loading').hide();
+  //   //   return collection.elements || [];
+  //   // }).catch(() => {
+  //   //   this.$element.find('.ui-autocomplete--loading').hide();
+  //   //   return [];
+  //   // });
+  // }
 
 }

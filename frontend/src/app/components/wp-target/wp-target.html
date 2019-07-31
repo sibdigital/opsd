@@ -10,31 +10,71 @@
     </div>
   </div>
 
-  <wp-target-create>
+  <wp-target-create [workPackage]="workPackage">
   </wp-target-create>
 
   <div>
-    <ul *ngFor="let target of wpTargets"
-        [attr.label]="targetSelectOptions.get(target.wp_target_id)">
+    <!--<table style="width:100%; border: 1px;">-->
+      <!--<thead>-->
+      <!--<tr>-->
+        <!--<td>Год</td>-->
+        <!--<th>Квартал</th>-->
+        <!--<th>Месяц</th>-->
+        <!--<th>Плановое значение</th>-->
+        <!--<th>Фактическое значение</th>-->
+      <!--</tr>-->
+      <!--</thead>-->
+      <!--<tbody *ngFor="let targetId of wpTargetIds">-->
+        <!--<tr>-->
+          <!--<td colspan="5"><h4>{{ targetId }} - {{ targetSelectOptions.get(targetId) }}</h4></td>-->
+        <!--</tr>-->
+        <!--<tr *ngFor="let value of wpTargets">-->
+        <!--&lt;!&ndash;<table *ngFor="let value of wpTargets" style="width:100%;">&ndash;&gt;-->
+          <!--&lt;!&ndash;<tr *ngIf="value.wp_target_id === targetId">&ndash;&gt;-->
+            <!--<td *ngIf="value.wp_target_id === targetId">{{ value.year }}</td>-->
+            <!--<td *ngIf="value.wp_target_id === targetId">{{ value.quarter }}</td>-->
+            <!--<td *ngIf="value.wp_target_id === targetId">{{ value.month }}</td>-->
+            <!--<td *ngIf="value.wp_target_id === targetId">{{ value.plan_value }}</td>-->
+            <!--<td *ngIf="value.wp_target_id === targetId">{{ value.value }}</td>-->
+          <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+        <!--&lt;!&ndash;</table>&ndash;&gt;-->
+        <!--</tr>-->
+      <!--</tbody>-->
+    <!--</table>-->
+
+    <style type="text/css">
+      table { width: 100%; }
+      td.colA { width: 20%; }
+      td.colB { width: 25%; }
+    </style>
+    <ul *ngFor="let targetId of wpTargetIds"
+        [attr.label]="targetSelectOptions.get(targetId)">
       <li>
         <div>
-        <h4>{{ target.wp_target_id }} - {{ targetSelectOptions.get(target.wp_target_id) }}</h4>
-        <table *ngFor="let value of wpTargets">
-          <tbody>
-            <tr *ngIf="value.wp_target_id === target.wp_target_id">
-              <td>{{ value.wp_target_id }}</td>
-              <td>{{ value.year }}</td>
-              <td>{{ value.quarter }}</td>
-              <td>{{ value.plan_value }}</td>
-              <td>{{ value.value }}</td>
+          <h4>{{ targetId }} - {{ targetSelectOptions.get(targetId) }}</h4>
+          <table style="border: 1px;">
+            <tr>
+              <td class="colA">Год</td>
+              <td class="colA">Квартал</td>
+              <td class="colA">Месяц</td>
+              <td class="colA">Плановое значение</td>
+              <td class="colA">Фактическое значение</td>
             </tr>
-          </tbody>
-        </table>
+          </table>
+          <table *ngFor="let value of wpTargets" style="border: 1px;">
+            <tbody>
+            <tr *ngIf="value.wp_target_id === targetId">
+              <td class="colA">{{ value.year }}</td>
+              <td class="colA">{{ value.quarter }}</td>
+              <td class="colA">{{ value.month }}</td>
+              <td class="colA">{{ value.plan_value }}</td>
+              <td class="colA">{{ value.value }}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </li>
     </ul>
-
-
 
   </div>
 </div>

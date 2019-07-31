@@ -202,6 +202,8 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
 import {WpTargetComponent} from "core-components/wp-target/wp-target.component";
 import {WpTargetCreateComponent} from "core-components/wp-target/wp-target-create/wp-target-create.component";
 import {WpTargetAutocompleteComponent} from "core-components/wp-target/wp-target-create/wp-target-autocomplete/wp-target-autocomplete.component";
+import {WpTargetsService} from "core-components/wp-target/wp-targets.service";
+import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm.service";
 //)
 
 
@@ -300,6 +302,10 @@ import {WpTargetAutocompleteComponent} from "core-components/wp-target/wp-target
     TableState,
 
     WpTableConfigurationService,
+    //zbd(
+    WpTargetsService,
+    WpTargetsDmService,
+    // )
   ],
   declarations: [
     //bbm(

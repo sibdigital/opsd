@@ -3,22 +3,12 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {TargetResource} from "core-app/modules/hal/resources/target-resource";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {WpTargetResource} from "core-app/modules/hal/resources/wp-target-resource";
+import {TargetResource} from "core-app/modules/hal/resources/target-resource";
 
-
-// export interface WpTarget {
-//   project_id: number;
-//   work_package_id: number;
-//   wp_target_id: number;
-//   year: number;
-//   quarter: number;
-//   plan_value: number;
-//   value: number;
-// }
-//
 @Component({
   selector: 'wp-target',
   templateUrl: './wp-target.html',
@@ -30,8 +20,8 @@ export class WpTargetComponent implements OnInit, OnDestroy {
 
   public targetSelectOptions = new Map();
 
-  //public wpTargets: WpTarget[] = [];
-  public wpTargets: TargetResource;
+  public wpTargets: WpTargetResource[];
+  public wpTargetIds: number[] = [];
 
   public text = {
     targets_header: this.I18n.t('js.work_packages.tabs.targets')
@@ -57,6 +47,9 @@ export class WpTargetComponent implements OnInit, OnDestroy {
       .then((resource:HalResource) => {
         let els = resource.elements;
         this.wpTargets = els.map( (el: any) => {
+          if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
+            this.wpTargetIds.push(el.targetId);
+          }
           return {
             project_id: el.projectId,
             work_package_id: el.workPackageId,
@@ -68,6 +61,8 @@ export class WpTargetComponent implements OnInit, OnDestroy {
           }
           }
         );
+        console.log(this.wpTargets);
+        console.log(this.wpTargetIds);
       });
   }
 
