@@ -552,6 +552,10 @@ module API
             "#{root}/boards"
           end
 
+          def self.topics
+            "#{root}/topics"
+          end
+
           def self.board(id)
             "#{boards}/#{id}"
           end
