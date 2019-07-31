@@ -50,6 +50,10 @@ import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-tab
 import {ProblemsTabComponent} from "core-components/homescreen-tabs/problems-tab/problems-tab.component";
 import {BlueTableProblemsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-problems.service";
 import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kpi.service";
+import {BlueTableDiscussService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-discuss.service";
+import {DiscussTabComponent} from "core-components/homescreen-tabs/discuss-tab/discuss-tab.component";
+import {BudgetTabComponent} from "core-components/homescreen-tabs/budget/budget-tab.component";
+import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-budget.service";
 
 @NgModule({
   imports: [
@@ -72,11 +76,15 @@ import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-ta
     DesktopTabComponent,
     KtTabComponent,
     ProblemsTabComponent,
+    DiscussTabComponent,
+    BudgetTabComponent,
     HomescreenBlueTableComponent,
     BlueTableNationalProjectsService,
     BlueTableKtService,
     BlueTableProblemsService,
-    BlueTableKpiService
+    BlueTableKpiService,
+    BlueTableDiscussService,
+    BlueTableBudgetService
   ],
   declarations: [
     HomescreenDiagramComponent,
@@ -88,6 +96,8 @@ import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-ta
     DesktopTabComponent,
     KtTabComponent,
     ProblemsTabComponent,
+    DiscussTabComponent,
+    BudgetTabComponent,
     HomescreenBlueTableComponent
   ],
   entryComponents: [
@@ -100,6 +110,8 @@ import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-ta
     DesktopTabComponent,
     KtTabComponent,
     ProblemsTabComponent,
+    DiscussTabComponent,
+    BudgetTabComponent,
     HomescreenBlueTableComponent
   ],
   exports: [

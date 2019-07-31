@@ -33,7 +33,6 @@ export class BlueTableKpiService extends BlueTableService {
             this.data_local[wpt.projectId].push(wpt);
           });
         }))).then(() => {
-          console.log(this.data_local);
           resources.elements.map( (national:HalResource) => {
             this.data.push(national);
             if (national.projects) {

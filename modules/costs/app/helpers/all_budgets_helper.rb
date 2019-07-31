@@ -41,7 +41,7 @@ module AllBudgetsHelper
       total_budget: total_budget,
       labor_budget: labor_budget,
       material_budget: material_budget,
-      spent: spent,
+      spent: spent, #израсходовано
       ostatok: total_budget - spent,
       ne_ispoln: 0,
       risk_ispoln: 0
