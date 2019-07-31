@@ -5,6 +5,8 @@ import {BlueTableNationalProjectsService} from "core-components/homescreen-blue-
 import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kt.service";
 import {BlueTableProblemsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-problems.service";
 import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kpi.service";
+import {BlueTableDiscussService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-discuss.service";
+import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-budget.service";
 
 @Component({
   selector: 'homescreen-blue-table',
@@ -41,6 +43,12 @@ export class HomescreenBlueTableComponent implements OnInit {
     }
     if (template === 'kpi') {
       this.blueTableModule  = this.injector.get(BlueTableKpiService);
+    }
+    if (template === 'discuss') {
+      this.blueTableModule  = this.injector.get(BlueTableDiscussService);
+    }
+    if (template === 'budget') {
+      this.blueTableModule  = this.injector.get(BlueTableBudgetService);
     }
   }
 

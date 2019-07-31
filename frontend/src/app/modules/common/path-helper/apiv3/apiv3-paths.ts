@@ -65,7 +65,6 @@ export class ApiV3Paths {
   public readonly priorities = new SimpleResourceCollection(this.apiV3Base, 'priorities');
 
   //bbm(
-
   public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
 
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
@@ -79,6 +78,10 @@ export class ApiV3Paths {
   public readonly attach_types = new SimpleResourceCollection(this.apiV3Base, 'attach_types');
 
   public readonly problems = new SimpleResource(this.apiV3Base, 'problems');
+
+  public readonly topics = new SimpleResource(this.apiV3Base, 'topics');
+
+  public readonly summary_budgets_users = new SimpleResource(this.apiV3Base, 'summary_budgets/all_user');
   //)
 
   // /api/v3/time_entries
