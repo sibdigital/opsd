@@ -48,11 +48,13 @@ module OpenProject::Meeting
         search.register :meetings
       end
 
+      #+-TAN TODO: need fix
       menu :project_menu, :meetings, { controller: '/meetings', action: 'index' },
            caption: :project_module_meetings,
            param: :project_id,
-           after: :wiki,
-           icon: 'icon2 icon-meetings'
+           #after: :communication, #+-tan
+           icon: 'icon2 icon-meetings',
+           parent: :communictaions #+-tan
 
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'

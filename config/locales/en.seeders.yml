@@ -133,6 +133,8 @@ en:
           national_project: Культура
           federal_project: Обеспечение качественно нового уровня развития инфраструктуры культуры «Культурная среда»
           project_status: :default_project_status_in_work
+          start_date: "20190101"
+          due_date: "20241231"
           project_approve_status: :default_project_approve_status_approve_glava
           description: >
             Результат федерального проекта (справочно из паспорта федерального проекта): Создание центров культурного развития в субъектах Российской Федерации в городах
@@ -291,11 +293,68 @@ en:
                 - subject: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
                   status: :default_status_in_work
                   type: :default_type_result
-                  start: 7
+                  start: -20
                   plan_type: execution
-                  duration: 8
+                  duration: 70
                   organization: Министерство культуры
                   assigned: tvs
+                  children:
+                    - subject: Оснащена пианино школа в Баргузинском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: -5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Баунтовском районе
+                      status: :default_status_completed
+                      type: :default_type_result
+                      start: -11
+                      plan_type: execution
+                      duration: -1
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Муйском районе
+                      status: :default_status_completed
+                      type: :default_type_result
+                      start: -5
+                      plan_type: execution
+                      duration: 5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Кижингинском районе
+                      status: :default_status_not_start
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: -5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Кяхтинском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 15
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Бичурском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 2
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Тарбагатайском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 3
+                      organization: Министерство культуры
+                      assigned: tvs
                 - subject: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                   status: :default_status_not_start
                   type: :default_type_result
@@ -393,6 +452,8 @@ en:
           identifier: umts
           project_status: :default_project_status_in_work
           project_approve_status: :default_project_approve_status_approve_glava
+          start_date: "20190101"
+          due_date: "20241231"
           description: |
             Расселение аварийного жилищного фонда микрорайонов «УМТС – Икибзяк» (18 квартир) и «Механизированная колонна – 136» (17 квартир) и устранение неэффективных расходов на тепло, - водоснабжение путем оптимизации коммунальных сетей и ликвидации неэффективных котельных.
           timeline:
@@ -548,6 +609,59 @@ en:
               duration: 0
               organization: Администрация Муйского района
               assigned: ttv
+        gorod:
+          name: Формирование комфортной городской среды.
+          national_project: Жильё и городская среда
+          federal_project: Жилье
+          identifier: gorod
+          project_status: :default_project_status_in_work
+          project_approve_status: :default_project_approve_status_approve_glava
+          start_date: "20190101"
+          due_date: "20241231"
+          description: |
+            В 2019 г. планируется благоустроить 112 дворовых и 120 общественных территорий
+          timeline:
+            name: Временная шкала
+          modules:
+            - backlogs
+            - news
+            - wiki
+            - work_package_tracking
+            - costs
+            - risks
+          news:
+            - title: Новости проекта
+              summary: >
+                Здесь отображаются новости проекта
+          types:
+            - :default_type_task
+            - :default_type_milestone
+            - :default_type_result
+            #- :default_type_result
+            #- :default_type_user_story
+            #- :default_type_bug
+          categories:
+            - Строительство (Реконструкция)
+            - Приобретение
+            - Оказание услуг (Выполнение работ)
+            - Проведение образовательных мероприятий
+            - Принятие нормативно-правового акта
+            - Утверждение документа
+            - Проведение массовых мероприятий
+            - Проведение информационно-коммуникационной кампании
+          work_packages:
+            - subject: Утверждена проектно-сметная документация по улучшению городской среды
+                в городах с числом жителей до 300 000 человек
+              status: :default_status_in_work
+              type: :default_type_milestone
+              priority: :default_priority_high
+              estimated_hours: 8
+              start: 4
+              plan_type: execution
+              duration: 0
+              done_ratio: 50
+              organization: Министерство строительства
+              assigned: rnu
 
       project_targets:
         - name: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)
@@ -644,6 +758,13 @@ en:
           quarter: 2
           month: 5
           value: 1
+        - target: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)
+          project: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
+          work_package_subject: В Республике Бурятия реализован проект по реновации 1 учреждения
+          year: 2019
+          quarter: 2
+          month: 6
+          value: 2
         - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
           project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
           work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
@@ -651,6 +772,20 @@ en:
           quarter: 2
           month: 6
           value: 8
+        - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          year: 2019
+          quarter: 2
+          month: 5
+          value: 7
+        - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          year: 2019
+          quarter: 2
+          month: 4
+          value: 5
         - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
           project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
           work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
@@ -1008,3 +1143,74 @@ en:
           cost_type_name: Региональный бюджет
           costs: 40000
           cost_object_subject: Переселение района механизированная колонна 136
+
+      meetings:
+        - title: Решение проблемы переселения
+          author: lev
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          duration: 1
+          work_package_subject: Подготовка пакета документов для финансирования мероприятий по переселению микрорайонов УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района из средств республиканского бюджета.
+        - title: Обсуждение покупки квартир
+          author: rnu
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          duration: 2
+          work_package_subject: Заключение  соглашения между Министерством строительства РБ и МО «Муйский район».
+        - title: Обсуждение постройки центра культурного развития
+          author: tvb
+          project: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
+          duration: 3
+          work_package_subject: В Республике Бурятия построен 1 центр культурного развития в г.Бабушкин
+      meeting_contents:
+        - meeting: Решение проблемы переселения
+          type: MeetingAgenda
+          author: lev
+          text: Необходимо принять меры по переселению
+        - meeting: Обсуждение покупки квартир
+          type: MeetingAgenda
+          author: rnu
+          text: Необходимо купить квартиры
+        - meeting: Обсуждение постройки центра культурного развития
+          type: MeetingAgenda
+          author: tvb
+          text: Как реализовывать мероприятия по строительству?
+      meeting_protocols:
+        - meeting_content: Необходимо принять меры по переселению
+          assigned_to: rnu
+          author: lev
+          text: Принять меры к переселению
+          due: 2
+        - meeting_content: Необходимо принять меры по переселению
+          assigned_to: ggo
+          author: lev
+          text: Перевезите людей
+          due: 1
+        - meeting_content: Необходимо принять меры по переселению
+          assigned_to: ttv
+          author: lev
+          text: Предоставьте документы для переселения
+          due: 6
+        - meeting_content: Необходимо купить квартиры
+          assigned_to: ttv
+          author: rnu
+          text: Решите проблему с покупкой квартир в срок 5 дней
+          due: 5
+        - meeting_content: Необходимо купить квартиры
+          assigned_to: moi
+          author: rnu
+          text: Окажите содействие в покупке
+          due: 12
+        - meeting_content: Как реализовывать мероприятия по строительству?
+          assigned_to: bdr
+          author: tvb
+          text: Решите проблему с покупкой квартир
+          due: 10
+        - meeting_content: Как реализовывать мероприятия по строительству?
+          assigned_to: knn
+          author: tvb
+          text: Окажите методическое содействие
+          due: 3
+        - meeting_content: Как реализовывать мероприятия по строительству?
+          assigned_to: tvs
+          author: tvb
+          text: Разберитесь с подрядчиком
+          due: 20

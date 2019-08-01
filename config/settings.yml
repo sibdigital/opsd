@@ -281,6 +281,17 @@ default_projects_modules:
   - news
   - time_tracking
   - wiki
+  - stages
+  - activities
+  - arbitary_objects
+  - backlogs
+  - boards
+  - costs_module
+  - documents
+  - meetings
+  - project_risks
+  - reporting_module
+  - targets
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int

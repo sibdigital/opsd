@@ -54,6 +54,10 @@ import {BlueTableDiscussService} from "core-components/homescreen-blue-table/blu
 import {DiscussTabComponent} from "core-components/homescreen-tabs/discuss-tab/discuss-tab.component";
 import {BudgetTabComponent} from "core-components/homescreen-tabs/budget/budget-tab.component";
 import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-budget.service";
+import {IndicatorTabComponent} from "core-components/homescreen-tabs/indicator/indicator-tab.component";
+import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-indicator.service";
+import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab/protocol-tab.component";
+import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
 
 @NgModule({
   imports: [
@@ -78,13 +82,17 @@ import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue
     ProblemsTabComponent,
     DiscussTabComponent,
     BudgetTabComponent,
+    IndicatorTabComponent,
+    ProtocolTabComponent,
     HomescreenBlueTableComponent,
     BlueTableNationalProjectsService,
     BlueTableKtService,
     BlueTableProblemsService,
     BlueTableKpiService,
     BlueTableDiscussService,
-    BlueTableBudgetService
+    BlueTableBudgetService,
+    BlueTableIndicatorService,
+    BlueTableProtocolService
   ],
   declarations: [
     HomescreenDiagramComponent,
@@ -98,6 +106,8 @@ import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue
     ProblemsTabComponent,
     DiscussTabComponent,
     BudgetTabComponent,
+    IndicatorTabComponent,
+    ProtocolTabComponent,
     HomescreenBlueTableComponent
   ],
   entryComponents: [
@@ -112,6 +122,8 @@ import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue
     ProblemsTabComponent,
     DiscussTabComponent,
     BudgetTabComponent,
+    IndicatorTabComponent,
+    ProtocolTabComponent,
     HomescreenBlueTableComponent
   ],
   exports: [

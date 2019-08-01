@@ -229,6 +229,14 @@ module API
             "#{problems}/#{id}"
           end
 
+          def self.protocols
+            "#{root}/protocols"
+          end
+
+          def self.protocol(id)
+            "#{protocols}/#{id}"
+          end
+
           def self.work_package_targets
             "#{root}/work_package_targets"
           end

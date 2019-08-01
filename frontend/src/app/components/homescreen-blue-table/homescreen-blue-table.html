@@ -1,9 +1,26 @@
 <table class="blueTable">
     <thead>
-        <tr>
+        <tr *ngIf="this.template !=='indicator'">
             <th *ngFor="let column of columns">
                 <b [textContent]="column"></b>
             </th>
+        </tr>
+        <tr *ngIf="this.template ==='indicator'">
+            <th rowspan="2"><b>{{columns[0]}}</b></th>
+            <th rowspan="2"><b>{{columns[1]}}</b></th>
+            <th colspan="4"><b>План</b></th>
+            <th colspan="4"><b>Факт</b></th>
+            <th rowspan="2"><b>{{columns[10]}}</b></th>
+        </tr>
+        <tr *ngIf="this.template ==='indicator'">
+            <th><b>I</b></th>
+            <th><b>II</b></th>
+            <th><b>III</b></th>
+            <th><b>IV</b></th>
+            <th><b>I</b></th>
+            <th><b>II</b></th>
+            <th><b>III</b></th>
+            <th><b>IV</b></th>
         </tr>
     </thead>
     <tfoot>
