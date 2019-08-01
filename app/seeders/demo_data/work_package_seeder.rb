@@ -210,12 +210,16 @@ module DemoData
     end
 
     def calculate_start_date(days_ahead)
-      monday = Date.today.monday
-      days_ahead > 0 ? monday + days_ahead : monday
+      # monday = Date.today.monday
+      # days_ahead > 0 ? monday + days_ahead : monday
+      #+- tan
+      Date.today + days_ahead
     end
 
     def calculate_due_date(date, duration)
-      duration && duration > 1 ? date + duration : date
+      #+- tan
+      date + duration
+      #duration && duration > 1 ? date + duration : date
     end
   end
 end

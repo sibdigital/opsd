@@ -1110,6 +1110,8 @@ en:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_impotance_low: Незначительная
+  default_impotance_critical: Критичная
   default_possibility_very_low: Очень низкая
   default_possibility_low: Низкая
   default_possibility_normal: Средняя

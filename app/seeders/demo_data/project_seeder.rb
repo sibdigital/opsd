@@ -37,7 +37,7 @@ module DemoData
       puts
       # )
 
-      ["umts", "cultura"].each do |key|
+      ["umts", "cultura", "gorod"].each do |key|
         puts " ↳ Creating #{key} project..."
 
         puts '   -Creating/Resetting project'
@@ -203,7 +203,9 @@ module DemoData
           types: project_types,
           #+tan
           national_project_id: national_project(key),
-          federal_project_id: federal_project(key)
+          federal_project_id: federal_project(key),
+          start_date: Date.strptime(start_date(key),"%Y%m%d"),
+          due_date: Date.strptime(due_date(key),"%Y%m%d")
           #-tan
         }
       end
@@ -221,6 +223,16 @@ module DemoData
         name = translate_with_base_url("seeders.demo_data.projects.#{key}.national_project")
         puts name
         national_project_by_name(name)
+      end
+
+      def due_date(key)
+        puts "seeders.demo_data.projects.#{key}.due_date"
+        translate_with_base_url("seeders.demo_data.projects.#{key}.due_date")
+      end
+
+      def start_date(key)
+        puts "seeders.demo_data.projects.#{key}.start_date"
+        translate_with_base_url("seeders.demo_data.projects.#{key}.start_date")
       end
 
       def federal_project(key)
