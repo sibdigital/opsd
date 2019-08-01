@@ -2,9 +2,8 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {OnInit} from "@angular/core";
 
-export class BlueTableNationalProjectsService extends BlueTableService {
+export class BlueTableDesktopService extends BlueTableService {
   private data:any[] = [];
   private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные мероприятия/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
 
