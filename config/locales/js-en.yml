@@ -790,6 +790,7 @@ en:
           first_part: Показать все пакеты работы
           second_part: текущий пакет работ
       tabs:
+        problems: Проблемы
         targets: Целевые показатели
         overview: Обзор
         activity: Деятельность

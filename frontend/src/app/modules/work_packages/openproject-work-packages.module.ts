@@ -204,6 +204,7 @@ import {WpTargetCreateComponent} from "core-components/wp-target/wp-target-creat
 import {WpTargetAutocompleteComponent} from "core-components/wp-target/wp-target-create/wp-target-autocomplete/wp-target-autocomplete.component";
 import {WpTargetsService} from "core-components/wp-target/wp-targets.service";
 import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm.service";
+import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
 //)
 
 
@@ -428,6 +429,7 @@ import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm
     WpTargetComponent,
     WpTargetCreateComponent,
     WpTargetAutocompleteComponent,
+    WorkPackageProblemsTabComponent,
     // )
 
     // Split view
@@ -491,7 +493,7 @@ import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm
     WorkPackageTargetsTabComponent,
     WpTargetComponent,
     WpTargetCreateComponent,
-
+    WorkPackageProblemsTabComponent,
     // )
 
     // Single view

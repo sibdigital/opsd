@@ -8,6 +8,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {WpTargetResource} from "core-app/modules/hal/resources/wp-target-resource";
 import {TargetResource} from "core-app/modules/hal/resources/target-resource";
+import {WpTargetsService} from "core-components/wp-target/wp-targets.service";
 
 @Component({
   selector: 'wp-target',
@@ -18,7 +19,7 @@ export class WpTargetComponent implements OnInit, OnDestroy {
   @Input() public workPackageId:string;
   @Input() public workPackage:WorkPackageResource;
 
-  public targetSelectOptions = new Map();
+  //public targetSelectOptions = new Map();
 
   public wpTargets: WpTargetResource[];
   public wpTargetIds: number[] = [];
@@ -29,49 +30,50 @@ export class WpTargetComponent implements OnInit, OnDestroy {
 
   constructor(readonly timezoneService:TimezoneService,
               protected I18n:I18nService,
+              protected wpTargetsService:WpTargetsService,
               protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService) { }
 
   ngOnInit() {
 
-    this.getTargets().then((resources:CollectionResource<TargetResource>) => {
-      let els = resources.elements;
-      els.forEach(el =>
-        {this.targetSelectOptions.set(Number(el.getId()), el.name)}
-      );
-    });
+    //this.getTargets().then((resources:CollectionResource<TargetResource>) => {
+    // this.wpTargetsService.getTargets(this.workPackage.project.id).then((resources:CollectionResource<TargetResource>) => {
+    //   let els = resources.elements;
+    //   els.forEach(el =>
+    //     {this.targetSelectOptions.set(Number(el.getId()), el.name)}
+    //   );
+    // });
 
-    this.halResourceService
-      .get<HalResource>(this.pathHelper.api.v3.work_packages.toString() + '/' + this.workPackageId + '/work_package_targets')
-      .toPromise()
+    this.wpTargetsService.getWpTargets(this.workPackageId)
       .then((resource:HalResource) => {
         let els = resource.elements;
-        this.wpTargets = els.map( (el: any) => {
-          if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
-            this.wpTargetIds.push(el.targetId);
-          }
-          return {
-            project_id: el.projectId,
-            work_package_id: el.workPackageId,
-            wp_target_id: el.targetId,
-            year: el.year,
-            quarter: el.quarter,
-            plan_value: el.planValue,
-            value: el.value
-          }
-          }
+        this.wpTargets = els.map( (el:any) => {
+            if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
+              this.wpTargetIds.push(el.targetId);
+            }
+            return {
+              project_id: el.projectId,
+              work_package_id: el.workPackageId,
+              wp_target_id: el.targetId,
+              year: el.year,
+              quarter: el.quarter,
+              plan_value: el.planValue,
+              value: el.value,
+              name: el.$links.self.title
+            }
+           }
         );
-        console.log(this.wpTargets);
-        console.log(this.wpTargetIds);
-      });
+        //console.log(this.wpTargets);
+        //console.log(this.wpTargetIds);
+    });
   }
 
   public ngOnDestroy(): void {
   }
 
-  private getTargets():Promise<CollectionResource<TargetResource>> {
-    return this.halResourceService
-      .get<CollectionResource<TargetResource>>(this.pathHelper.api.v3.targets.toString() + '?project_id=' + this.workPackage.project.id)
-      .toPromise();
-  }
+  // private getTargets():Promise<CollectionResource<TargetResource>> {
+  //   return this.halResourceService
+  //     .get<CollectionResource<TargetResource>>(this.pathHelper.api.v3.targets.toString(), {project_id: this.workPackage.project.id})
+  //     .toPromise();
+  // }
 }

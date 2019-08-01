@@ -71,11 +71,14 @@ export class WpTargetCreateComponent implements OnInit, OnDestroy {
     return this.wpTargetsService.addWpTarget(this.workPackage.id, this.workPackage.project.id, this.selectedTgId,
       this.year, this.quarter, this.month, this.plan_value, this.value
     )
-       .then((target:any) => {
+      .then(wpTarget => {
+        console.log(wpTarget);
         this.wpNotificationsService.showSave(this.workPackage);
         this.toggleTargetsCreateForm();
+        //TODO: (zbd) доделать обновление таблицы
+        this.wpTargetsService.getWpTargets(this.workPackage.id);
       })
-      .catch((err:any) => {
+      .catch(err => {
         this.wpNotificationsService.handleRawError(err, this.workPackage);
         this.toggleTargetsCreateForm();
       });
