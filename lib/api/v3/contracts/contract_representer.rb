@@ -22,6 +22,8 @@ module API
         property :id, render_nil: true
         property :contract_subject
         property :contract_num
+        property :contract_date
+        property :price
 
         def _type
           'Contract'

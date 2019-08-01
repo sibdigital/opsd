@@ -57,8 +57,8 @@ module WorkPackages
     end
 
     attribute :target_id
-
     attribute :organization_id
+    #attribute :work_package_target_id
     # )
 
     attribute :arbitary_object_id

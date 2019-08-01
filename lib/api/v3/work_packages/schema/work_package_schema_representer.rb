@@ -266,7 +266,17 @@ module API
                                            }
                                          },
                                          required: false
-          # )
+
+          # schema_with_allowed_collection :work_package_target,
+          #                                value_representer: WorkPackageTargets::WorkPackageTargetRepresenter,
+          #                                link_factory: ->(work_package_target) {
+          #                                  {
+          #                                    href: api_v3_paths.work_package_target(work_package_target.id),
+          #                                    title: work_package_target.value
+          #                                  }
+          #                                },
+          #                                required: false
+          #)
 
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,

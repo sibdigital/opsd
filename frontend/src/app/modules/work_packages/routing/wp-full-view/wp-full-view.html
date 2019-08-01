@@ -80,6 +80,11 @@
                   uiSrefActive="selected">
                 <a href="" [textContent]="text.tabs.targets"></a>
               </li>
+              <li uiSref="work-packages.show.problems"
+                  [uiParams]="{workPackageId: workPackage.id}"
+                  uiSrefActive="selected">
+                <a href="" [textContent]="text.tabs.problems"></a>
+              </li>
               <!--) -->
               <li *ngIf="canViewWorkPackageWatchers()"
                   uiSref="work-packages.show.watchers"

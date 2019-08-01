@@ -121,7 +121,15 @@ module API
           end
 
           def self.target(id)
-            "#{root}/targets/#{id}"
+            "#{targets}/targets/#{id}"
+          end
+
+          def self.work_package_targets
+            "#{root}/work_package_targets"
+          end
+
+          def self.work_package_target(id)
+            "#{work_package_targets}/work_package_targets/#{id}"
           end
           # )
 
