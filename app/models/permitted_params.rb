@@ -477,7 +477,7 @@ class PermittedParams
   #)
   #iag(
   def meeting_protocol
-    params.require(:meeting_protocol).permit(:meeting_contents_id, :text, :due_date)
+     params.require(:meeting_protocol).permit(:meeting_contents_id, :text, :due_date, :assigned_to_id)
   end
   #)
   # -tan

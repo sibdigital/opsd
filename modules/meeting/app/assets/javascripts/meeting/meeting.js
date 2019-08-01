@@ -26,4 +26,18 @@ jQuery(function($) {
     var target = $(this).data('target');
     $(target).prop('checked', true);
   });
+
+  //iag(
+  jQuery( document ).ready(function() {
+    jQuery('#meeting-protocol-add').click(function(){
+      jQuery(this).hide();
+      jQuery('#meeting-protocol-form').show("fast");
+    });
+
+    jQuery('#meeting-protocol-cancel').click(function(){
+      jQuery('#meeting-protocol-add').show("fast");
+      jQuery('#meeting-protocol-form').hide("fast");
+    });
+  });
+//)
 });

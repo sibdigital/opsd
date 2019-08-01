@@ -36,7 +36,7 @@ module OpenProject::Documents
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-documents',
-             author_url: "http://www.openproject.com",
+             author_url: "",
              global_assets: { css: 'documents/global_rules' },
              requires_openproject: ">= 4.0.0" do
 
@@ -44,7 +44,8 @@ module OpenProject::Documents
                           { controller: '/documents', action: 'index' },
                           param: :project_id,
                           caption: :label_document_plural,
-                          icon: 'icon2 icon-notes'
+                          icon: 'icon2 icon-notes',
+                          parent: :analyze #+-tan
 
       project_module :documents do |_map|
         permission :manage_documents, {

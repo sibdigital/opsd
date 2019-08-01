@@ -276,8 +276,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_target,
             if: Proc.new { |p| p.module_enabled?('targets') },
-            icon: 'icon2 icon-info1'
-
+            icon: 'icon2 icon-info1',
+            parent: :all_plans
   # )
 
 
@@ -287,9 +287,44 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_stages,
             if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            parent: :analyze
   # )
 
+  # +tan 2019.07.16
+  # menu.push :all_plans,
+  #             { controller: '/stages', action: 'show' },
+  #             param: :project_id,
+  #             caption: :label_all_plans,
+  #             #if: Proc.new { |p| p.module_enabled?('stages') },
+  #             icon: 'icon2 icon-info1'
+  menu.push :analyze,
+            { controller: '/stages', action: 'show' },
+            param: :project_id,
+            caption: :label_stage_analysis,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-info1'
+  menu.push :communictaions,
+            { controller: '/stages', action: 'show' },
+            param: :project_id,
+            caption: :label_communictaions,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-info1'
+  menu.push :resources,
+            { controller: '/stages', action: 'show' },
+            param: :project_id,
+            caption: :label_resources,
+            #after: :communictaion,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-info1'
+  #нехорошо из модуля переносить, но что делать TODO: need fix
+  # menu.push :meetings,
+  #           { controller: '/meetings', action: 'index' },
+  #           caption: :project_module_meetings,
+  #           param: :project_id,
+  #           icon: 'icon2 icon-meetings',
+  #           parent: :resources #+-tan
+  #-tan 2019.07.16
   menu.push :activity,
             { controller: '/activities', action: 'index' },
             param: :project_id,
@@ -312,13 +347,13 @@ Redmine::MenuManager.map :project_menu do |menu|
               :'wp-query-menu' => 'wp-query-menu'
             }
 
-  menu.push :work_packages_execution_query_select,
-            { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },
-            param: :project_id,
-            parent: :work_packages_execution,
-            partial: 'work_packages/menu_query_select',
-            last: true,
-            caption: :label_all_open_wps
+   menu.push :work_packages_execution_query_select,
+             { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },
+             param: :project_id,
+             parent: :work_packages_execution,
+             partial: 'work_packages/menu_query_select',
+             last: true,
+             caption: :label_all_open_wps
 
   #bbm(
   # menu.push :work_packages_planning,
@@ -350,7 +385,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/news', action: 'index' },
             param: :project_id,
             caption: :label_news_plural,
-            icon: 'icon2 icon-news'
+            icon: 'icon2 icon-news',
+            parent: :communictaions
 
   menu.push :boards,
             { controller: '/boards', action: 'index', id: nil },
@@ -359,11 +395,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_board_plural,
             icon: 'icon2 icon-ticket-note'
 
-  menu.push :repository,
-            { controller: '/repositories', action: 'show' },
-            param: :project_id,
-            if: Proc.new { |p| p.repository && !p.repository.new_record? },
-            icon: 'icon2 icon-folder-open'
+  #+-tan 2019.07.16
+  # menu.push :repository,
+  #           { controller: '/repositories', action: 'show' },
+  #           param: :project_id,
+  #           if: Proc.new { |p| p.repository && !p.repository.new_record? },
+  #           icon: 'icon2 icon-folder-open'
 
   # Wiki menu items are added by WikiMenuItemHelper
 
@@ -378,15 +415,26 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/members', action: 'index' },
             param: :project_id,
             caption: :label_member_plural,
-            icon: 'icon2 icon-group'
+            icon: 'icon2 icon-group',
+            parent: :resources
 
   #bbm(
   menu.push :project_risks,
             { controller: '/project_risks', action: 'index' },
             param: :project_id,
             if: Proc.new { |p| p.module_enabled?('project_risks') },
-            icon: 'icon2 icon-risks'
+            icon: 'icon2 icon-risks',
+            parent: :analyze
   # )
+  #
+  # + tan 2019/07/16
+  menu.push :additional,
+            { controller: '/stages', action: 'show' },
+            param: :project_id,
+            caption: :ladel_additional,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-info1'
+  #-tan
 
   #xcc(
   menu.push :arbitary_objects,
@@ -394,9 +442,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_arbitary_objects,
             if: Proc.new { |p| p.module_enabled?('arbitary_objects') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            parent: :additional
 
   # )
+
+
 
   menu.push :settings,
             { controller: '/project_settings', action: 'show' },
