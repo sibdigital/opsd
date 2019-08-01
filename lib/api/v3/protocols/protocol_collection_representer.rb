@@ -34,40 +34,9 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module NationalProjects
-      class NationalProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::NationalProjects::NationalProjectRepresenter
-
-        def initialize(models,
-                       self_link,
-                       current_user:)
-          super(models,
-                self_link,
-                current_user: current_user)
-        end
-
-        collection :elements,
-                   getter: ->(*) {
-                     @elements = []
-                     render_tree(represented, nil)
-                     @elements
-                   },
-                   exec_context: :decorator,
-                   embedded: true
-
-        self.to_eager_load = ::API::V3::NationalProjects::NationalProjectRepresenter.to_eager_load
-        self.checked_permissions = ::API::V3::NationalProjects::NationalProjectRepresenter.checked_permissions
-
-        private
-
-        def render_tree(tree, pid)
-          represented.map do |el|
-            if el.parent_id == pid then
-              @elements << element_decorator.create(el, current_user: current_user)
-              render_tree(tree, el.id)
-            end
-          end
-        end
+    module Protocols
+      class ProtocolCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        element_decorator ::API::V3::Protocols::ProtocolRepresenter
       end
     end
   end

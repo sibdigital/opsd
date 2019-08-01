@@ -117,12 +117,12 @@ export class BlueTableKpiService extends BlueTableService {
     switch (i) {
       case 0: {
         if (row._type === 'Project') {
-          return 'project';
+          return 'p30';
         }
         if (row._type === 'Target') {
-          return 'target';
+          return 'p40';
         }
-        return row.parentId == null ? 'parent' : 'child';
+        return row.parentId == null ? 'p10' : 'p20';
         break;
       }
     }

@@ -18,6 +18,9 @@ module API
                    when 'pokazateli' then desktop_pokazateli_data
                    when 'kt' then desktop_kt_data
                    when 'budget' then desktop_budget_data
+                   when 'zdravoohranenie' then indicator_zdravoohranenie_data
+                   when 'obrazovanie' then indicator_obrazovanie_data
+                   when 'proizvoditelnost_truda' then indicator_proizvoditelnost_truda_data
                    when 'fed_budget' then fed_budget_data
                    when 'reg_budget' then reg_budget_data
                    when 'other_budget' then other_budget_data
@@ -165,6 +168,19 @@ module API
           result << spent
           result << risk_ispoln
           result << ostatok
+        end
+
+
+        def indicator_zdravoohranenie_data
+          [0,0,0,0]
+        end
+
+        def indicator_obrazovanie_data
+          [0,0,0,0]
+        end
+
+        def indicator_proizvoditelnost_truda_data
+          [0,0,0,0]
         end
       end
     end

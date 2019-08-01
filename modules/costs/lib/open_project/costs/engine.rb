@@ -79,9 +79,10 @@ module OpenProject::Costs
            :cost_objects,
            { controller: '/cost_objects', action: 'index' },
            param: :project_id,
-           before: :settings,
+           #before: :settings, #+-tan
            caption: :cost_objects_title,
-           icon: 'icon2 icon-budget'
+           icon: 'icon2 icon-budget',
+           parent: :resources #+-tan
 
       Redmine::Activity.map do |activity|
         activity.register :cost_objects, class_name: 'Activity::CostObjectActivityProvider', default: false

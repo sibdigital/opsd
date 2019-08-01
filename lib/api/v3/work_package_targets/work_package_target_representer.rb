@@ -28,6 +28,11 @@ module API
                  getter: ->(*) { represented.target.name },
                  render_nil: true
 
+        property :otvetstvenniy,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.project.curator },
+                 render_nil: true
+
         property :value, render_nil: true
         property :id, render_nil: true
         property :project_id, render_nil: true

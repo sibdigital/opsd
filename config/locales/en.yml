@@ -1120,6 +1120,8 @@ en:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_impotance_low: Незначительная
+  default_impotance_critical: Критичная
   default_possibility_very_low: Очень низкая
   default_possibility_low: Низкая
   default_possibility_normal: Средняя
@@ -1690,6 +1692,9 @@ en:
   label_no_data: Нет данных для отображения
   label_no_parent_page: Без родительской страницы
   label_nothing_display: Нет данных для отображения
+  label_communictaions: Коммуникации
+  ladel_additional: Дополнительно
+  label_resources: Ресурсы
   label_nobody: никто
   label_none: нет
   label_none_parentheses: "(нет)"
@@ -1709,7 +1714,8 @@ en:
   label_other: Другие
   label_overall_activity: Общая деятельность
   label_overall_spent_time: Суммарное потраченное время
-  label_overview: Обзор
+  label_overview: Рабочий стол
+  label_all_plans: Планирование
   label_page_title: Заголовок страницы
   label_part_of: часть
   label_password_lost: Забыли пароль?
@@ -2297,7 +2303,7 @@ en:
   project_module_repository: Репозиторий
   project_module_time_tracking: Учет времени
   project_module_timelines: Графики
-  project_module_wiki: Wiki
+  project_module_wiki: Управление знаниями
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
