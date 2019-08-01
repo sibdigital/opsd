@@ -16,6 +16,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 export class DesktopTabComponent implements OnInit {
   protected readonly appBasePath:string;
   public data:any[] = [];
+  public problemCount:number = 0;
 
   constructor(
     protected halResourceService:HalResourceService,
@@ -126,6 +127,7 @@ export class DesktopTabComponent implements OnInit {
           row["problems"] = problems;
           this.data[i] = row;
         });
+        this.problemCount = resources.elements.length;
       });
   }
 

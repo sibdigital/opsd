@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -27,44 +26,34 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
-require 'roar/json/hal'
+require 'api/v3/protocols/protocol_representer'
+require 'api/v3/protocols/protocol_collection_representer'
 
 module API
   module V3
-    module NationalProjects
-      class NationalProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::NationalProjects::NationalProjectRepresenter
+    module Protocols
+      class ProtocolsAPI < ::API::OpenProjectAPI
+        resources :protocols do
+          get do
+            @protocols = MeetingProtocol.all
 
-        def initialize(models,
-                       self_link,
-                       current_user:)
-          super(models,
-                self_link,
-                current_user: current_user)
-        end
 
-        collection :elements,
-                   getter: ->(*) {
-                     @elements = []
-                     render_tree(represented, nil)
-                     @elements
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+            ProtocolCollectionRepresenter.new(@protocols,
+                                                     api_v3_paths.national_projects,
+                                                     current_user: current_user)
+          end
 
-        self.to_eager_load = ::API::V3::NationalProjects::NationalProjectRepresenter.to_eager_load
-        self.checked_permissions = ::API::V3::NationalProjects::NationalProjectRepresenter.checked_permissions
+          params do
+            requires :id, desc: 'Protocol id'
+          end
 
-        private
+          route_param :id do
+            before do
+              @protocol = MeetingProtocol.find(params[:id])
+            end
 
-        def render_tree(tree, pid)
-          represented.map do |el|
-            if el.parent_id == pid then
-              @elements << element_decorator.create(el, current_user: current_user)
-              render_tree(tree, el.id)
+            get do
+              ProtocolRepresenter.new(@protocol, current_user: current_user)
             end
           end
         end
