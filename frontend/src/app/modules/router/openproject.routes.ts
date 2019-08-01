@@ -44,6 +44,7 @@ import {ProblemsTabComponent} from "core-components/homescreen-tabs/problems-tab
 import {DiscussTabComponent} from "core-components/homescreen-tabs/discuss-tab/discuss-tab.component";
 import {BudgetTabComponent} from "core-components/homescreen-tabs/budget/budget-tab.component";
 import {IndicatorTabComponent} from "core-components/homescreen-tabs/indicator/indicator-tab.component";
+import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab/protocol-tab.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -123,6 +124,11 @@ export const HOMESCREEN_ROUTES = [
     name: 'homescreen.indicator',
     url: '/indicator',
     component: IndicatorTabComponent
+  },
+  {
+    name: 'homescreen.protocol',
+    url: '/protocol',
+    component: ProtocolTabComponent
   },
   //)
   // We could lazily load work packages module already,

@@ -8,6 +8,7 @@ import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-ta
 import {BlueTableDiscussService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-discuss.service";
 import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-budget.service";
 import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-indicator.service";
+import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
 
 @Component({
   selector: 'homescreen-blue-table',
@@ -53,6 +54,9 @@ export class HomescreenBlueTableComponent implements OnInit {
     }
     if (template === 'indicator') {
       this.blueTableModule  = this.injector.get(BlueTableIndicatorService);
+    }
+    if (template === 'protocol') {
+      this.blueTableModule  = this.injector.get(BlueTableProtocolService);
     }
   }
 

@@ -71,6 +71,8 @@ export class ApiV3Paths {
 
   public readonly work_package_targets = new SimpleResource(this.apiV3Base, 'work_package_targets');
 
+  public readonly work_package_targets_1c = new SimpleResource(this.apiV3Base, 'work_package_targets_1c');
+
   public readonly diagram_queries = new SimpleResourceCollection(this.apiV3Base, 'diagram_queries');
 
   public readonly organizations = new SimpleResourceCollection(this.apiV3Base, 'organizations');
@@ -82,6 +84,8 @@ export class ApiV3Paths {
   public readonly topics = new SimpleResource(this.apiV3Base, 'topics');
 
   public readonly summary_budgets_users = new SimpleResource(this.apiV3Base, 'summary_budgets/all_user');
+
+  public readonly protocols = new SimpleResource(this.apiV3Base, 'protocols');
   //)
 
   // /api/v3/time_entries

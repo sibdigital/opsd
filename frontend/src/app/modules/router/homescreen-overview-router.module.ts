@@ -56,6 +56,8 @@ import {BudgetTabComponent} from "core-components/homescreen-tabs/budget/budget-
 import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-budget.service";
 import {IndicatorTabComponent} from "core-components/homescreen-tabs/indicator/indicator-tab.component";
 import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-indicator.service";
+import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab/protocol-tab.component";
+import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
 
 @NgModule({
   imports: [
@@ -81,6 +83,7 @@ import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/b
     DiscussTabComponent,
     BudgetTabComponent,
     IndicatorTabComponent,
+    ProtocolTabComponent,
     HomescreenBlueTableComponent,
     BlueTableNationalProjectsService,
     BlueTableKtService,
@@ -88,7 +91,8 @@ import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/b
     BlueTableKpiService,
     BlueTableDiscussService,
     BlueTableBudgetService,
-    BlueTableIndicatorService
+    BlueTableIndicatorService,
+    BlueTableProtocolService
   ],
   declarations: [
     HomescreenDiagramComponent,
@@ -103,6 +107,7 @@ import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/b
     DiscussTabComponent,
     BudgetTabComponent,
     IndicatorTabComponent,
+    ProtocolTabComponent,
     HomescreenBlueTableComponent
   ],
   entryComponents: [
@@ -118,6 +123,7 @@ import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/b
     DiscussTabComponent,
     BudgetTabComponent,
     IndicatorTabComponent,
+    ProtocolTabComponent,
     HomescreenBlueTableComponent
   ],
   exports: [

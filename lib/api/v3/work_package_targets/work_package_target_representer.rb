@@ -9,7 +9,7 @@ module API
   module V3
     module WorkPackageTargets
       class WorkPackageTargetRepresenter < ::API::Decorators::Single
-        #include ::API::Caching::CachedRepresenter
+        include ::API::Caching::CachedRepresenter
 
         link :self do
           {

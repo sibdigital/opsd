@@ -37,8 +37,6 @@ module API
             @national_projects = NationalProject.all
             NationalProjectCollectionRepresenter.new(@national_projects,
                                                      api_v3_paths.national_projects,
-                                                     page: 1,
-                                                     per_page: 20,
                                                      current_user: current_user)
           end
 

@@ -28,45 +28,31 @@
 #++
 
 require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
 require 'roar/json/hal'
 
 module API
   module V3
-    module NationalProjects
-      class NationalProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::NationalProjects::NationalProjectRepresenter
+    module Protocols
+      class ProtocolRepresenter < ::API::Decorators::Single
+        #include ::API::Caching::CachedRepresenter
 
-        def initialize(models,
-                       self_link,
-                       current_user:)
-          super(models,
-                self_link,
-                current_user: current_user)
-        end
+        self_link path: :protocol,
+                  title_getter: ->(*) { represented.text }
 
-        collection :elements,
-                   getter: ->(*) {
-                     @elements = []
-                     render_tree(represented, nil)
-                     @elements
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+        property :id, render_nil: true
 
-        self.to_eager_load = ::API::V3::NationalProjects::NationalProjectRepresenter.to_eager_load
-        self.checked_permissions = ::API::V3::NationalProjects::NationalProjectRepresenter.checked_permissions
+        property :text, render_nil: true
+        property :user, render_nil: true
+        property :due_date, render_nil: true
+        property :completed, render_nil: true
 
-        private
+        property :project,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.meeting_content.meeting.project },
+                 render_nil: true
 
-        def render_tree(tree, pid)
-          represented.map do |el|
-            if el.parent_id == pid then
-              @elements << element_decorator.create(el, current_user: current_user)
-              render_tree(tree, el.id)
-            end
-          end
+        def _type
+          'Protocol'
         end
       end
     end
