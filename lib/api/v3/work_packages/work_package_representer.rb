@@ -446,8 +446,7 @@ module API
         # )
         # +tan
         associated_resource :raion,
-                            link_title_attribute: :name,
-                            representer: ::API::V3::Raions::RaionRepresenter
+                            link_title_attribute: :name
         # -tan
 
         associated_resource :type

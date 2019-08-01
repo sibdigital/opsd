@@ -63,6 +63,9 @@ module WorkPackages
 
     attribute :arbitary_object_id
     #
+    #+tan
+    attribute :raion_id
+    #-tan
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable
     end

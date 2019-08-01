@@ -72,6 +72,11 @@ module API
             when :arbitary_object
               ArbitaryObject.where('project_id = ? and is_approve = ? ', project_id, true)
             # )
+            #tan(
+            when :raion
+              Raion.all
+            # )
+
             end
           end
 

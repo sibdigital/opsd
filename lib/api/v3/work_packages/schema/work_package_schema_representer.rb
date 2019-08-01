@@ -300,6 +300,17 @@ module API
                                          required: false
 
           # )
+          #+tan
+          schema_with_allowed_collection :raion,
+                                         value_representer: Raions::RaionRepresenter,
+                                         link_factory: ->(raion) {
+                                           {
+                                             href: api_v3_paths.raion(raion.id),
+                                             title: raion.name
+                                           }
+                                         },
+                                         required: false
+          #-tan
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: ->(priority) {
