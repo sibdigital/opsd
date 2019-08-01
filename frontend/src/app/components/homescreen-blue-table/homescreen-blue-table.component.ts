@@ -1,7 +1,7 @@
 import {Component, Injector, OnInit, Input} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
-import {BlueTableNationalProjectsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-national-projects.service";
+import {BlueTableDesktopService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-desktop.service";
 import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kt.service";
 import {BlueTableProblemsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-problems.service";
 import {BlueTableKpiService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kpi.service";
@@ -9,6 +9,7 @@ import {BlueTableDiscussService} from "core-components/homescreen-blue-table/blu
 import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-budget.service";
 import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-indicator.service";
 import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
+import {BlueTableMunicipalityService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-municipality.service";
 
 @Component({
   selector: 'homescreen-blue-table',
@@ -35,7 +36,7 @@ export class HomescreenBlueTableComponent implements OnInit {
 
   public getBlueTable(template:string) {
     if (template === 'desktop') {
-      this.blueTableModule = this.injector.get(BlueTableNationalProjectsService);
+      this.blueTableModule = this.injector.get(BlueTableDesktopService);
     }
     if (template === 'kt') {
       this.blueTableModule = this.injector.get(BlueTableKtService);
@@ -57,6 +58,9 @@ export class HomescreenBlueTableComponent implements OnInit {
     }
     if (template === 'protocol') {
       this.blueTableModule  = this.injector.get(BlueTableProtocolService);
+    }
+    if (template === 'municipality') {
+      this.blueTableModule  = this.injector.get(BlueTableMunicipalityService);
     }
   }
 

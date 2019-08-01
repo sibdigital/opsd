@@ -36,7 +36,7 @@ module API
     module Problems
       class ProblemRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
-        # include ::API::Caching::CachedRepresenter
+        include ::API::Caching::CachedRepresenter
 
         self_link title_getter: ->(*) {
           represented.work_package.subject

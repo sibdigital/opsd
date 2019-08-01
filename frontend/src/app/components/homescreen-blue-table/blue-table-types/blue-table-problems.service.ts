@@ -11,7 +11,7 @@ export class BlueTableProblemsService extends BlueTableService {
   private pages:number = 0;
 
   public initialize():void {
-    this.halResourceService
+    /*this.halResourceService
       .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString())
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
@@ -25,7 +25,7 @@ export class BlueTableProblemsService extends BlueTableService {
         resources.elements.map((el:HalResource) => {
           this.data.push(el);
         });
-      });
+      });*/
   }
   public getColumns():string[] {
     return this.columns;
@@ -79,6 +79,9 @@ export class BlueTableProblemsService extends BlueTableService {
   }
 
   public getDataWithFilter(param:string):any[] {
+    if (param.startsWith('project')) {
+      this.project = param.slice(7);
+    }
     let filter;
     switch (param) {
       case 'solved': {
@@ -92,7 +95,7 @@ export class BlueTableProblemsService extends BlueTableService {
     }
     this.data = [];
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), filter ? {"status" : filter} : null )
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), filter ? {"status" : filter, project: this.project} : {project: this.project} )
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
         let total:number = resources.total; //всего ex 29
