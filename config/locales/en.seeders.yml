@@ -133,6 +133,8 @@ en:
           national_project: Культура
           federal_project: Обеспечение качественно нового уровня развития инфраструктуры культуры «Культурная среда»
           project_status: :default_project_status_in_work
+          start_date: "20190101"
+          due_date: "20241231"
           project_approve_status: :default_project_approve_status_approve_glava
           description: >
             Результат федерального проекта (справочно из паспорта федерального проекта): Создание центров культурного развития в субъектах Российской Федерации в городах
@@ -291,11 +293,68 @@ en:
                 - subject: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
                   status: :default_status_in_work
                   type: :default_type_result
-                  start: 7
+                  start: -20
                   plan_type: execution
-                  duration: 8
+                  duration: 70
                   organization: Министерство культуры
                   assigned: tvs
+                  children:
+                    - subject: Оснащена пианино школа в Баргузинском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: -5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Баунтовском районе
+                      status: :default_status_completed
+                      type: :default_type_result
+                      start: -11
+                      plan_type: execution
+                      duration: -1
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Муйском районе
+                      status: :default_status_completed
+                      type: :default_type_result
+                      start: -5
+                      plan_type: execution
+                      duration: 5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Кижингинском районе
+                      status: :default_status_not_start
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: -5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Кяхтинском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 15
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Бичурском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 2
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Тарбагатайском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 3
+                      organization: Министерство культуры
+                      assigned: tvs
                 - subject: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                   status: :default_status_not_start
                   type: :default_type_result
@@ -393,6 +452,8 @@ en:
           identifier: umts
           project_status: :default_project_status_in_work
           project_approve_status: :default_project_approve_status_approve_glava
+          start_date: "20190101"
+          due_date: "20241231"
           description: |
             Расселение аварийного жилищного фонда микрорайонов «УМТС – Икибзяк» (18 квартир) и «Механизированная колонна – 136» (17 квартир) и устранение неэффективных расходов на тепло, - водоснабжение путем оптимизации коммунальных сетей и ликвидации неэффективных котельных.
           timeline:
@@ -548,6 +609,59 @@ en:
               duration: 0
               organization: Администрация Муйского района
               assigned: ttv
+        gorod:
+          name: Формирование комфортной городской среды.
+          national_project: Жильё и городская среда
+          federal_project: Жилье
+          identifier: gorod
+          project_status: :default_project_status_in_work
+          project_approve_status: :default_project_approve_status_approve_glava
+          start_date: "20190101"
+          due_date: "20241231"
+          description: |
+            В 2019 г. планируется благоустроить 112 дворовых и 120 общественных территорий
+          timeline:
+            name: Временная шкала
+          modules:
+            - backlogs
+            - news
+            - wiki
+            - work_package_tracking
+            - costs
+            - risks
+          news:
+            - title: Новости проекта
+              summary: >
+                Здесь отображаются новости проекта
+          types:
+            - :default_type_task
+            - :default_type_milestone
+            - :default_type_result
+            #- :default_type_result
+            #- :default_type_user_story
+            #- :default_type_bug
+          categories:
+            - Строительство (Реконструкция)
+            - Приобретение
+            - Оказание услуг (Выполнение работ)
+            - Проведение образовательных мероприятий
+            - Принятие нормативно-правового акта
+            - Утверждение документа
+            - Проведение массовых мероприятий
+            - Проведение информационно-коммуникационной кампании
+          work_packages:
+            - subject: Утверждена проектно-сметная документация по улучшению городской среды
+                в городах с числом жителей до 300 000 человек
+              status: :default_status_in_work
+              type: :default_type_milestone
+              priority: :default_priority_high
+              estimated_hours: 8
+              start: 4
+              plan_type: execution
+              duration: 0
+              done_ratio: 50
+              organization: Министерство строительства
+              assigned: rnu
 
       project_targets:
         - name: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)

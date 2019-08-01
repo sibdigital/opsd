@@ -22,11 +22,11 @@ module BasicData
 
     def data
       [
-        { name: I18n.t(:default_possibility_very_low), position: 1, is_default: false },
-        { name: I18n.t(:default_possibility_low), position: 2, is_default: false  },
-        { name: I18n.t(:default_possibility_normal), position: 3, is_default: true },
-        { name: I18n.t(:default_possibility_high), position: 4, is_default: false },
-        { name: I18n.t(:default_possibility_very_high), position: 5, is_default: false }
+        { name: I18n.t(:default_impotance_low), position: 1, is_default: false },
+        { name: I18n.t(:default_impotance_critical), position: 2, is_default: false  }#,
+        #{ name: I18n.t(:default_possibility_normal), position: 3, is_default: true },
+        #{ name: I18n.t(:default_possibility_high), position: 4, is_default: false },
+        #{ name: I18n.t(:default_possibility_very_high), position: 5, is_default: false }
       ]
     end
   end
