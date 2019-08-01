@@ -39,7 +39,7 @@ function notifying()
     async: true,
     success: function(text)
     {
-      if (text!==null)
+      if (text!==null&&text!==undefined)
       {
         count=text.length;
         for (var i=0;i<count;i++)
