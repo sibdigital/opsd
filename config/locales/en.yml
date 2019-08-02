@@ -790,6 +790,7 @@ en:
     address: Адрес
     cabinet: Кабинет
     target: Целевой показатель
+    raion: Район
 
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
@@ -849,6 +850,8 @@ en:
     plan_value: Плановое значение
     arbitary_object_type: Тип
     arbitary_object: Произвольный объект
+    raion: Район
+    raions: районы
     target_status: Статус
     target_type: Тип
     target_parent: Родитель
@@ -1568,6 +1571,8 @@ en:
 
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
+  label_raion: Район
+  label_raions: Районы
   label_target: Целевые показатели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ

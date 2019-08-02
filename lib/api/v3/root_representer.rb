@@ -106,12 +106,24 @@ module API
           href: api_v3_paths.arbitary_objects
         }
       end
-
       #)
-      #zbd(
-      link :targets do
+      #+tan
+      link :raions do
         {
-          href: api_v3_paths.targets
+          href: api_v3_paths.raions
+        }
+      end
+      #-tan
+
+      #zbd(
+      # link :targets do
+      #   {
+      #     href: api_v3_paths.targets
+      #   }
+      # end
+      link :work_package_targets do
+        {
+          href: api_v3_paths.work_package_targets
         }
       end
       #)

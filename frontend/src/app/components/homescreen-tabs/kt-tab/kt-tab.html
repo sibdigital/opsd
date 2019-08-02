@@ -1,25 +1,30 @@
 <h2>Перечень мероприятий по проекту</h2>
 <table class="whiteTable">
-    <% white_table = kontrolnie_tochki_white_table_data%>
     <tr>
         <td>Проект</td>
-        <td><b><%= white_table['project'].name %></b></td>
+        <td>
+            <select [(ngModel)]="selectedOption"
+                    [compareWith]="compareByHref"
+                    (change)="handleUserSubmit()">
+                <option
+                        *ngFor="let value of valueOptions"
+                        [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                        [attr.label]="value.name"
+                        [ngValue]="value"
+                        [textContent]="value.name">
+                </option>
+            </select>
+        </td>
     </tr>
 
     <tr>
         <td>Куратор</td>
-        <td><% white_table['kurator'].each do |user| %>
-            <b><%= user.firstname %> <%= user.lastname %></b>,&nbsp
-            <% end %>
-        </td>
+        <td><b>{{curator}}</b></td>
     </tr>
 
     <tr>
         <td>Руководитель</td>
-        <td><% white_table['rukovoditel_proekta'].each do |user| %>
-            <b><%= user.firstname %> <%= user.lastname %></b>,&nbsp
-            <% end %>
-        </td>
+        <td><b>{{ruk}}</b></td>
     </tr>
 
     <tr>

@@ -10,7 +10,7 @@ export class BlueTableKtService extends BlueTableService {
   private pages:number = 0;
 
   public initialize():void {
-    this.project = this.$state.params['project'];
+    /*this.project = this.$state.params['project'];
     this.halResourceService
       .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString())
       .toPromise()
@@ -25,7 +25,7 @@ export class BlueTableKtService extends BlueTableService {
         resources.results.elements.map((el:HalResource) => {
           this.data.push(el);
         });
-      });
+      });*/
   }
   public getColumns():string[] {
     return this.columns;
@@ -72,7 +72,7 @@ export class BlueTableKtService extends BlueTableService {
         break;
       }
       case 3: {
-        return row.dueDate;
+        return this.format(row.dueDate);
         break;
       }
       case 4: {
@@ -109,6 +109,9 @@ export class BlueTableKtService extends BlueTableService {
   }
 
   public getDataWithFilter(param:string):any[] {
+    if (param.startsWith('project')) {
+      this.project = param.slice(7);
+    }
     let filters;
     switch (param) {
       case 'vrabote': {
@@ -138,5 +141,9 @@ export class BlueTableKtService extends BlueTableService {
         });
       });
     return this.data;
+  }
+
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }
 }

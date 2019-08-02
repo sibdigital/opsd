@@ -55,9 +55,6 @@ module API
                    exec_context: :decorator,
                    embedded: true
 
-        self.to_eager_load = ::API::V3::NationalProjects::NationalProjectRepresenter.to_eager_load
-        self.checked_permissions = ::API::V3::NationalProjects::NationalProjectRepresenter.checked_permissions
-
         private
 
         def render_tree(tree, pid)

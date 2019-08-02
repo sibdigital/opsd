@@ -45,7 +45,7 @@ import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/hom
 import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 import {KtTabComponent} from "core-components/homescreen-tabs/kt-tab/kt-tab.component";
-import {BlueTableNationalProjectsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-national-projects.service";
+import {BlueTableDesktopService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-desktop.service";
 import {BlueTableKtService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-kt.service";
 import {ProblemsTabComponent} from "core-components/homescreen-tabs/problems-tab/problems-tab.component";
 import {BlueTableProblemsService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-problems.service";
@@ -58,6 +58,9 @@ import {IndicatorTabComponent} from "core-components/homescreen-tabs/indicator/i
 import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-indicator.service";
 import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab/protocol-tab.component";
 import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
+import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
+import {BlueTableMunicipalityService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-municipality.service";
+import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 
 @NgModule({
   imports: [
@@ -71,6 +74,7 @@ import {BlueTableProtocolService} from "core-components/homescreen-blue-table/bl
     OpenprojectCommonModule
   ],
   providers: [
+    HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
@@ -84,17 +88,20 @@ import {BlueTableProtocolService} from "core-components/homescreen-blue-table/bl
     BudgetTabComponent,
     IndicatorTabComponent,
     ProtocolTabComponent,
+    MunicipalityTabComponent,
     HomescreenBlueTableComponent,
-    BlueTableNationalProjectsService,
+    BlueTableDesktopService,
     BlueTableKtService,
     BlueTableProblemsService,
     BlueTableKpiService,
     BlueTableDiscussService,
     BlueTableBudgetService,
     BlueTableIndicatorService,
-    BlueTableProtocolService
+    BlueTableProtocolService,
+    BlueTableMunicipalityService
   ],
   declarations: [
+    HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
@@ -108,9 +115,11 @@ import {BlueTableProtocolService} from "core-components/homescreen-blue-table/bl
     BudgetTabComponent,
     IndicatorTabComponent,
     ProtocolTabComponent,
+    MunicipalityTabComponent,
     HomescreenBlueTableComponent
   ],
   entryComponents: [
+    HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
@@ -124,6 +133,7 @@ import {BlueTableProtocolService} from "core-components/homescreen-blue-table/bl
     BudgetTabComponent,
     IndicatorTabComponent,
     ProtocolTabComponent,
+    MunicipalityTabComponent,
     HomescreenBlueTableComponent
   ],
   exports: [
