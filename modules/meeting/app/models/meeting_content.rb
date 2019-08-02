@@ -27,7 +27,7 @@ require 'wiki_page'
 class MeetingContent < ActiveRecord::Base
   belongs_to :meeting
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  has_many :protocols, class_name: 'MeetingProtocol' , foreign_key: 'meeting_contents_id'
+  #has_many :protocols, class_name: 'MeetingProtocol' , foreign_key: 'meeting_contents_id'
   attr_accessor :comment
 
   validates_length_of :comment, maximum: 255, allow_nil: true
