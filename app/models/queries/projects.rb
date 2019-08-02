@@ -40,6 +40,9 @@ module Queries::Projects
   register.filter query, filters::CustomFieldFilter
   register.filter query, filters::CreatedOnFilter
   register.filter query, filters::LatestActivityAtFilter
+  #bbm(
+  register.filter query, filters::NationalProjectFilter
+  #)
 
   register.order query, orders::DefaultOrder
   register.order query, orders::LatestActivityAtOrder

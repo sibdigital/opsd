@@ -7,4 +7,9 @@ class WorkPackageTarget < ActiveRecord::Base
   belongs_to :project
   belongs_to :work_package
 
+  def <=>(work_package_target)
+    name <=> Target.where(id: work_package_target.target_id).first.name
+  end
+
+  def to_s; name end
 end

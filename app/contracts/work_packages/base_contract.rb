@@ -56,13 +56,16 @@ module WorkPackages
       validate_user_allowed_to_set_result_agreed :result_agreed, 'result_agreed'
     end
 
-    attribute :target_id
-
+    #attribute :target_id
     attribute :organization_id
+    attribute :raion_id
     # )
 
     attribute :arbitary_object_id
     #
+    #+tan
+    attribute :raion_id
+    #-tan
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable
     end

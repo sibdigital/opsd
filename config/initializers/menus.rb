@@ -501,4 +501,8 @@ Redmine::MenuManager.map :dashboard_menu do |menu|
             '',
             caption: 'Оценка деятельности',
             icon: 'icon2 icon-settings2'
+  menu.push :municipalitet,
+            '',
+            caption: 'Муниципалитет',
+            icon: 'icon2 icon-settings2'
 end

@@ -69,7 +69,7 @@ export class BlueTableProtocolService extends BlueTableService {
           break;
         }
         case 2: {
-          return row.dueDate;
+          return this.format(row.dueDate);
           break;
         }
         case 3: {
@@ -112,5 +112,9 @@ export class BlueTableProtocolService extends BlueTableService {
       }
     }
     return prefix;
+  }
+
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }
 }

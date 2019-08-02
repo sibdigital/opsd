@@ -120,6 +120,7 @@
   </div>
 <% else %>
   <%= render :partial => 'targets/form/list', :locals => {:targets => @targets} %>
+<% end %>
 
   <%= link_to new_project_target_path(:parent_id => params[:parent_id]),
               aria: {label: t(:label_target_new)},
@@ -131,5 +132,4 @@
   <% end %>
 
   <%= pagination_links_full @targets %>
-<% end %>
 

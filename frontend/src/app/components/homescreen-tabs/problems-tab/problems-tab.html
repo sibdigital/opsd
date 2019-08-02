@@ -2,17 +2,29 @@
 <table>
     <tr>
         <td>Проект</td>
-        <td><b>Создание региональной цифровой платформы ИСЗ</b></td>
+        <td>
+            <select [(ngModel)]="selectedOption"
+                    [compareWith]="compareByHref"
+                    (change)="handleUserSubmit()">
+                <option
+                        *ngFor="let value of valueOptions"
+                        [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                        [attr.label]="value.name"
+                        [ngValue]="value"
+                        [textContent]="value.name">
+                </option>
+            </select>
+        </td>
     </tr>
 
     <tr>
         <td>Куратор</td>
-        <td><b>Цыбикжапов В.Б.</b></td>
+        <td><b>{{curator}}</b></td>
     </tr>
 
     <tr>
         <td>Руководитель</td>
-        <td><b>Самбуев Д.Н.</b></td>
+        <td><b>{{ruk}}</b></td>
     </tr>
 
     <tr>

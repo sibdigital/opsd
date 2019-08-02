@@ -14,7 +14,7 @@ module API
         link :self do
           {
             href: api_v3_paths.work_package_target(represented.id),
-            title: represented.id
+            title: Target.where(id: represented.target_id).first.name
           }
         end
 
@@ -33,13 +33,19 @@ module API
                  getter: ->(*) { represented.project.curator },
                  render_nil: true
 
-        property :value, render_nil: true
         property :id, render_nil: true
-        property :project_id, render_nil: true
+        property :project_id
+        property :work_package_id
+        property :target_id
+        property :year, render_nil: true
+        property :quarter, render_nil: true
+        property :month, render_nil: true
+        property :type, render_nil: true
+        property :value, render_nil: true
         property :plan_value, render_nil: true
 
         def _type
-          'Target'
+          'WorkPackageTarget'
         end
       end
     end

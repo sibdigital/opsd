@@ -257,16 +257,16 @@ module API
                                          },
                                          required: false
 
-          schema_with_allowed_collection :target,
-                                         value_representer: Targets::TargetRepresenter,
-                                         link_factory: ->(target) {
-                                           {
-                                             href: api_v3_paths.target(target.id),
-                                             title: target.name
-                                           }
-                                         },
-                                         required: false
-          # )
+          # schema_with_allowed_collection :target,
+          #                                value_representer: Targets::TargetRepresenter,
+          #                                link_factory: ->(target) {
+          #                                  {
+          #                                    href: api_v3_paths.target(target.id),
+          #                                    title: target.name
+          #                                  }
+          #                                },
+          #                                required: false
+          #)
 
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,
@@ -300,6 +300,17 @@ module API
                                          required: false
 
           # )
+          #+tan
+          schema_with_allowed_collection :raion,
+                                         value_representer: Raions::RaionRepresenter,
+                                         link_factory: ->(raion) {
+                                           {
+                                             href: api_v3_paths.raion(raion.id),
+                                             title: raion.name
+                                           }
+                                         },
+                                         required: false
+          #-tan
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: ->(priority) {

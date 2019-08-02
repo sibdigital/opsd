@@ -1,9 +1,13 @@
-<div class="work-packages--status-selector wp-new-top-row--element">
-  <label>Целевой показатель проекта:</label>
-  <wp-edit-field [workPackageId]="workPackageId"
-                 [displayFieldOptions]="{ colorize: false }"
-                 [wrapperClasses]="'wp-new-top-row--status'"
-                 [fieldName]="'target'">
-  </wp-edit-field>
+<div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
+  <!--<label>Целевой показатель:</label>-->
+  <!--<wp-edit-field [workPackageId]="workPackageId"-->
+                 <!--[displayFieldOptions]="{ colorize: false }"-->
+                 <!--[wrapperClasses]="'wp-new-top-row&#45;&#45;status'"-->
+                 <!--[fieldName]="'target'">-->
+  <!--</wp-edit-field>-->
+  <div>
+    <wp-target [workPackageId]="workPackageId" [workPackage]="workPackage" ></wp-target>
+  </div>
+
 </div>
 
