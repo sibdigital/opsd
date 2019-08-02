@@ -119,6 +119,7 @@ export class ApiV3Paths {
   //zbd(
   public readonly targets = new SimpleResourceCollection(this.apiV3Base,'targets');
   public readonly work_package_targets = new SimpleResourceCollection(this.apiV3Base,'work_package_targets');
+  public readonly work_package_problems = new SimpleResourceCollection(this.apiV3Base,'work_package_problems');
   // )
 
 

@@ -11,15 +11,17 @@ module API
       class WorkPackageTargetsAPI < ::API::OpenProjectAPI
         resources :work_package_targets do
 
-          get do
+          before do
             authorize(:manage_work_package_targets_plan_value, global: true)
             @work_package_targets = WorkPackageTarget
                                       .joins(:target)
                                       .where('work_package_id = ?', params[:work_package_id])
                                       .order('target_id asc, year asc, quarter asc, month asc')
+          end
+          get do
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
-                                           api_v3_paths.work_package_targets,
-                                           current_user: current_user)
+                                                       api_v3_paths.work_package_targets,
+                                                       current_user: current_user)
           end
 
           #TODO (zbd) добавить проверку на выполнение операции в соответствии с ролевой моделью
@@ -36,12 +38,12 @@ module API
             work_package_target.value = params[:value]
             work_package_target.save
 
-            @work_package_targets = WorkPackageTarget
-                                      .where('work_package_id = ?', params[:work_package_id])
-                                      .order('target_id asc, year asc, quarter asc, month asc')
+            # @work_package_targets = WorkPackageTarget
+            #                           .where('work_package_id = ?', params[:work_package_id])
+            #                           .order('target_id asc, year asc, quarter asc, month asc')
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
-                                                       api_v3_paths.work_package_targets,
-                                                       current_user: current_user)
+                                                        api_v3_paths.work_package_targets,
+                                                        current_user: current_user)
           end
 
           route_param :id do

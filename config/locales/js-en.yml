@@ -486,7 +486,9 @@ en:
       add_new_target: Добавить целевой показатель
       save: Сохранить
       abort: Прервать
-      placeholder: Выберите целевой показатель
+      placeholder: Выберите значение из списка
+    problem_buttons:
+      add_new_problem: Определить новую проблему/риск
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
       parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape

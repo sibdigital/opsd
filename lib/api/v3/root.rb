@@ -42,6 +42,7 @@ module API
       mount ::API::V3::Contracts::ContractsAPI
       mount ::API::V3::Targets::TargetsAPI
       mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
+      mount ::API::V3::WorkPackageProblems::WorkPackageProblemsAPI
       # )
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
