@@ -1745,6 +1745,8 @@ en:
   label_done_ratio_project: Процент исполнения (KPI)
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
+  label_head_performance_indicator_values: Оценка деятельности высшего должностного лица
+  label_head_performance_indicator_values_new: Новая оценка деятельности высшего должностного лица
   label_positions: "Должности"
   label_position_new: "Добавить должность"
   label_position_value: "Должность"

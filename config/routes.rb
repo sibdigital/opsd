@@ -385,6 +385,8 @@ OpenProject::Application.routes.draw do
   end
 
   resources :pop_up_alerts
+
+  resources :head_performance_indicator_values
   #)
 
   scope 'admin' do
