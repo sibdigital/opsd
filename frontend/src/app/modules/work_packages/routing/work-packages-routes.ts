@@ -41,6 +41,7 @@ import {Ng2StateDeclaration} from "@uirouter/angular";
 import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import {MyPageComponent} from "core-components/routing/my-page/my-page.component";
 import {WorkPackageTargetsTabComponent} from 'core-components/wp-single-view-tabs/targets-tab/targets-tab.component';
+import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
 
 
 
@@ -99,6 +100,11 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages.show.targets',
     url: '/targets',
     component: WorkPackageTargetsTabComponent
+  },
+  {
+    name: 'work-packages.show.problems',
+    url: '/problems',
+    component: WorkPackageProblemsTabComponent
   },
   // )
 

@@ -72,7 +72,7 @@ export class BlueTableKtService extends BlueTableService {
         break;
       }
       case 3: {
-        return row.dueDate;
+        return this.format(row.dueDate);
         break;
       }
       case 4: {
@@ -141,5 +141,9 @@ export class BlueTableKtService extends BlueTableService {
         });
       });
     return this.data;
+  }
+
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }
 }

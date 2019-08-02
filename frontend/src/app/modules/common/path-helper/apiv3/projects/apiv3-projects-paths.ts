@@ -38,4 +38,8 @@ export class Apiv3ProjectsPaths extends SimpleResourceCollection<Apiv3ProjectPat
   public id(projectIdentifier:string|number):Apiv3ProjectPaths {
     return new Apiv3ProjectPaths(this.path, projectIdentifier);
   }
+
+  //zbd(
+  public readonly targets = new SimpleResourceCollection(this.path, 'targets');
+  // )
 }

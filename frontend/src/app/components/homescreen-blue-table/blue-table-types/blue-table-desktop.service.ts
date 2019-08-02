@@ -2,10 +2,12 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class BlueTableDesktopService extends BlueTableService {
   private data:any[] = [];
-  private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные мероприятия/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
+  private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные кт/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
+  private national_project_titles:{id:number, name:string}[] = [];
 
   public initialize():void {
     this.halResourceService
@@ -13,21 +15,53 @@ export class BlueTableDesktopService extends BlueTableService {
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
         resources.elements.map((el:HalResource) => {
-          this.data.push(el);
-          if (el.projects) {
-            el.projects.map( (project:ProjectResource) => {
-              project['_type'] = 'Project';
-              this.data.push(project);
-            });
+          if (!el.parentId) {
+            this.national_project_titles.push({id: el.id, name: el.name});
           }
         });
+        this.national_project_titles.push({id:0, name: 'Проекты Республики Бурятия'});
       });
+  }
+
+  public getDataFromPage(i:number):any[] {
+    this.data = [];
+    if (this.national_project_titles[i].id === 0) {
+      let filters = new ApiV3FilterBuilder();
+      filters.add('national_project_id', '!*', []);
+      this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects.toString(),  {"filters": filters.toJson()})
+        .toPromise()
+        .then((resources:CollectionResource<HalResource>) => {
+          this.data.push({_type:"National Project", name:"Проекты Республики Бурятия", parentId:null});
+          resources.elements.map((el:HalResource) => {
+            this.data.push(el);
+          });
+        });
+    } else {
+      this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
+        .toPromise()
+        .then((resources:CollectionResource<HalResource>) => {
+          resources.elements.map((el:HalResource) => {
+            if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
+              this.data.push(el);
+              if (el.projects) {
+                el.projects.map( (project:ProjectResource) => {
+                  project['_type'] = 'Project';
+                  this.data.push(project);
+                });
+              }
+            }
+          });
+        });
+    }
+    return this.data;
   }
   public getColumns():string[] {
     return this.columns;
   }
   public getPages():number {
-    return 0;
+    return this.national_project_titles.length - 2;
   }
 
   public getData():any[] {
@@ -54,7 +88,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 2: {
-          return row.dueDate ? row.dueDate.due_date :'';
+          return row.dueDate ? this.format(row.dueDate.due_date) :'';
           break;
         }
         case 3: {
@@ -101,7 +135,21 @@ export class BlueTableDesktopService extends BlueTableService {
         return row.parentId == null ? 'p10' : 'p20';
         break;
       }
+      case 5: {
+        if (row._type === 'Project') {
+          return 'progressbar';
+        }
+        break;
+      }
     }
     return '';
+  }
+
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
+  }
+
+  public pagesToText(i:number):string {
+    return this.national_project_titles[i].name;
   }
 }
