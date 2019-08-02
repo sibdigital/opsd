@@ -69,8 +69,6 @@ export class ApiV3Paths {
 
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
 
-  public readonly work_package_targets = new SimpleResource(this.apiV3Base, 'work_package_targets');
-
   public readonly work_package_targets_1c = new SimpleResource(this.apiV3Base, 'work_package_targets_1c');
 
   public readonly diagram_queries = new SimpleResourceCollection(this.apiV3Base, 'diagram_queries');

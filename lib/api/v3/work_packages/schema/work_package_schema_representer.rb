@@ -257,22 +257,12 @@ module API
                                          },
                                          required: false
 
-          schema_with_allowed_collection :target,
-                                         value_representer: Targets::TargetRepresenter,
-                                         link_factory: ->(target) {
-                                           {
-                                             href: api_v3_paths.target(target.id),
-                                             title: target.name
-                                           }
-                                         },
-                                         required: false
-
-          # schema_with_allowed_collection :work_package_target,
-          #                                value_representer: WorkPackageTargets::WorkPackageTargetRepresenter,
-          #                                link_factory: ->(work_package_target) {
+          # schema_with_allowed_collection :target,
+          #                                value_representer: Targets::TargetRepresenter,
+          #                                link_factory: ->(target) {
           #                                  {
-          #                                    href: api_v3_paths.work_package_target(work_package_target.id),
-          #                                    title: work_package_target.value
+          #                                    href: api_v3_paths.target(target.id),
+          #                                    title: target.name
           #                                  }
           #                                },
           #                                required: false

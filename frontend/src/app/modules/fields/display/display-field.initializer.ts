@@ -57,8 +57,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'Type',
         //zbd(
         'Contract',
-        'Target',
-        'WorkPackageTarget',
+        //'Target',
         // )
         //xcc(
         'Organization',

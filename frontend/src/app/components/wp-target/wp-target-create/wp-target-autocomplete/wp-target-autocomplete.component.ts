@@ -18,7 +18,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 })
 export class WpTargetAutocompleteComponent implements OnInit {
   readonly text = {
-    placeholder: this.I18n.t('js.target_autocomplete.placeholder')
+    placeholder: this.I18n.t('js.target_buttons.placeholder')
   };
 
   @Input() workPackage: WorkPackageResource;
@@ -111,7 +111,7 @@ export class WpTargetAutocompleteComponent implements OnInit {
   }
 
   private loadTargets(){
-    return this.wpTargetService.getTargets(this.workPackage.project.id);
+    return this.wpTargetService.getTargets(this.workPackage.project.getId());
   }
 
   // private autocompleteTargets(query:string):Promise<TargetResource> {

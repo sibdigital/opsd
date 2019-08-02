@@ -55,8 +55,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         'Category',
         //zbd(
         'Contract',
-        'Target',
-        'WorkPackageTarget',
+        //'Target',
         //)
         //xcc(
         'Organization',

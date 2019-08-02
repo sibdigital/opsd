@@ -116,11 +116,11 @@ module API
       #-tan
 
       #zbd(
-      link :targets do
-        {
-          href: api_v3_paths.targets
-        }
-      end
+      # link :targets do
+      #   {
+      #     href: api_v3_paths.targets
+      #   }
+      # end
       link :work_package_targets do
         {
           href: api_v3_paths.work_package_targets

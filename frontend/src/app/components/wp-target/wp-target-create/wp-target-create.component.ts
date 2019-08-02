@@ -68,7 +68,7 @@ export class WpTargetCreateComponent implements OnInit, OnDestroy {
   }
 
   protected createCommonTarget() {
-    return this.wpTargetsService.addWpTarget(this.workPackage.id, this.workPackage.project.id, this.selectedTgId,
+    return this.wpTargetsService.addWpTarget(this.workPackage.id, this.workPackage.project.getId(), this.selectedTgId,
       this.year, this.quarter, this.month, this.plan_value, this.value
     )
       .then(wpTarget => {
