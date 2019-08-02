@@ -106,8 +106,15 @@ module API
           href: api_v3_paths.arbitary_objects
         }
       end
-
       #)
+      #+tan
+      link :raions do
+        {
+          href: api_v3_paths.raions
+        }
+      end
+      #-tan
+
       #zbd(
       link :targets do
         {

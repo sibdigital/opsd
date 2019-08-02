@@ -43,7 +43,10 @@ Redmine::AccessControl.map do |map|
                    arbitary_objects: %i[index new create edit update destroy],
                    #)
                    #zbd(
-                   stages: [:show]
+                   stages: [:show],
+                   #)
+                   #zbd(
+                   raions: [:show]
                    #)
                    },
                  public: true

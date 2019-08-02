@@ -64,6 +64,9 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'Organization',
         'ArbitaryObject',
         // )
+        //tan(
+        'Raion',
+        //)
         'Priority'
       ])
       .addFieldType(ResourceDisplayField, 'resource', [
