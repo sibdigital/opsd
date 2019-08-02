@@ -729,9 +729,16 @@ class User < Principal
     roles.find_all{ |r| r.name == Role.project_office_coordinator.name}.size > 0
   end
 
+  #является координатором от проектного офиса хотя бы по одному проекту
+  def detect_project_office_coordinator?()
+    poc = Role.find {|r| r.name == Role.project_office_coordinator.name}
+    member = memberships.detect { |m| m.roles.where(id: poc.id).size() > 0 }
+    member != nil
+  end
+
   def events_responsible?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.name == Role.events_responsible.name}.size > 0
+    roles.find_all{ |r| r.name == Role.events_responsible.name}.size() > 0
   end
 
   def project_office_admin?(project)
