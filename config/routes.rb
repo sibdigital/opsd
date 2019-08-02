@@ -286,6 +286,8 @@ OpenProject::Application.routes.draw do
 
       # state for show view in project context
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
+
+      resources :work_package_targets
     end
 
     #bbm(

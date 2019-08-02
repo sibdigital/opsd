@@ -197,7 +197,16 @@ import {WpRelationsDialogComponent} from "core-components/wp-relations/wp-relati
 import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/MatPaginatorIntlRussian";
+//zbd(
 import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tabs/targets-tab/targets-tab.component";
+import {WpTargetComponent} from "core-components/wp-target/wp-target.component";
+import {WpTargetCreateComponent} from "core-components/wp-target/wp-target-create/wp-target-create.component";
+import {WpTargetAutocompleteComponent} from "core-components/wp-target/wp-target-create/wp-target-autocomplete/wp-target-autocomplete.component";
+import {WpTargetsService} from "core-components/wp-target/wp-targets.service";
+import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm.service";
+import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
+//)
+
 
 @NgModule({
   imports: [
@@ -294,6 +303,10 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
     TableState,
 
     WpTableConfigurationService,
+    //zbd(
+    WpTargetsService,
+    WpTargetsDmService,
+    // )
   ],
   declarations: [
     //bbm(
@@ -413,6 +426,10 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
     WorkPackageBreadcrumbParentComponent,
     //zbd(
     WorkPackageTargetsTabComponent,
+    WpTargetComponent,
+    WpTargetCreateComponent,
+    WpTargetAutocompleteComponent,
+    WorkPackageProblemsTabComponent,
     // )
 
     // Split view
@@ -474,6 +491,9 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
     WorkPackageWatchersTabComponent,
     //zbd(
     WorkPackageTargetsTabComponent,
+    WpTargetComponent,
+    WpTargetCreateComponent,
+    WorkPackageProblemsTabComponent,
     // )
 
     // Single view

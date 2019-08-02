@@ -1,0 +1,96 @@
+<div class="wp-relations-create">
+  <div class="wp-relations-create-button hide-when-print"
+       *ngIf="!showTargetsCreateForm">
+    <div class="grid-block">
+      <div class="grid-content collapse wp-inline-create-button">
+        <a class="wp-inline-create--add-link relation-create"
+           #focusAfterSave
+           (accessibleClick)="toggleTargetsCreateForm()"
+           href
+           id="relation--add-relation">
+          <op-icon icon-classes="icon icon-add"></op-icon>
+          <span [textContent]="text.addNewTarget"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="loading-indicator--location"
+       data-indicator-name="relationAddDynamic">
+    <div class="v-align wp-relations-create--form"
+         *ngIf="showTargetsCreateForm">
+      <div class="grid-content medium-7">
+        <wp-target-autocomplete
+                [workPackage]="workPackage"
+                (onTargetIdSelected)="updateSelectedId($event)"
+                appendToContainer=".work-packages-tab-view--overflow">
+        </wp-target-autocomplete>
+        <br/>
+        <table>
+          <tr>
+            <th>Год</th>
+            <th>Квартал</th>
+            <th>Месяц</th>
+            <th>Плановое значение</th>
+            <th>Фактическое значение</th>
+          </tr>
+          <tr>
+            <td>
+              <select name="year" [(ngModel)]="year">
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+              </select>
+            </td>
+            <td>
+              <select name="quarter" [(ngModel)]="quarter">
+                <option value="" selected="selected"></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </td>
+            <td>
+              <select name="month" [(ngModel)]="month">
+                <option value="" selected="selected"></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" name="plan_value" [(ngModel)]="plan_value"/>
+            </td>
+            <td>
+              <input type="text" name="value" [(ngModel)]="value"/>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+        <accessible-by-keyboard
+                (execute)="createTarget()"
+                [isDisabled]="isDisabled || !selectedTgId"
+                linkClass="wp-create-relation--save"
+                aria-hidden="false">
+          <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard
+                (execute)="toggleTargetsCreateForm()"
+                linkClass="wp-create-relation--cancel"
+                aria-hidden="false">
+          <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+        </accessible-by-keyboard>
+      </div>
+    </div>
+  </div>
+</div>
+
