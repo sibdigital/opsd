@@ -59,7 +59,7 @@ export class BlueTableMunicipalityService extends BlueTableService {
           break;
         }
         case 2: {
-          return row.dueDate ? row.dueDate.due_date :'';
+          return row.dueDate ? this.format(row.dueDate.due_date) :'';
           break;
         }
         case 3: {
@@ -129,5 +129,8 @@ export class BlueTableMunicipalityService extends BlueTableService {
         });
       });
     return this.data;
+  }
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }
 }

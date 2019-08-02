@@ -18,6 +18,7 @@ module API
                    when 'pokazateli' then desktop_pokazateli_data
                    when 'kt' then desktop_kt_data
                    when 'budget' then desktop_budget_data
+                   when 'riski' then desktop_riski_data
                    when 'zdravoohranenie' then indicator_zdravoohranenie_data
                    when 'obrazovanie' then indicator_obrazovanie_data
                    when 'proizvoditelnost_truda' then indicator_proizvoditelnost_truda_data
@@ -148,15 +149,40 @@ module API
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def desktop_budget_data
-          ispolneno = 0 # Порядок важен
-          ne_ispolneno = 0
-          ostatok = 0
-          # TODO: Написать функцию выбоки исполнения бюджета исходя из бюджета мероприятий - нет четкого ТЗ
+          cost_objects = CostObject.all
+          total_budget = BigDecimal("0")
+          spent = BigDecimal("0")
+
+          cost_objects.each do |cost_object|
+            total_budget += cost_object.budget
+            spent += cost_object.spent
+          end
+
+          spent
+          risk_ispoln = 0
+          ostatok = total_budget - spent
           result = []
           # Порядок важен
-          result << ispolneno
-          result << ne_ispolneno
+          result << spent
+          result << risk_ispoln
           result << ostatok
+        end
+
+        def desktop_riski_data
+          status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
+          status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
+          neznachit = WorkPackageProblem
+                        .joins(:risk)
+                        .where(risks: { importance_id: status_neznachit.id })
+                        .count
+          kritich = WorkPackageProblem
+                      .joins(:risk)
+                      .where(risks: { importance_id: status_kritich.id })
+                      .count
+          result = []
+          # Порядок важен
+          result << neznachit
+          result << kritich
         end
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
