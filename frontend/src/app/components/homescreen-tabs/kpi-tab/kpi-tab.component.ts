@@ -67,6 +67,8 @@ export class KpiTabComponent {
       this.blueChild.changeFilter('project' + this.selectedOption.$href);
       //this.curator = this.selectedOption.kurator;
       //this.ruk = this.selectedOption.rukovoditel;
+    } else {
+      this.blueChild.changeFilter('project0');
     }
   }
 }

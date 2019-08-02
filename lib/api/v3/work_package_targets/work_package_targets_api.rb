@@ -15,8 +15,9 @@ module API
             authorize(:manage_work_package_targets_plan_value, global: true)
             @work_package_targets = WorkPackageTarget
                                       .joins(:target)
-                                      .where('work_package_id = ?', params[:work_package_id])
+                                      .where('work_package_targets.project_id = ?', params[:project])
                                       .order('target_id asc, year asc, quarter asc, month asc')
+            #.where('work_package_id = ?', params[:work_package_id])
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
                                            api_v3_paths.work_package_targets,
                                            current_user: current_user)
