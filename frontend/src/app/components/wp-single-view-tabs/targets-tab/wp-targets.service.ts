@@ -35,29 +35,6 @@ export class WpTargetsService {
       // .get<HalResource>(this.pathHelper.api.v3.work_packages.toString() + '/' + workPackageId + '/work_package_targets')
       .get<HalResource>(this.pathHelper.api.v3.work_package_targets.toString(), {'work_package_id': workPackageId})
       .toPromise();
-      //.then((collection:CollectionResource<WpTargetResource>) => collection.elements);
-      // .then((resource:HalResource) => {
-      //   let els = resource.elements;
-      //   wpTargets = els.map( (el: any) => {
-      //       if(this.wpTargetsIds.indexOf(Number(el.targetId)) === -1){
-      //         this.wpTargetsIds.push(el.targetId);
-      //       }
-      //       return {
-      //         project_id: el.projectId,
-      //         work_package_id: el.workPackageId,
-      //         wp_target_id: el.targetId,
-      //         year: el.year,
-      //         quarter: el.quarter,
-      //         plan_value: el.planValue,
-      //         value: el.value
-      //       }
-      //     }
-      //   );
-      //   console.log(wpTargets);
-      //   return wpTargets;
-      //   //console.log(this.wpTargets);
-      //   //console.log(this.wpTargetIds);
-      // });
   }
 
   /** Добавляет новую запись в work_package_targets

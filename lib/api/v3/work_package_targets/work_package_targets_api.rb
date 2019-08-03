@@ -10,12 +10,29 @@ module API
     module WorkPackageTargets
       class WorkPackageTargetsAPI < ::API::OpenProjectAPI
         resources :work_package_targets do
+          before do
+            authorize(:view_work_package_targets, global: true)
+            @work_package_targets = if params[:project].present?
+                                      WorkPackageTarget
+                                        .where('project_id = ?', params[:project])
+                                        .order('target_id asc, year asc, quarter asc, month asc')
+                                    else
+                                      WorkPackageTarget
+                                        .where('work_package_id = ?', params[:work_package_id])
+                                        .order('target_id asc, year asc, quarter asc, month asc')
+                                    end
+          end
           get do
-            authorize(:manage_work_package_targets, global: true)
-            @work_package_targets = WorkPackageTarget
-                                      .joins(:target)
-                                      .where('work_package_targets.project_id = ?', params[:project])
-                                      .order('target_id asc, year asc, quarter asc, month asc')
+            # @work_package_targets = if params[:project].present?
+            #                           WorkPackageTarget
+            #                           .where('project_id = ?', params[:project])
+            #                           .order('target_id asc, year asc, quarter asc, month asc')
+            #                         else
+            #                           WorkPackageTarget
+            #                             .where('work_package_id = ?', params[:work_package_id])
+            #                             .order('target_id asc, year asc, quarter asc, month asc')
+            #                         end
+
             #.where('work_package_id = ?', params[:work_package_id])
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
                                                        api_v3_paths.work_package_targets,
