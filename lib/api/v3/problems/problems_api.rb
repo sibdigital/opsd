@@ -34,8 +34,12 @@ module API
       class ProblemsAPI < ::API::OpenProjectAPI
         resources :problems do
           get do
-            @problems = if params['status']
+            @problems = if params['status'] and params['project']
+                          WorkPackageProblem.where(status: params['status'], project_id: params['project'])
+                        elsif params['status']
                           WorkPackageProblem.where(status: params['status'])
+                        elsif params['project']
+                          WorkPackageProblem.where(project_id: params['project'])
                         else
                           WorkPackageProblem.all
                         end

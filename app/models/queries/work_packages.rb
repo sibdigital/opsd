@@ -62,6 +62,9 @@ module Queries::WorkPackages
   #bbm(
   register.filter Query, filters_module::PlanTypeFilter
   # )
+  #+tan tmd
+  register.filter Query, filters_module::OrganizationFilter
+  #-
   register.filter Query, filters_module::PrecedesFilter
   register.filter Query, filters_module::FollowsFilter
   register.filter Query, filters_module::RelatesFilter

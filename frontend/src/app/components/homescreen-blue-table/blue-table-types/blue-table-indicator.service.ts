@@ -12,14 +12,13 @@ export class BlueTableIndicatorService extends BlueTableService {
 
   public initialize():void {
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.work_package_targets.toString())
+      .get<HalResource>(this.pathHelper.api.v3.work_package_targets_1c.toString())
       .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        resources.elements.map((el:HalResource) => {
+      .then((resources:HalResource) => {
+        resources.source.map((el:HalResource) => {
           this.data_local[el.projectId] = this.data_local[el.projectId] || {name: el.name, targets: []};
           this.data_local[el.projectId].targets.push(el);
         });
-        console.log(this.data_local)
         // tslint:disable-next-line:forin
         for (let key in this.data_local) {
           this.data.push({_type: 'National Project', name: this.data_local[key].name});
@@ -50,8 +49,24 @@ export class BlueTableIndicatorService extends BlueTableService {
         }
         case 1: {
           if (row.otvetstvenniy) {
-            return '<a href="' + super.getBasePath() + '/users/' + row.otvetstvenniy.id + '">' + row.otvetstvenniy.fio + '</a>';
+            return '<a href="' + super.getBasePath() + '/users/' + row.otvetstvenniy.id + '">' + row.otvetstvenniy.lastname + ' ' + row.otvetstvenniy.firstname.slice(0, 1) + '.' + row.otvetstvenniy.patronymic.slice(0, 1) + '.</a>';
           }
+          break;
+        }
+        case 2: {
+          return row.quarter1;
+          break;
+        }
+        case 3: {
+          return row.quarter2;
+          break;
+        }
+        case 4: {
+          return row.quarter3;
+          break;
+        }
+        case 5: {
+          return row.quarter4;
           break;
         }
       }

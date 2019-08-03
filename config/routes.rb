@@ -179,6 +179,7 @@ OpenProject::Application.routes.draw do
       get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
 
       get 'stages', controller: 'stages', action: 'show' #, as: :stages
+      #get 'self_redirect', controller: 'stages', action: 'self_redirect'
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
@@ -285,6 +286,8 @@ OpenProject::Application.routes.draw do
 
       # state for show view in project context
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
+
+      resources :work_package_targets
     end
 
     #bbm(

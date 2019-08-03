@@ -44,6 +44,8 @@ import {ProblemsTabComponent} from "core-components/homescreen-tabs/problems-tab
 import {DiscussTabComponent} from "core-components/homescreen-tabs/discuss-tab/discuss-tab.component";
 import {BudgetTabComponent} from "core-components/homescreen-tabs/budget/budget-tab.component";
 import {IndicatorTabComponent} from "core-components/homescreen-tabs/indicator/indicator-tab.component";
+import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab/protocol-tab.component";
+import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -93,11 +95,8 @@ export const HOMESCREEN_ROUTES = [
   },
   {
     name: 'homescreen.kt',
-    url: '/kt/{project}',
+    url: '/kt',
     component: KtTabComponent,
-    params: {
-      project: { type: 'string' , dynamic: true},
-    }
   },
   {
     name: 'homescreen.kpi',
@@ -124,6 +123,16 @@ export const HOMESCREEN_ROUTES = [
     url: '/indicator',
     component: IndicatorTabComponent
   },
+  {
+    name: 'homescreen.protocol',
+    url: '/protocol',
+    component: ProtocolTabComponent
+  },
+  {
+    name: 'homescreen.municipality',
+    url: '/municipality',
+    component: MunicipalityTabComponent
+  }
   //)
   // We could lazily load work packages module already,
   // but e.g., the plugin context requires service from it.

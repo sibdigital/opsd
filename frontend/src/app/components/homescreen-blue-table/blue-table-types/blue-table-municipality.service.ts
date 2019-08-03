@@ -2,15 +2,19 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {OnInit} from "@angular/core";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
-export class BlueTableNationalProjectsService extends BlueTableService {
+export class BlueTableMunicipalityService extends BlueTableService {
   private data:any[] = [];
   private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные мероприятия/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
 
   public initialize():void {
+    let filters = new ApiV3FilterBuilder();
+    filters.add('organization', '=', ['1']);
+    this.data = [];
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString(),  filters ? {"filters": filters.toJson()} :null)
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
         resources.elements.map((el:HalResource) => {
@@ -55,7 +59,7 @@ export class BlueTableNationalProjectsService extends BlueTableService {
           break;
         }
         case 2: {
-          return row.dueDate ? row.dueDate.due_date :'';
+          return row.dueDate ? this.format(row.dueDate.due_date) :'';
           break;
         }
         case 3: {
@@ -104,5 +108,29 @@ export class BlueTableNationalProjectsService extends BlueTableService {
       }
     }
     return '';
+  }
+
+  public getDataWithFilter(param:string):any[] {
+    let filters = new ApiV3FilterBuilder();
+    filters.add('organization', '=', [param]);
+    this.data = [];
+    this.halResourceService
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString(),  filters ? {"filters": filters.toJson()} :null)
+      .toPromise()
+      .then((resources:CollectionResource<HalResource>) => {
+        resources.elements.map((el:HalResource) => {
+          this.data.push(el);
+          if (el.projects) {
+            el.projects.map( (project:ProjectResource) => {
+              project['_type'] = 'Project';
+              this.data.push(project);
+            });
+          }
+        });
+      });
+    return this.data;
+  }
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }
 }

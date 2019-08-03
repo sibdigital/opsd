@@ -85,7 +85,7 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            if: Proc.new { User.current.admin? }
+            if: Proc.new { User.current.admin? || User.current.detect_project_office_coordinator? }
   menu.push :logout, :signout_path,
             if: Proc.new { User.current.logged? }
 end
@@ -492,5 +492,9 @@ Redmine::MenuManager.map :dashboard_menu do |menu|
   menu.push :ocenka_deyatelnosti,
             '',
             caption: 'Оценка деятельности',
+            icon: 'icon2 icon-settings2'
+  menu.push :municipalitet,
+            '',
+            caption: 'Муниципалитет',
             icon: 'icon2 icon-settings2'
 end

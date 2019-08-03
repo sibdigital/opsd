@@ -61,7 +61,7 @@ class WorkPackage < ActiveRecord::Base
 
   #zbd(
   belongs_to :contract, class_name: 'Contract', foreign_key: 'contract_id'
-  belongs_to :target, class_name: 'Target', foreign_key: 'target_id'
+  #belongs_to :target, class_name: 'Target', foreign_key: 'target_id'
   #)
 
   has_many :time_entries, dependent: :delete_all
@@ -72,7 +72,7 @@ class WorkPackage < ActiveRecord::Base
   #tan(
   has_many :work_package_problems, foreign_key: 'work_package_id'
   has_many :work_package_targets, foreign_key: 'work_package_id'
-  belongs_to :raions, class_name: 'Raion', foreign_key: 'raion_id'
+  belongs_to :raion, class_name: 'Raion', foreign_key: 'raion_id'
   # )
 
   has_and_belongs_to_many :changesets, -> {

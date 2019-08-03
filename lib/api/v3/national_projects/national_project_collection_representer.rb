@@ -35,18 +35,14 @@ require 'roar/json/hal'
 module API
   module V3
     module NationalProjects
-      class NationalProjectCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+      class NationalProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::NationalProjects::NationalProjectRepresenter
 
         def initialize(models,
                        self_link,
-                       page: nil,
-                       per_page: nil,
                        current_user:)
           super(models,
                 self_link,
-                page: page,
-                per_page: per_page,
                 current_user: current_user)
         end
 
@@ -58,9 +54,6 @@ module API
                    },
                    exec_context: :decorator,
                    embedded: true
-
-        self.to_eager_load = ::API::V3::NationalProjects::NationalProjectRepresenter.to_eager_load
-        self.checked_permissions = ::API::V3::NationalProjects::NationalProjectRepresenter.checked_permissions
 
         private
 

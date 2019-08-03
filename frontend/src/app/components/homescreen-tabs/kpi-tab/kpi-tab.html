@@ -1,23 +1,26 @@
-<div class="tab">
-    <button class="tablinks" id="consolidated-tab">Сводный</button>
-    <button class="tablinks" id="project-tab">По проекту</button>
-</div>
-
 <!-- Tab content -->
 <div id="consolidated" class="tabcontent" style="display: block;">
     <h2>Сводный перечень KPI</h2>
     <table class="ass">
         <tr>
-            <td>Дата</td>
-            <td><b>12.01.2021</b></td>
-        </tr>
-
-        <tr>
-            <td>Фильтр</td>
+            <td>Проект</td>
             <td>
-                <a href="">Все проекты</a> /
-                <a href="">Конкр. проект</a>
+                <select [(ngModel)]="selectedOption"
+                        [compareWith]="compareByHref"
+                        (change)="handleUserSubmit()">
+                    <option
+                            *ngFor="let value of valueOptions"
+                            [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                            [attr.label]="value.name"
+                            [ngValue]="value"
+                            [textContent]="value.name">
+                    </option>
+                </select>
             </td>
+        </tr>
+        <tr>
+            <td>Дата</td>
+            <td><b>{{dueDate}}</b></td>
         </tr>
     </table>
     <homescreen-blue-table [template]="'kpi'"></homescreen-blue-table>

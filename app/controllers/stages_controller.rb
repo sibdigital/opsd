@@ -39,6 +39,12 @@ class StagesController < ApplicationController
 
   end
 
+  #+tan
+  # def self_redirect
+  #   redirect_to :back
+  # end
+  # -tan
+
   # def default_breadcrumb
   #   if action_name == 'index'
   #     t(:label_stages)

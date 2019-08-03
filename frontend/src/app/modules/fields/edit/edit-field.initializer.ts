@@ -55,11 +55,14 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         'Category',
         //zbd(
         'Contract',
-        'Target',
+        //'Target',
         //)
         //xcc(
         'Organization',
         'ArbitaryObject',
+        //)
+        //tan(
+        'Raion',
         //)
         'CustomOption',
         'Project'])
