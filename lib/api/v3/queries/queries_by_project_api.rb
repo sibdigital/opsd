@@ -47,9 +47,11 @@ module API
                                         project: @project)
 
               #+tan tmd
-              childs = current_user.organization.childs().map {|c| c.id}
-              query.add_filter('organization_id', '=', 3)
+              if !current_user.has_priveleged?(@project) && !current_user.admin?
+                childs = current_user.organization.childs().map {|c| c.id.to_i}
+                query.add_filter('organization_id', '=', childs)
               #-
+              end
 
               query_representer_response(query, params)
             end
