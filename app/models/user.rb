@@ -762,6 +762,10 @@ class User < Principal
     roles.find_all{ |r| r.name == Role.project_office_admin.name}.size > 0
   end
 
+  def has_priveleged?(project)
+    project_admin?(project) || project_curator?(project) || project_customer?(project) || project_office_manager?(project) || project_activity_coordinator?(project) || project_office_coordinator?(project)
+  end
+
   def project_head?(project)
     roles = User.current.roles_for_project(project)
     roles.find_all{ |r| r.name == Role.project_head.name}.size > 0
