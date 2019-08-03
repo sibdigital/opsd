@@ -92,6 +92,9 @@ class User < Principal
   has_many :work_package_problems, foreign_key: 'user_creator_id'
   has_many :work_package_problems, foreign_key: 'user_source_id', dependent: :nullify
   # )
+  # +tan tmd
+  belongs_to :organization, foreign_key: 'organization_id'
+  # -
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -480,6 +483,19 @@ class User < Principal
   def valid_notification_options
     self.class.valid_notification_options(self)
   end
+
+  #+tmd
+  def organization_options
+    sql = "SELECT name, id FROM organizations"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    result = []
+
+    for i in 0...records_array.values.length
+      result.push(records_array[i])
+    end
+    result
+  end
+  #-
 
   # Only users that belong to more than 1 project can select projects for which they are notified
   def self.valid_notification_options(user = nil)

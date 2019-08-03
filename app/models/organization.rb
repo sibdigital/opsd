@@ -5,6 +5,7 @@ class Organization < ActiveRecord::Base
     has_many :work_packages, foreign_key: 'organization_id', dependent: :nullify
     #tan(
     has_many :work_package_problems, foreign_key: 'organization_source_id', dependent: :nullify
+    has_many :users, foreign_key: 'organization_id', dependent: :nullify
     # )
 
     acts_as_customizable
@@ -23,5 +24,29 @@ class Organization < ActiveRecord::Base
 
     def all_fields
       true
+    end
+
+    def childs(with_self = true)
+      arr = traverse(self.id)
+      if with_self
+        arr.push self
+      end
+      arr
+    end
+
+    def self.childs(organization, with_self = true)
+      traverse(organization.id, with_self)
+    end
+
+    private
+
+    def traverse(id)
+      elements = []
+      ch = Organization.where(parent_id: id)
+      elements += ch
+      ch.each do |child|
+        elements += traverse(child)
+      end
+      elements
     end
 end
