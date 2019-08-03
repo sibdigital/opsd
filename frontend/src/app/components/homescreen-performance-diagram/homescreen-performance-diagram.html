@@ -1,4 +1,5 @@
 <div class="chart">
+    <button class="changeChart" type="button" (click)="refresh()" style="display: none"></button>
     <canvas id="chart" baseChart height="170px"
             [datasets]="barChartData"
             [labels]="barChartLabels"

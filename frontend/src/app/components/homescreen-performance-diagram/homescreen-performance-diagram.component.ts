@@ -8,13 +8,13 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {DiagramHomescreenResource} from "core-app/modules/hal/resources/diagram-homescreen-resource";
 
-export const homescreenDiagramSelector = 'homescreen-diagram';
+export const homescreenPerformanceDiagramSelector = 'homescreen-performance-diagram';
 
 @Component({
-  selector: homescreenDiagramSelector,
-  templateUrl: './homescreen-diagram.html'
+  selector: homescreenPerformanceDiagramSelector,
+  templateUrl: './homescreen-performance-diagram.html'
 })
-export class HomescreenDiagramComponent implements OnInit {
+export class HomescreenPerformanceDiagramComponent implements OnInit {
   public barChartOptions:ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -41,6 +41,7 @@ export class HomescreenDiagramComponent implements OnInit {
       }]
     },
     legend: {
+      display: false,
       position: 'right',
       labels: {
         boxWidth: 15
@@ -56,8 +57,8 @@ export class HomescreenDiagramComponent implements OnInit {
     },
   };
 
-  public barChartLabels:Label[];
-  public barChartType:ChartType;
+  public barChartLabels:Label[] = ["1.", "2.", "3.", "4."];
+  public barChartType:ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
   public barChartData:ChartDataSets[] = [
@@ -72,26 +73,35 @@ export class HomescreenDiagramComponent implements OnInit {
               protected pathHelper:PathHelperService) { }
 
   ngOnInit() {
-    this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
-    this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
-    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
-    this.halResourceService
+    let barChartName = this.element.nativeElement.getAttribute('performance-id') || 0;
+    /*this.halResourceService
       .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.barChartData[0].data = resource.data;
         this.barChartData[0].label = resource.label;
-        });
-    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d']; //default color set
-    /*if (this.barChartData[0].label === 'false' && this.barChartOptions.legend) {
-          this.barChartOptions.legend.display = false;
-        }*/
+        });*/
+    this.barChartData[0].data = [0, 0, 3, 0];
+    this.barChartData[0].label = 'label';
+    this.barChartData[0].backgroundColor = ['#00b050', '#ffc000', '#c00000', '#1f497d'];
   }
 
   public changeChartType() {
     this.chart.chartType = this.barChartType;
     this.chart.chart.update();
   }
+
+  public refresh() {
+    let barChartName = this.element.nativeElement.getAttribute('performance-id') || 0;
+    if (barChartName % 2 === 0) {
+      this.barChartData[0].data = [6, 0, 0, 0];
+    } else {
+      this.barChartData[0].data = [0, 0, 3, 0];
+    }
+    /*this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
+    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d'];
+    this.chart.chart.update();*/
+  }
 }
 
-DynamicBootstrapper.register({ selector: homescreenDiagramSelector, cls: HomescreenDiagramComponent });
+DynamicBootstrapper.register({ selector: homescreenPerformanceDiagramSelector, cls: HomescreenPerformanceDiagramComponent });
