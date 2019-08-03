@@ -67,6 +67,30 @@ export class BlueTableKpiService extends BlueTableService {
           resources.elements.map( (el:HalResource) => {
             this.data.push(el);
           });
+          this.halResourceService
+            .get<HalResource>(this.pathHelper.api.v3.projects.toString() + '/' + this.project)
+            .toPromise()
+            .then((project:HalResource) => {
+              this.data.unshift(project);
+              if (project.nationalProjectId) {
+                this.halResourceService
+                  .get<HalResource>(this.pathHelper.api.v3.national_projects.toString() + '/' + project.nationalProjectId)
+                  .toPromise()
+                  .then((child:HalResource) => {
+                    this.data.unshift(child);
+                    if (child.parentId) {
+                      this.halResourceService
+                        .get<HalResource>(this.pathHelper.api.v3.national_projects.toString() + '/' + child.parentId)
+                        .toPromise()
+                        .then((parent:HalResource) => {
+                          this.data.unshift(parent);
+                        });
+                    }
+                  });
+              } else {
+                this.data.unshift({_type: 'National Project', name: 'Проекты Республики Бурятия', parentId:null});
+              }
+            });
       });
     } else {
       this.halResourceService
@@ -83,26 +107,47 @@ export class BlueTableKpiService extends BlueTableService {
               });
             }
           });
-          Promise.all(this.promises.map( p => p.then((wpts:CollectionResource<HalResource>) => {
-            wpts.elements.map( (wpt:HalResource) => {
-              this.data_local[wpt.projectId] = this.data_local[wpt.projectId] || [];
-              this.data_local[wpt.projectId].push(wpt);
-            });
-          }))).then(() => {
-            resources.elements.map( (national:HalResource) => {
-              this.data.push(national);
-              if (national.projects) {
-                national.projects.map((project:HalResource) => {
-                  this.data.push(project);
-                  if (this.data_local[project['id']]) {
-                    this.data_local[project['id']].map( (wpt:HalResource) => {
-                      this.data.push(wpt);
-                    });
-                  }
+          let filters = new ApiV3FilterBuilder();
+          filters.add('national_project_id', '!*', []);
+          this.halResourceService
+            .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects.toString(),  {"filters": filters.toJson()})
+            .toPromise()
+            .then((resources2:CollectionResource<HalResource>) => {
+              resources2.elements.map((el:HalResource) => {
+                this.promises.push(this.halResourceService
+                  .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.work_package_targets.toString(), {"project" : el['id']})
+                  .toPromise());
+                Promise.all(this.promises.map( p => p.then((wpts:CollectionResource<HalResource>) => {
+                  wpts.elements.map( (wpt:HalResource) => {
+                    this.data_local[wpt.projectId] = this.data_local[wpt.projectId] || [];
+                    this.data_local[wpt.projectId].push(wpt);
+                  });
+                }))).then(() => {
+                  resources.elements.map( (national:HalResource) => {
+                    this.data.push(national);
+                    if (national.projects) {
+                      national.projects.map((project:HalResource) => {
+                        this.data.push(project);
+                        if (this.data_local[project['id']]) {
+                          this.data_local[project['id']].map( (wpt:HalResource) => {
+                            this.data.push(wpt);
+                          });
+                        }
+                      });
+                    }
+                  });
+                  this.data.push({_type: 'National Project', name: 'Проекты Республики Бурятия', parentId:null});
+                  resources2.elements.map((el:HalResource) => {
+                    this.data.push(el);
+                    if (this.data_local[el['id']]) {
+                      this.data_local[el['id']].map( (wpt:HalResource) => {
+                        this.data.push(wpt);
+                      });
+                    }
+                  });
                 });
-              }
+              });
             });
-          });
         });
     }
     return this.data;
@@ -124,6 +169,14 @@ export class BlueTableKpiService extends BlueTableService {
       switch (i) {
         case 0: {
           return row.target;
+          break;
+        }
+        case 4: {
+          return row.value;
+          break;
+        }
+        case 5: {
+          return row.planValue;
           break;
         }
       }

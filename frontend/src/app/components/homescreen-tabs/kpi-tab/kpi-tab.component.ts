@@ -8,8 +8,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 interface ValueOption {
   name:string;
-  //kurator:string;
-  //rukovoditel:string;
+  dueDate:string;
   $href:string | null;
 }
 
@@ -17,6 +16,7 @@ interface ValueOption {
   templateUrl: './kpi-tab.html'
 })
 export class KpiTabComponent {
+  public dueDate:string = '';
   private value:{ [attribute:string]:any } | undefined = {};
   public valueOptions:ValueOption[] = [];
   public compareByHref = AngularTrackingHelpers.compareByHref;
@@ -34,12 +34,11 @@ export class KpiTabComponent {
         this.valueOptions = projects.elements.map((el:HalResource) => {
           return {
             name: el.name,
-            //kurator: el.curator ? el.curator.fio : '',
-            //rukovoditel: el.rukovoditel ? el.rukovoditel.fio : '',
+            dueDate: el.dueDate.due_date,
             $href: el.id
           };
         });
-        this.valueOptions.unshift({name: 'Все проекты', $href: ''});
+        this.valueOptions.unshift({name: 'Все проекты', dueDate: '', $href: ''});
         this.value = this.valueOptions[0];
         this.handleUserSubmit();
       });
@@ -65,10 +64,13 @@ export class KpiTabComponent {
   public handleUserSubmit() {
     if (this.selectedOption && this.selectedOption.$href) {
       this.blueChild.changeFilter('project' + this.selectedOption.$href);
-      //this.curator = this.selectedOption.kurator;
-      //this.ruk = this.selectedOption.rukovoditel;
+      this.dueDate = this.format(this.selectedOption.dueDate);
     } else {
       this.blueChild.changeFilter('project0');
     }
+  }
+
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }
 }

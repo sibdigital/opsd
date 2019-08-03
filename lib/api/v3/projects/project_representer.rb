@@ -148,6 +148,9 @@ module API
                    get_work_packages_targets
                  }
 
+        property :national_project_id,
+                 render_nil: true
+
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
