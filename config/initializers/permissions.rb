@@ -110,19 +110,19 @@ Redmine::AccessControl.map do |map|
                      contracts: %i[new create edit update destroy] },
                    require: :member
 
-    wpt.permission :manage_work_package_targets_plan_value,
+    wpt.permission :manage_work_package_targets,
                    { work_package_targets: %i[new create edit update destroy] },
                    require: :member
 
-    wpt.permission :view_work_package_targets_plan_value,
+    wpt.permission :view_work_package_targets,
                    { work_package_targets: %i[index] },
                    require: :member
 
-    wpt.permission :manage_work_package_problems_plan_value,
+    wpt.permission :manage_work_package_problems,
                    { work_package_problems: %i[new create edit update destroy] },
                    require: :member
 
-    wpt.permission :view_work_package_problems_plan_value,
+    wpt.permission :view_work_package_problems,
                    { work_package_problems: %i[index] },
                    require: :member
     #)

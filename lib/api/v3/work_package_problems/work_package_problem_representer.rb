@@ -13,8 +13,12 @@ module API
 
         link :self do
           {
-            href: api_v3_paths.work_package_target(represented.id),
-            title: Risk.where(id: represented.risk_id).first.name
+            href: api_v3_paths.work_package_problem(represented.id),
+            title: #if Risk.where(id: represented.risk_id).nil?
+                     represented.description
+                   #else
+                   #  Risk.where(id: represented.risk_id).first.name
+                   #end
           }
         end
 
@@ -23,6 +27,12 @@ module API
         property :work_package_id
         property :risk_id
         property :user_creator_id
+        property :user_source_id
+        property :organization_source_id
+        property :status
+        property :type
+        property :solution_date
+        property :description
 
         def _type
           'WorkPackageProblem'

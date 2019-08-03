@@ -1,12 +1,12 @@
-import {WpTargetResource} from 'core-app/modules/hal/resources/wp-target-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {WpTargetResource} from 'app/modules/hal/resources/wp-target-resource';
+import {WorkPackageResource} from 'app/modules/hal/resources/work-package-resource';
+import {PathHelperService} from 'app/modules/common/path-helper/path-helper.service';
 import {Injectable} from "@angular/core";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm.service";
-import {TargetResource} from "core-app/modules/hal/resources/target-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
+import {WpTargetsDmService} from "app/modules/hal/dm-services/wp-targets-dm.service";
+import {TargetResource} from "app/modules/hal/resources/target-resource";
+import {CollectionResource} from "app/modules/hal/resources/collection-resource";
+import {HalResource} from "app/modules/hal/resources/hal-resource";
 
 
 @Injectable()

@@ -199,10 +199,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/MatPaginatorIntlRussian";
 //zbd(
 import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tabs/targets-tab/targets-tab.component";
-import {WpTargetComponent} from "core-components/wp-target/wp-target.component";
-import {WpTargetCreateComponent} from "core-components/wp-target/wp-target-create/wp-target-create.component";
-import {WpTargetAutocompleteComponent} from "core-components/wp-target/wp-target-create/wp-target-autocomplete/wp-target-autocomplete.component";
-import {WpTargetsService} from "core-components/wp-target/wp-targets.service";
+//import {WpTargetComponent} from "core-components/wp-target/wp-target.component";
+//import {WpTargetCreateComponent} from "core-components/wp-target/wp-target-create/wp-target-create.component";
+import {WpTargetAutocompleteComponent} from "core-components/wp-single-view-tabs/targets-tab/wp-target-autocomplete/wp-target-autocomplete.component";
+import {WpTargetsService} from "core-components/wp-single-view-tabs/targets-tab/wp-targets.service";
 import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm.service";
 import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
 //)
@@ -426,8 +426,8 @@ import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-ta
     WorkPackageBreadcrumbParentComponent,
     //zbd(
     WorkPackageTargetsTabComponent,
-    WpTargetComponent,
-    WpTargetCreateComponent,
+    //WpTargetComponent,
+    //WpTargetCreateComponent,
     WpTargetAutocompleteComponent,
     WorkPackageProblemsTabComponent,
     // )
@@ -491,8 +491,8 @@ import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-ta
     WorkPackageWatchersTabComponent,
     //zbd(
     WorkPackageTargetsTabComponent,
-    WpTargetComponent,
-    WpTargetCreateComponent,
+    //WpTargetComponent,
+    //WpTargetCreateComponent,
     WorkPackageProblemsTabComponent,
     // )
 

@@ -11,7 +11,7 @@ module API
       class WorkPackageProblemsAPI < ::API::OpenProjectAPI
         resources :work_package_problems do
           before do
-            authorize(:view_work_package_problems_plan_value, global: true)
+            authorize(:view_work_package_problems, global: true)
             @work_package_problems = if params[:work_package_id].nil?
                                        WorkPackageProblem.all
                                      else
@@ -29,17 +29,19 @@ module API
 
           #TODO (zbd) добавить проверку на выполнение операции в соответствии с ролевой моделью
           post do
-            authorize(:manage_work_package_problems_plan_value, global: true)
+            authorize(:manage_work_package_problems, global: true)
+
             work_package_problem = WorkPackageProblem.new
             work_package_problem.risk_id = params[:risk_id]
             work_package_problem.project_id = params[:project_id]
             work_package_problem.work_package_id = params[:work_package_id]
             work_package_problem.user_creator_id = current_user.id
-
-            #work_package_problem.quarter = params[:quarter]
-            #work_package_problem.month = params[:month]
-            #work_package_problem.plan_value = params[:plan_value]
-            #work_package_problem.value = params[:value]
+            work_package_problem.user_source_id = params[:user_source_id] #User.find(params[:user_source_id]).id
+            work_package_problem.organization_source_id = params[:organization_source_id] #Organization.find(params[:organization_source_id]).id
+            work_package_problem.type = params[:type]
+            work_package_problem.status = params[:status]
+            work_package_problem.solution_date = params[:solution_date]
+            work_package_problem.description = params[:description]
             work_package_problem.save
 
             WorkPackageProblemCollectionRepresenter.new(@work_package_problems,
@@ -48,14 +50,22 @@ module API
           end
 
           route_param :id do
-            before do
-              @work_package_problem = WorkPackageProblem.find(params[:id])
-            end
-
             get do
+              authorize(:view_work_package_problems, global: true)
+              @work_package_problem = WorkPackageProblem.find(params[:id])
               WorkPackageProblemRepresenter.new(@work_package_problem,
                                                current_user: current_user)
             end
+
+            delete do
+              project = Project.find params[:project_id]
+
+              authorize :manage_work_package_problems, context: project
+
+              WorkPackageProblem.destroy params[:id]
+              status 204
+            end
+
           end
         end
       end
