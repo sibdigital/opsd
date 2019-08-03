@@ -10,22 +10,22 @@ module API
     module WorkPackageTargets
       class WorkPackageTargetsAPI < ::API::OpenProjectAPI
         resources :work_package_targets do
-
           get do
-            authorize(:manage_work_package_targets_plan_value, global: true)
+            authorize(:manage_work_package_targets, global: true)
             @work_package_targets = WorkPackageTarget
                                       .joins(:target)
                                       .where('work_package_targets.project_id = ?', params[:project])
                                       .order('target_id asc, year asc, quarter asc, month asc')
             #.where('work_package_id = ?', params[:work_package_id])
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
-                                           api_v3_paths.work_package_targets,
-                                           current_user: current_user)
+                                                       api_v3_paths.work_package_targets,
+                                                       current_user: current_user)
           end
 
           #TODO (zbd) добавить проверку на выполнение операции в соответствии с ролевой моделью
           post do
-            authorize(:manage_work_package_targets_plan_value, global: true)
+            authorize(:manage_work_package_targets, global: true)
+
             work_package_target = WorkPackageTarget.new
             work_package_target.target_id = params[:target_id]
             work_package_target.project_id = params[:project_id]
@@ -37,22 +37,30 @@ module API
             work_package_target.value = params[:value]
             work_package_target.save
 
-            @work_package_targets = WorkPackageTarget
-                                      .where('work_package_id = ?', params[:work_package_id])
-                                      .order('target_id asc, year asc, quarter asc, month asc')
+            # @work_package_targets = WorkPackageTarget
+            #                           .where('work_package_id = ?', params[:work_package_id])
+            #                           .order('target_id asc, year asc, quarter asc, month asc')
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
-                                                       api_v3_paths.work_package_targets,
-                                                       current_user: current_user)
+                                                        api_v3_paths.work_package_targets,
+                                                        current_user: current_user)
           end
 
           route_param :id do
-            before do
-              @work_package_target = WorkPackageTarget.find(params[:id])
-            end
-
             get do
+              authorize(:view_work_package_targets, global: true)
+
+              @work_package_target = WorkPackageTarget.find(params[:id])
+
               WorkPackageTargetRepresenter.new(@work_package_target,
                                                current_user: current_user)
+            end
+
+            delete do
+              project = Project.find params[:project_id]
+
+              authorize(:manage_work_package_targets, context: project)
+
+              WorkPackageTarget.destroy params[:id]
             end
           end
         end

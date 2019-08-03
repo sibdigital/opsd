@@ -9,6 +9,7 @@ export interface WpTargetResourceLinks {
 export class WpTargetResource extends HalResource {
 
   // properties
+  public id: number;
   public project_id: number;
   public work_package_id: number;
   public wp_target_id: number;

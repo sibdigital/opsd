@@ -1,16 +1,139 @@
 <div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
+  <style type="text/css">
+    table { width: 100%; }
+    td.colA { width: 20%; }
+    td.colB { width: 14%; }
+  </style>
 
-  <div>
+  <div class="wp-relations-create">
+    <div class="wp-relations-create-button hide-when-print"
+         *ngIf="!showProblemCreateForm">
+      <div class="grid-block">
+        <div class="grid-content collapse wp-inline-create-button">
+          <a class="wp-inline-create--add-link relation-create"
+             #focusAfterSave
+             (accessibleClick)="toggleProblemCreateForm()"
+             href
+             id="relation--add-relation">
+            <op-icon icon-classes="icon icon-add"></op-icon>
+            <span [textContent]="text.addNewProblem"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="loading-indicator--location"
+         data-indicator-name="relationAddDynamic">
+      <div class="v-align wp-relations-create--form" *ngIf="showProblemCreateForm">
+        <section>
+          <h4>Введите данные</h4>
+          <div class="grid-content medium-10">
+            <div style="float:left; width: 100%;">
+              <label for="input_type">Тип</label>
+              <select id="input_type" name="problem_type" [(ngModel)]="wpProblem.problem_type">
+                <option value="0" selected="selected">Проблема</option>
+                <option value="1">Риск</option>
+              </select>
+              <div *ngIf="wpProblem.problem_type == 1">
+                <label for="input_risk">Риск</label>
+                <select name="risk" id="input_risk" [(ngModel)]="wpProblem.risk_id">
+                  <option *ngFor="let risk of risks | keyvalue" value="{{ risk.key }}">{{ risk.value }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="float:left; width: 100%;">
+              <label for="input_org">Организация инициатор</label>
+              <select name="org" id="input_org" [(ngModel)]="wpProblem.organization_source_id">
+                <option *ngFor="let org of orgs | keyvalue" value="{{ org.key }}">{{ org.value }}</option>
+              </select>
+              <label for="input_user">Сотрудник инициатор</label>
+              <select id="input_user" name="user" [(ngModel)]="wpProblem.user_source_id">
+                <option *ngFor="let user of users | keyvalue" value="{{ user.key }}">{{ user.value }}</option>
+              </select>
+            </div>
+
+            <div style="float:bottom">
+              <label for="input_desc">Описание</label>
+              <textarea id="input_desc" name="desc" [(ngModel)]="wpProblem.description"></textarea>
+            </div>
+
+            <div style="float:left; width: 100%;">
+              <label for="input_status">Статус решения</label>
+              <select id="input_status" name="status" [(ngModel)]="wpProblem.status">
+                <option value="0" selected="selected">Создано</option>
+                <option value="1">Решено</option>
+              </select>
+            </div>
+
+            <div style="float:left; width: 100%;">
+              <label for="input_date">Дата решения</label>
+              <input id="input_date" type="date" name="solution_date" [(ngModel)]="wpProblem.solution_date" />
+            </div>
+          </div>
+        </section>
+
+        <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+          <accessible-by-keyboard
+                  (execute)="createProblem()"
+                  [isDisabled]="isDisabled"
+                  linkClass="wp-create-relation--save"
+                  aria-hidden="false">
+            <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
+          </accessible-by-keyboard>
+          <accessible-by-keyboard
+                  (execute)="toggleProblemCreateForm()"
+                  linkClass="wp-create-relation--cancel"
+                  aria-hidden="false">
+            <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+          </accessible-by-keyboard>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section style="margin-top: 20px;">
+    <h4>Проблемы и риски мероприятия</h4>
+    <div >
     <table>
       <thead>
         <tr>
+          <!--<th rowspan="2">Название</th>-->
+          <th rowspan="2">Описание</th>
+          <th rowspan="2">Тип</th>
+          <th colspan="2">Инициатор</th>
+          <th rowspan="2">Статус решения</th>
+          <th rowspan="2">Дата решения</th>
+          <th rowspan="2">Создатель</th>
+        </tr>
+        <tr>
+          <th>Организация</th>
+          <th>Сотрудник</th>
           <th></th>
         </tr>
       </thead>
-      <tbody>
-        <tr></tr>
+      <tbody *ngFor="let problem of wpProblems">
+        <tr>
+          <!--<td class="colA">{{ problem.name }}</td>-->
+          <td class="colA">{{ problem.description }}</td>
+          <td class="colA">{{ problem.problem_type == 0 ? 'Проблема' : 'Риск'}}</td>
+          <td class="colA">{{ orgs.get(problem.organization_source_id) }}</td>
+          <td class="colA">{{ users.get(problem.user_source_id) }}</td>
+          <td class="colA">{{ problem.status }}</td>
+          <td class="colA">{{ problem.solution_date }}</td>
+          <td class="colA">{{ users.get(problem.user_creator_id) }}</td>
+          <td>
+            <accessible-by-keyboard (execute)="deleteProblem(problem)"
+                                    aria-hidden="false"
+                                    [linkAriaLabel]="text.removeButton"
+                                    [linkTitle]="text.removeButton"
+                                    linkClass="relation-row--remove-btn">
+            <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
+            </accessible-by-keyboard>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
+  </section>
 </div>
 

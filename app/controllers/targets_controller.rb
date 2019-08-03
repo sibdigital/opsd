@@ -4,6 +4,7 @@ class TargetsController < ApplicationController
 
   before_action :find_optional_project, :verify_targets_module_activated
   before_action :find_target, only: [:edit, :update, :destroy]
+  before_action :authorize
 
   helper :sort
   include SortHelper
