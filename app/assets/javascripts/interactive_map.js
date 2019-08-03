@@ -53,7 +53,7 @@ function setMilestones()
                                               name.join(" ")+ "..." +
                                               "</a>" +
                                               "</td>"+
-                                              "<td>"+object[inc][4]+" "+object[inc][5]+"</td>";
+                                              "<td>"+object[inc][4].charAt(0)+". "+object[inc][5]+"</td>";
           if(inc<object.length&&object[inc][6]!==null&&object[inc][6]!==undefined)
           {
             if(object[inc][2] < today)
