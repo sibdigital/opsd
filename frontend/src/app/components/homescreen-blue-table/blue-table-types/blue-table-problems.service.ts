@@ -39,6 +39,11 @@ export class BlueTableProblemsService extends BlueTableService {
   }
 
   public getDataFromPage(i:number):any[] {
+    if ( i === 0) {
+      i = 1;
+    } else if (i > this.getPages()) {
+      i = this.getPages();
+    }
     this.data = [];
     //TODO:dodelat
     return this.data;

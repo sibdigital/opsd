@@ -41,8 +41,11 @@
         <tr *ngFor="let row of data"
             [ngClass]="row._type === 'National Project' ? null : 'colored-row'">
             <td *ngFor="let column of columns; let i = index"
-                [ngClass]="this.blueTableModule.getTdClass(row, i)"
-                [innerHTML]="this.blueTableModule.getTdData(row, i)">
+                [ngClass]="this.blueTableModule.getTdClass(row, i)">
+                <span *ngIf="this.blueTableModule.getTdClass(row, i) !== 'progressbar'"
+                        [innerHTML]="this.blueTableModule.getTdData(row, i)"></span>
+                <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'"
+                      [progress]="this.blueTableModule.getTdData(row, i)"></homescreen-progress-bar>
             </td>
         </tr>
     </tbody>

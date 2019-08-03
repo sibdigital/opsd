@@ -60,6 +60,7 @@ import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab
 import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
 import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
 import {BlueTableMunicipalityService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-municipality.service";
+import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import {BlueTableMunicipalityService} from "core-components/homescreen-blue-tabl
     OpenprojectCommonModule
   ],
   providers: [
+    HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
@@ -99,6 +101,7 @@ import {BlueTableMunicipalityService} from "core-components/homescreen-blue-tabl
     BlueTableMunicipalityService
   ],
   declarations: [
+    HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
@@ -116,6 +119,7 @@ import {BlueTableMunicipalityService} from "core-components/homescreen-blue-tabl
     HomescreenBlueTableComponent
   ],
   entryComponents: [
+    HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,

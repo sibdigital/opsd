@@ -65,13 +65,7 @@ export class HomescreenBlueTableComponent implements OnInit {
   }
 
   public loadPage(i:number) {
-    if ( i === 0) {
-      this.data = this.blueTableModule.getDataFromPage(1);
-    } else if (i > this.blueTableModule.getPages()) {
-      this.data = this.blueTableModule.getDataFromPage(this.blueTableModule.getPages());
-    } else {
-      this.data = this.blueTableModule.getDataFromPage(i);
-    }
+    this.data = this.blueTableModule.getDataFromPage(i);
   }
 
   public limitDays(i:number) {

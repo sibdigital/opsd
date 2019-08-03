@@ -109,7 +109,18 @@ Redmine::AccessControl.map do |map|
                    { project_settings: [:show],
                      contracts: %i[new create edit update destroy] },
                    require: :member
+
+    wpt.permission :manage_work_package_targets_plan_value,
+                   { project_settings: [:show],
+                     work_package_targets: %i[new create edit update destroy] },
+                   require: :member
+
+    wpt.permission :view_work_package_targets_plan_value,
+                   { project_settings: [:show],
+                     work_package_targets: %i[edit update] },
+                   require: :member
     #)
+
     # Issues
     wpt.permission :view_work_packages,
                    issues: %i[index all show],
@@ -344,6 +355,7 @@ Redmine::AccessControl.map do |map|
   # )
   #zbd(
   map.project_module :stages
+  map.project_module :work_package_targets
   # )
   #xcc(
   map.project_module :targets

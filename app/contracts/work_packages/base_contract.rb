@@ -56,9 +56,9 @@ module WorkPackages
       validate_user_allowed_to_set_result_agreed :result_agreed, 'result_agreed'
     end
 
-    attribute :target_id
-
+    #attribute :target_id
     attribute :organization_id
+    attribute :raion_id
     # )
 
     attribute :arbitary_object_id

@@ -729,6 +729,7 @@ class PermittedParams
           mail
           mail_notification
           language
+          organization_id
           custom_fields
           mail_add
           phone_wrk

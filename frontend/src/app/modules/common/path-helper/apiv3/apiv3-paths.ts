@@ -69,8 +69,6 @@ export class ApiV3Paths {
 
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
 
-  public readonly work_package_targets = new SimpleResource(this.apiV3Base, 'work_package_targets');
-
   public readonly work_package_targets_1c = new SimpleResource(this.apiV3Base, 'work_package_targets_1c');
 
   public readonly diagram_queries = new SimpleResourceCollection(this.apiV3Base, 'diagram_queries');
@@ -117,8 +115,12 @@ export class ApiV3Paths {
 
   // /api/v3/grids
   public readonly grids = new Apiv3GridsPaths(this.apiV3Base);
-  //organizations: any;
-  //diagrams: any;
+
+  //zbd(
+  public readonly targets = new SimpleResourceCollection(this.apiV3Base,'targets');
+  public readonly work_package_targets = new SimpleResourceCollection(this.apiV3Base,'work_package_targets');
+  // )
+
 
   constructor(readonly appBasePath:string) {
   }

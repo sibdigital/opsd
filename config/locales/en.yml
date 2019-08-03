@@ -794,6 +794,7 @@ en:
     address: Адрес
     cabinet: Кабинет
     target: Целевой показатель
+    raion: Район
 
     table_name: Имя таблицы
     column_num: Номер поля во входном файле

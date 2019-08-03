@@ -39,6 +39,11 @@ export class BlueTableDiscussService extends BlueTableService {
   }
 
   public getDataFromPage(i:number):any[] {
+    if ( i === 0) {
+      i = 1;
+    } else if (i > this.getPages()) {
+      i = this.getPages();
+    }
     this.data = [];
     this.halResourceService
       .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.topics.toString())

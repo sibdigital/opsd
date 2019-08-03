@@ -90,6 +90,18 @@ module WorkPackage::Parent
     end
   end
 
+  #+tan tmd 02.08.2019
+  def parents
+    arr = []
+    p = parent
+    while p != nil do
+      arr.push p
+      p = p.parent
+    end
+    arr
+  end
+  # -tan tmd
+
   private
 
   def parent_from_relation
@@ -105,4 +117,15 @@ module WorkPackage::Parent
       @parent_object = WorkPackage.find(@parent_id)
     end
   end
+
+  #+tan tmd 02.08.2019
+  def self.parents_from_id(id)
+    wp = WorkPackage.find(id)
+    arr = []
+    if wp != nil
+      arr = wp.parents
+    end
+    arr
+  end
+  # -tan tmd
 end
