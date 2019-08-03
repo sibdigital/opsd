@@ -237,6 +237,14 @@ module API
             "#{problems}/#{id}"
           end
 
+          def self.head_performances
+            "#{root}/head_performances"
+          end
+
+          def self.head_performance(id)
+            "#{head_performances}/#{id}"
+          end
+
           def self.protocols
             "#{root}/protocols"
           end
@@ -244,14 +252,6 @@ module API
           def self.protocol(id)
             "#{protocols}/#{id}"
           end
-
-          # def self.work_package_targets
-          #   "#{root}/work_package_targets"
-          # end
-
-          # def self.work_package_target(id)
-          #   "#{work_package_targets}/#{id}"
-          # end
 
           def self.diagrams
             "#{root}/diagrams"

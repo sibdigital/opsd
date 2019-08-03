@@ -61,6 +61,9 @@ import {BlueTableProtocolService} from "core-components/homescreen-blue-table/bl
 import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
 import {BlueTableMunicipalityService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-municipality.service";
 import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
+import {PerformanceTabComponent} from "core-components/homescreen-tabs/performance-tab/performance-tab.component";
+import {BlueTablePerformanceService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-performance.service";
+import {HomescreenPerformanceDiagramComponent} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
 
 @NgModule({
   imports: [
@@ -76,6 +79,7 @@ import {HomescreenProgressBarComponent} from "core-components/homescreen-progres
   providers: [
     HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
+    HomescreenPerformanceDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
     OverviewDiagramQueriesTabComponent,
@@ -89,6 +93,7 @@ import {HomescreenProgressBarComponent} from "core-components/homescreen-progres
     IndicatorTabComponent,
     ProtocolTabComponent,
     MunicipalityTabComponent,
+    PerformanceTabComponent,
     HomescreenBlueTableComponent,
     BlueTableDesktopService,
     BlueTableKtService,
@@ -98,11 +103,13 @@ import {HomescreenProgressBarComponent} from "core-components/homescreen-progres
     BlueTableBudgetService,
     BlueTableIndicatorService,
     BlueTableProtocolService,
-    BlueTableMunicipalityService
+    BlueTableMunicipalityService,
+    BlueTablePerformanceService
   ],
   declarations: [
     HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
+    HomescreenPerformanceDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
     OverviewDiagramQueriesTabComponent,
@@ -116,11 +123,13 @@ import {HomescreenProgressBarComponent} from "core-components/homescreen-progres
     IndicatorTabComponent,
     ProtocolTabComponent,
     MunicipalityTabComponent,
+    PerformanceTabComponent,
     HomescreenBlueTableComponent
   ],
   entryComponents: [
     HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
+    HomescreenPerformanceDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
     OverviewDiagramQueriesTabComponent,
@@ -134,6 +143,7 @@ import {HomescreenProgressBarComponent} from "core-components/homescreen-progres
     IndicatorTabComponent,
     ProtocolTabComponent,
     MunicipalityTabComponent,
+    PerformanceTabComponent,
     HomescreenBlueTableComponent
   ],
   exports: [
