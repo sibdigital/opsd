@@ -348,7 +348,18 @@ Redmine::AccessControl.map do |map|
   #bbm(
   map.project_module :project_risks
   # )
+  #knm(
+  map.project_module :head_performance_indicator_values do |hpi|
+    hpi.permission :manage_hpi_values,
+                   :'head_performance_indicator_values' => [:new, :destroy],
+                   require: :member
 
+    hpi.permission :view_hpi_values,
+                   :'head_performance_indicator_values' => [:index],
+                   require: :member
+
+  end
+  # )
   #zbd(
   map.project_module :stages
   map.project_module :work_package_targets
