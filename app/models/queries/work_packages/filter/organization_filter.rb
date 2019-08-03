@@ -11,6 +11,7 @@ class Queries::WorkPackages::Filter::OrganizationFilter < Queries::WorkPackages:
     :organization_id
   end
 
+  ##
   # def self.key
   #   :organization_id
   # end
