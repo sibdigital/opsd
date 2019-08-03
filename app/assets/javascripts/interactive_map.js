@@ -41,15 +41,16 @@ function setMilestones()
       success:function (object) {
 
         object.forEach(function(){
-          if (object[inc][0].length>=47)
-          {
-            object[inc][0]=object[inc][0].substring(0,44);
-            object[inc][0]+="...";
-          }
+          // if (object[inc][0].length>=47)
+          // {
+          //   object[inc][0]=object[inc][0].substring(0,44);
+          //   object[inc][0]+="...";
+          // }
+          var name = object[inc][0].split(" ", 5);
           description_info[object[inc][6]-1]+="<tr>"+
-                                              "<td style='white-space: nowrap; overflow: hidden; text-overflow:ellipsis;'>" +
+                                              "<td>" +
                                               "<a href='/work_packages/details/" + object[inc][3] + "/overview?plan_type=execution'>" +
-                                              object[inc][0] +
+                                              name.join(" ")+ "..." +
                                               "</a>" +
                                               "</td>"+
                                               "<td>"+object[inc][4]+" "+object[inc][5]+"</td>";

@@ -1374,6 +1374,7 @@ en:
   label_activate_user: Активировать пользователя
   label_active_in_new_projects: Используется по умолчанию
   label_activity: Мониторинг
+  label_interactive_map: Мониторинг
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы

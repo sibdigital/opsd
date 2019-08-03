@@ -246,7 +246,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_information_plural,
             last: true,
             icon: 'icon2 icon-info1'
-
+  #knm(
+  menu.push :interactive_map,
+            {controller: '/interactive_map', action: 'index'},
+            caption: :label_interactive_map,
+            icon: 'icon2 icon-info1'
+  # )
   # +-tan 2019.06.24
   # menu.push :custom_style,
   #           { controller: '/custom_styles', action: 'show' },

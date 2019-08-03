@@ -338,6 +338,13 @@ Redmine::AccessControl.map do |map|
 
   map.project_module :activity
 
+  #knm(
+  map.project_module :interactive_map do |i_map|
+    i_map.permission :view_interactive_map,
+                     { interactive_map: :index },
+                     require: :member
+  end
+  # )
   #bbm(
   map.project_module :project_risks
   # )
