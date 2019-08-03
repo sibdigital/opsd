@@ -30,7 +30,6 @@
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
-
   before_action :disable_api, except: :level_list
   before_action :find_project, except: [:index, :level_list, :new, :create]
   before_action :authorize, only: [

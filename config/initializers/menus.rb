@@ -85,7 +85,10 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            if: Proc.new { User.current.admin? || User.current.detect_project_office_coordinator? }
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  # menu.push :coordination,
+  #           { controller: '/projects', action: 'index' },
+  #           if: Proc.new { User.current.detect_project_office_coordinator? }
   menu.push :logout, :signout_path,
             if: Proc.new { User.current.logged? }
 end
@@ -269,6 +272,18 @@ Redmine::MenuManager.map :admin_menu do |menu|
   #           icon: 'icon2 icon-headset',
   #           if: proc { OpenProject::Configuration.ee_manager_visible? }
 end
+
+# Redmine::MenuManager.map :coordinator_menu do |menu|
+#
+#   menu.push :types,
+#             { controller: '/types' },
+#             caption: :label_work_package_types,
+#             icon: 'icon2 icon-types'
+#   menu.push :groups,
+#             { controller: '/groups' },
+#             caption: :label_group_plural,
+#             icon: 'icon2 icon-group'
+# end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
