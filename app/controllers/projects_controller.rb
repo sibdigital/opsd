@@ -153,6 +153,8 @@ class ProjectsController < ApplicationController
     redirect_to settings_project_path(@altered_project)
   end
 
+
+
   def update_identifier
     @project.attributes = permitted_params.project
 

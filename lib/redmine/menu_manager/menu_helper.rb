@@ -192,7 +192,8 @@ module Redmine::MenuManager::MenuHelper
     link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-    link_to link_text, url, html_options
+    options = item.html_options(:selected => selected)
+    link_to link_text, url, options
   end
 
   def render_unattached_menu_item(menu_item, project)
@@ -276,10 +277,13 @@ module Redmine::MenuManager::MenuHelper
       return false
     end
 
-    if project
+    if project && !node.url.blank? && !node.url === '#'
       return user&.allowed_to?(node.url, project)
     else
       # outside a project, all menu items allowed
+      if node.url.blank?
+        node.url = '#'
+      end
       return true
     end
   end

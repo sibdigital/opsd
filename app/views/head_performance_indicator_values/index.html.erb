@@ -42,6 +42,12 @@
           <%= content_tag(:td, value.quarter) %>
           <%= content_tag(:td, value.month) %>
           <%= content_tag(:td, value.value) %>
+          <%= content_tag(:td, link_to(
+              op_icon('icon icon-delete'),
+              head_performance_indicator_value_path(value),
+              method: :delete,
+              data: {confirm: I18n.t(:text_are_you_sure)},
+              title: t(:button_delete))) %>
         </tr>
       <% end %>
       </tbody>

@@ -175,7 +175,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_custom_field_plural,
             icon: 'icon2 icon-custom-fields',
             html: { class: 'custom_fields' }
-
+  #knm(
+  menu.push :head_performance_indicator_values,
+            {controller: '/head_performance_indicator_values'},
+            icon: 'icon2 icon-enumerations'
+  # )
   #bbm(
   menu.push :typed_risks,
             { controller: '/typed_risks' },
@@ -299,19 +303,18 @@ Redmine::MenuManager.map :project_menu do |menu|
   #             #if: Proc.new { |p| p.module_enabled?('stages') },
   #             icon: 'icon2 icon-info1'
   menu.push :analyze,
-            { controller: '/stages', action: 'show' },
-            param: :project_id,
+            {},
             caption: :label_stage_analysis,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-info1'
   menu.push :communictaions,
-            { controller: '/stages', action: 'show' },
+            {},
             param: :project_id,
             caption: :label_communictaions,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-info1'
   menu.push :resources,
-            { controller: '/stages', action: 'show' },
+            {},
             param: :project_id,
             caption: :label_resources,
             #after: :communictaion,
@@ -429,7 +432,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   #
   # + tan 2019/07/16
   menu.push :additional,
-            { controller: '/stages', action: 'show' },
+            {},
             param: :project_id,
             caption: :ladel_additional,
             #if: Proc.new { |p| p.module_enabled?('stages') },

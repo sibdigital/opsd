@@ -167,6 +167,7 @@ OpenProject::Application.routes.draw do
   end
 
   resources :projects, except: [:edit] do
+    get :nothing, on: :collection
     member do
       # this route let's you access the project specific settings (by tab)
       #
