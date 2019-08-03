@@ -147,12 +147,20 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
 
   private deleteTarget(target: WpTargetResource){
     const path = this.pathHelper.api.v3.work_package_targets.toString() + '/' + target.id;
-    const params = {/*id: target.id, */project_id: target.project_id};
-    //this.halResourceService.delete(path, params);
-      //.toPromise();
-    // .then(
-    //   this.wpProblems.splice(ind)
-    // );
+    const params = {project_id: target.project_id};
+    this.halResourceService
+      .delete(path, params)
+      .toPromise()
+      .then(wpTarget => {
+          this.wpNotificationsService.showSave(this.workPackage);
+          this.loadWpTargets();
+        }
+      )
+      .catch(err => {
+          this.wpNotificationsService.handleRawError(err, this.workPackage);
+        }
+      );
   }
+
 
 }

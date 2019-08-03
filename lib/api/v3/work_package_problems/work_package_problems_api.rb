@@ -58,9 +58,9 @@ module API
             end
 
             delete do
-              project = Project.find params[:project_id]
+              #project = Project.find params[:project_id]
 
-              authorize :manage_work_package_problems, context: project
+              authorize :manage_work_package_problems, global: true #context: project
 
               WorkPackageProblem.destroy params[:id]
               status 204

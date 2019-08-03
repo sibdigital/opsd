@@ -73,9 +73,9 @@ module API
             end
 
             delete do
-              project = Project.find params[:project_id]
-
-              authorize(:manage_work_package_targets, context: project)
+              #project = Project.find params[:project_id]
+              #authorize(:manage_work_package_targets, context: project)
+              authorize(:manage_work_package_targets, global: true)
 
               WorkPackageTarget.destroy params[:id]
             end

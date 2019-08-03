@@ -13,6 +13,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {WpTargetResource} from "core-app/modules/hal/resources/wp-target-resource";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 enum ProblemType {Problem, Risk};
 enum SolutionType {Created, Solved};
@@ -216,8 +217,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
    * */
   protected createCommonProblem() {
     return this.addNewProblem(this.wpProblem)
-      .then(wpTarget => {
-        console.log(wpTarget);
+      .then(wpProblem => {
+        //console.log(wpTarget);
         this.wpNotificationsService.showSave(this.workPackage);
 
         //TODO: (zbd) доделать обновление таблицы
@@ -243,13 +244,21 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   }
 
   private deleteProblem(problem: WpProblem){
-    const path = this.pathHelper.api.v3.work_package_problems.toString();
-    const params = {id: problem.id, project_id: problem.project_id};
+    const path = this.pathHelper.api.v3.work_package_problems.toString() + '/' + problem.id;
+    const params = {project_id: problem.project_id};
+    //const params = new HttpParams().set('project_id', problem.project_id.toString());
     this.halResourceService
       .delete(path, params)
-      .toPromise();
-      // .then(
-      //   this.wpProblems.splice(ind)
-      // );
+      .toPromise()
+      .then(wpProblem => {
+          //this.loadWpProblems(this.workPackage.id);
+          this.wpNotificationsService.showSave(this.workPackage);
+          this.wpProblems.splice(this.wpProblems.indexOf(problem), 1);
+        }
+      )
+      .catch(err => {
+          this.wpNotificationsService.handleRawError(err, this.workPackage);
+        }
+      );
   }
 }
