@@ -68,6 +68,7 @@ module DemoData
         quarter:         attributes[:quarter],
         month:         attributes[:month],
         value:        attributes[:value],
+        plan_value:        attributes[:plan_value],
         target_id:    target_by_name(attributes[:target]),
         project_id:  project_by_name(attributes[:project]),
         work_package_id: work_package_by_subject(attributes[:work_package_subject])
