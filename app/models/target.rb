@@ -9,6 +9,7 @@ class Target < ActiveRecord::Base
   #tan(
   has_many :work_package_targets, foreign_key: 'target_id'
   belongs_to :measure_unit, foreign_key: 'measure_unit_id'
+  has_many :work_package_quarterly_targets, foreign_key: 'work_package_id'
   # )
 
   def option_name
