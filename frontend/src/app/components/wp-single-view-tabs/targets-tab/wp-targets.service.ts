@@ -1,12 +1,12 @@
-import {WpTargetResource} from 'core-app/modules/hal/resources/wp-target-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {WpTargetResource} from 'app/modules/hal/resources/wp-target-resource';
+import {WorkPackageResource} from 'app/modules/hal/resources/work-package-resource';
+import {PathHelperService} from 'app/modules/common/path-helper/path-helper.service';
 import {Injectable} from "@angular/core";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {WpTargetsDmService} from "core-app/modules/hal/dm-services/wp-targets-dm.service";
-import {TargetResource} from "core-app/modules/hal/resources/target-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
+import {WpTargetsDmService} from "app/modules/hal/dm-services/wp-targets-dm.service";
+import {TargetResource} from "app/modules/hal/resources/target-resource";
+import {CollectionResource} from "app/modules/hal/resources/collection-resource";
+import {HalResource} from "app/modules/hal/resources/hal-resource";
 
 
 @Injectable()
@@ -35,29 +35,6 @@ export class WpTargetsService {
       // .get<HalResource>(this.pathHelper.api.v3.work_packages.toString() + '/' + workPackageId + '/work_package_targets')
       .get<HalResource>(this.pathHelper.api.v3.work_package_targets.toString(), {'work_package_id': workPackageId})
       .toPromise();
-      //.then((collection:CollectionResource<WpTargetResource>) => collection.elements);
-      // .then((resource:HalResource) => {
-      //   let els = resource.elements;
-      //   wpTargets = els.map( (el: any) => {
-      //       if(this.wpTargetsIds.indexOf(Number(el.targetId)) === -1){
-      //         this.wpTargetsIds.push(el.targetId);
-      //       }
-      //       return {
-      //         project_id: el.projectId,
-      //         work_package_id: el.workPackageId,
-      //         wp_target_id: el.targetId,
-      //         year: el.year,
-      //         quarter: el.quarter,
-      //         plan_value: el.planValue,
-      //         value: el.value
-      //       }
-      //     }
-      //   );
-      //   console.log(wpTargets);
-      //   return wpTargets;
-      //   //console.log(this.wpTargets);
-      //   //console.log(this.wpTargetIds);
-      // });
   }
 
   /** Добавляет новую запись в work_package_targets

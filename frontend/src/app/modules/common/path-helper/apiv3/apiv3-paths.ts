@@ -69,6 +69,8 @@ export class ApiV3Paths {
 
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
 
+  public readonly head_performances = new SimpleResourceCollection(this.apiV3Base, 'head_performances');
+
   public readonly work_package_targets_1c = new SimpleResource(this.apiV3Base, 'work_package_targets_1c');
 
   public readonly diagram_queries = new SimpleResourceCollection(this.apiV3Base, 'diagram_queries');
@@ -119,6 +121,8 @@ export class ApiV3Paths {
   //zbd(
   public readonly targets = new SimpleResourceCollection(this.apiV3Base,'targets');
   public readonly work_package_targets = new SimpleResourceCollection(this.apiV3Base,'work_package_targets');
+  public readonly work_package_problems = new SimpleResourceCollection(this.apiV3Base,'work_package_problems');
+  public readonly project_risks = new SimpleResourceCollection(this.apiV3Base,'project_risks');
   // )
 
 

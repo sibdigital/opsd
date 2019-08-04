@@ -1,16 +1,16 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 //import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
+import {LoadingIndicatorService} from "app/modules/common/loading-indicator/loading-indicator.service";
+import {I18nService} from "app/modules/common/i18n/i18n.service";
+import {CollectionResource} from "app/modules/hal/resources/collection-resource";
 import {
   PeriodicElement,
   WpRelationsDialogComponent
-} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
-import {TargetResource} from "core-app/modules/hal/resources/target-resource";
-import {WpTargetsService} from "core-components/wp-target/wp-targets.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+} from "app/components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
+import {TargetResource} from "app/modules/hal/resources/target-resource";
+import {WpTargetsService} from "app/components/wp-single-view-tabs/targets-tab/wp-targets.service";
+import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
 
 @Component({
   selector: 'wp-target-autocomplete',

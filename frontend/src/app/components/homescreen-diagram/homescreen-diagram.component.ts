@@ -92,12 +92,6 @@ export class HomescreenDiagramComponent implements OnInit {
     this.chart.chartType = this.barChartType;
     this.chart.chart.update();
   }
-
-  public refresh() {
-    /*this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
-    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d'];
-    this.chart.chart.update();*/
-  }
 }
 
 DynamicBootstrapper.register({ selector: homescreenDiagramSelector, cls: HomescreenDiagramComponent });

@@ -461,6 +461,11 @@ class PermittedParams
   def plan_uploader
     params.require(:plan_uploader).permit(:name, :status, :upload_at)
   end
+  #knm(
+  def head_performance_indicator_value
+    params.require(:head_performance_indicator_value).permit(:head_performance_indicator_id, :type, :year, :quarter, :month, :value, :sort_code)
+  end
+  # )
   #xcc(
   def target
     params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id)
@@ -727,6 +732,7 @@ class PermittedParams
           mail
           mail_notification
           language
+          organization_id
           custom_fields
           mail_add
           phone_wrk

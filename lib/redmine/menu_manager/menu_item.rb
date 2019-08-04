@@ -73,7 +73,9 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   def caption=(new_caption)
     @caption = new_caption
   end
-
+  def url=(new_url)
+    @url = new_url
+  end
   def html_options(options = {})
     if options[:selected]
       o = @html_options.dup

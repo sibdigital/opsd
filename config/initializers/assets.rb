@@ -25,5 +25,6 @@ OpenProject::Application.configure do
     bundles/openproject-legacy-app.js
     notify.js
     notifyme.js
+    interactive_map.js
   )
 end

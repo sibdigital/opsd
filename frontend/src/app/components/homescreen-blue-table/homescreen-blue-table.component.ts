@@ -10,6 +10,8 @@ import {BlueTableBudgetService} from "core-components/homescreen-blue-table/blue
 import {BlueTableIndicatorService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-indicator.service";
 import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
 import {BlueTableMunicipalityService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-municipality.service";
+import {BlueTablePerformanceService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-performance.service";
+import {homescreenPerformanceDiagramSelector} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
 
 @Component({
   selector: 'homescreen-blue-table',
@@ -59,6 +61,9 @@ export class HomescreenBlueTableComponent implements OnInit {
     if (template === 'protocol') {
       this.blueTableModule  = this.injector.get(BlueTableProtocolService);
     }
+    if (template === 'performance') {
+      this.blueTableModule  = this.injector.get(BlueTablePerformanceService);
+    }
     if (template === 'municipality') {
       this.blueTableModule  = this.injector.get(BlueTableMunicipalityService);
     }
@@ -74,5 +79,11 @@ export class HomescreenBlueTableComponent implements OnInit {
 
   public changeFilter(param:string) {
     this.data = this.blueTableModule.getDataWithFilter(param);
+  }
+
+
+  public hello(i:number) {
+    jQuery(homescreenPerformanceDiagramSelector).attr('performance-id', i);
+    jQuery('button.changeChart').trigger('click');
   }
 }
