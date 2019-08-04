@@ -8,6 +8,7 @@ export class BlueTableKtService extends BlueTableService {
   private data:any[] = [];
   private columns:string[] = ['№ п/п', 'Мероприятие', 'Отв. Исполнитель', 'Срок выполнения', 'Статус', 'Факт. выполнение', 'Проблемы'];
   private pages:number = 0;
+  private isProgress:boolean = false;
 
   public initialize():void {
     /*this.project = this.$state.params['project'];
@@ -125,21 +126,25 @@ export class BlueTableKtService extends BlueTableService {
         break;
       }
     }
-    this.data = [];
-    this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), filters ? {"filters": filters.toJson()} :null)
-      .toPromise()
-      .then((resources:QueryResource) => {
-        let total:number = resources.results.total; //всего ex 29
-        let remainder = total % 20;
-        this.pages = (total - remainder) / 20;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.results.elements.map((el:HalResource) => {
-          this.data.push(el);
+      this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), filters ? {"filters": filters.toJson()} :null)
+        .toPromise()
+        .then((resources:QueryResource) => {
+          if (!this.isProgress) {
+            this.isProgress = true;
+            this.data = [];
+            let total:number = resources.results.total; //всего ex 29
+            let remainder = total % 20;
+            this.pages = (total - remainder) / 20;
+            if (remainder !== 0) {
+              this.pages++;
+            }
+            resources.results.elements.map((el:HalResource) => {
+              this.data.push(el);
+            });
+            this.isProgress = false;
+          }
         });
-      });
     return this.data;
   }
 
