@@ -8,4 +8,6 @@ class PlanFactYearlyTargetValue < ActiveRecord::Base
 
   belongs_to :target
   belongs_to :project
+  belongs_to :national_project, -> { where(type: 'National') }, class_name: "NationalProject", foreign_key: "national_project_id"
+  belongs_to :federal_project, -> { where(type: 'Federal') }, class_name: "NationalProject", foreign_key: "federal_project_id"
 end
