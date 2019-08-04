@@ -775,7 +775,11 @@ en:
     project_status: Статус
     project_approve_status: Этап согласования
     is_approve: Утвержден
-
+    #knm(
+    head_performance_indicator_id: Показатель деятельности высшего должностного лица
+    head_performance_indicator: Показатель деятельности высшего должностного лица
+    month: Месяц
+    #)
     issue: Пакет работ
     lastname: Фамилия
     login: Логин
@@ -1374,6 +1378,7 @@ en:
   label_activate_user: Активировать пользователя
   label_active_in_new_projects: Используется по умолчанию
   label_activity: Мониторинг
+  label_interactive_map: Карта районов РБ
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
@@ -1750,6 +1755,9 @@ en:
   label_done_ratio_project: Процент исполнения (KPI)
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
+  label_head_performance_indicator_values: Оценка деятельности высшего должностного лица
+  label_head_performance_indicator_values_short: Оценка деятельности
+  label_head_performance_indicator_values_new: Новая оценка деятельности высшего должностного лица
   label_positions: "Должности"
   label_position_new: "Добавить должность"
   label_position_value: "Должность"

@@ -3,7 +3,7 @@
 //  var pg = require('pg');
 //  var connectionString = "postgres://postgres:@localhost/localhost:5432/opsd_dev_db";
 //  var pgClient = new pg.Client(connectionString);
-
+var requestdelay = 60000;
 var notifyMe=function(){
   jQuery('button.btn').click(function()
   {
@@ -11,7 +11,7 @@ var notifyMe=function(){
   });
   // pgClient.query("SELECT id from Users");
 };
-var timerId = setTimeout(notifying(),5000);
+var timerId = setTimeout(notifying(),requestdelay);
 
 function notifying()
 {
@@ -39,7 +39,7 @@ function notifying()
     async: true,
     success: function(text)
     {
-      if (text!==null)
+      if (text!==null&&text!==undefined)
       {
         count=text.length;
         for (var i=0;i<count;i++)
@@ -50,7 +50,7 @@ function notifying()
       }
     }
   });
-  setTimeout(notifying,5000);
+  setTimeout(notifying,requestdelay);
 }
 
 function pop(id, text, time){

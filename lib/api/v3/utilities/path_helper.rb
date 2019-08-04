@@ -113,7 +113,7 @@ module API
           end
 
           def self.contract(id)
-            "#{root}/contracts/#{id}"
+            "#{contracts}/#{id}"
           end
 
           def self.targets
@@ -121,7 +121,7 @@ module API
           end
 
           def self.target(id)
-            "#{targets}/targets/#{id}"
+            "#{targets}/#{id}"
           end
 
           def self.work_package_targets
@@ -130,6 +130,22 @@ module API
 
           def self.work_package_target(id)
             "#{work_package_targets}/#{id}"
+          end
+
+          def self.work_package_problems
+            "#{root}/work_package_problems"
+          end
+
+          def self.work_package_problem(id)
+            "#{work_package_problems}/#{id}"
+          end
+
+          def self.project_risks
+            "#{root}/project_risks"
+          end
+
+          def self.project_risk(id)
+            "#{project_risks}/#{id}"
           end
           #)
 
@@ -237,6 +253,14 @@ module API
             "#{problems}/#{id}"
           end
 
+          def self.head_performances
+            "#{root}/head_performances"
+          end
+
+          def self.head_performance(id)
+            "#{head_performances}/#{id}"
+          end
+
           def self.protocols
             "#{root}/protocols"
           end
@@ -244,14 +268,6 @@ module API
           def self.protocol(id)
             "#{protocols}/#{id}"
           end
-
-          # def self.work_package_targets
-          #   "#{root}/work_package_targets"
-          # end
-
-          # def self.work_package_target(id)
-          #   "#{work_package_targets}/#{id}"
-          # end
 
           def self.diagrams
             "#{root}/diagrams"

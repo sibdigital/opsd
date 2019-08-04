@@ -42,6 +42,8 @@ module API
       mount ::API::V3::Contracts::ContractsAPI
       mount ::API::V3::Targets::TargetsAPI
       mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
+      mount ::API::V3::WorkPackageProblems::WorkPackageProblemsAPI
+      mount ::API::V3::ProjectRisks::ProjectRisksAPI
       # )
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
@@ -58,6 +60,7 @@ module API
       #bbm(
       mount ::API::V3::AttachTypes::AttachTypesAPI
       mount ::API::V3::Diagrams::DiagramsAPI
+      mount ::API::V3::HeadPerformances::HeadPerformancesAPI
       mount ::API::V3::DiagramQueries::DiagramQueriesAPI
       mount ::API::V3::NationalProjects::NationalProjectsAPI
       mount ::API::V3::Problems::ProblemsAPI

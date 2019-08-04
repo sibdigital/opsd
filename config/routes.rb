@@ -387,6 +387,12 @@ OpenProject::Application.routes.draw do
   end
 
   resources :pop_up_alerts
+
+  resources :interactive_map do
+    get :get_dues, on: :collection
+  end
+
+  resources :head_performance_indicator_values
   #)
 
   scope 'admin' do
