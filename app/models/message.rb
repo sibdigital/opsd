@@ -35,6 +35,11 @@ class Message < ActiveRecord::Base
   belongs_to :work_package
   # )
   has_one :project, through: :board
+  #iag(
+  has_many :participants, class_name: 'MessageParticipant' #, foreign_key: 'meeting_contents_id'
+  accepts_nested_attributes_for :participants, allow_destroy: true
+  # )
+
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
   acts_as_attachable after_add: :attachments_changed,
