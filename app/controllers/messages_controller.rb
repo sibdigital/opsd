@@ -122,6 +122,10 @@ class MessagesController < ApplicationController
     @message.attributes = permitted_params.message(@message)
     @message.attach_files(permitted_params.attachments.to_h)
 
+    @message.participants = @message.participants.select {|participant| participant.invited}
+
+#    @message.participants.each { |participant| puts participant.user_id }
+
     if @message.save
       render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
@@ -159,4 +163,9 @@ class MessagesController < ApplicationController
       format.any { head :not_acceptable }
     end
   end
+
+  def participant_params
+    params.require(:participant_params).permit(:message_id, participants_attributes: [:user_id, :invited])
+  end
+
 end
