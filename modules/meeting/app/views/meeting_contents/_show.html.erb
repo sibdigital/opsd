@@ -36,22 +36,132 @@ See doc/COPYRIGHT.md for more details.
   </div>
 
   <% if can_edit_meeting_content?(content, content_type) -%>
-    <div id="edit-<%= content_type %>"
-         class="edit-<%= content_type %>"
-         style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
-    <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
-    </div>
+    <% if content_type=="meeting_agenda" -%>
+      <div id="edit-<%= content_type %>"
+           class="edit-<%= content_type %>"
+           style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
+        <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
+      </div>
+    <% end -%>
   <% end -%>
 
-  <% if saved_meeting_content_text_present?(content) -%>
-    <div id="<%= content_type %>-text"
-         style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
-         class="wiki show-<%= content_type %>">
-      <%= format_text(content.text, :object => @meeting) %>
-    </div>
-  <% else -%>
-    <%= no_results_box %>
+  <% if content_type=="meeting_agenda" -%>
+    <% if saved_meeting_content_text_present?(content) -%>
+      <div id="<%= content_type %>-text"
+           style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
+           class="wiki show-<%= content_type %>">
+        <%= format_text(content.text, :object => @meeting) %>
+      </div>
+    <% else -%>
+      <%= no_results_box %>
+    <% end -%>
   <% end -%>
+
+  <% if content_type=="meeting_minutes" -%>
+
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" id="arbitary_object_items" style="width: 80%;">
+          <tbody>
+            <% #content.protocols.each_with_index do |meeting_protocol, i|
+               @meeting.protocols.each_with_index do |meeting_protocol, i|
+
+            %>
+              <tr>
+                <td style="width: 80%; white-space: normal;">
+                    <p><%= i+1 %>. <%= meeting_protocol.text %>
+                    <p><strong><%= Meeting.human_attribute_name(:meeting_protocol_due_date) %></strong>: <%= format_date meeting_protocol.due_date %>
+                       <strong><%= Meeting.human_attribute_name(:meeting_protocol_executors) %></strong>:
+                      <%= link_to_user meeting_protocol.user %>
+
+                      <strong>Статус</strong>:
+                      <%if  meeting_protocol.completed -%>
+                        Выполнено ( <%= format_date meeting_protocol.updated_at %>)
+                      <% else -%>
+                        В работе
+                      <% end -%>
+                    </p>
+                </td>
+
+                <% if authorize_for(:meetings, :destroy) &&  !meeting_protocol.completed%>
+                  <%= content_tag(:td, button_to(
+                    "Отметить как выполненное",
+                    meeting_protocol_path(id: meeting_protocol.id),
+                    method: :put,
+                    #data: {confirm: I18n.t(:text_are_you_sure)},
+                    data: {confirm: "Отметить порчение как выполненное?"},
+                    title: t(:button_edit))) -%>
+                <% else -%>
+                <td> </td>
+                <% end -%>
+
+                  <% if authorize_for(:meetings, :destroy) %>
+                    <%= content_tag(:td, link_to(
+                        op_icon('icon icon-delete'),
+                        meeting_protocol_path(id: meeting_protocol.id),
+                        method: :delete,
+                        data: {confirm: I18n.t(:text_are_you_sure)},
+                        title: t(:button_delete))) %>
+                <% end -%>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <% if can_edit_meeting_content?(content, content_type) -%>
+      <div>
+        <div id="meeting-protocol-add"><span class="icon icon-add" style="cursor: pointer;"><%= Meeting.human_attribute_name(:meeting_protocol_add) %></span></div>
+      </div>
+    <% end %>
+
+    <section style="display: block; width: 50%; float: left;">
+      <div class="meeting details box">
+          <div id="meeting-protocol-form" style="display: none; margin-top: 10px; background: #fafafa; padding: 20px;">
+            <section>
+              <h5><%= Meeting.human_attribute_name(:meeting_protocol_new) %>:</h5>
+              <% @protocol = MeetingProtocol.new %>
+              <% #@protocol.meeting_contents_id = content.id
+
+                 @protocol.meeting_contents_id = @meeting.id
+              %>
+
+              <%= form_with model: @protocol, url: meeting_protocols_path do |f| %>
+
+                <section class="form--section">
+                  <%=  hidden_field_tag(:meeting_contents_id, @meeting.id) %>
+
+                  <div class="form--field"><label for="text"><%= Meeting.human_attribute_name(:meeting_protocol_text) %>:</label>
+                      <%= f.text_area :text, :size => 120, required: true %>
+
+                  </div>
+                  <div class="form--field">
+                    <label for="assigned_to_id"><%= Meeting.human_attribute_name(:meeting_protocol_executors) %></strong>:</label>
+
+                    <%= f.select :assigned_to_id,
+                    options_for_select(MeetingParticipant.joins("JOIN users ON meeting_participants.user_id = users.id" )
+                    .where(meeting_id: content.meeting_id, attended: true).map {|u| [u, u.user_id]}, @selected_participant_id),
+                    include_blank: true,
+                    required: true,
+                    container_class: '-middle' %>
+                  </div>
+
+                  <div class="form--field"><label for="due_date"><%= Meeting.human_attribute_name(:meeting_protocol_due_date) %>:</label><%= f.date_field(:due_date, required: true)%></div>
+
+                  <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button', remote: true%>
+                  <%= button_tag l(:button_cancel), type: 'reset', class: '-highlight -with-icon icon-checkmark button', id: 'meeting-protocol-cancel' %>
+
+                </section>
+              <% end %>
+            </section>
+          </div>
+      </div>
+    </section>
+
+  <% end -%>
+
+
 </div>
 
 <%= render :partial => 'shared/meeting_header' %>

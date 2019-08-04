@@ -49,4 +49,9 @@ export class ApiV3WorkPackagesPaths extends SimpleResourceCollection<ApiV3WorkPa
   public id(workPackageId:string|number):ApiV3WorkPackagePaths {
     return new ApiV3WorkPackagePaths(this.path, workPackageId);
   }
+
+  //zbd(
+  //public readonly work_package_targets = new SimpleResourceCollection(this.path, 'work_package_targets');
+  // )
+
 }

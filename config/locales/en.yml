@@ -459,6 +459,7 @@ en:
         language: Язык
         last_login_on: Последний вход в систему
         mail_notification: Уведомления по электронной почте
+        pop_up_notification: Всплывающие уведомления
         new_password: Новый пароль
         password_confirmation: Подтверждение
         consented_at: Согласен с
@@ -775,7 +776,11 @@ en:
     project_status: Статус
     project_approve_status: Этап согласования
     is_approve: Утвержден
-
+    #knm(
+    head_performance_indicator_id: Показатель деятельности высшего должностного лица
+    head_performance_indicator: Показатель деятельности высшего должностного лица
+    month: Месяц
+    #)
     issue: Пакет работ
     lastname: Фамилия
     login: Логин
@@ -790,6 +795,7 @@ en:
     address: Адрес
     cabinet: Кабинет
     target: Целевой показатель
+    raion: Район
 
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
@@ -849,6 +855,8 @@ en:
     plan_value: Плановое значение
     arbitary_object_type: Тип
     arbitary_object: Произвольный объект
+    raion: Район
+    raions: районы
     target_status: Статус
     target_type: Тип
     target_parent: Родитель
@@ -1110,6 +1118,8 @@ en:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_impotance_low: Незначительная
+  default_impotance_critical: Критичная
   default_possibility_very_low: Очень низкая
   default_possibility_low: Низкая
   default_possibility_normal: Средняя
@@ -1369,6 +1379,7 @@ en:
   label_activate_user: Активировать пользователя
   label_active_in_new_projects: Используется по умолчанию
   label_activity: Мониторинг
+  label_interactive_map: Карта районов РБ
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
@@ -1567,6 +1578,8 @@ en:
 
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
+  label_raion: Район
+  label_raions: Районы
   label_target: Целевые показатели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
@@ -1679,6 +1692,9 @@ en:
   label_no_data: Нет данных для отображения
   label_no_parent_page: Без родительской страницы
   label_nothing_display: Нет данных для отображения
+  label_communictaions: Коммуникации
+  ladel_additional: Дополнительно
+  label_resources: Ресурсы
   label_nobody: никто
   label_none: нет
   label_none_parentheses: "(нет)"
@@ -1698,7 +1714,8 @@ en:
   label_other: Другие
   label_overall_activity: Общая деятельность
   label_overall_spent_time: Суммарное потраченное время
-  label_overview: Обзор
+  label_overview: Рабочий стол
+  label_all_plans: Планирование
   label_page_title: Заголовок страницы
   label_part_of: часть
   label_password_lost: Забыли пароль?
@@ -1740,6 +1757,9 @@ en:
   label_done_ratio_project: Процент исполнения (KPI)
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
+  label_head_performance_indicator_values: Оценка деятельности высшего должностного лица
+  label_head_performance_indicator_values_short: Оценка деятельности
+  label_head_performance_indicator_values_new: Новая оценка деятельности высшего должностного лица
   label_positions: "Должности"
   label_position_new: "Добавить должность"
   label_position_value: "Должность"
@@ -2285,7 +2305,7 @@ en:
   project_module_repository: Репозиторий
   project_module_time_tracking: Учет времени
   project_module_timelines: Графики
-  project_module_wiki: Wiki
+  project_module_wiki: Управление знаниями
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -2988,10 +3008,12 @@ en:
     reset_failed_logins: Сброс неудачных попыток входа
     settings:
       mail_notifications: Отправить уведомление по электронной почте
+      pop_up_notifications: Показывать всплывающие уведомления для
       mail_project_explanaition: Для невыбранных проектов Вы будете получать только
         уведомления о том, за чем Вы наблюдаете или в чем участвуете (например, пакеты
         работ, где Вы автор или критик).
       mail_self_notified: Хочу получать уведомления об изменениях, которые делаю сам
+      pop_up_delay: Задержка обновления уведомлений
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: Смена статуса
     unlock: Разблокировать

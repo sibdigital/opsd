@@ -1,0 +1,40 @@
+<h2>Риски и проблемы</h2>
+<table>
+    <tr>
+        <td>Проект</td>
+        <td>
+            <select [(ngModel)]="selectedOption"
+                    [compareWith]="compareByHref"
+                    (change)="handleUserSubmit()">
+                <option
+                        *ngFor="let value of valueOptions"
+                        [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                        [attr.label]="value.name"
+                        [ngValue]="value"
+                        [textContent]="value.name">
+                </option>
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Куратор</td>
+        <td><b>{{curator}}</b></td>
+    </tr>
+
+    <tr>
+        <td>Руководитель</td>
+        <td><b>{{ruk}}</b></td>
+    </tr>
+
+    <tr>
+        <td>Фильтр</td>
+        <td>
+            <a href="" (click)="this.blueChild.changeFilter('all')">Все</a> /
+            <a href="" (click)="this.blueChild.changeFilter('notsolved')">Не решены</a> /
+            <a href="" (click)="this.blueChild.changeFilter('solved')">Решены</a>
+        </td>
+    </tr>
+</table>
+
+<homescreen-blue-table [template]="'problems'"></homescreen-blue-table>

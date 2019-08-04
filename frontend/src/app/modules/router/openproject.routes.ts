@@ -33,10 +33,20 @@ import {Injector} from "@angular/core";
 import {FirstRouteService} from "core-app/modules/router/first-route-service";
 import {StatesModule} from "@uirouter/angular";
 import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
-import {WorkPackageOverviewDiagramTabComponent} from "core-components/wp-overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
-import {WorkPackageOverviewDiagramQueriesTabComponent} from "core-components/wp-overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
-import {WorkPackageOverviewDiagramComponent} from "core-components/wp-overview-diagram/wp-overview-diagram.component";
-import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
+import {OverviewDiagramComponent} from "core-components/overview-diagram/overview-diagram.component";
+import {OverviewDiagramQueriesTabComponent} from "core-components/overview-diagram/overview-diagram-queries-tab/overview-diagram-queries-tab.component";
+import {OverviewDiagramTabComponent} from "core-components/overview-diagram/overview-diagram-tab/overview-diagram-tab.component";
+import {KpiTabComponent} from "core-components/homescreen-tabs/kpi-tab/kpi-tab.component";
+import {HomescreenTabsComponent} from "core-components/homescreen-tabs/homescreen-tabs.component";
+import {DesktopTabComponent} from "core-components/homescreen-tabs/desktop-tab/desktop-tab.component";
+import {KtTabComponent} from "core-components/homescreen-tabs/kt-tab/kt-tab.component";
+import {ProblemsTabComponent} from "core-components/homescreen-tabs/problems-tab/problems-tab.component";
+import {DiscussTabComponent} from "core-components/homescreen-tabs/discuss-tab/discuss-tab.component";
+import {BudgetTabComponent} from "core-components/homescreen-tabs/budget/budget-tab.component";
+import {IndicatorTabComponent} from "core-components/homescreen-tabs/indicator/indicator-tab.component";
+import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab/protocol-tab.component";
+import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
+import {PerformanceTabComponent} from "core-components/homescreen-tabs/performance-tab/performance-tab.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -60,18 +70,75 @@ export const HOMESCREEN_ROUTES = [
     url: '/vkladka2',
     // Redirect to 'overview' by default.
     redirectTo: 'diagram.overview',
-    component: WorkPackageOverviewDiagramComponent,
+    component: OverviewDiagramComponent
   },
   {
     name: 'diagram.overview',
     url: '/overview',
-    component: WorkPackageOverviewDiagramTabComponent,
+    component: OverviewDiagramTabComponent
   },
   {
     name: 'diagram.queries',
     url: '/queries',
-    component: WorkPackageOverviewDiagramQueriesTabComponent
+    component: OverviewDiagramQueriesTabComponent
   },
+  {
+    name: 'homescreen',
+    url: '/vkladka1',
+    // Redirect to 'overview' by default.
+    redirectTo: 'homescreen.desktop',
+    component: HomescreenTabsComponent
+  },
+  {
+    name: 'homescreen.desktop',
+    url: '/desktop',
+    component: DesktopTabComponent
+  },
+  {
+    name: 'homescreen.kt',
+    url: '/kt',
+    component: KtTabComponent,
+  },
+  {
+    name: 'homescreen.kpi',
+    url: '/kpi',
+    component: KpiTabComponent
+  },
+  {
+    name: 'homescreen.problems',
+    url: '/problems',
+    component: ProblemsTabComponent
+  },
+  {
+    name: 'homescreen.discuss',
+    url: '/discuss',
+    component: DiscussTabComponent
+  },
+  {
+    name: 'homescreen.budget',
+    url: '/budget',
+    component: BudgetTabComponent
+  },
+  {
+    name: 'homescreen.indicator',
+    url: '/indicator',
+    component: IndicatorTabComponent
+  },
+  {
+    name: 'homescreen.protocol',
+    url: '/protocol',
+    component: ProtocolTabComponent
+  },
+  {
+    name: 'homescreen.municipality',
+    url: '/municipality',
+    component: MunicipalityTabComponent
+  },
+  {
+    name: 'homescreen.performance',
+    url: '/performance',
+    component: PerformanceTabComponent
+  }
   //)
   // We could lazily load work packages module already,
   // but e.g., the plugin context requires service from it.

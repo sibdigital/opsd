@@ -43,7 +43,10 @@ Redmine::AccessControl.map do |map|
                    arbitary_objects: %i[index new create edit update destroy],
                    #)
                    #zbd(
-                   stages: [:show]
+                   stages: [:show],
+                   #)
+                   #zbd(
+                   raions: [:show]
                    #)
                    },
                  public: true
@@ -105,6 +108,22 @@ Redmine::AccessControl.map do |map|
     wpt.permission :manage_contracts,
                    { project_settings: [:show],
                      contracts: %i[new create edit update destroy] },
+                   require: :member
+
+    wpt.permission :manage_work_package_targets,
+                   { work_package_targets: %i[new create edit update destroy] },
+                   require: :member
+
+    wpt.permission :view_work_package_targets,
+                   { work_package_targets: %i[index] },
+                   require: :member
+
+    wpt.permission :manage_work_package_problems,
+                   { work_package_problems: %i[new create edit update destroy] },
+                   require: :member
+
+    wpt.permission :view_work_package_problems,
+                   { work_package_problems: %i[index] },
                    require: :member
     #)
     # Issues
@@ -324,12 +343,31 @@ Redmine::AccessControl.map do |map|
 
   map.project_module :activity
 
+  #knm(
+  map.project_module :interactive_map do |i_map|
+    i_map.permission :view_interactive_map,
+                     { interactive_map: :index },
+                     require: :member
+  end
+  # )
   #bbm(
   map.project_module :project_risks
   # )
+  #knm(
+  map.project_module :head_performance_indicator_values do |hpi|
+    hpi.permission :manage_hpi_values,
+                   :'head_performance_indicator_values' => [:new, :destroy],
+                   require: :member
 
+    hpi.permission :view_hpi_values,
+                   :'head_performance_indicator_values' => [:index],
+                   require: :member
+
+  end
+  # )
   #zbd(
   map.project_module :stages
+  map.project_module :work_package_targets
   # )
   #xcc(
   map.project_module :targets

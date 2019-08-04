@@ -48,7 +48,7 @@ module API
 
         link :createWorkPackageImmediate,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
-          {
+           {
             href: api_v3_paths.work_packages_by_project(represented.id),
             method: :post
           }
@@ -101,7 +101,55 @@ module API
                  getter: ->(*) {
                    has_role_koordinator
                  }
-        # )
+
+        property :curator,
+                 getter: ->(*) {
+                   curator
+                 }
+
+        property :rukovoditel,
+                 getter: ->(*) {
+                   rukovoditel
+                 }
+
+        property :due_date,
+                 getter: ->(*) {
+                   get_due_date
+                 }
+
+        property :problem_count,
+                 getter: ->(*) {
+                   get_problem_count
+                 }
+
+        property :upcoming_tasks_count,
+                 getter: ->(*) {
+                   get_upcoming_tasks_count
+                 }
+
+        property :due_milestone_count,
+                 getter: ->(*) {
+                   get_due_milestone_count
+                 }
+
+        property :done_ratio,
+                 getter: ->(*) {
+                   get_done_ratio
+                 }
+
+        property :target_execution_values,
+                 getter: ->(*) {
+                   get_target_execution_values
+                 }
+
+
+        property :work_packages_targets,
+                 getter: ->(*) {
+                   get_work_packages_targets
+                 }
+
+        property :national_project_id,
+                 render_nil: true
 
         property :created_on,
                  as: 'createdAt',

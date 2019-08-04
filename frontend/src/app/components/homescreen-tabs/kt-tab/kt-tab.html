@@ -1,0 +1,52 @@
+<h2>Перечень мероприятий по проекту</h2>
+<table class="whiteTable">
+    <tr>
+        <td>Проект</td>
+        <td>
+            <select [(ngModel)]="selectedOption"
+                    [compareWith]="compareByHref"
+                    (change)="handleUserSubmit()">
+                <option
+                        *ngFor="let value of valueOptions"
+                        [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                        [attr.label]="value.name"
+                        [ngValue]="value"
+                        [textContent]="value.name">
+                </option>
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Куратор</td>
+        <td><b>{{curator}}</b></td>
+    </tr>
+
+    <tr>
+        <td>Руководитель</td>
+        <td><b>{{ruk}}</b></td>
+    </tr>
+
+    <tr>
+        <td>Фильтр</td>
+        <td>
+            <a href="" (click)="this.blueChild.changeFilter('all')">Все</a> /
+            <a href="">Исполнено в срок</a> /
+            <a href="">Исполнено с опозданием</a> /
+            <a href="" (click)="this.blueChild.changeFilter('vrabote')">В работе</a> /
+            <a href="" (click)="this.blueChild.changeFilter('predstoyashie')">Предстоящие</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Предстоящие</td>
+        <td>
+            <u><a href="" (click)="this.blueChild.limitDays(3)">3 дня</a></u>&nbsp;
+            <u><a href="" (click)="this.blueChild.limitDays(14)">2 недели</a></u>&nbsp;
+            <u><a href="" (click)="this.blueChild.limitDays(30)">1 месяц</a></u>&nbsp;
+            <u><a href="" (click)="this.blueChild.limitDays(90)">3 месяца</a></u>
+        </td>
+    </tr>
+</table>
+
+<homescreen-blue-table [template]="'kt'"></homescreen-blue-table>

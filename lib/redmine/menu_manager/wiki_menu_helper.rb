@@ -44,15 +44,18 @@ module Redmine::MenuManager::WikiMenuHelper
   end
 
   def push_wiki_main_menu(menu, main_item, project)
-    menu.push main_item.menu_identifier,
-              { controller: '/wiki', action: 'show', id: main_item.slug },
-              param: :project_id,
-              caption: main_item.title,
-              after: :repository,
-              icon: 'icon2 icon-wiki',
-              html:    { class: 'wiki-menu--main-item' }
+    #if ! menu.exists?(:analyze)
+      menu.push main_item.menu_identifier,
+                { controller: '/wiki', action: 'show', id: main_item.slug },
+                param: :project_id,
+                caption: :project_module_wiki, #main_item.title,
+                after: :repository,
+                icon: 'icon2 icon-wiki',
+                html:    { class: 'wiki-menu--main-item' },
+                parent: :analyze #+-tan
+    #end
 
-    if project.wiki.pages.any?
+    if project.wiki.pages.any? and params['controller']=='wiki'
       push_wiki_menu_partial(main_item, menu)
     end
   rescue ArgumentError => e
@@ -86,7 +89,8 @@ module Redmine::MenuManager::WikiMenuHelper
     menu.push :wiki_menu_partial,
               { controller: '/wiki', action: 'show' },
               param: :project_id,
-              parent: main_item.menu_identifier,
+              #parent: main_item.menu_identifier,
+              parent: :analyze,
               partial: 'wiki/menu_pages_tree',
               last: true
   end

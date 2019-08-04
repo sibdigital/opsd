@@ -1,0 +1,27 @@
+<!-- Tab content -->
+<div id="consolidated" class="tabcontent" style="display: block;">
+    <h2>Сводный перечень KPI</h2>
+    <table class="ass">
+        <tr>
+            <td>Проект</td>
+            <td>
+                <select [(ngModel)]="selectedOption"
+                        [compareWith]="compareByHref"
+                        (change)="handleUserSubmit()">
+                    <option
+                            *ngFor="let value of valueOptions"
+                            [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                            [attr.label]="value.name"
+                            [ngValue]="value"
+                            [textContent]="value.name">
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Дата</td>
+            <td><b>{{dueDate}}</b></td>
+        </tr>
+    </table>
+    <homescreen-blue-table [template]="'kpi'"></homescreen-blue-table>
+</div>

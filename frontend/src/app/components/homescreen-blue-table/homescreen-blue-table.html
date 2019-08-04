@@ -1,0 +1,54 @@
+<table class="blueTable">
+    <thead>
+        <tr *ngIf="this.template !=='indicator'">
+            <th *ngFor="let column of columns">
+                <b [textContent]="column"></b>
+            </th>
+        </tr>
+        <tr *ngIf="this.template ==='indicator'">
+            <th rowspan="2"><b>{{columns[0]}}</b></th>
+            <th rowspan="2"><b>{{columns[1]}}</b></th>
+            <th colspan="4"><b>План</b></th>
+            <th colspan="4"><b>Факт</b></th>
+            <th rowspan="2"><b>{{columns[10]}}</b></th>
+        </tr>
+        <tr *ngIf="this.template ==='indicator'">
+            <th><b>I</b></th>
+            <th><b>II</b></th>
+            <th><b>III</b></th>
+            <th><b>IV</b></th>
+            <th><b>I</b></th>
+            <th><b>II</b></th>
+            <th><b>III</b></th>
+            <th><b>IV</b></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td [attr.colspan]="columns.length">
+                <div class="links"
+                     *ngIf="this.blueTableModule.getPages() > 1">
+                    <a *ngFor="let item of [].constructor(this.blueTableModule.getPages() + 2); let i = index"
+                       [textContent]="this.blueTableModule.pagesToText(i)"
+                       (click)="loadPage(i)"
+                       href="#">
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr *ngFor="let row of data"
+            [ngClass]="row._type === 'National Project' ? null : 'colored-row'">
+            <td *ngFor="let column of columns; let i = index"
+                [ngClass]="this.blueTableModule.getTdClass(row, i)">
+                <span *ngIf="this.blueTableModule.getTdClass(row, i) !== 'progressbar' && this.blueTableModule.getTdClass(row, i) !== 'performance'"
+                        [innerHTML]="this.blueTableModule.getTdData(row, i)"></span>
+                <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'"
+                      [progress]="this.blueTableModule.getTdData(row, i)"></homescreen-progress-bar>
+                <a *ngIf="this.blueTableModule.getTdClass(row, i) === 'performance'"
+                                id="performance_{{row.id}}" href="" (click)="hello(row.id)">{{this.blueTableModule.getTdData(row, i)}}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

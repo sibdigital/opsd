@@ -12,12 +12,14 @@ This file written by BBM
     <li>
       <%= link_to t("typed_risks.edit.properties"),
                   edit_tab_project_project_risk_path(id: @project_risk.id, tab: :properties),
-                  class: "#{'selected' if @tab == "properties" }"  %>
+                  class: "#{'selected' if @tab == "properties" }"
+      %>
     </li>
     <li>
       <%= link_to t("typed_risks.edit.risk_characts"),
                   edit_tab_project_project_risk_path(id: @project_risk.id, tab: :risk_characts),
-                  class: "#{'selected' if @tab == 'risk_characts' }"  %>
+                  class: "#{'selected' if @tab == 'risk_characts' }"
+      %>
     </li>
   </ul>
 </div>

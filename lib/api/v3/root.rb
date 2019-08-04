@@ -41,6 +41,9 @@ module API
       #zbd(
       mount ::API::V3::Contracts::ContractsAPI
       mount ::API::V3::Targets::TargetsAPI
+      mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
+      mount ::API::V3::WorkPackageProblems::WorkPackageProblemsAPI
+      mount ::API::V3::ProjectRisks::ProjectRisksAPI
       # )
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
@@ -57,8 +60,17 @@ module API
       #bbm(
       mount ::API::V3::AttachTypes::AttachTypesAPI
       mount ::API::V3::Diagrams::DiagramsAPI
+      mount ::API::V3::HeadPerformances::HeadPerformancesAPI
       mount ::API::V3::DiagramQueries::DiagramQueriesAPI
+      mount ::API::V3::NationalProjects::NationalProjectsAPI
+      mount ::API::V3::Problems::ProblemsAPI
+      mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
+      mount ::API::V3::Protocols::ProtocolsAPI
       # )
+      # +tan 2019.07.30
+      mount ::API::V3::Boards::BoardsAPI
+      mount ::API::V3::Raions::RaionsAPI
+      # - tan
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
       mount ::API::V3::Render::RenderAPI

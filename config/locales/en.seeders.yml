@@ -133,6 +133,8 @@ en:
           national_project: Культура
           federal_project: Обеспечение качественно нового уровня развития инфраструктуры культуры «Культурная среда»
           project_status: :default_project_status_in_work
+          start_date: "20190101"
+          due_date: "20241231"
           project_approve_status: :default_project_approve_status_approve_glava
           description: >
             Результат федерального проекта (справочно из паспорта федерального проекта): Создание центров культурного развития в субъектах Российской Федерации в городах
@@ -148,6 +150,8 @@ en:
             - work_package_tracking
             - news
             - wiki
+            - costs
+            - risks
           news:
             - title: Главная страница проекта
               summary: >
@@ -289,11 +293,68 @@ en:
                 - subject: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
                   status: :default_status_in_work
                   type: :default_type_result
-                  start: 7
+                  start: -20
                   plan_type: execution
-                  duration: 8
+                  duration: 70
                   organization: Министерство культуры
                   assigned: tvs
+                  children:
+                    - subject: Оснащена пианино школа в Баргузинском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: -5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Баунтовском районе
+                      status: :default_status_completed
+                      type: :default_type_result
+                      start: -11
+                      plan_type: execution
+                      duration: -1
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Муйском районе
+                      status: :default_status_completed
+                      type: :default_type_result
+                      start: -5
+                      plan_type: execution
+                      duration: 5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Кижингинском районе
+                      status: :default_status_not_start
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: -5
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Кяхтинском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 15
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Бичурском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 2
+                      organization: Министерство культуры
+                      assigned: tvs
+                    - subject: Оснащена пианино школа в Тарбагатайском районе
+                      status: :default_status_in_work
+                      type: :default_type_result
+                      start: -10
+                      plan_type: execution
+                      duration: 3
+                      organization: Министерство культуры
+                      assigned: tvs
                 - subject: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                   status: :default_status_not_start
                   type: :default_type_result
@@ -391,6 +452,8 @@ en:
           identifier: umts
           project_status: :default_project_status_in_work
           project_approve_status: :default_project_approve_status_approve_glava
+          start_date: "20190101"
+          due_date: "20241231"
           description: |
             Расселение аварийного жилищного фонда микрорайонов «УМТС – Икибзяк» (18 квартир) и «Механизированная колонна – 136» (17 квартир) и устранение неэффективных расходов на тепло, - водоснабжение путем оптимизации коммунальных сетей и ликвидации неэффективных котельных.
           timeline:
@@ -400,6 +463,8 @@ en:
             - news
             - wiki
             - work_package_tracking
+            - costs
+            - risks
           news:
             - title: Новости проекта
               summary: >
@@ -544,6 +609,59 @@ en:
               duration: 0
               organization: Администрация Муйского района
               assigned: ttv
+        gorod:
+          name: Формирование комфортной городской среды.
+          national_project: Жильё и городская среда
+          federal_project: Жилье
+          identifier: gorod
+          project_status: :default_project_status_in_work
+          project_approve_status: :default_project_approve_status_approve_glava
+          start_date: "20190101"
+          due_date: "20241231"
+          description: |
+            В 2019 г. планируется благоустроить 112 дворовых и 120 общественных территорий
+          timeline:
+            name: Временная шкала
+          modules:
+            - backlogs
+            - news
+            - wiki
+            - work_package_tracking
+            - costs
+            - risks
+          news:
+            - title: Новости проекта
+              summary: >
+                Здесь отображаются новости проекта
+          types:
+            - :default_type_task
+            - :default_type_milestone
+            - :default_type_result
+            #- :default_type_result
+            #- :default_type_user_story
+            #- :default_type_bug
+          categories:
+            - Строительство (Реконструкция)
+            - Приобретение
+            - Оказание услуг (Выполнение работ)
+            - Проведение образовательных мероприятий
+            - Принятие нормативно-правового акта
+            - Утверждение документа
+            - Проведение массовых мероприятий
+            - Проведение информационно-коммуникационной кампании
+          work_packages:
+            - subject: Утверждена проектно-сметная документация по улучшению городской среды
+                в городах с числом жителей до 300 000 человек
+              status: :default_status_in_work
+              type: :default_type_milestone
+              priority: :default_priority_high
+              estimated_hours: 8
+              start: 4
+              plan_type: execution
+              duration: 0
+              done_ratio: 50
+              organization: Министерство строительства
+              assigned: rnu
 
       project_targets:
         - name: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)
@@ -640,6 +758,13 @@ en:
           quarter: 2
           month: 5
           value: 1
+        - target: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)
+          project: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
+          work_package_subject: В Республике Бурятия реализован проект по реновации 1 учреждения
+          year: 2019
+          quarter: 2
+          month: 6
+          value: 2
         - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
           project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
           work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
@@ -647,6 +772,20 @@ en:
           quarter: 2
           month: 6
           value: 8
+        - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          year: 2019
+          quarter: 2
+          month: 5
+          value: 7
+        - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          year: 2019
+          quarter: 2
+          month: 4
+          value: 5
         - target: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
           project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
           work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
@@ -748,8 +887,8 @@ en:
       users:
         - login:  lev
           password: password
-          firstname: Луковников
-          lastname: Евгений
+          lastname: Луковников
+          firstname: Евгений
           patronymic: Валентинович
           mail: t1@sibdigital.net
           status: 1
@@ -758,8 +897,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  rnu
           password: password
-          firstname: Рузавин
-          lastname: Николай
+          lastname: Рузавин
+          firstname: Николай
           patronymic: Юрьевич
           mail: t2@sibdigital.net
           status: 1
@@ -768,8 +907,8 @@ en:
           organization: Министерство строительства
         - login:  doa
           password: password
-          firstname: Данилов
-          lastname: Олег
+          lastname: Данилов
+          firstname: Олег
           patronymic: Александрович
           mail: t3@sibdigital.net
           status: 1
@@ -778,8 +917,8 @@ en:
           organization: Администрация Главы Республики Бурятия и Правительства Республики Бурятия
         - login:  ggo
           password: password
-          firstname: Гершман
-          lastname: Галина
+          lastname: Гершман
+          firstname: Галина
           patronymic: Олеговна
           mail: t4@sibdigital.net
           status: 1
@@ -788,8 +927,8 @@ en:
           organization: Министерство строительства
         - login:  ttv
           password: password
-          firstname: Цыденова
-          lastname: Татьяна
+          lastname: Цыденова
+          firstname: Татьяна
           patronymic: Владимировна
           mail: t5@sibdigital.net
           status: 1
@@ -798,8 +937,8 @@ en:
           organization: Администрация Муйского района
         - login:  moi
           password: password
-          firstname: Макарчук
-          lastname: Ольга
+          lastname: Макарчук
+          firstname: Ольга
           patronymic: Ивановна
           mail: t6@sibdigital.net
           status: 1
@@ -808,8 +947,8 @@ en:
           organization: Администрация г. Улан-Удэ
         - login:  kai
           password: password
-          firstname: Козлов
-          lastname: Андрей
+          lastname: Козлов
+          firstname: Андрей
           patronymic: Иванович
           mail: t6@sibdigital.net
           status: 1
@@ -817,8 +956,8 @@ en:
           mail_notification: only_my_events
         - login:  baf
           password: password
-          firstname: Билдаева
-          lastname: Анна
+          lastname: Билдаева
+          firstname: Анна
           patronymic: Федоровна
           mail: t6@sibdigital.net
           status: 1
@@ -826,8 +965,8 @@ en:
           mail_notification: only_my_events
         - login:  mos
           password: password
-          firstname: Медянникова
-          lastname: Олеся
+          lastname: Медянникова
+          firstname: Олеся
           patronymic: Сергеевна
           mail: t6@sibdigital.net
           status: 1
@@ -835,8 +974,8 @@ en:
           mail_notification: only_my_events
         - login:  ang
           password: password
-          firstname: Асланян
-          lastname: Николь
+          lastname: Асланян
+          firstname: Николь
           patronymic: Гнунович
           mail: t6@sibdigital.net
           status: 1
@@ -844,8 +983,8 @@ en:
           mail_notification: only_my_events
         - login:  srk
           password: password
-          firstname: Санжицыренова
-          lastname: Раиса
+          lastname: Санжицыренова
+          firstname: Раиса
           patronymic: Константиновна
           mail: t6@sibdigital.net
           status: 1
@@ -853,8 +992,8 @@ en:
           mail_notification: only_my_events
         - login:  vpa
           password: password
-          firstname: Вершини
-          lastname: Павел
+          lastname: Вершини
+          firstname: Павел
           patronymic: Александрович
           mail: t6@sibdigital.net
           status: 1
@@ -862,8 +1001,8 @@ en:
           mail_notification: only_my_events
         - login:  tvb
           password: password
-          firstname: Цыбикжапов
-          lastname: Вячеслав
+          lastname: Цыбикжапов
+          firstname: Вячеслав
           patronymic: Балданович
           mail: t1@sibdigital.net
           status: 1
@@ -872,8 +1011,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  blb
           password: password
-          firstname: Будаев
-          lastname: Леонид
+          lastname: Будаев
+          firstname: Леонид
           patronymic: Борисович
           mail: t2@sibdigital.net
           status: 1
@@ -882,8 +1021,8 @@ en:
           organization: Министерство культуры
         - login:  tvs
           password: password
-          firstname: Цыренова
-          lastname: В
+          lastname: Цыренова
+          firstname: В
           patronymic: С
           mail: t3@sibdigital.net
           status: 1
@@ -892,8 +1031,8 @@ en:
           organization: Министерство культуры
         - login:  bdr
           password: password
-          firstname: Базаров
-          lastname: Д
+          lastname: Базаров
+          firstname: Д
           patronymic: Р
           mail: t4@sibdigital.net
           status: 1
@@ -901,8 +1040,8 @@ en:
           mail_notification: only_my_events
         - login:  knn
           password: password
-          firstname: Камкова
-          lastname: Наталья
+          lastname: Камкова
+          firstname: Наталья
           patronymic: Николаевна
           mail: t5@sibdigital.net
           status: 1
@@ -911,8 +1050,8 @@ en:
           organization: Администрация Главы Республики Бурятия и Правительства Республики Бурятия
         - login:  tas
           password: password
-          firstname: Цыденов
-          lastname: Алексей
+          lastname: Цыденов
+          firstname: Алексей
           patronymic: Самбуевич
           mail: t1@sibdigital.net
           status: 1
@@ -921,8 +1060,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  zii
           password: password
-          firstname: Зураев
-          lastname: Игорь
+          lastname: Зураев
+          firstname: Игорь
           patronymic: Иванович
           mail: t2@sibdigital.net
           status: 1
@@ -931,8 +1070,8 @@ en:
           organization: Правительство Республики Бурятия
         - login:  siv
           password: password
-          firstname: Смоляк
-          lastname: Ирина
+          lastname: Смоляк
+          firstname: Ирина
           patronymic: Владимировна
           mail: t3@sibdigital.net
           status: 1
@@ -941,10 +1080,137 @@ en:
           organization: Администрация Главы Республики Бурятия и Правительства Республики Бурятия
         - login:  bdt
           password: password
-          firstname: Бороноева
-          lastname: Д
+          lastname: Бороноева
+          firstname: Д
           patronymic: Ц
           mail: t6@sibdigital.net
           status: 1
           type: User
           mail_notification: only_my_events
+
+      cost_types:
+        - name: Федеральный бюджет
+          unit: Результат
+          unit_plural: Результаты
+        - name: Региональный бюджет
+          unit: Результат
+          unit_plural: Результаты
+      rates:
+        - rate: 1
+          type: CostRate
+          cost_type_name: Федеральный бюджет
+        - rate: 1
+          type: CostRate
+          cost_type_name: Региональный бюджет
+      cost_objects:
+        - project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          subject: Переселение микрорайона УМТС-Икибзяк
+          type: VariableCostObject
+        - project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          subject: Переселение района механизированная колонна 136
+          type: VariableCostObject
+      material_budget_items:
+        - cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+          cost_type_name: Федеральный бюджет
+          units: 100000
+        - cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+          cost_type_name: Региональный бюджет
+          units: 200000
+        - cost_object_subject: Переселение района механизированная колонна 136
+          cost_type_name: Федеральный бюджет
+          units: 300000
+        - cost_object_subject: Переселение района механизированная колонна 136
+          cost_type_name: Региональный бюджет
+          units: 400000
+      cost_entries:
+        - work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Федеральный бюджет
+          costs: 10000
+          cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+        - work_package_subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Региональный бюджет
+          costs: 20000
+          cost_object_subject: Переселение микрорайона УМТС-Икибзяк
+        - work_package_subject: Предоставление субсидии и оформление сертификатов
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Федеральный бюджет
+          costs: 30000
+          cost_object_subject: Переселение района механизированная колонна 136
+        - work_package_subject: Предоставление субсидии и оформление сертификатов
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          cost_type_name: Региональный бюджет
+          costs: 40000
+          cost_object_subject: Переселение района механизированная колонна 136
+
+      meetings:
+        - title: Решение проблемы переселения
+          author: lev
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          duration: 1
+          work_package_subject: Подготовка пакета документов для финансирования мероприятий по переселению микрорайонов УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района из средств республиканского бюджета.
+        - title: Обсуждение покупки квартир
+          author: rnu
+          project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
+          duration: 2
+          work_package_subject: Заключение  соглашения между Министерством строительства РБ и МО «Муйский район».
+        - title: Обсуждение постройки центра культурного развития
+          author: tvb
+          project: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
+          duration: 3
+          work_package_subject: В Республике Бурятия построен 1 центр культурного развития в г.Бабушкин
+      meeting_contents:
+        - meeting: Решение проблемы переселения
+          type: MeetingAgenda
+          author: lev
+          text: Необходимо принять меры по переселению
+        - meeting: Обсуждение покупки квартир
+          type: MeetingAgenda
+          author: rnu
+          text: Необходимо купить квартиры
+        - meeting: Обсуждение постройки центра культурного развития
+          type: MeetingAgenda
+          author: tvb
+          text: Как реализовывать мероприятия по строительству?
+      meeting_protocols:
+        - meeting_content: Необходимо принять меры по переселению
+          assigned_to: rnu
+          author: lev
+          text: Принять меры к переселению
+          due: 2
+        - meeting_content: Необходимо принять меры по переселению
+          assigned_to: ggo
+          author: lev
+          text: Перевезите людей
+          due: 1
+        - meeting_content: Необходимо принять меры по переселению
+          assigned_to: ttv
+          author: lev
+          text: Предоставьте документы для переселения
+          due: 6
+        - meeting_content: Необходимо купить квартиры
+          assigned_to: ttv
+          author: rnu
+          text: Решите проблему с покупкой квартир в срок 5 дней
+          due: 5
+        - meeting_content: Необходимо купить квартиры
+          assigned_to: moi
+          author: rnu
+          text: Окажите содействие в покупке
+          due: 12
+        - meeting_content: Как реализовывать мероприятия по строительству?
+          assigned_to: bdr
+          author: tvb
+          text: Решите проблему с покупкой квартир
+          due: 10
+        - meeting_content: Как реализовывать мероприятия по строительству?
+          assigned_to: knn
+          author: tvb
+          text: Окажите методическое содействие
+          due: 3
+        - meeting_content: Как реализовывать мероприятия по строительству?
+          assigned_to: tvs
+          author: tvb
+          text: Разберитесь с подрядчиком
+          due: 20

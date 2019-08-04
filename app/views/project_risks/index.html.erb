@@ -82,8 +82,10 @@ This file written by BBM
   <%= link_to new_project_project_risk_path(),
               aria: {label: t(:label_project_risk_new)},
               class: 'wp-inline-create--add-link',
-              title: t(:label_project_risk_new) do
-    op_icon('icon icon-add')
-  end %>
+              title: t(:label_project_risk_new) do %>
+                <%= op_icon('icon icon-add') %>
+              <% end %>
+</div>
+<div class="wp-inline-create-button">
   <%= link_to "Новый типовой проектный риск", choose_typed_project_project_risks_path() %>
 </div>

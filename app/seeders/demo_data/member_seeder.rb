@@ -27,8 +27,9 @@ module DemoData
 
       cultura = project_by_name "«Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии"
       umts = project_by_name "Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района."
+      gorod = project_by_name "Формирование комфортной городской среды."
 
-      puts cultura
+
 
       #global
       tas = user_by_login 'tas'
@@ -43,6 +44,7 @@ module DemoData
       set_project_member umts, siv, default_role_project_office_manager
       set_project_member cultura, siv, default_role_project_office_manager
 
+      puts 'umts= ' + umts.to_s
       #umts
       lev = user_by_login 'lev'
       set_project_member umts, lev, default_role_project_curator
@@ -62,6 +64,7 @@ module DemoData
       moi = user_by_login 'moi'
       set_project_member umts, moi, default_role_events_responsible
 
+      puts 'cultura= ' + cultura.to_s
       #cultura
       tvb = user_by_login 'tvb'
       set_project_member cultura, tvb, default_role_project_curator
@@ -77,6 +80,21 @@ module DemoData
 
       bdr = user_by_login 'bdr'
       set_project_member cultura, bdr, default_role_events_responsible
+
+      puts 'gorod= ' + gorod.to_s
+      #gorod
+      lev = user_by_login 'lev'
+      set_project_member gorod, lev, default_role_project_curator
+
+      rnu = user_by_login 'rnu'
+      set_project_member gorod, rnu, default_role_project_head
+
+      doa = user_by_login 'doa'
+      set_project_member gorod, doa, default_role_project_office_coordinator
+
+      ggo = user_by_login 'ggo'
+      set_project_member gorod, ggo, default_role_events_responsible
+
     end
 
     def work_package_by_subject(subject)
@@ -115,7 +133,7 @@ module DemoData
       member.add_and_save_role role
       #project.members << members
       #project.save
-      member.save!
+      member.save!(:validate => false)
 
       # member.user = user
       #member.add_role role

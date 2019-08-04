@@ -154,6 +154,10 @@ en:
       add_modal:
         choose_widget: Выберите виджет
       widgets:
+        notifications:
+          title: Уведомления
+          at: на
+          no_results: Уведомлений пока нет.
         documents:
           title: Документы
           no_results: Документов пока нет.
@@ -478,6 +482,14 @@ en:
       remove: Удалить связь
       save: Сохранить отношение
       abort: Прервать
+    target_buttons:
+      add_new_target: Добавить целевой показатель
+      save: Сохранить
+      abort: Прервать
+      placeholder: Выберите значение из списка
+    problem_buttons:
+      add_new_problem: Определить новую проблему/риск
+      delete_problem: Удалить
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
       parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape
@@ -786,6 +798,7 @@ en:
           first_part: Показать все пакеты работы
           second_part: текущий пакет работ
       tabs:
+        problems: Проблемы
         targets: Целевые показатели
         overview: Обзор
         activity: Деятельность

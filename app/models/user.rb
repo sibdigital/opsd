@@ -92,6 +92,9 @@ class User < Principal
   has_many :work_package_problems, foreign_key: 'user_creator_id'
   has_many :work_package_problems, foreign_key: 'user_source_id', dependent: :nullify
   # )
+  # +tan tmd
+  belongs_to :organization, foreign_key: 'organization_id'
+  # -
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -309,7 +312,15 @@ class User < Principal
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
     when :firstname               then firstname
     when :username                then login
-
+    #bbm(
+    when :lastname_f_p then begin
+      fshort = firstname ? firstname.slice(0) : ''
+      fshort += firstname ? '.' : ''
+      pshort = patronymic ? patronymic.slice(0) : ''
+      pshort += patronymic ? '.' : ''
+      "#{lastname} #{fshort}#{pshort}"
+    end
+    #)
     else
       #zbd "#{firstname} #{lastname}"
       "#{firstname} #{patronymic} #{lastname}"
@@ -472,6 +483,19 @@ class User < Principal
   def valid_notification_options
     self.class.valid_notification_options(self)
   end
+
+  #+tmd
+  def organization_options
+    sql = "SELECT name, id FROM organizations"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    result = []
+
+    for i in 0...records_array.values.length
+      result.push(records_array[i])
+    end
+    result
+  end
+  #-
 
   # Only users that belong to more than 1 project can select projects for which they are notified
   def self.valid_notification_options(user = nil)
@@ -721,14 +745,25 @@ class User < Principal
     roles.find_all{ |r| r.name == Role.project_office_coordinator.name}.size > 0
   end
 
+  #является координатором от проектного офиса хотя бы по одному проекту
+  def detect_project_office_coordinator?()
+    poc = Role.find {|r| r.name == Role.project_office_coordinator.name}
+    member = memberships.detect { |m| m.roles.where(id: poc.id).size() > 0 }
+    member != nil
+  end
+
   def events_responsible?(project)
     roles = User.current.roles_for_project(project)
-    roles.find_all{ |r| r.name == Role.events_responsible.name}.size > 0
+    roles.find_all{ |r| r.name == Role.events_responsible.name}.size() > 0
   end
 
   def project_office_admin?(project)
     roles = User.current.roles_for_project(project)
     roles.find_all{ |r| r.name == Role.project_office_admin.name}.size > 0
+  end
+
+  def has_priveleged?(project)
+    project_admin?(project) || project_curator?(project) || project_customer?(project) || project_office_manager?(project) || project_activity_coordinator?(project) || project_office_coordinator?(project)
   end
 
   def project_head?(project)

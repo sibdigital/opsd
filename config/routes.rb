@@ -32,7 +32,7 @@ OpenProject::Application.routes.draw do
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   #bbm(
-  get '/vkladka1' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
+  get '/vkladka1(/*state)' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
   # state for show view in homescreen context
   get '/vkladka2(/*state)' => 'homescreen#vkladka2', as: 'edit_tab_homescreen2'
   # )
@@ -179,6 +179,7 @@ OpenProject::Application.routes.draw do
       get 'settings(/:tab)', controller: 'project_settings', action: 'show', as: :settings
 
       get 'stages', controller: 'stages', action: 'show' #, as: :stages
+      #get 'self_redirect', controller: 'stages', action: 'self_redirect'
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
@@ -285,6 +286,8 @@ OpenProject::Application.routes.draw do
 
       # state for show view in project context
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
+
+      resources :work_package_targets
     end
 
     #bbm(
@@ -373,6 +376,24 @@ OpenProject::Application.routes.draw do
       #post :send_email_from_forum  # tan
     end
   end
+
+  #knm(
+  resources :alerts do
+    get :get_pop_up_alerts, on: :collection
+    get :read_alert, on: :collection
+    get :get_delay_setting, on: :collection
+    get :notify_by_email
+
+  end
+
+  resources :pop_up_alerts
+
+  resources :interactive_map do
+    get :get_dues, on: :collection
+  end
+
+  resources :head_performance_indicator_values
+  #)
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]
@@ -628,10 +649,12 @@ OpenProject::Application.routes.draw do
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'
     get '/my/mail_notifications', action: 'mail_notifications'
+    get '/my/pop_up_notifications', action: 'pop_up_notifications'
 
     patch '/my/account', action: 'update_account'
     patch '/my/settings', action: 'update_settings'
     patch '/my/mail_notifications', action: 'update_mail_notifications'
+    patch '/my/pop_up_notifications', action: 'update_pop_up_notifications'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'

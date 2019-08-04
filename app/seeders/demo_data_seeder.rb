@@ -27,7 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 class DemoDataSeeder < CompositeSeeder
   def data_seeder_classes
-    [ DemoData::UserSeeder, DemoData::OrganizationSeeder, DemoData::ProjectSeeder, DemoData::MemberSeeder]
+    [ DemoData::UserSeeder, DemoData::OrganizationSeeder, DemoData::ProjectSeeder, DemoData::MemberSeeder, DemoData::CostSeeder,
+      DemoData::MeetingSeeder]
   end
 
   def namespace
