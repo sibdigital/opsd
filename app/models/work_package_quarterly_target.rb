@@ -1,4 +1,4 @@
-class WorkPackageQuarterlyTargets < ActiveRecord::Base
+class WorkPackageQuarterlyTarget < ActiveRecord::Base
   self.table_name = "v_quartered_work_package_targets_with_quarter_groups"
   self.primary_key = :id
 
