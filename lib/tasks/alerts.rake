@@ -2,7 +2,7 @@ namespace :alerts do
   desc "TODO"
   task start: :environment do
 
-    AlertsController.new.find_work_packages
+    AlertsController.new.notify_by_email
 
   end
 
