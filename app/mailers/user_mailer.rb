@@ -75,14 +75,17 @@ class UserMailer < BaseMailer
     end
   end
 
-#iag (
-  def work_package_notify_assignee(user)
-    @welcome_url = url_for(controller: '/homescreen')
+#iag, ban (
+  def work_package_notify_assignee(user, term_date, workPackage, project_name)
+    #@welcome_url = url_for(controller: '/homescreen')
 
     headers['X-OpenProject-Type'] = 'Test'
 
+    @term_date = term_date
+    @workPackage = workPackage
+    @project_name = project_name
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие.'
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие по проекту '+project_name
     end
   end
 
@@ -94,6 +97,37 @@ class UserMailer < BaseMailer
   #
   #   mail to: "\"#{name}\" <#{mail}>", subject: 'Вы приглашены в дискуссию'
   # end
+
+#ban
+  def cost_object_added(user, cost_object, author)
+    @cost_object = cost_object
+
+    open_project_headers 'Type'    => 'Cost_objects'
+    open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
+
+    message_id @cost_object, user
+
+    with_locale_for(user) do
+      subject = @cost_object.project.name+': '+@cost_object.subject
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def member_added(user, project, added_user, author)
+    @project = project
+    @added_user = added_user
+
+    open_project_headers 'Type'    => 'Members'
+    #open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
+
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'В проект '+@project.name.to_s+' добавлен участник '+@added_user.lastname.to_s+' '+@added_user.firstname.to_s
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
 
   def work_package_notify_assignee1(user, work_package , author = User.current)
     User.execute_as user do
