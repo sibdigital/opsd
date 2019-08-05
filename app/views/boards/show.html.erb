@@ -108,33 +108,35 @@ See docs/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
         <% @topics.each do |message| %>
-          <tr>
-            <td class="subject">
-              <% if message.sticky? %>
-                <%= op_icon('icon-wiki', title: I18n.t('js.label_board_sticky')) %>
-              <% end %>
-              <% if message.locked? %>
-                <%= op_icon('icon-locked', title: I18n.t('js.label_board_locked')) %>
-              <% end %>
-              <%= link_to message.subject, topic_path(message) %>
-            </td>
-            <td class="author">
-              <% if message.author %>
-                <%= link_to message.author.name, user_path(message.author) %>
-              <% end %>
-            </td>
-            <td class="created_on">
-              <%= format_time message.created_on %>
-            </td>
-            <td class="replies"><%= message.replies_count %></td>
-            <td class="last_message">
-              <% if message.last_reply %>
-                <%= authoring message.last_reply.created_on, message.last_reply.author %><br/>
-                <br/>
-                <%= link_to_message message.last_reply, no_root: true %>
-              <% end %>
-            </td>
-          </tr>
+          <% if authorize_for(:boards, :edit) || message.participants.present? && participant = message.participants.detect{|p| p.user_id == User.current.id} %>
+            <tr>
+              <td class="subject">
+                <% if message.sticky? %>
+                  <%= op_icon('icon-wiki', title: I18n.t('js.label_board_sticky')) %>
+                <% end %>
+                <% if message.locked? %>
+                  <%= op_icon('icon-locked', title: I18n.t('js.label_board_locked')) %>
+                <% end %>
+                <%= link_to message.subject, topic_path(message) %>
+              </td>
+              <td class="author">
+                <% if message.author %>
+                  <%= link_to message.author.name, user_path(message.author) %>
+                <% end %>
+              </td>
+              <td class="created_on">
+                <%= format_time message.created_on %>
+              </td>
+              <td class="replies"><%= message.replies_count %></td>
+              <td class="last_message">
+                <% if message.last_reply %>
+                  <%= authoring message.last_reply.created_on, message.last_reply.author %><br/>
+                  <br/>
+                  <%= link_to_message message.last_reply, no_root: true %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
         </tbody>
       </table>

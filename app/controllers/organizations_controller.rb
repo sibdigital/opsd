@@ -22,6 +22,8 @@ class OrganizationsController < ApplicationController
     if @parent_id != 0
       @organizarion_parent = Organization.find(@parent_id)
     end
+
+    # @data =
   end
 
   def choose
@@ -44,7 +46,34 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    sql = "SELECT formula FROM custom_fields WHERE type = 'OrganizationCustomField'"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    formula_array = records_array.values
+    len = @organization.custom_field_values.length
+    org_id = @organization.attributes['id']
+
+    for i in 0...len
+      if formula_array[i][0] != ""
+        expr = formula_array[i][0].to_s
+        expr_params = expr.split(/[+\-*\/]/)
+
+        for expr_param in expr_params
+          if expr_param =~ /^([^0-9]*)$/
+            translation = I18n.backend.translations[:en][:attributes].key expr_param
+            query = "SELECT " + translation.to_s + " FROM organizations WHERE id = " + org_id.to_s
+            result = ActiveRecord::Base.connection.execute(query).values
+
+            expr = expr.sub(expr_param, result[0][0])
+          end
+        end
+
+       # добавить проверку на nil
+        @organization.custom_field_values[i].value = eval(expr)
+      end
+    end
+  end
+
 
   def new
     @organization = Organization.new
@@ -116,10 +145,11 @@ class OrganizationsController < ApplicationController
     options[:responder] = ModalResponder
     respond_with *args, options, &blk
   end
+  end
 
   # def find_project
   #   @project = Project.find(params[:project_id])
   # rescue ActiveRecord::RecordNotFound
   #   render_404
   # end
-end
+

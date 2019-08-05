@@ -64,6 +64,11 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="message">
   <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
+
+  <div class="grid-content small-12">
+    <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong>: <%= format_participant_list @message.participants %></p>
+  </div>
+
   <div class="wiki">
     <%= format_text(@topic.content, object: @topic, attachments: @topic.attachments) %>
   </div>

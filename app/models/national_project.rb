@@ -5,12 +5,17 @@ class NationalProject < ActiveRecord::Base
   has_many :agreements, foreign_key: 'national_project_id'
   has_many :agreements, foreign_key: 'federal_project_id'
 
-  def option_name
-    nil
-  end
+  has_many :national_work_package_quarterly_targets, -> { where(type: 'National') }, foreign_key: 'national_project_id', class_name: "WorkPackageQuarterlyTarget"
+  has_many :national_plan_fact_yearly_target_values, -> { where(type: 'National') }, foreign_key: 'national_project_id', class_name: "PlanFactYearlyTargetValue"
+  has_many :national_plan_quarterly_target_values, -> { where(type: 'National') }, foreign_key: 'national_project_id', class_name: "PlanQuarterlyTargetValue"
+  has_many :national_plan_fact_quarterly_target_values, -> { where(type: 'National') }, foreign_key: 'national_project_id', class_name: "PlanFactQuarterlyTargetValue"
+
+  has_many :federal_work_package_quarterly_targets, -> { where(type: 'Federal') }, foreign_key: 'federal_project_id', class_name: "WorkPackageQuarterlyTarget"
+  has_many :federal_plan_fact_yearly_target_values, -> { where(type: 'Federal') }, foreign_key: 'federal_project_id', class_name: "PlanFactYearlyTargetValue"
+  has_many :federal_plan_quarterly_target_values, -> { where(type: 'Federal') }, foreign_key: 'federal_project_id', class_name: "PlanQuarterlyTargetValue"
+  has_many :federal_plan_fact_quarterly_target_values, -> { where(type: 'Federal') }, foreign_key: 'federal_project_id', class_name: "PlanFactQuarterlyTargetValue"
 
   def to_s
     name
   end
-
 end

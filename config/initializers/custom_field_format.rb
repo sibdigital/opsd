@@ -55,6 +55,7 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: :label_boolean,
                                                      order: 7,
                                                      formatter: 'CustomValue::BoolStrategy')
+
   fields.register OpenProject::CustomFieldFormat.new('user',
                                                      label: Proc.new { User.model_name.human },
                                                      only: %w(WorkPackage TimeEntry
@@ -69,4 +70,9 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      edit_as: 'list',
                                                      order: 9,
                                                      formatter: 'CustomValue::VersionStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('formula',
+                                                     label: :label_formula,
+                                                     order: 10,
+                                                     formatter: 'CustomValue::FormulaStrategy')
 end

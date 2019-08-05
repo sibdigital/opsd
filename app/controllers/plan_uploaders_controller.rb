@@ -45,6 +45,7 @@ class PlanUploadersController < ApplicationController
 
   def load
 
+
     prepare_roo
     filename = Rails.root.join('public', @plan_uploader.name.store_path)
 

@@ -37,6 +37,7 @@ class Tables::CustomFields < Tables::Base
       t.string :type, limit: 30, default: '', null: false
       t.string :field_format, limit: 30, default: '', null: false
       t.string :regexp, default: ''
+      t.string :formula, default: ''
       t.integer :min_length, default: 0, null: false
       t.integer :max_length, default: 0, null: false
       t.boolean :is_required, default: false, null: false
