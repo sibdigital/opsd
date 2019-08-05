@@ -6,7 +6,7 @@ class HeadPerformanceIndicatorValuesController < ApplicationController
   include ::ColorsHelper
   layout 'admin'
   before_action :find_hpi_value, only: [:destroy]
-  before_action :authorize_global, only: [:new,:destroy]
+  before_action :authorize_global, only: [:index, :new, :destroy]
   def index
     sort_columns = {'id' => "#{HeadPerformanceIndicatorValue.table_name}.id",
                     'head_performance_indicator_id'=>"#{HeadPerformanceIndicatorValue.table_name}.head_performance_indicator_id",
