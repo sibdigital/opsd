@@ -156,6 +156,10 @@ class Project < ActiveRecord::Base
   #tan(
   has_many :work_package_problems, foreign_key: 'work_package_id'
   has_many :work_package_targets, foreign_key: 'work_package_id'
+  has_many :work_package_quarterly_targets, foreign_key: 'project_id'
+  has_many :plan_fact_yearly_target_values, foreign_key: 'project_id'
+  has_many :plan_quarterly_target_values, foreign_key: 'project_id'
+  has_many :plan_fact_quarterly_target_values, foreign_key: 'project_id'
   # )
 
   #tan(

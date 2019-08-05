@@ -64,6 +64,7 @@ module Queries::WorkPackages
   # )
   #+tan tmd
   register.filter Query, filters_module::OrganizationFilter
+  register.filter Query, filters_module::RaionFilter
   #-
   register.filter Query, filters_module::PrecedesFilter
   register.filter Query, filters_module::FollowsFilter
