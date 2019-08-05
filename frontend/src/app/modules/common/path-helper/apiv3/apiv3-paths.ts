@@ -85,6 +85,8 @@ export class ApiV3Paths {
 
   public readonly summary_budgets_users = new SimpleResource(this.apiV3Base, 'summary_budgets/all_user');
 
+  public readonly summary_budgets = new SimpleResource(this.apiV3Base, 'summary_budgets/budget');
+
   public readonly protocols = new SimpleResource(this.apiV3Base, 'protocols');
   //)
 

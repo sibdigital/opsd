@@ -10,11 +10,22 @@ export const HomescreenProgressBarSelector = 'homescreen-progress-bar';
   styleUrls: ['./homescreen-progress-bar.sass']
 })
 export class HomescreenProgressBarComponent implements OnInit {
-  @Input('progress') public progress:string;
-  constructor() { }
+  @Input('progress') public progress:string = '';
+  public $element:JQuery;
+  public color:string = "#000"
+
+  constructor(protected elementRef:ElementRef) { }
 
   ngOnInit() {
-    console.log(this.progress);
+    if (parseInt(this.progress) < 30) {
+      this.color = '#ee8888';
+    } else if (parseInt(this.progress) < 60) {
+      this.color = '#eeee88';
+    } else {
+      this.color = '#88ee88';
+    }
+    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element.children().children('.progress').attr('data-label', this.progress + '%');
   }
 
 

@@ -73,6 +73,12 @@ module API
           get :vnebudget do
             AllBudgetsHelper.all_buget current_user
           end
+
+          get :budget do
+            Project.all.map do |p|
+              AllBudgetsHelper.cost_by_project p
+            end
+          end
         end
         # -tan
       end
