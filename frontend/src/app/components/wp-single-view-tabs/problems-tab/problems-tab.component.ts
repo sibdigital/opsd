@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
@@ -14,18 +14,24 @@ import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {WpTargetResource} from "core-app/modules/hal/resources/wp-target-resource";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 
-enum ProblemType {Problem, Risk};
-enum SolutionType {Created, Solved};
+//enum ProblemType {Problem, Risk};
+//enum SolutionType {Created, Solved};
+export interface typeArr { name: string};
+
+let PROBLEM_TYPE: typeArr[] = [{name: 'problem'}, {name: 'risk'}];
+let SOLUTION_TYPE: typeArr[] = [{name: 'created'}, {name: 'solved'}];
 
 export class WpProblem {
+
   // properties
   public id: number;
   public project_id: number;
   public work_package_id: number;
   public risk_id: number;
   public name: string;
-  public problem_type: ProblemType;
+  public problem_type: string;
   public user_creator_id: number;
   public user_source_id: number;
   public organization_source_id: number;
@@ -34,9 +40,9 @@ export class WpProblem {
   public status: string;
   public solution_date: string;
 
-  constructor (parameters: { id: number, project_id: number, work_package_id: number, risk_id: number, name: string, problem_type?: ProblemType, user_creator_id?: number, user_source_id?: number, organization_source_id?: number, description?: string, status?: string, solution_date?: string,
+  constructor (parameters: { id: number, project_id: number, work_package_id: number, risk_id: number, name: string, problem_type?: string, user_creator_id?: number, user_source_id?: number, organization_source_id?: number, description?: string, status?: string, solution_date?: string,
       user?: UserResource}){
-    let {id, project_id, work_package_id, risk_id, name, problem_type = 0, user_creator_id = 0, user_source_id = 0, organization_source_id = 0, description = '', status = '', solution_date = '', user = undefined} = parameters;
+    let {id, project_id, work_package_id, risk_id, name, problem_type = PROBLEM_TYPE[0].name, user_creator_id = 0, user_source_id = 0, organization_source_id = 0, description = '', status = '', solution_date = '', user = undefined} = parameters;
 
     this.id = id;
     this.project_id = project_id;
@@ -66,14 +72,18 @@ export class WpProblem {
 export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   @Input() public workPackageId:string;
   @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
+  @ViewChild('readOnlyTemplate') readOnlyTemplate: TemplateRef<any>;
+  @ViewChild('editTemplate') editTemplate: TemplateRef<any>;
 
   public workPackage:WorkPackageResource;
   public wpProblems:Array<WpProblem>;
   public wpProblem: WpProblem;
+  public editedProblem: WpProblem;
 
   public showProblemCreateForm:boolean = false;
   public selectedId:string;
   public isDisabled = false;
+  problemCanEdit: boolean;
 
   public orgs = new Map;
   public users = new Map;
@@ -84,8 +94,15 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     addNewProblem: this.I18n.t('js.problem_buttons.add_new_problem'),
     save: this.I18n.t('js.target_buttons.save'),
     abort: this.I18n.t('js.target_buttons.abort'),
+    edit: this.I18n.t('js.problem_buttons.edit_problem'),
     placeholder: this.I18n.t('js.target_buttons.placeholder'),
     removeButton: this.I18n.t('js.problem_buttons.delete_problem')
+  };
+
+  public confirmText = {
+    title: 'Удаление',
+    text: 'Вы действительно хотите удалить эту запись?',
+    button_continue: 'Да'
   };
 
   constructor(readonly timezoneService:TimezoneService,
@@ -94,6 +111,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
               protected halResourceService:HalResourceService,
               readonly $transition:Transition,
               readonly wpCacheService:WorkPackageCacheService,
+              protected confirmDialog: ConfirmDialogService,
               protected pathHelper:PathHelperService) {
 
     this.wpProblems = new Array<WpProblem>();
@@ -116,11 +134,16 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     this.loadUsers();
     this.loadRisks();
 
-    this.wpProblem = new WpProblem({id: 0, project_id: this.workPackage.project.id,
-      work_package_id: Number(this.workPackageId), risk_id: 0, name:''});
-    console.log(this.wpProblem);
     this.isDisabled = false;
 
+
+    //console.log(PROBLEM_TYPE[0].name)
+    //console.log(SOLUTION_TYPE[0].name)
+    SOLUTION_TYPE.forEach((value, ind) => {
+      console.log(ind.toString() +'-' + value.name)
+    });
+
+    this.problemCanEdit = true;
   }
 
   ngOnDestroy(): void {
@@ -134,15 +157,16 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       .toPromise()
       .then((collection:CollectionResource<HalResource>) => {
         this.wpProblems = collection.elements.map(el => {
-          //let user_creator :UserResource;
-          //this.userDmService.load(el.user_creator_id).then((resource:UserResource) => {user_creator = resource; return user_creator;})
           return new WpProblem(
             {id: Number(el.getId()), project_id: el.projectId, work_package_id: el.workPackageId, risk_id: el.riskId, name: el.name,
             problem_type: el.type, user_creator_id: el.userCreatorId, organization_source_id: el.organizationSourceId,
             user_source_id: el.userSourceId, status: el.status, solution_date: el.solutionDate, description: el.description})
           })
         }
-      );
+      )
+      .catch((err) => {
+        this.wpNotificationsService.handleRawError(err, this.workPackage);
+      });
   }
 
   private loadOrgs(){
@@ -189,13 +213,58 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     const path = this.pathHelper.api.v3.work_package_problems.toString();
     const params = {project_id: problem.project_id, work_package_id: problem.work_package_id, risk_id: problem.risk_id,
             user_creator_id: problem.user_creator_id, organization_source_id: problem.organization_source_id,
-            description: problem.description, status: problem.status, solution_date: problem.solution_date,
-            type: problem.problem_type, user_source_id: problem.user_source_id
+            description: problem.description, status: 'created', type: problem.problem_type,
+            user_source_id: problem.user_source_id
     };
     return this.halResourceService
       .post<WpTargetResource>(path, params)
       .toPromise();
   }
+
+
+  /** Изменяет запись
+   * */
+  public saveWpProblem(problem: WpProblem){
+    const path = this.pathHelper.api.v3.work_package_problems.toString() + '/' + problem.id;
+    const params = {project_id: problem.project_id, work_package_id: problem.work_package_id, risk_id: problem.risk_id,
+      user_creator_id: problem.user_creator_id, organization_source_id: problem.organization_source_id,
+      description: problem.description, status: problem.status, type: problem.problem_type,
+      user_source_id: problem.user_source_id, solution_date: problem.solution_date
+    };
+    return this.halResourceService
+      .patch<WpTargetResource>(path, params)
+      .toPromise()
+      .then(() => {
+        this.loadWpProblems(this.workPackageId);
+        this.editedProblem = null;
+      })
+      .catch(err => {
+        this.wpNotificationsService.handleRawError(err, this.workPackage);
+      });
+  }
+
+  public editProblem(problem: WpProblem){
+    this.editedProblem = new WpProblem({id: problem.id, project_id: problem.project_id,
+      work_package_id: Number(this.workPackageId), risk_id: problem.risk_id, name: problem.name,
+      problem_type: problem.problem_type, status: problem.status,
+      user_source_id: problem.user_source_id, organization_source_id: problem.organization_source_id,
+      description: problem.description, solution_date: problem.solution_date});
+  }
+
+  public cancelEdit(){
+    this.editedProblem = null;
+  }
+
+  /** загружаем один из двух шаблонов
+   */
+  loadTemplate(problem: WpProblem) {
+    if (this.editedProblem && this.editedProblem.id == problem.id) {
+      return this.editTemplate;
+    } else {
+      return this.readOnlyTemplate;
+    }
+  }
+
 
   /** по нажатию на кнопку Сохранить
    * */
@@ -240,6 +309,11 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
         this.selectedId = '';
         this.focusAfterSave.nativeElement.focus();
       }
+      else {
+        this.wpProblem = new WpProblem({id: 0, project_id: this.workPackage.project.getId(),
+          work_package_id: Number(this.workPackageId), risk_id: 0, name:''});
+        //console.log(this.wpProblem);
+      }
     });
   }
 
@@ -247,18 +321,25 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     const path = this.pathHelper.api.v3.work_package_problems.toString() + '/' + problem.id;
     const params = {project_id: problem.project_id};
     //const params = new HttpParams().set('project_id', problem.project_id.toString());
-    this.halResourceService
-      .delete(path, params)
-      .toPromise()
-      .then(wpProblem => {
-          //this.loadWpProblems(this.workPackage.id);
-          this.wpNotificationsService.showSave(this.workPackage);
-          this.wpProblems.splice(this.wpProblems.indexOf(problem), 1);
-        }
-      )
-      .catch(err => {
-          this.wpNotificationsService.handleRawError(err, this.workPackage);
-        }
-      );
+    this.confirmDialog.confirm({
+      text: this.confirmText,
+      closeByEscape: true,
+      showClose: true,
+      closeByDocument: true,
+    }).then(() => {
+      this.halResourceService
+        .delete(path, params)
+        .toPromise()
+        .then(wpProblem => {
+            this.wpNotificationsService.showSave(this.workPackage);
+            this.wpProblems.splice(this.wpProblems.indexOf(problem), 1);
+          }
+        )
+        .catch(err => {
+            this.wpNotificationsService.handleRawError(err, this.workPackage);
+          }
+        );
+    })
+      .catch(function () { return false; });
   }
 }

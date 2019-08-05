@@ -13,6 +13,8 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 import {WpProblem} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 
 @Component({
   selector: 'wp-targets-tab',
@@ -44,6 +46,12 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
     removeButton: this.I18n.t('js.problem_buttons.delete_problem')
   };
 
+  public confirmText = {
+    title: 'Удаление',
+    text: 'Вы действительно хотите удалить эту запись?',
+    button_continue: 'Да'
+  };
+
   public constructor(readonly I18n:I18nService,
                      readonly $transition:Transition,
                      protected wpTargetsService:WpTargetsService,
@@ -51,6 +59,7 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
                      readonly loadingIndicator:LoadingIndicatorService,
                      readonly wpCacheService:WorkPackageCacheService,
                      protected pathHelper:PathHelperService,
+                     protected confirmDialog: ConfirmDialogService,
                      protected halResourceService: HalResourceService) {
   }
 
@@ -148,18 +157,27 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
   private deleteTarget(target: WpTargetResource){
     const path = this.pathHelper.api.v3.work_package_targets.toString() + '/' + target.id;
     const params = {project_id: target.project_id};
-    this.halResourceService
-      .delete(path, params)
-      .toPromise()
-      .then(wpTarget => {
-          this.wpNotificationsService.showSave(this.workPackage);
-          this.loadWpTargets();
-        }
-      )
-      .catch(err => {
-          this.wpNotificationsService.handleRawError(err, this.workPackage);
-        }
-      );
+
+    this.confirmDialog.confirm({
+      text: this.confirmText,
+      closeByEscape: true,
+      showClose: true,
+      closeByDocument: true,
+    }).then(() => {
+      this.halResourceService
+        .delete(path, params)
+        .toPromise()
+        .then(wpTarget => {
+            this.wpNotificationsService.showSave(this.workPackage);
+            this.loadWpTargets();
+          }
+        )
+        .catch(err => {
+            this.wpNotificationsService.handleRawError(err, this.workPackage);
+          }
+        )
+      })
+      .catch(function () { return false; });
   }
 
 
