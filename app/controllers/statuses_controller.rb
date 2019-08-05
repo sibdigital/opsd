@@ -68,6 +68,7 @@ class StatusesController < ApplicationController
     @status = Status.find(params[:id])
     if @status.update_attributes(permitted_params.status)
       flash[:notice] = l(:notice_successful_update)
+
       redirect_to action: 'index'
     else
       render action: 'edit'

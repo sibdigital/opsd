@@ -395,6 +395,9 @@ OpenProject::Application.routes.draw do
   resources :alerts do
     get :get_pop_up_alerts, on: :collection
     get :read_alert, on: :collection
+    get :get_delay_setting, on: :collection
+    get :notify_by_email
+
   end
 
   resources :pop_up_alerts

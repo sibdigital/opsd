@@ -162,6 +162,17 @@ class MyController < ApplicationController
     end
   end
 
+  def write_pop_up_settings(redirect_to:)
+    update_service = UpdateUserEmailSettingsService.new(@user)
+    if update_service.call(mail_notification: permitted_params.user[:mail_notification],
+                           self_notified: params[:self_notified] == '1',
+                           notified_project_ids: params[:notified_project_ids])
+      flash[:notice] = l(:notice_account_updated)
+      redirect_to(action: redirect_to)
+    end
+  end
+
+
   def write_settings(current_user, request, permitted_params, params)
     result = Users::UpdateService
              .new(current_user: current_user)

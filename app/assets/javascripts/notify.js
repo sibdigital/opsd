@@ -299,7 +299,10 @@
     bind: function () {
       var self = this;
       this.$ele.find('[data-notify="dismiss"]').on('click', function () {
-        self.close();
+        self.$ele.hide();
+        setTimeout(function() {
+          self.$ele.show()
+        }, 60000*parseInt(self.$ele.find('[data-notify="dismiss"]')[0].id));
       });
       this.$ele.find('[data-notify="read"]').on('click', function () {
         jQuery.ajax({ type: 'GET',

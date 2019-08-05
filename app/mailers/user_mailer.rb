@@ -44,11 +44,9 @@ class UserMailer < BaseMailer
       work_package = journal.journable.reload
       @issue = work_package # instance variable is used in the view
       @journal = journal
-
       set_work_package_headers(work_package)
-
       message_id work_package, user
-
+      Alert.create_new_pop_up_alert(1, "WorkPackage", "Changed", author.id, user.id)
       with_locale_for(user) do
         mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
       end

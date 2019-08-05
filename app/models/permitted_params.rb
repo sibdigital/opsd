@@ -355,6 +355,10 @@ class PermittedParams
     permitted_params.merge(custom_field_values(:version, required: false))
   end
 
+  def alert
+    params.require(:alert).permit(:entity_id, :alert_date, :entity_type, :alert_type, :readed, :about, :created_by, :to_user)
+  end
+
   def production_calendar
     params.require(:production_calendar).permit(:day_type, :date, :year)
   end

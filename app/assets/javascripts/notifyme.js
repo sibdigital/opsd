@@ -16,31 +16,53 @@ var timerId = setTimeout(notifying(),5000);
 function notifying()
 {
   var count;
+  var time;
+  jQuery.ajax({})
+  jQuery.ajax({ type: 'GET',
+    url: '/alerts/get_delay_setting',
+    async: true,
+    success: function(text)
+    {
+      time=text;
+    }
+  });
+  // jQuery.ajax({ type: 'GET',
+  //   url: '/alerts/get_dues',
+  //   async: true,
+  //   success: function(text)
+  //   {
+  //     time=text;
+  //   }
+  // });
   jQuery.ajax({ type: 'GET',
                 url: '/alerts/get_pop_up_alerts',
                 async: true,
                 success: function(text)
                 {
-                  count=text.length;
-                  for (var i=0;i<count;i++)
+                  if (text!==null)
                   {
-                    var date=new Date(text[i].alert_date);
-                    pop(text[i].id, 'Произведено действие с ' + text[i].entity_id + ' записью таблицы ' + text[i].entity_type + ' в ' + date.toLocaleTimeString() + ' '+ date.toLocaleDateString());
+                    count=text.length;
+                    for (var i=0;i<count;i++)
+                    {
+                      var date=new Date(text[i].alert_date);
+                      pop(text[i].id, 'Произведено действие с записями таблицы ' + text[i].entity_type + ' в '+ date.toLocaleDateString(),time);
+                    }
                   }
                 }
   });
   setTimeout(notifying,5000);
 }
 
-function pop(id, text){
+function pop(id, text, time){
   jQuery.notify({
-    title: 'Уведомление '+id,
+    title: 'Уведомление ',
     icon: 'glyphicon glyphicon-star',
     message: text
 
   },{
     allow_duplicates: false,
     type: 'info',
+    // showProgressbar: true,
     delay: 0,
     timer: 0,
     animate: {
@@ -59,7 +81,9 @@ function pop(id, text){
       '<div data-notify="container" id="'+
       id+
       '" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert" style="width: 350px; color: #31708f; background-color: #d9edf7; border: 1px #bce8f1 solid; border-radius: 4px; padding: 15px; margin-bottom: 20px;" >' +
-      '<button type="button" aria-hidden="true" class="close" style="float: right; font-size: 21px; font-weight: bold; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; filter: alpha(opacity=20); opacity: .2; -webkit-appearance: none; padding: 0; cursor: pointer; background: transparent; border: 0" data-notify="dismiss">×</button>' +
+      '<button type="button" id="'+
+      time+
+      '" aria-hidden="true" class="close" style="float: right; font-size: 21px; font-weight: bold; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; filter: alpha(opacity=20); opacity: .2; -webkit-appearance: none; padding: 0; cursor: pointer; background: transparent; border: 0" data-notify="dismiss">×</button>' +
       '<span data-notify="icon"></span> ' +
       '<span data-notify="title"><strong>{1}</strong></span> <br>' +
       '<span data-notify="message">{2}</span><br>' +

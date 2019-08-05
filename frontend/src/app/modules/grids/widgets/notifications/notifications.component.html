@@ -1,0 +1,39 @@
+<h3 class="widget-box--header" cdkDragHandle>
+    <i class="icon-context icon-news" aria-hidden="true"></i>
+    <span class="widget-box--header-title" [textContent]="text.title"></span>
+</h3>
+<div class="grid--widget-content">
+    <no-results *ngIf="noEntries"
+                [title]="text.noResults">
+    </no-results>
+    <ul class="widget-box--arrow-links">
+        <li class="-widget-box--arrow-multiline" *ngFor="let notifications of entries">
+            <div>
+                <ng-container *ngIf="notifications.author">
+                    <img class="avatar avatar-mini avatar--fallback"
+                         data-avatar-fallback-remove="true"
+                         *ngIf="notificationsAuthorAvatar(notifications)"
+                         [attr.src]="notificationsAuthorAvatar(notifications)"
+                         [attr.title]="notificationsAuthorName(notifications)"
+                         [attr.alt]="notificationsAuthorName(notifications)" />
+                </ng-container>
+                <a [href]="notificationsProjectPath(notifications)"
+                   [textContent]="notificationsProjectName(notifications)">
+                </a>:
+                <a [href]="notificationsPath(notifications)"
+                   [textContent]="notifications.title">
+                </a>
+
+                <p *ngIf="notifications.author"
+                   class="widget-box--additional-info">
+                    {{text.createdBy}}
+                    <a [href]="notificationsAuthorPath(notifications)"
+                       [textContent]="notificationsAuthorName(notifications)">
+                    </a>
+                    {{text.at}}
+                    {{notificationsCreated(notifications)}}
+                </p>
+            </div>
+        </li>
+    </ul>
+</div>

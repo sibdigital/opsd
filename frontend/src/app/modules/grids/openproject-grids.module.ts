@@ -52,6 +52,7 @@ import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-c
 import {Ng2StateDeclaration, UIRouterModule} from '@uirouter/angular';
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
 import {WidgetNewsComponent} from "core-app/modules/grids/widgets/news/news.component";
+import {WidgetNotificationsComponent} from "core-app/modules/grids/widgets/notifications/notifications.component";
 import {WidgetWpAccountableComponent} from './widgets/wp-accountable/wp-accountable.component';
 
 export const GRID_ROUTES:Ng2StateDeclaration[] = [
@@ -75,6 +76,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
 
     DynamicModule.withComponents([WidgetDocumentsComponent,
                                   WidgetNewsComponent,
+                                  WidgetNotificationsComponent,
                                   WidgetWpAssignedComponent,
                                   //zbd
                                   WidgetWpRemainingComponent,
@@ -101,6 +103,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     GridComponent,
     WidgetDocumentsComponent,
     WidgetNewsComponent,
+    WidgetNotificationsComponent,
     WidgetWpAssignedComponent,
     //zbd
     WidgetWpRemainingComponent,
@@ -172,6 +175,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'news',
           component: WidgetNewsComponent
+        },
+        {
+          identifier: 'notifications',
+          component: WidgetNotificationsComponent
         }
       ];
     });

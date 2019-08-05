@@ -88,6 +88,10 @@ class User < Principal
   has_many :oauth_applications,
            class_name: 'Doorkeeper::Application',
            as: :owner
+  #tan(
+  has_many :work_package_problems, foreign_key: 'user_creator_id'
+  has_many :work_package_problems, foreign_key: 'user_source_id', dependent: :nullify
+  # )
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
