@@ -239,10 +239,8 @@ class AgreementsController < ApplicationController
 
     get_value_targets
 
-    @targets = Target.where(project_id: @project.id)
-
     data_row = 4
-    #@targets.each_with_index do |target, i|
+
     @result_array_targets.each_with_index do |target, i|
 
     @workPackageTarget = WorkPackageTarget.find_by(work_package_id: target["work_package_id"])
@@ -380,14 +378,111 @@ class AgreementsController < ApplicationController
   end
 
   def generate_status_execution_budgets_sheet
-     @budjets = AllBudgetsHelper.cost_by_project @project
-     sheet = @workbook['Данные для диаграмм']
-     total_budget = @budjets[:total_budget]
-     ostatok_budget = @budjets[:ostatok]
-     sheet[3][4].change_contents(total_budget)
-     sheet[5][4].change_contents(total_budget)
+
+    result_fed_budjet = fed_budget_data
+    result_reg_budjet = reg_budget_data
+    result_other_budjet = other_budget_data
+
+    sheet = @workbook['Статус исполнения бюджета']
+    sheet[3][0].change_contents(Date.today.strftime("%d.%m.%Y"))
+    sheet[4][1].change_contents('%.2f' %(result_fed_budjet[3]/1000000))
+
+    sheet[4][6].change_contents(Date.today.strftime("%d.%m.%Y"))
+    sheet[5][7].change_contents('%.2f' %(result_reg_budjet[3]/1000000))
+
+    sheet[3][11].change_contents(Date.today.strftime("%d.%m.%Y"))
+    sheet[4][12].change_contents('%.2f' %(result_other_budjet[3]/1000000))
+
+    sheetDataDiagram = @workbook['Данные для диаграмм']
+     #@budjets = AllBudgetsHelper.cost_by_project @project
+     #total_budget = @budjets[:total_budget]
+     #ostatok_budget = @budjets[:ostatok]
+    # sheetDataDiagram[3][4].change_contents(total_budget)
+    # sheetDataDiagram[5][4].change_contents(total_budget)
+
+
+    sheetDataDiagram[3][4].change_contents(result_fed_budjet[0])
+    sheetDataDiagram[4][4].change_contents(result_fed_budjet[1])
+    sheetDataDiagram[5][4].change_contents(result_fed_budjet[2])
+
+    sheetDataDiagram[3][9].change_contents(result_reg_budjet[0])
+    sheetDataDiagram[4][9].change_contents(result_reg_budjet[1])
+    sheetDataDiagram[5][9].change_contents(result_reg_budjet[2])
+
+    sheetDataDiagram[3][14].change_contents(result_other_budjet[0])
+    sheetDataDiagram[4][14].change_contents(result_other_budjet[1])
+    sheetDataDiagram[5][14].change_contents(result_other_budjet[2])
+
   end
 
+
+  # Функция заполнения значений долей диаграммы
+  def fed_budget_data
+    cost_objects = CostObject.all#CostObject.where(project_id: @project.id)
+    total_budget = BigDecimal("0")
+    spent = BigDecimal("0")
+
+    cost_objects.each do |cost_object|
+      total_budget += cost_object.budget
+      spent += cost_object.spent
+    end
+
+    spent
+    risk_ispoln = 0
+    ostatok = total_budget - spent
+    result = []
+
+    result << spent
+    result << risk_ispoln
+    result << ostatok
+    result << total_budget
+  end
+
+  def reg_budget_data
+    cost_objects = CostObject.all#CostObject.where(project_id: @project.id)
+    total_budget = BigDecimal("0")
+    labor_budget = BigDecimal("0")
+    spent = BigDecimal("0")
+
+    cost_objects.each do |cost_object|
+      total_budget += cost_object.budget
+      labor_budget += cost_object.labor_budget
+      spent += cost_object.spent
+    end
+
+    spent
+    risk_ispoln = 0
+    ostatok = total_budget - spent
+    result = []
+
+    result << spent
+    result << risk_ispoln
+    result << ostatok
+    result << total_budget
+  end
+
+  def other_budget_data
+    cost_objects = CostObject.all#CostObject.where(project_id: @project.id)
+    total_budget = BigDecimal("0")
+    material_budget = BigDecimal("0")
+    spent = BigDecimal("0")
+
+    cost_objects.each do |cost_object|
+      total_budget += cost_object.budget
+      material_budget += cost_object.labor_budget
+      spent += cost_object.spent
+    end
+
+    spent
+    risk_ispoln = 0
+    ostatok = total_budget - spent
+    result = []
+
+    result << spent
+    result << risk_ispoln
+    result << ostatok
+    result << total_budget
+  end
 
   def new
     @agreement = Agreement.new
