@@ -393,6 +393,8 @@ OpenProject::Application.routes.draw do
   end
 
   resources :head_performance_indicator_values
+
+  resources :national_projects
   #)
 
   scope 'admin' do
