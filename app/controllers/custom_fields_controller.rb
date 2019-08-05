@@ -151,7 +151,7 @@ class CustomFieldsController < ApplicationController
     render_404
   end
 
-  protected
+  # protected
 
   def default_breadcrumb
     if action_name == 'index'
@@ -163,5 +163,9 @@ class CustomFieldsController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def convert
+    @data = CustomField.where(:created_at => @date_range)
   end
 end

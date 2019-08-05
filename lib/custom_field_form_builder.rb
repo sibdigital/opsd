@@ -73,6 +73,12 @@ class CustomFieldFormBuilder < TabularFormBuilder
       check_box(field, input_options.merge(checked: formatter.checked?))
     when 'list'
       custom_field_input_list(field, input_options)
+    # when 'formula'
+      # sql = "SELECT formula FROM custom_fields WHERE field_format = 'formula'"
+      # records_array = ActiveRecord::Base.connection.execute(sql)
+      # formula_array = records_array.values
+    #
+    #   text_field(field, input_options)
     else
       text_field(field, input_options)
     end

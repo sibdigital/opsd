@@ -26,29 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% breadcrumb_paths(nil) %>
-<h2 class="headline--application">
-  <span><%= organization_icon %></span>
-  <%= organization_name %>
-</h2>
+
 
 <%= render partial: 'announcements/show' %>
 
-
-<div class="tabs">
-  <ul>
-    <li>
-      <%= link_to t("Vkladka 1"),
-                  edit_tab_homescreen1_path(),
-                  class: "#{'selected' if @tab == "vkladka1" }"  %>
-    </li>
-    <li>
-      <%= link_to t("Vkladka 2"),
-                  edit_tab_homescreen2_path(),
-                  class: "#{'selected' if @tab == 'vkladka2' }"  %>
-    </li>
-  </ul>
-</div>
 
 <%= render partial: "homescreen/form/#{@tab}"%>
 
