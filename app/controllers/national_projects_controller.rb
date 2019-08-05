@@ -23,8 +23,20 @@ class NationalProjectsController < ApplicationController
   end
 
   def new
+    @national_project = HeadPerformanceIndicatorValue.new
   end
 
   def destroy
+    if @national_project.type === "National"
+      @national_projects.each do |national_project|
+        if national_project.parent_id === @national_project.id
+          national_project.parent_id = null
+        end
+      end
+    else
+    @national_project.destroy
+    redirect_to action: 'index'
+    end
+    nil
   end
 end
