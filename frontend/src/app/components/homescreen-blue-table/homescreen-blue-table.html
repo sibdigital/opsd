@@ -46,6 +46,9 @@
                         [innerHTML]="this.blueTableModule.getTdData(row, i)"></span>
                 <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'"
                       [progress]="this.blueTableModule.getTdData(row, i)"></homescreen-progress-bar>
+                <br *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'">
+                <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'"
+                                         [progress]="this.blueTableModule.getTdData(row, 100)"></homescreen-progress-bar>
                 <a *ngIf="this.blueTableModule.getTdClass(row, i) === 'performance'"
                                 id="performance_{{row.id}}" href="" (click)="hello(row.id)">{{this.blueTableModule.getTdData(row, i)}}</a>
             </td>
