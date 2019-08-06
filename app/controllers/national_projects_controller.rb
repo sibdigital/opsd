@@ -43,25 +43,40 @@ class NationalProjectsController < ApplicationController
   end
 
   def new
-    @national_project = HeadPerformanceIndicatorValue.new
+    @national_project = NationalProject.new
+  end
+
+  def create
+    @national_project = NationalProject.new(permitted_params.national_project)
+    if params["national_project"]["parent_id"] == nil
+      @national_project.type="National"
+    else
+      @national_project.type="Federal"
+    end
+    if @national_project.save
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to action: 'index'
+    else
+      render action: 'new'
+    end
   end
 
   def destroy
     if @national_project.type === "National"
       del=0
-      @national_projects.each do |national_project|
+      NationalProject.where(type: "Federal").each do |national_project|
         if national_project.parent_id === @national_project.id
           # national_project.parent_id = null
-          # del=del+1
-          national_project.destroy
+          del=del+1
+          # national_project.destroy
         end
       end
-      # if del==0
-      #   @national_project.destroy
-      # else
-      #   flash.now[:error] = l('notice_project_not_deleted')
-      #   render action: 'index'
-      # end
+      if del==0
+        @national_project.destroy
+      else
+        flash.now[:error] = l(:notice_project_not_deleted)
+        redirect_to action: 'index'
+      end
     else
     @national_project.destroy
     redirect_to action: 'index'
