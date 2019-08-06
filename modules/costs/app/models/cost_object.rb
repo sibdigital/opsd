@@ -40,6 +40,8 @@ class CostObject < ActiveRecord::Base
   validates_length_of :subject, maximum: 255
   validates_length_of :subject, minimum: 1
 
+  after_create :send_cost_object_added_mail
+
   User.before_destroy do |user|
     CostObject.replace_author_with_deleted_user user
   end
@@ -48,6 +50,11 @@ class CostObject < ActiveRecord::Base
     includes(:project)
       .references(:projects)
       .merge(Project.allowed_to(user, :view_cost_objects))
+  end
+
+  #ban
+  def visible?(user = User.current)
+    !user.nil? && user.allowed_to?(:view_cost_objects, project)
   end
 
   def initialize(attributes = nil)
@@ -146,5 +153,13 @@ class CostObject < ActiveRecord::Base
 
   def name
     subject
+  end
+  #ban
+  def send_cost_object_added_mail
+    if Setting.notified_events.include?('cost_object_added')
+      recipients.uniq.each do |user|
+        UserMailer.cost_object_added(user, self, User.current).deliver_now
+      end
+    end
   end
 end
