@@ -114,6 +114,10 @@ export class BlueTableDesktopService extends BlueTableService {
           return '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>';
           break;
         }
+        case 100: {
+          return row.budgetFraction;
+          break;
+        }
       }
     } else {
       switch (i) {

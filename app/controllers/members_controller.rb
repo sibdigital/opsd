@@ -228,6 +228,7 @@ class MembersController < ApplicationController
   def new_member(user_id)
     Member.new(permitted_params.member).tap do |member|
       member.user_id = user_id if user_id
+      send_member_added_mail(User.find_by(id: user_id)) #ban
     end
   end
 
@@ -298,6 +299,15 @@ class MembersController < ApplicationController
       l(:notice_member_added, name: members.first.name)
     else
       l(:notice_members_added, number: members.size)
+    end
+  end
+
+  #ban
+  def send_member_added_mail(added_user)
+    if Setting.notified_events.include?('member_added')
+      @project.recipients.uniq.each do |user|
+        UserMailer.member_added(user, @project, added_user, User.current).deliver_now
+      end
     end
   end
 end
