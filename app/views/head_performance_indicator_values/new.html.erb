@@ -10,8 +10,22 @@
                                             include_blank: false,
                                             container_class: '-wide' %></div>
     <%= f.hidden_field 'type' %>
-    <div class="form--field"><%= f.date_field 'year', container_class: '-middle' %></div>
-    <div class="form--field"><%= f.text_field 'value', container_class: '-middle' %></div>
+    <table>
+      <tr>
+        <td>
+          <div class="form--field">
+            <%= f.text_field 'value',label: :value_for_hpi, container_class: '-middle' %>
+          </div>
+        </td>
+        <td>
+          <div class="form--field">
+            <%= f.date_field 'year', label: :year_for_hpi, container_class: '-middle' %>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+
 <!--    <div class="form--field"><%#= f.text_field 'quarter', container_class: '-middle' %></div>-->
 <!--    <div class="form--field"><%#= f.text_field 'month', container_class: '-middle' %></div>-->
     <%= f.hidden_field 'quarter'  %>

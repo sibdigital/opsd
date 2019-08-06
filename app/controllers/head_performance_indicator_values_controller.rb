@@ -10,7 +10,6 @@ class HeadPerformanceIndicatorValuesController < ApplicationController
   def index
     sort_columns = {'id' => "#{HeadPerformanceIndicatorValue.table_name}.id",
                     'head_performance_indicator_id'=>"#{HeadPerformanceIndicatorValue.table_name}.head_performance_indicator_id",
-                    'type'=>"#{HeadPerformanceIndicatorValue.table_name}.type",
                     'year'=>"#{HeadPerformanceIndicatorValue.table_name}.year",
                     'quarter'=>"#{HeadPerformanceIndicatorValue.table_name}.quarter",
                     'month'=>"#{HeadPerformanceIndicatorValue.table_name}.month",

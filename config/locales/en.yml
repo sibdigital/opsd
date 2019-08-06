@@ -780,6 +780,7 @@ en:
     head_performance_indicator_id: Показатель деятельности высшего должностного лица
     head_performance_indicator: Показатель деятельности высшего должностного лица
     month: Месяц
+
     #)
     issue: Пакет работ
     lastname: Фамилия
@@ -863,6 +864,8 @@ en:
     label_targets: Целевые показатели
   #)
   button_add: Добавить
+  value_for_hpi: Значение показателя
+  year_for_hpi: на дату
   button_add_member: Добавить участника
   button_add_watcher: Добавить наблюдателя
   button_annotate: Комментировать
