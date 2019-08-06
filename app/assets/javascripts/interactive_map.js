@@ -56,28 +56,29 @@ function setMilestones()
                                               "<td>"+object[inc][4].charAt(0)+". "+object[inc][5]+"</td>";
           if(inc<object.length&&object[inc][6]!==null&&object[inc][6]!==undefined)
           {
-            if(object[inc][2] < today)
+            if(object[inc][7][0][1])
             {
               matrix[object[inc][6]-1][0]++;
               description_info[object[inc][6]-1]+="<td>Не исполнено</td>"+
-                                                  "</tr>";
+                                                    "</tr>";
               // this.style.fill='#c00000';
             }
-            else if (object[inc][7].length!==0)
+            else if (object[inc][7][0][2])
             {
               matrix[object[inc][6]-1][1]++;
               description_info[object[inc][6]-1]+="<td>Проблемы</td>"+
                 "</tr>";
               // this.style.fill='#ffc000';
             }
-            else if (object[inc][1] !== true)
+            else if (object[inc][7][0][3])
             {
               matrix[object[inc][6]-1][2]++;
               description_info[object[inc][6]-1]+="<td>В работе</td>"+
                 "</tr>";
               // this.style.fill='#1f497d';//#1A67A3//#0000c0//#5555c5
             }
-            else {
+            else if (object[inc][7][0][0])
+            {
               matrix[object[inc][6]-1][3]++;
               description_info[object[inc][6]-1]+="<td>Исполнено</td>"+
                 "</tr>";
