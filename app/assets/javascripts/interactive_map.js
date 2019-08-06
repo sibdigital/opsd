@@ -47,40 +47,40 @@ function setMilestones()
           //   object[inc][0]+="...";
           // }
           var name = object[inc][0].split(" ", 5);
-          description_info[object[inc][6]-1]+="<tr>"+
+          description_info[object[inc][2]-1]+="<tr>"+
                                               "<td>" +
-                                              "<a href='/work_packages/details/" + object[inc][3] + "/overview?plan_type=execution'>" +
+                                              "<a href='/work_packages/details/" + object[inc][1] + "/overview?plan_type=execution'>" +
                                               name.join(" ")+ "..." +
                                               "</a>" +
                                               "</td>"+
-                                              "<td>"+object[inc][4].charAt(0)+". "+object[inc][5]+"</td>";
-          if(inc<object.length&&object[inc][6]!==null&&object[inc][6]!==undefined)
+                                              "<td>"+object[inc][3]+"</td>";
+          if(inc<object.length&&object[inc][2]!==null&&object[inc][2]!==undefined)
           {
-            if(object[inc][7][0][1])
+            if(object[inc][4]===2)
             {
-              matrix[object[inc][6]-1][0]++;
-              description_info[object[inc][6]-1]+="<td>Не исполнено</td>"+
+              matrix[object[inc][2]-1][0]++;
+              description_info[object[inc][2]-1]+="<td>Не исполнено</td>"+
                                                     "</tr>";
               // this.style.fill='#c00000';
             }
-            else if (object[inc][7][0][2])
+            else if (object[inc][4]===3)
             {
-              matrix[object[inc][6]-1][1]++;
-              description_info[object[inc][6]-1]+="<td>Проблемы</td>"+
+              matrix[object[inc][2]-1][1]++;
+              description_info[object[inc][2]-1]+="<td>Проблемы</td>"+
                 "</tr>";
               // this.style.fill='#ffc000';
             }
-            else if (object[inc][7][0][3])
+            else if (object[inc][4]===4)
             {
-              matrix[object[inc][6]-1][2]++;
-              description_info[object[inc][6]-1]+="<td>В работе</td>"+
+              matrix[object[inc][2]-1][2]++;
+              description_info[object[inc][2]-1]+="<td>В работе</td>"+
                 "</tr>";
-              // this.style.fill='#1f497d';//#1A67A3//#0000c0//#5555c5
+              // this.style.fill='#1f497d';//#1A27A3//#0000c0//#5555c5
             }
-            else if (object[inc][7][0][0])
+            else if (object[inc][4]===1)
             {
-              matrix[object[inc][6]-1][3]++;
-              description_info[object[inc][6]-1]+="<td>Исполнено</td>"+
+              matrix[object[inc][2]-1][3]++;
+              description_info[object[inc][2]-1]+="<td>Исполнено</td>"+
                 "</tr>";
               // this.style.fill='#00b050';
             }
