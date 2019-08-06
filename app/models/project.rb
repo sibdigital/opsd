@@ -907,6 +907,19 @@ class Project < ActiveRecord::Base
   end
 
   #bbm(
+  def get_budget_fraction
+    budget = AllBudgetsHelper.cost_by_project self
+    if budget then
+      if budget[:total_budget] == 0 then
+        0
+      else
+        budget[:spent] / budget[:total_budget]
+      end
+    else
+      0
+    end
+  end
+
   # SibDigital version of overage_percent_done
   def completed_percent_sd
     quantity = total_wps
