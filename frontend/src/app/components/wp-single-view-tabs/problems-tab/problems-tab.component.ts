@@ -11,13 +11,9 @@ import {WorkPackageCacheService} from "core-components/work-packages/work-packag
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {WpTargetResource} from "core-app/modules/hal/resources/wp-target-resource";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {HttpClient, HttpParams} from "@angular/common/http";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 
-//enum ProblemType {Problem, Risk};
-//enum SolutionType {Created, Solved};
 export interface typeArr { name: string};
 
 let PROBLEM_TYPE: typeArr[] = [{name: 'problem'}, {name: 'risk'}];
@@ -67,8 +63,8 @@ export class WpProblem {
   selector: 'problems-tab',
   templateUrl: './problems-tab.component.html',
   styleUrls: ['./problems-tab.component.sass'],
-
 })
+
 export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   @Input() public workPackageId:string;
   @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
@@ -78,7 +74,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   public workPackage:WorkPackageResource;
   public wpProblems:Array<WpProblem>;
   public wpProblem: WpProblem;
-  public editedProblem: WpProblem;
+  public editedProblem: WpProblem | null;
 
   public showProblemCreateForm:boolean = false;
   public selectedId:string;
@@ -136,13 +132,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
     this.isDisabled = false;
 
-
-    //console.log(PROBLEM_TYPE[0].name)
-    //console.log(SOLUTION_TYPE[0].name)
-    SOLUTION_TYPE.forEach((value, ind) => {
-      console.log(ind.toString() +'-' + value.name)
-    });
-
+    //TODO (zbd) возможно здесь доавить проверку
     this.problemCanEdit = true;
   }
 
@@ -217,7 +207,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
             user_source_id: problem.user_source_id
     };
     return this.halResourceService
-      .post<WpTargetResource>(path, params)
+      .post<HalResource>(path, params)
       .toPromise();
   }
 
@@ -232,7 +222,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       user_source_id: problem.user_source_id, solution_date: problem.solution_date
     };
     return this.halResourceService
-      .patch<WpTargetResource>(path, params)
+      .patch<HalResource>(path, params)
       .toPromise()
       .then(() => {
         this.loadWpProblems(this.workPackageId);
@@ -278,9 +268,9 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       .then(() => this.isDisabled = false);
   }
 
-  public updateSelectedId(targetId:string) {
-    this.selectedId = targetId;
-  }
+  // public updateSelectedId(targetId:string) {
+  //   this.selectedId = targetId;
+  // }
 
   /** Добавляет запись и скрывает блок ввода
    * */
@@ -306,6 +296,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (!this.showProblemCreateForm) {
         // Reset value
+        this.wpProblem = null;
         this.selectedId = '';
         this.focusAfterSave.nativeElement.focus();
       }

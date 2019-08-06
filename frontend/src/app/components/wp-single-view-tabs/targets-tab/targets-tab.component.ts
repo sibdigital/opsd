@@ -1,47 +1,76 @@
-import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
-import {Transition} from '@uirouter/core';
-import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {takeUntil} from 'rxjs/operators';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WpTargetResource} from "core-app/modules/hal/resources/wp-target-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {WpTargetsService} from "core-components/wp-single-view-tabs/targets-tab/wp-targets.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {WpProblem} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
+import {takeUntil} from "rxjs/operators";
+import {componentDestroyed} from "ng2-rx-componentdestroyed";
+import {Transition} from "@uirouter/core";
+import {WorkPackageCacheService} from "core-components/work-packages/work-package-cache.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {convertValueToOutputAst} from "@angular/compiler/src/output/value_util";
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
-@Component({
-  selector: 'wp-targets-tab',
-  templateUrl: './targets-tab.html'
+export class WpTarget {
 
-})
-export class WorkPackageTargetsTabComponent implements OnDestroy {
-  @Input() public workPackageId:string;
-  @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
-
-  public workPackage:WorkPackageResource;
-  public wpTargets: WpTargetResource;
-  public wpTargetIds: number[] = [];
-
-  public showTargetsCreateForm:boolean = false;
-  public selectedTgId:string;
-  public isDisabled = false;
+  public id: number;
+  public project_id: number;
+  public work_package_id: number;
+  public target_id: number;
   public year: number;
   public quarter: number;
   public month: number;
   public plan_value: number;
   public value: number;
+  public name: string;
+
+  constructor (parameters: { id: number, project_id: number, work_package_id: number, target_id: number, year: number, quarter?: number,
+    month?: number , plan_value?: number , value?: number , name?: string})
+  {
+    let {id, project_id, work_package_id, target_id, year, quarter = 0, month = 0, plan_value = 0, value = 0, name = ''} = parameters;
+
+    this.id = id;
+    this.project_id = project_id;
+    this.work_package_id = work_package_id;
+    this.target_id = target_id;
+    this.year = year;
+    this.quarter = quarter;
+    this.month = month;
+    this.plan_value = plan_value;
+    this.value = value;
+    this.name = name;
+  }
+
+}
+
+@Component({
+  selector: 'wp-targets-tab',
+  templateUrl: './targets-tab.html'
+})
+export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
+  @Input() public workPackageId:string;
+  @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
+  @ViewChild('readOnlyTemplate2') readOnlyTemplate: TemplateRef<any>;
+  @ViewChild('editTemplate2') editTemplate: TemplateRef<any>;
+
+  public workPackage:WorkPackageResource;
+  public wpTargets: Array<WpTarget>;
+  public wpTargetIds: number[] = [];
+  public editedTarget: WpTarget | null;
+  
+  public showTargetsCreateForm:boolean = false;
+  public selectedTgId:string;
+  public isDisabled = false;
+  public targetCanEdit: boolean;
 
   public text = {
     targets_header: this.I18n.t('js.work_packages.tabs.targets'),
     save: this.I18n.t('js.target_buttons.save'),
     abort: this.I18n.t('js.target_buttons.abort'),
+    edit: this.I18n.t('js.problem_buttons.edit_problem'),
     addNewTarget: this.I18n.t('js.target_buttons.add_new_target'),
     removeButton: this.I18n.t('js.problem_buttons.delete_problem')
   };
@@ -54,13 +83,14 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
 
   public constructor(readonly I18n:I18nService,
                      readonly $transition:Transition,
-                     protected wpTargetsService:WpTargetsService,
                      protected wpNotificationsService:WorkPackageNotificationService,
                      readonly loadingIndicator:LoadingIndicatorService,
                      readonly wpCacheService:WorkPackageCacheService,
                      protected pathHelper:PathHelperService,
                      protected confirmDialog: ConfirmDialogService,
-                     protected halResourceService: HalResourceService) {
+                     protected halResourceService: HalResourceService)
+  {
+    this.wpTargets = new Array<WpTarget>();
   }
 
   ngOnInit() {
@@ -75,7 +105,16 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
         this.workPackage = wp;
       });
 
-    this.loadWpTargets();
+    this.loadWpTargets()
+      .then(()=>{
+        console.log(this.wpTargets);
+        console.log(this.wpTargetIds);
+        console.log('getTargetFromArr: ' + this.getTargetFromArr(1));
+      });
+
+    //TODO (zbd) возможно здесь доавить проверку
+    this.targetCanEdit = true;
+
   }
 
   ngOnDestroy() {
@@ -83,33 +122,54 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
   }
 
   public loadWpTargets(){
-    this.wpTargetsService.getWpTargets(this.workPackageId)
+    return this.halResourceService
+      .get<HalResource>(this.pathHelper.api.v3.work_package_targets.toString(), {'work_package_id': this.workPackageId})
+      .toPromise()
       .then((resource:HalResource) => {
         let els = resource.elements;
         this.wpTargets = els.map( (el:any) => {
             if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
               this.wpTargetIds.push(el.targetId);
             }
-            return {
+            return new WpTarget({
               id: el.getId(),
               project_id: el.projectId,
               work_package_id: el.workPackageId,
-              wp_target_id: el.targetId,
+              target_id: el.targetId,
               year: el.year,
               quarter: el.quarter,
+              month: el.month,
               plan_value: el.planValue,
               value: el.value,
               name: el.$links.self.title
-            }
+            })
           }
         );
         //console.log(this.wpTargets)
+      })
+      .catch(() => {
+        return false;
       });
+  }
+
+  getTargetFromArr(targetId: number):WpTarget{
+    // let t: WpTarget;
+    // this.wpTargets.forEach((target) => {
+    //   if (target.target_id == targetId) {
+    //     console.log(target.target_id + ' ' + target.name);
+    //     return t = target;
+    //   } else {
+    //     return -1;
+    //   }
+    // });
+    // return t;
+
+    return <WpTarget>this.wpTargets.find(value => { return value.target_id == targetId; });
   }
 
   public createTarget() {
 
-    if (!this.selectedTgId || !this.year) {
+    if (!this.selectedTgId) {
       return;
     }
 
@@ -121,22 +181,18 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
 
   public updateSelectedId(targetId:string) {
     this.selectedTgId = targetId;
+    //this.editedTarget.target_id = Number(this.selectedTgId);
   }
 
   protected createCommonTarget() {
-    return this.wpTargetsService.addWpTarget(this.workPackage.id, this.workPackage.project.getId(), this.selectedTgId,
-      this.year, this.quarter, this.month, this.plan_value, this.value
-    )
-      .then(wpTarget => {
-        //console.log(wpTarget);
+    //this.editedTarget.target_id = Number(this.selectedTgId);
+    return this.addWpTarget(<WpTarget>this.editedTarget)
+      .then(() => {
         this.wpNotificationsService.showSave(this.workPackage);
         this.toggleTargetsCreateForm();
-
-        //TODO: (zbd) доделать обновление таблицы
         this.loadWpTargets();
-
       })
-      .catch(err => {
+      .catch((err:any) => {
         this.wpNotificationsService.handleRawError(err, this.workPackage);
         this.toggleTargetsCreateForm();
       });
@@ -144,17 +200,25 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
 
   public toggleTargetsCreateForm() {
     this.showTargetsCreateForm = !this.showTargetsCreateForm;
-
     setTimeout(() => {
       if (!this.showTargetsCreateForm) {
         // Reset value
         this.selectedTgId = '';
         this.focusAfterSave.nativeElement.focus();
+        this.editedTarget = null;
+      }
+      else {
+        this.editedTarget = new WpTarget({id: 0, project_id: this.workPackage.project.getId(),
+          work_package_id: Number(this.workPackageId), target_id: 0, year: Number(moment(new Date()).format('YYYY'))})
       }
     });
   }
 
-  private deleteTarget(target: WpTargetResource){
+  /**
+   * Удаляет запись
+   * @param target
+   */
+  private deleteTarget(target: WpTarget){
     const path = this.pathHelper.api.v3.work_package_targets.toString() + '/' + target.id;
     const params = {project_id: target.project_id};
 
@@ -180,5 +244,72 @@ export class WorkPackageTargetsTabComponent implements OnDestroy {
       .catch(function () { return false; });
   }
 
+
+  /** Добавляет новую запись в work_package_targets
+   * */
+  addWpTarget(target: WpTarget){
+    const params = {project_id: target.project_id, work_package_id: this.workPackageId,
+      target_id: this.selectedTgId /*target.target_id*/,
+      year: target.year,
+      quarter: target.quarter == 0 ? null : target.quarter,
+      month: target.month == 0 ? null : target.month,
+      plan_value: target.plan_value,
+      value: target.value == 0 ? null : target.value
+    };
+    const path = this.pathHelper.api.v3.work_package_targets.toString();
+    return this.halResourceService
+      .post<HalResource>(path, params)
+      .toPromise();
+  }
+
+
+  /** Изменяет запись
+   * */
+  public saveWpTarget(target: WpTarget){
+    const path = this.pathHelper.api.v3.work_package_targets.toString() + '/' + target.id;
+    const params = {       //target_id: this.selectedTgId /*target.target_id*/,
+      year: target.year,
+      quarter: target.quarter == 0 ? null : target.quarter,
+      month: target.month == 0 ? null : target.month,
+      plan_value: target.plan_value,
+      value: target.value == 0 ? null : target.value
+    };
+    return this.halResourceService
+      .patch<HalResource>(path, params)
+      .toPromise()
+      .then(() => {
+        this.loadWpTargets();
+        this.editedTarget = null;
+      })
+      .catch(err => {
+        this.wpNotificationsService.handleRawError(err, this.workPackage);
+      });
+  }
+
+  public editTarget(el: WpTarget){
+    this.editedTarget = new WpTarget({id: el.id,
+      project_id: el.project_id,
+      work_package_id: el.work_package_id,
+      target_id: el.target_id,
+      year: el.year,
+      quarter: el.quarter,
+      plan_value: el.plan_value,
+      value: el.value,
+      name: el.name});
+  }
+
+  public cancelEdit(){
+    this.editedTarget = null;
+  }
+
+  /** загружаем один из двух шаблонов
+   */
+  loadTemplate(target: WpTarget) {
+    if (this.editedTarget && this.editedTarget.id == target.id) {
+      return this.editTemplate;
+    } else {
+      return this.readOnlyTemplate;
+    }
+  }
 
 }
