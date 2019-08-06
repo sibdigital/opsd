@@ -66,6 +66,13 @@ module API
               status 204
             end
 
+            patch do
+              authorize :manage_work_package_problems, global: true #context: project
+
+              #@work_package_problem = WorkPackageProblem.find(params[:id])
+
+              WorkPackageProblem.update params[:id], params
+            end
           end
         end
       end

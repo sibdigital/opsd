@@ -1,16 +1,12 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
-//import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PathHelperService} from "app/modules/common/path-helper/path-helper.service";
 import {LoadingIndicatorService} from "app/modules/common/loading-indicator/loading-indicator.service";
 import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {CollectionResource} from "app/modules/hal/resources/collection-resource";
-import {
-  PeriodicElement,
-  WpRelationsDialogComponent
-} from "app/components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
-import {TargetResource} from "app/modules/hal/resources/target-resource";
-import {WpTargetsService} from "app/components/wp-single-view-tabs/targets-tab/wp-targets.service";
 import {WorkPackageResource} from "app/modules/hal/resources/work-package-resource";
+import {TargetResource} from "core-app/modules/hal/resources/target-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
 @Component({
   selector: 'wp-target-autocomplete',
@@ -39,8 +35,8 @@ export class WpTargetAutocompleteComponent implements OnInit {
   private $input:JQuery;
 
   constructor(readonly elementRef:ElementRef,
-              readonly wpTargetService: WpTargetsService,
               readonly pathHelper:PathHelperService,
+              readonly halResourceService: HalResourceService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService) {
   }
@@ -111,36 +107,10 @@ export class WpTargetAutocompleteComponent implements OnInit {
   }
 
   private loadTargets(){
-    return this.wpTargetService.getTargets(this.workPackage.project.getId());
-  }
-
-  // private autocompleteTargets(query:string):Promise<TargetResource> {
-  //   // Remove prefix # from search
-  //   query = query.replace(/^#/, '');
-  //
-  //   this.$element.find('.ui-autocomplete--loading').show();
-  //
-  //   return this.wpTargetService.getTargets('1')
-  //       .then((collection:CollectionResource) => {
-  //           this.noResults = collection.count === 0;
-  //           this.$element.find('.ui-autocomplete--loading').hide();
-  //           return collection.elements || [];
-  //         }).catch(() => {
-  //           this.$element.find('.ui-autocomplete--loading').hide();
-  //           return [];
-  //         });
-  //
-  //   // return this.targets.fetch({
-  //   //   query: query,
-  //   //   type: this.filterCandidatesFor
-  //   // }).then((collection:CollectionResource) => {
-  //   //   this.noResults = collection.count === 0;
-  //   //   this.$element.find('.ui-autocomplete--loading').hide();
-  //   //   return collection.elements || [];
-  //   // }).catch(() => {
-  //   //   this.$element.find('.ui-autocomplete--loading').hide();
-  //   //   return [];
-  //   // });
-  // }
-
+    //return this.wpTargetService.getTargets(this.workPackage.project.getId());
+    return this.halResourceService
+      .get<HalResource>(this.pathHelper.api.v3.targets.toString(), {'project_id': this.workPackage.project.getId()})
+      .toPromise()
+      .then((collection:CollectionResource) => {return collection.elements || [];});
+ }
 }
