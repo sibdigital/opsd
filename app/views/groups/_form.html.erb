@@ -44,5 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <%= render partial: 'customizable/form', locals: { form: f,
                                                      all_fields: true,
-                                                     only_required: false } %>
+                                                     only_required: false,
+                                                     obj: @group,
+                                                     from: 'group_users' } %>
 </section>
