@@ -394,7 +394,7 @@ class AgreementsController < ApplicationController
     sheet[4][12].change_contents('%.2f' %(result_other_budjet[3]/1000000))
 
     sheetDataDiagram = @workbook['Данные для диаграмм']
-     #@budjets = AllBudgetsHelper.cost_by_project @project
+     @budjets = AllBudgetsHelper.cost_by_project @project
      #total_budget = @budjets[:total_budget]
      #ostatok_budget = @budjets[:ostatok]
     # sheetDataDiagram[3][4].change_contents(total_budget)
