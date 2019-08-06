@@ -73,7 +73,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
   public workPackage:WorkPackageResource;
   public wpProblems:Array<WpProblem>;
-  public wpProblem: WpProblem;
+  public wpProblem: WpProblem | null;
   public editedProblem: WpProblem | null;
 
   public showProblemCreateForm:boolean = false;
@@ -192,7 +192,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
           collection.elements.forEach(el =>
             {this.risks.set(Number(el.getId()), el.name)}
           );
-          console.log(this.risks)
+          //console.log(this.risks)
         }
       );
   }
@@ -275,9 +275,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   /** Добавляет запись и скрывает блок ввода
    * */
   protected createCommonProblem() {
-    return this.addNewProblem(this.wpProblem)
-      .then(wpProblem => {
-        //console.log(wpTarget);
+    return this.addNewProblem(<WpProblem>this.wpProblem)
+      .then(() => {
         this.wpNotificationsService.showSave(this.workPackage);
 
         //TODO: (zbd) доделать обновление таблицы
@@ -285,7 +284,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
         this.toggleProblemCreateForm();
       })
-      .catch(err => {
+      .catch((err:any) => {
         this.wpNotificationsService.handleRawError(err, this.workPackage);
         this.toggleProblemCreateForm();
       });

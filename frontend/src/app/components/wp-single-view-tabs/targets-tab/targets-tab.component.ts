@@ -105,12 +105,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
         this.workPackage = wp;
       });
 
-    this.loadWpTargets()
-      .then(()=>{
-        console.log(this.wpTargets);
-        console.log(this.wpTargetIds);
-        console.log('getTargetFromArr: ' + this.getTargetFromArr(1));
-      });
+    this.loadWpTargets();
 
     //TODO (zbd) возможно здесь доавить проверку
     this.targetCanEdit = true;
@@ -153,17 +148,6 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   }
 
   getTargetFromArr(targetId: number):WpTarget{
-    // let t: WpTarget;
-    // this.wpTargets.forEach((target) => {
-    //   if (target.target_id == targetId) {
-    //     console.log(target.target_id + ' ' + target.name);
-    //     return t = target;
-    //   } else {
-    //     return -1;
-    //   }
-    // });
-    // return t;
-
     return <WpTarget>this.wpTargets.find(value => { return value.target_id == targetId; });
   }
 
@@ -293,6 +277,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       target_id: el.target_id,
       year: el.year,
       quarter: el.quarter,
+      month: el.month,
       plan_value: el.plan_value,
       value: el.value,
       name: el.name});
