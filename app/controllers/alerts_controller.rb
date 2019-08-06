@@ -62,8 +62,8 @@ class AlertsController < ApplicationController
 =end
 
     @WorkPackages = WorkPackage.find_by_sql("SELECT Work_Packages.* FROM Work_Packages LEFT JOIN alerts ON Work_Packages.id = alerts.entity_id where
-    (alerts.entity_id is null and (Work_Packages.due_date - CURRENT_DATE) < 14)
-    OR ( (alerts.alert_date + 3) <= CURRENT_DATE) ");
+    (alerts.entity_id is null and (Work_Packages.due_date - CURRENT_DATE) < '#{Setting.remaining_count_days.to_i}')
+    OR ( (alerts.alert_date + 1) <= CURRENT_DATE) ");
 
     #puts(@WorkPackages.size)
 
@@ -71,8 +71,10 @@ class AlertsController < ApplicationController
 
       unless workPackage.assigned_to_id.nil?
         @assigneee = User.find(workPackage.assigned_to_id);
+        @term_date = workPackage.due_date #ban
+        @project_name = Project.find_by(id: workPackage.project_id).name #ban
 
-        UserMailer.work_package_notify_assignee(@assigneee).deliver_later
+        UserMailer.work_package_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
         #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
         Alert.create_new_pop_up_alert(workPackage.id, 'WorkPackage', "Due", 0, workPackage.author_id)
         @alert = Alert.new
