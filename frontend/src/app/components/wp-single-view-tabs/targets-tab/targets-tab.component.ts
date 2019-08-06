@@ -11,8 +11,6 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {convertValueToOutputAst} from "@angular/compiler/src/output/value_util";
-import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 export class WpTarget {
 
@@ -55,6 +53,11 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
   @ViewChild('readOnlyTemplate2') readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate2') editTemplate: TemplateRef<any>;
+  @ViewChild('monthOfQuarter1') monthOfQuarter1: TemplateRef<any>;
+  @ViewChild('monthOfQuarter2') monthOfQuarter2: TemplateRef<any>;
+  @ViewChild('monthOfQuarter3') monthOfQuarter3: TemplateRef<any>;
+  @ViewChild('monthOfQuarter4') monthOfQuarter4: TemplateRef<any>;
+  @ViewChild('quarters') quarters: TemplateRef<any>;
 
   public workPackage:WorkPackageResource;
   public wpTargets: Array<WpTarget>;
@@ -105,9 +108,14 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
         this.workPackage = wp;
       });
 
-    this.loadWpTargets();
+    this.loadWpTargets()
+      .then(()=>{
+          this.editedTarget = new WpTarget({id: 0, project_id: this.workPackage.project.getId(),
+            work_package_id: Number(this.workPackageId), target_id: 0, year: Number(moment(new Date()).format('YYYY'))})
+        }
+      );
 
-    //TODO (zbd) возможно здесь доавить проверку
+    //TODO (zbd) возможно здесь добавить проверку на право ввода плановых показателей
     this.targetCanEdit = true;
 
   }
@@ -136,7 +144,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
               month: el.month,
               plan_value: el.planValue,
               value: el.value,
-              name: el.$links.self.title
+              name: el.target //el.$links.self.title
             })
           }
         );
@@ -154,6 +162,18 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   public createTarget() {
 
     if (!this.selectedTgId) {
+      return;
+    }
+
+    if (this.wpTargets.find(value => {
+        return (value.target_id == this.selectedTgId)
+              && (value.year == this.editedTarget.year)
+              && (value.quarter == this.editedTarget.quarter)
+              && ((value.month == this.editedTarget.month) || (value.month == null))
+      })
+    ){
+      //this.wpNotificationsService.showError('Запись за указанный период уже присутствует в базе',this.workPackage);
+      alert('Запись за указанный период уже присутствует в базе. Пожалуйста, выберите другой период.');
       return;
     }
 
@@ -297,4 +317,18 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadTemplateMonth(quarter: number){
+    switch (Number(quarter)) {
+      case 1: return this.monthOfQuarter1;
+      case 2: return this.monthOfQuarter2;
+      case 3: return this.monthOfQuarter3;
+      case 4: return this.monthOfQuarter4;
+      default: return 0;
+    }
+  }
+
+  changeQuarter(){
+    this.editedTarget.month = 0;
+    return this.quarters;
+  }
 }
