@@ -221,6 +221,7 @@ en:
               done_ratio: 50
               organization: Министерство культуры
               assigned: blb
+              raion: 22
             - subject: В Республике Бурятия построен 1 центр культурного развития в г.Бабушкин
               description: |
                 Центры культурного развития – это многофункциональное культурное пространство с концертным залом, музейно-выставочным пространством, библиотекой, помещениями для занятий творчеством и кинозалами для детей и взрослых, сервисными зонами (кафе, сувенирные киоски). В итоге реализации проекта доступ к современным услугам ЦКР получат около 60 тыс. жителей и гостей (туристов) Кабанского района.
@@ -233,6 +234,7 @@ en:
               duration: 3
               organization: Министерство культуры
               assigned: blb
+              raion: 9
             - subject: Выделение грантов на реновацию региональных и муниципальных учреждений отрасли культуры
               description: |
                 Характеристика результата федерального проекта (справочно из паспорта федерального проекта): (указывается характеристика результата федерального проекта): Выделены на конкурсной основе гранты на реновацию не менее 15 региональных и муниципальных учреждений отрасли культуры для реализации проектов, направленных на улучшение качества культурной среды
@@ -245,6 +247,7 @@ en:
               duration: 3
               organization: Министерство культуры
               assigned: blb
+              raion: 22
               children:
                 - subject: Разработан проект, направленный на улучшение качества культурной среды, в рамках реновации 1 учреждения культуры
                   description: |
@@ -256,6 +259,7 @@ en:
                   duration: 0
                   organization: Министерство культуры
                   assigned: tvs
+                  raion: 22
                 - subject: Подготовка заявки на участие в конкурсе по реновации региональных и муниципальных учреждений отрасли культуры
                   description: |
                     Выделен на конкурсной основе грант на реновацию для реализации проектов, направленных на улучшение качества культурной среды.
@@ -266,6 +270,7 @@ en:
                   duration: 0
                   organization: Министерство культуры
                   assigned: bdr
+                  raion: 22
                 - subject: В Республике Бурятия реализован проект по реновации 1 учреждения
                   status: :default_status_not_start
                   type: :default_type_task
@@ -276,6 +281,7 @@ en:
                     - project_modules.jpg
                   organization: Министерство культуры
                   assigned: bdr
+                  raion: 22
             - subject: Оснащение образовательных учреждений в сфере культуры (детских школ искусств и училищ) музыкальными инструментами, оборудованием и учебными материалами
               description: |
                 Характеристика результата федерального проекта (справочно из паспорта федерального проекта): (указывается характеристика результата федерального проекта): Созданы условия для повышения качества художественного образования в 1 800 образовательных учреждениях отрасли культуры путем оснащения музыкальными инструментами, оборудованием и учебными материалами.
@@ -289,6 +295,7 @@ en:
               duration: 17
               organization: Министерство культуры
               assigned: bdr
+              raion: 22
               children:
                 - subject: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
                   status: :default_status_in_work
@@ -298,6 +305,7 @@ en:
                   duration: 70
                   organization: Министерство культуры
                   assigned: tvs
+                  raion: 22
                   children:
                     - subject: Оснащена пианино школа в Баргузинском районе
                       status: :default_status_in_work
@@ -307,6 +315,7 @@ en:
                       duration: -5
                       organization: Министерство культуры
                       assigned: tvs
+                      raion: 1
                     - subject: Оснащена пианино школа в Баунтовском районе
                       status: :default_status_completed
                       type: :default_type_result
@@ -315,6 +324,7 @@ en:
                       duration: -1
                       organization: Министерство культуры
                       assigned: tvs
+                      raion: 2
                     - subject: Оснащена пианино школа в Муйском районе
                       status: :default_status_completed
                       type: :default_type_result
@@ -323,6 +333,7 @@ en:
                       duration: 5
                       organization: Министерство культуры
                       assigned: tvs
+                      raion: 13
                     - subject: Оснащена пианино школа в Кижингинском районе
                       status: :default_status_not_start
                       type: :default_type_result
@@ -331,6 +342,7 @@ en:
                       duration: -5
                       organization: Министерство культуры
                       assigned: tvs
+                      raion: 10
                     - subject: Оснащена пианино школа в Кяхтинском районе
                       status: :default_status_in_work
                       type: :default_type_result
@@ -339,6 +351,7 @@ en:
                       duration: 15
                       organization: Министерство культуры
                       assigned: tvs
+                      raion: 12
                     - subject: Оснащена пианино школа в Бичурском районе
                       status: :default_status_in_work
                       type: :default_type_result
@@ -347,6 +360,7 @@ en:
                       duration: 2
                       organization: Министерство культуры
                       assigned: tvs
+                      raion: 3
                     - subject: Оснащена пианино школа в Тарбагатайском районе
                       status: :default_status_in_work
                       type: :default_type_result
@@ -355,6 +369,7 @@ en:
                       duration: 3
                       organization: Министерство культуры
                       assigned: tvs
+                      raion: 19
                 - subject: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                   status: :default_status_not_start
                   type: :default_type_result
@@ -366,6 +381,7 @@ en:
                     - to: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
                       type: follows
                   assigned: tvs
+                  raion: 22
                 - subject: В Республике Бурятия оснащено 32 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами (нарастающим итогом)
                   status: :default_status_not_start
                   type: :default_type_task
@@ -377,6 +393,7 @@ en:
                     - to: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                       type: follows
                   assigned: bdr
+                  raion: 22
                 - subject: В Республике Бурятия оснащено 49 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами (нарастающим итогом)
                   status: :default_status_not_start
                   type: :default_type_task
@@ -388,6 +405,7 @@ en:
                     - to: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                       type: follows
                   assigned: bdr
+                  raion: 22
             - subject: Создание (реконструкция) и капитальный ремонт культурно-досуговых учреждений в сельской местности
               status: :default_status_in_work
               type: :default_type_milestone
@@ -399,6 +417,7 @@ en:
                 - to: Оснащение образовательных учреждений в сфере культуры (детских школ искусств и училищ) музыкальными инструментами, оборудованием и учебными материалами
                   type: follows
               assigned: tvs
+              raion: 14
             - subject: Обеспечение учреждений культуры передвижными многофункциональными культурными центрами (автоклубами)
               status: :default_status_in_work
               type: :default_type_result
@@ -407,6 +426,7 @@ en:
               duration: 2
               organization: Министерство культуры
               assigned: blb
+              raion: 22
               children:
                 - subject: Отбор заявок муниципальных образований Республики Бурятии
                   status: :default_status_not_start
@@ -416,6 +436,7 @@ en:
                   duration: 1
                   organization: Министерство культуры
                   assigned: bdr
+                  raion: 22
                 - subject: Обеспечены 4 муниципальных образования (Управления культуры) Республики Бурятия передвижными многофункциональными культурными центрами (автоклубами) для обслуживания сельского населения республики
                   status: :default_status_not_start
                   type: :default_type_task
@@ -427,6 +448,7 @@ en:
                     - to: Отбор заявок муниципальных образований Республики Бурятии
                       type: follows
                   assigned: bdr
+                  raion: 22
             - subject: Создание в Республике Бурятия модельных муниципальных библиотек
               status: :default_status_not_start
               type: :default_type_milestone
@@ -438,6 +460,7 @@ en:
                 - to: Создание (реконструкция) и капитальный ремонт культурно-досуговых учреждений в сельской местности
                   type: follows
               assigned: blb
+              raion: 22
               children:
                 - subject: Отбор заявок (проектов) муниципальных образований (на конкурсной основе) в Республике Бурятия
                   plan_type: execution
@@ -447,6 +470,7 @@ en:
                   description: |
                     С 2019 по 2024 годы будут направлены заявки на участие в конкурсе на создание 2-х модельных муниципальных библиотек ежегодно.
                   assigned: tvs
+                  raion: 22
         umts:
           name: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
           identifier: umts
@@ -506,6 +530,7 @@ en:
               duration: 0
               organization: Министерство строительства
               assigned: rnu
+              raion: 22
               children:
                 - subject: Представление утвержденного списка  переселяемых жилых помещений аварийного жилищного фонда   микрорайонов «УМТС – Икибзяк» и «Механизированная колонна – 136» поселка Таксимо Муйского района в Министерство строительства РБ
                   status: :default_status_not_start
@@ -514,6 +539,7 @@ en:
                   plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
+                  raion: 13
                 - subject: Оформление бюджетной заявки на дополнительное финансирование  из республиканского бюджета мероприятия в 2018 году
                   status: :default_status_not_start
                   type: :default_type_task
@@ -521,6 +547,7 @@ en:
                   plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
+                  raion: 22
                 - subject: Включение в реестр бюджетной заявки
                   status: :default_status_not_start
                   type: :default_type_task
@@ -530,6 +557,7 @@ en:
                   duration: 0
                   organization: Министерство строительства
                   assigned: ggo
+                  raion: 13
                 - subject: Рассмотрение заявки на сессии Народного Хурала Республики Бурятия
                   status: :default_status_not_start
                   type: :default_type_task
@@ -537,6 +565,7 @@ en:
                   plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
+                  raion: 22
                 - subject: Оформление в бюджете Республики Бурятия финансовых средств на предоставление субсидии МО «Муйский район».
                   status: :default_status_not_start
                   type: :default_type_task
@@ -544,6 +573,7 @@ en:
                   plan_type: execution
                   organization: Администрация Муйского района
                   assigned: ttv
+                  raion: 13
             - subject: Заключение  соглашения между Министерством строительства РБ и МО «Муйский район».
               status: :default_status_not_start
               type: :default_type_task
@@ -553,6 +583,7 @@ en:
               duration: 0
               assigned: rnu
               organization: Министерство строительства
+              raion: 13
               children:
                 - subject: Подготовка дополнительного соглашения между Министерством строительства РБ и МО «Муйский район».
                   status: :default_status_not_start
@@ -561,6 +592,7 @@ en:
                   plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
+                  raion: 13
                 - subject: Подписание дополнительного соглашения между Министерством строительства РБ и МО «Муйский район».
                   status: :default_status_not_start
                   type: :default_type_task
@@ -568,6 +600,7 @@ en:
                   plan_type: execution
                   organization: Администрация Муйского района
                   assigned: ttv
+                  raion: 13
             - subject: Предоставление субсидии и оформление сертификатов
               status: :default_status_not_start
               type: :default_type_task
@@ -575,6 +608,7 @@ en:
               plan_type: execution
               organization: Министерство строительства
               assigned: rnu
+              raion: 10
               children:
                 - subject: Финансирование мероприятия
                   status: :default_status_completed
@@ -582,6 +616,7 @@ en:
                   plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
+                  raion: 10
             - subject: Дополнительное финансирование
               status: :default_status_completed
               type: :default_type_task
@@ -591,6 +626,7 @@ en:
               duration: 0
               organization: Министерство строительства
               assigned: ggo
+              raion: 14
             - subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
               status: :default_status_not_start
               type: :default_type_task
@@ -600,6 +636,7 @@ en:
               duration: 1
               organization: Министерство строительства
               assigned: ggo
+              raion: 22
             - subject: Реализация мероприятий по сносу аварийного и непригодного для проживания жилищного фонда, рекультивации земель и оптимизации систем тепло-и водоснабжения
               status: :default_status_in_work
               type: :default_type_task
@@ -609,6 +646,7 @@ en:
               duration: 0
               organization: Администрация Муйского района
               assigned: ttv
+              raion: 22
         gorod:
           name: Формирование комфортной городской среды.
           national_project: Жильё и городская среда
@@ -662,6 +700,7 @@ en:
               done_ratio: 50
               organization: Министерство строительства
               assigned: rnu
+              raion: 22
 
       project_targets:
         - name: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)
