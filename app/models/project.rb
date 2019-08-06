@@ -156,6 +156,10 @@ class Project < ActiveRecord::Base
   #tan(
   has_many :work_package_problems, foreign_key: 'work_package_id'
   has_many :work_package_targets, foreign_key: 'work_package_id'
+  has_many :work_package_quarterly_targets, foreign_key: 'project_id'
+  has_many :plan_fact_yearly_target_values, foreign_key: 'project_id'
+  has_many :plan_quarterly_target_values, foreign_key: 'project_id'
+  has_many :plan_fact_quarterly_target_values, foreign_key: 'project_id'
   # )
 
   #tan(
@@ -902,6 +906,19 @@ class Project < ActiveRecord::Base
   end
 
   #bbm(
+  def get_budget_fraction
+    budget = AllBudgetsHelper.cost_by_project self
+    if budget then
+      if budget[:total_budget] == 0 then
+        0
+      else
+        budget[:spent] / budget[:total_budget]
+      end
+    else
+      0
+    end
+  end
+
   # SibDigital version of overage_percent_done
   def completed_percent_sd
     quantity = total_wps

@@ -142,10 +142,14 @@ module API
                    get_target_execution_values
                  }
 
-
         property :work_packages_targets,
                  getter: ->(*) {
                    get_work_packages_targets
+                 }
+
+        property :budget_fraction,
+                 getter: ->(*) {
+                   get_budget_fraction
                  }
 
         property :national_project_id,

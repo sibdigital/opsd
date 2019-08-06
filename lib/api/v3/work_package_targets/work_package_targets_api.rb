@@ -79,6 +79,13 @@ module API
 
               WorkPackageTarget.destroy params[:id]
             end
+
+            patch do
+              authorize :manage_work_package_targets, global: true #context: project
+
+              WorkPackageTarget.update params[:id], params
+            end
+
           end
         end
 

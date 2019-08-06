@@ -123,8 +123,26 @@ export class DesktopTabComponent implements OnInit {
           let row = this.data[i] ? this.data[i] :{};
           let id = el.id;
           let risk = el.risk;
-          let problems = {id: id, risk: risk};
+          let wptitle = el.workPackage ? el.workPackage.$links.self.title : '';
+          let wpid = el.workPackage ? el.workPackage.$links.self.href.slice(22) : '';
+          let problems = {id: id, risk: risk, wptitle: wptitle, wpid: wpid};
           row["problems"] = problems;
+          this.data[i] = row;
+        });
+        this.problemCount = resources.elements.length;
+      });
+    this.halResourceService
+      .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString())
+      .toPromise()
+      .then((resources:HalResource) => {
+        resources.source.map( (el:HalResource, i:number) => {
+          let row = this.data[i] ? this.data[i] :{};
+          let id = el.project.id;
+          let name = el.project.name;
+          let spent = el.spent;
+          let total_budget = el.total_budget;
+          let budget = {id: id, name: name, value: total_budget === '0.0' ? 0 : spent / total_budget};
+          row["budget"] = budget;
           this.data[i] = row;
         });
         this.problemCount = resources.elements.length;
@@ -165,5 +183,9 @@ export class DesktopTabComponent implements OnInit {
 
   public getBasePath():string {
     return this.appBasePath;
+  }
+
+  public shorten(input:string):string {
+    return input.length > 70 ? input.slice(0, 70) + '...' : input;
   }
 }
