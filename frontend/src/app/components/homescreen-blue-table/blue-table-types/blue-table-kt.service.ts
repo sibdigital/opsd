@@ -5,28 +5,12 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 
 export class BlueTableKtService extends BlueTableService {
   private project:string;
+  private filters:ApiV3FilterBuilder | null = null;
   private data:any[] = [];
   private columns:string[] = ['№ п/п', 'Мероприятие', 'Отв. Исполнитель', 'Срок выполнения', 'Статус', 'Факт. выполнение', 'Проблемы'];
   private pages:number = 0;
-  private isProgress:boolean = false;
 
   public initialize():void {
-    /*this.project = this.$state.params['project'];
-    this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString())
-      .toPromise()
-      .then((resources:QueryResource) => {
-        let total:number = resources.results.total; //всего ex 29
-        let pageSize:number = resources.results.pageSize; //в этой выборке ex 20
-        let remainder = total % pageSize;
-        this.pages = (total - remainder) / pageSize;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.results.elements.map((el:HalResource) => {
-          this.data.push(el);
-        });
-      });*/
   }
   public getColumns():string[] {
     return this.columns;
@@ -40,21 +24,33 @@ export class BlueTableKtService extends BlueTableService {
   }
 
   public getDataFromPage(i:number):any[] {
+    if ( i === 0) {
+      i = 1;
+    } else if (i > this.getPages()) {
+      i = this.getPages();
+    }
     this.data = [];
-    this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), {"offset": i})
-      .toPromise()
-      .then((resources:QueryResource) => {
-        let total:number = resources.results.total; //всего ex 29
-        let remainder = total % 20;
-        this.pages = (total - remainder) / 20;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.results.elements.map((el:HalResource) => {
-          this.data.push(el);
-        });
+    let promise:Promise<QueryResource>;
+    if (this.project === '0') {
+      promise = this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.queries.default.toString(), this.filters ? {"filters": this.filters.toJson(), "offset": i} :{"offset": i})
+        .toPromise();
+    } else {
+      promise = this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), this.filters ? {"filters": this.filters.toJson(), "offset": i} :{"offset": i})
+        .toPromise();
+    }
+    promise.then((resources:QueryResource) => {
+      let total:number = resources.results.total; //всего ex 29
+      let remainder = total % 20;
+      this.pages = (total - remainder) / 20;
+      if (remainder !== 0) {
+        this.pages++;
+      }
+      resources.results.elements.map((el:HalResource) => {
+        this.data.push(el);
       });
+    });
     return this.data;
   }
 
@@ -89,66 +85,86 @@ export class BlueTableKtService extends BlueTableService {
   }
 
   public getDataWithLimit(i:number):any[] {
-    let filters = new ApiV3FilterBuilder();
-    filters.add('dueDate', '<t+', [i.toString()]);
+    this.filters = new ApiV3FilterBuilder();
+    this.filters.add('dueDate', '<t+', [i.toString()]);
     this.data = [];
-    this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), {"filters": filters.toJson()})
-      .toPromise()
-      .then((resources:QueryResource) => {
-        let total:number = resources.results.total; //всего ex 29
-        let remainder = total % 20;
-        this.pages = (total - remainder) / 20;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.results.elements.map((el:HalResource) => {
-          this.data.push(el);
-        });
+    let promise:Promise<QueryResource>;
+    if (this.project === '0') {
+      promise = this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.queries.default.toString(), this.filters ? {"filters": this.filters.toJson()} :null)
+        .toPromise();
+    } else {
+      promise = this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), this.filters ? {"filters": this.filters.toJson()} :null)
+        .toPromise();
+    }
+    promise.then((resources:QueryResource) => {
+      let total:number = resources.results.total; //всего ex 29
+      let remainder = total % 20;
+      this.pages = (total - remainder) / 20;
+      if (remainder !== 0) {
+        this.pages++;
+      }
+      resources.results.elements.map((el:HalResource) => {
+        this.data.push(el);
       });
+    });
     return this.data;
   }
 
   public getDataWithFilter(param:string):any[] {
     if (param.startsWith('project')) {
       this.project = param.slice(7);
+      this.filters = null;
     }
-    let filters;
+    this.data = [];
+    this.filters;
     switch (param) {
+      case 'all': {
+        this.filters = new ApiV3FilterBuilder();
+        this.filters.add('status', '=', ["2"]);
+        break;
+      }
       case 'vrabote': {
-        filters = new ApiV3FilterBuilder();
-        filters.add('status', '=', ["2"]);
+        this.filters = new ApiV3FilterBuilder();
+        this.filters.add('status', '=', ["2"]);
         break;
       }
       case 'predstoyashie': {
-        filters = new ApiV3FilterBuilder();
-        filters.add('dueDate', '>t+', ["0"]);
+        this.filters = new ApiV3FilterBuilder();
+        this.filters.add('dueDate', '>t+', ["0"]);
         break;
       }
     }
-      this.halResourceService
-        .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), filters ? {"filters": filters.toJson()} :null)
-        .toPromise()
-        .then((resources:QueryResource) => {
-          if (!this.isProgress) {
-            this.isProgress = true;
-            this.data = [];
-            let total:number = resources.results.total; //всего ex 29
-            let remainder = total % 20;
-            this.pages = (total - remainder) / 20;
-            if (remainder !== 0) {
-              this.pages++;
-            }
-            resources.results.elements.map((el:HalResource) => {
-              this.data.push(el);
-            });
-            this.isProgress = false;
-          }
-        });
+    let promise:Promise<QueryResource>;
+    if (this.project === '0') {
+      promise = this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.queries.default.toString(), this.filters ? {"filters": this.filters.toJson()} :null)
+        .toPromise();
+    } else {
+      promise = this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), this.filters ? {"filters": this.filters.toJson()} :null)
+        .toPromise();
+    }
+    promise.then((resources:QueryResource) => {
+      let total:number = resources.results.total; //всего ex 29
+      let remainder = total % 20;
+      this.pages = (total - remainder) / 20;
+      if (remainder !== 0) {
+        this.pages++;
+      }
+      resources.results.elements.map((el:HalResource) => {
+        this.data.push(el);
+      });
+    });
     return this.data;
   }
 
   public format(input:string):string {
-    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
+    if (input) {
+      return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
+    } else {
+      return input;
+    }
   }
 }

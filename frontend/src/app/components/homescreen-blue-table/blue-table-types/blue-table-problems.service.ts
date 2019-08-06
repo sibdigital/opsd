@@ -11,21 +11,6 @@ export class BlueTableProblemsService extends BlueTableService {
   private pages:number = 0;
 
   public initialize():void {
-    /*this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString())
-      .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        let total:number = resources.total; //всего ex 29
-        let pageSize:number = resources.pageSize; //в этой выборке ex 20
-        let remainder = total % pageSize;
-        this.pages = (total - remainder) / pageSize;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.elements.map((el:HalResource) => {
-          this.data.push(el);
-        });
-      });*/
   }
   public getColumns():string[] {
     return this.columns;
@@ -87,6 +72,8 @@ export class BlueTableProblemsService extends BlueTableService {
     if (param.startsWith('project')) {
       this.project = param.slice(7);
     }
+    this.data = [];
+    let promise:Promise<CollectionResource<HalResource>>;
     let filter;
     switch (param) {
       case 'solved': {
@@ -98,22 +85,29 @@ export class BlueTableProblemsService extends BlueTableService {
         break;
       }
     }
-    this.data = [];
-    this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), filter ? {"status" : filter, project: this.project} : {project: this.project} )
-      .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        let total:number = resources.total; //всего ex 29
-        let pageSize:number = resources.pageSize; //в этой выборке ex 20
-        let remainder = total % pageSize;
-        this.pages = (total - remainder) / pageSize;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.elements.map((el:HalResource) => {
-          this.data.push(el);
-        });
+    if (this.project === '0') {
+      promise = this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(),
+          filter ? {"status": filter} : null)
+        .toPromise();
+    } else {
+      promise = this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(),
+          filter ? {"status": filter, project: this.project} : {project: this.project})
+        .toPromise();
+    }
+    promise.then((resources:CollectionResource<HalResource>) => {
+      let total:number = resources.total; //всего ex 29
+      let pageSize:number = resources.pageSize; //в этой выборке ex 20
+      let remainder = total % pageSize;
+      this.pages = (total - remainder) / pageSize;
+      if (remainder !== 0) {
+        this.pages++;
+      }
+      resources.elements.map((el:HalResource) => {
+        this.data.push(el);
       });
+    });
     return this.data;
   }
 }
