@@ -34,8 +34,8 @@
       <tbody>
       <% @values.each do |value| %>
         <tr id="hpi-value-<%= value.id %>">
-          <%= content_tag(:td, value.id) %>
-          <%= content_tag(:td, (HeadPerformanceIndicator.where(id: value.head_performance_indicator_id).map{|u| [u.name]}).join) %>
+          <%= content_tag(:td, link_to(h(value.id), edit_head_performance_indicator_value_path(value.id))) %>
+          <%= content_tag(:td, link_to(h((HeadPerformanceIndicator.where(id: value.head_performance_indicator_id).map{|u| [u.name]}).join), edit_head_performance_indicator_value_path(value.id))) %>
           <%= content_tag(:td, value.year) %>
           <%= content_tag(:td, value.quarter) %>
           <%= content_tag(:td, value.month) %>

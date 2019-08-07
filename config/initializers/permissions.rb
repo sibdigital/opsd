@@ -356,7 +356,7 @@ Redmine::AccessControl.map do |map|
   #knm(
   map.project_module :head_performance_indicator_values do |hpi|
     hpi.permission :manage_hpi_values,
-                   :'head_performance_indicator_values' => [:new, :destroy],
+                   :'head_performance_indicator_values' => [:edit, :update, :new, :destroy],
                    require: :member
 
     hpi.permission :view_hpi_values,
