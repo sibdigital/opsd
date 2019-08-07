@@ -71,6 +71,11 @@ class NationalProjectsController < ApplicationController
     @national_project = NationalProject.new
   end
 
+  def new_government
+    @national_project = NationalProject.new
+    @national_project.type="Government"
+  end
+
   def create
     @national_project = NationalProject.new(permitted_params.national_project)
     if params["national_project"]["parent_id"] == nil
