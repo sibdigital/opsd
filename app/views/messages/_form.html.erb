@@ -53,13 +53,12 @@ See docs/COPYRIGHT.rdoc for more details.
 <!-- iag (-->
   <section>
     <div class="form--field">
-      <label class="form--label"><%=Meeting.human_attribute_name(:participants) %></label>
+      <label class="form--label"><%=Meeting.human_attribute_name(:participants) %> дискуссии:</label>
       <div class="form--field-container">
         <table class="form--matrix">
           <thead>
           <tr class="form--matrix-header-row">
-            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:name) %></th>
-            <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:participants_invited) %></th>
+            <th class="form--matrix-header-cell">ФИО</th>
             <th class="form--matrix-header-cell"><%= Meeting.human_attribute_name(:participants_attended) %></th>
           </tr>
           </thead>

@@ -43,9 +43,10 @@ module API
                         else
                           WorkPackageProblem.all
                         end
+            @offset = params['offset'] || "1"
             ProblemCollectionRepresenter.new(@problems,
                                              api_v3_paths.problems,
-                                             page: 1,
+                                             page: @offset.to_i,
                                              per_page: 20,
                                              current_user: current_user)
           end

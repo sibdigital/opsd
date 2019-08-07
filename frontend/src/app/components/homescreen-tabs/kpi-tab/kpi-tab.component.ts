@@ -38,7 +38,7 @@ export class KpiTabComponent {
             $href: el.id
           };
         });
-        this.valueOptions.unshift({name: 'Все проекты', dueDate: '', $href: ''});
+        this.valueOptions.unshift({name: 'Все проекты', dueDate: '', $href: '0'});
         this.value = this.valueOptions[0];
         this.handleUserSubmit();
       });
@@ -65,8 +65,6 @@ export class KpiTabComponent {
     if (this.selectedOption && this.selectedOption.$href) {
       this.blueChild.changeFilter('project' + this.selectedOption.$href);
       this.dueDate = this.format(this.selectedOption.dueDate);
-    } else {
-      this.blueChild.changeFilter('project0');
     }
   }
 

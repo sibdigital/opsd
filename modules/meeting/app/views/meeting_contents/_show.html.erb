@@ -57,16 +57,13 @@ See doc/COPYRIGHT.md for more details.
     <% end -%>
   <% end -%>
 
-  <% if content_type=="meeting_minutes" -%>
+  <% if content_type=="meeting_minutes" && content.meeting.agenda.locked? -%>
 
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table" id="arbitary_object_items" style="width: 80%;">
           <tbody>
-            <% #content.protocols.each_with_index do |meeting_protocol, i|
-               @meeting.protocols.each_with_index do |meeting_protocol, i|
-
-            %>
+            <% @meeting.protocols.each_with_index do |meeting_protocol, i| %>
               <tr>
                 <td style="width: 80%; white-space: normal;">
                     <p><%= i+1 %>. <%= meeting_protocol.text %>
@@ -111,7 +108,7 @@ See doc/COPYRIGHT.md for more details.
     </div>
 
     <% if can_edit_meeting_content?(content, content_type) -%>
-      <div>
+      <div class="edit-<%= content_type %>">
         <div id="meeting-protocol-add"><span class="icon icon-add" style="cursor: pointer;"><%= Meeting.human_attribute_name(:meeting_protocol_add) %></span></div>
       </div>
     <% end %>
