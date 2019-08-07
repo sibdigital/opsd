@@ -780,7 +780,10 @@ en:
     head_performance_indicator_id: Показатель деятельности высшего должностного лица
     head_performance_indicator: Показатель деятельности высшего должностного лица
     month: Месяц
-
+    leader: Руководитель
+    leader_position: Должность руководителя
+    curator: Куратор
+    curator_position: Должность куратора
     #)
     issue: Пакет работ
     lastname: Фамилия
@@ -1391,6 +1394,8 @@ en:
   label_add_subtask: Добавить подзадачу
   label_added: Добавлено
   label_added_time_by: Добавлено %{author} %{age} назад
+  label_national_projects: Национальные проекты
+  label_national_project_new: Новый национальный проект
   label_additional_workflow_transitions_for_assignee: Дополнительные переходы допускается,
     если пользователь является правопреемником
   label_additional_workflow_transitions_for_author: Дополнительные переходы допускаются,
@@ -1401,6 +1406,11 @@ en:
   label_ago: дней назад
   label_all: все
   label_all_time: все время
+  label_national_and_federal_projects: Национальные и федеральные проекты
+  label_national_projects_government_programs: Национальные проекты и государственные программы
+  label_government_programs: Государственные программы
+  label_system_catalogs: Системные справочники
+  label_additional_settings: Дополнительные настройки
   label_all_words: Все слова
   label_all_open_wps: Все открытые
   label_always_visible: Всегда отображается

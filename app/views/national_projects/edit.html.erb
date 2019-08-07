@@ -1,0 +1,8 @@
+<% "#{l(:label_edit)} #{NationalProject.model_name.human} #{h @national_project.name}" %>
+
+<%= labelled_tabular_form_for @national_project do |f| %>
+
+  <%= render partial: 'national_projects/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+<% end %>

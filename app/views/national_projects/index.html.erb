@@ -1,0 +1,186 @@
+<% html_title l(:label_national_projects) %>
+<%= toolbar title: l(:label_national_projects) do %>
+<%end %>
+<%= form_tag({}) do -%>
+  <% if @national_projects.empty? %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" id="national_project_items">
+          <!--        <colgroup>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--        </colgroup>-->
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:id) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:name) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:description) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:leader) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:leader_position) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:curator) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:curator_position) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:start_date) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:due_date) %>
+                </span>
+                </div>
+              </div>
+            </th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" id="national_projects_items">
+          <!--        <colgroup>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--          <col highlight-col>-->
+          <!--        </colgroup>-->
+          <thead>
+          <tr>
+            <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+            <%= sort_header_tag("name", :caption => NationalProject.human_attribute_name(:name)) %>
+            <%= sort_header_tag("description", :caption => NationalProject.human_attribute_name(:description)) %>
+            <%#= sort_header_tag("type", :caption => NationalProject.human_attribute_name(:target_type)) %>
+<!--            <th>-->
+<!--              <div class="generic-table--sort-header-outer">-->
+<!--                <div class="generic-table--sort-header">-->
+<!--                <span>-->
+                <%#= NationalProject.human_attribute_name(:parent_id) %>
+<!--                  </span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </th>-->
+            <%= sort_header_tag("leader", :caption => NationalProject.human_attribute_name(:leader)) %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:leader_position) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <%= sort_header_tag("curator", :caption => NationalProject.human_attribute_name(:curator)) %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:curator_position) %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <%= sort_header_tag("start_date", :caption => NationalProject.human_attribute_name(:start_date)) %>
+            <%= sort_header_tag("due_date", :caption => NationalProject.human_attribute_name(:due_date)) %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                </div>
+              </div>
+            </th>
+            
+          </tr>
+          </thead>
+          <tbody>
+
+          <%= sort_table(@national_projects) %>
+
+          </tbody>
+        </table>
+      </div>
+      <div class="wp-inline-create-button">
+        <%= link_to new_national_project_path(),
+                    aria: {label: t(:label_national_project_new)},
+                    class: 'wp-inline-create--add-link',
+                    title: t(:label_national_project_new) do
+          op_icon('icon icon-add')
+        end %>
+      </div>
+    </div>
+  <% end %>
+<%end %>

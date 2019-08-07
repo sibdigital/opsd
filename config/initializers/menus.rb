@@ -258,6 +258,21 @@ Redmine::MenuManager.map :admin_menu do |menu|
             {controller: '/interactive_map', action: 'index'},
             caption: :label_interactive_map,
             icon: 'icon2 icon-info1'
+  menu.push :nat_fed_gov,
+            {},
+            caption: :label_national_projects_government_programs,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-info1'
+  menu.push :national_projects,
+            {controller: '/national_projects', action: 'index'},
+            caption: :label_national_projects,
+            icon: 'icon2 icon-info1',
+            parent: :nat_fed_gov
+  menu.push :government_programs,
+            {controller: '/national_projects', action: 'government_programs'},
+            caption: :label_government_programs,
+            icon: 'icon2 icon-info1',
+            parent: :nat_fed_gov
   # )
   # +-tan 2019.06.24
   # menu.push :custom_style,

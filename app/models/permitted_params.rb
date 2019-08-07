@@ -468,6 +468,9 @@ class PermittedParams
   def head_performance_indicator_value
     params.require(:head_performance_indicator_value).permit(:head_performance_indicator_id, :type, :year, :quarter, :month, :value, :sort_code)
   end
+  def national_project
+    params.require(:national_project).permit(:name, :type, :parent_id, :leader, :leader_position, :curator, :curator_position, :description, :start_date, :due_date)
+  end
   # )
   #xcc(
   def target
