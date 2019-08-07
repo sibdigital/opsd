@@ -30,8 +30,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= render partial: 'announcements/show' %>
 
-
-<%= render partial: "homescreen/form/#{@tab}"%>
-
+<% if @tab %>
+  <%= render partial: "homescreen/form/#{@tab}"%>
+<% end %>
 
 <%= call_hook :homescreen_after_links %>
