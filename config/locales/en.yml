@@ -779,6 +779,7 @@ en:
     #knm(
     head_performance_indicator_id: Показатель деятельности высшего должностного лица
     head_performance_indicator: Показатель деятельности высшего должностного лица
+
     month: Месяц
     leader: Руководитель
     leader_position: Должность руководителя
@@ -1404,6 +1405,8 @@ en:
   label_ago: дней назад
   label_all: все
   label_all_time: все время
+  label_national_and_federal_projects: Национальные и федеральные проекты
+  label_government_programs: Государственные программы
   label_all_words: Все слова
   label_all_open_wps: Все открытые
   label_always_visible: Всегда отображается

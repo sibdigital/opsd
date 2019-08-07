@@ -22,6 +22,19 @@ class NationalProjectsController < ApplicationController
     @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
   end
 
+  def show
+    sort_columns = {'id' => "#{NationalProject.table_name}.id",
+                    'name'=>"#{NationalProject.table_name}.name",
+                    'leader'=>"#{NationalProject.table_name}.leader",
+                    'curator'=>"#{NationalProject.table_name}.curator",
+                    'start_date'=>"#{NationalProject.table_name}.start_date",
+                    'due_date'=>"#{NationalProject.table_name}.due_date"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
+    @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
+  end
+
   def edit
     if params[:tab].blank?
       redirect_to tab: :properties

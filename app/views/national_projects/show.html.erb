@@ -1,0 +1,77 @@
+<% html_title l(:label_government_programs) %>
+<%= toolbar title: l(:label_government_programs) do %>
+<% end %>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="production_calendar_items">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+      <tr>
+        <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+        <%= sort_header_tag("name", :caption => NationalProject.human_attribute_name(:name)) %>
+        <%= sort_header_tag("description", :caption => NationalProject.human_attribute_name(:description)) %>
+        <%= sort_header_tag("leader", :caption => NationalProject.human_attribute_name(:leader)) %>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:leader_position) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <%= sort_header_tag("curator", :caption => NationalProject.human_attribute_name(:curator)) %>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= NationalProject.human_attribute_name(:curator_position) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <%= sort_header_tag("start_date", :caption => NationalProject.human_attribute_name(:start_date)) %>
+        <%= sort_header_tag("due_date", :caption => NationalProject.human_attribute_name(:due_date)) %>
+
+      </tr>
+      </thead>
+      <tbody>
+      <% @national_projects.where(type: "Government").each do |programm| %>
+        <tr id="government-programms-<%= programm.id %>">
+          <%= content_tag(:td, programm.id) %>
+          <%= content_tag(:td, programm.name) %>
+          <%= content_tag(:td, programm.description) %>
+          <%= content_tag(:td, programm.leader) %>
+          <%= content_tag(:td, programm.leader_position) %>
+          <%= content_tag(:td, programm.curator) %>
+          <%= content_tag(:td, programm.curator_position) %>
+          <%= content_tag(:td, programm.start_date) %>
+          <%= content_tag(:td, programm.due_date) %>
+
+          <%= content_tag(:td, link_to(op_icon('icon icon-delete'),
+                                       national_project_path(id: programm.id),
+                                       method: :delete,
+                                       data: { confirm: I18n.t(:text_are_you_sure) },
+                                       title: t(:button_delete))) %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="wp-inline-create-button">
+    <%= link_to new_head_performance_indicator_value_path(),
+                aria: {label: t(:label_head_performance_indicator_values)},
+                class: 'wp-inline-create--add-link',
+                title: t(:label_head_performance_indicator_values) do
+      op_icon('icon icon-add')
+    end %>
+  </div>
+</div>
