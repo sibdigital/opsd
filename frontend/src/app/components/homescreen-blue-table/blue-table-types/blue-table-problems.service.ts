@@ -6,6 +6,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 
 export class BlueTableProblemsService extends BlueTableService {
   private project:string;
+  private filter:string | null;
   private data:any[] = [];
   private columns:string[] = ['№ п/п', 'Рег. проект', 'Инициатор', 'Риск/Проблема', 'Адресат', 'Статус', 'Дата решения'];
   private pages:number = 0;
@@ -30,7 +31,31 @@ export class BlueTableProblemsService extends BlueTableService {
       i = this.getPages();
     }
     this.data = [];
-    //TODO:dodelat
+    let promise:Promise<CollectionResource<HalResource>>;
+    this.filter;
+    if (this.project === '0') {
+      promise = this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(),
+          this.filter ? {"status": this.filter, "offset": i} :{"offset": i})
+        .toPromise();
+    } else {
+      promise = this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(),
+          this.filter ? {"status": this.filter, project: this.project, "offset": i} : {project: this.project, "offset": i})
+        .toPromise();
+    }
+    promise.then((resources:CollectionResource<HalResource>) => {
+      let total:number = resources.total; //всего ex 29
+      let pageSize:number = resources.pageSize; //в этой выборке ex 20
+      let remainder = total % pageSize;
+      this.pages = (total - remainder) / pageSize;
+      if (remainder !== 0) {
+        this.pages++;
+      }
+      resources.elements.map((el:HalResource) => {
+        this.data.push(el);
+      });
+    });
     return this.data;
   }
 
@@ -71,29 +96,30 @@ export class BlueTableProblemsService extends BlueTableService {
   public getDataWithFilter(param:string):any[] {
     if (param.startsWith('project')) {
       this.project = param.slice(7);
+      this.filter = null;
     }
     this.data = [];
     let promise:Promise<CollectionResource<HalResource>>;
-    let filter;
+    this.filter;
     switch (param) {
       case 'solved': {
-        filter = 'solved';
+        this.filter = 'solved';
         break;
       }
       case 'notsolved': {
-        filter = 'created';
+        this.filter = 'created';
         break;
       }
     }
     if (this.project === '0') {
       promise = this.halResourceService
         .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(),
-          filter ? {"status": filter} : null)
+          this.filter ? {"status": this.filter} : null)
         .toPromise();
     } else {
       promise = this.halResourceService
         .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(),
-          filter ? {"status": filter, project: this.project} : {project: this.project})
+          this.filter ? {"status": this.filter, project: this.project} : {project: this.project})
         .toPromise();
     }
     promise.then((resources:CollectionResource<HalResource>) => {
