@@ -102,8 +102,11 @@
       <ul *ngFor="let targetId of wpTargetIds">
         <li>
           <div>
-            <h4>#{{ targetId }} - {{ getTargetFromArr(targetId).name }}</h4>
-            <table class="table table-striped">
+              <h4>
+                  <a href="{{ this.getAppBasePath() }}/projects/{{ workPackage.project.getId() }}/targets/{{ targetId }}/edit"
+                     [textContent]="getTargetFromArr(targetId).name"  [title]=""></a>
+              </h4>
+              <table class="table table-striped">
               <thead>
                 <tr>
                   <th class="colA">Год</th>

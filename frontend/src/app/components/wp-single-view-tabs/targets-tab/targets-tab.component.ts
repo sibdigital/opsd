@@ -95,6 +95,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
 
   public PlanValues: ITargetValues[] = [];
   public checkErrors: IError[] = [];
+  protected readonly appBasePath:string;
 
   public text = {
     targets_header: this.I18n.t('js.work_packages.tabs.targets'),
@@ -121,6 +122,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
                      protected halResourceService: HalResourceService)
   {
     this.wpTargets = new Array<WpTarget>();
+    this.appBasePath = window.appBasePath ? window.appBasePath : '';
   }
 
   ngOnInit() {
@@ -201,7 +203,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
               name: el.target //el.$links.self.title
             });
         });
-        console.log(this.PlanValues)
+        //console.log(this.PlanValues)
       })
       .catch(() => {
         return false;
@@ -213,26 +215,16 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   }
 
 
-  // private getMonthOfQuarter(quarter: number) {
-  //   switch (quarter) {
-  //     case 1: return [1, 2, 3];
-  //     case 2: return [4, 5, 6];
-  //     case 3: return [7, 8, 9];
-  //     case 4: return [10, 11, 12];
-  //     default: return [];
-  //   }
-  // }
-
   private checkPlanOfQuarter(target: WpTarget, plan_value: number, plan_year_value: number): boolean {
     let result = true;
     // квартал без месяца - сравниваем с планом
     if((target.month == 0) || (target.month == null)) {
-      if (plan_value != null && target.plan_value > plan_value) {
+      if (plan_value != null && target.plan_value > Number(plan_value)) {
         result = false;
         this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+plan_value.toString()+')'});
       }
       else
-      if (plan_year_value != null && target.plan_value > plan_year_value) {
+      if ((plan_year_value != null) && (Number(target.plan_value) > Number(plan_year_value))) {
         result = false;
         this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
       };
@@ -255,10 +247,15 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
         }
       }
       else { // иначе сравниваем все таки с планом
-        if(target.plan_value > plan_value){
+        if(plan_value != null && target.plan_value > plan_value){
           result = false;
           this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+plan_value.toString()+')'});
         }
+        else // или с годовым планом
+          if(plan_year_value != null && target.plan_value > Number(plan_year_value)) {
+            result = false;
+            this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
+          }
       }
     }
     return result;
@@ -524,4 +521,9 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     (<WpTarget>this.editedTarget).month = 0;
     return this.quarters;
   }
+
+  public getAppBasePath():string {
+    return this.appBasePath;
+  }
+
 }
