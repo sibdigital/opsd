@@ -135,13 +135,12 @@
 </div>
 
 
-
 <ng-template #editTemplate2>
     <td class="colA">
       <input type="number" step="1" [(ngModel)]="editedTarget.year" />
     </td>
     <td class="colA">
-        <select name="quarter" [(ngModel)]="editedTarget.quarter">
+        <select [(ngModel)]="editedTarget.quarter">
             <option value="" selected="selected"></option>
             <ng-template [ngTemplateOutlet]="changeQuarter()">
             </ng-template>
@@ -149,7 +148,7 @@
 
     </td>
     <td class="colA">
-        <select name="month" [(ngModel)]="editedTarget.month">
+        <select [(ngModel)]="editedTarget.month">
             <option value="" selected="selected"></option>
             <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
             </ng-template>
@@ -163,7 +162,7 @@
     </td>
     <td>
       <accessible-by-keyboard
-              (execute)="saveWpTarget(editedTarget)"
+              (execute)="updateTarget(editedTarget)"
               linkClass="wp-create-relation--save"
               aria-hidden="false">
         <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>

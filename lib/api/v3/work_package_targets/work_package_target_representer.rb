@@ -36,7 +36,8 @@ module API
         property :plan_fact_quarterly_target_value,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   PlanFactQuarterlyTargetValue.where(target_id: represented.target_id, project_id: represented.project_id)
+                   #PlanFactQuarterlyTargetValue.where(target_id: represented.target_id, project_id: represented.project_id)
+                   PlanFactQuarterlyTargetValue.where(project_id: represented.project_id)
                  },
                  render_nil: true
 
