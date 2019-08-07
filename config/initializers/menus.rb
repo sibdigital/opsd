@@ -140,23 +140,27 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :users,
             { controller: '/users' },
             caption: :label_user_plural,
-            icon: 'icon2 icon-user'
+            icon: 'icon2 icon-user',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator?}
 
 
   menu.push :roles,
             { controller: '/roles' },
             caption: :label_role_and_permissions,
-            icon: 'icon2 icon-settings'
+            icon: 'icon2 icon-settings',
+            if: Proc.new { User.current.admin?}
 
   ##zbd(
   menu.push :contracts,
             { controller: '/contracts' },
-            icon: 'icon2 icon-enumerations'
+            icon: 'icon2 icon-enumerations',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
   # )
   menu.push :system_catalogs,
             {},
             caption: :label_system_catalogs,
-            icon: 'icon2 icon-types'
+            icon: 'icon2 icon-types',
+            if: Proc.new { User.current.admin?}
 
   menu.push :groups,
             { controller: '/groups' },
@@ -180,26 +184,31 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :workflows,
             { controller: '/workflows', action: 'edit' },
             caption: Proc.new { Workflow.model_name.human },
-            icon: 'icon2 icon-workflow'
+            icon: 'icon2 icon-workflow',
+            if: Proc.new { User.current.admin?}
 
   menu.push :custom_fields,
             { controller: '/custom_fields' },
             caption: :label_custom_field_plural,
             icon: 'icon2 icon-custom-fields',
-            html: { class: 'custom_fields' }
+            html: { class: 'custom_fields' },
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   #knm(
   menu.push :head_performance_indicator_values,
             {controller: '/head_performance_indicator_values'},
-            icon: 'icon2 icon-enumerations'
+            icon: 'icon2 icon-enumerations',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   # )
   #bbm(
   menu.push :typed_risks,
             { controller: '/typed_risks' },
-            icon: 'icon2 icon-risks'
+            icon: 'icon2 icon-risks',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
 
   menu.push :control_levels,
             { controller: '/control_levels' },
-            icon: 'icon2 icon-control-levels'
+            icon: 'icon2 icon-control-levels',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   # )
   # +tan 2019.04.25
   # menu.push :positions,
@@ -209,7 +218,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :org_settings,
             { controller: '/org_settings' },
             caption: :label_org_settings,
-            icon: 'icon2 icon-risks'
+            icon: 'icon2 icon-risks',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? ||User.current.detect_project_administrator?}
   # -tan
 
   #+-tan 2019.06.24
@@ -223,29 +233,30 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :'attribute_help_texts.label_plural',
             icon: 'icon2 icon-help2',
             if: Proc.new {
-              EnterpriseToken.allows_to?(:attribute_help_texts)
+              EnterpriseToken.allows_to?(:attribute_help_texts)&&User.current.admin?
             }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
-            icon: 'icon2 icon-enumerations'
+            icon: 'icon2 icon-enumerations',
+            if: Proc.new { User.current.admin? }
 
   menu.push :settings,
             { controller: '/settings' },
             caption: :label_system_settings,
-
+            if: Proc.new { User.current.admin?},
             icon: 'icon2 icon-settings2'
   menu.push :additional_settings,
             {},
             caption: :label_additional_settings,
-            icon: 'icon22 icon-settings2'
+            icon: 'icon22 icon-settings2',
+            if: Proc.new { User.current.admin?}
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
             html: { class: 'server_authentication' },
             icon: 'icon2 icon-flag',
-            if: proc { !OpenProject::Configuration.disable_password_login? },
-            parent: :additional_settings
+            if: proc { !OpenProject::Configuration.disable_password_login? }
 
   menu.push :colors,
             { controller: '/colors', action: 'index' },
@@ -272,17 +283,20 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/admin', action: 'info' },
             caption: :label_information_plural,
             last: true,
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { User.current.admin?}
   #knm(
   menu.push :interactive_map,
             {controller: '/interactive_map', action: 'index'},
             caption: :label_interactive_map,
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   menu.push :nat_fed_gov,
             {},
             caption: :label_national_projects_government_programs,
             #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   menu.push :national_projects,
             {controller: '/national_projects', action: 'index'},
             caption: :label_national_projects,
