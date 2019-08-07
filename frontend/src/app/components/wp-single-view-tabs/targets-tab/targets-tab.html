@@ -44,35 +44,23 @@
               </tr>
               <tr>
                 <td>
-                  <select name="year" [(ngModel)]="editedTarget.year">
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
-                  </select>
+                  <input type="number" step="1" [(ngModel)]="editedTarget.year" />
+                  <!--<select name="year" [(ngModel)]="editedTarget.year">-->
+                    <!--<ng-template [ngTemplateOutlet]="year"></ng-template>-->
+                  <!--</select>-->
                 </td>
                 <td>
                   <select name="quarter" [(ngModel)]="editedTarget.quarter">
                     <option value="" selected="selected"></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                    <ng-template [ngTemplateOutlet]="quarters">
+                    </ng-template>
                   </select>
                 </td>
                 <td>
                   <select name="month" [(ngModel)]="editedTarget.month">
                     <option value="" selected="selected"></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
+                    <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
+                    </ng-template>
                   </select>
                 </td>
                 <td>
@@ -114,8 +102,11 @@
       <ul *ngFor="let targetId of wpTargetIds">
         <li>
           <div>
-            <h4>{{ targetId }} - {{ getTargetFromArr(targetId).name }}</h4>
-            <table class="table table-striped">
+              <h4>
+                  <a href="{{ this.getAppBasePath() }}/projects/{{ workPackage.project.getId() }}/targets/{{ targetId }}/edit"
+                     [textContent]="getTargetFromArr(targetId).name"  [title]=""></a>
+              </h4>
+              <table class="table table-striped">
               <thead>
                 <tr>
                   <th class="colA">Год</th>
@@ -147,36 +138,23 @@
 </div>
 
 
-
 <ng-template #editTemplate2>
     <td class="colA">
       <input type="number" step="1" [(ngModel)]="editedTarget.year" />
     </td>
     <td class="colA">
-        <select name="quarter" [(ngModel)]="editedTarget.quarter">
+        <select [(ngModel)]="editedTarget.quarter">
             <option value="" selected="selected"></option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <ng-template [ngTemplateOutlet]="changeQuarter()">
+            </ng-template>
         </select>
 
     </td>
     <td class="colA">
-        <select name="month" [(ngModel)]="editedTarget.month">
+        <select [(ngModel)]="editedTarget.month">
             <option value="" selected="selected"></option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
+            <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
+            </ng-template>
         </select>
     </td>
     <td class="colA">
@@ -187,7 +165,7 @@
     </td>
     <td>
       <accessible-by-keyboard
-              (execute)="saveWpTarget(editedTarget)"
+              (execute)="updateTarget(editedTarget)"
               linkClass="wp-create-relation--save"
               aria-hidden="false">
         <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
@@ -224,4 +202,38 @@
         <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
       </accessible-by-keyboard>
     </td>
+</ng-template>
+
+<!--<ng-template #years>-->
+<!--</ng-template>-->
+
+<ng-template #quarters>
+    <option value="1">1-й квартал</option>
+    <option value="2">2-й квартал</option>
+    <option value="3">3-й квартал</option>
+    <option value="4">4-й квартал</option>
+</ng-template>
+
+<ng-template #monthOfQuarter1>
+    <option value="1">Январь</option>
+    <option value="2">Февраль</option>
+    <option value="3">Март</option>
+</ng-template>
+
+<ng-template #monthOfQuarter2>
+    <option value="4">Апрель</option>
+    <option value="5">Май</option>
+    <option value="6">Июнь</option>
+</ng-template>
+
+<ng-template #monthOfQuarter3>
+    <option value="7">Июль</option>
+    <option value="8">Август</option>
+    <option value="9">Сентябрь</option>
+</ng-template>
+
+<ng-template #monthOfQuarter4>
+    <option value="10">Октябрь</option>
+    <option value="11">Ноябрь</option>
+    <option value="12">Декабрь</option>
 </ng-template>
