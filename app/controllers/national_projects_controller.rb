@@ -14,7 +14,6 @@ class NationalProjectsController < ApplicationController
                     'name'=>"#{NationalProject.table_name}.name",
                     'leader'=>"#{NationalProject.table_name}.leader",
                     'curator'=>"#{NationalProject.table_name}.curator",
-                    'type'=>"#{NationalProject.table_name}.type",
                     'start_date'=>"#{NationalProject.table_name}.start_date",
                     'due_date'=>"#{NationalProject.table_name}.due_date"
     }
