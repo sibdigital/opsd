@@ -91,6 +91,15 @@ class WorkPackage < ActiveRecord::Base
   end
   # )
 
+  #bbm(
+  def count_wpp
+    work_package_problems.count
+  end
+
+  def search_journal_date
+    current_journal
+  end
+  # )
   scope :recently_updated, ->() {
     order(updated_at: :desc)
   }
