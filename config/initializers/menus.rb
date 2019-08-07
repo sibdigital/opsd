@@ -216,10 +216,33 @@ Redmine::MenuManager.map :admin_menu do |menu|
   #           icon: 'icon2 icon-risks'
 
   menu.push :org_settings,
-            { controller: '/org_settings' },
+            { },
             caption: :label_org_settings,
             icon: 'icon2 icon-risks',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? ||User.current.detect_project_administrator?}
+  menu.push :org_iogv,
+            {controller: '/org_settings', action: 'iogv' },
+            icon: 'icon2 icon-risks',
+            caption: :label_iogv,
+            parent: :org_settings
+
+  menu.push :org_municipalities,
+            {controller: '/org_settings', action: 'municipalities' },
+            icon: 'icon2 icon-risks',
+            caption: :label_municipalities,
+            parent: :org_settings
+
+  menu.push :org_counterparties,
+            {controller: '/org_settings', action: 'counterparties' },
+            icon: 'icon2 icon-risks',
+            caption: :label_counterparties,
+            parent: :org_settings
+
+  menu.push :org_positions,
+            {controller: '/org_settings', action: 'positions' },
+            icon: 'icon2 icon-risks',
+            caption: :label_positions,
+            parent: :org_settings
   # -tan
 
   #+-tan 2019.06.24

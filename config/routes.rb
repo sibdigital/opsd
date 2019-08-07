@@ -498,7 +498,12 @@ OpenProject::Application.routes.draw do
     match 'edit', action: 'edit', via: %i[get post]
     match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
-
+  #knm
+  get '/org_settings/iogv' => 'org_settings#iogv'
+  get '/org_settings/municipalities' => 'org_settings#municipalities'
+  get '/org_settings/counterparties' => 'org_settings#counterparties'
+  get '/org_settings/positions' => 'org_settings#positions'
+  # -knm
   #+ 2019.04.26 TAN
   get '/org_settings' => 'org_settings#index'
   #scope 'org_settings', controller: 'org_settings' do

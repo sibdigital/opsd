@@ -22,6 +22,42 @@ class OrgSettingsController < ApplicationController
     render action: 'edit'
   end
 
+  def iogv
+    @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
+  end
+
+  def municipalities
+    @municipalities = Enumeration.find_by(name: "Муниципальное образование")
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
+  end
+
+  def counterparties
+    @counterparties = Enumeration.find_by(name: "Контрагент")
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
+  end
+
+  def positions
+    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
+  end
+
   def edit
     # @notifiables = Redmine::Notifiable.all
     # if request.post? && params[:org_settings]
