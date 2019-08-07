@@ -33,7 +33,7 @@ class NationalProjectsController < ApplicationController
   end
 
   def update
-    if @national_project.update_attributes(permitted_params.national_projects)
+    if @national_project.update_attributes(permitted_params.national_project)
       flash[:notice] = l(:notice_successful_update)
       redirect_to national_projects_path()
     else
