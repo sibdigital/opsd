@@ -36,6 +36,7 @@ module API
           get do
             @national_projects = NationalProject.all
             NationalProjectCollectionRepresenter.new(@national_projects,
+                                                     params,
                                                      api_v3_paths.national_projects,
                                                      current_user: current_user)
           end
