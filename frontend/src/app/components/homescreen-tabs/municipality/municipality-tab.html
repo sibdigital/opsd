@@ -38,7 +38,7 @@
                 <th class="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
                 <th class="colored-col-red" colspan="3">Просроченные КТ:</th>
                 <th class="colored-col-orange" colspan="3">Проблемы:</th>
-                <th class="colored-col-purple" colspan="2">Бюджет:</th>
+                <th class="colored-col-purple" colspan="3">Бюджет:</th>
             </tr>
             </thead>
             <tbody>
@@ -49,12 +49,12 @@
                 <td *ngIf="item.upcoming_tasks"
                     [ngClass]="getGreenClass(i)">
                     <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}/work_packages/{{item.upcoming_tasks.id}}/activity?plan_type=execution"
-                       [textContent]="item.upcoming_tasks.subject"></a>
+                       [textContent]="shorten(item.upcoming_tasks.subject)" [title]="item.upcoming_tasks.subject"></a>
                 </td>
                 <td *ngIf="item.upcoming_tasks"
                     [ngClass]="getGreenClass(i)">
                     <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}"
-                       [textContent]="item.upcoming_tasks.project"></a>
+                       [textContent]="shorten(item.upcoming_tasks.project)"  [title]="item.upcoming_tasks.project"></a>
                 </td>
                 <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
                 <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
@@ -66,12 +66,12 @@
                 <td *ngIf="item.due_milestone"
                     [ngClass]="getRedClass(i)">
                     <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}/work_packages/{{item.due_milestone.id}}/activity?plan_type=execution"
-                       [textContent]="item.due_milestone.subject"></a>
+                       [textContent]="shorten(item.due_milestone.subject)" [title]="item.due_milestone.subject"></a>
                 </td>
                 <td *ngIf="item.due_milestone"
                     [ngClass]="getRedClass(i)">
                     <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}"
-                       [textContent]="item.due_milestone.project"></a>
+                       [textContent]="shorten(item.due_milestone.project)" [title]="item.due_milestone.project"></a>
                 </td>
                 <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
                 <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
@@ -81,15 +81,33 @@
                     [ngClass]="getOrangeClass(i)"
                     [textContent]="i + 1"></td>
                 <td *ngIf="item.problems"
-                    [ngClass]="getOrangeClass(i)"
-                    [textContent]="item.problems.risk">
+                    [ngClass]="getOrangeClass(i)">
+                    <span
+                            [textContent]="shorten(item.problems.risk)" [title]="item.problems.risk"></span>
+                </td>
+                <td *ngIf="item.problems"
+                    [ngClass]="getOrangeClass(i)">
+                    <a href="{{this.getBasePath()}}/work_packages/{{item.problems.wpid}}"
+                       [textContent]="shorten(item.problems.wptitle)" [title]="item.problems.wptitle"></a>
                 </td>
                 <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
                 <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
-                <td [ngClass]="getOrangeClass(i)"></td>
+                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
 
-                <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>
-                <td *ngIf="!item.budjet" [ngClass]="getPurpleClass(i)"></td>
+                <td *ngIf="item.budget"
+                    [ngClass]="getPurpleClass(i)"
+                    [textContent]="i + 1"></td>
+                <td *ngIf="item.budget"
+                    [ngClass]="getPurpleClass(i)">
+                    <a href="{{this.getBasePath()}}/projects/{{item.budget.id}}"
+                       [textContent]="shorten(item.budget.name)" [title]="item.budget.name"></a>
+                </td>
+                <td *ngIf="item.budget"
+                    [ngClass]="getPurpleClass(i)"[textContent]="item.budget.value.toFixed(2)">
+                </td>
+                <td *ngIf="!item.budget" [ngClass]="getPurpleClass(i)"></td>
+                <td *ngIf="!item.budget" [ngClass]="getPurpleClass(i)"></td>
+                <td *ngIf="!item.budget" [ngClass]="getPurpleClass(i)"></td>
             </tr>
             </tbody>
         </table>
