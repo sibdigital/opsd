@@ -111,8 +111,11 @@ module DemoData
         # )
         # +tan
         organization_id: find_organization_by_name(attributes[:organization]),
-        assigned_to_id:  user_by_login(attributes[:assigned])
+        assigned_to_id:  user_by_login(attributes[:assigned]),
         # -tan
+        # +knm
+        raion_id: attributes[:raion]
+        # -knm
       }
     end
 
@@ -141,6 +144,10 @@ module DemoData
 
     def find_type(attributes)
       Type.find_by!(name: translate_with_base_url(attributes[:type]))
+    end
+
+    def find_raion(attributes)
+      Raion.find_by!(name: translate_with_base_url(attributes[:raion]))
     end
 
     def set_version!(wp_attr, attributes)

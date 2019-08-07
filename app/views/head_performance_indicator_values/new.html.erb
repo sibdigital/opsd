@@ -3,21 +3,7 @@
 <% breadcrumb_paths(l(:label_my_account), I18n.t('label_head_performance_indicator_values_new')) %>
 <%= toolbar title: I18n.t('label_head_performance_indicator_values_new') %>
 <%= labelled_tabular_form_for @value do |f| %>
-  <%= error_messages_for :head_performance_indicator_values %>
-  <section class="form--section">
-    <div class="form--field">  <%= f.select :head_performance_indicator_id,
-                                            options_for_select(HeadPerformanceIndicator.where(active: true).map{|s| [s.name, s.id]}),
-                                            include_blank: false,
-                                            container_class: '-wide' %></div>
-    <%= f.hidden_field 'type' %>
-    <div class="form--field"><%= f.date_field 'year', container_class: '-middle' %></div>
-    <div class="form--field"><%= f.text_field 'value', container_class: '-middle' %></div>
-<!--    <div class="form--field"><%#= f.text_field 'quarter', container_class: '-middle' %></div>-->
-<!--    <div class="form--field"><%#= f.text_field 'month', container_class: '-middle' %></div>-->
-    <%= f.hidden_field 'quarter'  %>
-    <%= f.hidden_field 'month'  %>
-    <%= f.hidden_field 'sort_code'  %>
-  </section>
+  <%= render partial: 'head_performance_indicator_values/form', locals: { f: f } %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
 
