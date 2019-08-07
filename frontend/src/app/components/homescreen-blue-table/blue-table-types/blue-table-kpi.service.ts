@@ -2,9 +2,6 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {OnInit} from "@angular/core";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class BlueTableKpiService extends BlueTableService {
@@ -12,7 +9,7 @@ export class BlueTableKpiService extends BlueTableService {
   private data:any[] = [];
   private promises:Promise<CollectionResource<HalResource>>[] = [];
   private data_local:any = {};
-  private columns:string[] = ['Рег. проект', 'Куратор', 'Рук. проекта', 'КТ', 'План', 'Факт'];
+  private columns:string[] = ['Рег. проект', 'Куратор', 'Рук. проекта', 'План', 'Факт'];
 
   public initialize():void {
     this.halResourceService
@@ -171,11 +168,11 @@ export class BlueTableKpiService extends BlueTableService {
           return row.target;
           break;
         }
-        case 4: {
+        case 3: {
           return row.value;
           break;
         }
-        case 5: {
+        case 4: {
           return row.planValue;
           break;
         }
@@ -208,14 +205,10 @@ export class BlueTableKpiService extends BlueTableService {
           break;
         }
         case 3: {
-          return row.target;
-          break;
-        }
-        case 4: {
           return row.planValue;
           break;
         }
-        case 5: {
+        case 4: {
           return row.value;
           break;
         }

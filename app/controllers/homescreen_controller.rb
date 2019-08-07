@@ -30,7 +30,7 @@
 class HomescreenController < ApplicationController
   skip_before_action :check_if_login_required, only: [:robots]
 
-  before_action :set_current_user
+  before_action :set_current_user, :require_login
 
   include DateAndTime::Calculations
 
@@ -57,5 +57,30 @@ class HomescreenController < ApplicationController
 
   def set_current_user
     @user = current_user
+  end
+
+  def require_login
+    unless User.current.logged?
+
+      # Ensure we reset the session to terminate any old session objects
+      reset_session
+
+      respond_to do |format|
+        format.any(:html, :atom) do redirect_to signin_path(back_url: login_back_url) end
+
+        auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(
+          request_headers: request.headers)
+
+        format.any(:xml, :js, :json)  do
+          head :unauthorized,
+               'X-Reason' => 'login needed',
+               'WWW-Authenticate' => auth_header
+        end
+
+        format.all { head :not_acceptable }
+      end
+      return false
+    end
+    true
   end
 end

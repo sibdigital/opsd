@@ -78,6 +78,13 @@ class MessagesController < ApplicationController
     @message.attributes = permitted_params.message(@message)
     @message.attach_files(permitted_params.attachments.to_h)
 
+    @message.participants = @message.participants.select {|participant| participant.invited}
+
+    unless @message.participants.present?
+      flash.now[:error] = "Укажите как минимум одного участника дискуссии"
+      return render action: 'new'
+    end
+
     if @message.save
       render_attachment_warning_if_needed(@message)
       call_hook(:controller_messages_new_after_save, params: params, message: @message)
@@ -124,7 +131,10 @@ class MessagesController < ApplicationController
 
     @message.participants = @message.participants.select {|participant| participant.invited}
 
-#    @message.participants.each { |participant| puts participant.user_id }
+    unless @message.participants.present?
+      flash[:error] = "Укажите как минимум одного участника дискуссии"
+      return render action: 'edit'
+    end
 
     if @message.save
       render_attachment_warning_if_needed(@message)
