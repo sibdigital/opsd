@@ -1,0 +1,9 @@
+<% html_title l(:label_administration), l(:label_municipalities) %>
+<% if @organization_parent != nil %>
+  <div class="form--field">
+    <%= l(:label_organization_parent )  %>
+    <%= ':' %>
+    <%= @organization_parent %>
+  </div>
+<% end %>
+<%= cell ::Organizations::TableCell, Organization.where(org_type: @municipalities.id, parent_id: @parent_id)%>
