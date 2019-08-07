@@ -20,22 +20,17 @@ export class BlueTableDesktopService extends BlueTableService {
           }
         });
         this.national_project_titles.push({id:0, name: 'Проекты Республики Бурятия'});
-        this.halResourceService
-          .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
-          .toPromise()
-          .then((resources:CollectionResource<HalResource>) => {
-            resources.elements.map((el:HalResource) => {
-              if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
-                this.data.push(el);
-                if (el.projects) {
-                  el.projects.map( (project:ProjectResource) => {
-                    project['_type'] = 'Project';
-                    this.data.push(project);
-                  });
-                }
-              }
-            });
-          });
+        resources.elements.map((el:HalResource) => {
+          if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
+            this.data.push(el);
+            if (el.projects) {
+              el.projects.map( (project:ProjectResource) => {
+                project['_type'] = 'Project';
+                this.data.push(project);
+              });
+            }
+          }
+        });
       });
   }
 
