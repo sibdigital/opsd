@@ -483,6 +483,13 @@ Redmine::MenuManager.map :project_menu do |menu|
   # )
   #
   # + tan 2019/07/16
+  menu.push :reports,
+            {},
+            param: :project_id,
+            caption: :ladel_reports,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-info1'
+
   menu.push :additional,
             {},
             param: :project_id,
