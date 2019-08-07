@@ -498,9 +498,9 @@ Redmine::MenuManager.map :project_menu do |menu|
   #
   # + tan 2019/07/16
   menu.push :reports,
-            {},
+            {controller: '/reports', action: 'index' },
             param: :project_id,
-            caption: :ladel_reports,
+            caption: :label_reports,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-info1'
 

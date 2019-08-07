@@ -308,6 +308,10 @@ OpenProject::Application.routes.draw do
 
     resources :agreements do
     end
+
+    resources :reports do
+    end
+
     #)
     resources :activity, :activities, only: :index, controller: 'activities'
 
