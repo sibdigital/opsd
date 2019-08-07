@@ -5,7 +5,7 @@ class OrgSettingsController < ApplicationController
   layout 'admin'
   menu_item :org_settings
 
-  before_action :require_admin
+  before_action :require_project_admin
 
   def index
     @iogv = Enumeration.find_by(name: "Орган исполнительной власти")

@@ -85,7 +85,7 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
   # menu.push :coordination,
   #           { controller: '/projects', action: 'index' },
   #           if: Proc.new { User.current.detect_project_office_coordinator? }
@@ -269,6 +269,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_system_settings,
             if: Proc.new { User.current.admin?},
             icon: 'icon2 icon-settings2'
+
   menu.push :additional_settings,
             {},
             caption: :label_additional_settings,
@@ -279,6 +280,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/ldap_auth_sources', action: 'index' },
             html: { class: 'server_authentication' },
             icon: 'icon2 icon-flag',
+            parent: :additional_settings,
             if: proc { !OpenProject::Configuration.disable_password_login? }
 
   menu.push :colors,

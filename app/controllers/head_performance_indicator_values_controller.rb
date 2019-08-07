@@ -7,6 +7,7 @@ class HeadPerformanceIndicatorValuesController < ApplicationController
   layout 'admin'
   before_action :find_hpi_value, only: [:edit, :update, :destroy]
   before_action :authorize_global, only: [:edit, :update, :new,:destroy]
+  before_action :require_coordinator
   def index
     sort_columns = {'id' => "#{HeadPerformanceIndicatorValue.table_name}.id",
                     'head_performance_indicator_id'=>"#{HeadPerformanceIndicatorValue.table_name}.head_performance_indicator_id",

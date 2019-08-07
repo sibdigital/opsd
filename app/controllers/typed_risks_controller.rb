@@ -5,7 +5,7 @@
 class TypedRisksController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_coordinator
   before_action :find_typed_risk, only: [:edit, :update, :destroy]
 
   helper :sort

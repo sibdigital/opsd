@@ -4,7 +4,7 @@
 class ContractsController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_project_admin
   before_action :find_contracts, only: [:edit, :update, :destroy]
 
   helper :sort

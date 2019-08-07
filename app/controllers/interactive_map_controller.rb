@@ -1,5 +1,6 @@
 class InteractiveMapController < ApplicationController
   layout 'admin'
+  before_action :require_coordinator
   before_action :authorize_global, only: [:index]
   def index
 

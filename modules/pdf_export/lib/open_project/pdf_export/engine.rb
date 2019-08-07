@@ -39,7 +39,8 @@ module OpenProject::PdfExport
            :export_card_configurations,
            { controller: '/export_card_configurations', action: 'index' },
            caption: :label_export_card_configuration_plural,
-           icon: 'icon2 icon-ticket-down'
+           icon: 'icon2 icon-ticket-down',
+           parent: :additional_settings
     end
   end
 end
