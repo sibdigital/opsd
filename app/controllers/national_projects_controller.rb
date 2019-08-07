@@ -3,7 +3,7 @@ class NationalProjectsController < ApplicationController
   layout 'admin'
 
   before_action :find_national_project, only: [:edit, :update, :destroy]
-  before_action :authorize_global, only: [:index, :edit, :update, :destroy, :new]
+  before_action :authorize_global, only: [:government_programs, :show, :index, :edit, :update, :destroy, :new]
   include SortHelper
   include PaginationHelper
   include ::IconsHelper
@@ -21,10 +21,23 @@ class NationalProjectsController < ApplicationController
     sort_update sort_columns
     @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
   end
-
+  def government_programs
+    sort_columns = {'id' => "#{NationalProject.table_name}.id",
+                    'name'=>"#{NationalProject.table_name}.name",
+                    'description'=>"#{NationalProject.table_name}.description",
+                    'leader'=>"#{NationalProject.table_name}.leader",
+                    'curator'=>"#{NationalProject.table_name}.curator",
+                    'start_date'=>"#{NationalProject.table_name}.start_date",
+                    'due_date'=>"#{NationalProject.table_name}.due_date"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
+    @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
+  end
   def show
     sort_columns = {'id' => "#{NationalProject.table_name}.id",
                     'name'=>"#{NationalProject.table_name}.name",
+                    'description'=>"#{NationalProject.table_name}.description",
                     'leader'=>"#{NationalProject.table_name}.leader",
                     'curator'=>"#{NationalProject.table_name}.curator",
                     'start_date'=>"#{NationalProject.table_name}.start_date",

@@ -1406,7 +1406,10 @@ en:
   label_all: все
   label_all_time: все время
   label_national_and_federal_projects: Национальные и федеральные проекты
+  label_national_projects_government_programs: Национальные проекты и государственные программы
   label_government_programs: Государственные программы
+  label_system_catalogs: Системные справочники
+  label_additional_settings: Дополнительные настройки
   label_all_words: Все слова
   label_all_open_wps: Все открытые
   label_always_visible: Всегда отображается

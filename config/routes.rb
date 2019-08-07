@@ -394,7 +394,11 @@ OpenProject::Application.routes.draw do
 
   resources :head_performance_indicator_values
 
-  resources :national_projects
+  resources :national_projects do
+    get :government_programs, on: :collection
+  end
+
+
   #)
 
   scope 'admin' do
