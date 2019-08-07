@@ -55,7 +55,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
   def custom_field_input(options = {})
     field = :value
-
+    obj = options[:obj]
     input_options = options.merge(no_label: true,
                                   name: custom_field_field_name,
                                   id: custom_field_field_id)
@@ -73,15 +73,44 @@ class CustomFieldFormBuilder < TabularFormBuilder
       check_box(field, input_options.merge(checked: formatter.checked?))
     when 'list'
       custom_field_input_list(field, input_options)
-    # when 'formula'
-      # sql = "SELECT formula FROM custom_fields WHERE field_format = 'formula'"
-      # records_array = ActiveRecord::Base.connection.execute(sql)
-      # formula_array = records_array.values
-    #
-    #   text_field(field, input_options)
+    when 'formula'
+      cf_id = input_options[:id].scan(/\d+/).first
+      from = options[:from]
+      field = calculate_formula(obj.id, obj.class.name, cf_id, from)
     else
       text_field(field, input_options)
     end
+  end
+
+  #tmd 06.08.2019
+  def calculate_formula(id, name, cf_id, from)
+    sql = "SELECT formula FROM custom_fields WHERE type = '" + name + "CustomField' AND id = " + cf_id.to_s
+    records_array = ActiveRecord::Base.connection.execute(sql).values
+    expr = records_array[0][0].to_s
+    is_valid = true
+    expr_params = expr.split(/[+\-*\/]/)
+
+    for expr_param in expr_params
+      if expr_param =~ /^([^0-9]*)$/
+        expr_param = expr_param.strip
+        begin
+          translation = I18n.backend.translations[:en][:attributes].key expr_param
+          query = "SELECT " + translation.to_s + " FROM " + from + " WHERE id = " + id.to_s
+          result = ActiveRecord::Base.connection.execute(query).values
+          expr = expr.sub(expr_param, result[0][0])
+        rescue Exception => e
+          is_valid = false
+        end
+      end
+    end
+
+    if is_valid
+      result = eval(expr)
+    else
+      result = "Формула задана неверно!"
+    end
+
+    result
   end
 
   def custom_field_input_list(field, input_options)

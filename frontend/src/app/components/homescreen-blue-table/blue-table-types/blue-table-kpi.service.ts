@@ -2,9 +2,6 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {OnInit} from "@angular/core";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class BlueTableKpiService extends BlueTableService {

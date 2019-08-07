@@ -36,6 +36,7 @@ export class KtTabComponent {
         this.valueOptions = projects.elements.map((el:HalResource) => {
           return {name: el.name, kurator: el.curator ? el.curator.fio : '', rukovoditel: el.rukovoditel ? el.rukovoditel.fio : '' , $href: el.id};
         });
+        this.valueOptions.unshift({name: 'Все проекты', kurator: '-', rukovoditel: '-', $href: '0'});
         this.value = this.valueOptions[0];
         this.handleUserSubmit();
       });

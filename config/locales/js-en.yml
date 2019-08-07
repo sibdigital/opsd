@@ -489,7 +489,12 @@ en:
       placeholder: Выберите значение из списка
     problem_buttons:
       add_new_problem: Определить новую проблему/риск
+      edit_problem: Редактировать
       delete_problem: Удалить
+      problem: Проблема
+      risk: Риск
+      created: Создана
+      solved: Решена
     relations_autocomplete:
       placeholder: Внести Id cвязанного пакета работ
       parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape
