@@ -76,6 +76,10 @@ export class BlueTableKtService extends BlueTableService {
         return row.status ? row.status.$links.self.title :'';
         break;
       }
+      case 6: {
+        return '<a href="' + this.getBasePath() + '/vkladka1/problems">' + row.problemsCount + '</a>';
+        break;
+      }
     }
     return '';
   }
