@@ -66,8 +66,7 @@ module AllBudgetsHelper
   end
 
   def self.cost_by_project (project)
-      CostObject.where(project_id: project.id)
-      cost_objects = CostObject.all
+      cost_objects = CostObject.where(project_id: project.id)
       total_budget = BigDecimal.new("0")
       labor_budget = BigDecimal.new("0")
       material_budget = BigDecimal.new("0")

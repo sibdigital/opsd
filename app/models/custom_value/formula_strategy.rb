@@ -3,11 +3,6 @@
 class CustomValue::FormulaStrategy < CustomValue::FormatStrategy
 
   def typed_value
-    puts "a"
-    # unless value.blank?
-    #   value.to_s
-    # end
-
 
   end
 
