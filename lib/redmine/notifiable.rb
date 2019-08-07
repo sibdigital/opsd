@@ -47,6 +47,8 @@ module Redmine
       notifications << Notifiable.new('message_posted')
       notifications << Notifiable.new('wiki_content_added')
       notifications << Notifiable.new('wiki_content_updated')
+      notifications << Notifiable.new('cost_object_added') #ban
+      notifications << Notifiable.new('member_added') #ban
       notifications
     end
   end

@@ -27,13 +27,14 @@
         <section>
           <h4>Введите данные</h4>
           <div class="grid-content medium-10">
+            <input type="hidden" [(ngModel)]="wpProblem.project_id" [value]="workPackage.project.getId()" />
             <div style="float:left; width: 100%;">
               <label for="input_type">Тип</label>
               <select id="input_type" name="problem_type" [(ngModel)]="wpProblem.problem_type">
-                <option value="0" selected="selected">Проблема</option>
-                <option value="1">Риск</option>
+                <option value="problem" selected="selected">Проблема</option>
+                <option value="risk">Риск</option>
               </select>
-              <div *ngIf="wpProblem.problem_type == 1">
+              <div *ngIf="wpProblem.problem_type == 'risk'">
                 <label for="input_risk">Риск</label>
                 <select name="risk" id="input_risk" [(ngModel)]="wpProblem.risk_id">
                   <option *ngFor="let risk of risks | keyvalue" value="{{ risk.key }}">{{ risk.value }}</option>
@@ -57,18 +58,19 @@
               <textarea id="input_desc" name="desc" [(ngModel)]="wpProblem.description"></textarea>
             </div>
 
-            <div style="float:left; width: 100%;">
-              <label for="input_status">Статус решения</label>
-              <select id="input_status" name="status" [(ngModel)]="wpProblem.status">
-                <option value="0" selected="selected">Создано</option>
-                <option value="1">Решено</option>
-              </select>
-            </div>
+            <!--<input type="hidden" [(ngModel)]="wpProblem.status" value="created"/>-->
+            <!--<div style="float:left; width: 100%;">-->
+              <!--<label for="input_status">Статус решения</label>-->
+              <!--<select id="input_status" name="status" [(ngModel)]="wpProblem.status">-->
+                <!--<option value="0" selected="selected">Создано</option>-->
+                <!--<option value="1">Решено</option>-->
+              <!--</select>-->
+            <!--</div>-->
 
-            <div style="float:left; width: 100%;">
-              <label for="input_date">Дата решения</label>
-              <input id="input_date" type="date" name="solution_date" [(ngModel)]="wpProblem.solution_date" />
-            </div>
+            <!--<div style="float:left; width: 100%;">-->
+              <!--<label for="input_date">Дата решения</label>-->
+              <!--<input id="input_date" type="date" name="solution_date" [(ngModel)]="wpProblem.solution_date" />-->
+            <!--</div>-->
           </div>
         </section>
 
@@ -111,25 +113,11 @@
           <th></th>
         </tr>
       </thead>
-      <tbody *ngFor="let problem of wpProblems">
-        <tr>
-          <!--<td class="colA">{{ problem.name }}</td>-->
-          <td class="colA">{{ problem.description }}</td>
-          <td class="colA">{{ problem.problem_type == 0 ? 'Проблема' : 'Риск'}}</td>
-          <td class="colA">{{ orgs.get(problem.organization_source_id) }}</td>
-          <td class="colA">{{ users.get(problem.user_source_id) }}</td>
-          <td class="colA">{{ problem.status }}</td>
-          <td class="colA">{{ problem.solution_date }}</td>
-          <td class="colA">{{ users.get(problem.user_creator_id) }}</td>
-          <td>
-            <accessible-by-keyboard (execute)="deleteProblem(problem)"
-                                    aria-hidden="false"
-                                    [linkAriaLabel]="text.removeButton"
-                                    [linkTitle]="text.removeButton"
-                                    linkClass="relation-row--remove-btn">
-            <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
-            </accessible-by-keyboard>
-          </td>
+      <tbody>
+        <tr  *ngFor="let problem of wpProblems">
+          <ng-template [ngTemplateOutlet]="loadTemplate(problem)"
+                        [ngTemplateOutletContext]="{ $implicit: problem }">
+          </ng-template>
         </tr>
       </tbody>
     </table>
@@ -137,3 +125,78 @@
   </section>
 </div>
 
+<ng-template #editTemplate>
+  <td class="colA">
+    <textarea name="desc" [(ngModel)]="editedProblem.description"></textarea>
+  </td>
+  <td class="colA">{{ I18n.t('js.problem_buttons.'+editedProblem.problem_type) }}</td>
+  <td class="colA">
+    <select name="org" [(ngModel)]="editedProblem.organization_source_id">
+      <option *ngFor="let org of orgs | keyvalue" value="{{ org.key }}">{{ org.value }}</option>
+    </select>
+  </td>
+  <td class="colA">
+    <select name="user" [(ngModel)]="editedProblem.user_source_id">
+      <option *ngFor="let user of users | keyvalue" value="{{ user.key }}">{{ user.value }}</option>
+    </select>
+  </td>
+  <td class="colA">
+    <select name="status" [(ngModel)]="editedProblem.status" *ngIf="editedProblem.solution_date != undefined; else solved">
+      <option value="created" selected="selected">Создана</option>
+      <option value="solved">Решена</option>
+    </select>
+    <ng-template #solved>
+      <select name="status" [(ngModel)]="editedProblem.status">
+        <option value="created">Создана</option>
+        <option value="solved" selected="selected">Решена</option>
+      </select>
+    </ng-template>
+  </td>
+  <td class="colA">
+    <input type="date" [(ngModel)]="editedProblem.solution_date" />
+  </td>
+  <td class="colA">{{ users.get(editedProblem.user_creator_id) }}</td>
+  <td>
+    <accessible-by-keyboard
+            (execute)="saveWpProblem(editedProblem)"
+            linkClass="wp-create-relation--save"
+            aria-hidden="false">
+      <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
+    </accessible-by-keyboard>
+    <accessible-by-keyboard
+            (execute)="cancelEdit()"
+            linkClass="wp-create-relation--cancel"
+            aria-hidden="false">
+      <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+    </accessible-by-keyboard>
+  </td>
+</ng-template>
+
+
+
+
+<ng-template #readOnlyTemplate let-problem>
+  <td class="colA">{{ problem.description }}</td>
+  <td class="colA">{{ I18n.t('js.problem_buttons.'+problem.problem_type) }}</td>
+  <td class="colA">{{ orgs.get(problem.organization_source_id) }}</td>
+  <td class="colA">{{ users.get(problem.user_source_id) }}</td>
+  <td class="colA">{{ I18n.t('js.problem_buttons.'+problem.status) }}</td>
+  <td class="colA">{{ problem.solution_date }}</td>
+  <td class="colA">{{ users.get(problem.user_creator_id) }}</td>
+  <td>
+    <accessible-by-keyboard *ngIf="problemCanEdit"
+                            (execute)="editProblem(problem)"
+                            [linkTitle]="text.edit"
+                            class="edit-activity">
+      <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit"></op-icon>
+    </accessible-by-keyboard>
+
+    <accessible-by-keyboard (execute)="deleteProblem(problem)"
+                            aria-hidden="false"
+                            [linkAriaLabel]="text.removeButton"
+                            [linkTitle]="text.removeButton"
+                            linkClass="relation-row--remove-btn">
+      <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
+    </accessible-by-keyboard>
+  </td>
+</ng-template>
