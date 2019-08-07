@@ -157,7 +157,7 @@ export class BlueTableDesktopService extends BlueTableService {
       }
       case 5: {
         if (row._type === 'Project') {
-          return 'progressbar';
+          return 'progressbar2';
         }
         break;
       }

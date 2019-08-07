@@ -132,6 +132,14 @@ module API
             "#{work_package_targets}/#{id}"
           end
 
+          def self.work_package_targets_1c
+            "#{root}/work_package_targets_1c"
+          end
+
+          def self.work_package_target_1c(id)
+            "#{work_package_targets_1c}/#{id}"
+          end
+
           def self.work_package_problems
             "#{root}/work_package_problems"
           end
