@@ -39,6 +39,7 @@ module API
         element_decorator ::API::V3::NationalProjects::NationalProjectRepresenter
 
         def initialize(models,
+                       params,
                        self_link,
                        current_user:)
           super(models,
