@@ -83,6 +83,9 @@ class NationalProjectsController < ApplicationController
     else
       @national_project.type="Federal"
     end
+    if params["national_project"]["type"] != nil
+      @national_project.type=params["national_project"]["type"]
+    end
     if @national_project.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: 'index'

@@ -396,6 +396,7 @@ OpenProject::Application.routes.draw do
 
   resources :national_projects do
     get :government_programs, on: :collection
+    get :new_government, on: :collection
   end
 
 

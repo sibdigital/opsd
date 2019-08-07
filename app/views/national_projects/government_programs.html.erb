@@ -66,5 +66,12 @@
       </tbody>
     </table>
   </div>
-
+  <div class="wp-inline-create-button">
+    <%= link_to new_government_national_projects_path(),
+                aria: {label: t(:label_national_project_new)},
+                class: 'wp-inline-create--add-link',
+                title: t(:label_national_project_new) do
+      op_icon('icon icon-add')
+    end %>
+  </div>
 </div>
