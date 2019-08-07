@@ -327,6 +327,17 @@ module API
 
         property :sed_href,
                  render_nil: true
+
+        property :problems_count,
+                 render_nil: true,
+                 getter: ->(*) {
+                   count_wpp
+                 }
+        property :journal_date,
+                 render_nil: true,
+                 getter: ->(*) {
+                   search_journal_date
+                 }
         # )
 
         #zbd(

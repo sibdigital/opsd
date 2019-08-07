@@ -42,12 +42,14 @@
             [ngClass]="row._type === 'National Project' ? null : 'colored-row'">
             <td *ngFor="let column of columns; let i = index"
                 [ngClass]="this.blueTableModule.getTdClass(row, i)">
-                <span *ngIf="this.blueTableModule.getTdClass(row, i) !== 'progressbar' && this.blueTableModule.getTdClass(row, i) !== 'performance'"
-                        [innerHTML]="this.blueTableModule.getTdData(row, i)"></span>
+                <span *ngIf="this.blueTableModule.getTdClass(row, i) !== 'progressbar' && this.blueTableModule.getTdClass(row, i) !== 'progressbar2' && this.blueTableModule.getTdClass(row, i) !== 'performance'"
+                      [innerHTML]="this.blueTableModule.getTdData(row, i)"></span>
                 <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'"
+                                         [progress]="this.blueTableModule.getTdData(row, i)"></homescreen-progress-bar>
+                <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar2'"
                       [progress]="this.blueTableModule.getTdData(row, i)"></homescreen-progress-bar>
-                <br *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'">
-                <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar'"
+                <br *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar2'">
+                <homescreen-progress-bar *ngIf="this.blueTableModule.getTdClass(row, i) === 'progressbar2'"
                                          [progress]="this.blueTableModule.getTdData(row, 100)"></homescreen-progress-bar>
                 <a *ngIf="this.blueTableModule.getTdClass(row, i) === 'performance'"
                                 id="performance_{{row.id}}" href="" (click)="hello(row.id)">{{this.blueTableModule.getTdData(row, i)}}</a>
