@@ -49,7 +49,7 @@ class UserMailer < BaseMailer
 
       message_id work_package, user
 
-      Alert.create_new_pop_up_alert(1, "WorkPackage", "Changed", author.id, user.id)
+      # Alert.create_new_pop_up_alert(1, "WorkPackages", "Changed", author.id, user.id)
       with_locale_for(user) do
         mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
       end

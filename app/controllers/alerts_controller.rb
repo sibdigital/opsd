@@ -29,7 +29,7 @@ class AlertsController < ApplicationController
 
   def get_pop_up_alerts
     @alerts=Alert.where(alert_type: 'PopUp').where(to_user: User.current.id).where(readed: false)
-    if Alert.where(alert_type: 'PopUp').count.positive?
+    if Alert.where(alert_type: 'PopUp', readed: false).count.positive?
       # render plain: Alert.where(alert_type: 'PopUp').count
       render json: @alerts
     end
@@ -76,7 +76,7 @@ class AlertsController < ApplicationController
 
         UserMailer.work_package_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
         #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
-        Alert.create_new_pop_up_alert(workPackage.id, 'WorkPackage', "Due", 0, workPackage.author_id)
+        Alert.create_new_pop_up_alert(workPackage.id, 'WorkPackages', "Due", 0, workPackage.assigned_to_id)
         @alert = Alert.new
 
         @alert.entity_id = workPackage.id
