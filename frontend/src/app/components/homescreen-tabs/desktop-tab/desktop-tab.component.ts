@@ -129,7 +129,7 @@ export class DesktopTabComponent implements OnInit {
           row["problems"] = problems;
           this.data[i] = row;
         });
-        this.problemCount = resources.elements.length;
+        this.problemCount = resources.elements ? resources.elements.length : 0;
       });
     this.halResourceService
       .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString())
@@ -145,7 +145,6 @@ export class DesktopTabComponent implements OnInit {
           row["budget"] = budget;
           this.data[i] = row;
         });
-        this.problemCount = resources.elements.length;
       });
   }
 
@@ -186,6 +185,10 @@ export class DesktopTabComponent implements OnInit {
   }
 
   public shorten(input:string):string {
-    return input.length > 70 ? input.slice(0, 70) + '...' : input;
+    if (input) {
+      return input.length > 70 ? input.slice(0, 70) + '...' : input;
+    } else {
+      return '';
+    }
   }
 }
