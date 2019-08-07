@@ -142,10 +142,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_user_plural,
             icon: 'icon2 icon-user'
 
-  menu.push :groups,
-            { controller: '/groups' },
-            caption: :label_group_plural,
-            icon: 'icon2 icon-group'
+
   menu.push :roles,
             { controller: '/roles' },
             caption: :label_role_and_permissions,
@@ -156,17 +153,29 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/contracts' },
             icon: 'icon2 icon-enumerations'
   # )
-
-  menu.push :types,
-            { controller: '/types' },
-            caption: :label_work_package_types,
+  menu.push :system_catalogs,
+            {},
+            caption: :label_system_catalogs,
             icon: 'icon2 icon-types'
+
+  menu.push :groups,
+            { controller: '/groups' },
+            caption: :label_group_plural,
+            icon: 'icon2 icon-group',
+            parent: :system_catalogs
 
   menu.push :statuses,
             { controller: '/statuses' },
             caption: :label_work_package_status_plural,
             icon: 'icon2 icon-flag',
-            html: { class: 'statuses' }
+            html: { class: 'statuses' },
+            parent: :system_catalogs
+
+  menu.push :types,
+            { controller: '/types' },
+            caption: :label_work_package_types,
+            icon: 'icon2 icon-types',
+            parent: :system_catalogs
 
   menu.push :workflows,
             { controller: '/workflows', action: 'edit' },
@@ -224,14 +233,25 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :settings,
             { controller: '/settings' },
             caption: :label_system_settings,
+
             icon: 'icon2 icon-settings2'
+  menu.push :additional_settings,
+            {},
+            caption: :label_additional_settings,
+            icon: 'icon22 icon-settings2'
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
             html: { class: 'server_authentication' },
             icon: 'icon2 icon-flag',
-            if: proc { !OpenProject::Configuration.disable_password_login? }
+            if: proc { !OpenProject::Configuration.disable_password_login? },
+            parent: :additional_settings
 
+  menu.push :colors,
+            { controller: '/colors', action: 'index' },
+            caption:    :'timelines.admin_menu.colors',
+            icon: 'icon2 icon-status',
+            parent: :additional_settings
   #+-tan 2019.06.24
   # menu.push :oauth_applications,
   #           { controller: '/oauth/applications', action: 'index' },
@@ -280,10 +300,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   #           caption:    :label_custom_style,
   #           icon: 'icon2 icon-design'
 
-  menu.push :colors,
-            { controller: '/colors', action: 'index' },
-            caption:    :'timelines.admin_menu.colors',
-            icon: 'icon2 icon-status'
+
 
   # +-tan 2019.06.24
   # menu.push :enterprise,

@@ -365,7 +365,7 @@ Redmine::AccessControl.map do |map|
   end
   map.project_module :national_projects do |natfed|
     natfed.permission :manage_national_and_federal_projects,
-                      :'national_projects' => [:edit, :new, :destroy, :edit, :update],
+                      :'national_projects' => [:new_government, :edit, :new, :destroy, :edit, :update],
                       require: :member
     natfed.permission :view_national_and_federal_projects,
                       :'national_projets' => [:government_programs, :index, :show],
