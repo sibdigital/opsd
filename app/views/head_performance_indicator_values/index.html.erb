@@ -19,7 +19,6 @@
       <tr>
         <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
         <%= sort_header_tag("head_performance_indicator_id", :caption => HeadPerformanceIndicatorValue.human_attribute_name(:head_performance_indicator_id)) %>
-        <%= sort_header_tag("type", :caption => HeadPerformanceIndicatorValue.human_attribute_name(:type)) %>
         <%= sort_header_tag("year", :caption => HeadPerformanceIndicatorValue.human_attribute_name(:year)) %>
         <%= sort_header_tag("quarter", :caption => HeadPerformanceIndicatorValue.human_attribute_name(:quarter)) %>
         <%= sort_header_tag("month", :caption => HeadPerformanceIndicatorValue.human_attribute_name(:month)) %>
@@ -35,9 +34,8 @@
       <tbody>
       <% @values.each do |value| %>
         <tr id="hpi-value-<%= value.id %>">
-          <%= content_tag(:td, value.id) %>
-          <%= content_tag(:td, (HeadPerformanceIndicator.where(id: value.head_performance_indicator_id).map{|u| [u.name]}).join) %>
-          <%= content_tag(:td, value.type) %>
+          <%= content_tag(:td, link_to(h(value.id), edit_head_performance_indicator_value_path(value.id))) %>
+          <%= content_tag(:td, link_to(h((HeadPerformanceIndicator.where(id: value.head_performance_indicator_id).map{|u| [u.name]}).join), edit_head_performance_indicator_value_path(value.id))) %>
           <%= content_tag(:td, value.year) %>
           <%= content_tag(:td, value.quarter) %>
           <%= content_tag(:td, value.month) %>

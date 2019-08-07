@@ -1,8 +1,5 @@
 //created by knm
 //= require notify
-//  var pg = require('pg');
-//  var connectionString = "postgres://postgres:@localhost/localhost:5432/opsd_dev_db";
-//  var pgClient = new pg.Client(connectionString);
 var requestdelay = 60000;
 var notifyMe=function(){
   jQuery('button.btn').click(function()
@@ -16,16 +13,8 @@ var timerId = setTimeout(notifying(),requestdelay);
 function notifying()
 {
   var count;
-  var time;
-  // jQuery.ajax({})
-  // jQuery.ajax({ type: 'GET',
-  //   url: '/alerts/get_delay_setting',
-  //   async: true,
-  //   success: function(text)
-  //   {
-  //     time=text;
-  //   }
-  // });
+  var time=10;
+
   // jQuery.ajax({ type: 'GET',
   //   url: '/alerts/get_dues',
   //   async: true,
@@ -34,6 +23,7 @@ function notifying()
   //     time=text;
   //   }
   // });
+
   jQuery.ajax({ type: 'GET',
     url: '/alerts/get_pop_up_alerts',
     async: true,
@@ -45,7 +35,7 @@ function notifying()
         for (var i=0;i<count;i++)
         {
           var date=new Date(text[i].alert_date);
-          pop(text[i].id, 'Произведено действие с записями таблицы ' + text[i].entity_type + ' в '+ date.toLocaleDateString(),time);
+          pop(text[i].id, text[i].about,time);
         }
       }
     }

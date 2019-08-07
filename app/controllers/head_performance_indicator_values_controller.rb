@@ -5,12 +5,11 @@ class HeadPerformanceIndicatorValuesController < ApplicationController
   include ::IconsHelper
   include ::ColorsHelper
   layout 'admin'
-  before_action :find_hpi_value, only: [:destroy]
-  before_action :authorize_global, only: [:new,:destroy]
+  before_action :find_hpi_value, only: [:edit, :update, :destroy]
+  before_action :authorize_global, only: [:edit, :update, :new,:destroy]
   def index
     sort_columns = {'id' => "#{HeadPerformanceIndicatorValue.table_name}.id",
                     'head_performance_indicator_id'=>"#{HeadPerformanceIndicatorValue.table_name}.head_performance_indicator_id",
-                    'type'=>"#{HeadPerformanceIndicatorValue.table_name}.type",
                     'year'=>"#{HeadPerformanceIndicatorValue.table_name}.year",
                     'quarter'=>"#{HeadPerformanceIndicatorValue.table_name}.quarter",
                     'month'=>"#{HeadPerformanceIndicatorValue.table_name}.month",
@@ -23,6 +22,26 @@ class HeadPerformanceIndicatorValuesController < ApplicationController
 
   def new
     @value = HeadPerformanceIndicatorValue.new
+  end
+
+  def edit
+    @value = HeadPerformanceIndicatorValue.find(params[:id])
+  end
+
+  def update
+    # @value.type = "Execution"
+    @value.month = Date.parse(params["head_performance_indicator_value"]["year"]).month
+    @value.quarter = (@value.month/3.0).ceil
+    @value.sort_code = (HeadPerformanceIndicator.where(id: params["head_performance_indicator_value"]["head_performance_indicator_id"]).map{|u| [u.sort_code]}).join
+    params["head_performance_indicator_value"]["month"] = @value.month
+    params["head_performance_indicator_value"]["quarter"] = @value.quarter
+    params["head_performance_indicator_value"]["sort_code"] = @value.sort_code
+    if @value.update_attributes(permitted_params.head_performance_indicator_value)
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to action: 'index'
+    else
+      render action: 'edit'
+    end
   end
 
   def destroy

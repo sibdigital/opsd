@@ -1,0 +1,18 @@
+
+<section class="form--section">
+  <%= f.hidden_field 'type' %>
+  <div class="form--field"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :description, container_class: '-middle' %></div>
+  <%
+    if type_of_national_project=="Government"
+      f.hidden_field 'parent_id'
+    else %>
+    <div class="form--field"> <%= f.select :parent_id, options_for_select(NationalProject.where(type: "National").map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
+   <% end %>
+  <div class="form--field"><%= f.text_field :leader, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :leader_position, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :curator, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :curator_position, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.date_field :start_date, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.date_field :due_date, container_class: '-middle' %></div>
+</section>
