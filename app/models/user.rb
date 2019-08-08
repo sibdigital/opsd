@@ -752,6 +752,13 @@ class User < Principal
     member != nil
   end
 
+  #является администратором проекта хотя бы по одному проекту
+  def detect_project_administrator?()
+    poc = Role.find {|r| r.name == Role.project_admin.name}
+    member = memberships.detect { |m| m.roles.where(id: poc.id).size() > 0 }
+    member != nil
+  end
+
   def events_responsible?(project)
     roles = User.current.roles_for_project(project)
     roles.find_all{ |r| r.name == Role.events_responsible.name}.size() > 0

@@ -1,0 +1,7 @@
+<% "#{l(:label_edit)} #{HeadPerformanceIndicatorValue.model_name.human}" %>
+<%= labelled_tabular_form_for @value do |f| %>
+
+  <%= render partial: 'head_performance_indicator_values/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+<% end %>

@@ -1,0 +1,7 @@
+<% html_title l(:label_national_project_new) %>
+<% local_assigns[:additional_breadcrumb] =  l(:label_national_project_new) %>
+<%= breadcrumb_toolbar l(:label_national_project_new) %>
+<%= labelled_tabular_form_for @national_project do |f| %>
+  <%= render partial: 'national_projects/form', locals: { f: f, type_of_national_project: "National" } %>
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

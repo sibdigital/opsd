@@ -178,7 +178,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                                               controller: "/cost_reports",
                                               action: "index",
                                               cost_type_id: c.cost_type,
-                                              project_id: work_package.project_id
+                                              project_id: work_package.project_id,
+                                              parent: 'reports'
                                             } %>
                     </td>
                     <td><%= c.cost_type %></td>

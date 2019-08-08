@@ -31,7 +31,7 @@
 class CustomFieldsController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_coordinator
   before_action :find_custom_field, only: %i(edit update destroy move delete_option)
   before_action :prepare_custom_option_position, only: %i(update create)
   before_action :find_custom_option, only: :delete_option

@@ -73,7 +73,8 @@ module OpenProject::Costs
            :cost_types,
            { controller: '/cost_types', action: 'index' },
            icon: 'icon2 icon-cost-types',
-           caption: :label_cost_type_plural
+           caption: :label_cost_type_plural,
+           if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
 
       menu :project_menu,
            :cost_objects,

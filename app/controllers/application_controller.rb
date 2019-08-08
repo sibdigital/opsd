@@ -284,6 +284,17 @@ class ApplicationController < ActionController::Base
   def require_admin
     return unless require_login
     render_403 unless User.current.admin?
+    # render_403 unless  User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator?
+  end
+
+  def require_coordinator
+    return unless require_login
+    render_403 unless User.current.admin?||User.current.detect_project_office_coordinator?
+  end
+
+  def require_project_admin
+    return unless require_login
+    render_403 unless User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator?
   end
 
   def deny_access

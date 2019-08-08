@@ -1,11 +1,13 @@
 <div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
-  <!--<div>-->
-    <!--<wp-target [workPackageId]="workPackageId" [workPackage]="workPackage" ></wp-target>-->
-  <!--</div>-->
-
   <div>
-    <!--<wp-target-create [workPackage]="workPackage" [wpTargets]="wpTargets" [wpTargetIds]="wpTargetIds">-->
-    <!--</wp-target-create>-->
+      <style type="text/css">
+          table { width: 100%; }
+          td.colA { width: 20%; height: 20px; }
+          td.colB { width: 25%; }
+          th.colA { width: 20%; }
+          .input-period { min-width: 70px; height: 25px; }
+          .input-value { max-width: 70px; }
+      </style>
 
     <div class="wp-relations-create">
       <div class="wp-relations-create-button hide-when-print"
@@ -27,95 +29,31 @@
            data-indicator-name="relationAddDynamic">
         <div class="v-align wp-relations-create--form"
              *ngIf="showTargetsCreateForm">
-          <div class="grid-content medium-7">
+          <div>
             <wp-target-autocomplete
                     [workPackage]="workPackage"
                     (onTargetIdSelected)="updateSelectedId($event)"
                     appendToContainer=".work-packages-tab-view--overflow">
             </wp-target-autocomplete>
             <br/>
-            <table>
-              <tr>
-                <th>Год</th>
-                <th>Квартал</th>
-                <th>Месяц</th>
-                <th>Плановое значение</th>
-                <th>Фактическое значение</th>
-              </tr>
-              <tr>
-                <td>
-                  <select name="year" [(ngModel)]="editedTarget.year">
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
-                  </select>
-                </td>
-                <td>
-                  <select name="quarter" [(ngModel)]="editedTarget.quarter">
-                    <option value="" selected="selected"></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                  </select>
-                </td>
-                <td>
-                  <select name="month" [(ngModel)]="editedTarget.month">
-                    <option value="" selected="selected"></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                  </select>
-                </td>
-                <td>
-                  <input type="text" name="plan_value" [(ngModel)]="editedTarget.plan_value"/>
-                </td>
-                <td>
-                  <input type="text" name="value" [(ngModel)]="editedTarget.value"/>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
-            <accessible-by-keyboard
-                    (execute)="createTarget()"
-                    [isDisabled]="isDisabled || !selectedTgId"
-                    linkClass="wp-create-relation--save"
-                    aria-hidden="false">
-              <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
-            </accessible-by-keyboard>
-            <accessible-by-keyboard
-                    (execute)="toggleTargetsCreateForm()"
-                    linkClass="wp-create-relation--cancel"
-                    aria-hidden="false">
-              <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
-            </accessible-by-keyboard>
+            <div *ngIf="editedTarget != null && editedTarget.id == 0">
+                <ng-template [ngTemplateOutlet]="createTemplate">
+                </ng-template>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-
-    <div>
-      <style type="text/css">
-        table { width: 100%; }
-        td.colA { width: 20%; height: 20px; }
-        td.colB { width: 25%; }
-        th.colA { width: 20%; }
-      </style>
+    <div style="margin-top: 20px;">
       <ul *ngFor="let targetId of wpTargetIds">
         <li>
           <div>
-            <h4>{{ targetId }} - {{ getTargetFromArr(targetId).name }}</h4>
-            <table class="table table-striped">
+              <h4>
+                  <a href="{{ this.getAppBasePath() }}/projects/{{ workPackage.project.getId() }}/targets/{{ targetId }}/edit"
+                     [textContent]="getTargetFromArr(targetId).name"  [title]=""></a>
+              </h4>
+              <table class="table table-striped">
               <thead>
                 <tr>
                   <th class="colA">Год</th>
@@ -147,47 +85,90 @@
 </div>
 
 
+<ng-template #createTemplate>
+<table>
+  <tr>
+    <th>Год</th>
+    <th>Квартал</th>
+    <th>Месяц</th>
+    <th>Плановое значение</th>
+    <th>Фактическое значение</th>
+  </tr>
+  <tr>
+    <td class="colA">
+        <input class="input-period" type="number" step="1" [(ngModel)]="editedTarget.year" />
+    </td>
+    <td class="colA">
+        <select [(ngModel)]="editedTarget.quarter" class="input-period"  >
+            <option value="" selected="selected"></option>
+            <ng-template [ngTemplateOutlet]="changeQuarter()">
+            </ng-template>
+        </select>
+
+    </td>
+    <td class="colA">
+        <select [(ngModel)]="editedTarget.month" class="input-period"  >
+            <option value="" selected="selected"></option>
+            <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
+            </ng-template>
+        </select>
+    </td>
+    <td class="colA">
+        <input [(ngModel)]="editedTarget.plan_value" class="input-value" />
+    </td>
+    <td class="colA">
+        <input [(ngModel)]="editedTarget.value" class="input-value" />
+    </td>
+    <td>
+        <!--<div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">-->
+            <accessible-by-keyboard
+                    (execute)="createTarget()"
+                    [isDisabled]="isDisabled || !selectedTgId"
+                    linkClass="wp-create-relation--save"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard
+                    (execute)="toggleTargetsCreateForm()"
+                    linkClass="wp-create-relation--cancel"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+            </accessible-by-keyboard>
+        <!--</div>-->
+    </td>
+  </tr>
+</table>
+</ng-template>
+
 
 <ng-template #editTemplate2>
     <td class="colA">
-      <input type="number" step="1" [(ngModel)]="editedTarget.year" />
+      <input type="number" step="1" [(ngModel)]="editedTarget.year" class="input-period" />
     </td>
     <td class="colA">
-        <select name="quarter" [(ngModel)]="editedTarget.quarter">
+        <select [(ngModel)]="editedTarget.quarter" class="input-period" >
             <option value="" selected="selected"></option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <ng-template [ngTemplateOutlet]="changeQuarter()">
+            </ng-template>
         </select>
 
     </td>
     <td class="colA">
-        <select name="month" [(ngModel)]="editedTarget.month">
+        <select [(ngModel)]="editedTarget.month" class="input-period" >
             <option value="" selected="selected"></option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
+            <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
+            </ng-template>
         </select>
     </td>
     <td class="colA">
-        <input [(ngModel)]="editedTarget.plan_value" />
+        <input [(ngModel)]="editedTarget.plan_value" class="input-value" />
     </td>
     <td class="colA">
-        <input [(ngModel)]="editedTarget.value" />
+        <input [(ngModel)]="editedTarget.value" class="input-value" />
     </td>
     <td>
       <accessible-by-keyboard
-              (execute)="saveWpTarget(editedTarget)"
+              (execute)="updateTarget(editedTarget)"
               linkClass="wp-create-relation--save"
               aria-hidden="false">
         <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
@@ -224,4 +205,38 @@
         <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
       </accessible-by-keyboard>
     </td>
+</ng-template>
+
+<!--<ng-template #years>-->
+<!--</ng-template>-->
+
+<ng-template #quarters>
+    <option value="1">1-й квартал</option>
+    <option value="2">2-й квартал</option>
+    <option value="3">3-й квартал</option>
+    <option value="4">4-й квартал</option>
+</ng-template>
+
+<ng-template #monthOfQuarter1>
+    <option value="1">Январь</option>
+    <option value="2">Февраль</option>
+    <option value="3">Март</option>
+</ng-template>
+
+<ng-template #monthOfQuarter2>
+    <option value="4">Апрель</option>
+    <option value="5">Май</option>
+    <option value="6">Июнь</option>
+</ng-template>
+
+<ng-template #monthOfQuarter3>
+    <option value="7">Июль</option>
+    <option value="8">Август</option>
+    <option value="9">Сентябрь</option>
+</ng-template>
+
+<ng-template #monthOfQuarter4>
+    <option value="10">Октябрь</option>
+    <option value="11">Ноябрь</option>
+    <option value="12">Декабрь</option>
 </ng-template>
