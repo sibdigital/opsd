@@ -75,6 +75,7 @@ interface IError {
 export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   @Input() public workPackageId:string;
   @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
+  @ViewChild('createTemplate') createTemplate: TemplateRef<any>;
   @ViewChild('readOnlyTemplate2') readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate2') editTemplate: TemplateRef<any>;
   @ViewChild('monthOfQuarter1') monthOfQuarter1: TemplateRef<any>;
@@ -140,12 +141,12 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
         this.workPackage = wp;
       });
 
-    this.loadWpTargets()
-      .then(()=>{
-          this.editedTarget = new WpTarget({id: 0, project_id: this.workPackage.project.getId(),
-            work_package_id: Number(this.workPackageId), target_id: 0, year: Number(moment(new Date()).format('YYYY'))})
-        }
-      );
+    this.loadWpTargets();
+      // .then(()=>{
+      //     this.editedTarget = new WpTarget({id: 0, project_id: this.workPackage.project.getId(),
+      //       work_package_id: Number(this.workPackageId), target_id: 0, year: Number(moment(new Date()).format('YYYY'))})
+      //   }
+      // );
 
     this.targetCanEdit = true;
   }
@@ -559,6 +560,9 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   /** загружаем один из двух шаблонов
    */
   loadTemplate(target: WpTarget) {
+    // if (this.editedTarget && this.editedTarget.id == 0) {
+    //   return this.createTemplate;
+    // }
     if (this.editedTarget && this.editedTarget.id == target.id) {
       return this.editTemplate;
     } else {

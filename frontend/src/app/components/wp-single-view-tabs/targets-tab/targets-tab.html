@@ -1,11 +1,13 @@
 <div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
-  <!--<div>-->
-    <!--<wp-target [workPackageId]="workPackageId" [workPackage]="workPackage" ></wp-target>-->
-  <!--</div>-->
-
   <div>
-    <!--<wp-target-create [workPackage]="workPackage" [wpTargets]="wpTargets" [wpTargetIds]="wpTargetIds">-->
-    <!--</wp-target-create>-->
+      <style type="text/css">
+          table { width: 100%; }
+          td.colA { width: 20%; height: 20px; }
+          td.colB { width: 25%; }
+          th.colA { width: 20%; }
+          .input-period { min-width: 70px; height: 25px; }
+          .input-value { max-width: 70px; }
+      </style>
 
     <div class="wp-relations-create">
       <div class="wp-relations-create-button hide-when-print"
@@ -27,78 +29,23 @@
            data-indicator-name="relationAddDynamic">
         <div class="v-align wp-relations-create--form"
              *ngIf="showTargetsCreateForm">
-          <div class="grid-content medium-7">
+          <div>
             <wp-target-autocomplete
                     [workPackage]="workPackage"
                     (onTargetIdSelected)="updateSelectedId($event)"
                     appendToContainer=".work-packages-tab-view--overflow">
             </wp-target-autocomplete>
             <br/>
-            <table>
-              <tr>
-                <th>Год</th>
-                <th>Квартал</th>
-                <th>Месяц</th>
-                <th>Плановое значение</th>
-                <th>Фактическое значение</th>
-              </tr>
-              <tr>
-                <td>
-                  <input type="number" step="1" [(ngModel)]="editedTarget.year" />
-                  <!--<select name="year" [(ngModel)]="editedTarget.year">-->
-                    <!--<ng-template [ngTemplateOutlet]="year"></ng-template>-->
-                  <!--</select>-->
-                </td>
-                <td>
-                  <select name="quarter" [(ngModel)]="editedTarget.quarter">
-                    <option value="" selected="selected"></option>
-                    <ng-template [ngTemplateOutlet]="quarters">
-                    </ng-template>
-                  </select>
-                </td>
-                <td>
-                  <select name="month" [(ngModel)]="editedTarget.month">
-                    <option value="" selected="selected"></option>
-                    <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
-                    </ng-template>
-                  </select>
-                </td>
-                <td>
-                  <input type="text" name="plan_value" [(ngModel)]="editedTarget.plan_value"/>
-                </td>
-                <td>
-                  <input type="text" name="value" [(ngModel)]="editedTarget.value"/>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
-            <accessible-by-keyboard
-                    (execute)="createTarget()"
-                    [isDisabled]="isDisabled || !selectedTgId"
-                    linkClass="wp-create-relation--save"
-                    aria-hidden="false">
-              <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
-            </accessible-by-keyboard>
-            <accessible-by-keyboard
-                    (execute)="toggleTargetsCreateForm()"
-                    linkClass="wp-create-relation--cancel"
-                    aria-hidden="false">
-              <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
-            </accessible-by-keyboard>
+            <div *ngIf="editedTarget != null && editedTarget.id == 0">
+                <ng-template [ngTemplateOutlet]="createTemplate">
+                </ng-template>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-
-    <div>
-      <style type="text/css">
-        table { width: 100%; }
-        td.colA { width: 20%; height: 20px; }
-        td.colB { width: 25%; }
-        th.colA { width: 20%; }
-      </style>
+    <div style="margin-top: 20px;">
       <ul *ngFor="let targetId of wpTargetIds">
         <li>
           <div>
@@ -138,12 +85,21 @@
 </div>
 
 
-<ng-template #editTemplate2>
+<ng-template #createTemplate>
+<table>
+  <tr>
+    <th>Год</th>
+    <th>Квартал</th>
+    <th>Месяц</th>
+    <th>Плановое значение</th>
+    <th>Фактическое значение</th>
+  </tr>
+  <tr>
     <td class="colA">
-      <input type="number" step="1" [(ngModel)]="editedTarget.year" />
+        <input class="input-period" type="number" step="1" [(ngModel)]="editedTarget.year" />
     </td>
     <td class="colA">
-        <select [(ngModel)]="editedTarget.quarter">
+        <select [(ngModel)]="editedTarget.quarter" class="input-period"  >
             <option value="" selected="selected"></option>
             <ng-template [ngTemplateOutlet]="changeQuarter()">
             </ng-template>
@@ -151,17 +107,64 @@
 
     </td>
     <td class="colA">
-        <select [(ngModel)]="editedTarget.month">
+        <select [(ngModel)]="editedTarget.month" class="input-period"  >
             <option value="" selected="selected"></option>
             <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
             </ng-template>
         </select>
     </td>
     <td class="colA">
-        <input [(ngModel)]="editedTarget.plan_value" />
+        <input [(ngModel)]="editedTarget.plan_value" class="input-value" />
     </td>
     <td class="colA">
-        <input [(ngModel)]="editedTarget.value" />
+        <input [(ngModel)]="editedTarget.value" class="input-value" />
+    </td>
+    <td>
+        <!--<div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">-->
+            <accessible-by-keyboard
+                    (execute)="createTarget()"
+                    [isDisabled]="isDisabled || !selectedTgId"
+                    linkClass="wp-create-relation--save"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard
+                    (execute)="toggleTargetsCreateForm()"
+                    linkClass="wp-create-relation--cancel"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+            </accessible-by-keyboard>
+        <!--</div>-->
+    </td>
+  </tr>
+</table>
+</ng-template>
+
+
+<ng-template #editTemplate2>
+    <td class="colA">
+      <input type="number" step="1" [(ngModel)]="editedTarget.year" class="input-period" />
+    </td>
+    <td class="colA">
+        <select [(ngModel)]="editedTarget.quarter" class="input-period" >
+            <option value="" selected="selected"></option>
+            <ng-template [ngTemplateOutlet]="changeQuarter()">
+            </ng-template>
+        </select>
+
+    </td>
+    <td class="colA">
+        <select [(ngModel)]="editedTarget.month" class="input-period" >
+            <option value="" selected="selected"></option>
+            <ng-template [ngTemplateOutlet]="loadTemplateMonth(editedTarget.quarter)">
+            </ng-template>
+        </select>
+    </td>
+    <td class="colA">
+        <input [(ngModel)]="editedTarget.plan_value" class="input-value" />
+    </td>
+    <td class="colA">
+        <input [(ngModel)]="editedTarget.value" class="input-value" />
     </td>
     <td>
       <accessible-by-keyboard
