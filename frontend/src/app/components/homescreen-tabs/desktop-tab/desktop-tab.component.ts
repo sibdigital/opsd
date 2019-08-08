@@ -116,7 +116,7 @@ export class DesktopTabComponent implements OnInit {
         });
       });
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString())
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created"})
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
         resources.elements.map( (el, i) => {
