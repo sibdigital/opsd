@@ -3,7 +3,7 @@ class NationalProjectsController < ApplicationController
   layout 'admin'
   before_action :require_coordinator
   before_action :find_national_project, only: [:edit, :update, :destroy]
-  before_action :authorize_global, only: [:government_programs, :show, :index, :edit, :update, :destroy, :new]
+  # before_action :authorize_global, only: [:government_programs, :show, :index, :edit, :update, :destroy, :new]
   include SortHelper
   include PaginationHelper
   include ::IconsHelper

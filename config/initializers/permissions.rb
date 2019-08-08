@@ -344,11 +344,11 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   #knm(
-  map.project_module :interactive_map do |i_map|
-    i_map.permission :view_interactive_map,
-                     { interactive_map: :index },
-                     require: :member
-  end
+  # map.project_module :interactive_map do |i_map|
+  #   i_map.permission :view_interactive_map,
+  #                    { interactive_map: :index },
+  #                    require: :member
+  # end
   # )
   #bbm(
   map.project_module :project_risks
@@ -375,23 +375,24 @@ Redmine::AccessControl.map do |map|
   #                    },
   #                  public: true
 
-  map.project_module :head_performance_indicator_values do |hpi|
-    hpi.permission :manage_hpi_values,
-                   :'head_performance_indicator_values' => [:edit, :update, :new, :destroy],
-                   require: :member
-
-    hpi.permission :view_hpi_values,
-                   :'head_performance_indicator_values' => [:index],
-                   require: :member
-  end
-  map.project_module :national_projects do |natfed|
-    natfed.permission :manage_national_and_federal_projects,
-                      :'national_projects' => [:new_government, :edit, :new, :destroy, :edit, :update],
-                      require: :member
-    natfed.permission :view_national_and_federal_projects,
-                      :'national_projets' => [:government_programs, :index, :show],
-                      require: :member
-  end
+  # map.project_module :head_performance_indicator_values do |hpi|
+  #   hpi.permission :manage_hpi_values,
+  #                  :'head_performance_indicator_values' => [:edit, :update, :new, :destroy],
+  #                  require: :member
+  #
+  #   hpi.permission :view_hpi_values,
+  #                  :'head_performance_indicator_values' => [:index],
+  #                  require: :member
+  # end
+  # map.permission
+  # map.project_module :national_projects do |natfed|
+  #   natfed.permission :manage_national_and_federal_projects,
+  #                     :'national_projects' => [:new_government, :edit, :new, :destroy, :edit, :update],
+  #                     require: :member
+  #   natfed.permission :view_national_and_federal_projects,
+  #                     :'national_projets' => [:government_programs, :index, :show],
+  #                     require: :member
+  # end
   # )
   #zbd(
   map.project_module :stages
