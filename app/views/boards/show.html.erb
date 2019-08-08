@@ -108,7 +108,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
         <% @topics.each do |message| %>
-          <% if authorize_for(:boards, :edit) || message.participants.present? && participant = message.participants.detect{|p| p.user_id == User.current.id} %>
+          <% if authorize_for(:boards, :edit) || message.author == User.current || message.participants.present? && participant = message.participants.detect{|p| p.user_id == User.current.id} %>
             <tr>
               <td class="subject">
                 <% if message.sticky? %>

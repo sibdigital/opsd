@@ -66,6 +66,7 @@ module API
       mount ::API::V3::Problems::ProblemsAPI
       mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
       mount ::API::V3::Protocols::ProtocolsAPI
+      mount ::API::V3::Views::ViewsAPI
       # )
       # +tan 2019.07.30
       mount ::API::V3::Boards::BoardsAPI

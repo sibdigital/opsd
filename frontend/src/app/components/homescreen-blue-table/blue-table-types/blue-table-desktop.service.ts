@@ -8,6 +8,7 @@ export class BlueTableDesktopService extends BlueTableService {
   private data:any[] = [];
   private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные кт/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
   private national_project_titles:{id:number, name:string}[] = [];
+  private data_local:any = {};
 
   public initialize():void {
     this.halResourceService
@@ -20,34 +21,37 @@ export class BlueTableDesktopService extends BlueTableService {
           }
         });
         this.national_project_titles.push({id:0, name: 'Проекты Республики Бурятия'});
-        resources.elements.map((el:HalResource) => {
-          if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
-            this.data.push(el);
-            if (el.projects) {
-              el.projects.map( (project:ProjectResource) => {
-                project['_type'] = 'Project';
-                this.data.push(project);
-              });
-            }
-          }
+        this.halResourceService
+          .get<HalResource>(this.pathHelper.api.v3.work_package_stat_by_proj_view.toString())
+          .toPromise()
+          .then((resource:HalResource) => {
+            resource.source.map((el:HalResource) => {
+              this.data_local[el.national_id] = this.data_local[el.national_id] || [];
+              this.data_local[el.national_id].push(el);
+            });
+            resources.elements.map((el:HalResource) => {
+              if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
+                this.data.push(el);
+                if (this.data_local[el.id]) {
+                  this.data_local[el.id].map( (project:ProjectResource) => {
+                    this.data.push(project);
+                  });
+                }
+              }
+            });
+          });
         });
-      });
   }
 
   public getDataFromPage(i:number):any[] {
     this.data = [];
     if (this.national_project_titles[i].id === 0) {
-      let filters = new ApiV3FilterBuilder();
-      filters.add('national_project_id', '!*', []);
-      this.halResourceService
-        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects.toString(),  {"filters": filters.toJson()})
-        .toPromise()
-        .then((resources:CollectionResource<HalResource>) => {
-          this.data.push({_type:"National Project", name:"Проекты Республики Бурятия", parentId:null});
-          resources.elements.map((el:HalResource) => {
-            this.data.push(el);
-          });
+      this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
+      if (this.data_local[0]) {
+        this.data_local[0].map((project:ProjectResource) => {
+          this.data.push(project);
         });
+      }
     } else {
       this.halResourceService
         .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
@@ -56,9 +60,8 @@ export class BlueTableDesktopService extends BlueTableService {
           resources.elements.map((el:HalResource) => {
             if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
               this.data.push(el);
-              if (el.projects) {
-                el.projects.map( (project:ProjectResource) => {
-                  project['_type'] = 'Project';
+              if (this.data_local[el.id]) {
+                this.data_local[el.id].map((project:ProjectResource) => {
                   this.data.push(project);
                 });
               }
@@ -87,38 +90,29 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 1: {
-          let result:string = '';
-          if (row.curator) {
-            result += '<a href="' + super.getBasePath() + '/users/' + row.curator.id + '">' + row.curator.fio + '</a>';
-          }
+          let result:string = '<a href="' + super.getBasePath() + '/users/' + row.kurator_id + '">' + row.kurator + '</a>';
           result += '<br>';
-          if (row.rukovoditel) {
-            result += '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel.id + '">' + row.rukovoditel.fio + '</a>';
-          }
+          result += '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>';
           return result;
           break;
         }
         case 2: {
-          return row.dueDate ? this.format(row.dueDate.due_date) :'';
+          return this.format(row.dueDate);
           break;
         }
         case 3: {
-          if (row.upcomingTasksCount) {
-            return '<a href=\'' + super.getBasePath() + '/projects/' + row.identifier +
-              '/work_packages?plan_type=execution&query_id=3&query_props=%7B"c"%3A%5B"id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%5D%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A""%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"1"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A">t%2B"%2C"v"%3A%5B"0"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + row.upcomingTasksCount.count + '</a>';
-          }
+          return '<a href=\'' + super.getBasePath() + '/projects/' + row.identifier +
+            '/work_packages?plan_type=execution&query_id=3&query_props=%7B"c"%3A%5B"id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%5D%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A""%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"1"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A">t%2B"%2C"v"%3A%5B"0"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + row.preds + '</a>';
           break;
         }
         case 4: {
-          let count1:string = row.dueMilestoneCount ? row.dueMilestoneCount.count :'';
-          let count2:string = row.problemCount ? row.problemCount.count :'';
           return '<a href=\'' + super.getBasePath() + '/projects/' + row.identifier +
-            '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + count1 + '</a>&nbsp;/&nbsp;' +
-            '<a href="' + super.getBasePath() + '/vkladka1/problems">' + count2 + '</a>';
+            '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + row.prosr + '</a>&nbsp;/&nbsp;' +
+            '<a href="' + super.getBasePath() + '/vkladka1/problems">' + row.problem + '</a>';
           break;
         }
         case 5: {
-          return row.doneRatio;
+          return row.all_wps === 0 ? (row.ispolneno / row.all_wps).toString() : '0';
           break;
         }
         case 6: {
@@ -126,7 +120,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 100: {
-          return row.budgetFraction;
+          return row.budget_fraction;
           break;
         }
       }

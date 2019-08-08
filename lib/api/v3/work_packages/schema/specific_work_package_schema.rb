@@ -63,8 +63,8 @@ module API
             #zbd(
             when :contract
               Contract.where('is_approve = ?', true)
-            # when :target
-            #   Target.where('project_id = ?  and is_approve = ?', project_id, true)
+            when :target
+              Target.where('project_id = ?  and is_approve = ?', project_id, true)
             #)
             #xcc(
             when :organization
