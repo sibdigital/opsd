@@ -14,7 +14,7 @@ module API
         resources :work_package_targets do
           before do
             authorize(:view_work_package_targets, global: true)
-            @work_package_targets = if params[:project].present?
+            @work_package_targets = if params[:project].present? && !params[:work_package_id].present?
                                       WorkPackageTarget
                                         .where('project_id = ?', params[:project])
                                         .order('target_id asc, year asc, quarter asc, month asc')

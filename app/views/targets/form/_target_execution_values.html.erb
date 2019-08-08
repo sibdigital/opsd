@@ -1,6 +1,0 @@
-<%#-- copyright
-# This file written by xcc
-# 08/07/2019
-++#%>
-<% html_title l(:label_administration), l(:label_target_execution_values) %>
-<%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id), target_id: @target.id%>

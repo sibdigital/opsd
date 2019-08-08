@@ -17,6 +17,7 @@ class TargetExecutionValuesController < ApplicationController
 
   def create
     target_exec_params = permitted_params.target_execution_value
+
     @target_execution_value = Target.find(params[:target_id]).target_execution_values.build(target_exec_params)
 
     if @target_execution_value.save
@@ -24,7 +25,7 @@ class TargetExecutionValuesController < ApplicationController
       redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     else
       #render action: 'new'
-      edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
+      edit_project_target_path(id: @target_execution_value.target_id)
     end
   end
 
