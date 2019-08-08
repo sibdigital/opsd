@@ -12,7 +12,7 @@ module API
         resources :targets do
           before do
             authorize(:view_work_packages, global: true)
-            @targets = Target.where('project_id = ?', params[:project_id]) # @project.id)
+            @targets = Target.where('project_id = ? and is_approve = ?', params[:project_id], true) # @project.id)
           end
 
           get do
