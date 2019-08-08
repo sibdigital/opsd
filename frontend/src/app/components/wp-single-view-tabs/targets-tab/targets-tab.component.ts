@@ -25,7 +25,7 @@ export class WpTarget {
   public name: string;
 
   constructor (parameters: { id: number, project_id: number, work_package_id: number, target_id: number, year: number, quarter?: number,
-    month?: number , plan_value?: number , value?: number , name?: string})
+    month?: number, plan_value?: number, value?: number, name?: string})
   {
     let {id, project_id, work_package_id, target_id, year, quarter = 0, month = 0, plan_value = 0, value = 0, name = ''} = parameters;
 
@@ -78,6 +78,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   @ViewChild('createTemplate') createTemplate: TemplateRef<any>;
   @ViewChild('readOnlyTemplate2') readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate2') editTemplate: TemplateRef<any>;
+  @ViewChild('editTemplateFull') editTemplateFull: TemplateRef<any>;
   @ViewChild('monthOfQuarter1') monthOfQuarter1: TemplateRef<any>;
   @ViewChild('monthOfQuarter2') monthOfQuarter2: TemplateRef<any>;
   @ViewChild('monthOfQuarter3') monthOfQuarter3: TemplateRef<any>;
@@ -92,7 +93,9 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   public showTargetsCreateForm:boolean = false;
   public selectedTgId:string;
   public isDisabled = false;
-  public targetCanEdit: boolean;
+
+  public planValueCanEdit: boolean;
+  public factValueCanEdit: boolean;
 
   public planValues: ITargetValues[] = [];
   public checkErrors: IError[] = [];
@@ -147,8 +150,6 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       //       work_package_id: Number(this.workPackageId), target_id: 0, year: Number(moment(new Date()).format('YYYY'))})
       //   }
       // );
-
-    this.targetCanEdit = true;
   }
 
   ngOnDestroy() { // Nothing to do
@@ -165,10 +166,11 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       .then((resource:HalResource) => {
         let els = resource.elements;
         this.wpTargets = els.map( (el:any) => {
+            // список id
             if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
               this.wpTargetIds.push(el.targetId);
             }
-
+            // сами записи
             let plans = el.planFactQuarterlyTargetValue;
             this.planValues = plans.map( (pl:any) => {
               return {
@@ -205,6 +207,15 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
             });
         });
         //console.log(this.PlanValues)
+
+        // признак права редактирования плановых значений
+        if(els != undefined) { this.planValueCanEdit = els[0].canEditPlanValues; }
+        //console.log(this.planValueCanEdit);
+
+        // признак права редактирования фактических значений
+        if(els != undefined) { this.factValueCanEdit = els[0].canEditFactValues; }
+        //console.log(this.factValueCanEdit);
+
       })
       .catch(() => {
         return false;
@@ -528,7 +539,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
    * */
   public saveWpTarget(target: WpTarget){
     const path = this.pathHelper.api.v3.work_package_targets.toString() + '/' + target.id;
-    const params = {       //target_id: this.selectedTgId /*target.target_id*/,
+    const params = { project_id: target.project_id, work_package_id: target.work_package_id,
       year: target.year,
       quarter: target.quarter == 0 ? null : target.quarter,
       month: target.month == 0 ? null : target.month,
@@ -564,7 +575,12 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     //   return this.createTemplate;
     // }
     if (this.editedTarget && this.editedTarget.id == target.id) {
-      return this.editTemplate;
+      if(this.planValueCanEdit) {
+        return this.editTemplateFull;
+      }
+      else {
+        return this.editTemplate;
+      }
     } else {
       return this.readOnlyTemplate;
     }
@@ -580,9 +596,10 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeQuarter(){
-    (<WpTarget>this.editedTarget).month = 0;
-    return this.quarters;
+  changeQuarter(q: number){
+    if(q != (<WpTarget>this.editedTarget).quarter) {
+      (<WpTarget>this.editedTarget).month = 0;
+    }
   }
 
   public getAppBasePath():string {

@@ -39,7 +39,8 @@ Redmine::AccessControl.map do |map|
                                    destroy],
                    # )
                    #xcc(
-                   targets: %i[index new create edit update destroy],
+                   #zbd targets: %i[index new create edit update destroy],
+                   targets: %i[index edit],
                    arbitary_objects: %i[index new create edit update destroy],
                    #)
                    #zbd(
@@ -110,8 +111,13 @@ Redmine::AccessControl.map do |map|
                      contracts: %i[new create edit update destroy] },
                    require: :member
 
-    wpt.permission :manage_work_package_targets,
-                   { work_package_targets: %i[new create edit update destroy] },
+    wpt.permission :edit_work_package_target_fact_values,
+                   { work_package_targets: %i[index edit update] },
+                   require: :member
+
+    wpt.permission :manage_work_package_target_plan_values,
+                   work_package_targets: %i[index new create edit update destroy],
+                   targets: %i[index new create edit update destroy],
                    require: :member
 
     wpt.permission :view_work_package_targets,
