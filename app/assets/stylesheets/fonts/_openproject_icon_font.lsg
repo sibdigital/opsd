@@ -5,10 +5,12 @@
 <ul class="icon-list">
 <li><span class="icon icon-accessibility"></span>accessibility</li>
 <li><span class="icon icon-add"></span>add</li>
+<li><span class="icon icon-additional"></span>additional</li>
 <li><span class="icon icon-align-center"></span>align-center</li>
 <li><span class="icon icon-align-justify"></span>align-justify</li>
 <li><span class="icon icon-align-left"></span>align-left</li>
 <li><span class="icon icon-align-right"></span>align-right</li>
+<li><span class="icon icon-analyze"></span>analyze</li>
 <li><span class="icon icon-arrow-down1"></span>arrow-down1</li>
 <li><span class="icon icon-arrow-down2"></span>arrow-down2</li>
 <li><span class="icon icon-arrow-left-right"></span>arrow-left-right</li>
@@ -53,6 +55,7 @@
 <li><span class="icon icon-column-left"></span>column-left</li>
 <li><span class="icon icon-column-right"></span>column-right</li>
 <li><span class="icon icon-columns"></span>columns</li>
+<li><span class="icon icon-communication"></span>communication</li>
 <li><span class="icon icon-compare2"></span>compare2</li>
 <li><span class="icon icon-concept"></span>concept</li>
 <li><span class="icon icon-console"></span>console</li>
@@ -127,6 +130,7 @@
 <li><span class="icon icon-logout"></span>logout</li>
 <li><span class="icon icon-mail1"></span>mail1</li>
 <li><span class="icon icon-mail2"></span>mail2</li>
+<li><span class="icon icon-main_page"></span>main_page</li>
 <li><span class="icon icon-maintenance-support"></span>maintenance-support</li>
 <li><span class="icon icon-meetings"></span>meetings</li>
 <li><span class="icon icon-menu"></span>menu</li>
@@ -180,7 +184,9 @@
 <li><span class="icon icon-remove"></span>remove</li>
 <li><span class="icon icon-rename"></span>rename</li>
 <li><span class="icon icon-reported-by-me"></span>reported-by-me</li>
+<li><span class="icon icon-reports"></span>reports</li>
 <li><span class="icon icon-resizer-vertical-lines"></span>resizer-vertical-lines</li>
+<li><span class="icon icon-resource"></span>resource</li>
 <li><span class="icon icon-risks"></span>risks</li>
 <li><span class="icon icon-roadmap"></span>roadmap</li>
 <li><span class="icon icon-rss"></span>rss</li>
@@ -207,6 +213,7 @@
 <li><span class="icon icon-status-reporting"></span>status-reporting</li>
 <li><span class="icon icon-status"></span>status</li>
 <li><span class="icon icon-strike-through"></span>strike-through</li>
+<li><span class="icon icon-target"></span>target</li>
 <li><span class="icon icon-text"></span>text</li>
 <li><span class="icon icon-ticket-checked"></span>ticket-checked</li>
 <li><span class="icon icon-ticket-down"></span>ticket-down</li>
