@@ -320,7 +320,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             {},
             caption: :label_national_projects_government_programs,
             #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1',
+            icon: 'icon2 icon-national',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   menu.push :national_projects,
             {controller: '/national_projects', action: 'index'},
