@@ -497,12 +497,18 @@ Redmine::MenuManager.map :project_menu do |menu|
   # )
   #
   # + tan 2019/07/16
-  menu.push :reports,
-            {controller: '/reports', action: 'index' },
+  menu.push :report_progress_project,
+            {},
             param: :project_id,
             caption: :label_reports,
-            #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-info1'
+
+  menu.push :report_progress_project,
+            {controller: '/report_progress_project', action: 'index' },
+            param: :project_id,
+            caption: :label_report_progress_project,
+            icon: 'icon2 icon-info1',
+            parent: :report_progress_project
 
   menu.push :additional,
             {},

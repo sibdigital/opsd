@@ -4,11 +4,11 @@ require 'rubyXL/convenience_methods/color'
 require 'rubyXL/convenience_methods/font'
 require 'rubyXL/convenience_methods/workbook'
 require 'rubyXL/convenience_methods/worksheet'
-class ReportsController < ApplicationController
+class ReportProgressProjectController < ApplicationController
 
   include Downloadable
 
-  default_search_scope :reports
+  default_search_scope :report_progress_project
 
   before_action :verify_agreements_module_activated
 

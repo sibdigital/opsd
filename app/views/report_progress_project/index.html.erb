@@ -5,8 +5,8 @@
 %>
 
 <% html_title l(:label_reports) %>
-<%= breadcrumb_toolbar l(:label_reports) %>
+<%= breadcrumb_toolbar l(:label_report_progress_project) %>
  <%= labelled_tabular_form_for [@project] do |f| %>
-<%= render partial: 'reports/form', locals: { f: f } %>
+<%= render partial: 'report_progress_project/form', locals: { f: f } %>
 <% end %>
 

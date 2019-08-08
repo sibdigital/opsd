@@ -309,7 +309,7 @@ OpenProject::Application.routes.draw do
     resources :agreements do
     end
 
-    resources :reports do
+    resources :report_progress_project do
     end
 
     #)

@@ -1721,6 +1721,7 @@ en:
   label_communictaions: Коммуникации
   ladel_additional: Дополнительно
   label_reports: Отчеты
+  label_report_progress_project: Отчет о ходе реализации проекта
   label_resources: Ресурсы
   label_nobody: никто
   label_none: нет
