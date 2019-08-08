@@ -52,7 +52,13 @@ class MyController < ApplicationController
   end
   alias :page :index
 
-  def account; end
+  def account
+    @roles_4_cur_member = Hash.new
+    MemberRole.joins(:role).joins(:member).where(members: {user_id: @user.id}).map do |mr|
+      @roles_4_cur_member[mr.role.id] = mr.role.name
+    end
+    @roles_4_cur_member
+  end
 
   def update_account
     write_settings @user, request, permitted_params, params

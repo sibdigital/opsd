@@ -39,7 +39,7 @@
     </tfoot>
     <tbody>
         <tr *ngFor="let row of data"
-            [ngClass]="row._type === 'National Project' ? null : 'colored-row'">
+            [ngClass]="row._type === 'NationalProject' ? null : 'colored-row'">
             <td *ngFor="let column of columns; let i = index"
                 [ngClass]="this.blueTableModule.getTdClass(row, i)">
                 <span *ngIf="this.blueTableModule.getTdClass(row, i) !== 'progressbar' && this.blueTableModule.getTdClass(row, i) !== 'progressbar2' && this.blueTableModule.getTdClass(row, i) !== 'performance'"

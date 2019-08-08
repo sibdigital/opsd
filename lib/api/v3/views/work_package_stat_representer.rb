@@ -32,37 +32,23 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module NationalProjects
-      class NationalProjectRepresenter < ::API::Decorators::Single
+    module Views
+      class WorkPackageStatRepresenter < ::API::Decorators::Single
         include ::API::Caching::CachedRepresenter
 
-        self_link path: :national_project
+        self_link path: :work_package_stat_view
 
-        property :id, render_nil: true
-        property :name, render_nil: true
-
-        property :leader, render_nil: true
-        property :leader_position, render_nil: true
-
-        property :type, render_nil: true
-        property :parent_id, render_nil: true
-
-        property :curator, render_nil: true
-        property :curator_position, render_nil: true
-
-        property :start_date,
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.start_date) },
-                 render_nil: true
-        property :due_date,
-                 exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.due_date) },
-                 render_nil: true
-
+        property :id
+        property :subject
         property :description, render_nil: true
 
+        property :due_date,
+        exec_context: :decorator,
+        getter: ->(*) { datetime_formatter.format_datetime(represented.due_date) },
+        render_nil: true
+
         def _type
-          'NationalProject'
+          'WorkPackageStat'
         end
       end
     end
