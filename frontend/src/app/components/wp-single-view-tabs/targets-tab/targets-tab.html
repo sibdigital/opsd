@@ -11,7 +11,7 @@
 
     <div class="wp-relations-create">
       <div class="wp-relations-create-button hide-when-print"
-           *ngIf="!showTargetsCreateForm">
+           *ngIf="!showTargetsCreateForm && planValueCanEdit">
         <div class="grid-block">
           <div class="grid-content collapse wp-inline-create-button">
             <a class="wp-inline-create--add-link relation-create"
@@ -28,7 +28,7 @@
       <div class="loading-indicator--location"
            data-indicator-name="relationAddDynamic">
         <div class="v-align wp-relations-create--form"
-             *ngIf="showTargetsCreateForm">
+             *ngIf="showTargetsCreateForm && planValueCanEdit">
           <div>
             <wp-target-autocomplete
                     [workPackage]="workPackage"
@@ -141,7 +141,7 @@
 </ng-template>
 
 
-<ng-template #editTemplate2>
+<ng-template #editTemplateFull>
     <td class="colA">
       <input type="number" step="1" [(ngModel)]="editedTarget.year" class="input-period" />
     </td>
@@ -161,7 +161,9 @@
         </select>
     </td>
     <td class="colA">
-        <input [(ngModel)]="editedTarget.plan_value" class="input-value" />
+        <div *ngIf="planValueCanEdit;else onlyRead">
+            <input [(ngModel)]="editedTarget.plan_value" class="input-value" />
+        </div>
     </td>
     <td class="colA">
         <input [(ngModel)]="editedTarget.value" class="input-value" />
@@ -182,6 +184,34 @@
     </td>
 </ng-template>
 
+<ng-template #onlyRead>
+    <td class="colA">{{ editedTarget.plan_value }} </td>
+</ng-template>
+
+<ng-template #editTemplate2 let-value>
+    <td class="colA">{{ value.year }}</td>
+    <td class="colA">{{ value.quarter }}</td>
+    <td class="colA">{{ value.month }}</td>
+    <td class="colA">{{ value.plan_value }}</td>
+    <td class="colA">
+        <input [(ngModel)]="editedTarget.value" class="input-value" />
+    </td>
+    <td>
+    <accessible-by-keyboard
+            (execute)="updateTarget(editedTarget)"
+            linkClass="wp-create-relation--save"
+            aria-hidden="false">
+        <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
+    </accessible-by-keyboard>
+    <accessible-by-keyboard
+            (execute)="cancelEdit()"
+            linkClass="wp-create-relation--cancel"
+            aria-hidden="false">
+        <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+    </accessible-by-keyboard>
+</td>
+</ng-template>
+
 
 <ng-template #readOnlyTemplate2 let-value>
     <td class="colA">{{ value.year }}</td>
@@ -190,14 +220,15 @@
     <td class="colA">{{ value.plan_value }}</td>
     <td class="colA">{{ value.value }}</td>
     <td>
-      <accessible-by-keyboard *ngIf="targetCanEdit"
+      <accessible-by-keyboard *ngIf="factValueCanEdit"
                               (execute)="editTarget(value)"
                               [linkTitle]="text.edit"
                               class="edit-activity">
         <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit"></op-icon>
       </accessible-by-keyboard>
 
-      <accessible-by-keyboard (execute)="deleteTarget(value)"
+      <accessible-by-keyboard *ngIf="planValueCanEdit"
+                              (execute)="deleteTarget(value)"
                               aria-hidden="false"
                               [linkAriaLabel]="text.removeButton"
                               [linkTitle]="text.removeButton"
@@ -206,9 +237,6 @@
       </accessible-by-keyboard>
     </td>
 </ng-template>
-
-<!--<ng-template #years>-->
-<!--</ng-template>-->
 
 <ng-template #quarters>
     <option value="1">1-й квартал</option>

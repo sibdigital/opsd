@@ -2261,6 +2261,11 @@ en:
   permission_manage_categories: Управление категориями пакета работ
   #zbd(
   permission_manage_contracts: Управление гос.контрактами
+  permission_edit_work_package_target_fact_values: Редактирование фактических значений выполнения показателя
+  permission_manage_work_package_target_plan_values: Управление плановыми значениями целевого показателя
+  permission_view_work_package_targets: Просмотр целевых показателей мероприятия
+  permission_manage_work_package_problems: Управление проблемами/рисками мероприятия
+  permission_view_work_package_problems: Просмотр проблем/рисков мероприятия
   #)
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
