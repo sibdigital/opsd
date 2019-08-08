@@ -185,7 +185,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/workflows', action: 'edit' },
             caption: Proc.new { Workflow.model_name.human },
             icon: 'icon2 icon-workflow',
-            if: Proc.new { User.current.admin?}
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?}
 
   menu.push :custom_fields,
             { controller: '/custom_fields' },
@@ -262,7 +262,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :enumerations,
             { controller: '/enumerations' },
             icon: 'icon2 icon-enumerations',
-            if: Proc.new { User.current.admin? }
+            if: Proc.new { User.current.admin? ||User.current.detect_project_office_coordinator?}
 
   menu.push :settings,
             { controller: '/settings' },
