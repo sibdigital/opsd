@@ -218,29 +218,29 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :org_settings,
             { },
             caption: :label_org_settings,
-            icon: 'icon2 icon-risks',
+            icon: 'icon2 icon-organization',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? ||User.current.detect_project_administrator?}
   menu.push :org_iogv,
             {controller: '/org_settings', action: 'iogv' },
-            icon: 'icon2 icon-risks',
+            icon: 'icon2 icon-organization',
             caption: :label_iogv,
             parent: :org_settings
 
   menu.push :org_municipalities,
             {controller: '/org_settings', action: 'municipalities' },
-            icon: 'icon2 icon-risks',
+            icon: 'icon2 icon-organization',
             caption: :label_municipalities,
             parent: :org_settings
 
   menu.push :org_counterparties,
             {controller: '/org_settings', action: 'counterparties' },
-            icon: 'icon2 icon-risks',
+            icon: 'icon2 icon-organization',
             caption: :label_counterparties,
             parent: :org_settings
 
   menu.push :org_positions,
             {controller: '/org_settings', action: 'positions' },
-            icon: 'icon2 icon-risks',
+            icon: 'icon2 icon-position',
             caption: :label_positions,
             parent: :org_settings
   # -tan
@@ -314,7 +314,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :interactive_map,
             {controller: '/interactive_map', action: 'index'},
             caption: :label_interactive_map,
-            icon: 'icon2 icon-info1',
+            icon: 'icon2 icon-map',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   menu.push :nat_fed_gov,
             {},
@@ -325,12 +325,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :national_projects,
             {controller: '/national_projects', action: 'index'},
             caption: :label_national_projects,
-            icon: 'icon2 icon-info1',
+            icon: 'icon2 icon-national',
             parent: :nat_fed_gov
   menu.push :government_programs,
             {controller: '/national_projects', action: 'government_programs'},
             caption: :label_government_programs,
-            icon: 'icon2 icon-info1',
+            icon: 'icon2 icon-national',
             parent: :nat_fed_gov
   # )
   # +-tan 2019.06.24
@@ -371,7 +371,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_target,
             if: Proc.new { |p| p.module_enabled?('targets') },
-            icon: 'icon2 icon-info1',
+            icon: 'icon2 icon-target',
             parent: :all_plans
   # )
 
@@ -382,7 +382,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_stages,
             if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1',
+            icon: 'icon2 icon-etap',
             parent: :analyze
   # )
 
@@ -397,20 +397,20 @@ Redmine::MenuManager.map :project_menu do |menu|
             {},
             caption: :label_stage_analysis,
             #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-analyze'
   menu.push :communictaions,
             {},
             param: :project_id,
             caption: :label_communictaions,
             #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-communication'
   menu.push :resources,
             {},
             param: :project_id,
             caption: :label_resources,
             #after: :communictaion,
             #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-resource'
   #нехорошо из модуля переносить, но что делать TODO: need fix
   # menu.push :meetings,
   #           { controller: '/meetings', action: 'index' },
@@ -527,14 +527,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :ladel_reports,
             #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-report'
 
   menu.push :additional,
             {},
             param: :project_id,
             caption: :ladel_additional,
             #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-additional'
   #-tan
 
   #xcc(
@@ -565,37 +565,37 @@ Redmine::MenuManager.map :dashboard_menu do |menu|
   menu.push :kontrolnie_tochki,
             '',
             caption: 'Контрольные точки',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-roadmap'
   menu.push :riski_i_problemy,
             '',
             caption: 'Риски и проблемы',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-risks'
   menu.push :ispolnenie_pokazatelei,
             '',
             caption: 'Исполнение показателей',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-report'
   menu.push :ispolnenie_budzheta,
             '',
             caption: 'Исполнение бюджета',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-cost-reports'
   menu.push :kpi,
             '',
             caption: 'KPI',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-control-levels'
   menu.push :elektronnyi_protokol,
             '',
             caption: 'Электронный протокол',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-enumerations'
   menu.push :obsuzhdeniya,
             '',
             caption: 'Обсуждения',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-ticket-note'
   menu.push :ocenka_deyatelnosti,
             '',
             caption: 'Оценка деятельности',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-enumerations'
   menu.push :municipalitet,
             '',
             caption: 'Муниципалитет',
-            icon: 'icon2 icon-settings2'
+            icon: 'icon2 icon-organization'
 end

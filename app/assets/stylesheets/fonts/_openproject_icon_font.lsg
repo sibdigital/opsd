@@ -79,6 +79,7 @@
 <li><span class="icon icon-enterprise"></span>enterprise</li>
 <li><span class="icon icon-enumerations"></span>enumerations</li>
 <li><span class="icon icon-error"></span>error</li>
+<li><span class="icon icon-etap"></span>etap</li>
 <li><span class="icon icon-export-atom"></span>export-atom</li>
 <li><span class="icon icon-export-csv"></span>export-csv</li>
 <li><span class="icon icon-export-pdf-descr"></span>export-pdf-descr</li>
@@ -132,6 +133,7 @@
 <li><span class="icon icon-mail2"></span>mail2</li>
 <li><span class="icon icon-main_page"></span>main_page</li>
 <li><span class="icon icon-maintenance-support"></span>maintenance-support</li>
+<li><span class="icon icon-map"></span>map</li>
 <li><span class="icon icon-meetings"></span>meetings</li>
 <li><span class="icon icon-menu"></span>menu</li>
 <li><span class="icon icon-microphone"></span>microphone</li>
@@ -144,6 +146,7 @@
 <li><span class="icon icon-move"></span>move</li>
 <li><span class="icon icon-movie"></span>movie</li>
 <li><span class="icon icon-music"></span>music</li>
+<li><span class="icon icon-national"></span>national</li>
 <li><span class="icon icon-new-planning-element"></span>new-planning-element</li>
 <li><span class="icon icon-news"></span>news</li>
 <li><span class="icon icon-no-hierarchy"></span>no-hierarchy</li>
@@ -152,6 +155,7 @@
 <li><span class="icon icon-notes"></span>notes</li>
 <li><span class="icon icon-openproject"></span>openproject</li>
 <li><span class="icon icon-ordered-list"></span>ordered-list</li>
+<li><span class="icon icon-organization"></span>organization</li>
 <li><span class="icon icon-outline"></span>outline</li>
 <li><span class="icon icon-paragraph-left"></span>paragraph-left</li>
 <li><span class="icon icon-paragraph-right"></span>paragraph-right</li>
@@ -162,6 +166,7 @@
 <li><span class="icon icon-play"></span>play</li>
 <li><span class="icon icon-plugins"></span>plugins</li>
 <li><span class="icon icon-plus"></span>plus</li>
+<li><span class="icon icon-position"></span>position</li>
 <li><span class="icon icon-pre"></span>pre</li>
 <li><span class="icon icon-presentation"></span>presentation</li>
 <li><span class="icon icon-preview"></span>preview</li>
@@ -183,8 +188,8 @@
 <li><span class="icon icon-reminder"></span>reminder</li>
 <li><span class="icon icon-remove"></span>remove</li>
 <li><span class="icon icon-rename"></span>rename</li>
+<li><span class="icon icon-report"></span>report</li>
 <li><span class="icon icon-reported-by-me"></span>reported-by-me</li>
-<li><span class="icon icon-reports"></span>reports</li>
 <li><span class="icon icon-resizer-vertical-lines"></span>resizer-vertical-lines</li>
 <li><span class="icon icon-resource"></span>resource</li>
 <li><span class="icon icon-risks"></span>risks</li>
