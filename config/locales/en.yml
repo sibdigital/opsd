@@ -2278,6 +2278,16 @@ en:
   permission_select_project_modules: Выбор модулей проекта
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
+  #knm(
+
+
+
+  permission_view_interactive_map: Просмотр карты
+  permission_view_national_and_federal_projects: Просмотр проектов и порграмм
+  permission_manage_national_and_federal_projects: Управление проектами и программами
+  permission_manage_hpi_values: Управление оценками ВДЛ
+  permission_view_hpi_values: Просмотр оценок ВДЛ
+  #)
   permission_view_changesets: Просмотр изменений репозитория
   permission_view_commit_author_statistics: Посмотреть статистику автора, внесшего
     свою часть работы
@@ -2319,6 +2329,9 @@ en:
   project_module_time_tracking: Учет времени
   project_module_timelines: Графики
   project_module_wiki: Управление знаниями
+  project_module_head_performance_indicator_values: Оценка высшего должностного лица
+  project_module_interactive_map: Карта регионов РБ
+  project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
