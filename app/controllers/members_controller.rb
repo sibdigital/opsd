@@ -59,7 +59,7 @@ class MembersController < ApplicationController
 
     if members.present? && members.all?(&:valid?)
       flash[:notice] = members_added_notice members
-      Alert.create_new_pop_up_alert(members.first.id, "Members", "Created", User.current.id, members.first.user_id)
+      Alert.create_pop_up_alert(members.first, "Created", User.current, members.first.user)
       redirect_to project_members_path(project_id: @project, status: 'all')
     else
       if members.present? && params[:member]
@@ -95,11 +95,11 @@ class MembersController < ApplicationController
     if @member.deletable?
       if @member.disposable?
         flash.notice = I18n.t(:notice_member_deleted, user: @member.principal.name)
-        Alert.create_new_pop_up_alert(@member.id, "Members", "Deleted", User.current.id, @member.user_id)
+        Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
         @member.user.destroy
       else
         flash.notice = I18n.t(:notice_member_removed, user: @member.principal.name)
-        Alert.create_new_pop_up_alert(@member.id, "Members", "Deleted", User.current.id, @member.user_id)
+        Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
         @member.destroy
       end
     end

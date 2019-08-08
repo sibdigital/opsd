@@ -354,26 +354,6 @@ Redmine::AccessControl.map do |map|
   map.project_module :project_risks
   # )
   #knm(
-  # map.permission :view_project,
-  #                  { projects: [:show],
-  #                    activities: [:index],
-  #                    #bbm(
-  #                    project_risk_characts: %i[new create edit update destroy],
-  #                    project_risks: %i[index new create edit update choose_typed
-  #                                    destroy],
-  #                    # )
-  #                    #xcc(
-  #                    targets: %i[index new create edit update destroy],
-  #                    arbitary_objects: %i[index new create edit update destroy],
-  #                    #)
-  #                    #zbd(
-  #                    stages: [:show],
-  #                    #)
-  #                    #zbd(
-  #                    raions: [:show]
-  #                    #)
-  #                    },
-  #                  public: true
 
   # map.project_module :head_performance_indicator_values do |hpi|
   #   hpi.permission :manage_hpi_values,

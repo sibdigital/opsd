@@ -35,7 +35,8 @@ function notifying()
         for (var i=0;i<count;i++)
         {
           var date=new Date(text[i].alert_date);
-          pop(text[i].id, text[i].about,time);
+          var info = text[i].about.split("^");
+          pop(text[i].id, info,time);
         }
       }
     }
@@ -47,7 +48,7 @@ function pop(id, text, time){
   jQuery.notify({
     title: 'Уведомление ',
     icon: 'glyphicon glyphicon-star',
-    message: text
+    message: text[0]
 
   },{
     allow_duplicates: false,
@@ -75,7 +76,7 @@ function pop(id, text, time){
       time+
       '" aria-hidden="true" class="close" style="float: right; font-size: 21px; font-weight: bold; line-height: 1; color: #000; text-shadow: 0 1px 0 #fff; filter: alpha(opacity=20); opacity: .2; -webkit-appearance: none; padding: 0; cursor: pointer; background: transparent; border: 0" data-notify="dismiss">×</button>' +
       '<span data-notify="icon"></span> ' +
-      '<span data-notify="title"><strong>{1}</strong></span> <br>' +
+      '<span data-notify="title"><strong>{1}</strong></span> <span style="font-size: small;  color: #888888;display: inline-block; text-align: right;float: right; margin-right: 10px">'+text[1]+'</span><br>' +
       '<span data-notify="message">{2}</span><br>' +
       '<div class="progress" data-notify="progressbar">' +
       '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +

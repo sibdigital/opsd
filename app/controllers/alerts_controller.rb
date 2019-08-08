@@ -76,7 +76,7 @@ class AlertsController < ApplicationController
 
         UserMailer.work_package_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
         #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
-        Alert.create_new_pop_up_alert(workPackage.id, 'WorkPackages', "Due", 0, workPackage.assigned_to_id)
+        Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to_id)
         @alert = Alert.new
 
         @alert.entity_id = workPackage.id
