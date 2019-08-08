@@ -25,7 +25,7 @@ export class WpTarget {
   public name: string;
 
   constructor (parameters: { id: number, project_id: number, work_package_id: number, target_id: number, year: number, quarter?: number,
-    month?: number , plan_value?: number , value?: number , name?: string})
+    month?: number, plan_value?: number, value?: number, name?: string})
   {
     let {id, project_id, work_package_id, target_id, year, quarter = 0, month = 0, plan_value = 0, value = 0, name = ''} = parameters;
 
@@ -596,9 +596,10 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeQuarter(){
-    (<WpTarget>this.editedTarget).month = 0;
-    return this.quarters;
+  changeQuarter(q: number){
+    if(q != (<WpTarget>this.editedTarget).quarter) {
+      (<WpTarget>this.editedTarget).month = 0;
+    }
   }
 
   public getAppBasePath():string {

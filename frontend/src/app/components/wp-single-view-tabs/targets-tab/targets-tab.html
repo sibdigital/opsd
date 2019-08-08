@@ -146,12 +146,13 @@
       <input type="number" step="1" [(ngModel)]="editedTarget.year" class="input-period" />
     </td>
     <td class="colA">
-        <select [(ngModel)]="editedTarget.quarter" class="input-period" >
+        <select [(ngModel)]="editedTarget.quarter" class="input-period">
             <option value="" selected="selected"></option>
-            <ng-template [ngTemplateOutlet]="changeQuarter()">
-            </ng-template>
+            <option ng-click="changeQuarter(1)" value="1">1-й квартал</option>
+            <option ng-click="changeQuarter(2)" value="2">2-й квартал</option>
+            <option ng-click="changeQuarter(3)" value="3">3-й квартал</option>
+            <option ng-click="changeQuarter(4)" value="4">4-й квартал</option>
         </select>
-
     </td>
     <td class="colA">
         <select [(ngModel)]="editedTarget.month" class="input-period" >
@@ -236,13 +237,6 @@
         <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
       </accessible-by-keyboard>
     </td>
-</ng-template>
-
-<ng-template #quarters>
-    <option value="1">1-й квартал</option>
-    <option value="2">2-й квартал</option>
-    <option value="3">3-й квартал</option>
-    <option value="4">4-й квартал</option>
 </ng-template>
 
 <ng-template #monthOfQuarter1>
