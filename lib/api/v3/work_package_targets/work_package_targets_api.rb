@@ -25,25 +25,13 @@ module API
                                     end
           end
           get do
-            # @work_package_targets = if params[:project].present?
-            #                           WorkPackageTarget
-            #                           .where('project_id = ?', params[:project])
-            #                           .order('target_id asc, year asc, quarter asc, month asc')
-            #                         else
-            #                           WorkPackageTarget
-            #                             .where('work_package_id = ?', params[:work_package_id])
-            #                             .order('target_id asc, year asc, quarter asc, month asc')
-            #                         end
-
-            #.where('work_package_id = ?', params[:work_package_id])
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
                                                        api_v3_paths.work_package_targets,
                                                        current_user: current_user)
           end
 
-          #TODO (zbd) добавить проверку на выполнение операции в соответствии с ролевой моделью
           post do
-            authorize(:manage_work_package_targets, global: true)
+            authorize(:manage_work_package_target_plan_values, global: true)
 
             work_package_target = WorkPackageTarget.new
             work_package_target.target_id = params[:target_id]
@@ -56,9 +44,6 @@ module API
             work_package_target.value = params[:value]
             work_package_target.save
 
-            # @work_package_targets = WorkPackageTarget
-            #                           .where('work_package_id = ?', params[:work_package_id])
-            #                           .order('target_id asc, year asc, quarter asc, month asc')
             WorkPackageTargetCollectionRepresenter.new(@work_package_targets,
                                                         api_v3_paths.work_package_targets,
                                                         current_user: current_user)
@@ -75,17 +60,20 @@ module API
             end
 
             delete do
-              #project = Project.find params[:project_id]
-              #authorize(:manage_work_package_targets, context: project)
-              authorize(:manage_work_package_targets, global: true)
+              project = Project.find params[:project_id]
+              authorize(:manage_work_package_target_plan_values, context: project)
 
               WorkPackageTarget.destroy params[:id]
             end
 
             patch do
-              authorize :manage_work_package_targets, global: true #context: project
+              @project = Project.find(params[:project_id])
 
-              WorkPackageTarget.update params[:id], params
+              if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) || User.current.allowed_to?(:edit_work_package_target_fact_values, @project)
+                WorkPackageTarget.update params[:id], params
+              else
+                authorize(:manage_work_package_targets, context: @project)
+              end
             end
 
           end

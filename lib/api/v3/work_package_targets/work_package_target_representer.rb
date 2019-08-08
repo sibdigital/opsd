@@ -18,6 +18,14 @@ module API
           }
         end
 
+        # link :update,
+        #    cache_if: -> { current_user_allowed_to(:manage_work_package_target_plan_values, context: represented.project) } do
+        #   {
+        #     href: api_v3_paths.work_package_target(represented.id),
+        #     method: :post
+        #   }
+        # end
+
         property :name,
                  exec_context: :decorator,
                  getter: ->(*) { represented.work_package.name },
@@ -38,6 +46,22 @@ module API
                  getter: ->(*) {
                    #PlanFactQuarterlyTargetValue.where(target_id: represented.target_id, project_id: represented.project_id)
                    PlanFactQuarterlyTargetValue.where(project_id: represented.project_id)
+                 },
+                 render_nil: true
+
+        property :can_edit_plan_values,
+                 exec_context: :decorator,
+                 uncacheable: true,
+                 getter: ->(*) {
+                   current_user_allowed_to(:manage_work_package_target_plan_values, context: represented.project)
+                 },
+                 render_nil: true
+
+        property :can_edit_fact_values,
+                 exec_context: :decorator,
+                 uncacheable: true,
+                 getter: ->(*) {
+                   current_user_allowed_to(:edit_work_package_target_fact_values, context: represented.project)
                  },
                  render_nil: true
 
