@@ -4,7 +4,7 @@
   <div class="form--field"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field :description, container_class: '-middle' %></div>
   <%
-    if type_of_national_project=="Government"
+    if type_of_national_project=="Government" || type_of_national_project=="National"
       f.hidden_field 'parent_id'
     else %>
 
