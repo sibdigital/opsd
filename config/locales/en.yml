@@ -3277,3 +3277,5 @@ en:
   label_board_changed: Дискуссия изменена
   label_board_moved: Дискуссия перемещена
   label_board_deleted: Дискуссия удалена
+  label_deadline_of_work_package_is_approaching: Приближается срок по пакету работ
+  label_deadline_of_work_package: Превышен срок по пакету работ
