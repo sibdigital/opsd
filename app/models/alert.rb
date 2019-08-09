@@ -67,6 +67,13 @@ class Alert < ActiveRecord::Base
       #Добавление комментария
     elsif aboutwhat == "Noted" && class_name == "WorkPackage"
       text += "Пользователь #{fio} оставил комментарий к вашему мероприятию \"#{entity.subject}\""
+    elsif aboutwhat == "Noted" && class_name == "News"
+      text += "Пользователь #{fio} оставил комментарий к новости \"#{entity.title}\""
+    elsif aboutwhat == "Noted" && class_name == "Message"
+      text += "Пользователь #{fio} ответил в теме \"#{entity.subject}\""
+      #Загрузка файла
+    elsif aboutwhat == "Added" && class_name == "Attachment"
+      text += "Пользователь #{fio} прикрепил файл \"#{entity.filename}\" к вашему мероприятию \"#{entity.container.subject}\""
       #Создание
     elsif aboutwhat == "Created" && class_name == "WorkPackage"
       text += "Пользователь #{fio} назначил вам мероприятие \"#{entity.subject}\""
@@ -82,6 +89,9 @@ class Alert < ActiveRecord::Base
 
     elsif aboutwhat == "Created" && class_name == "News"
       text += "Пользователь #{fio} написал новость о #{entity.title}"
+
+    elsif aboutwhat == "Created" && class_name == "Message"
+      text += "Пользователь #{fio} создал тему \"#{entity.subject}\""
       #Изменение
     elsif aboutwhat == "Changed" && class_name == "WorkPackage"
       text += "Пользователь #{fio} изменил ваше мероприятие \"#{entity.subject}\""
@@ -97,6 +107,9 @@ class Alert < ActiveRecord::Base
 
     elsif aboutwhat == "Changed" && class_name == "News"
       text += "Пользователь #{fio} изменил новость о #{entity.title}"
+
+    elsif aboutwhat == "Changed" && class_name == "Message"
+      text += "Пользователь #{fio} изменил тему \"#{entity.subject}\""
       #Удаление
     elsif aboutwhat == "Deleted" && class_name == "WorkPackage"
       text += "Пользователь #{fio} удалил ваше мероприятие \"#{entity.subject}\""
@@ -112,6 +125,9 @@ class Alert < ActiveRecord::Base
 
     elsif aboutwhat == "Deleted" && class_name == "News"
       text += "Пользователь #{fio} стер новость о #{entity.title}"
+
+    elsif aboutwhat == "Deleted" && class_name == "Message"
+      text += "Пользователь #{fio} удалил тему \"#{entity.subject}\""
       #Перенесение
 
     elsif aboutwhat == "Moved" && class_name == "Board"
