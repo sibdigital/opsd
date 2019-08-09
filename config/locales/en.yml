@@ -3277,7 +3277,8 @@ en:
 
   choose: "Выбрать"
   label_cost_object_added: Бюджет добавлен
-  label_member_added: Участник добавлен
+  label_member_added: Участник добавлен в проект
+  label_member_deleted: Участник исключен из проекта
   label_board_added: Дискуссия добавлена
   label_board_changed: Дискуссия изменена
   label_board_moved: Дискуссия перемещена
