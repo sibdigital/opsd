@@ -174,11 +174,16 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackageOverviewTabComponent
   },
   //zbd(
-  // {
-  //   name: 'work-packages.list.details.targets',
-  //   url: '/targets',
-  //   component: WorkPackageTargetsTabComponent
-  // },
+  {
+    name: 'work-packages.list.details.targets',
+    url: '/targets',
+    component: WorkPackageTargetsTabComponent
+  },
+  {
+    name: 'work-packages.list.details.problems',
+    url: '/problems',
+    component: WorkPackageProblemsTabComponent
+  },
   // )
   {
     name: 'work-packages.list.details.activity',

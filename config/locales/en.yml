@@ -1227,6 +1227,9 @@ en:
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   enumeration_arbitary_objects_types: Тип произвольного объекта
+  enumeration_organization_type: Тип организации
+  enumeration_project_approve_status: Статус утверждения проекта
+  enumeration_project_status: Статус проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
     по крайней мере один пакет работ, назначенный для версии, определенной в этом
