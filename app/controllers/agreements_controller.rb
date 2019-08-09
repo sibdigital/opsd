@@ -63,8 +63,8 @@ class AgreementsController < ApplicationController
     @userList = User.find_by_sql("  SELECT u.* FROM users u
                                            INNER JOIN members  m ON m.user_id = u.id
                                            INNER JOIN member_roles mr ON  mr.member_id = m.id
-                                           INNER JOIN roles r ON  mr.role_id = r.id and r.name = 'Руководитель проекта'
-                                           INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s)
+                                           INNER JOIN roles r ON  mr.role_id = r.id and r.name ='" +I18n.t(:default_role_project_head)+"' "+
+                                          "INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s)
     if @userList.empty?
       @user = User.new
      else

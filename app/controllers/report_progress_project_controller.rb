@@ -45,6 +45,7 @@ class ReportProgressProjectController < ApplicationController
     generate_key_risk_sheet
     generate_targets_sheet
     generate_status_execution_budgets_sheet
+    generate_status_achievement_sheet
 
     @ready_project_progress_report_path = File.absolute_path('.') +'/'+'public/reports/project_progress_report_out.xlsx'
     @workbook.write(@ready_project_progress_report_path)
@@ -83,7 +84,7 @@ class ReportProgressProjectController < ApplicationController
        sheet.insert_cell(data_row + i, 0, i+1)
        sheet.insert_cell(data_row + i, 1, "")
        sheet.insert_cell(data_row + i, 2, workPackageProblem.work_package.subject)
-       sheet.insert_cell(data_row + i, 3, workPackageProblem.risk.description)
+       sheet.insert_cell(data_row + i, 3, workPackageProblem.risk==nil ? "" : workPackageProblem.risk.description)
        sheet.insert_cell(data_row + i, 4, workPackageProblem.description)
 
        sheet.sheet_data[data_row + i][0].change_border(:top, 'thin')
@@ -210,13 +211,164 @@ class ReportProgressProjectController < ApplicationController
       sheet.sheet_data[data_row + i][11].change_border(:left, 'thin')
       sheet.sheet_data[data_row + i][11].change_border(:right, 'thin')
 
-
-
-
     end
 
   end
 
+  def generate_status_achievement_sheet
+    sheet = @workbook['Статус достижения результатов']
+    get_status_achievement
+    data_row = 3
+    incriment = 0
+    @result_array_status_achievement.each_with_index do |status, i|
+      sheet.insert_cell(data_row + i + incriment, 0, i+1)
+      sheet.insert_cell(data_row + i + incriment, 1, "")
+      sheet.insert_cell(data_row + i + incriment, 2, status["name"])
+      sheet.insert_cell(data_row + i + incriment, 3, "")
+      sheet.insert_cell(data_row + i + incriment, 4, "")
+      sheet.insert_cell(data_row + i + incriment, 5, "")
+      sheet.insert_cell(data_row + i + incriment, 6, "")
+      sheet.insert_cell(data_row + i + incriment, 7, "")
+      sheet.insert_cell(data_row + i + incriment, 8, "")
+
+      incriment += 1
+
+      sheet.insert_cell(data_row + i + incriment, 0, "")
+      sheet.insert_cell(data_row + i + incriment, 1, "")
+      sheet.insert_cell(data_row + i + incriment, 2, "")
+      sheet.insert_cell(data_row + i + incriment, 3, "")
+      #sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"])
+      #sheet.insert_cell(data_row + i + incriment, 5, status["ne_ispolneno"])
+      #sheet.insert_cell(data_row + i + incriment, 6, status["est_riski"])
+      #sheet.insert_cell(data_row + i + incriment, 7, status["v_rabote"])
+      sheet.insert_cell(data_row + i + incriment, 8, "")
+
+      #  0ba53d -зеленый
+      #  ff0000 -красный
+      #  ffd800 -желтый
+      #  d7d7d7 - серый
+      #  90ee90 - светло-зеленный
+      #{ начало вариантов для 1 цвета
+      if  status["ispolneno"].nil?
+        sheet.sheet_data[data_row + i + incriment][4].change_fill('d7d7d7')
+        sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
+
+      elsif
+        (status["ispolneno"]+status["v_rabote"]) > 0 && status["ne_ispolneno"] == 0 && status["est_riski_critic"] == 0 && status["est_riski_necritic"] == 0
+        sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"])
+        sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
+        sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
+
+      elsif
+          (status["ne_ispolneno"] + status["est_riski_critic"]) > 0 && status["ispolneno"] == 0 && status["est_riski_necritic"] == 0 && status["v_rabote"] == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"]+ status["est_riski_critic"])
+          sheet.sheet_data[data_row + i + incriment][4].change_fill('ff0000')
+          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
+
+      elsif
+          status["est_riski_necritic"] > 0 && status["ispolneno"] == 0 && status["ne_ispolneno"] == 0 && status["v_rabote"] == 0 && status["est_riski_critic"] == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["est_riski_necritic"])
+          sheet.sheet_data[data_row + i + incriment][4].change_fill('ffd800')
+          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
+        #} конец вариантов для 1 цвета
+        # { начало вариантов для 2 цветов
+      elsif
+          (status["ispolneno"]+status["v_rabote"])  > 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"] == 0)
+          sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
+          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
+
+          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"]+status["est_riski_critic"])
+          sheet.sheet_data[data_row + i + incriment][6].change_fill('ff0000')
+          sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
+      elsif
+          (status["ispolneno"] + status["v_rabote"]) > 0 && status["ne_ispolneno"] == 0 && status["est_riski_necritic"] > 0 && status["est_riski_critic"] == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+ status["v_rabote"])
+          sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
+          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
+
+          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"])
+          sheet.sheet_data[data_row + i + incriment][6].change_fill('ffd800')
+          sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
+      elsif
+          status["ispolneno"] == 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] > 0 && status["v_rabote"] == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"]+status["est_riski_critic"])
+          sheet.sheet_data[data_row + i + incriment][4].change_fill('ff0000')
+          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
+
+          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"])
+          sheet.sheet_data[data_row + i + incriment][6].change_fill('ffd800')
+          sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
+        #} конец вариантов для 2 цветов
+        # { начало вариантов для 3 цветов
+      elsif
+          (status["ispolneno"]+status["v_rabote"]) > 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] > 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"])
+          sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
+          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
+
+          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"]+status["est_riski_critic"])
+          sheet.sheet_data[data_row + i + incriment][6].change_fill('ff0000')
+          sheet.insert_cell(data_row + i + incriment, 7, status["est_riski_necritic"])
+          sheet.sheet_data[data_row + i + incriment][7].change_fill('ffd800')
+      end
+
+
+      incriment += 1
+
+      sheet.insert_cell(data_row + i + incriment, 0, "")
+      sheet.insert_cell(data_row + i + incriment, 1, "")
+      sheet.insert_cell(data_row + i + incriment, 2, "")
+      sheet.insert_cell(data_row + i + incriment, 3, "")
+      sheet.insert_cell(data_row + i + incriment, 4, "")
+      sheet.insert_cell(data_row + i + incriment, 5, "")
+      sheet.insert_cell(data_row + i + incriment, 6, "")
+      sheet.insert_cell(data_row + i + incriment, 7, "")
+      sheet.insert_cell(data_row + i + incriment, 8, "")
+
+      sheet.merge_cells(data_row + i + incriment-2, 0, data_row + i + incriment, 0)
+      sheet.merge_cells(data_row + i + incriment-2, 1, data_row + i + incriment, 1)
+      sheet.merge_cells(data_row + i + incriment-2, 2, data_row + i + incriment, 2)
+
+      #устанавливаем рамку для ячейки
+      sheet.sheet_data[data_row + i + incriment-2][0].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment-2][0].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment-1][0].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment-1][0].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment][0].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment][0].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment][0].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[data_row + i + incriment-2][1].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment-2][1].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment-1][1].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment-1][1].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment][1].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment][1].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment][1].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[data_row + i + incriment-2][2].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment-2][2].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment-1][2].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment-1][2].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment][2].change_border(:left, 'thin')
+      sheet.sheet_data[data_row + i + incriment][2].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment][2].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[data_row + i + incriment-2][8].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment-1][8].change_border(:right, 'thin')
+      sheet.sheet_data[data_row + i + incriment][8].change_border(:right, 'thin')
+
+      sheet.sheet_data[data_row + i + incriment][3].change_border(:bottom, 'thin')
+      sheet.sheet_data[data_row + i + incriment][4].change_border(:bottom, 'thin')
+      sheet.sheet_data[data_row + i + incriment][5].change_border(:bottom, 'thin')
+      sheet.sheet_data[data_row + i + incriment][6].change_border(:bottom, 'thin')
+      sheet.sheet_data[data_row + i + incriment][7].change_border(:bottom, 'thin')
+      sheet.sheet_data[data_row + i + incriment][8].change_border(:bottom, 'thin')
+    end
+
+
+  end
 
   def get_value_targets
 
@@ -257,7 +409,6 @@ class ReportProgressProjectController < ApplicationController
 
       index += 1
     end
-    puts index
   end
 
   def generate_status_execution_budgets_sheet
@@ -299,8 +450,7 @@ class ReportProgressProjectController < ApplicationController
   end
 
 
-  # Функция заполнения значений долей диаграммы
-  def fed_budget_data
+   def fed_budget_data
     cost_objects = CostObject.where(project_id: @project.id)
     total_budget = BigDecimal("0")
     spent = BigDecimal("0")
@@ -366,6 +516,52 @@ class ReportProgressProjectController < ApplicationController
     result << ostatok
     result << total_budget
   end
+
+
+  def get_status_achievement
+
+
+    sql = "with
+    stat as (
+              select target_id,
+                  sum(ispolneno)    as ispolneno,
+                  sum(ne_ispolneno) as ne_ispolneno,
+                  sum(est_riski_critic)    as est_riski_critic,
+                  sum(est_riski_necritic)    as est_riski_necritic,
+    from (
+           select tswp.target_id,
+                  case when ispolneno = true then 1 else 0 end    as ispolneno,
+                  case when ne_ispolneno = true then 1 else 0 end as ne_ispolneno,
+                  case when (est_riski = true) and (r.importance='Критичная') then 1 else 0 end as est_riski_critic,
+                  case when (est_riski = true) and (r.importance='Незначительная' or r.importance is null) then 1 else 0 end as est_riski_necritic,
+                  case when v_rabote = true then 1 else 0 end     as v_rabote
+    from v_target_status_on_work_package tswp
+    inner join types t on tswp.type_id = t.id
+    left join v_risk_problem_stat r on r.work_package_id = tswp.id
+    where year = EXTRACT(YEAR FROM CURRENT_DATE) and t.name='"+I18n.t(:default_type_milestone)+"' "+
+    ") as s
+    group by target_id
+    )
+    select t.name,s.ispolneno,s.ne_ispolneno, s.est_riski_critic, s.est_riski_necritic,s.v_rabote
+    from targets t
+    left join stat s on s.target_id = t.id
+    where t.project_id="+@project.id.to_s
+
+
+    result = ActiveRecord::Base.connection.execute(sql)
+
+    @result_array_status_achievement = []
+    index = 0
+    result.each do |row|
+      @result_array_status_achievement[index] = row
+
+      index += 1
+    end
+  end
+
+
+
+
 
   def destroy
     redirect_to action: 'index'
