@@ -9,7 +9,8 @@ class ProductionCalendarsController < ApplicationController
   include ::ColorsHelper
 
   def index
-    if Setting.find_by(name: 'work_days').value === false
+
+    if Setting.find_by(name: 'work_days').value
       setting=Setting.find_by(name: 'work_days')
       setting.value = "12345"
       setting.save
@@ -86,7 +87,7 @@ class ProductionCalendarsController < ApplicationController
     end
     setting=Setting.find_by(name: 'work_days')
     # (Setting.where(id: 119).map {|u| [u.value]}).join = value of entity
-    setting.value = setting_work_days
+    setting.value = setting_work_days.to_i
     setting.save
     redirect_to action: 'index'
   end

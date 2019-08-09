@@ -152,15 +152,8 @@ available_languages:
   - en
   - ru
 work_days:
-  serialized: true
-  default:
-    - Mon
-    - Tue
-    - Wed
-    - Thu
-    - Fri
-    - Sat
-    - Sun
+  format: int
+  default: 12345
 notify_delay:
   format: int
   default: 10

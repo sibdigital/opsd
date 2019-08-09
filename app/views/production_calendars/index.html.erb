@@ -317,19 +317,19 @@ This file written by BBM
     <%#= label_tag(:checking, "Проверка") %>
     <!--    </div>-->
     <div id="work_days">
-      <%= work_days_check_box_tag(:day1, (Setting.find_by(name: 'work_days').value.include? '1'))%>
+      <%= work_days_check_box_tag(:day1, (Setting.find_by(name: 'work_days').value.to_s.include? '1'))%>
       <%= label_tag(:day1, "Понедельник") %>
-      <%= work_days_check_box_tag(:day2, (Setting.find_by(name: 'work_days').value.include? '2')) %>
+      <%= work_days_check_box_tag(:day2, (Setting.find_by(name: 'work_days').value.to_s.include? '2')) %>
       <%= label_tag(:day2, "Вторник") %>
-      <%= work_days_check_box_tag(:day3, (Setting.find_by(name: 'work_days').value.include? '3')) %>
+      <%= work_days_check_box_tag(:day3, (Setting.find_by(name: 'work_days').value.to_s.include? '3')) %>
       <%= label_tag(:day3, "Среда") %>
-      <%= work_days_check_box_tag(:day4, (Setting.find_by(name: 'work_days').value.include? '4'))%>
+      <%= work_days_check_box_tag(:day4, (Setting.find_by(name: 'work_days').value.to_s.include? '4'))%>
       <%= label_tag(:day4, "Четверг") %>
-      <%= work_days_check_box_tag(:day5, (Setting.find_by(name: 'work_days').value.include? '5')) %>
+      <%= work_days_check_box_tag(:day5, (Setting.find_by(name: 'work_days').value.to_s.include? '5')) %>
       <%= label_tag(:day5, "Пятница") %>
-      <%= work_days_check_box_tag(:day6, (Setting.find_by(name: 'work_days').value.include? '6')) %>
+      <%= work_days_check_box_tag(:day6, (Setting.find_by(name: 'work_days').value.to_s.include? '6')) %>
       <%= label_tag(:day6, "Суббота") %>
-      <%= work_days_check_box_tag(:day7, (Setting.find_by(name: 'work_days').value.include? '7')) %>
+      <%= work_days_check_box_tag(:day7, (Setting.find_by(name: 'work_days').value.to_s.include? '7')) %>
       <%= label_tag(:day7, "Воскресенье") %>
 
     </div>
