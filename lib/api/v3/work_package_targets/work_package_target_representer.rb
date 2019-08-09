@@ -18,10 +18,10 @@ module API
           }
         end
 
-        # property :name,
-        #          exec_context: :decorator,
-        #          getter: ->(*) { represented.work_package.name },
-        #          render_nil: true
+        property :name,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.work_package.name },
+                 render_nil: true
 
         property :target,
                  exec_context: :decorator,
