@@ -143,6 +143,22 @@ class UserMailer < BaseMailer
   end
 
 #ban
+  def member_deleted(user, project, deleted_user, author)
+    @project = project
+    @deleted_user = deleted_user
+
+    open_project_headers 'Type'    => 'Members'
+    #open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
+
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Из проекта '+@project.name.to_s+' исключен участник '+@deleted_user.lastname.to_s+' '+@deleted_user.firstname.to_s
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
   def board_added(user, board, author, project)
     @board = board
     @project = project

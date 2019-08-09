@@ -198,6 +198,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             {controller: '/head_performance_indicator_values'},
             icon: 'icon2 icon-enumerations',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  menu.push :production_calendars,
+            {controller: '/production_calendars'},
+            icon: 'icon2 icon-calendar',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+
   # )
   #bbm(
   menu.push :typed_risks,

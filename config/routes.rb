@@ -399,7 +399,9 @@ OpenProject::Application.routes.draw do
     get :new_government, on: :collection
   end
 
-
+  resources :production_calendars do
+    get :refresh, on: :collection
+  end
   #)
 
   scope 'admin' do
