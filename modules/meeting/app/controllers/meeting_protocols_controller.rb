@@ -26,6 +26,7 @@ class MeetingProtocolsController < ApplicationController
   def update
     @meeting_protocol = MeetingProtocol.find(params[:id])
     @meeting_protocol.completed = true
+    @meeting_protocol.completed_at = Date.today
 
     if @meeting_protocol.save
       flash[:notice] = l(:notice_successful_create)
