@@ -18,18 +18,10 @@ module API
           }
         end
 
-        # link :update,
-        #    cache_if: -> { current_user_allowed_to(:manage_work_package_target_plan_values, context: represented.project) } do
-        #   {
-        #     href: api_v3_paths.work_package_target(represented.id),
-        #     method: :post
-        #   }
-        # end
-
-        property :name,
-                 exec_context: :decorator,
-                 getter: ->(*) { represented.work_package.name },
-                 render_nil: true
+        # property :name,
+        #          exec_context: :decorator,
+        #          getter: ->(*) { represented.work_package.name },
+        #          render_nil: true
 
         property :target,
                  exec_context: :decorator,
