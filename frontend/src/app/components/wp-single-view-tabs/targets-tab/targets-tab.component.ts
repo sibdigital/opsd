@@ -172,29 +172,6 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
             if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
               this.wpTargetIds.push(el.targetId);
             }
-            // сами записи
-            let plans = el.planFactQuarterlyTargetValue;
-            this.planValues = plans.map( (pl:any) => {
-              return {
-                project_id: pl.projectId,
-                target_id: pl.target_id,
-                year: pl.year,
-                target_year_value: pl.target_year_value,
-                target_quarter1_value: pl.target_quarter1_value,
-                target_quarter2_value: pl.target_quarter2_value,
-                target_quarter3_value: pl.target_quarter3_value,
-                target_quarter4_value: pl.target_quarter4_value,
-                fact_quarter1_value: pl.fact_quarter1_value,
-                fact_quarter2_value: pl.fact_quarter2_value,
-                fact_quarter3_value: pl.fact_quarter3_value,
-                fact_quarter4_value: pl.fact_quarter4_value,
-                plan_quarter1_value: pl.plan_quarter1_value,
-                plan_quarter2_value: pl.plan_quarter2_value,
-                plan_quarter3_value: pl.plan_quarter3_value,
-                plan_quarter4_value: pl.plan_quarter4_value
-              }
-            });
-            
             return new WpTarget({
               id: el.getId(),
               project_id: el.projectId,
@@ -220,6 +197,40 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
 
       })
       .catch(() => {
+        return false;
+      });
+  }
+
+  loadPlanFact(project_id: number, year: number, target_id: number){
+    //загружаем данные по показателям
+    return this.halResourceService
+      .get<HalResource>(this.pathHelper.api.v3.plan_fact_quarterly_target_values.toString(), {'project_id': project_id, 'year': year, 'target_id': target_id})
+      .toPromise()
+      .then((resource:HalResource) => {
+        let els = resource.elements;
+        this.planValues = els.map((pl: any) => {
+          return {
+            project_id: pl.projectId,
+            target_id: pl.targetId,
+            year: pl.year,
+            target_year_value: pl.targetYearValue,
+            target_quarter1_value: pl.targetQuarter1Value,
+            target_quarter2_value: pl.targetQuarter2Value,
+            target_quarter3_value: pl.targetQuarter3Value,
+            target_quarter4_value: pl.targetQuarter4Value,
+            fact_quarter1_value: pl.factQuarter1Value,
+            fact_quarter2_value: pl.factQuarter2Value,
+            fact_quarter3_value: pl.factQuarter3Value,
+            fact_quarter4_value: pl.factQuarter4Value,
+            plan_quarter1_value: pl.planQuarter1Value,
+            plan_quarter2_value: pl.planQuarter2Value,
+            plan_quarter3_value: pl.planQuarter3Value,
+            plan_quarter4_value: pl.planQuarter4Value
+          }
+        });
+        //console.log(this.planValues);
+      })
+      .catch(err => {
         return false;
       });
   }
@@ -275,6 +286,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     }
     return result;
   }
+
 
   /**
    * Проверки при добавлении и редактировании записи
@@ -425,35 +437,41 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * При нажатии на "Добавить .."
+   * При нажатии на "v"
    */
   public createTarget() {
-    if (!this.selectedTgId) {
+    if (!this.selectedTgId || (<WpTarget>this.editedTarget).project_id == 0 || (<WpTarget>this.editedTarget).target_id == 0) {
       return;
     }
 
-    if(this.checkTarget(<WpTarget>this.editedTarget)) {
-      this.isDisabled = true;
-      this.createCommonTarget()
-        .catch(() => this.isDisabled = false)
-        .then(() => this.isDisabled = false);
-    }
+    this.loadPlanFact((<WpTarget>this.editedTarget).project_id, (<WpTarget>this.editedTarget).year, (<WpTarget>this.editedTarget).target_id)
+      .then(()=> {
+        if (this.checkTarget(<WpTarget>this.editedTarget)) {
+          this.isDisabled = true;
+          this.createCommonTarget()
+            .catch(() => this.isDisabled = false)
+            .then(() => this.isDisabled = false);
+        }
+      });
   }
 
   /**
    * Действия при редактировании записи
    */
   updateTarget(target: WpTarget){
-    if(this.checkTarget(target)) {
-      this.saveWpTarget(target)
-        .then(() => {
-          this.loadWpTargets();
-          this.editedTarget = null;
-        })
-        .catch(err => {
-          this.wpNotificationsService.handleRawError(err, this.workPackage);
-        });
-    }
+    this.loadPlanFact(target.project_id, target.year, target.target_id)
+      .then(()=> {
+        if (this.checkTarget(target)) {
+          this.saveWpTarget(target)
+            .then(() => {
+              this.loadWpTargets();
+              this.editedTarget = null;
+            })
+            .catch(err => {
+              this.wpNotificationsService.handleRawError(err, this.workPackage);
+            });
+        }
+      });
   }
 
   public updateSelectedId(targetId:string) {
