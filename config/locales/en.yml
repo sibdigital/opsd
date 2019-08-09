@@ -890,6 +890,7 @@ en:
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
+
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
@@ -2288,9 +2289,11 @@ en:
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
   #knm(
-
-
-
+  setting_days_text: Дни недели
+  button_refresh: Обновить
+  label_production_calendar: Производственный календарь
+  label_production_calendars: Производственные календари
+  label_work_calendar: Производственный календарь
   permission_view_interactive_map: Просмотр карты
   permission_view_national_and_federal_projects: Просмотр проектов и порграмм
   permission_manage_national_and_federal_projects: Управление проектами и программами
@@ -2512,6 +2515,7 @@ en:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
+
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
     для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
     для GFM Markdown.

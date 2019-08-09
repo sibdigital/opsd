@@ -28,6 +28,9 @@
 #++
 
 OpenProject::Application.routes.draw do
+  get 'production_calendars/index'
+  get 'production_calendars/edit'
+  get 'production_calendars/new'
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
@@ -399,7 +402,7 @@ OpenProject::Application.routes.draw do
     get :new_government, on: :collection
   end
 
-
+  resources :production_calendars
   #)
 
   scope 'admin' do
