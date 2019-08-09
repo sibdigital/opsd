@@ -61,6 +61,9 @@ class WorkPackages::BulkController < ApplicationController
     unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
 
       respond_to do |format|
+        # @work_packages.each do |wp|
+        #   Alert.create_pop_up_alert(wp,"Deleted", User.current, wp.assigned_to)
+        # end
         format.html do
           render locals: { work_packages: @work_packages,
                            associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
@@ -71,6 +74,9 @@ class WorkPackages::BulkController < ApplicationController
       end
 
     else
+       # @work_packages.each do |wp|
+       #   Alert.create_pop_up_alert(wp,"Deleted", User.current, wp.assigned_to)
+       # end
 
       destroy_work_packages(@work_packages)
 
