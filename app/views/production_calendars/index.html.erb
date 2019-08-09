@@ -361,8 +361,8 @@ This file written by BBM
         <tbody>
         <% @production_calendars.each do |production_calendar| %>
           <tr id="production-calendar-<%= production_calendar.id %>">
-            <%= content_tag(:td, production_calendar.id) %>
-            <%= content_tag(:td, production_calendar.date) %>
+            <%= content_tag(:td, link_to(h(production_calendar.id), edit_production_calendar_path(production_calendar.id))) %>
+            <%= content_tag(:td, link_to(h(production_calendar.date),edit_production_calendar_path(production_calendar.id))) %>
             <%= content_tag(:td, production_calendar.day_type? ? "Выходной" : "Рабочий") %>
             <%= content_tag(:td, link_to(
                 op_icon('icon icon-delete'),

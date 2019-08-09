@@ -3,7 +3,7 @@
 <%#= breadcrumb_toolbar l(:label_production_calendars) %>
 
 <% html_title l(:label_production_calendars), l(:label_production_calendars) %>
-<% local_assigns[:additional_breadcrumb] =  l(:label_production_calendars) %>
+<% local_assigns[:additional_breadcrumb] =  l(:label_production_calendar) %>
 <%= breadcrumb_toolbar l(:label_production_calendars) %>
 <%= labelled_tabular_form_for @calend do |f| %>
   <%= render partial: 'production_calendars/form', locals: { f: f } %>

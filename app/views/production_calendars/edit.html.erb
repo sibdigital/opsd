@@ -1,19 +1,7 @@
-<% html_title l(:label_administration), "#{l(:label_edit)} #{ProductionCalendar.model_name.human} #{h @production_calendar.name}" %>
-<% local_assigns[:additional_breadcrumb] = @production_calendar %>
-<%= breadcrumb_toolbar @production_calendar %>
+<% "#{l(:label_edit)} #{ProductionCalendar.model_name.human}" %>
+<%= labelled_tabular_form_for @production_calendar do |f| %>
 
-<div class="tabs">
-  <ul>
-    <li>
-      <%= link_to t("typed_risks.edit.properties"),
-                  edit_tab_production_calendar_path(id: @production_calendar.id, tab: :properties),
-                  class: "#{'selected' if @tab == "properties" }"  %>
-    </li>
-    <li>
-      <%= link_to t("typed_risks.edit.risk_characts"),
-                  edit_tab_production_calendar_path(id: @production_calendar.id, tab: :risk_characts),
-                  class: "#{'selected' if @tab == 'risk_characts' }"  %>
-    </li>
-  </ul>
-</div>
-<%= render partial: "production_calendar/form/#{@tab}"%>
+  <%= render partial: 'production_calendars/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+<% end %>

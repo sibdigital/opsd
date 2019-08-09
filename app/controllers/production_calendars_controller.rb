@@ -32,13 +32,7 @@ class ProductionCalendarsController < ApplicationController
   end
 
   def edit
-    if params[:tab].blank?
-      redirect_to tab: :properties
-    else
-      @production_calendar = production_calendar
-                               .find(params[:id])
-      @tab = params[:tab]
-    end
+    @production_calendar= ProductionCalendar.find(params[:id])
   end
 
   def new
@@ -67,7 +61,7 @@ class ProductionCalendarsController < ApplicationController
   def update
     if @production_calendar.update_attributes(permitted_params.production_calendar)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to project_production_calendars_path()
+      redirect_to production_calendars_path()
     else
       render action: 'edit'
     end
