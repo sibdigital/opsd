@@ -33,13 +33,13 @@ module API
                  getter: ->(*) { represented.project.curator },
                  render_nil: true
 
-        property :plan_fact_quarterly_target_value,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   #PlanFactQuarterlyTargetValue.where(target_id: represented.target_id, project_id: represented.project_id)
-                   PlanFactQuarterlyTargetValue.where(project_id: represented.project_id)
-                 },
-                 render_nil: true
+        # property :plan_fact_quarterly_target_value,
+        #          exec_context: :decorator,
+        #          getter: ->(*) {
+        #            #PlanFactQuarterlyTargetValue.where(target_id: represented.target_id, project_id: represented.project_id)
+        #            PlanFactQuarterlyTargetValue.where(project_id: represented.project_id)
+        #          },
+        #          render_nil: true
 
         property :can_edit_plan_values,
                  exec_context: :decorator,
