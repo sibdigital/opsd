@@ -67,10 +67,10 @@ module AllBudgetsHelper
 
   def self.cost_by_project (project)
       cost_objects = CostObject.where(project_id: project.id)
-      total_budget = BigDecimal.new("0")
-      labor_budget = BigDecimal.new("0")
-      material_budget = BigDecimal.new("0")
-      spent = BigDecimal.new("0")
+      total_budget = BigDecimal("0")
+      labor_budget = BigDecimal("0")
+      material_budget = BigDecimal("0")
+      spent = BigDecimal("0")
 
       cost_objects.each do |cost_object|
         total_budget += cost_object.budget

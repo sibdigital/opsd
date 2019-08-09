@@ -1,13 +1,10 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 export class BlueTableBudgetService extends BlueTableService {
   private data:any[] = [];
-  private promises:Promise<CollectionResource<HalResource>>[] = [];
   private data_local:any = {};
   private columns:string[] = ['Республика Бурятия', 'Куратор', 'РП', 'План срок завершения', 'Исполнено', 'Риски исполнения', 'Остаток', 'Риски и проблемы', 'Исполнение бюджета'];
 
@@ -21,22 +18,29 @@ export class BlueTableBudgetService extends BlueTableService {
           .toPromise()
           .then((response:HalResource) => {
             response.source.map((budget:HalResource) => {
-              this.data_local[budget.project.id] = budget;
+              budget['_type'] = 'Budget';
+              if (budget.project.national_project_id) {
+                this.data_local[budget.project.national_project_id] = this.data_local[budget.project.national_project_id] || [];
+                this.data_local[budget.project.national_project_id].push(budget);
+              } else {
+                this.data_local[0] = this.data_local[0] || [];
+                this.data_local[0].push(budget);
+              }
             });
-            resources.elements.map( (national:HalResource) => {
-              this.data.push(national);
-              if (national.projects) {
-                national.projects.map((project:HalResource) => {
-                  if (this.data_local[project['id']]) {
-                    let b = this.data_local[project['id']];
-                    b['_type'] = 'Budget';
-                    b['curator'] = project['curator'];
-                    b['rukovoditel'] = project['rukovoditel'];
-                    this.data.push(b);
-                  }
+            resources.elements.map( (el:HalResource) => {
+              this.data.push(el);
+              if (this.data_local[el.id]) {
+                this.data_local[el.id].map( (budget:ProjectResource) => {
+                  this.data.push(budget);
                 });
               }
             });
+            this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
+            if (this.data_local[0]) {
+              this.data_local[0].map( (budget:ProjectResource) => {
+                this.data.push(budget);
+              });
+            }
           });
       });
   }
@@ -89,7 +93,7 @@ export class BlueTableBudgetService extends BlueTableService {
         }
       }
     }
-    if (row._type === 'National Project') {
+    if (row._type === 'NationalProject') {
       switch (i) {
         case 0: {
           return row.name;

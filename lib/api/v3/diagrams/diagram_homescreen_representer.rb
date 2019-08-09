@@ -50,15 +50,13 @@ module API
           ispolneno = 0 # Порядок важен
           ne_ispolneno = 0
           v_rabote = 0
-          Project.all.map(&:completed_percent_sd).each do |completed_percent|
-            case completed_percent
-            when 0
-              ne_ispolneno += 1
-            when 100
-              ispolneno += 1
-            else
-              v_rabote += 1
-            end
+          PlanFactYearlyTargetValue
+
+
+          ProjectIspolnStat.all.map do |project|
+            ne_ispolneno += project.ne_ispolneno
+            ispolneno += project.ispolneno
+            v_rabote += project.v_rabote
           end
           result = []
           # Порядок важен
