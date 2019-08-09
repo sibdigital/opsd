@@ -75,7 +75,7 @@ class UserMailer < BaseMailer
     end
   end
 
-#iag, ban (
+#iag, ban
   def work_package_notify_assignee(user, term_date, workPackage, project_name)
     #@welcome_url = url_for(controller: '/homescreen')
 
@@ -85,7 +85,7 @@ class UserMailer < BaseMailer
     @workPackage = workPackage
     @project_name = project_name
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие по проекту '+project_name
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие '+@workPackage.subject+' по проекту '+project_name
     end
   end
 
@@ -97,6 +97,19 @@ class UserMailer < BaseMailer
   #
   #   mail to: "\"#{name}\" <#{mail}>", subject: 'Вы приглашены в дискуссию'
   # end
+
+#ban
+  def work_package_deadline_notify_assignee(user, term_date, workPackage, project_name)
+
+    headers['X-OpenProject-Type'] = 'Test'
+
+    @term_date = term_date
+    @workPackage = workPackage
+    @project_name = project_name
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Превышен срок по пакету работ '+@workPackage.subject+' в проекте '+project_name
+    end
+  end
 
 #ban
   def cost_object_added(user, cost_object, author)
