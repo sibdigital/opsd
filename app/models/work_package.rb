@@ -61,7 +61,7 @@ class WorkPackage < ActiveRecord::Base
 
   #zbd(
   belongs_to :contract, class_name: 'Contract', foreign_key: 'contract_id'
-  #belongs_to :target, class_name: 'Target', foreign_key: 'target_id'
+  belongs_to :required_doc_type, class_name: 'AttachType', foreign_key: 'required_doc_type_id'
   #)
 
   has_many :time_entries, dependent: :delete_all
@@ -81,9 +81,7 @@ class WorkPackage < ActiveRecord::Base
   }
 
 
-  #include WorkPackageValidator
   #zbd(
-  #validates :subject, presence: true, uniqueness: true
   validates_each :subject do |record, attr, value|
     if WorkPackage.where("project_id = ? and upper(subject) = ? and plan_num_pp = ?", record.project_id, value.upcase, record.plan_num_pp).count > 1
       record.errors.add(attr, "Такая запись уже присутствует в проекте")

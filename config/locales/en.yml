@@ -804,6 +804,7 @@ en:
     column_num: Номер поля во входном файле
     column_name: Название поля
     is_pk: Входит в первичный ключ
+    required_doc_type: Необходимый контрольный документ
     #)
     #(xcc
     organization: Организация
@@ -2269,6 +2270,7 @@ en:
   permission_view_work_package_targets: Просмотр целевых показателей мероприятия
   permission_manage_work_package_problems: Управление проблемами/рисками мероприятия
   permission_view_work_package_problems: Просмотр проблем/рисков мероприятия
+  permission_edit_required_doc_type: Редактирование типа контрольного документа
   #)
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
