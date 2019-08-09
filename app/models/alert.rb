@@ -58,55 +58,64 @@ class Alert < ActiveRecord::Base
     #Истекающий срок
     if aboutwhat == "Due" && class_name =="WorkPackage"
       text += "Срок исполнения мероприятия #{entity.subject} истекает #{entity.due_date}"
+      # Изменение статус
+    elsif aboutwhat == "Status" && class_name == "WorkPackage"
+      text += "Пользователь #{fio} изменил статус вашего мероприятия \"#{entity.subject}\" на #{entity.status} "
+      # Изменение приоритета
+    elsif aboutwhat == "Priority" && class_name == "WorkPackage"
+      text += "Пользователь #{fio} изменил приоритет для вашего мероприятия \"#{entity.subject}\" на #{entity.priority} "
+      #Добавление комментария
+    elsif aboutwhat == "Noted" && class_name == "WorkPackage"
+      text += "Пользователь #{fio} оставил комментарий к вашему мероприятию \"#{entity.subject}\""
       #Создание
     elsif aboutwhat == "Created" && class_name == "WorkPackage"
-      text += "Пользователь #{fio} назначил вам мероприятие #{entity.subject}"
+      text += "Пользователь #{fio} назначил вам мероприятие \"#{entity.subject}\""
 
     elsif aboutwhat == "Created" && class_name == "Member"
-      text += "Пользователь #{fio} добавил вас в проект #{entity.project.name}"
+      text += "Пользователь #{fio} добавил вас в проект \"#{entity.project.name}\""
 
     elsif aboutwhat == "Created" && class_name == "Board"
-      text += "Пользователь #{fio} создал дискуссию #{entity.name}"
+      text += "Пользователь #{fio} создал дискуссию \"#{entity.name}\""
 
     elsif aboutwhat == "Created" && class_name == "Project"
-      text += "Пользователь #{fio} создал проект #{entity.name}"
+      text += "Пользователь #{fio} создал проект \"#{entity.name}\""
 
-    elsif aboutwhat == "Changed" && class_name == "News"
+    elsif aboutwhat == "Created" && class_name == "News"
       text += "Пользователь #{fio} написал новость о #{entity.title}"
       #Изменение
     elsif aboutwhat == "Changed" && class_name == "WorkPackage"
-      text += "Пользователь #{fio} изменил ваше мероприятие #{entity.subject}"
+      text += "Пользователь #{fio} изменил ваше мероприятие \"#{entity.subject}\""
 
     elsif aboutwhat == "Changed" && class_name == "Member"
-      text += "Пользователь #{fio} изменил ваш статус в проекте #{entity.project.name}"
+      text += "Пользователь #{fio} изменил ваш статус в проекте \"#{entity.project.name}\""
 
     elsif aboutwhat == "Changed" && class_name == "Board"
-      text += "Пользователь #{fio} изменил дискуссию #{entity.name}"
+      text += "Пользователь #{fio} изменил дискуссию \"#{entity.name}\""
 
     elsif aboutwhat == "Changed" && class_name == "Project"
-      text += "Пользователь #{fio} изменил проект #{entity.name}"
+      text += "Пользователь #{fio} изменил проект \"#{entity.name}\""
 
     elsif aboutwhat == "Changed" && class_name == "News"
       text += "Пользователь #{fio} изменил новость о #{entity.title}"
       #Удаление
     elsif aboutwhat == "Deleted" && class_name == "WorkPackage"
-      text += "Пользователь #{fio} удалил ваше мероприятие #{entity.subject}"
+      text += "Пользователь #{fio} удалил ваше мероприятие \"#{entity.subject}\""
 
     elsif aboutwhat == "Deleted" && class_name == "Member"
-      text += "Пользователь #{fio} исключил вас из проекта #{entity.project.name}"
+      text += "Пользователь #{fio} исключил вас из проекта \"#{entity.project.name}\""
 
     elsif aboutwhat == "Deleted" && class_name == "Board"
-      text += "Пользователь #{fio} удалил дискуссию #{entity.name}"
+      text += "Пользователь #{fio} удалил дискуссию \"#{entity.name}\""
 
     elsif aboutwhat == "Deleted" && class_name == "Project"
-      text += "Пользователь #{fio} удалил проект #{entity.name}"
+      text += "Пользователь #{fio} удалил проект \"#{entity.name}\""
 
     elsif aboutwhat == "Deleted" && class_name == "News"
       text += "Пользователь #{fio} стер новость о #{entity.title}"
       #Перенесение
 
     elsif aboutwhat == "Moved" && class_name == "Board"
-      text += "Пользователь #{fio} переместил дискуссию #{entity.name}"
+      text += "Пользователь #{fio} переместил дискуссию \"#{entity.name}\""
       #Текст уведомления по умолчанию
     else
       text += default_pop_up_alert_text(entity, aboutwhat, createdby, touser)

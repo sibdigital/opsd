@@ -51,14 +51,31 @@ class WorkPackages::UpdateService
   private
 
   def update(attributes)
+    old_wp = work_package.dup
+    old_wp.id = work_package.id
     result = set_attributes(attributes)
 
     if result.success?
+
+      if old_wp.assigned_to != work_package.assigned_to
+        Alert.create_pop_up_alert(work_package, "Created", User.current, work_package.assigned_to)
+        # Alert.create_pop_up_alert(old_wp, "Deleted", User.current, old_wp.assigned_to)
+        Alert.create_pop_up_alert(old_wp, "Changed", User.current, old_wp.assigned_to)
+      elsif old_wp.status != work_package.status
+        Alert.create_pop_up_alert(work_package, "Status", User.current, work_package.assigned_to)
+      elsif old_wp.priority != work_package.priority
+        Alert.create_pop_up_alert(work_package, "Priority", User.current, work_package.assigned_to)
+      else
+        Alert.create_pop_up_alert(old_wp, "Changed", User.current, old_wp.assigned_to)
+      end
+
       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
       result.merge!(update_dependent)
+
     end
 
     if save_if_valid(result)
+
       update_ancestors([work_package]).each do |ancestor_result|
         result.merge!(ancestor_result)
       end
