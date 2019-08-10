@@ -105,7 +105,15 @@ class WorkPackage < ActiveRecord::Base
   }
 
   scope :visible, ->(*args) {
-    where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+    #+tan tmd
+    if !User.current.has_priveleged?(@project) && !User.current.admin?
+      org = User.current.organization
+      childs = org != nil ? org.childs().map {|c| c.id.to_i} : [0]
+      where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages)).where('organization_id = ?', childs)
+    else
+      where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+    end
+    #-
   }
 
   scope :in_status, ->(*args) do
