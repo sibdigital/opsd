@@ -132,6 +132,14 @@ module API
             "#{work_package_targets}/#{id}"
           end
 
+          def self.plan_fact_quarterly_target_values
+            "#{root}/plan_fact_quarterly_target_values"
+          end
+
+          def self.plan_fact_quarterly_target_value(id)
+            "#{plan_fact_quarterly_target_values}/#{id}"
+          end
+
           def self.work_package_targets_1c
             "#{root}/work_package_targets_1c"
           end

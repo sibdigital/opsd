@@ -47,6 +47,7 @@ class AddWorkPackageNoteService
 
       result, errors = validate_and_yield(work_package, user) do
         work_package.save_journals
+        Alert.create_pop_up_alert(work_package, "Noted", User.current, work_package.assigned_to)
       end
 
       ServiceResult.new(success: result,

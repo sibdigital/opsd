@@ -471,6 +471,9 @@ class PermittedParams
   def national_project
     params.require(:national_project).permit(:name, :type, :parent_id, :leader, :leader_position, :curator, :curator_position, :description, :start_date, :due_date)
   end
+  def production_calendar
+    params.require(:production_calendar).permit(:day_type, :date, :year)
+  end
   # )
   #xcc(
   def target

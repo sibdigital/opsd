@@ -421,7 +421,6 @@ class Project < ActiveRecord::Base
     add_member(user, roles)
     save
   end
-
   # Returns all projects the user is allowed to see.
   #
   # Employs the :view_project permission to perform the
