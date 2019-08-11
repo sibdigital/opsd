@@ -3285,3 +3285,6 @@ en:
   label_board_deleted: Дискуссия удалена
   label_deadline_of_work_package_is_approaching: Приближается срок по пакету работ
   label_deadline_of_work_package: Превышен срок по пакету работ
+  label_project_created: Проект создан
+  label_project_changed: Проект изменен
+  label_project_deleted: Проект удален
