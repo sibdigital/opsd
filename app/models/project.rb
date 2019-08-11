@@ -976,33 +976,6 @@ class Project < ActiveRecord::Base
     update_attribute :status, STATUS_ARCHIVED
   end
 
-  protected
-
-  def self.possible_principles_condition
-    condition = Setting.work_package_group_assignment? ?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
-                  ["(#{Principal.table_name}.type=?)", 'User']
-
-    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
-    condition << Principal::STATUSES[:active]
-    condition << Principal::STATUSES[:invited]
-    condition << true
-
-    sanitize_sql_array condition
-  end
-
-  def guarantee_project_or_nil_or_false(p)
-    if p.is_a?(Project)
-      p
-    elsif p.to_s.blank?
-      nil
-    else
-      p = Project.find_by(id: p)
-      return false unless p
-      p
-    end
-  end
-
   #+tan
   def get_done_ratio #TODO: plan type execution!
 
@@ -1047,4 +1020,33 @@ class Project < ActiveRecord::Base
     res.to_f.round
   end
   #-tan
+
+  protected
+
+  def self.possible_principles_condition
+    condition = Setting.work_package_group_assignment? ?
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
+                  ["(#{Principal.table_name}.type=?)", 'User']
+
+    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
+    condition << Principal::STATUSES[:active]
+    condition << Principal::STATUSES[:invited]
+    condition << true
+
+    sanitize_sql_array condition
+  end
+
+  def guarantee_project_or_nil_or_false(p)
+    if p.is_a?(Project)
+      p
+    elsif p.to_s.blank?
+      nil
+    else
+      p = Project.find_by(id: p)
+      return false unless p
+      p
+    end
+  end
+
+
 end
