@@ -10,7 +10,7 @@ class ReportProgressProjectController < ApplicationController
 
   default_search_scope :report_progress_project
 
-  before_action :verify_agreements_module_activated
+  before_action :verify_reportsProgressProject_module_activated
 
 
   def index
@@ -34,8 +34,6 @@ class ReportProgressProjectController < ApplicationController
   end
 
   def generate_project_progress_report_out
-#        @agreements = Agreement.all
-#        render xlsx: "report_excel", template: "agreements/report_excel.xlsx.axlsx"
     @absolute_path = File.absolute_path('.') +'/'+'app/reports/templates/agreement.rtf'
     template_path = File.absolute_path('.') +'/'+'app/reports/templates/project_progress_report.xlsx'
     @workbook = RubyXL::Parser.parse(template_path)
@@ -66,11 +64,11 @@ class ReportProgressProjectController < ApplicationController
     #  0ba53d -зеленый
     #  ff0000 -красный
     #  ffd800 -желтый
-    sheet.sheet_data[27][5].change_fill('ff0000')
-    sheet.sheet_data[27][9].change_fill('ffd800')
-    sheet.sheet_data[27][13].change_fill('0ba53d')
-    sheet.sheet_data[27][17].change_fill('0ba53d')
-    sheet.sheet_data[27][21].change_fill('ffd800')
+#    sheet.sheet_data[27][5].change_fill('ff0000')
+#    sheet.sheet_data[27][9].change_fill('ffd800')
+#    sheet.sheet_data[27][13].change_fill('0ba53d')
+#    sheet.sheet_data[27][17].change_fill('0ba53d')
+#    sheet.sheet_data[27][21].change_fill('ffd800')
 
   end
 
@@ -237,19 +235,20 @@ class ReportProgressProjectController < ApplicationController
       sheet.insert_cell(data_row + i + incriment, 1, "")
       sheet.insert_cell(data_row + i + incriment, 2, "")
       sheet.insert_cell(data_row + i + incriment, 3, "")
-      #sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"])
-      #sheet.insert_cell(data_row + i + incriment, 5, status["ne_ispolneno"])
-      #sheet.insert_cell(data_row + i + incriment, 6, status["est_riski"])
-      #sheet.insert_cell(data_row + i + incriment, 7, status["v_rabote"])
+
       sheet.insert_cell(data_row + i + incriment, 8, "")
 
       #  0ba53d -зеленый
       #  ff0000 -красный
       #  ffd800 -желтый
       #  d7d7d7 - серый
-      #  90ee90 - светло-зеленный
       #{ начало вариантов для 1 цвета
       if  status["ispolneno"].nil?
+        sheet.insert_cell(data_row + i + incriment, 4, "0")
+        sheet.insert_cell(data_row + i + incriment, 5, "")
+        sheet.insert_cell(data_row + i + incriment, 6, "")
+        sheet.insert_cell(data_row + i + incriment, 7, "")
+
         sheet.sheet_data[data_row + i + incriment][4].change_fill('d7d7d7')
         sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
 
@@ -274,7 +273,7 @@ class ReportProgressProjectController < ApplicationController
         # { начало вариантов для 2 цветов
       elsif
           (status["ispolneno"]+status["v_rabote"])  > 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"] == 0)
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"])
           sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
 
@@ -303,7 +302,7 @@ class ReportProgressProjectController < ApplicationController
         # { начало вариантов для 3 цветов
       elsif
           (status["ispolneno"]+status["v_rabote"]) > 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] > 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"])
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"])
           sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
 
@@ -456,8 +455,12 @@ class ReportProgressProjectController < ApplicationController
     spent = BigDecimal("0")
 
     cost_objects.each do |cost_object|
-      total_budget += cost_object.budget
-      spent += cost_object.spent
+      cost_object.cost_entries.each do |cost_type|
+        if cost_type.name == "Федеральный бюджет"
+          total_budget += cost_object.budget
+          spent += cost_object.spent
+        end
+       end
     end
 
     spent
@@ -478,9 +481,13 @@ class ReportProgressProjectController < ApplicationController
     spent = BigDecimal("0")
 
     cost_objects.each do |cost_object|
-      total_budget += cost_object.budget
-      labor_budget += cost_object.labor_budget
-      spent += cost_object.spent
+      cost_object.cost_entries.each do |cost_type|
+        if cost_type.name == "Региональный бюджет"
+          total_budget += cost_object.budget
+          labor_budget += cost_object.labor_budget
+          spent += cost_object.spent
+        end
+      end
     end
 
     spent
@@ -501,9 +508,13 @@ class ReportProgressProjectController < ApplicationController
     spent = BigDecimal("0")
 
     cost_objects.each do |cost_object|
-      total_budget += cost_object.budget
-      material_budget += cost_object.labor_budget
-      spent += cost_object.spent
+      cost_object.cost_entries.each do |cost_type|
+        if cost_type.name != "Региональный бюджет" && cost_type.name != "Федеральный бюджет"
+          total_budget += cost_object.budget
+          material_budget += cost_object.labor_budget
+          spent += cost_object.spent
+        end
+       end
     end
 
     spent
@@ -519,8 +530,6 @@ class ReportProgressProjectController < ApplicationController
 
 
   def get_status_achievement
-
-
     sql = "with
     stat as (
               select target_id,
@@ -528,6 +537,7 @@ class ReportProgressProjectController < ApplicationController
                   sum(ne_ispolneno) as ne_ispolneno,
                   sum(est_riski_critic)    as est_riski_critic,
                   sum(est_riski_necritic)    as est_riski_necritic,
+                  sum(v_rabote)     as v_rabote
     from (
            select tswp.target_id,
                   case when ispolneno = true then 1 else 0 end    as ispolneno,
@@ -545,8 +555,7 @@ class ReportProgressProjectController < ApplicationController
     select t.name,s.ispolneno,s.ne_ispolneno, s.est_riski_critic, s.est_riski_necritic,s.v_rabote
     from targets t
     left join stat s on s.target_id = t.id
-    where t.project_id="+@project.id.to_s
-
+    where t.is_approve = true and t.project_id="+@project.id.to_s
 
     result = ActiveRecord::Base.connection.execute(sql)
 
@@ -584,7 +593,7 @@ class ReportProgressProjectController < ApplicationController
     render_404
   end
 
-  def verify_agreements_module_activated
+  def verify_reportsProgressProject_module_activated
     render_403 if @project && !@project.module_enabled?('reports')
   end
 

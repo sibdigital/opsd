@@ -527,7 +527,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   # )
   #
   # + tan 2019/07/16
-  menu.push :report_progress_project,
+  menu.push :reports,
             {},
             param: :project_id,
             caption: :label_reports,
@@ -538,7 +538,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_report_progress_project,
             icon: 'icon2 icon-info1',
-            parent: :report_progress_project
+            parent: :reports
 
   menu.push :additional,
             {},
