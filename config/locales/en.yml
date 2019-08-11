@@ -3302,3 +3302,5 @@ en:
   label_project_created: Проект создан
   label_project_changed: Проект изменен
   label_project_deleted: Проект удален
+  label_news_changed: Новость изменена
+  label_news_deleted: Новость удалена
