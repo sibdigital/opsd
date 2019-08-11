@@ -300,43 +300,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def get_upcoming_tasks_count
-
-    task_alias = I18n.t(:default_type_task)
-    sql = "select count(*) from work_packages
-            where type_id = (select id from types where name = '#{task_alias}')
-            and due_date >= current_date
-            and project_id = #{id}"
-
-    records_array = ActiveRecord::Base.connection.execute(sql)
-
-    if records_array.any?
-      arr = records_array[0]
-      arr
-    else
-      arr = []
-      arr
-    end
-  end
-
-  def get_due_milestone_count
-    milestone_alias = I18n.t(:default_type_milestone)
-    sql = "select count(*) from work_packages
-            where type_id = (select id from types where name = '#{milestone_alias}')
-            and due_date <= current_date
-            and project_id = #{id}"
-
-    records_array = ActiveRecord::Base.connection.execute(sql)
-
-    if records_array.any?
-      arr = records_array[0]
-      arr
-    else
-      arr = []
-      arr
-    end
-  end
-
   def get_due_date
     sql = "select due_date from projects where id = #{id}"
     records_array = ActiveRecord::Base.connection.execute(sql)
@@ -350,89 +313,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def get_problem_count
-    sql = "select count(*) from work_package_problems where project_id = #{id}"
-    records_array = ActiveRecord::Base.connection.execute(sql)
-
-    if records_array.any?
-      arr = records_array[0]
-      arr
-    else
-      arr = []
-      arr
-    end
-  end
-
-  def get_target_execution_values
-    sql = "SELECT * FROM target_execution_values tev JOIN targets t ON tev.target_id = t.id"
-    records_array =  ActiveRecord::Base.connection.execute(sql)
-
-    if records_array.any?
-      arr = records_array[0]
-      arr
-    else
-      arr = []
-      arr
-    end
-  end
-
-  def get_work_packages_targets
-    sql = "SELECT * FROM work_package_targets wpt JOIN targets t ON wpt.target_id = t.id WHERE wpt.project_id = #{id}"
-    records_array =  ActiveRecord::Base.connection.execute(sql)
-
-    if records_array.any?
-      arr = records_array[0]
-      arr
-    else
-      arr = []
-      arr
-    end
-  end
-
-
-
-  def get_done_ratio #TODO: plan type execution!
-
-    sql = "with
-         rels as (
-           select from_id, to_id
-           from relations as r
-           where  hierarchy > 0 and from_id <> to_id
-         )
-         ,
-         only_childs as(
-           select distinct to_id as child_id
-           from rels
-         ),
-         wp as(
-           select id, done_ratio
-           from work_packages as w
-           where project_id = #{id}
-         ),
-         rels_wp as( select distinct w.id as id, from_id
-           from wp as w
-           inner join rels as r
-           on w.id = from_id
-         ),
-         done_wp as( select distinct w.id as id, done_ratio, from_id, child_id
-           from wp as w
-           left join rels_wp as r
-           on w.id = from_id
-           left join only_childs as o
-           on w.id = o.child_id
-         ),
-         only_parents as (select *
-           from done_wp as r
-           where r.child_id is null or (not r.from_id is null and r.child_id is null)
-         )
-    select avg(done_ratio) as done_ratio
-    from only_parents"
-    records_array = ActiveRecord::Base.connection.execute(sql)
-
-    # res = records_array[0]['done_ratio'].to_i
-    res = records_array[0]['done_ratio']
-    res.to_f.round
-  end
   # эти статусы необходимы для того, чтобы соблюсти требования ТТ (стр 27) - ProjectStatus
   # ProjectApproveStatus - для соблюдения 469 постановления, чтобы с помощью эжтого статуса можно было проводить
   # согласование
@@ -541,7 +421,6 @@ class Project < ActiveRecord::Base
     add_member(user, roles)
     save
   end
-
   # Returns all projects the user is allowed to see.
   #
   # Employs the :view_project permission to perform the
@@ -919,59 +798,8 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # SibDigital version of overage_percent_done
-  def completed_percent_sd
-    quantity = total_wps
-    if quantity > 0
-      total = work_packages.where(:plan_type => :execution).map(&:done_ratio).sum
-      total / quantity
-    else
-      0
-    end
-  end
-
   def total_wps
     work_packages.where(:plan_type => :execution).count
-  end
-
-  def has_role_rukovoditel
-    exist = false
-    User.current.roles(self).map do |role|
-      if role == Role.find_by(name: "Руководитель проекта")
-        exist = true
-      end
-    end
-    exist
-  end
-
-  def has_role_kurator
-    exist = false
-    User.current.roles(self).map do |role|
-      if role == Role.find_by(name: "Куратор проекта")
-        exist = true
-      end
-    end
-    exist
-  end
-
-  def has_role_ruk_proekt_ofisa
-    exist = false
-    User.current.roles(self).map do |role|
-      if role == Role.find_by(name: "Рук-ль Проектного офиса")
-        exist = true
-      end
-    end
-    exist
-  end
-
-  def has_role_koordinator
-    exist = false
-    User.current.roles(self).map do |role|
-      if role == Role.find_by(name: "Коорд-р от Проектного офиса")
-        exist = true
-      end
-    end
-    exist
   end
   # )
 
@@ -1173,4 +1001,49 @@ class Project < ActiveRecord::Base
       p
     end
   end
+
+  #+tan
+  def get_done_ratio #TODO: plan type execution!
+
+    sql = "with
+         rels as (
+           select from_id, to_id
+           from relations as r
+           where  hierarchy > 0 and from_id <> to_id
+         )
+         ,
+         only_childs as(
+           select distinct to_id as child_id
+           from rels
+         ),
+         wp as(
+           select id, done_ratio
+           from work_packages as w
+           where project_id = #{id}
+         ),
+         rels_wp as( select distinct w.id as id, from_id
+           from wp as w
+           inner join rels as r
+           on w.id = from_id
+         ),
+         done_wp as( select distinct w.id as id, done_ratio, from_id, child_id
+           from wp as w
+           left join rels_wp as r
+           on w.id = from_id
+           left join only_childs as o
+           on w.id = o.child_id
+         ),
+         only_parents as (select *
+           from done_wp as r
+           where r.child_id is null or (not r.from_id is null and r.child_id is null)
+         )
+    select avg(done_ratio) as done_ratio
+    from only_parents"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+
+    # res = records_array[0]['done_ratio'].to_i
+    res = records_array[0]['done_ratio']
+    res.to_f.round
+  end
+  #-tan
 end

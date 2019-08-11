@@ -37,13 +37,14 @@ module TargetsHelper
         html = html + content_tag(:td, target.unit)
         html = html + content_tag(:td, target.basic_value)
         html = html + content_tag(:td, target.plan_value)
-        html = html + content_tag(:td,
+        if User.current.allowed_to?(:manage_work_package_target_plan_values, @project)
+          html = html + content_tag(:td,
                     link_to(op_icon('icon icon-add'),
                             new_project_target_path(parent_id: target.id),
                             aria: { label: t(:label_child_target_new) },
                             class: 'wp-inline-create--add-link',
                             title: t(:label_child_target_new))
-        )
+          )
         html = html + content_tag(:td,
                    link_to(
                      op_icon('icon icon-delete'),
@@ -52,6 +53,7 @@ module TargetsHelper
                      data: { confirm: I18n.t(:text_are_you_sure) },
                      title: t(:button_delete)
                    ))
+        end
         html = html + render_tree(tree, target.id, level + 1)
         html = html + '</tr>'
       end

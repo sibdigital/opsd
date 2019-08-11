@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   helper_method :gon
 
   before_action :disable_api
-  before_action :require_admin, except: [:show, :deletion_info, :destroy]
+  before_action :require_project_admin, except: [:show, :deletion_info, :destroy]
   before_action :find_user, only: [:show,
                                    :edit,
                                    :update,

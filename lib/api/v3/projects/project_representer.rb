@@ -77,31 +77,6 @@ module API
         property :description,  render_nil: true
 
         #bbm(
-        property :percentage_done,
-                 getter: ->(*) {
-                   completed_percent_sd
-                 }
-        property :wp_count,
-                 getter: ->(*) {
-                   total_wps
-                 }
-        property :is_rukovoditel,
-                 getter: ->(*) {
-                   has_role_rukovoditel
-                 }
-        property :is_kurator,
-                 getter: ->(*) {
-                   has_role_kurator
-                 }
-        property :is_ruk_proekt_ofisa,
-                 getter: ->(*) {
-                   has_role_ruk_proekt_ofisa
-                 }
-        property :is_koordinator,
-                 getter: ->(*) {
-                   has_role_koordinator
-                 }
-
         property :curator,
                  getter: ->(*) {
                    curator
@@ -117,43 +92,9 @@ module API
                    get_due_date
                  }
 
-        property :problem_count,
-                 getter: ->(*) {
-                   get_problem_count
-                 }
-
-        property :upcoming_tasks_count,
-                 getter: ->(*) {
-                   get_upcoming_tasks_count
-                 }
-
-        property :due_milestone_count,
-                 getter: ->(*) {
-                   get_due_milestone_count
-                 }
-
-        property :done_ratio,
-                 getter: ->(*) {
-                   get_done_ratio
-                 }
-
-        property :target_execution_values,
-                 getter: ->(*) {
-                   get_target_execution_values
-                 }
-
-        property :work_packages_targets,
-                 getter: ->(*) {
-                   get_work_packages_targets
-                 }
-
-        property :budget_fraction,
-                 getter: ->(*) {
-                   get_budget_fraction
-                 }
-
         property :national_project_id,
                  render_nil: true
+        #)
 
         property :created_on,
                  as: 'createdAt',

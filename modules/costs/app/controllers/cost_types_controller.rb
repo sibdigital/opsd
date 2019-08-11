@@ -19,7 +19,7 @@
 
 class CostTypesController < ApplicationController
   # Allow only admins here
-  before_action :require_admin
+  before_action :require_coordinator
   before_action :find_cost_type, only: [:edit, :update, :set_rate, :destroy, :restore]
   layout 'admin'
 

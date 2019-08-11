@@ -39,7 +39,8 @@ Redmine::AccessControl.map do |map|
                                    destroy],
                    # )
                    #xcc(
-                   targets: %i[index new create edit update destroy],
+                   #zbd targets: %i[index new create edit update destroy],
+                   targets: %i[index edit],
                    arbitary_objects: %i[index new create edit update destroy],
                    #)
                    #zbd(
@@ -110,8 +111,13 @@ Redmine::AccessControl.map do |map|
                      contracts: %i[new create edit update destroy] },
                    require: :member
 
-    wpt.permission :manage_work_package_targets,
-                   { work_package_targets: %i[new create edit update destroy] },
+    wpt.permission :edit_work_package_target_fact_values,
+                   { work_package_targets: %i[index edit update] },
+                   require: :member
+
+    wpt.permission :manage_work_package_target_plan_values,
+                   work_package_targets: %i[index new create edit update destroy],
+                   targets: %i[index new create edit update destroy],
                    require: :member
 
     wpt.permission :view_work_package_targets,
@@ -344,33 +350,35 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   #knm(
-  map.project_module :interactive_map do |i_map|
-    i_map.permission :view_interactive_map,
-                     { interactive_map: :index },
-                     require: :member
-  end
+  # map.project_module :interactive_map do |i_map|
+  #   i_map.permission :view_interactive_map,
+  #                    { interactive_map: :index },
+  #                    require: :member
+  # end
   # )
   #bbm(
   map.project_module :project_risks
   # )
   #knm(
-  map.project_module :head_performance_indicator_values do |hpi|
-    hpi.permission :manage_hpi_values,
-                   :'head_performance_indicator_values' => [:edit, :update, :new, :destroy],
-                   require: :member
 
-    hpi.permission :view_hpi_values,
-                   :'head_performance_indicator_values' => [:index],
-                   require: :member
-  end
-  map.project_module :national_projects do |natfed|
-    natfed.permission :manage_national_and_federal_projects,
-                      :'national_projects' => [:new_government, :edit, :new, :destroy, :edit, :update],
-                      require: :member
-    natfed.permission :view_national_and_federal_projects,
-                      :'national_projets' => [:government_programs, :index, :show],
-                      require: :member
-  end
+  # map.project_module :head_performance_indicator_values do |hpi|
+  #   hpi.permission :manage_hpi_values,
+  #                  :'head_performance_indicator_values' => [:edit, :update, :new, :destroy],
+  #                  require: :member
+  #
+  #   hpi.permission :view_hpi_values,
+  #                  :'head_performance_indicator_values' => [:index],
+  #                  require: :member
+  # end
+  # map.permission
+  # map.project_module :national_projects do |natfed|
+  #   natfed.permission :manage_national_and_federal_projects,
+  #                     :'national_projects' => [:new_government, :edit, :new, :destroy, :edit, :update],
+  #                     require: :member
+  #   natfed.permission :view_national_and_federal_projects,
+  #                     :'national_projets' => [:government_programs, :index, :show],
+  #                     require: :member
+  # end
   # )
   #zbd(
   map.project_module :stages

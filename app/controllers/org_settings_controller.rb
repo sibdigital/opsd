@@ -5,7 +5,7 @@ class OrgSettingsController < ApplicationController
   layout 'admin'
   menu_item :org_settings
 
-  before_action :require_admin
+  before_action :require_project_admin
 
   def index
     @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
@@ -20,6 +20,42 @@ class OrgSettingsController < ApplicationController
 
     edit
     render action: 'edit'
+  end
+
+  def iogv
+    @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
+  end
+
+  def municipalities
+    @municipalities = Enumeration.find_by(name: "Муниципальное образование")
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
+  end
+
+  def counterparties
+    @counterparties = Enumeration.find_by(name: "Контрагент")
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
+  end
+
+  def positions
+    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
+    @parent_id = parent_id_param
+
+    if @parent_id.to_i != 0
+      @organization_parent = Organization.find(@parent_id)
+    end
   end
 
   def edit

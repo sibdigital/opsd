@@ -38,6 +38,8 @@ class CreatePlanFactQuarterlyTargetValuesView < ActiveRecord::Migration[5.2]
                            on q.project_id = p.id
           )
           ;
+          drop view if exists v_plan_fact_quarterly_target_values
+          ;
           create or replace view v_plan_fact_quarterly_target_values as (
             select ROW_NUMBER () OVER (ORDER BY tt.national_project_id, tt.federal_project_id, project_id, target_id, year) as id,
                    tt.national_project_id,
@@ -54,10 +56,14 @@ class CreatePlanFactQuarterlyTargetValuesView < ActiveRecord::Migration[5.2]
                    wt.quarter2_value      as fact_quarter2_value,
                    wt.quarter3_value      as fact_quarter3_value,
                    wt.quarter4_value      as fact_quarter4_value,
+                   coalesce(wt.quarter4_value , wt.quarter3_value , wt.quarter2_value , wt.quarter1_value, 0) 
+                      as fact_year_value,
                    wt.quarter1_plan_value as plan_quarter1_value,
                    wt.quarter2_plan_value as plan_quarter2_value,
                    wt.quarter3_plan_value as plan_quarter3_value,
-                   wt.quarter4_plan_value as plan_quarter4_value
+                   wt.quarter4_plan_value as plan_quarter4_value,
+                   coalesce(wt.quarter4_plan_value , wt.quarter3_plan_value , wt.quarter2_plan_value , wt.quarter1_plan_value, 0) 
+                      as plan_year_value
             from v_plan_quarterly_target_values as tt
                    left join v_yeared_project_targets_fact_with_quarter_groups as wt
                              using (project_id, target_id, year)

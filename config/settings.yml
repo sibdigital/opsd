@@ -151,6 +151,9 @@ available_languages:
   default:
   - en
   - ru
+work_days:
+  format: int
+  default: 12345
 notify_delay:
   format: int
   default: 10

@@ -30,7 +30,7 @@
 class WorkflowsController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_coordinator
   before_action :find_roles
   before_action :find_types
 

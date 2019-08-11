@@ -49,6 +49,13 @@ module Redmine
       notifications << Notifiable.new('wiki_content_updated')
       notifications << Notifiable.new('cost_object_added') #ban
       notifications << Notifiable.new('member_added') #ban
+      notifications << Notifiable.new('member_deleted') #ban
+      notifications << Notifiable.new('board_added') #ban
+      notifications << Notifiable.new('board_changed') #ban
+      notifications << Notifiable.new('board_moved') #ban
+      notifications << Notifiable.new('board_deleted') #ban
+      notifications << Notifiable.new('deadline_of_work_package_is_approaching') #ban
+      notifications << Notifiable.new('deadline_of_work_package') #ban
       notifications
     end
   end

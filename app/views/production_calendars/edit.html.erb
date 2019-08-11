@@ -1,0 +1,7 @@
+<% "#{l(:label_edit)} #{ProductionCalendar.model_name.human}" %>
+<%= labelled_tabular_form_for @production_calendar do |f| %>
+
+  <%= render partial: 'production_calendars/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+<% end %>

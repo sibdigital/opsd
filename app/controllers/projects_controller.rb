@@ -95,7 +95,7 @@ class ProjectsController < ApplicationController
         format.html do
           flash[:notice] = l(:notice_successful_create)
           Member.where(project_id: @project.id).each do |member|
-            Alert.create_new_pop_up_alert(@project.id, "Projects", "Changed", User.current.id, member.user_id)
+            Alert.create_pop_up_alert(@project, "Created", User.current, member.user)
           end
           redirect_work_packages_or_overview
         end
@@ -144,7 +144,7 @@ class ProjectsController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_update)
       Member.where(project_id: @altered_project.id).each do |member|
-        Alert.create_new_pop_up_alert(@altered_project.id, "Projects", "Changed", User.current.id, member.user_id)
+        Alert.create_pop_up_alert(@altered_project, "Changed", User.current, member.user)
       end
       OpenProject::Notifications.send('project_updated', project: @altered_project)
     end
@@ -224,7 +224,7 @@ class ProjectsController < ApplicationController
     if call.success?
       flash[:notice] = I18n.t('projects.delete.scheduled')
       Member.where(project_id: @project.id).each do |member|
-        Alert.create_new_pop_up_alert(@project.id, "Projects", "Deleted", User.current.id, member.user_id)
+        Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
       end
     else
       flash[:error] = I18n.t('projects.delete.schedule_failed', errors: call.errors.full_messages.join("\n"))
