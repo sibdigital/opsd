@@ -61,17 +61,8 @@ module API
 
         property :description, render_nil: true
 
-        collection :projects,
-                   :getter => ->(*) {
-                     represented.projects.map do |model|
-                       ::API::V3::Projects::ProjectRepresenter.new(model, current_user: current_user)
-                     end
-                   },
-                   exec_context: :decorator,
-                   embedded: true
-
         def _type
-          'National Project'
+          'NationalProject'
         end
       end
     end

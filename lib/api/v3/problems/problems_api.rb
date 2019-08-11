@@ -34,15 +34,12 @@ module API
       class ProblemsAPI < ::API::OpenProjectAPI
         resources :problems do
           get do
-            @problems = if params['status'].present? and params['project'].present?
-                          WorkPackageProblem.where(status: params['status'], project_id: params['project'])
-                        elsif params['status'].present?
-                          WorkPackageProblem.where(status: params['status'])
-                        elsif params['project'].present?
-                          WorkPackageProblem.where(project_id: params['project'])
-                        else
-                          WorkPackageProblem.all
-                        end
+            @problems = WorkPackageProblem
+              .joins(:work_package)
+              .all
+            @problems = @problems.where(status: params['status']) if params['status'].present?
+            @problems = @problems.where(project_id: params['project']) if params['project'].present?
+            @problems = @problems.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
             @offset = params['offset'] || "1"
             ProblemCollectionRepresenter.new(@problems,
                                              api_v3_paths.problems,

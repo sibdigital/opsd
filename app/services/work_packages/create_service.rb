@@ -57,6 +57,7 @@ class WorkPackages::CreateService
     result.success = if result.success
                        work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
                        work_package.save
+                       Alert.create_pop_up_alert(work_package, "Created", User.current, work_package.assigned_to)
                      else
                        false
                      end

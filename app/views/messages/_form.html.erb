@@ -65,22 +65,24 @@ See docs/COPYRIGHT.rdoc for more details.
           <tbody>
           <% @project.members.sort.each do |member| -%>
             <% user = member.user %>
+            <% unless User.current == user -%>
               <%= hidden_field_tag "message[participants_attributes][][user_id]", user.id %>
-            <tr class="form--matrix-row">
-              <td class="form--matrix-cell"><%=h user %></td>
+              <tr class="form--matrix-row">
+                <td class="form--matrix-cell"><%=h user %></td>
 
-              <% if @message.participants.present? && participant = @message.participants.detect{|p| p.user_id == user.id} -%>
-                <td class="form--matrix-checkbox-cell">
-                  <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
-                  <%= styled_check_box_tag "message[participants_attributes][][invited]", value = "1", checked = true, :id => "checkbox_invited_#{user.id}" %>
-                </td>
-              <% else -%>
-                <td class="form--matrix-checkbox-cell">
-                  <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:descrription_invite), :class => "hidden-for-sighted" %>
-                  <%= styled_check_box_tag "message[participants_attributes][][invited]", value = "1", checked = false, :id => "checkbox_invited_#{user.id}" %>
-                </td>
+                <% if @message.participants.present? && participant = @message.participants.detect{|p| p.user_id == user.id} -%>
+                  <td class="form--matrix-checkbox-cell">
+                    <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
+                    <%= styled_check_box_tag "message[participants_attributes][][invited]", value = "1", checked = true, :id => "checkbox_invited_#{user.id}" %>
+                  </td>
+                <% else -%>
+                  <td class="form--matrix-checkbox-cell">
+                    <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:descrription_invite), :class => "hidden-for-sighted" %>
+                    <%= styled_check_box_tag "message[participants_attributes][][invited]", value = "1", checked = false, :id => "checkbox_invited_#{user.id}" %>
+                  </td>
+                <% end -%>
+              </tr>
             <% end -%>
-            </tr>
           <% end -%>
           </tbody>
         </table>

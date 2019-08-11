@@ -75,7 +75,7 @@ class UserMailer < BaseMailer
     end
   end
 
-#iag, ban (
+#iag, ban
   def work_package_notify_assignee(user, term_date, workPackage, project_name)
     #@welcome_url = url_for(controller: '/homescreen')
 
@@ -85,7 +85,7 @@ class UserMailer < BaseMailer
     @workPackage = workPackage
     @project_name = project_name
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие по проекту '+project_name
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие '+@workPackage.subject+' по проекту '+project_name
     end
   end
 
@@ -97,6 +97,19 @@ class UserMailer < BaseMailer
   #
   #   mail to: "\"#{name}\" <#{mail}>", subject: 'Вы приглашены в дискуссию'
   # end
+
+#ban
+  def work_package_deadline_notify_assignee(user, term_date, workPackage, project_name)
+
+    headers['X-OpenProject-Type'] = 'Test'
+
+    @term_date = term_date
+    @workPackage = workPackage
+    @project_name = project_name
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Превышен срок по пакету работ '+@workPackage.subject+' в проекте '+project_name
+    end
+  end
 
 #ban
   def cost_object_added(user, cost_object, author)
@@ -125,6 +138,81 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'В проект '+@project.name.to_s+' добавлен участник '+@added_user.lastname.to_s+' '+@added_user.firstname.to_s
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def member_deleted(user, project, deleted_user, author)
+    @project = project
+    @deleted_user = deleted_user
+
+    open_project_headers 'Type'    => 'Members'
+    #open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
+
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Из проекта '+@project.name.to_s+' исключен участник '+@deleted_user.lastname.to_s+' '+@deleted_user.firstname.to_s
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def board_added(user, board, author, project)
+    @board = board
+    @project = project
+    @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'По проекту "'+@project.name+'" создана дискуссия: '+@board.name
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def board_changed(user, board, author, project)
+    @board = board
+    @project = project
+    @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'По проекту "'+@project.name+'" изменена дискуссия: '+@board.name
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def board_moved(user, board, author, project)
+    @board = board
+    @project = project
+    @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'По проекту "'+@project.name+'" перемещена дискуссия: '+@board.name
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def board_deleted(user, board, author, project)
+    @board = board
+    @project = project
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'По проекту "'+@project.name+'" удалена дискуссия: '+@board.name
       mail_for_author author, to: user.mail, subject: subject
     end
   end

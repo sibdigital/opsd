@@ -1,9 +1,9 @@
 class NationalProjectsController < ApplicationController
   helper :sort
   layout 'admin'
-
+  before_action :require_coordinator
   before_action :find_national_project, only: [:edit, :update, :destroy]
-  before_action :authorize_global, only: [:government_programs, :show, :index, :edit, :update, :destroy, :new]
+  # before_action :authorize_global, only: [:government_programs, :show, :index, :edit, :update, :destroy, :new]
   include SortHelper
   include PaginationHelper
   include ::IconsHelper
@@ -78,12 +78,12 @@ class NationalProjectsController < ApplicationController
 
   def create
     @national_project = NationalProject.new(permitted_params.national_project)
-    if params["national_project"]["parent_id"] == nil
+    if params["national_project"]["parent_id"] == ""
       @national_project.type="National"
     else
       @national_project.type="Federal"
     end
-    if params["national_project"]["type"] != nil
+    if params["national_project"]["type"] == "Government"
       @national_project.type=params["national_project"]["type"]
     end
     if @national_project.save

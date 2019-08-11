@@ -144,7 +144,7 @@ export class MunicipalityTabComponent implements OnInit {
         });
       });
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString())
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created", "organization": "1"})
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
         resources.elements.map( (el, i) => {
@@ -292,7 +292,7 @@ export class MunicipalityTabComponent implements OnInit {
           });
         });
       this.halResourceService
-        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString())
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created", "organization": this.selectedOption.$href})
         .toPromise()
         .then((resources:CollectionResource<HalResource>) => {
           resources.elements.map( (el, i) => {

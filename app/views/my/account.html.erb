@@ -52,7 +52,20 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= f.text_field :firstname, required: true, container_class: '-middle' %></div>
       <div class="form--field"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
       <div class="form--field"><%= f.text_field :mail, required: true, container_class: '-middle' %></div>
-
+      <div class="form--field">
+        <label class="form--label">
+          Роль:
+        </label>
+        <span class="form--field-container">
+          <span class="form--text-field-container -middle">
+            <select>
+              <% @roles_4_cur_member.each_key do |key|  %>
+                <option value="<%= key %>"><%=@roles_4_cur_member[key]%></option>
+              <% end %>
+            </select>
+          </span>
+        </span>
+      </div>
       <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
         <div class="form--field"><%= pref_fields.check_box :hide_mail %></div>
       <% end %>

@@ -73,7 +73,7 @@ See doc/COPYRIGHT.md for more details.
 
                       <strong>Статус</strong>:
                       <%if  meeting_protocol.completed -%>
-                        Выполнено ( <%= format_date meeting_protocol.updated_at %>)
+                        Выполнено ( <%= format_date meeting_protocol.completed_at %>)
                       <% else -%>
                         В работе
                       <% end -%>

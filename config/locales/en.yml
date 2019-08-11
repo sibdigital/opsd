@@ -780,6 +780,8 @@ en:
     head_performance_indicator_id: Показатель деятельности высшего должностного лица
     head_performance_indicator: Показатель деятельности высшего должностного лица
     month: Месяц
+    day_type: Тип дня недели
+    parent: Национальный проект
     leader: Руководитель
     leader_position: Должность руководителя
     curator: Куратор
@@ -799,8 +801,6 @@ en:
     address: Адрес
     cabinet: Кабинет
     target: Целевой показатель
-    raion: Район
-
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
     column_name: Название поля
@@ -901,6 +901,7 @@ en:
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
+
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
@@ -1238,6 +1239,9 @@ en:
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   enumeration_arbitary_objects_types: Тип произвольного объекта
+  enumeration_organization_type: Тип организации
+  enumeration_project_approve_status: Статус утверждения проекта
+  enumeration_project_status: Статус проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
     по крайней мере один пакет работ, назначенный для версии, определенной в этом
@@ -2275,6 +2279,11 @@ en:
   permission_manage_categories: Управление категориями пакета работ
   #zbd(
   permission_manage_contracts: Управление гос.контрактами
+  permission_edit_work_package_target_fact_values: Редактирование фактических значений выполнения показателя
+  permission_manage_work_package_target_plan_values: Управление плановыми значениями целевого показателя
+  permission_view_work_package_targets: Просмотр целевых показателей мероприятия
+  permission_manage_work_package_problems: Управление проблемами/рисками мероприятия
+  permission_view_work_package_problems: Просмотр проблем/рисков мероприятия
   #)
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
@@ -2293,6 +2302,18 @@ en:
   permission_select_project_modules: Выбор модулей проекта
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
+  #knm(
+  setting_days_text: Дни недели
+  button_refresh: Обновить
+  label_production_calendar: Производственный календарь
+  label_production_calendars: Производственные календари
+  label_work_calendar: Производственный календарь
+  permission_view_interactive_map: Просмотр карты
+  permission_view_national_and_federal_projects: Просмотр проектов и порграмм
+  permission_manage_national_and_federal_projects: Управление проектами и программами
+  permission_manage_hpi_values: Управление оценками ВДЛ
+  permission_view_hpi_values: Просмотр оценок ВДЛ
+  #)
   permission_view_changesets: Просмотр изменений репозитория
   permission_view_commit_author_statistics: Посмотреть статистику автора, внесшего
     свою часть работы
@@ -2335,6 +2356,9 @@ en:
   project_module_time_tracking: Учет времени
   project_module_timelines: Графики
   project_module_wiki: Управление знаниями
+  project_module_head_performance_indicator_values: Оценка высшего должностного лица
+  project_module_interactive_map: Карта регионов РБ
+  project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -2506,6 +2530,7 @@ en:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
+
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
     для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
     для GFM Markdown.
@@ -3265,3 +3290,12 @@ en:
     работы).
 
   choose: "Выбрать"
+  label_cost_object_added: Бюджет добавлен
+  label_member_added: Участник добавлен в проект
+  label_member_deleted: Участник исключен из проекта
+  label_board_added: Дискуссия добавлена
+  label_board_changed: Дискуссия изменена
+  label_board_moved: Дискуссия перемещена
+  label_board_deleted: Дискуссия удалена
+  label_deadline_of_work_package_is_approaching: Приближается срок по пакету работ
+  label_deadline_of_work_package: Превышен срок по пакету работ

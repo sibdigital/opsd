@@ -2,9 +2,8 @@
 class Queries::WorkPackages::Filter::OrganizationFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
 
   #self.model = Organization
-
   def type
-    :integer
+    :list_optional#:integer
   end
 
   def human_name
@@ -16,12 +15,19 @@ class Queries::WorkPackages::Filter::OrganizationFilter < ::Queries::WorkPackage
   end
 
   def allowed_values
-    values || []
+    org = User.current.organization
+    if org != nil
+      childs = org.childs().map { |r| [r.name, r.id.to_s] }
+    # else
+    #   childs = [['', 0]]
+    end
+    childs || []
   end
 
-  # def value_objects
-  #   values || []
-  # end
+  def value_objects
+    int_values = values.map(&:to_i)
+    int_values
+  end
 
   def ar_object_filter?
     true
@@ -31,12 +37,4 @@ class Queries::WorkPackages::Filter::OrganizationFilter < ::Queries::WorkPackage
     true
   end
 
-  def where
-    operator_strategy.sql_for_field(values, self.class.model.table_name, self.class.key)
-  end
-
-  ##
-  # def self.key
-  #   :organization_id
-  # end
 end

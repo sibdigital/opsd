@@ -140,6 +140,13 @@ class Meeting < ActiveRecord::Base
     (user || User.current).allowed_to?(:view_meetings, project)
   end
 
+
+  # iag(
+  def visible_meeting?(user = nil)
+    ((user || User.current) == author) || participants.detect {|p| p.user == (user || User.current)}
+  end
+  #)
+
   def all_changeable_participants
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)
