@@ -314,9 +314,9 @@ class User < Principal
     when :username                then login
     #bbm(
     when :lastname_f_p then begin
-      fshort = firstname ? firstname.slice(0) : ''
+      fshort = firstname ? firstname[0,1] : ''
       fshort += firstname ? '.' : ''
-      pshort = patronymic ? patronymic.slice(0) : ''
+      pshort = patronymic ? patronymic[0,1] : ''
       pshort += patronymic ? '.' : ''
       "#{lastname} #{fshort}#{pshort}"
     end

@@ -217,6 +217,45 @@ class UserMailer < BaseMailer
     end
   end
 
+#ban
+  def project_created(user, project, author)
+    @project = project
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создан проект "'+@project.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def project_changed(user, project, author)
+    @project = project
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Изменен проект "'+@project.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def project_deleted(user, project, author)
+    @project = project
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удален проект "'+@project.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
   def work_package_notify_assignee1(user, work_package , author = User.current)
     User.execute_as user do
       # instance variables are used in the view

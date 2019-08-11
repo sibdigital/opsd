@@ -746,22 +746,22 @@ class Project < ActiveRecord::Base
   end
 
   # The earliest start date of a project, based on it's issues and versions
-  def start_date
-    [
-      work_packages.minimum('start_date'),
-      shared_versions.map(&:effective_date),
-      shared_versions.map(&:start_date)
-    ].flatten.compact.min
-  end
-
-  # The latest finish date of an issue or version
-  def due_date
-    [
-      work_packages.maximum('due_date'),
-      shared_versions.map(&:effective_date),
-      shared_versions.map { |v| v.fixed_issues.maximum('due_date') }
-    ].flatten.compact.max
-  end
+  # def start_date
+  #   [
+  #     work_packages.minimum('start_date'),
+  #     shared_versions.map(&:effective_date),
+  #     shared_versions.map(&:start_date)
+  #   ].flatten.compact.min
+  # end
+  #
+  # # The latest finish date of an issue or version
+  # def due_date
+  #   [
+  #     work_packages.maximum('due_date'),
+  #     shared_versions.map(&:effective_date),
+  #     shared_versions.map { |v| v.fixed_issues.maximum('due_date') }
+  #   ].flatten.compact.max
+  # end
 
   def overdue?
     active? && !due_date.nil? && (due_date < Date.today)
