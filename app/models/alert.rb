@@ -53,7 +53,11 @@ class Alert < ActiveRecord::Base
 
   def self.create_pop_up_alert(entity, aboutwhat,createdby,touser)
     text = ""
-    fio = createdby.name(:lastname_f_p)
+    if createdby != nil
+      fio = createdby.name(:lastname_f_p)
+    else
+      fio = 'Система'
+    end
     class_name = entity.class.to_s
     #Истекающий срок
     if aboutwhat == "Due" && class_name =="WorkPackage"
@@ -144,7 +148,7 @@ class Alert < ActiveRecord::Base
                  entity_type: class_name,
                  alert_type: "PopUp",
                  about: text,
-                 created_by: createdby.id,
+                 created_by: createdby != nil ? createdby.id : 0,
                  to_user: touser.id
   end
 
