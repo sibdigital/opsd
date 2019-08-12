@@ -42,8 +42,10 @@ en:
           description: Превышены сроки исполнения работ
           possibility: :default_possibility_high
           color_id: lime-0
+          is_approve: true
         - name: Увеличен объем работ
           importance: :default_possibility_low
+          is_approve: true
         - name: Превышены сроки исполнения работ
         - name: Не выпущен необходимый нормативно-правовой акт
         - name: Не пройдены надзорные мероприятия
@@ -325,6 +327,7 @@ en:
                       organization: Министерство культуры
                       assigned: tvs
                       raion: 2
+                      require_doc_type_id: Отчет
                     - subject: Оснащена пианино школа в Муйском районе
                       status: :default_status_completed
                       type: :default_type_result
@@ -334,6 +337,7 @@ en:
                       organization: Министерство культуры
                       assigned: tvs
                       raion: 13
+                      require_doc_type_id: Отчет
                     - subject: Оснащена пианино школа в Кижингинском районе
                       status: :default_status_not_start
                       type: :default_type_result
@@ -617,6 +621,7 @@ en:
                   organization: Министерство строительства
                   assigned: ggo
                   raion: 10
+                  require_doc_type_id: Отчет
             - subject: Дополнительное финансирование
               status: :default_status_completed
               type: :default_type_task
@@ -627,6 +632,7 @@ en:
               organization: Министерство строительства
               assigned: ggo
               raion: 14
+              require_doc_type_id: Отчет
             - subject: Объявление торгов и покупка жилых помещений для расселения муниципального жилого фонда
               status: :default_status_not_start
               type: :default_type_task
@@ -710,6 +716,8 @@ en:
           plan_value: 38
           project: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
           parent_id: 0
+          measure_unit_id: Единица
+          is_approve: true
         - name: Количество организаций культуры Республики Бурятия, получивших современное оборудование (ед.)
           type_id: Показатель
           unit: ед.
@@ -717,6 +725,8 @@ en:
           plan_value: 53
           project: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
           parent_id: 0
+          measure_unit_id: Единица
+          is_approve: true
         - name: Переселение жителей квартир микрорайона «УМТС – Икибзяк».
           type_id: Показатель
           unit: ед.
@@ -724,6 +734,8 @@ en:
           plan_value: 18
           project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
           parent_id: 0
+          measure_unit_id: Единица
+          is_approve: true
         - name: Переселение жителей квартиры  микрорайона «Механизированная колонна – 136».
           type_id: Показатель
           unit: ед.
@@ -731,6 +743,8 @@ en:
           plan_value: 21
           project: Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района.
           parent_id: 0
+          measure_unit_id: Единица
+          is_approve: true
 
       target_execution_values:
         - target: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)

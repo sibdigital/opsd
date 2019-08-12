@@ -27,7 +27,8 @@ module DemoData
         description:  attributes[:description],
         possibility:  find_possibility(attributes),
         importance:   find_importance(attributes),
-        color:     color_by_name(attributes[:color_id])
+        color:     color_by_name(attributes[:color_id]),
+        is_approve:   attributes[:is_approve]
       }
     end
 
