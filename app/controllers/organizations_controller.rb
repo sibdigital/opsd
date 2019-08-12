@@ -20,7 +20,7 @@ class OrganizationsController < ApplicationController
     else  @parent_id = 0
     end
     if @parent_id != 0
-      @organizarion_parent = Organization.find(@parent_id)
+      @organization_parent = Organization.find(@parent_id)
     end
   end
 
@@ -69,7 +69,15 @@ class OrganizationsController < ApplicationController
 
     if @organization.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to org_settings_path
+      if @organization.org_type == Enumeration.find_by(name: "Орган исполнительной власти").id
+        redirect_to org_settings_iogv_path
+      elsif @organization.org_type == Enumeration.find_by(name: "Муниципальное образование").id
+        redirect_to org_settings_municipalities_path
+      elsif @organization.org_type == Enumeration.find_by(name: "Контрагент").id
+        redirect_to org_settings_counterparties_path
+      else
+        redirect_to org_settings_positions_path
+      end
     else
       render action: 'new'
     end
@@ -78,7 +86,15 @@ class OrganizationsController < ApplicationController
   def update
     if @organization.update_attributes(permitted_params.organization)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to org_settings_path
+      if @organization.org_type == Enumeration.find_by(name: "Орган исполнительной власти").id
+        redirect_to org_settings_iogv_path
+      elsif @organization.org_type == Enumeration.find_by(name: "Муниципальное образование").id
+        redirect_to org_settings_municipalities_path
+      elsif @organization.org_type == Enumeration.find_by(name: "Контрагент").id
+        redirect_to org_settings_counterparties_path
+      else
+        redirect_to org_settings_positions_path
+      end
     else
       render action: 'edit'
     end

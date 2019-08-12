@@ -453,7 +453,8 @@ class PermittedParams
   # +tan 2019.04.26
   def position
     permitted_params = params.require(:position).permit(:name, :is_approve)
-    permitted_params = permitted_params.merge(custom_field_values(:permitted_params))
+    permitted_params = permitted_params.merge(custom_field_values(:position))
+    permitted_params
   end
 
 
@@ -488,7 +489,7 @@ class PermittedParams
   # )
   #xcc(
   def target
-    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id)
+    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id)
   end
 
   def target_execution_value

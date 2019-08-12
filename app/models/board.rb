@@ -42,7 +42,7 @@ class Board < ActiveRecord::Base
   acts_as_customizable
 
   validates_presence_of :name, :description
-  validates_length_of :name, maximum: 30
+  validates_length_of :name, maximum: 255
   validates_length_of :description, maximum: 255
 
   def visible?(user = User.current)
