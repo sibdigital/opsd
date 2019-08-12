@@ -15,16 +15,6 @@ This file written by XCC
 
 <%= error_messages_for :target %>
 <%= error_messages_for :target_execution_value %>
-<% if !@target_execution_value.nil?&&@target_execution_value.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@target_execution_value.errors.count, "error") %> prohibited from being saved:</h2>
-    <ul>
-      <% @target_execution_value.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
 
 <div style="position: relative; display: block;">
 

@@ -87,6 +87,16 @@ class WorkPackage < ActiveRecord::Base
       record.errors.add(attr, "Такая запись уже присутствует в проекте")
     end
   end
+
+  validates_each :status_id do |record, attr, value|
+    # если статус Завершен
+    if value == Status.where("name = 'Завершен'").first.id
+      # то проверяем прикрепленные файлы c соответствующим типом
+      if Attachment.where("container_type = 'WorkPackage' and container_id = ? and attach_type_id = ?", record.id, record.required_doc_type_id).count == 0
+        record.errors.add(attr, " Cтатус 'завершен' может устанавливаться только при условии если в файлы, прикрепленные к задаче добавлен не менее, чем один документ с типом, совпадающим с реквизитом 'Необходимый контрольный документ'")
+      end
+    end
+  end
   # )
 
   #bbm(
