@@ -11,7 +11,6 @@ class OrgSettingsController < ApplicationController
     @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
     @municipalities = Enumeration.find_by(name: "Муниципальное образование")
     @counterparties = Enumeration.find_by(name: "Контрагент")
-    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
     @parent_id = parent_id_param
 
     if @parent_id.to_i != 0
@@ -24,6 +23,7 @@ class OrgSettingsController < ApplicationController
 
   def iogv
     @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
+    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
     @parent_id = parent_id_param
 
     if @parent_id.to_i != 0
@@ -33,6 +33,8 @@ class OrgSettingsController < ApplicationController
 
   def municipalities
     @municipalities = Enumeration.find_by(name: "Муниципальное образование")
+    @org_type = Enumeration.find_by(name: "Муниципальное образование").id
+    @org_type.to_param
     @parent_id = parent_id_param
 
     if @parent_id.to_i != 0
@@ -42,6 +44,7 @@ class OrgSettingsController < ApplicationController
 
   def counterparties
     @counterparties = Enumeration.find_by(name: "Контрагент")
+    @org_type = Enumeration.find_by(name: "Контрагент").id
     @parent_id = parent_id_param
 
     if @parent_id.to_i != 0

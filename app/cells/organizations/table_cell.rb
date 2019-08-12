@@ -22,11 +22,11 @@ module Organizations
     end
 
     def inline_create_link
-
+      if params[:action] == 'iogv'
       @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
-      if params[:tab] == 'counterparties'
+      elsif params[:action] == 'counterparties'
         @org_type = Enumeration.find_by(name: "Контрагент").id
-      elsif params[:tab] == 'municipalities'
+      elsif params[:action] == 'municipalities'
         @org_type = Enumeration.find_by(name: "Муниципальное образование").id
       end
 
