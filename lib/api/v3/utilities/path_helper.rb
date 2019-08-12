@@ -324,6 +324,10 @@ module API
           def self.national_project(id)
             "#{national_projects}/#{id}"
           end
+
+          def self.view(name)
+            "#{root}/views/#{name}"
+          end
           #)
           def self.priorities
             "#{root}/priorities"

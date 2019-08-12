@@ -69,7 +69,11 @@ export class ApiV3Paths {
 
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
 
-  public readonly work_package_stat_by_proj_view = new SimpleResource(this.apiV3Base, 'work_package_stat_by_proj_view');
+  public readonly risk_problem_stat_view = new SimpleResourceCollection(this.apiV3Base, 'views/risk_problem_stat_view');
+
+  public readonly work_package_ispoln_stat_view = new SimpleResourceCollection(this.apiV3Base, 'views/work_package_ispoln_stat_view');
+
+  public readonly work_package_stat_by_proj_view = new SimpleResource(this.apiV3Base, 'views/work_package_stat_by_proj_view');
 
   public readonly head_performances = new SimpleResourceCollection(this.apiV3Base, 'head_performances');
 

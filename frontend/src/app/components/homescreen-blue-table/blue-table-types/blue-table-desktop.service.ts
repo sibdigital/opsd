@@ -160,7 +160,7 @@ export class BlueTableDesktopService extends BlueTableService {
     if (!input) {
       return '';
     }
-    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
+    return input.slice(3, 5) + '.' + input.slice(0, 2) + '.' + input.slice(6, 10);
   }
 
   public pagesToText(i:number):string {

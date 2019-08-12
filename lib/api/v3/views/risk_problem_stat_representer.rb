@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -33,58 +32,46 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module Problems
-      class ProblemRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
+    module Views
+      class RiskProblemStatRepresenter < ::API::Decorators::Single
         #include ::API::Caching::CachedRepresenter
 
-        self_link title_getter: ->(*) {
-          represented.work_package.subject
-        }
+        self_link path: :problem,
+                  title_getter: ->(*) { represented.id }
 
         property :id
+        property :work_package_id
+        property :importance_id, render_nil: true
+        property :importance, render_nil: true
+        property :type, render_nil: true
 
-        associated_resource :project,
-                            link: ->(*) do
-                              {
-                                href: api_v3_paths.project(represented.project.id),
-                                title: represented.project.name
-                              }
-                            end
-
-        associated_resource :work_package,
-                            link: ->(*) do
-                              {
-                                href: api_v3_paths.work_package(represented.work_package.id),
-                                title: represented.work_package.subject
-                              }
-                            end
-
-        associated_resource :user_creator,
-                            representer: ::API::V3::Users::UserRepresenter,
-                            link: ->(*) do
-                              {
-                                href: api_v3_paths.user(represented.user_creator.id),
-                                title: represented.user_creator.name(:lastname_f_p)
-                              }
-                            end
-        
-        property :risk,
+        property :project,
                  exec_context: :decorator,
-                 getter: ->(*) { represented.risk ? represented.risk.name : represented.description },
-                 render_nil: true
-
-        property :status,
-                 exec_context: :decorator,
-                 getter: ->(*) { represented.status },
+                 getter: ->(*) { represented.work_package_problem.project },
                  render_nil: true
 
         property :solution_date,
                  exec_context: :decorator,
-                 getter: ->(*) { represented.solution_date },
+                 getter: ->(*) { represented.work_package_problem.solution_date },
                  render_nil: true
+
+        property :risk_or_problem,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.work_package_problem.risk ? represented.work_package_problem.risk.name : represented.work_package_problem.description },
+                 render_nil: true
+
+        property :user_creator,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.work_package_problem.user_creator },
+                 render_nil: true
+
+        property :user_source,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.work_package_problem.user_source },
+                 render_nil: true
+
         def _type
-          'Problem'
+          'RiskProblemStat'
         end
       end
     end

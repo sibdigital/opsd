@@ -159,41 +159,44 @@ export class BlueTableMunicipalityService extends BlueTableService {
   }
 
   public format(input:string):string {
-    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
+    if (!input) {
+      return '';
+    }
+    return input.slice(3, 5) + '.' + input.slice(0, 2) + '.' + input.slice(6, 10);
   }
 
   public pagesToText(i:number):string {
     return this.national_project_titles[i].name;
   }
 
-public getDataWithFilter(param:string):any[] {
-  this.filter = param;
-  this.data = [];
-  this.data_local = [];
-  this.halResourceService
-    .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
-    .toPromise()
-    .then((resources:CollectionResource<HalResource>) => {
-      this.halResourceService
-        .get<HalResource>(this.pathHelper.api.v3.work_package_stat_by_proj_view.toString(), {"organization": this.filter})
-        .toPromise()
-        .then((resource:HalResource) => {
-          resource.source.map((el:HalResource) => {
-            this.data_local[el.national_id] = this.data_local[el.national_id] || [];
-            this.data_local[el.national_id].push(el);
-          });
-          resources.elements.map((el:HalResource) => {
-            if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
-              this.data.push(el);
-              if (this.data_local[el.id]) {
-                this.data_local[el.id].map( (project:ProjectResource) => {
-                  this.data.push(project);
-                });
+  public getDataWithFilter(param:string):any[] {
+    this.filter = param;
+    this.data = [];
+    this.data_local = [];
+    this.halResourceService
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
+      .toPromise()
+      .then((resources:CollectionResource<HalResource>) => {
+        this.halResourceService
+          .get<HalResource>(this.pathHelper.api.v3.work_package_stat_by_proj_view.toString(), {"organization": this.filter})
+          .toPromise()
+          .then((resource:HalResource) => {
+            resource.source.map((el:HalResource) => {
+              this.data_local[el.national_id] = this.data_local[el.national_id] || [];
+              this.data_local[el.national_id].push(el);
+            });
+            resources.elements.map((el:HalResource) => {
+              if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
+                this.data.push(el);
+                if (this.data_local[el.id]) {
+                  this.data_local[el.id].map( (project:ProjectResource) => {
+                    this.data.push(project);
+                  });
+                }
               }
-            }
+            });
           });
-        });
-    });
-  return this.data;
-  }
+      });
+    return this.data;
+    }
 }

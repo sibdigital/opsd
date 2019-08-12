@@ -12,7 +12,8 @@ export abstract class BlueTableService {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
     this.initialize();
   }
-  public initialize():void {
+  // tslint:disable-next-line:no-empty
+  public initialize() {
   }
 
   public getData():any[] {
