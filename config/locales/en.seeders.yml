@@ -1189,6 +1189,9 @@ en:
         - name: Региональный бюджет
           unit: Результат
           unit_plural: Результаты
+        - name: Внебюджетные средства
+          unit: Результат
+          unit_plural: Результаты
       rates:
         - rate: 1
           type: CostRate
