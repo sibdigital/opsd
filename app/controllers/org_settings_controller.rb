@@ -53,12 +53,12 @@ class OrgSettingsController < ApplicationController
   end
 
   def positions
-    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
-    @parent_id = parent_id_param
-
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
+    # @parent_id = parent_id_param
+    #
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def edit

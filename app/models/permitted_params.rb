@@ -453,7 +453,8 @@ class PermittedParams
   # +tan 2019.04.26
   def position
     permitted_params = params.require(:position).permit(:name, :is_approve)
-    permitted_params = permitted_params.merge(custom_field_values(:permitted_params))
+    permitted_params = permitted_params.merge(custom_field_values(:position))
+    permitted_params
   end
 
 
