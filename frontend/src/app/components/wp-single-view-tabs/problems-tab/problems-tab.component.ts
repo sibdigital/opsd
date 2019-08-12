@@ -238,7 +238,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       work_package_id: Number(this.workPackageId), risk_id: problem.risk_id, name: problem.name,
       problem_type: problem.problem_type, status: problem.status,
       user_source_id: problem.user_source_id, organization_source_id: problem.organization_source_id,
-      description: problem.description, solution_date: problem.solution_date});
+      description: problem.description, solution_date: problem.solution_date,
+      user_creator_id: problem.user_creator_id});
   }
 
   public cancelEdit(){
