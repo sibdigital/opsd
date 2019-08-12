@@ -83,6 +83,7 @@ module DemoData
 
       work_package.update description: description
 
+      work_package.save!(:validate => false)
       work_package
     end
 
@@ -92,7 +93,7 @@ module DemoData
         child = create_work_package child_attributes
 
         child.parent = work_package
-        child.save!
+        child.save!(:validate=>false)
       end
     end
 
@@ -114,8 +115,11 @@ module DemoData
         assigned_to_id:  user_by_login(attributes[:assigned]),
         # -tan
         # +knm
-        raion_id: attributes[:raion]
+        raion_id: attributes[:raion],
         # -knm
+        # zbd(
+        required_doc_type_id: find_attach_type_id(attributes[:required_doc_type_id])
+        # )
       }
     end
 
@@ -150,6 +154,13 @@ module DemoData
       Raion.find_by!(name: translate_with_base_url(attributes[:raion]))
     end
 
+    def find_attach_type_id(name)
+      at = AttachType.find_by(name: name)
+      if at.present?
+        at.id
+      end
+    end
+
     def set_version!(wp_attr, attributes)
       if attributes[:version]
         wp_attr[:fixed_version] = Version.find_by!(name: attributes[:version])
@@ -180,6 +191,9 @@ module DemoData
         #bbm(
         attachment.filename = file_name
         attachment.version = 1
+        # )
+        #zbd(
+        attachment.attach_type_id = find_attach_type_id('Отчет')
         # )
 
         attachment.save!

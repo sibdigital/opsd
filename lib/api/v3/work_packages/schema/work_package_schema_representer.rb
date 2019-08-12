@@ -178,6 +178,9 @@ module API
                  type: 'User',
                  writable: false
 
+          schema :required_doc_type,
+                 type: 'AttachType'
+
           schema_with_allowed_link :project,
                                    type: 'Project',
                                    required: true,
@@ -257,15 +260,15 @@ module API
                                          },
                                          required: false
 
-          # schema_with_allowed_collection :target,
-          #                                value_representer: Targets::TargetRepresenter,
-          #                                link_factory: ->(target) {
-          #                                  {
-          #                                    href: api_v3_paths.target(target.id),
-          #                                    title: target.name
-          #                                  }
-          #                                },
-          #                                required: false
+          schema_with_allowed_collection :required_doc_type,
+                                         value_representer: AttachTypes::AttachTypeRepresenter,
+                                         link_factory: ->(required_doc_type) {
+                                           {
+                                             href: api_v3_paths.attach_type(required_doc_type.id),
+                                             title: required_doc_type.name
+                                           }
+                                         },
+                                         required: false
           #)
 
           schema_with_allowed_collection :version,
