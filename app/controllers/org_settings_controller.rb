@@ -32,34 +32,49 @@ class OrgSettingsController < ApplicationController
   end
 
   def iogv
-    @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
     @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
-    @parent_id = parent_id_param
+    @iogv = Organization.where(org_type: @org_type).order(sort_clause).page(page_param).per_page(per_page_param)
+    # @parent_id = parent_id_param
 
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def municipalities
-    @municipalities = Enumeration.find_by(name: "Муниципальное образование")
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
     @org_type = Enumeration.find_by(name: "Муниципальное образование").id
-    @org_type.to_param
-    @parent_id = parent_id_param
+    @municipalities = Organization.where(org_type: @org_type).order(sort_clause).page(page_param).per_page(per_page_param)
+    # @org_type.to_param
+    # @parent_id = parent_id_param
 
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def counterparties
-    @counterparties = Enumeration.find_by(name: "Контрагент")
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
     @org_type = Enumeration.find_by(name: "Контрагент").id
-    @parent_id = parent_id_param
+    @counterparties = Organization.where(org_type: @org_type).order(sort_clause).page(page_param).per_page(per_page_param)
+    # @parent_id = parent_id_param
 
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def positions
