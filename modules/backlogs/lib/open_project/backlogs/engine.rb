@@ -105,6 +105,8 @@ module OpenProject::Backlogs
            caption: :project_module_backlogs,
            before: :calendar,
            param: :project_id,
+           #+-tan
+           parent: :control,
            icon: 'icon2 icon-backlogs'
     end
 

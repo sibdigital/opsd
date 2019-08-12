@@ -50,14 +50,19 @@ module BasicData
     end
 
     def roles
+      #+-tan
+      # удалена роль участника проекта и администратора проектного офиса
+      # т.к. участник - это ответственный за блок мероприятий
+      # администратор проектного офиса - это координатор от проектного офиса
      [#project_admin,
-      member, reader,
+      #member,
+      reader,
       #zbd( +tan 2019.07.05
       #project_curator, project_customer, project_office_manager, project_activity_coordinator,
       #project_office_coordinator, project_office_admin, project_head, events_responsible
       project_admin, project_curator, project_customer,
       project_office_manager, project_activity_coordinator, project_office_coordinator,
-      events_responsible, project_head, project_office_admin
+      events_responsible, project_head#, project_office_admin
       #)
       ]
     end
@@ -383,22 +388,22 @@ module BasicData
 
     def non_member
       { name: I18n.t(:default_role_non_member), permissions: [
-        :view_work_packages,
-        :view_calendar,
-        :comment_news,
-        :browse_repository,
-        :view_changesets,
-        :view_wiki_pages
+        #:view_work_packages,
+        #:view_calendar,
+        #:comment_news,
+        #:browse_repository,
+        #:view_changesets,
+        #:view_wiki_pages
       ]
       }
     end
 
     def anonymous
       { name: I18n.t(:default_role_anonymous), permissions: [
-        :view_work_packages,
-        :browse_repository,
-        :view_changesets,
-        :view_wiki_pages
+        #:view_work_packages,
+        #:browse_repository,
+        #:view_changesets,
+        #:view_wiki_pages
       ]
       }
     end
