@@ -181,6 +181,7 @@ OpenProject::Application.routes.draw do
       get 'stages', controller: 'stages', action: 'show' #, as: :stages
       #get 'self_redirect', controller: 'stages', action: 'self_redirect'
 
+
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
@@ -305,6 +306,12 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
     end
 
+    resources :agreements do
+    end
+
+    resources :report_progress_project do
+    end
+
     #)
     resources :activity, :activities, only: :index, controller: 'activities'
 
@@ -399,7 +406,9 @@ OpenProject::Application.routes.draw do
     get :new_government, on: :collection
   end
 
-
+  resources :production_calendars do
+    get :refresh, on: :collection
+  end
   #)
 
   scope 'admin' do
@@ -635,8 +644,10 @@ OpenProject::Application.routes.draw do
   end
 
   scope '/projects/:project_id/arbitary_objects/:arbitary_object_id' do
-
   end
+
+  #scope '/projects/:project_id/agreements/:agreement_id/edit' do
+  #end
 
   # )
 

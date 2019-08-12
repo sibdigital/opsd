@@ -1,0 +1,389 @@
+<% html_title l(:label_production_calendars) %>
+<%= toolbar title: l(:label_production_calendar) do %>
+
+<%end %>
+<style>
+  /*th{*/
+  /*  background-color: gray;*/
+  /*  height: 2em;*/
+  /*}*/
+  /*  table{*/
+  /*    border: 1px solid black;*/
+  /*    align: center;*/
+  /*  }*/
+  .weekdays{
+    background-color: lightgrey;
+  }
+  .holiday{
+    color: #ff6666;
+  }
+  .inactive{
+    color: lightgrey;
+  }
+</style>
+<div class="year" style="display: none;">
+  <table style="border: none" >
+    <tbody>
+    <tr>
+      <td><h1>I КВАРТАЛ</h1></td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Январь</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          <% %>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Февраль</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Март</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr><td><h2>Количество дней:</h2></td></tr>
+    <tr><td><h2>Рабочие часы:</h2></td></tr>
+    <tr>
+      <td><h1>II КВАРТАЛ</h1></td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Апрель</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Май</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Июнь</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr><td><h2>Количество дней:</h2></td></tr>
+    <tr><td><h2>Рабочие часы:</h2></td></tr>
+    <tr>
+      <td><h1>III КВАРТАЛ</h1></td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Июль</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Август</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Сентябрь</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr><td><h2>Количество дней:</h2></td></tr>
+    <tr><td><h2>Рабочие часы:</h2></td></tr>
+    <tr>
+      <td><h1>IV КВАРТАЛ</h1></td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Октябрь</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Ноябрь</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table>
+          <thead>
+          <tr>
+            <th colspan="7"><% %>Декабрь</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="weekdays">
+            <td>пн</td>
+            <td>вт</td>
+            <td>ср</td>
+            <td>чт</td>
+            <td>пт</td>
+            <td class="holiday">сб</td>
+            <td class="holiday">вс</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr><td><h2>Количество дней:</h2></td></tr>
+    <tr><td><h2>Рабочие часы:</h2></td></tr>
+    </tbody>
+  </table>
+</div>
+<%#--
+This file written by BBM
+26/04/2019
+++#%>
+<!--<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-header">
+    <img src="bullet_go.png" class="rounded mr-2" alt="">
+    <strong class="mr-auto">Notification</strong>
+    <small>now</small>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+    Hi, now you can go away.
+  </div>
+</div>-->
+<%= form_tag({}) do -%>
+  <div>
+    <%="Количество рабочих часов в году:"%>
+    <%=8*(247+ProductionCalendar.where(day_type: '0').count-ProductionCalendar.where(day_type: '1').count)%>
+    <br>
+    <br>
+    <%="Рабочие дни:" %>
+    <!--    <div id="hidden_checkbox" style="display: none;">-->
+    <%#= work_days_check_box_tag(:checking, true)%>
+    <%#= label_tag(:checking, "Проверка") %>
+    <!--    </div>-->
+    <div id="work_days">
+      <%= work_days_check_box_tag(:day1, (Setting.find_by(name: 'work_days').value.to_s.include? '1'))%>
+      <%= label_tag(:day1, "Понедельник") %>
+      <%= work_days_check_box_tag(:day2, (Setting.find_by(name: 'work_days').value.to_s.include? '2')) %>
+      <%= label_tag(:day2, "Вторник") %>
+      <%= work_days_check_box_tag(:day3, (Setting.find_by(name: 'work_days').value.to_s.include? '3')) %>
+      <%= label_tag(:day3, "Среда") %>
+      <%= work_days_check_box_tag(:day4, (Setting.find_by(name: 'work_days').value.to_s.include? '4'))%>
+      <%= label_tag(:day4, "Четверг") %>
+      <%= work_days_check_box_tag(:day5, (Setting.find_by(name: 'work_days').value.to_s.include? '5')) %>
+      <%= label_tag(:day5, "Пятница") %>
+      <%= work_days_check_box_tag(:day6, (Setting.find_by(name: 'work_days').value.to_s.include? '6')) %>
+      <%= label_tag(:day6, "Суббота") %>
+      <%= work_days_check_box_tag(:day7, (Setting.find_by(name: 'work_days').value.to_s.include? '7')) %>
+      <%= label_tag(:day7, "Воскресенье") %>
+
+    </div>
+    <br>
+    <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
+  </div>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="production_calendar_items">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("date", :caption => ProductionCalendar.human_attribute_name(:date)) %>
+          <%= sort_header_tag("day_type", :caption => ProductionCalendar.human_attribute_name(:day_type)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @production_calendars.each do |production_calendar| %>
+          <tr id="production-calendar-<%= production_calendar.id %>">
+            <%= content_tag(:td, link_to(h(production_calendar.id), edit_production_calendar_path(production_calendar.id))) %>
+            <%= content_tag(:td, link_to(h(production_calendar.date),edit_production_calendar_path(production_calendar.id))) %>
+            <%= content_tag(:td, production_calendar.day_type? ? "Выходной" : "Рабочий") %>
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-delete'),
+                production_calendar_path(production_calendar),
+                method: :delete,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                title: t(:button_delete))) %>
+
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="wp-inline-create-button">
+    <%= link_to new_production_calendar_path(),
+                aria: {label: t(:label_production_calendar)},
+                class: 'wp-inline-create--add-link',
+                title: t(:label_production_calendar) do
+      op_icon('icon icon-add')
+    end %>
+  </div>
+<% end %>

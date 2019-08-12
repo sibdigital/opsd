@@ -59,7 +59,16 @@ class MembersController < ApplicationController
 
     if members.present? && members.all?(&:valid?)
       flash[:notice] = members_added_notice members
-      Alert.create_new_pop_up_alert(members.first.id, "Members", "Created", User.current.id, members.first.user_id)
+      Alert.create_pop_up_alert(members.first, "Created", User.current, members.first.user)
+      #ban(
+      members.each do |added_member|
+        if Setting.notified_events.include?('member_added')
+          @project.recipients.uniq.each do |user|
+            UserMailer.member_added(user, @project, User.find_by(id: added_member.user_id), User.current).deliver_now
+          end
+        end
+      end
+      #)
       redirect_to project_members_path(project_id: @project, status: 'all')
     else
       if members.present? && params[:member]
@@ -95,11 +104,25 @@ class MembersController < ApplicationController
     if @member.deletable?
       if @member.disposable?
         flash.notice = I18n.t(:notice_member_deleted, user: @member.principal.name)
-        Alert.create_new_pop_up_alert(@member.id, "Members", "Deleted", User.current.id, @member.user_id)
+        Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
+        #ban(
+        if Setting.notified_events.include?('member_deleted')
+          @project.recipients.uniq.each do |user|
+            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_now
+          end
+        end
+        #)
         @member.user.destroy
       else
         flash.notice = I18n.t(:notice_member_removed, user: @member.principal.name)
-        Alert.create_new_pop_up_alert(@member.id, "Members", "Deleted", User.current.id, @member.user_id)
+        Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
+        #ban(
+        if Setting.notified_events.include?('member_deleted')
+          @project.recipients.uniq.each do |user|
+            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_now
+          end
+        end
+        #)
         @member.destroy
       end
     end
@@ -228,7 +251,6 @@ class MembersController < ApplicationController
   def new_member(user_id)
     Member.new(permitted_params.member).tap do |member|
       member.user_id = user_id if user_id
-      send_member_added_mail(User.find_by(id: user_id)) #ban
     end
   end
 
@@ -299,15 +321,6 @@ class MembersController < ApplicationController
       l(:notice_member_added, name: members.first.name)
     else
       l(:notice_members_added, number: members.size)
-    end
-  end
-
-  #ban
-  def send_member_added_mail(added_user)
-    if Setting.notified_events.include?('member_added')
-      @project.recipients.uniq.each do |user|
-        UserMailer.member_added(user, @project, added_user, User.current).deliver_now
-      end
     end
   end
 end

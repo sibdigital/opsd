@@ -198,6 +198,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             {controller: '/head_performance_indicator_values'},
             icon: 'icon2 icon-enumerations',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  menu.push :production_calendars,
+            {controller: '/production_calendars'},
+            icon: 'icon2 icon-calendar',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+
   # )
   #bbm(
   menu.push :typed_risks,
@@ -525,9 +530,15 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :reports,
             {},
             param: :project_id,
-            caption: :ladel_reports,
-            #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-report'
+            caption: :label_reports,
+            icon: 'icon2 icon-info1'
+
+  menu.push :report_progress_project,
+            {controller: '/report_progress_project', action: 'index' },
+            param: :project_id,
+            caption: :label_report_progress_project,
+            icon: 'icon2 icon-info1',
+            parent: :reports
 
   menu.push :additional,
             {},
@@ -545,6 +556,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('arbitary_objects') },
             icon: 'icon2 icon-info1',
             parent: :additional
+
+  menu.push :agreements,
+            { controller: '/agreements', action: 'index' },
+            param: :project_id,
+            caption: :label_agreements,
+            if: Proc.new { |p| p.module_enabled?('agreements') },
+            icon: 'icon2 icon-info1'
+
 
   # )
 

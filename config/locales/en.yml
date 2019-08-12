@@ -780,6 +780,7 @@ en:
     head_performance_indicator_id: Показатель деятельности высшего должностного лица
     head_performance_indicator: Показатель деятельности высшего должностного лица
     month: Месяц
+    day_type: Тип дня недели
     parent: Национальный проект
     leader: Руководитель
     leader_position: Должность руководителя
@@ -864,6 +865,16 @@ en:
     target_type: Тип
     target_parent: Родитель
     label_targets: Целевые показатели
+    date_agreement: Дата
+    number_agreement: Номер
+    count_days: Количество рабочих дней (направление разъяснений по Соглашению)
+    state_program: Государственная программа
+    other_liabilities_2141: Иные обязательства п.п. 2.1.4.1
+    other_liabilities_2142: Иные обязательства п.п. 2.1.4.2
+    other_liabilities_2281: Иные обязательства п.п. 2.2.8.1
+    other_liabilities_2282: Иные обязательства п.п. 2.2.8.2
+    national_project: Национальный проект
+    federal_project: Федеральный проект
   #)
   button_add: Добавить
   value_for_hpi: Значение показателя
@@ -890,6 +901,7 @@ en:
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
+
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
@@ -1227,6 +1239,9 @@ en:
   enumeration_system_activity: Активность системы
   enumeration_reported_project_statuses: Перечень отчетов о статусах проекта
   enumeration_arbitary_objects_types: Тип произвольного объекта
+  enumeration_organization_type: Тип организации
+  enumeration_project_approve_status: Статус утверждения проекта
+  enumeration_project_status: Статус проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
     по крайней мере один пакет работ, назначенный для версии, определенной в этом
@@ -1589,6 +1604,8 @@ en:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
+  label_agreements: Соглашение
+  label_agreement: Соглашение о реализации регионального проекта
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
   label_raion: Район
@@ -1707,7 +1724,8 @@ en:
   label_nothing_display: Нет данных для отображения
   label_communictaions: Коммуникации
   ladel_additional: Дополнительно
-  ladel_reports: Отчеты
+  label_reports: Отчеты
+  label_report_progress_project: Отчет о ходе реализации проекта
   label_resources: Ресурсы
   label_nobody: никто
   label_none: нет
@@ -2285,9 +2303,11 @@ en:
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
   #knm(
-
-
-
+  setting_days_text: Дни недели
+  button_refresh: Обновить
+  label_production_calendar: Производственный календарь
+  label_production_calendars: Производственные календари
+  label_work_calendar: Производственный календарь
   permission_view_interactive_map: Просмотр карты
   permission_view_national_and_federal_projects: Просмотр проектов и порграмм
   permission_manage_national_and_federal_projects: Управление проектами и программами
@@ -2323,6 +2343,7 @@ en:
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
   project_module_targets: Целевые показатели
+  project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности
@@ -2509,6 +2530,7 @@ en:
     количества неудачных попыток входа
   setting_brute_force_block_minutes: Время блокирования пользователя за
   setting_cache_formatted_text: Кэшировать форматированный текст
+
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
     для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью
     для GFM Markdown.
@@ -3269,4 +3291,16 @@ en:
 
   choose: "Выбрать"
   label_cost_object_added: Бюджет добавлен
-  label_member_added: Участник добавлен
+  label_member_added: Участник добавлен в проект
+  label_member_deleted: Участник исключен из проекта
+  label_board_added: Дискуссия добавлена
+  label_board_changed: Дискуссия изменена
+  label_board_moved: Дискуссия перемещена
+  label_board_deleted: Дискуссия удалена
+  label_deadline_of_work_package_is_approaching: Приближается срок по пакету работ
+  label_deadline_of_work_package: Превышен срок по пакету работ
+  label_project_created: Проект создан
+  label_project_changed: Проект изменен
+  label_project_deleted: Проект удален
+  label_news_changed: Новость изменена
+  label_news_deleted: Новость удалена

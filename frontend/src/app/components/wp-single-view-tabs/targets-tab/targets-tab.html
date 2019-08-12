@@ -1,4 +1,4 @@
-<div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
+<div class="work-package--details--long-field work-packages--activity--add-comment">
   <div>
       <style type="text/css">
           table { width: 100%; }
@@ -11,7 +11,7 @@
 
     <div class="wp-relations-create">
       <div class="wp-relations-create-button hide-when-print"
-           *ngIf="!showTargetsCreateForm && planValueCanEdit">
+           *ngIf="!showTargetsCreateForm">
         <div class="grid-block">
           <div class="grid-content collapse wp-inline-create-button">
             <a class="wp-inline-create--add-link relation-create"
@@ -28,7 +28,7 @@
       <div class="loading-indicator--location"
            data-indicator-name="relationAddDynamic">
         <div class="v-align wp-relations-create--form"
-             *ngIf="showTargetsCreateForm && planValueCanEdit">
+             *ngIf="showTargetsCreateForm">
           <div>
             <wp-target-autocomplete
                     [workPackage]="workPackage"
@@ -101,8 +101,10 @@
     <td class="colA">
         <select [(ngModel)]="editedTarget.quarter" class="input-period"  >
             <option value="" selected="selected"></option>
-            <ng-template [ngTemplateOutlet]="changeQuarter()">
-            </ng-template>
+            <option ng-click="changeQuarter(1)" value="1">1-й квартал</option>
+            <option ng-click="changeQuarter(2)" value="2">2-й квартал</option>
+            <option ng-click="changeQuarter(3)" value="3">3-й квартал</option>
+            <option ng-click="changeQuarter(4)" value="4">4-й квартал</option>
         </select>
 
     </td>
@@ -217,7 +219,7 @@
 <ng-template #readOnlyTemplate2 let-value>
     <td class="colA">{{ value.year }}</td>
     <td class="colA">{{ value.quarter }}</td>
-    <td class="colA">{{ value.month }}</td>
+    <td class="colA">{{ months[value.month] }}</td>
     <td class="colA">{{ value.plan_value }}</td>
     <td class="colA">{{ value.value }}</td>
     <td>

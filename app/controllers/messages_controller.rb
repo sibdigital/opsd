@@ -87,6 +87,10 @@ class MessagesController < ApplicationController
 
     if @message.save
       render_attachment_warning_if_needed(@message)
+      @message.participants.each do |participiant|
+        Alert.create_pop_up_alert(@message, "Created", User.current, participiant.user)
+      end
+
       call_hook(:controller_messages_new_after_save, params: params, message: @message)
 
       redirect_to topic_path(@message)
@@ -108,6 +112,9 @@ class MessagesController < ApplicationController
     @topic.children << @reply
     #iag(
     UserMailer.reply_to_message_notify(@message.author).deliver_now
+    @topic.participants.each do |participiant|
+      Alert.create_pop_up_alert(@topic, "Noted", User.current,participiant.user)
+    end
     # )
     unless @reply.new_record?
       render_attachment_warning_if_needed(@reply)
@@ -139,6 +146,9 @@ class MessagesController < ApplicationController
     if @message.save
       render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
+      @message.participants.each do |participiant|
+        Alert.create_pop_up_alert(@message, "Changed", User.current,participiant.user)
+      end
       @message.reload
       redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
     else
@@ -150,6 +160,9 @@ class MessagesController < ApplicationController
   def destroy
     return render_403 unless @message.destroyable_by?(User.current)
     @message.destroy
+    @message.participants.each do |participiant|
+      Alert.create_pop_up_alert(@message, "Deleted", User.current, participiant.user)
+    end
     flash[:notice] = l(:notice_successful_delete)
     redirect_target = if @message.parent.nil?
                         { controller: '/boards', action: 'show', project_id: @project, id: @board }

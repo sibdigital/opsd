@@ -151,6 +151,9 @@ available_languages:
   default:
   - en
   - ru
+work_days:
+  format: int
+  default: 12345
 notify_delay:
   format: int
   default: 10
@@ -312,8 +315,7 @@ emails_footer:
   serialized: true
   default:
     en: |-
-      You have received this notification because you have either subscribed to it, or are involved in it.
-      To change your notification preferences, please click here: http://hostname/my/account
+      Уведомление направлено Системой управления проектами в соответствии с настройками вашей учетной записи
 start_of_week:
   default: ''
 rest_api_enabled:
@@ -373,4 +375,8 @@ installation_uuid:
 #zbd(
 remaining_count_days:
   default: 14
+#)
+#xcc(
+region_name:
+  default: Республика Бурятия
 #)

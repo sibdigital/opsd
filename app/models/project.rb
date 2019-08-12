@@ -152,6 +152,7 @@ class Project < ActiveRecord::Base
   #xcc(
   has_many :targets
   has_many :arbitary_objects
+  has_many :agreements
   # )
   #tan(
   has_many :work_package_problems, foreign_key: 'work_package_id'
@@ -421,7 +422,6 @@ class Project < ActiveRecord::Base
     add_member(user, roles)
     save
   end
-
   # Returns all projects the user is allowed to see.
   #
   # Employs the :view_project permission to perform the
@@ -746,22 +746,22 @@ class Project < ActiveRecord::Base
   end
 
   # The earliest start date of a project, based on it's issues and versions
-  def start_date
-    [
-      work_packages.minimum('start_date'),
-      shared_versions.map(&:effective_date),
-      shared_versions.map(&:start_date)
-    ].flatten.compact.min
-  end
-
-  # The latest finish date of an issue or version
-  def due_date
-    [
-      work_packages.maximum('due_date'),
-      shared_versions.map(&:effective_date),
-      shared_versions.map { |v| v.fixed_issues.maximum('due_date') }
-    ].flatten.compact.max
-  end
+  # def start_date
+  #   [
+  #     work_packages.minimum('start_date'),
+  #     shared_versions.map(&:effective_date),
+  #     shared_versions.map(&:start_date)
+  #   ].flatten.compact.min
+  # end
+  #
+  # # The latest finish date of an issue or version
+  # def due_date
+  #   [
+  #     work_packages.maximum('due_date'),
+  #     shared_versions.map(&:effective_date),
+  #     shared_versions.map { |v| v.fixed_issues.maximum('due_date') }
+  #   ].flatten.compact.max
+  # end
 
   def overdue?
     active? && !due_date.nil? && (due_date < Date.today)
@@ -976,33 +976,6 @@ class Project < ActiveRecord::Base
     update_attribute :status, STATUS_ARCHIVED
   end
 
-  protected
-
-  def self.possible_principles_condition
-    condition = Setting.work_package_group_assignment? ?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
-                  ["(#{Principal.table_name}.type=?)", 'User']
-
-    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
-    condition << Principal::STATUSES[:active]
-    condition << Principal::STATUSES[:invited]
-    condition << true
-
-    sanitize_sql_array condition
-  end
-
-  def guarantee_project_or_nil_or_false(p)
-    if p.is_a?(Project)
-      p
-    elsif p.to_s.blank?
-      nil
-    else
-      p = Project.find_by(id: p)
-      return false unless p
-      p
-    end
-  end
-
   #+tan
   def get_done_ratio #TODO: plan type execution!
 
@@ -1047,4 +1020,33 @@ class Project < ActiveRecord::Base
     res.to_f.round
   end
   #-tan
+
+  protected
+
+  def self.possible_principles_condition
+    condition = Setting.work_package_group_assignment? ?
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
+                  ["(#{Principal.table_name}.type=?)", 'User']
+
+    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
+    condition << Principal::STATUSES[:active]
+    condition << Principal::STATUSES[:invited]
+    condition << true
+
+    sanitize_sql_array condition
+  end
+
+  def guarantee_project_or_nil_or_false(p)
+    if p.is_a?(Project)
+      p
+    elsif p.to_s.blank?
+      nil
+    else
+      p = Project.find_by(id: p)
+      return false unless p
+      p
+    end
+  end
+
+
 end

@@ -38,6 +38,11 @@ class News::CommentsController < ApplicationController
     @comment.author = User.current
     if @news.comments << @comment
       flash[:notice] = l(:label_comment_added)
+
+      @news.project.members.each do |member|
+        Alert.create_pop_up_alert(@news, "Noted", User.current, member)
+      end
+
     end
 
     redirect_to news_path(@news)

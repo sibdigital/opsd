@@ -95,8 +95,25 @@ class ProjectsController < ApplicationController
         format.html do
           flash[:notice] = l(:notice_successful_create)
           Member.where(project_id: @project.id).each do |member|
-            Alert.create_new_pop_up_alert(@project.id, "Projects", "Changed", User.current.id, member.user_id)
+            Alert.create_pop_up_alert(@project, "Created", User.current, member.user)
           end
+          #ban(
+=begin
+          @project_office_member_ids = []
+          @memberroles = MemberRole.find_by_sql('select * from member_roles')
+          @memberroles.each do |member_role|
+            if member_role.role_id = 8 || member_role.role_id = 10 || member_role.role_id = 13
+              @project_office_member_ids << member_role.member_id
+            end
+          end
+          if Setting.notified_events.include?('project_created')
+            @project_office_member_ids.uniq.each do |member_id|
+              @user = User.find_by(id: Member.find_by(id: member_id))
+              UserMailer.project_created(@user, @project, User.current).deliver_now
+            end
+          end
+=end
+          #)
           redirect_work_packages_or_overview
         end
       end
@@ -144,7 +161,12 @@ class ProjectsController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_update)
       Member.where(project_id: @altered_project.id).each do |member|
-        Alert.create_new_pop_up_alert(@altered_project.id, "Projects", "Changed", User.current.id, member.user_id)
+        Alert.create_pop_up_alert(@altered_project, "Changed", User.current, member.user)
+      end
+      if Setting.notified_events.include?('project_changed')
+        @project.recipients.uniq.each do |user|
+          UserMailer.project_changed(user, @project, User.current).deliver_now
+        end
       end
       OpenProject::Notifications.send('project_updated', project: @altered_project)
     end
@@ -224,7 +246,12 @@ class ProjectsController < ApplicationController
     if call.success?
       flash[:notice] = I18n.t('projects.delete.scheduled')
       Member.where(project_id: @project.id).each do |member|
-        Alert.create_new_pop_up_alert(@project.id, "Projects", "Deleted", User.current.id, member.user_id)
+        Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
+      end
+      if Setting.notified_events.include?('project_deleted')
+        @project.recipients.uniq.each do |user|
+          UserMailer.project_deleted(user, @project, User.current).deliver_now
+        end
       end
     else
       flash[:error] = I18n.t('projects.delete.schedule_failed', errors: call.errors.full_messages.join("\n"))

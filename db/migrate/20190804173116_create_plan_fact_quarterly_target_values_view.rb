@@ -38,7 +38,7 @@ class CreatePlanFactQuarterlyTargetValuesView < ActiveRecord::Migration[5.2]
                            on q.project_id = p.id
           )
           ;
-          drop view v_plan_fact_quarterly_target_values
+          drop view if exists v_plan_fact_quarterly_target_values
           ;
           create or replace view v_plan_fact_quarterly_target_values as (
             select ROW_NUMBER () OVER (ORDER BY tt.national_project_id, tt.federal_project_id, project_id, target_id, year) as id,

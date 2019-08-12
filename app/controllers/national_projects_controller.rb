@@ -78,12 +78,12 @@ class NationalProjectsController < ApplicationController
 
   def create
     @national_project = NationalProject.new(permitted_params.national_project)
-    if params["national_project"]["parent_id"] == nil
+    if params["national_project"]["parent_id"] == ""
       @national_project.type="National"
     else
       @national_project.type="Federal"
     end
-    if params["national_project"]["type"] != nil
+    if params["national_project"]["type"] == "Government"
       @national_project.type=params["national_project"]["type"]
     end
     if @national_project.save

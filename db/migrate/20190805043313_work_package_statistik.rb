@@ -43,7 +43,7 @@ class WorkPackageStatistik < ActiveRecord::Migration[5.2]
                              not lower(status_name) in (lower('Завершен'), lower('Отменен')) then true
                         else false end as ne_ispolneno,
                       case
-                        when wpsi.ispolneno = false and due_date >= current_date and created_problem_count > 0 and
+                        when wpsi.ispolneno = false and (due_date >= current_date or due_date is null) and created_problem_count > 0 and
                              not lower(status_name) in (lower('Завершен'), lower('Отменен')) then true
                         else false end as est_riski
                from (
@@ -51,7 +51,7 @@ class WorkPackageStatistik < ActiveRecord::Migration[5.2]
                              s.name as status_name,
                              case
                                when wps.result_agreed AND created_problem_count = 0 AND attach_count > 0 and
-                                    lower(s.name) = lower('Завершен') then true
+                                    lower(s.name) = lower('Завершен') and not due_date is null then true
                                else false
                                end  as ispolneno
                       from v_work_package_stat as wps

@@ -1,0 +1,13 @@
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<% html_title l(:label_agreement) %>
+<%= breadcrumb_toolbar l(:label_agreement) %>
+ <%= labelled_tabular_form_for [@project, @agreement] do |f| %>
+<%= render partial: 'agreements/form', locals: { f: f } %>
+<%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+

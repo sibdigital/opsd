@@ -156,6 +156,16 @@ gem "roo", "~> 2.8.2"
 #gem "translit", "~>0.1.5"
 # )
 
+#xcc(
+gem 'rtf-templater'
+gem 'rubyXL'
+
+gem 'rubyzip' , '>= 1.2.1'
+#gem 'axlsx' , git:  'https://github.com/randym/axlsx.git' , ref:  'c8ac844'
+#gem 'axlsx_rails'
+#gem 'acts_as_xlsx', git: 'git://github.com/straydogstudio/acts_as_xlsx.git'
+# )
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+

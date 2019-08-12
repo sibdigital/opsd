@@ -2,7 +2,7 @@
 
 <%= labelled_tabular_form_for @national_project do |f| %>
 
-  <%= render partial: 'national_projects/form', locals: { f: f } %>
+  <%= render partial: 'national_projects/form', locals: { f: f , type_of_national_project: @national_project.type} %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 
 <% end %>
