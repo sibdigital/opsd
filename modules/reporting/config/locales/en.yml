@@ -1,7 +1,7 @@
 en:
   button_save_as: "Сохранить отчет как..."
   comments: "Комментарий"
-  cost_reports_title: "Отчеты"
+  cost_reports_title: "Исполнение бюджета"
   label_cost_report: "OLAP-отчет по затратам"
   description_drill_down: "Детали"
   description_filter_selection: "Выбор"
