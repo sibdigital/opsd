@@ -2352,13 +2352,14 @@ en:
   project_module_boards: Дискуссии
   project_module_calendar: Календарь
   project_module_work_package_tracking: Отслеживание пакета работ
+  project_module_work_package_targets: Целевые показатели мероприятий
   project_module_news: Новости
   project_module_repository: Репозиторий
   project_module_time_tracking: Учет времени
   project_module_timelines: Графики
   project_module_wiki: Управление знаниями
   project_module_head_performance_indicator_values: Оценка высшего должностного лица
-  project_module_interactive_map: Карта регионов РБ
+  project_module_interactive_map: Карта районов
   project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

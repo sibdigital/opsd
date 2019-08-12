@@ -292,26 +292,28 @@ Redmine::AccessControl.map do |map|
                     require: :member
   end
 
-  map.project_module :repository do |repo|
-    repo.permission :browse_repository,
-                    repositories: %i[show browse entry annotate
-                                   changes diff stats graph]
-
-    repo.permission :commit_access,
-                    {}
-
-    repo.permission :manage_repository,
-                    { repositories: %i[edit create update committers
-                                     destroy_info destroy] },
-                    require: :member
-
-    repo.permission :view_changesets,
-                    repositories: %i[show revisions revision]
-
-
-    repo.permission :view_commit_author_statistics,
-                    {}
-  end
+  # +tan
+  # map.project_module :repository do |repo|
+  #   repo.permission :browse_repository,
+  #                   repositories: %i[show browse entry annotate
+  #                                  changes diff stats graph]
+  #
+  #   repo.permission :commit_access,
+  #                   {}
+  #
+  #   repo.permission :manage_repository,
+  #                   { repositories: %i[edit create update committers
+  #                                    destroy_info destroy] },
+  #                   require: :member
+  #
+  #   repo.permission :view_changesets,
+  #                   repositories: %i[show revisions revision]
+  #
+  #
+  #   repo.permission :view_commit_author_statistics,
+  #                   {}
+  # end
+  # -tan
 
   map.project_module :boards do |board|
     board.permission :manage_boards,
