@@ -1,9 +1,9 @@
 <% html_title l(:label_administration), l(:label_counterparties) %>
-<% if @organization_parent != nil %>
-  <div class="form--field">
-    <%= l(:label_organization_parent )  %>
-    <%= ':' %>
-    <%= @organization_parent %>
-  </div>
-<% end %>
-<%= cell ::Organizations::TableCell, Organization.where(org_type: @counterparties.id)%>
+<%# if @organization_parent != nil %>
+<!--  <div class="form--field">-->
+    <%#= l(:label_organization_parent )  %>
+    <%#= ':' %>
+    <%#= @organization_parent %>
+<!--  </div>-->
+<%# end %>
+<%#= cell ::Organizations::TableCell, Organization.where(org_type: @counterparties.id)%>
