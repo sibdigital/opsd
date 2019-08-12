@@ -6,4 +6,4 @@
     <%= @organization_parent %>
   </div>
 <% end %>
-<%= cell ::Organizations::TableCell, Organization.where(org_type: @counterparties.id, parent_id: @parent_id)%>
+<%= cell ::Organizations::TableCell, Organization.where(org_type: @counterparties.id)%>
