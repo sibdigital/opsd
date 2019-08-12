@@ -96,8 +96,8 @@ class PermittedParams
 
   def custom_action
     whitelisted = params
-                  .require(:custom_action)
-                  .permit(*self.class.permitted_attributes[:custom_action])
+                    .require(:custom_action)
+                    .permit(*self.class.permitted_attributes[:custom_action])
 
     whitelisted.merge(params[:custom_action].slice(:actions, :conditions).permit!)
   end
@@ -149,7 +149,7 @@ class PermittedParams
   end
 
   def projects_type_ids
-    params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
+    params.require(:project).require(:type_ids).map(&:to_i).select {|x| x > 0}
   end
 
   def query
@@ -159,16 +159,16 @@ class PermittedParams
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
     p[:sort_criteria] = params
-                        .require(:query)
-                        .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
+                          .require(:query)
+                          .permit(sort_criteria: {'0' => [], '1' => [], '2' => []})
     p[:sort_criteria].delete :sort_criteria
     p
   end
 
   def calendar_filter
-    keys =  Query.registered_filters.map(&:key)
+    keys = Query.registered_filters.map(&:key)
     op_keys = keys_whitelisted_by_list(params["op"], keys)
-    v_keys = keys_whitelisted_by_list(params["v"], keys).map { |f| { f => [] } }
+    v_keys = keys_whitelisted_by_list(params["v"], keys).map {|f| {f => []}}
 
     params.permit(:project_id,
                   :month,
@@ -204,6 +204,7 @@ class PermittedParams
 
     permitted_params.merge(params[:org_settings].to_unsafe_hash.slice(*all_valid_keys))
   end
+
   # -tan 2019.04.26
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
@@ -214,8 +215,8 @@ class PermittedParams
 
   def user_register_via_omniauth
     permitted_params = params
-                       .require(:user)
-                       .permit(:login, :firstname, :lastname, :mail, :language)
+                         .require(:user)
+                         .permit(:login, :firstname, :lastname, :mail, :language)
     permitted_params = permitted_params.merge(custom_field_values(:user))
 
     permitted_params
@@ -257,8 +258,8 @@ class PermittedParams
 
     if type_params[:attribute_groups]
       whitelisted[:attribute_groups] = JSON
-                                       .parse(type_params[:attribute_groups])
-                                       .map { |group| [(group[2] ? group[0].to_sym : group[0]), group[1]] }
+                                         .parse(type_params[:attribute_groups])
+                                         .map {|group| [(group[2] ? group[0].to_sym : group[0]), group[1]]}
     end
 
     whitelisted
@@ -370,11 +371,11 @@ class PermittedParams
   def message(instance = nil)
     if instance && current_user.allowed_to?(:edit_messages, instance.project)
       #params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id, :locked, :sticky)
-       params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id, :locked, :sticky, participants_attributes: [:user_id, :invited])
+      params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id, :locked, :sticky, participants_attributes: [:user_id, :invited])
 
     else
       #params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id)
-       params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id, participants_attributes: [:user_id, :invited])
+      params.fetch(:message, {}).permit(:subject, :work_package_id, :content, :board_id, participants_attributes: [:user_id, :invited])
     end
   end
 
@@ -429,7 +430,8 @@ class PermittedParams
 
 
   def project_risk
-    params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    # +-tan
+    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
 
     permitted_params = permitted_params.merge(custom_field_values(:project_risk))
     permitted_params
@@ -446,6 +448,7 @@ class PermittedParams
   def risk_charact
     params.require(:risk_charact).permit(:description, :type, :name, :move_to)
   end
+
   # )
   # +tan 2019.04.26
   def position
@@ -460,44 +463,55 @@ class PermittedParams
     permitted_params = permitted_params.merge(custom_field_values(:organization))
     permitted_params
   end
+
   def depart
     params.require(:depart).permit(:organization_id, :name)
   end
+
   def plan_uploader
     params.require(:plan_uploader).permit(:name, :status, :upload_at)
   end
+
   #knm(
   def head_performance_indicator_value
     params.require(:head_performance_indicator_value).permit(:head_performance_indicator_id, :type, :year, :quarter, :month, :value, :sort_code)
   end
+
   def national_project
     params.require(:national_project).permit(:name, :type, :parent_id, :leader, :leader_position, :curator, :curator_position, :description, :start_date, :due_date)
   end
+
   def production_calendar
     params.require(:production_calendar).permit(:day_type, :date, :year)
   end
+
   # )
   #xcc(
   def target
     params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id)
   end
+
   def target_execution_value
     params.require(:target_execution_value).permit(:target_id, :year, :quarter, :value)
   end
+
   def arbitary_object
     permitted_params = params.require(:arbitary_object).permit(:name, :type_id, :project_id, :is_approve)
 
     permitted_params = permitted_params.merge(custom_field_values(:arbitary_object))
     permitted_params
   end
+
   def agreement
     params.require(:agreement).permit(:date_agreement, :number_agreement, :count_days, :project_id, :national_project_id, :federal_project_id, :state_program, :other_liabilities_2141, :other_liabilities_2142, :other_liabilities_2281, :other_liabilities_2282, :date_end)
   end
+
   #)
   #iag(
   def meeting_protocol
-     params.require(:meeting_protocol).permit(:meeting_contents_id, :text, :due_date, :assigned_to_id)
+    params.require(:meeting_protocol).permit(:meeting_contents_id, :text, :due_date, :assigned_to_id)
   end
+
   #)
   # -tan
 
@@ -513,6 +527,7 @@ class PermittedParams
   def plan_uploader_setting
     params.require(:plan_uploader_setting).permit(:column_name, :column_num, :is_pk, :table_name)
   end
+
   # )
 
   def watcher
@@ -545,15 +560,15 @@ class PermittedParams
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
+    values.reject! {|k, v| k.to_i < 1 || !v.is_a?(String)}
 
-    values.empty? ? {} : { 'custom_field_values' => values.permit! }
+    values.empty? ? {} : {'custom_field_values' => values.permit!}
   end
 
   def permitted_attributes(key, additions = {})
-    merged_args = { params: params, current_user: current_user }.merge(additions)
+    merged_args = {params: params, current_user: current_user}.merge(additions)
 
-    self.class.permitted_attributes[key].map { |permission|
+    self.class.permitted_attributes[key].map {|permission|
       if permission.respond_to?(:call)
         permission.call(merged_args)
       else
@@ -617,7 +632,7 @@ class PermittedParams
           :default_value,
           :possible_values,
           :multi_value,
-          { custom_options_attributes: %i(id value default_value position) },
+          {custom_options_attributes: %i(id value default_value position)},
           type_ids: []
         ],
         enumeration: %i(
@@ -650,7 +665,7 @@ class PermittedParams
         ],
         new_work_package: [
           :assigned_to_id,
-          { attachments: %i[file description] },
+          {attachments: %i[file description]},
           :category_id,
           :contract_id,
           :description,
@@ -668,19 +683,19 @@ class PermittedParams
           Proc.new do |args|
             # avoid costly allowed_to? if the param is not there at all
             if args[:params]['work_package'] &&
-               args[:params]['work_package'].has_key?('watcher_user_ids') &&
-               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+              args[:params]['work_package'].has_key?('watcher_user_ids') &&
+              args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
-              { watcher_user_ids: [] }
+              {watcher_user_ids: []}
             end
           end,
           Proc.new do |args|
             # avoid costly allowed_to? if the param is not there at all
             if args[:params]['work_package'] &&
-               args[:params]['work_package'].has_key?('time_entry') &&
-               args[:current_user].allowed_to?(:log_time, args[:project])
+              args[:params]['work_package'].has_key?('time_entry') &&
+              args[:current_user].allowed_to?(:log_time, args[:project])
 
-              { time_entry: %i[hours activity_id comments] }
+              {time_entry: %i[hours activity_id comments]}
             end
           end,
           # attributes unique to :new_work_package
@@ -767,7 +782,7 @@ class PermittedParams
       }
 #zbd line:649 - added patronymic
 
-      # Accept new parameters, defaulting to an empty array
+# Accept new parameters, defaulting to an empty array
       params.default = []
       params
     end
@@ -786,6 +801,6 @@ class PermittedParams
   def keys_whitelisted_by_list(hash, list)
     (hash || {})
       .keys
-      .select { |k| list.any? { |whitelisted| whitelisted.to_s == k.to_s || whitelisted === k } }
+      .select {|k| list.any? {|whitelisted| whitelisted.to_s == k.to_s || whitelisted === k}}
   end
 end
