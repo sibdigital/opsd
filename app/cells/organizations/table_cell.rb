@@ -45,17 +45,17 @@ module Organizations
     end
 
     def inline_up_link
-      @organizanion = Organization.find_by(id: params[:parent_id])
-      if @organizanion == nil
-        @parent_id = 0
-      else  @parent_id = @organizanion.parent_id
-      end
-      link_to org_settings_path(:parent_id => @parent_id, :tab => params[:tab]),
-              aria: { label: t(:button_up) },
-              class: 'wp-inline-create--split-link',
-              title: t(:button_up) do
-        op_icon('icon-arrow-up2')
-      end
+      # @organizanion = Organization.find_by(id: params[:parent_id])
+      # if @organizanion == nil
+      #   @parent_id = 0
+      # else  @parent_id = @organizanion.parent_id
+      # end
+      # link_to org_settings_path(:parent_id => @parent_id, :tab => params[:tab]),
+      #         aria: { label: t(:button_up) },
+      #         class: 'wp-inline-create--split-link',
+      #         title: t(:button_up) do
+      #   op_icon('icon-arrow-up2')
+      # end
     end
 
 
