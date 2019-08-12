@@ -4,10 +4,20 @@
 class OrgSettingsController < ApplicationController
   layout 'admin'
   menu_item :org_settings
-
+  include SortHelper
+  include PaginationHelper
+  include ::IconsHelper
+  include ::ColorsHelper
+  include TargetsHelper
   before_action :require_project_admin
 
   def index
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
+    @organizations = Organization.order(sort_clause).page(page_param).per_page(per_page_param)
     @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
     @municipalities = Enumeration.find_by(name: "Муниципальное образование")
     @counterparties = Enumeration.find_by(name: "Контрагент")

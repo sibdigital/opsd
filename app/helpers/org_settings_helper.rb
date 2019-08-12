@@ -14,5 +14,7 @@ module OrgSettingsHelper
       { name: 'positions', partial: 'org_settings/positions', label: :label_positions }
     ]
   end
+  def show_table_org (organisations)
 
+  end
 end
