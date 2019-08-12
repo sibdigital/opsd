@@ -474,6 +474,20 @@ en:
         is_default: В новых проектах активируется по умолчанию
         is_milestone: Это веха
         color: Цвет
+#        knm start
+      head_performance_indicator_value:
+        head_performance_indicator_id: Показатель деятельности высшего должностного лица
+        head_performance_indicator: Показатель деятельности высшего должностного лица
+        month: Месяц
+      production_calendar:
+        day_type: Тип дня недели
+      national_project:
+        parent: Национальный проект
+        leader: Руководитель
+        leader_position: Должность руководителя
+        curator: Куратор
+        curator_position: Должность куратора
+#        end
       user:
         admin: Администратор
         auth_source: Способ аутентификации
@@ -813,15 +827,7 @@ en:
     project_approve_status: Этап согласования
     is_approve: Утвержден
     #knm(
-    head_performance_indicator_id: Показатель деятельности высшего должностного лица
-    head_performance_indicator: Показатель деятельности высшего должностного лица
-    month: Месяц
-    day_type: Тип дня недели
-    parent: Национальный проект
-    leader: Руководитель
-    leader_position: Должность руководителя
-    curator: Куратор
-    curator_position: Должность куратора
+
     #)
     issue: Пакет работ
     lastname: Фамилия
