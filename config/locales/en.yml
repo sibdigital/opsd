@@ -379,6 +379,21 @@ en:
         repository: Репозиторий
       comment:
         commented: Прокомментировано
+      #zbd(
+      contract:
+        name: Наименование
+        contract_subject: Предмет контракта
+        contract_num: № контракта
+        contract_date: Дата заключения контракта
+        price: Цена контракта
+        executor: Исполнитель
+        eis_href: Ссылка на ЕИС
+        sposob: Способ заключения
+        gos_zakaz: Государственный заказчик
+        date_begin: Дата начала
+        date_end: Дата завершения
+        etaps: Этапы
+      #)
       custom_action:
         actions: Действия
       custom_field:
@@ -440,6 +455,14 @@ en:
       role:
         assignable: Мероприятия могут быть назначены пользователям и группам в
           зависимости от этой роли в рамках соответствующего проекта
+      #zbd(
+      target:
+        parent: Родитель
+        status: Состояние
+        type: Тип
+        name: Наименование
+        measure_unit: Единица измерения
+      #)
       time_entry:
         activity: Деятельность
         hours: Часы
@@ -463,6 +486,15 @@ en:
         new_password: Новый пароль
         password_confirmation: Подтверждение
         consented_at: Согласен с
+        #zbd(
+        patronymic: Отчество
+        mail_add: Эл.почта (дополнительная)
+        phone_wrk: Рабочий телефон
+        phone_wrk_add: Добавочный номер
+        phone_mobile: Мобильный телефон
+        address: Адрес
+        cabinet: Кабинет
+        #)
       user_preference:
         comments_sorting: Показывать комментарии
         hide_mail: Скрывать мой адрес электронной почты
@@ -500,6 +532,10 @@ en:
         time_entries: Учет времени
         type: Тип
         watcher: Наблюдатель
+        #zbd(
+        required_doc_type: Необходимый контрольный документ
+        result_agreed: Результат согласован
+        #)
       doorkeeper/application:
         uid: ID клиента
         secret: Секрет клиента
@@ -792,38 +828,17 @@ en:
     mail: Электронная почта
     #zbd(
     contract: Гос.контракт
-    patronymic: Отчество
-    mail_add: Эл.почта (дополнительная)
-    phone_wrk: Рабочий телефон
-    phone_wrk_add: Добавочный номер
-    phone_mobile: Мобильный телефон
-    address: Адрес
-    cabinet: Кабинет
     target: Целевой показатель
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
     column_name: Название поля
     is_pk: Входит в первичный ключ
-    required_doc_type: Необходимый контрольный документ
     #)
     #(xcc
     organization: Организация
     parent_organization: Вышестоящая организация
     #)
-    name: Наименование
     password: Пароль
-    result_agreed: Результат согласован
-    contract_subject: Предмет контракта
-    contract_num: № контракта
-    contract_date: Дата заключения контракта
-    sposob: Способ заключения
-    gos_zakaz: Государственный заказчик
-    date_begin: Дата начала
-    date_end: Дата завершения
-    etaps: Этапы
-    price: Цена контракта
-    executor: Исполнитель
-    eis_href: Ссылка на ЕИС
     #)
     possibility: Вероятность наступления
     priority: Приоритет
@@ -2196,8 +2211,9 @@ en:
   notice_attachment_migration_wiki_page: 'Эта страница была автоматически создана
     во время обновления. Она содержит все вложения, ранее связанные с
     %{container_type} «%{container_name}».
-
 '
+  notice_add_target_values: "Введите значения показателя с разбивкой по годам или квараталам."
+
   number:
     format:
       delimiter: ''
