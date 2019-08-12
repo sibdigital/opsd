@@ -56,9 +56,11 @@ module WorkPackages
       validate_user_allowed_to_set_result_agreed :result_agreed, 'result_agreed'
     end
 
-    #attribute :target_id
+    attribute :required_doc_type_id do
+      validate_user_allowed_to_set_required_doc_type :required_doc_type_id, 'required_doc_type_id'
+    end
+
     attribute :organization_id
-    attribute :raion_id
     # )
 
     attribute :arbitary_object_id
@@ -316,10 +318,20 @@ module WorkPackages
     def validate_user_allowed_to_set_result_agreed(attribute, id_attribute)
       if model.changed.include?(id_attribute)
         unless @user.allowed_to_in_project?(:manage_categories, model.project)
-          errors.add attribute, "У вас нет прав для изменения поля" #id_attribute, :error_unauthorized
+          errors.add attribute, "У вас нет прав для изменения поля"
         end
       end
     end
+
+    def validate_user_allowed_to_set_required_doc_type(attribute, id_attribute)
+      if model.changed.include?(id_attribute)
+        unless @user.allowed_to_in_project?(:edit_required_doc_type, model.project)
+          errors.add attribute, "У вас нет прав для изменения поля"
+        end
+      end
+    end
+
+    #TODO (zbd) добавить проверку "статус завершен должен устанавливаться только при условии если в файлы, прикрепленные к задаче добавлен не менее, чем один документ с типом, совпадающим с реквизитом "Необходимый контрольный документ"."
     #)
 
   end
