@@ -18,7 +18,13 @@ class AgreementsController < ApplicationController
     end
 
     @absolute_path = File.absolute_path('.') +'/'+'app/reports/templates/agreement.rtf'
-    @ready_agreement_path = File.absolute_path('.') +'/'+'public/reports/agreement-out.rtf'
+    #+tan
+    dir_path = File.absolute_path('.') + '/public/reports'
+    if  !File.directory?(dir_path)
+      Dir.mkdir dir_path
+    end
+    #-tan
+    @ready_agreement_path = dir_path + '/agreement-out.rtf'
 
     @region_project = @project.name
     @date_agreement = @agreement.date_agreement.strftime("%d.%m.%Y")
