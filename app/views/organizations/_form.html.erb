@@ -20,7 +20,7 @@ This file written by TAN
   <%= f.hidden_field 'org_type' %>
 
   <div class="form--field content--split"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
-  <div class="form--field content--split"><%= f.select 'parent_id', options_for_select(Organization.where(org_type: @organization.org_type).map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
+  <div class="form--field content--split"><%= f.select 'parent_id', options_for_select(Organization.where(org_type: @organization.org_type).where("id != ?", @organization.id).map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'inn', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.check_box 'is_legal_entity', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'org_prav_forma', container_class: '-middle' %></div>

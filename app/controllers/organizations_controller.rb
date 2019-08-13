@@ -128,7 +128,7 @@ class OrganizationsController < ApplicationController
 
   def find_organization
     @organization = Organization.find(params[:id])
-    if @organization.parent_id != 0
+    if @organization.parent_id != nil
        @organization_parent = Organization.find(@organization.parent_id)
     end
   end
