@@ -1,22 +1,10 @@
-<!--
-
-<p>
-  wp-send-email-button works!
-</p>
-
--->
-
-<div class="wp-create-button">
-  <button class="button -alt-highlight add-work-package"
-
+<div>
+  <button class="button"
           (click)="sendEmail()"
-
           [attr.aria-label]="label_text">
-
-
     <span class="button--text"
-          [textContent]="label_text"
-          aria-hidden="true"></span>
+          aria-hidden="true"
+          [textContent]="label_text">
+    </span>
   </button>
 </div>
-
