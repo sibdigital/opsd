@@ -34,7 +34,6 @@ class ReportProgressProjectController < ApplicationController
   end
 
   def generate_project_progress_report_out
-    @absolute_path = File.absolute_path('.') +'/'+'app/reports/templates/agreement.rtf'
     template_path = File.absolute_path('.') +'/'+'app/reports/templates/project_progress_report.xlsx'
     @workbook = RubyXL::Parser.parse(template_path)
     @workbook.calc_pr.full_calc_on_load = true
@@ -124,11 +123,11 @@ class ReportProgressProjectController < ApplicationController
 
     sheet = @workbook['Сведения о значениях целей']
 
-    get_value_targets
+    result_array_targets = get_value_targets
 
     data_row = 4
 
-    @result_array_targets.each_with_index do |target, i|
+    result_array_targets.each_with_index do |target, i|
 
     @workPackageTarget = WorkPackageTarget.find_by(work_package_id: target["work_package_id"])
     @prevWorkPackageTarget = WorkPackageTarget.find_by(project_id: @project.id, work_package_id: target["work_package_id"], year: Date.today.year-1, quarter: 4, month: 12, target_id: target["target_id"])
@@ -227,8 +226,8 @@ class ReportProgressProjectController < ApplicationController
     incriment = 0
     targets = Target.where('project_id = ?', @project.id)
     targets.each_with_index do |target, i|
-      @target_id = target.id
-      status = get_status_achievement
+      target.id
+      status = get_status_achievement(target.id.to_s)
       sheet.insert_cell(data_row + i + incriment, 0, i+1)
       sheet.insert_cell(data_row + i + incriment, 1, "")
       sheet.insert_cell(data_row + i + incriment, 2, status["name"])
@@ -410,14 +409,15 @@ class ReportProgressProjectController < ApplicationController
           where quarter = 4"
 
     result = ActiveRecord::Base.connection.execute(sql)
-
-    @result_array_targets = []
     index = 0
-    result.each do |row|
-      @result_array_targets[index] = row
+    result_array_targets = []
 
+    result.each do |row|
+      result_array_targets[index] = row
       index += 1
     end
+
+    result_array_targets
   end
 
   def generate_status_execution_budgets_sheet
@@ -438,11 +438,6 @@ class ReportProgressProjectController < ApplicationController
 
     sheetDataDiagram = @workbook['Данные для диаграмм']
      @budjets = AllBudgetsHelper.cost_by_project @project
-     #total_budget = @budjets[:total_budget]
-     #ostatok_budget = @budjets[:ostatok]
-    # sheetDataDiagram[3][4].change_contents(total_budget)
-    # sheetDataDiagram[5][4].change_contents(total_budget)
-
 
     sheetDataDiagram[3][4].change_contents(result_fed_budjet[0])
     sheetDataDiagram[4][4].change_contents(result_fed_budjet[1])
@@ -470,7 +465,7 @@ class ReportProgressProjectController < ApplicationController
           total_budget += cost_object.budget
           spent += cost_object.spent
         end
-       end
+      end
     end
 
     spent
@@ -539,10 +534,10 @@ class ReportProgressProjectController < ApplicationController
   end
 
 
-  def get_status_achievement
+  def get_status_achievement(target_id)
     sql = " with
      stat as (
-       select "+ @target_id.to_s+" as target_id,
+       select "+ target_id+" as target_id,
               sum(ispolneno)          as ispolneno,
               sum(ne_ispolneno)       as ne_ispolneno,
               sum(est_riski_critic)   as est_riski_critic,
@@ -552,7 +547,7 @@ class ReportProgressProjectController < ApplicationController
               WITH RECURSIVE r AS (
                 SELECT targ.id, targ.parent_id, targ.name
                 FROM targets targ
-                WHERE targ.id = "+ @target_id.to_s+"
+                WHERE targ.id = "+ target_id+"
 
                 UNION
 
@@ -571,8 +566,8 @@ class ReportProgressProjectController < ApplicationController
                        select tswp.target_id,
                               case when ispolneno = true then 1 else 0 end as ispolneno,
                               case when ne_ispolneno = true then 1 else 0 end as ne_ispolneno,
-                              case when (est_riski = true) and (r.importance = 'Критичная') then 1 else 0 end  as est_riski_critic,
-                              case when (est_riski = true) and (r.importance = 'Незначительная' or r.importance is null) then 1 else 0 end as est_riski_necritic,
+                              case when (est_riski = true) and (r.importance = '"+I18n.t(:default_impotance_critical)+"') then 1 else 0 end  as est_riski_critic, "+
+                       "      case when (est_riski = true) and (r.importance = '"+I18n.t(:default_impotance_low)+"' or r.importance is null) then 1 else 0 end as est_riski_necritic,
                               case when v_rabote = true then 1 else 0 end as v_rabote
                        from v_target_status_on_work_package tswp
                               inner join types t on tswp.type_id = t.id
@@ -589,15 +584,12 @@ class ReportProgressProjectController < ApplicationController
     select t.id, t.name,s.ispolneno,s.ne_ispolneno, s.est_riski_critic, s.est_riski_necritic,s.v_rabote
     from targets t
     left join stat s on s.target_id = t.id
-    where t.is_approve = true  and t.id = " + @target_id.to_s+" and t.project_id = "+@project.id.to_s
+    where t.is_approve = true  and t.id = " + target_id+" and t.project_id = "+@project.id.to_s
 
     result_sql = ActiveRecord::Base.connection.execute(sql)
 
     result = result_sql[0]
   end
-
-
-
 
 
   def destroy
