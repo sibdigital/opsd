@@ -48,7 +48,7 @@
     <div style="margin-top: 20px;">
       <ul *ngFor="let targetId of wpTargetIds">
         <li>
-          <div>
+          <div style="padding: 3px; margin: 3px;">
               <h4>
                   <a href="{{ this.getAppBasePath() }}/projects/{{ workPackage.project.getId() }}/targets/{{ targetId }}/edit"
                      [textContent]="getTargetFromArr(targetId).name"  [title]=""></a>
@@ -65,7 +65,7 @@
                 </tr>
               </thead>
             </table>
-            <table *ngFor="let value of wpTargets" style="border: 1px;">
+            <table *ngFor="let value of wpTargets">
               <tbody>
                 <tr *ngIf="value.target_id === targetId">
                   <ng-template [ngTemplateOutlet]="loadTemplate(value)"

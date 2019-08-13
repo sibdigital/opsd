@@ -228,6 +228,10 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       this.wpNotificationsService.handleRawError('Для статуса "Решено" необходимо наличие даты решения', this.workPackage);
       return false;
     }
+    if(problem.status == 'created' && (problem.solution_date != undefined && problem.solution_date != '')) {
+      this.wpNotificationsService.handleRawError('Дата решения может устанавливается только для статуса "Решено"', this.workPackage);
+      return false;
+    }
 
     return this.halResourceService
       .patch<HalResource>(path, params)

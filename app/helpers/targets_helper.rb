@@ -37,6 +37,7 @@ module TargetsHelper
         html = html + content_tag(:td, target.unit)
         html = html + content_tag(:td, target.basic_value)
         html = html + content_tag(:td, target.plan_value)
+        html = html + content_tag(:td, target.is_approve)
         if User.current.allowed_to?(:manage_work_package_target_plan_values, @project)
           html = html + content_tag(:td,
                     link_to(op_icon('icon icon-add'),
