@@ -178,5 +178,13 @@ class Principal < ActiveRecord::Base
     true
   end
 
+  #bbm(
+  def fio
+    result = self.lastname + ' ' + self.firstname.slice(0...1) +'.'
+    result += self.patronymic.slice(0...1)+'.' if self.patronymic
+    result
+  end
+  # )
+
   extend Pagination::Model
 end

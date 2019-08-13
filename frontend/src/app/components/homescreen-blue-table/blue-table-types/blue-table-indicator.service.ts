@@ -21,19 +21,22 @@ export class BlueTableIndicatorService extends BlueTableService {
         });
         this.national_project_titles.push({id:0, name: 'Проекты Республики Бурятия'});
         this.halResourceService
-          .get<HalResource>(this.pathHelper.api.v3.work_package_targets_1c.toString())
+          .get<HalResource>(this.pathHelper.api.v3.plan_fact_quarterly_target_values_view.toString())
           .toPromise()
-          .then((targetResources:HalResource) => {
-            targetResources.elements.map((el:HalResource) => {
-              this.data_local[el.nationalId] = this.data_local[el.nationalId] || [];
-              this.data_local[el.nationalId].push(el);
+          .then((targets:HalResource) => {
+            targets.source.map((el:HalResource) => {
+              this.data_local[el.national_id] = this.data_local[el.national_id] || [];
+              this.data_local[el.national_id].push(el);
             });
             resources.elements.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
                 this.data.push(el);
                 if (this.data_local[el.id]) {
-                  this.data_local[el.id].map( (wpt:HalResource) => {
-                    this.data.push(wpt);
+                  this.data_local[el.id].map((row:HalResource) => {
+                    this.data.push({_type: row._type, name: row.name});
+                    row.targets.map((target:HalResource) => {
+                      this.data.push(target);
+                    });
                   });
                 }
               }
@@ -47,8 +50,11 @@ export class BlueTableIndicatorService extends BlueTableService {
     if (this.national_project_titles[i].id === 0) {
       this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
       if (this.data_local[0]) {
-        this.data_local[0].map((project:ProjectResource) => {
-          this.data.push(project);
+        this.data_local[0].map((row:HalResource) => {
+          this.data.push({_type: row._type, name: row.name});
+          row.targets.map((target:HalResource) => {
+            this.data.push(target);
+          });
         });
       }
     } else {
@@ -60,12 +66,14 @@ export class BlueTableIndicatorService extends BlueTableService {
             if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
               this.data.push(el);
               if (this.data_local[el.id]) {
-                this.data_local[el.id].map( (wpt:HalResource) => {
-                  this.data.push(wpt);
+                this.data_local[el.id].map((row:HalResource) => {
+                  this.data.push({_type: row._type, name: row.name});
+                  row.targets.map((target:HalResource) => {
+                    this.data.push(target);
+                  });
                 });
               }
             }
-
           });
         });
     }
@@ -83,10 +91,10 @@ export class BlueTableIndicatorService extends BlueTableService {
   }
 
   public getTdData(row:any, i:number):string {
-    if (row._type === 'WorkPackageTarget1C') {
+    if (row._type === 'PlanFactQuarterlyTargetValue') {
       switch (i) {
         case 0: {
-          return row.target;
+          return row.name;
           break;
         }
         case 1: {
@@ -96,39 +104,41 @@ export class BlueTableIndicatorService extends BlueTableService {
           break;
         }
         case 2: {
-          return row.quarter1PlanValue;
+          return row.target_quarter1_value;
           break;
         }
         case 3: {
-          return row.quarter2PlanValue;
+          return row.target_quarter2_value;
           break;
         }
         case 4: {
-          return row.quarter3PlanValue;
+          return row.target_quarter3_value;
           break;
         }
         case 5: {
-          return row.quarter4PlanValue;
+          return row.target_quarter4_value;
           break;
         }
         case 6: {
-          return row.quarter1Value;
+          return row.fact_quarter1_value;
           break;
         }
         case 7: {
-          return row.quarter2Value;
+          return row.fact_quarter2_value;
           break;
         }
         case 8: {
-          return row.quarter3Value;
+          return row.fact_quarter3_value;
           break;
         }
         case 9: {
-          return row.quarter4Value;
+          return row.fact_quarter4_value;
           break;
         }
         case 10: {
-          return row.doneRatio;
+          let fact:number = row.fact_year_value;
+          let target:number = row.target_year_value;
+          return target === 0 ? '0' : (100 * fact / target).toFixed();
           break;
         }
       }
@@ -158,7 +168,7 @@ export class BlueTableIndicatorService extends BlueTableService {
         if (row._type === 'Project') {
           return 'p30';
         }
-        if (row._type === 'WorkPackageTarget1C') {
+        if (row._type === 'PlanFactQuarterlyTargetValue') {
           return 'p40';
         }
         return row.parentId == null ? 'p10' : 'p20';

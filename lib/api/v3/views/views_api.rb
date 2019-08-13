@@ -30,6 +30,8 @@ require 'api/v3/views/work_package_stat_representer'
 require 'api/v3/views/work_package_stat_collection_representer'
 require 'api/v3/views/risk_problem_stat_representer'
 require 'api/v3/views/risk_problem_stat_collection_representer'
+require 'api/v3/views/plan_fact_quarterly_target_value_representer'
+require 'api/v3/views/plan_fact_quarterly_target_value_collection_representer'
 
 module API
   module V3
@@ -53,7 +55,7 @@ module API
             get do
               meropriyatie = Type.find_by name: I18n.t(:default_type_task)
               kt = Type.find_by name: I18n.t(:default_type_milestone)
-              organization_id = params['organization']
+              organization_id = params[:organization]
               if organization_id
                 records_array = ActiveRecord::Base.connection.execute <<-SQL
 select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
@@ -126,12 +128,12 @@ on p.id = p2.project_id
           resources :work_package_ispoln_stat_view do
             get do
               @wpis = WorkPackageIspolnStat.all
-              @wpis = @wpis.where(project_id: params['project']) if params['project'].present?
+              @wpis = @wpis.where(project_id: params[:project]) if params[:project].present?
               WorkPackageIspolnStatCollectionRepresenter.new(@wpis,
-                                                       api_v3_paths.view('work_package_ispoln_stat_view'),
-                                                       page: to_i_or_nil(params[:offset]),
-                                                       per_page: 20,
-                                                       current_user: current_user)
+                                                             api_v3_paths.view('work_package_ispoln_stat_view'),
+                                                             page: to_i_or_nil(params[:offset]),
+                                                             per_page: 20,
+                                                             current_user: current_user)
             end
           end
 
@@ -141,7 +143,7 @@ on p.id = p2.project_id
               @rps = RiskProblemStat
                        .joins(:work_package_problem).all
               #@rps = @rps.where(status: params['status']) if params['status'].present?
-              @rps = @rps.where(work_package_problems: {project_id: params['project']}) if params['project'].present?
+              @rps = @rps.where(work_package_problems: {project_id: params[:project]}) if params[:project].present?
               #@rps = @rps.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
 
               RiskProblemStatCollectionRepresenter.new(@rps,
@@ -149,6 +151,53 @@ on p.id = p2.project_id
                                                        page: to_i_or_nil(params[:offset]),
                                                        per_page: 20,
                                                        current_user: current_user)
+            end
+          end
+
+          resources :plan_fact_quarterly_target_values_view do
+            get do
+              pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE)")
+              pfqtv = pfqtv.where(project_id: params[:project]) if params[:project].present?
+              pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
+              result = []
+              pfqtv.group_by(&:project_id).each do |project, arr|
+                hash = Hash.new
+                hash['_type'] = 'Project'
+                hash['project_id'] = project
+                p = Project.find(project)
+                hash['name'] = p.name
+                hash['identifier'] = p.identifier
+                hash['national_id'] = p.national_project_id || 0
+                hash['targets'] = []
+                arr.each do |row|
+                  stroka = Hash.new
+                  stroka['_type'] = 'PlanFactQuarterlyTargetValue'
+                  #wp = WorkPackage.find(row.work_package_id)
+                  #stroka['otvetstvenniy'] = wp.assigned_to.fio
+                  #stroka['otvetstvenniy_id'] = wp.assigned_to.id
+                  stroka['name'] = Target.find(row.target_id).name
+                  stroka['target_id'] = row.target_id
+                  stroka['target_year_value'] = row.target_year_value
+                  stroka['fact_year_value'] = row.fact_year_value
+                  stroka['target_quarter1_value'] = row.target_quarter1_value
+                  stroka['target_quarter2_value'] = row.target_quarter2_value
+                  stroka['target_quarter3_value'] = row.target_quarter3_value
+                  stroka['target_quarter4_value'] = row.target_quarter4_value
+
+                  stroka['plan_quarter1_value'] = row.plan_quarter1_value
+                  stroka['plan_quarter2_value'] = row.plan_quarter2_value
+                  stroka['plan_quarter3_value'] = row.plan_quarter3_value
+                  stroka['plan_quarter4_value'] = row.plan_quarter4_value
+
+                  stroka['fact_quarter1_value'] = row.fact_quarter1_value
+                  stroka['fact_quarter2_value'] = row.fact_quarter2_value
+                  stroka['fact_quarter3_value'] = row.fact_quarter3_value
+                  stroka['fact_quarter4_value'] = row.fact_quarter4_value
+                  hash['targets'] << stroka
+                end
+                result << hash
+              end
+              result
             end
           end
         end

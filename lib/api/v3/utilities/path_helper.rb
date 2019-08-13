@@ -132,30 +132,6 @@ module API
             "#{work_package_targets}/#{id}"
           end
 
-          def self.plan_fact_quarterly_target_values
-            "#{root}/plan_fact_quarterly_target_values"
-          end
-
-          def self.plan_fact_quarterly_target_value(id)
-            "#{plan_fact_quarterly_target_values}/#{id}"
-          end
-
-          def self.work_package_targets_1c
-            "#{root}/work_package_targets_1c"
-          end
-
-          def self.work_package_target_1c(id)
-            "#{work_package_targets_1c}/#{id}"
-          end
-
-          def self.work_package_targets_1cv2
-            "#{root}/work_package_targets_1cv2"
-          end
-
-          def self.work_package_target_1cv2(id)
-            "#{work_package_targets_1cv2}/#{id}"
-          end
-
           def self.work_package_problems
             "#{root}/work_package_problems"
           end
@@ -303,10 +279,6 @@ module API
 
           def self.diagram_queries
             "#{root}/diagram_queries"
-          end
-
-          def self.diagram_query(id)
-            "#{diagram_queries}/#{id}"
           end
 
           def self.attach_types
