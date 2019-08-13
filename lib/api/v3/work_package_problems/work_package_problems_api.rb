@@ -17,7 +17,7 @@ module API
                                      else
                                        WorkPackageProblem
                                          .where('work_package_id = ?', params[:work_package_id])
-                                         .order('risk_id asc')
+                                         #.order('risk_id asc')
                                      end
           end
 

@@ -70,6 +70,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
   @ViewChild('readOnlyTemplate') readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate') editTemplate: TemplateRef<any>;
+  @ViewChild('readOnlyTemplate2') readOnlyTemplate2: TemplateRef<any>;
+  @ViewChild('editTemplate2') editTemplate2: TemplateRef<any>;
 
   public workPackage:WorkPackageResource;
   public wpProblems:Array<WpProblem>;
@@ -221,6 +223,12 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       description: problem.description, status: problem.status, type: problem.problem_type,
       user_source_id: problem.user_source_id, solution_date: problem.solution_date
     };
+
+    if(problem.status == 'solved' && problem.solution_date == undefined) {
+      this.wpNotificationsService.handleRawError('Для статуса "Решено" необходимо наличие даты решения', this.workPackage);
+      return false;
+    }
+
     return this.halResourceService
       .patch<HalResource>(path, params)
       .toPromise()
@@ -238,7 +246,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       work_package_id: Number(this.workPackageId), risk_id: problem.risk_id, name: problem.name,
       problem_type: problem.problem_type, status: problem.status,
       user_source_id: problem.user_source_id, organization_source_id: problem.organization_source_id,
-      description: problem.description, solution_date: problem.solution_date});
+      description: problem.description, solution_date: problem.solution_date,
+      user_creator_id: problem.user_creator_id});
   }
 
   public cancelEdit(){
@@ -249,9 +258,9 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
    */
   loadTemplate(problem: WpProblem) {
     if (this.editedProblem && this.editedProblem.id == problem.id) {
-      return this.editTemplate;
+      return this.editTemplate2;
     } else {
-      return this.readOnlyTemplate;
+      return this.readOnlyTemplate2;
     }
   }
 
@@ -332,4 +341,5 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     })
       .catch(function () { return false; });
   }
+
 }
