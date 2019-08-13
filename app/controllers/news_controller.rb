@@ -95,6 +95,11 @@ class NewsController < ApplicationController
       Member.where(project_id: @news.project_id).each do |member|
         Alert.create_pop_up_alert(@news,  "Changed", User.current, member.user)
       end
+      if Setting.notified_events.include?('news_changed')
+        @project.recipients.uniq.each do |user|
+          UserMailer.news_changed(user, @news, User.current, @project).deliver_now
+        end
+      end
       redirect_to action: 'show', id: @news
     else
       render action: 'edit'
@@ -106,6 +111,11 @@ class NewsController < ApplicationController
     flash[:notice] = l(:notice_successful_delete)
     Member.where(project_id: @news.project_id).each do |member|
       Alert.create_pop_up_alert(@news, "Deleted", User.current, member.user)
+      if Setting.notified_events.include?('news_deleted')
+        @project.recipients.uniq.each do |user|
+          UserMailer.news_deleted(user, @news, User.current, @project).deliver_now
+        end
+      end
     end
     redirect_to action: 'index', project_id: @project
   end

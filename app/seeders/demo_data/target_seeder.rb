@@ -43,7 +43,9 @@ module DemoData
         basic_value:  attributes[:basic_value],
         plan_value:   attributes[:plan_value],
         project_id:   project_by_name(attributes[:project]),
-        parent_id: attributes[:parent_id]
+        parent_id: attributes[:parent_id],
+        measure_unit_id: unit_by_name(attributes[:measure_unit_id]),
+        is_approve: attributes[:is_approve]
       }
     end
 
@@ -51,6 +53,13 @@ module DemoData
       np = TargetType.find_by(name: name)
       if np != nil
         np.id
+      end
+    end
+
+    def unit_by_name(name)
+      un = MeasureUnit.find_by(name: name)
+      if un.present?
+        un.id
       end
     end
 

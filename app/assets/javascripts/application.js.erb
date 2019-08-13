@@ -146,7 +146,9 @@ function generateProjectIdentifier() {
       {'base':'y','letters':/[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE]/g},
       {'base':'z','letters':/[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762]/g}
   ];
-
+  //+tan
+  identifier = replaceRussians(identifier);
+  //-tan
   for(var i=0; i<diacriticsMap.length; i++) {
     identifier = identifier.replace(diacriticsMap[i].letters, diacriticsMap[i].base);
   }
@@ -155,6 +157,22 @@ function generateProjectIdentifier() {
   identifier = identifier.toLowerCase(); // to lower
   identifier = identifier.substr(0,projectIdentifierMaxLength); // max characters
   return identifier;
+}
+
+//+-tan 2019.08.12
+function replaceRussians(identifier){
+    var arrru = new Array ('Я','я','Ю','ю','Ч','ч','Ш','ш','Щ','щ','Ж','ж','А','а','Б','б','В','в','Г','г','Д','д','Е','е','Ё','ё','З','з','И','и','Й','й','К','к','Л','л','М','м','Н','н', 'О','о','П','п','Р','р','С','с','Т','т','У','у','Ф','ф','Х','х','Ц','ц','Ы','ы','Ь','ь','Ъ','ъ','Э','э');
+    var arren = new Array ('Ya','ya','Yu','yu','Ch','ch','Sh','sh','Sh','sh','Zh','zh','A','a','B','b','V','v','G','g','D','d','E','e','E','e','Z','z','I','i','J','j','K','k','L','l','M','m','N','n', 'O','o','P','p','R','r','S','s','T','t','U','u','F','f','H','h','C','c','Y','y','`','`','\'','\'','E', 'e');
+    var text = identifier;
+    for(var i=0; i< arrru.length; i++){
+        var reg = new RegExp(arrru[i], "g");
+        text = replaceAll(text, arrru[i], arren[i]);
+    }
+    return text;
+}
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
 }
 
 function observeProjectName() {

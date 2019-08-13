@@ -41,6 +41,9 @@ export class MunicipalityTabComponent implements OnInit {
         this.value = this.valueOptions[0];
       });
     this.data = [];
+    let from = new Date();
+    let to = new Date();
+    to.setDate(to.getDate() + 14);
     const filtersGreen = [
       {
         status: {
@@ -62,8 +65,8 @@ export class MunicipalityTabComponent implements OnInit {
       },
       {
         dueDate: {
-          operator: '>t+',
-          values: ['0']
+          operator: '<>d',
+          values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
         }
       },
       {
@@ -189,6 +192,9 @@ export class MunicipalityTabComponent implements OnInit {
     if (this.selectedOption && this.selectedOption.$href) {
       this.blueChild.changeFilter(this.selectedOption.$href);
       this.data = [];
+      let from = new Date();
+      let to = new Date();
+      to.setDate(to.getDate() + 14);
       const filtersGreen = [
         {
           status: {
@@ -210,8 +216,8 @@ export class MunicipalityTabComponent implements OnInit {
         },
         {
           dueDate: {
-            operator: '>t+',
-            values: ['0']
+            operator: '<>d',
+            values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
           }
         },
         {

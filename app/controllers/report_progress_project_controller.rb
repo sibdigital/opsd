@@ -45,7 +45,14 @@ class ReportProgressProjectController < ApplicationController
     generate_status_execution_budgets_sheet
     generate_status_achievement_sheet
 
-    @ready_project_progress_report_path = File.absolute_path('.') +'/'+'public/reports/project_progress_report_out.xlsx'
+    #+tan
+    dir_path = File.absolute_path('.') + '/public/reports'
+    if  !File.directory?(dir_path)
+      Dir.mkdir dir_path
+    end
+    #-tan
+
+    @ready_project_progress_report_path = dir_path + '/project_progress_report_out.xlsx'
     @workbook.write(@ready_project_progress_report_path)
   end
 
@@ -458,8 +465,8 @@ class ReportProgressProjectController < ApplicationController
     spent = BigDecimal("0")
 
     cost_objects.each do |cost_object|
-      cost_object.cost_entries.each do |cost_type|
-        if cost_type.name == "Федеральный бюджет"
+      cost_object.cost_entries.each do |cost_entry|
+        if cost_entry.cost_type.name == "Федеральный бюджет"
           total_budget += cost_object.budget
           spent += cost_object.spent
         end
@@ -484,8 +491,8 @@ class ReportProgressProjectController < ApplicationController
     spent = BigDecimal("0")
 
     cost_objects.each do |cost_object|
-      cost_object.cost_entries.each do |cost_type|
-        if cost_type.name == "Региональный бюджет"
+      cost_object.cost_entries.each do |cost_entry|
+        if cost_entry.cost_type.name == "Региональный бюджет"
           total_budget += cost_object.budget
           labor_budget += cost_object.labor_budget
           spent += cost_object.spent
@@ -511,8 +518,8 @@ class ReportProgressProjectController < ApplicationController
     spent = BigDecimal("0")
 
     cost_objects.each do |cost_object|
-      cost_object.cost_entries.each do |cost_type|
-        if cost_type.name != "Региональный бюджет" && cost_type.name != "Федеральный бюджет"
+      cost_object.cost_entries.each do |cost_entry|
+        if cost_entry.cost_type.name != "Региональный бюджет" && cost_entry.cost_type.name != "Федеральный бюджет"
           total_budget += cost_object.budget
           material_budget += cost_object.labor_budget
           spent += cost_object.spent

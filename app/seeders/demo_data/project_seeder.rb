@@ -199,7 +199,7 @@ module DemoData
           name: project_name(key),
           identifier: project_identifier(key),
           description: project_description(key),
-          enabled_module_names: project_modules(key),
+          enabled_module_names: def_project_modules(),
           types: project_types,
           #+tan
           national_project_id: national_project(key),
@@ -208,6 +208,10 @@ module DemoData
           due_date: Date.strptime(due_date(key),"%Y%m%d")
           #-tan
         }
+      end
+
+      def def_project_modules
+        Setting.default_projects_modules
       end
 
       #+tan

@@ -148,6 +148,14 @@ module API
             "#{work_package_targets_1c}/#{id}"
           end
 
+          def self.work_package_targets_1cv2
+            "#{root}/work_package_targets_1cv2"
+          end
+
+          def self.work_package_target_1cv2(id)
+            "#{work_package_targets_1cv2}/#{id}"
+          end
+
           def self.work_package_problems
             "#{root}/work_package_problems"
           end
@@ -315,6 +323,10 @@ module API
 
           def self.national_project(id)
             "#{national_projects}/#{id}"
+          end
+
+          def self.view(name)
+            "#{root}/views/#{name}"
           end
           #)
           def self.priorities

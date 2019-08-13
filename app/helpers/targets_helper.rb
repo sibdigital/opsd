@@ -34,7 +34,7 @@ module TargetsHelper
         html = html + tag_td
         html = html + content_tag(:td, target.target_status)
         html = html + content_tag(:td, target.target_type)
-        html = html + content_tag(:td, target.unit)
+        html = html + content_tag(:td, target.measure_unit)
         html = html + content_tag(:td, target.basic_value)
         html = html + content_tag(:td, target.plan_value)
         if User.current.allowed_to?(:manage_work_package_target_plan_values, @project)

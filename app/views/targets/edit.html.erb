@@ -15,16 +15,6 @@ This file written by XCC
 
 <%= error_messages_for :target %>
 <%= error_messages_for :target_execution_value %>
-<% if !@target_execution_value.nil?&&@target_execution_value.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@target_execution_value.errors.count, "error") %> prohibited from being saved:</h2>
-    <ul>
-      <% @target_execution_value.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
 
 <div style="position: relative; display: block;">
 
@@ -36,7 +26,7 @@ This file written by XCC
       <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
         <%= styled_button_tag l(:button_save),  class: '-highlight -with-icon icon-checkmark' %>
       <% end %>
-      <%= link_to 'Закрыть', project_targets_path, class: '-highlight -with-icon icon-checkmark button' %>
+      <%= link_to 'Закрыть', project_targets_path, class: '-with-icon icon-checkmark button' %>
     <% end %>
   </section>
 
@@ -49,35 +39,40 @@ This file written by XCC
         <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>
       <% end %>
     </div>
-    <div>
-      <%= error_messages_for :target_execution_value %>
-    </div>
     <div id="target-val-form" style="display: none; margin-top: 10px; background: #fafafa; padding: 20px;">
       <section>
-        <h5>Введите значения:</h5>
         <%= @target_execution_value = TargetExecutionValue.new %>
-        <%= @target_execution_value.target_id = @target.id %>
-        <%#= labelled_tabular_form_for @target_execution_value,
-                                      url: target_execution_values_path(target_id: @target_execution_value.target_id) do |f| %>
-        <%= form_with model: @target_execution_value,
-            url: target_execution_values_path(target_id: @target_execution_value.target_id ) do |f| %>
+        <h5>Введите значения (#id=<%= @target_execution_value.target_id = @target.id %>):</h5>
 
-          <%#= render partial: 'target_execution_values/form', locals: { f: f } %>
-
+        <%= error_messages_for @target_execution_value %>
+        <%= labelled_tabular_form_for @target_execution_value, url: target_execution_values_path(target_id: @target_execution_value.target_id ) do |f| %>
           <section class="form--section">
             <%= hidden_field_tag(:target_id, @target.id) %>
-            <div class="form--field"><label for="year">Год:</label><%= select_year Date.today, start_year: 2010, end_year: 2030, prefix: 'target_execution_value', required: true, container_class: '-middle' %></div>
-            <div class="form--field"><label for="quarter">Квартал:</label>
-              <%= select_tag('target_execution_value[quarter]', options_for_select([['', nil],['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], 1)) %>
-            </div>
-            <div class="form--field"><label for="value">Значение:</label><%= f.text_field(:value, required: true)%></div>
+            <table>
+              <tr>
+                <td>
+                  <div class="form--field" style="max-width: 90px;">
+                    <%= f.number_field 'year', value: Time.current.year, container_class: '-middle' %>
+                  </div>
+                </td>
+                <td>
+                  <div class="form--field">
+                    <%= f.select 'quarter',
+                                 options_for_select([['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], 0),
+                                 include_blank: true,
+                                 container_class: '-middle' %>
+                  </div>
+                </td>
+                <td>
+                  <div class="form--field">
+                    <%= f.text_field(:value, required: true)%></div>
+                </td>
+              </tr>
+            </table>
           </section>
-          <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button', remote: true%>
-          <%= button_tag l(:button_cancel), type: 'reset', class: '-highlight -with-icon icon-checkmark button', id: 'target-val-cancel' %>
-  <!--        <div><span id="target-val-cancel">Отмена</span></div>-->
-
-          <%#= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark', remote: true %>
-        <% end %>
+          <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
+          <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-checkmark button', id: 'target-val-cancel' %>
+      <% end %>
       </section>
     </div>
 

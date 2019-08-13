@@ -416,6 +416,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             #after: :communictaion,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-resource'
+  menu.push :control,
+            {},
+            param: :project_id,
+            caption: :label_control,
+            #after: :communictaion,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-checkmark'
   #нехорошо из модуля переносить, но что делать TODO: need fix
   # menu.push :meetings,
   #           { controller: '/meetings', action: 'index' },
@@ -428,6 +435,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/activities', action: 'index' },
             param: :project_id,
             if: Proc.new { |p| p.module_enabled?('activity') },
+            parent: :control,
             icon: 'icon2 icon-checkmark'
 
   menu.push :roadmap,
@@ -478,6 +486,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages/calendars', action: 'index' },
             param: :project_id,
             caption: :label_calendar,
+            parent: :control,
             icon: 'icon2 icon-calendar'
 
   menu.push :news,
@@ -562,6 +571,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_agreements,
             if: Proc.new { |p| p.module_enabled?('agreements') },
+            parent: :control,
             icon: 'icon2 icon-info1'
 
 

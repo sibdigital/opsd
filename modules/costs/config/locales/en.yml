@@ -41,9 +41,9 @@ en:
       cost_object: "Бюджет"
       cost_type:
         one: "Тип затрат"
-        few: "Cost types"
-        many: "Cost types"
-        other: "Cost types"
+        few: "Несколько"
+        many: "Много"
+        other: "Типы расходов"
       material_budget_item: "Единица"
       rate: "Тариф"
     errors:
@@ -127,7 +127,7 @@ en:
   label_work_package_filter_add: "Добавить фильтр пакетов работы"
   label_kind: "Тип"
   label_less_or_equal: "<="
-  label_log_costs: "Журналировать расходы на единицу"
+  label_log_costs: "Добавить расходы"
   label_no: "Нет"
   label_option_plural: "Параметры"
   label_overall_costs: "Общие расходы"

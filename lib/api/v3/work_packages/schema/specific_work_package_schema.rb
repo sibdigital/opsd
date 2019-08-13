@@ -65,6 +65,8 @@ module API
               Contract.where('is_approve = ?', true)
             when :target
               Target.where('project_id = ?  and is_approve = ?', project_id, true)
+            when :required_doc_type
+              AttachType.all
             #)
             #xcc(
             when :organization

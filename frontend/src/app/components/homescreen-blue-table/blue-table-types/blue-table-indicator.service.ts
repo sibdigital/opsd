@@ -2,7 +2,6 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class BlueTableIndicatorService extends BlueTableService {
   private data:any[] = [];
@@ -20,30 +19,21 @@ export class BlueTableIndicatorService extends BlueTableService {
             this.national_project_titles.push({id: el.id, name: el.name});
           }
         });
-        this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
-
+        this.national_project_titles.push({id:0, name: 'Проекты Республики Бурятия'});
         this.halResourceService
           .get<HalResource>(this.pathHelper.api.v3.work_package_targets_1c.toString())
           .toPromise()
           .then((targetResources:HalResource) => {
             targetResources.elements.map((el:HalResource) => {
-              if (!el.projectId) {
-                el.projectId = 0;
-              }
-              this.data_local[el.projectId] = this.data_local[el.projectId] || {name: el.name, targets: []};
-              this.data_local[el.projectId].targets.push(el);
+              this.data_local[el.nationalId] = this.data_local[el.nationalId] || [];
+              this.data_local[el.nationalId].push(el);
             });
-
             resources.elements.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
                 this.data.push(el);
-                if (el.projects) {
-                  el.projects.map((project:ProjectResource) => {
-                    project['_type'] = 'Project';
-                    this.data.push(project);
-                    this.data_local[project.id].targets.map((target:HalResource) => {
-                      this.data.push(target);
-                    });
+                if (this.data_local[el.id]) {
+                  this.data_local[el.id].map( (wpt:HalResource) => {
+                    this.data.push(wpt);
                   });
                 }
               }
@@ -55,10 +45,10 @@ export class BlueTableIndicatorService extends BlueTableService {
   public getDataFromPage(i:number):any[] {
     this.data = [];
     if (this.national_project_titles[i].id === 0) {
-      this.data.push({_type:"National Project", name:"Проекты Республики Бурятия", parentId:null});
+      this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
       if (this.data_local[0]) {
-        this.data_local[0].targets.map( (target:HalResource) => {
-          this.data.push(target);
+        this.data_local[0].map((project:ProjectResource) => {
+          this.data.push(project);
         });
       }
     } else {
@@ -69,18 +59,13 @@ export class BlueTableIndicatorService extends BlueTableService {
           resources.elements.map((el:HalResource) => {
             if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
               this.data.push(el);
-              if (el.projects) {
-                el.projects.map( (project:ProjectResource) => {
-                  project['_type'] = 'Project';
-                  this.data.push(project);
-                  if (this.data_local[project.id]) {
-                    this.data_local[project.id].targets.map( (target:HalResource) => {
-                      this.data.push(target);
-                    });
-                  }
+              if (this.data_local[el.id]) {
+                this.data_local[el.id].map( (wpt:HalResource) => {
+                  this.data.push(wpt);
                 });
               }
             }
+
           });
         });
     }
@@ -101,7 +86,7 @@ export class BlueTableIndicatorService extends BlueTableService {
     if (row._type === 'WorkPackageTarget1C') {
       switch (i) {
         case 0: {
-          return row.name;
+          return row.target;
           break;
         }
         case 1: {
@@ -148,7 +133,7 @@ export class BlueTableIndicatorService extends BlueTableService {
         }
       }
     }
-    if (row._type === 'National Project') {
+    if (row._type === 'NationalProject') {
       switch (i) {
         case 0: {
           return row.name;

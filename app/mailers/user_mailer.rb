@@ -218,6 +218,34 @@ class UserMailer < BaseMailer
   end
 
 #ban
+  def news_changed(user, news, author, project)
+    @news = news
+    @project = project
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'В проекте "'+@project.name+'" обновлена новость: '+@news.title
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
+  def news_deleted(user, news, author, project)
+    @news = news
+    @project = project
+    open_project_headers 'Type'    => 'Boards'
+    open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'В проекте "'+@project.name+'" удалена новость: '+@news.title
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+#ban
   def project_created(user, project, author)
     @project = project
     open_project_headers 'Type'    => 'Boards'

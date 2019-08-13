@@ -34,7 +34,7 @@ module TargetExecutionValues
     end
 
     def delete_link
-      if User.current.allowed_to?(:manage_work_package_target_plan_values, @project)
+      if User.current.allowed_to?(:manage_work_package_target_plan_values, project)
         link_to(
           op_icon('icon icon-delete'),
           target_execution_value_path(id: target_execution_value, target_id: target_execution_value.target_id, project_id: project.identifier),

@@ -45,20 +45,25 @@ module API
 
         # bbm(
         # Функция заполнения значений долей диаграммы Показатели на рабочем столе
-        # В случае имзенения алгоритма среднего процента исполнения переделать функцию completed_percent_sd в project.rb
         def desktop_pokazateli_data
           ispolneno = 0 # Порядок важен
           ne_ispolneno = 0
           v_rabote = 0
-          Project.all.map(&:completed_percent_sd).each do |completed_percent|
-            case completed_percent
-            when 0
-              ne_ispolneno += 1
-            when 100
-              ispolneno += 1
-            else
-              v_rabote += 1
-            end
+          @plan_facts = PlanFactYearlyTargetValue.find_by_sql <<-SQL
+select yearly.project_id, yearly.target_id, sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
+from v_plan_fact_quarterly_target_values as quarterly
+left join v_plan_fact_yearly_target_values as yearly
+on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
+where yearly.year = date_part('year', current_date)
+group by yearly.project_id, yearly.target_id
+          SQL
+          @plan_facts.map do |plan|
+            chislitel = plan.final_fact_year_value || 0;
+            znamenatel = plan.target_plan_year_value;
+            procent = znamenatel == 0 ? 0 : chislitel / znamenatel
+            ne_ispolneno += 1 if procent == 0
+            v_rabote += 1 if procent < 100
+            ispolneno += 1 if procent == 100
           end
           result = []
           # Порядок важен
@@ -73,72 +78,13 @@ module API
           v_rabote = 0
           ne_ispolneno = 0
           riski = 0
-          status_isp = Status.find_by(name: I18n.t(:default_status_completed))
-          WorkPackage # С закрытыми рисками
-            .joins(:type)
-            .joins(:work_package_problems)
-            .where("status_id = ?", status_isp.id)
-            .where(types: { name: I18n.t(:default_type_milestone) },
-                   plan_type: :execution, result_agreed: true, done_ratio: 100)
-            .select(:id, "min(work_package_problems.status)")
-            .group(:id)
-            .map do |wp|
-            if wp.min == 'solved'
-              ispolneno += 1
-            end
+          kt = Type.find_by name: I18n.t(:default_type_milestone)
+          ProjectIspolnStat.where(type_id: kt.id).map do |ispoln|
+            ispolneno += ispoln.ispolneno
+            v_rabote += ispoln.v_rabote
+            ne_ispolneno += ispoln.ne_ispolneno
+            riski += ispoln.est_riski
           end
-          WorkPackage # То же самое но вообще без рисков
-            .joins(:type)
-            .where("status_id = ?", status_isp.id)
-            .where(types: { name: I18n.t(:default_type_milestone) },
-                   plan_type: :execution, result_agreed: true, done_ratio: 100)
-            .map do |wp|
-            if wp.work_package_problems.empty?
-              ispolneno += 1
-            end
-          end
-          status_vrab = Status.find_by(name: I18n.t(:default_status_in_work))
-          WorkPackage
-            .joins(:type)
-            .joins(:work_package_problems)
-            .where("status_id = ? and due_date > NOW()", status_vrab.id)
-            .where(types: { name: I18n.t(:default_type_milestone) }, plan_type: :execution)
-            .select(:id, "min(work_package_problems.status)")
-            .group(:id)
-            .map do |wp|
-            if wp.min == 'solved'
-              v_rabote += 1
-            end
-          end
-          WorkPackage
-            .joins(:type)
-            .where("status_id = ? and due_date > NOW()", status_vrab.id)
-            .where(types: { name: I18n.t(:default_type_milestone) }, plan_type: :execution)
-            .map do |wp|
-            if wp.work_package_problems.empty?
-              v_rabote += 1
-            end
-          end
-          status_otm = Status.find_by(name: I18n.t(:default_status_cancelled))
-          WorkPackage
-            .joins(:type)
-            .where("due_date < NOW()", status_vrab.id)
-            .where(types: { name: I18n.t(:default_type_milestone) }, plan_type: :execution)
-            .map do |wp|
-            if wp.done_ratio != 100 or (wp.status.name != status_otm.name and wp.status.name != status_isp.name)
-              ne_ispolneno += 1
-            end
-          end
-          WorkPackage
-            .joins(:type)
-            .joins(:work_package_problems)
-            .where("status_id not in (?, ?) and due_date > NOW()", status_otm.id, status_isp.id)
-            .where(types: { name: I18n.t(:default_type_milestone) }, plan_type: :execution)
-            .select(:id, "min(work_package_problems.status)")
-            .group(:id)
-            .map do |wp|
-            riski += 1
-            end
           result = []
           # Порядок важен
           result << ispolneno
@@ -169,18 +115,24 @@ module API
         end
 
         def desktop_riski_data
+          net_riskov = 0
+          neznachit = 0
+          kritich = 0
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
-          neznachit = WorkPackageProblem
-                        .joins(:risk)
-                        .where(risks: { importance_id: status_neznachit.id })
-                        .count
-          kritich = WorkPackageProblem
-                      .joins(:risk)
-                      .where(risks: { importance_id: status_kritich.id })
-                      .count
+          @risks = ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
+select type, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
+where type in ('created_risk', 'no_risk_problem')
+group by type, importance_id
+          SQL
+          @risks.map do |risk|
+            net_riskov += risk.count if risk.type=='no_risk_problem'
+            neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
+            kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+          end
           result = []
           # Порядок важен
+          result << net_riskov
           result << neznachit
           result << kritich
         end

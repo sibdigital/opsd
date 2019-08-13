@@ -71,6 +71,7 @@ npm-debug.log*
 /public/plugin_assets
 /public/assets
 /public/javascripts
+/public/reports
 /tmp/*
 /tmp/cache/*
 /tmp/sessions/*

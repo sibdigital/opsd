@@ -60,7 +60,7 @@ class TargetsController < ApplicationController
     @target = @project.targets.create(permitted_params.target)
 
     if @target.save
-      flash[:notice] = l(:notice_successful_create)
+      flash[:notice] = l(:notice_add_target_values)
       redirect_to edit_project_target_path(id: @target.id) #action: 'edit'
 
     else
