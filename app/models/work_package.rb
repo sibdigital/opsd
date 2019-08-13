@@ -114,7 +114,7 @@ class WorkPackage < ActiveRecord::Base
 
   scope :visible, ->(*args) {
     #+tan tmd
-    if !User.current.has_priveleged?(@project) && !User.current.admin?
+    if !User.current.has_priveleged?(@project) && !User.current.admin? && !User.current.detect_project_office_coordinator?
       org = User.current.organization
       childs = org != nil ? org.childs().map {|c| c.id.to_i} : [0]
       where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages)).where('organization_id = ?', childs)
