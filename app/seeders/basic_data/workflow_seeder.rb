@@ -68,6 +68,7 @@ module BasicData
       else
         member = Role.where(name: I18n.t(:default_role_member)).first
         manager = Role.where(name: I18n.t(:default_role_project_admin)).first
+        koordinator = Role.where(name: I18n.t(:default_role_project_office_coordinator)).first
 
         puts '   ↳ Types'
         TypeSeeder.new.seed!
@@ -79,7 +80,7 @@ module BasicData
         workflows.each { |type_id, statuses_for_type|
           statuses_for_type.each { |old_status|
             statuses_for_type.each { |new_status|
-              [manager.id, member.id].each { |role_id|
+              [manager.id, member.id, koordinator.id].each { |role_id|
                 Workflow.create type_id: type_id,
                                 role_id: role_id,
                                 old_status_id: old_status.id,

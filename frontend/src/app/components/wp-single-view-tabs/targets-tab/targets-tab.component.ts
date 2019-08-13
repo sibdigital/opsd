@@ -389,7 +389,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
               }
               default: {
                 // не указан квартал - сравниваем с годовым значение плана
-                if (target.plan_value > plan.target_year_value) {
+                if (Number(target.plan_value) > Number(plan.target_year_value)) {
                   yearResult = false;
                   this.checkErrors.push({result: yearResult, text: 'Введенное плановое значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan.target_year_value.toString()+')'});
                 }
@@ -399,7 +399,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
           else {
             // не указан квартал - сравниваем с годовым значение плана
             if(plan.target_year_value != null) {
-              if (plan.target_year_value != null && target.plan_value > plan.target_year_value) {
+              if (plan.target_year_value != null && Number(target.plan_value) > Number(plan.target_year_value)) {
                 result = false;
                 this.checkErrors.push({
                   result: result,

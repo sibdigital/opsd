@@ -44,7 +44,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field"><%= f.check_box :admin, disabled: (@user == User.current) %></div>
   <!--tmd-->
   <div class="form--field">
-    <%= f.select :organization_id, options_for_select(@user.organization_options.map { |obj| [obj['name'], obj['id']] }, @user.organization_id), container_class: '-slim'%>
+    <%= f.select :organization_id, options_for_select(@user.organization_options.map { |obj| [obj['name'], obj['id']] }, @user.organization_id), container_class: '-slim', include_blank: true%>
   </div>
   <!--tmd-->
   <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
