@@ -4,14 +4,23 @@
 class OrgSettingsController < ApplicationController
   layout 'admin'
   menu_item :org_settings
-
+  include SortHelper
+  include PaginationHelper
+  include ::IconsHelper
+  include ::ColorsHelper
+  include TargetsHelper
   before_action :require_project_admin
 
   def index
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
+    @organizations = Organization.order(sort_clause).page(page_param).per_page(per_page_param)
     @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
     @municipalities = Enumeration.find_by(name: "Муниципальное образование")
     @counterparties = Enumeration.find_by(name: "Контрагент")
-    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
     @parent_id = parent_id_param
 
     if @parent_id.to_i != 0
@@ -23,39 +32,58 @@ class OrgSettingsController < ApplicationController
   end
 
   def iogv
-    @iogv = Enumeration.find_by(name: "Орган исполнительной власти")
-    @parent_id = parent_id_param
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
+    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
+    @iogv = Organization.where(org_type: @org_type).order(sort_clause).page(page_param).per_page(per_page_param)
+    # @parent_id = parent_id_param
 
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def municipalities
-    @municipalities = Enumeration.find_by(name: "Муниципальное образование")
-    @parent_id = parent_id_param
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
+    @org_type = Enumeration.find_by(name: "Муниципальное образование").id
+    @municipalities = Organization.where(org_type: @org_type).order(sort_clause).page(page_param).per_page(per_page_param)
+    # @org_type.to_param
+    # @parent_id = parent_id_param
 
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def counterparties
-    @counterparties = Enumeration.find_by(name: "Контрагент")
-    @parent_id = parent_id_param
+    sort_columns = {'id' => "#{Organization.table_name}.id",
+                    'name'=>"#{Organization.table_name}.name"
+    }
+    sort_init [['parent_id', 'asc'],['id', 'asc']]
+    sort_update sort_columns
+    @org_type = Enumeration.find_by(name: "Контрагент").id
+    @counterparties = Organization.where(org_type: @org_type).order(sort_clause).page(page_param).per_page(per_page_param)
+    # @parent_id = parent_id_param
 
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def positions
-    @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
-    @parent_id = parent_id_param
-
-    if @parent_id.to_i != 0
-      @organization_parent = Organization.find(@parent_id)
-    end
+    # @org_type = Enumeration.find_by(name: "Орган исполнительной власти").id
+    # @parent_id = parent_id_param
+    #
+    # if @parent_id.to_i != 0
+    #   @organization_parent = Organization.find(@parent_id)
+    # end
   end
 
   def edit
@@ -101,7 +129,15 @@ class OrgSettingsController < ApplicationController
   # end
 
   def default_breadcrumb
-    l(:label_org_settings)
+    if @org_type == Enumeration.find_by(name: "Орган исполнительной власти").id
+      l(:label_iogv)
+    elsif @org_type == Enumeration.find_by(name: "Муниципальное образование").id
+      l(:label_municipalities)
+    elsif @org_type == Enumeration.find_by(name: "Контрагент").id
+      l(:label_counterparties)
+    else
+      l(:label_positions)
+    end
   end
 
   def show_local_breadcrumb

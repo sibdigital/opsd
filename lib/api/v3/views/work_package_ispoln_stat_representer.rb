@@ -28,15 +28,34 @@
 #++
 
 require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
 require 'roar/json/hal'
 
 module API
   module V3
     module Views
-      class WorkPackageStatCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::Views::WorkPackageStatRepresenter
+      class WorkPackageIspolnStatRepresenter < ::API::Decorators::Single
+        #include ::API::Caching::CachedRepresenter
+
+        property :id
+        property :subject
+
+        property :project,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.project },
+                 render_nil: true
+
+        property :assignee,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.assigned_to },
+                 render_nil: true
+
+        property :due_date, render_nil: true
+        property :status_name, render_nil: true
+        property :created_problem_count
+
+        def _type
+          'WorkPackageIspolnStat'
+        end
       end
     end
   end

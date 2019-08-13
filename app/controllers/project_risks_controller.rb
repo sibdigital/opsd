@@ -16,6 +16,8 @@ class ProjectRisksController < ApplicationController
   def index
     sort_columns = {'id' => "#{ProjectRisk.table_name}.id",
                     'name' => "#{ProjectRisk.table_name}.name",
+                    'owner' => "#{ProjectRisk.table_name}.owner_id",
+                    'possibility' => "#{ProjectRisk.table_name}.possibility_id",
                     'possibility' => "#{ProjectRisk.table_name}.possibility_id",
                     'importance' => "#{ProjectRisk.table_name}.importance_id"
     }
@@ -131,6 +133,8 @@ class ProjectRisksController < ApplicationController
     project_risk.description = typed_risk.description
     project_risk.possibility = typed_risk.possibility
     project_risk.importance = typed_risk.importance
+    project_risk.owner_id = typed_risk.owner_id
+    project_risk.is_possibility = typed_risk.is_possibility
     project_risk.color = typed_risk.color
     typed_risk.risk_characts.each do |typed_risk_charact|
       project_risk_charact = project_risk.risk_characts.build

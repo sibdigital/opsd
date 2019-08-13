@@ -6,6 +6,7 @@ class WorkPackageIspolnStat < ActiveRecord::Base
     true
   end
 
+  belongs_to :assigned_to, class_name: 'User', foreign_key: 'assigned_to_id'
   belongs_to :project
   belongs_to :work_package, foreign_key: 'id'
   belongs_to :national_project, -> { where(type: 'National') }, class_name: "NationalProject", foreign_key: "national_project_id"

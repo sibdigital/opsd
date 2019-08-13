@@ -38,7 +38,6 @@ export class ProblemsTabComponent {
         });
         this.valueOptions.unshift({name: 'Все проекты', kurator: '-', rukovoditel:'-', $href: '0'});
         this.value = this.valueOptions[0];
-        this.handleUserSubmit();
       });
   }
 

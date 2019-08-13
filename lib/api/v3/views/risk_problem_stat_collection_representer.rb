@@ -35,8 +35,8 @@ require 'roar/json/hal'
 module API
   module V3
     module Views
-      class WorkPackageStatCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::Views::WorkPackageStatRepresenter
+      class RiskProblemStatCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        element_decorator ::API::V3::Views::RiskProblemStatRepresenter
       end
     end
   end

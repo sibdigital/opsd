@@ -98,7 +98,7 @@ module API
 
           get do
             WorkPackageTarget1CCollectionRepresenter.new(@work_package_targets,
-                                                       api_v3_paths.work_package_targets,
+                                                       api_v3_paths.work_package_targets_1c,
                                                        current_user: current_user)
           end
         end

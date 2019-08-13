@@ -379,6 +379,21 @@ en:
         repository: Репозиторий
       comment:
         commented: Прокомментировано
+      #zbd(
+      contract:
+        name: Наименование
+        contract_subject: Предмет контракта
+        contract_num: № контракта
+        contract_date: Дата заключения контракта
+        price: Цена контракта
+        executor: Исполнитель
+        eis_href: Ссылка на ЕИС
+        sposob: Способ заключения
+        gos_zakaz: Государственный заказчик
+        date_begin: Дата начала
+        date_end: Дата завершения
+        etaps: Этапы
+      #)
       custom_action:
         actions: Действия
       custom_field:
@@ -440,6 +455,14 @@ en:
       role:
         assignable: Мероприятия могут быть назначены пользователям и группам в
           зависимости от этой роли в рамках соответствующего проекта
+      #zbd(
+      target:
+        parent: Родитель
+        status: Состояние
+        type: Тип
+        name: Наименование
+        measure_unit: Единица измерения
+      #)
       time_entry:
         activity: Деятельность
         hours: Часы
@@ -451,6 +474,32 @@ en:
         is_default: В новых проектах активируется по умолчанию
         is_milestone: Это веха
         color: Цвет
+#        knm start
+      head_performance_indicator_value:
+        head_performance_indicator_id: Показатель деятельности высшего должностного лица
+        head_performance_indicator: Показатель деятельности высшего должностного лица
+        month: Месяц
+      production_calendar:
+        day_type: Тип дня недели
+      national_project:
+        parent: Национальный проект
+        leader: Руководитель
+        leader_position: Должность руководителя
+        curator: Куратор
+        curator_position: Должность куратора
+      organization:
+        parent: Вышестоящая организация
+        name: Название организации
+      typed_risk:
+        owner: Владелец риска
+        is_possibility: Является возможностью
+      risk:
+        owner: Владелец риска
+        is_possibility: Является возможностью
+      project_risk:
+        owner: Владелец риска
+        is_possibility: Является возможностью
+#        end
       user:
         admin: Администратор
         auth_source: Способ аутентификации
@@ -463,6 +512,15 @@ en:
         new_password: Новый пароль
         password_confirmation: Подтверждение
         consented_at: Согласен с
+        #zbd(
+        patronymic: Отчество
+        mail_add: Эл.почта (дополнительная)
+        phone_wrk: Рабочий телефон
+        phone_wrk_add: Добавочный номер
+        phone_mobile: Мобильный телефон
+        address: Адрес
+        cabinet: Кабинет
+        #)
       user_preference:
         comments_sorting: Показывать комментарии
         hide_mail: Скрывать мой адрес электронной почты
@@ -500,6 +558,10 @@ en:
         time_entries: Учет времени
         type: Тип
         watcher: Наблюдатель
+        #zbd(
+        required_doc_type: Необходимый контрольный документ
+        result_agreed: Результат согласован
+        #)
       doorkeeper/application:
         uid: ID клиента
         secret: Секрет клиента
@@ -777,15 +839,7 @@ en:
     project_approve_status: Этап согласования
     is_approve: Утвержден
     #knm(
-    head_performance_indicator_id: Показатель деятельности высшего должностного лица
-    head_performance_indicator: Показатель деятельности высшего должностного лица
-    month: Месяц
-    day_type: Тип дня недели
-    parent: Национальный проект
-    leader: Руководитель
-    leader_position: Должность руководителя
-    curator: Куратор
-    curator_position: Должность куратора
+
     #)
     issue: Пакет работ
     lastname: Фамилия
@@ -793,13 +847,6 @@ en:
     mail: Электронная почта
     #zbd(
     contract: Гос.контракт
-    patronymic: Отчество
-    mail_add: Эл.почта (дополнительная)
-    phone_wrk: Рабочий телефон
-    phone_wrk_add: Добавочный номер
-    phone_mobile: Мобильный телефон
-    address: Адрес
-    cabinet: Кабинет
     target: Целевой показатель
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
@@ -810,20 +857,7 @@ en:
     organization: Организация
     parent_organization: Вышестоящая организация
     #)
-    name: Наименование
     password: Пароль
-    result_agreed: Результат согласован
-    contract_subject: Предмет контракта
-    contract_num: № контракта
-    contract_date: Дата заключения контракта
-    sposob: Способ заключения
-    gos_zakaz: Государственный заказчик
-    date_begin: Дата начала
-    date_end: Дата завершения
-    etaps: Этапы
-    price: Цена контракта
-    executor: Исполнитель
-    eis_href: Ссылка на ЕИС
     #)
     possibility: Вероятность наступления
     priority: Приоритет
@@ -2211,8 +2245,9 @@ en:
   notice_attachment_migration_wiki_page: 'Эта страница была автоматически создана
     во время обновления. Она содержит все вложения, ранее связанные с
     %{container_type} «%{container_name}».
-
 '
+  notice_add_target_values: "Введите значения показателя с разбивкой по годам или квараталам."
+
   number:
     format:
       delimiter: ''
@@ -2285,6 +2320,7 @@ en:
   permission_view_work_package_targets: Просмотр целевых показателей мероприятия
   permission_manage_work_package_problems: Управление проблемами/рисками мероприятия
   permission_view_work_package_problems: Просмотр проблем/рисков мероприятия
+  permission_edit_required_doc_type: Редактирование типа контрольного документа
   #)
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками

@@ -25,6 +25,9 @@ export class DesktopTabComponent implements OnInit {
   }
 
   ngOnInit() {
+    let from = new Date();
+    let to = new Date();
+    to.setDate(to.getDate() + 14);
     const filtersGreen = [
       {
         status: {
@@ -46,8 +49,8 @@ export class DesktopTabComponent implements OnInit {
       },
       {
         dueDate: {
-          operator: '>t+',
-          values: ['0']
+          operator: '<>d',
+          values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
         }
       }
     ];

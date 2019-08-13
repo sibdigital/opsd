@@ -8,12 +8,12 @@ require 'roar/json/hal'
 module API
   module V3
     module WorkPackageTargets
-      class WorkPackageTarget1CRepresenter < ::API::Decorators::Single
+      class WorkPackageTarget1CV2Representer < ::API::Decorators::Single
         include ::API::Caching::CachedRepresenter
 
         link :self do
           {
-            href: api_v3_paths.work_package_target_1c(represented.id),
+            href: api_v3_paths.work_package_target_1cv2(represented.id),
             title: Target.where(id: represented.target_id).first.name
           }
         end
@@ -44,6 +44,7 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) { represented.project.national_project_id || 0 },
                  render_nil: true
+
         property :quarter1_value, render_nil: true
         property :quarter1_plan_value, render_nil: true
         property :quarter2_value, render_nil: true
@@ -54,7 +55,7 @@ module API
         property :quarter4_plan_value, render_nil: true
 
         def _type
-          'WorkPackageTarget1C'
+          'WorkPackageTarget1CV2'
         end
       end
     end

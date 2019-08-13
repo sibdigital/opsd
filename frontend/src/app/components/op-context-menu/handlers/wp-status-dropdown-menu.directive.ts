@@ -76,13 +76,24 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
 
   private updateStatus(status:HalResource) {
     const changeset = this.wpEditing.changesetFor(this.workPackage);
+    //zbd(
+    let old_status = this.workPackage.status;
+    //)
     changeset.setValue('status', status);
 
+
     if(!this.workPackage.isNew) {
-      changeset.save().then(() => {
-        this.wpNotificationsService.showSave(this.workPackage);
-        this.wpTableRefresh.request('Altered work package status via button');
-      });
+      changeset.save()
+        .then(() => {
+          this.wpNotificationsService.showSave(this.workPackage);
+          this.wpTableRefresh.request('Altered work package status via button');
+        })
+        //zbd (
+        .catch(err=>{
+          changeset.setValue('status', old_status);
+          this.wpNotificationsService.showError(err, this.workPackage);
+        });
+        //)
     }
   }
 

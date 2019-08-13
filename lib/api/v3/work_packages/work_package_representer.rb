@@ -444,7 +444,9 @@ module API
         #zbd(
         associated_resource :contract, link_title_attribute: :contract_subject
 
-        #bbm associated_resource :target, link_title_attribute: :name
+        associated_resource :required_doc_type,
+                            v3_path: :attach_type,
+                            representer: ::API::V3::AttachTypes::AttachTypeRepresenter
         # )
 
         #xcc(

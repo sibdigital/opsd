@@ -25,7 +25,16 @@ class TargetExecutionValuesController < ApplicationController
       redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     else
       #render action: 'new'
-      edit_project_target_path(id: @target_execution_value.target_id)
+
+      if @target_execution_value.errors.any?
+        @target_execution_value.errors.full_messages.each do |msg|
+          flash.now[:error] = msg
+          flash[:error] = msg
+        end
+      end
+
+      #edit_project_target_path(id: @target_execution_value.target_id, flash: 'error')
+      redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     end
   end
 

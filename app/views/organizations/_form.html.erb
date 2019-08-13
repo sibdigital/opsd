@@ -18,9 +18,13 @@ This file written by TAN
 <% end %>
 <section class="form--section">
   <%= f.hidden_field 'org_type' %>
-  <%= f.hidden_field 'parent_id' %>
 
   <div class="form--field content--split"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <% if @organization.id == nil %>
+    <div class="form--field content--split"><%= f.select 'parent_id', options_for_select(Organization.where(org_type: @organization.org_type).map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
+    <% else %>
+    <div class="form--field content--split"><%= f.select 'parent_id', options_for_select(Organization.where(org_type: @organization.org_type).where("id != ?", @organization.id).map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
+<% end %>
   <div class="form--field content--split"><%= f.text_field 'inn', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.check_box 'is_legal_entity', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'org_prav_forma', container_class: '-middle' %></div>
