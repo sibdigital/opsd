@@ -215,10 +215,13 @@ class ReportProgressProjectController < ApplicationController
 
   def generate_status_achievement_sheet
     sheet = @workbook['Статус достижения результатов']
-    get_status_achievement
+
     data_row = 3
     incriment = 0
-    @result_array_status_achievement.each_with_index do |status, i|
+    targets = Target.where('project_id = ?', @project.id)
+    targets.each_with_index do |target, i|
+      @target_id = target.id
+      status = get_status_achievement
       sheet.insert_cell(data_row + i + incriment, 0, i+1)
       sheet.insert_cell(data_row + i + incriment, 1, "")
       sheet.insert_cell(data_row + i + incriment, 2, status["name"])
@@ -253,62 +256,62 @@ class ReportProgressProjectController < ApplicationController
         sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
 
       elsif
-        (status["ispolneno"]+status["v_rabote"]) > 0 && status["ne_ispolneno"] == 0 && status["est_riski_critic"] == 0 && status["est_riski_necritic"] == 0
-        sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"])
+        (status["ispolneno"].to_i+status["v_rabote"].to_i) > 0 && status["ne_ispolneno"].to_i == 0 && status["est_riski_critic"].to_i == 0 && status["est_riski_necritic"].to_i == 0
+        sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+status["v_rabote"].to_i)
         sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
         sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
 
       elsif
-          (status["ne_ispolneno"] + status["est_riski_critic"]) > 0 && status["ispolneno"] == 0 && status["est_riski_necritic"] == 0 && status["v_rabote"] == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"]+ status["est_riski_critic"])
+          (status["ne_ispolneno"].to_i + status["est_riski_critic"].to_i) > 0 && status["ispolneno"].to_i == 0 && status["est_riski_necritic"].to_i == 0 && status["v_rabote"].to_i == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"].to_i+ status["est_riski_critic"].to_i)
           sheet.sheet_data[data_row + i + incriment][4].change_fill('ff0000')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
 
       elsif
-          status["est_riski_necritic"] > 0 && status["ispolneno"] == 0 && status["ne_ispolneno"] == 0 && status["v_rabote"] == 0 && status["est_riski_critic"] == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["est_riski_necritic"])
+          status["est_riski_necritic"].to_i > 0 && status["ispolneno"].to_i == 0 && status["ne_ispolneno"].to_i == 0 && status["v_rabote"].to_i == 0 && status["est_riski_critic"].to_i == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["est_riski_necritic"].to_i)
           sheet.sheet_data[data_row + i + incriment][4].change_fill('ffd800')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
         #} конец вариантов для 1 цвета
         # { начало вариантов для 2 цветов
       elsif
-          (status["ispolneno"]+status["v_rabote"])  > 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"])
+          (status["ispolneno"].to_i+status["v_rabote"].to_i)  > 0 && (status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i) > 0 && status["est_riski_necritic"].to_i == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+status["v_rabote"].to_i)
           sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
 
-          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"]+status["est_riski_critic"])
+          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i)
           sheet.sheet_data[data_row + i + incriment][6].change_fill('ff0000')
           sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
       elsif
-          (status["ispolneno"] + status["v_rabote"]) > 0 && status["ne_ispolneno"] == 0 && status["est_riski_necritic"] > 0 && status["est_riski_critic"] == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+ status["v_rabote"])
+          (status["ispolneno"].to_i + status["v_rabote"].to_i) > 0 && status["ne_ispolneno"].to_i == 0 && status["est_riski_necritic"].to_i > 0 && status["est_riski_critic"].to_i == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+ status["v_rabote"].to_i)
           sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
 
-          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"])
+          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"].to_i)
           sheet.sheet_data[data_row + i + incriment][6].change_fill('ffd800')
           sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
       elsif
-          status["ispolneno"] == 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] > 0 && status["v_rabote"] == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"]+status["est_riski_critic"])
+          status["ispolneno"].to_i == 0 && (status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i) > 0 && status["est_riski_necritic"].to_i > 0 && status["v_rabote"].to_i == 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i)
           sheet.sheet_data[data_row + i + incriment][4].change_fill('ff0000')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
 
-          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"])
+          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"].to_i)
           sheet.sheet_data[data_row + i + incriment][6].change_fill('ffd800')
           sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
         #} конец вариантов для 2 цветов
         # { начало вариантов для 3 цветов
       elsif
-          (status["ispolneno"]+status["v_rabote"]) > 0 && (status["ne_ispolneno"]+status["est_riski_critic"]) > 0 && status["est_riski_necritic"] > 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"]+status["v_rabote"])
+          (status["ispolneno"].to_i+status["v_rabote"].to_i) > 0 && (status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i) > 0 && status["est_riski_necritic"].to_i > 0
+          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+status["v_rabote"].to_i)
           sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
           sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
 
-          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"]+status["est_riski_critic"])
+          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i)
           sheet.sheet_data[data_row + i + incriment][6].change_fill('ff0000')
-          sheet.insert_cell(data_row + i + incriment, 7, status["est_riski_necritic"])
+          sheet.insert_cell(data_row + i + incriment, 7, status["est_riski_necritic"].to_i)
           sheet.sheet_data[data_row + i + incriment][7].change_fill('ffd800')
       end
 
@@ -530,42 +533,60 @@ class ReportProgressProjectController < ApplicationController
 
 
   def get_status_achievement
-    sql = "with
-    stat as (
-              select target_id,
-                  sum(ispolneno)    as ispolneno,
-                  sum(ne_ispolneno) as ne_ispolneno,
-                  sum(est_riski_critic)    as est_riski_critic,
-                  sum(est_riski_necritic)    as est_riski_necritic,
-                  sum(v_rabote)     as v_rabote
-    from (
-           select tswp.target_id,
-                  case when ispolneno = true then 1 else 0 end    as ispolneno,
-                  case when ne_ispolneno = true then 1 else 0 end as ne_ispolneno,
-                  case when (est_riski = true) and (r.importance='Критичная') then 1 else 0 end as est_riski_critic,
-                  case when (est_riski = true) and (r.importance='Незначительная' or r.importance is null) then 1 else 0 end as est_riski_necritic,
-                  case when v_rabote = true then 1 else 0 end     as v_rabote
-    from v_target_status_on_work_package tswp
-    inner join types t on tswp.type_id = t.id
-    left join v_risk_problem_stat r on r.work_package_id = tswp.id
-    where year = EXTRACT(YEAR FROM CURRENT_DATE) and t.name='"+I18n.t(:default_type_milestone)+"' "+
-    ") as s
-    group by target_id
-    )
-    select t.name,s.ispolneno,s.ne_ispolneno, s.est_riski_critic, s.est_riski_necritic,s.v_rabote
+    sql = " with
+     stat as (
+       select "+ @target_id.to_s+" as target_id,
+              sum(ispolneno)          as ispolneno,
+              sum(ne_ispolneno)       as ne_ispolneno,
+              sum(est_riski_critic)   as est_riski_critic,
+              sum(est_riski_necritic) as est_riski_necritic,
+              sum(v_rabote)           as v_rabote
+       from (
+              WITH RECURSIVE r AS (
+                SELECT targ.id, targ.parent_id, targ.name
+                FROM targets targ
+                WHERE targ.id = "+ @target_id.to_s+"
+
+                UNION
+
+                SELECT targ.id, targ.parent_id, targ.name
+                FROM targets targ
+                       JOIN r
+                            ON targ.parent_id = r.id
+                )
+                select target_id,
+                       sum(ispolneno)          as ispolneno,
+                       sum(ne_ispolneno)       as ne_ispolneno,
+                       sum(est_riski_critic)   as est_riski_critic,
+                       sum(est_riski_necritic) as est_riski_necritic,
+                       sum(v_rabote)           as v_rabote
+                from (
+                       select tswp.target_id,
+                              case when ispolneno = true then 1 else 0 end as ispolneno,
+                              case when ne_ispolneno = true then 1 else 0 end as ne_ispolneno,
+                              case when (est_riski = true) and (r.importance = 'Критичная') then 1 else 0 end  as est_riski_critic,
+                              case when (est_riski = true) and (r.importance = 'Незначительная' or r.importance is null) then 1 else 0 end as est_riski_necritic,
+                              case when v_rabote = true then 1 else 0 end as v_rabote
+                       from v_target_status_on_work_package tswp
+                              inner join types t on tswp.type_id = t.id
+                              left join v_risk_problem_stat r on r.work_package_id = tswp.id
+
+                       where year = EXTRACT(YEAR FROM CURRENT_DATE)
+                         and t.name = '"+I18n.t(:default_type_milestone)+"'"+
+                     ") as s, r
+                where s.target_id = r.id
+                group by s.target_id
+            ) as s
+          )
+
+    select t.id, t.name,s.ispolneno,s.ne_ispolneno, s.est_riski_critic, s.est_riski_necritic,s.v_rabote
     from targets t
     left join stat s on s.target_id = t.id
-    where t.is_approve = true and t.project_id="+@project.id.to_s
+    where t.is_approve = true  and t.id = " + @target_id.to_s+" and t.project_id = "+@project.id.to_s
 
-    result = ActiveRecord::Base.connection.execute(sql)
+    result_sql = ActiveRecord::Base.connection.execute(sql)
 
-    @result_array_status_achievement = []
-    index = 0
-    result.each do |row|
-      @result_array_status_achievement[index] = row
-
-      index += 1
-    end
+    result = result_sql[0]
   end
 
 
