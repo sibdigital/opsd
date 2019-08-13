@@ -487,6 +487,9 @@ en:
         leader_position: Должность руководителя
         curator: Куратор
         curator_position: Должность куратора
+      organization:
+        parent: Вышестоящая организация
+        name: Название организации
 #        end
       user:
         admin: Администратор

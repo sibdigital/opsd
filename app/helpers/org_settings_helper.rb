@@ -31,6 +31,8 @@ module OrgSettingsHelper
         # html = html+'</td>'
         if organisation.is_legal_entity
           html = html + content_tag(:td, op_icon('icon icon-checkmark'))
+        else
+          html = html + '<td></td>'
         end
         html = html + content_tag(:td, organisation.inn)
         html = html + content_tag(:td,
