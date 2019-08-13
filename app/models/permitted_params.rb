@@ -422,7 +422,7 @@ class PermittedParams
   end
 
   def typed_risk
-    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
 
     permitted_params = permitted_params.merge(custom_field_values(:typed_risk))
     permitted_params
@@ -431,7 +431,7 @@ class PermittedParams
 
   def project_risk
     # +-tan
-    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
 
     permitted_params = permitted_params.merge(custom_field_values(:project_risk))
     permitted_params

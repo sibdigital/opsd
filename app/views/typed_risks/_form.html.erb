@@ -12,8 +12,10 @@ This file written by BBM
 <section class="form--section">
   <%= f.hidden_field 'type' %>
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.hidden_field 'owner_id', container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'description', container_class: '-middle' %></div>
   <div class="form--field"><%= f.number_field 'possibility', container_class: '-xslim' %></div>
+  <div class="form--field"><%= f.check_box 'is_possibility', container_class: '-xslim' %></div>
   <div class="form--field"><%= f.number_field 'importance', container_class: '-xslim' %></div>
 
   <% if User.current.admin?%>

@@ -490,6 +490,15 @@ en:
       organization:
         parent: Вышестоящая организация
         name: Название организации
+      typed_risk:
+        owner: Владелец риска
+        is_possibility: Является возможностью
+      risk:
+        owner: Владелец риска
+        is_possibility: Является возможностью
+      project_risk:
+        owner: Владелец риска
+        is_possibility: Является возможностью
 #        end
       user:
         admin: Администратор
