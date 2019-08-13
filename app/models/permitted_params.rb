@@ -313,6 +313,8 @@ class PermittedParams
                                                 :due_date,
                                                 :responsible_id,
                                                 :identifier,
+                                                :national_project_id,
+                                                :federal_project_id,
                                                 :project_type_id,
                                                 :project_approve_status_id, #+-tan 2019.07.06
                                                 :project_status_id,

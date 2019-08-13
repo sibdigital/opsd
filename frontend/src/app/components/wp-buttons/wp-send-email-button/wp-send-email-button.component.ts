@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {catchError} from "rxjs/operators";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   selector: 'app-wp-send-email-button',
@@ -16,52 +16,28 @@ export class WpSendEmailButtonComponent implements OnInit {
   public projectIdentifier:string|null;
 
   constructor(readonly http:HttpClient,
-              readonly currentProject:CurrentProjectService
+              protected NotificationsService:NotificationsService,
+              private readonly PathHelper:PathHelperService
   ) { }
 
   ngOnInit() {
-
-    this.projectIdentifier = this.currentProject.identifier;
-
   }
 
   public sendEmail() {
-    console.log("send test email...");
 
+    const url = this.PathHelper.appBasePath + '/admin/send_email_assignee_from_task?workPackageId=' + this.workPackageId;
 
-    this.http.get("http://localhost:3000/admin/send_email_assignee_from_task?workPackageId=" + this.workPackageId).subscribe(value =>{
-        console.log("success");
-      },
-      error => {
-        console.error('An error occurred:', error.error.message);
+    const promise = this.http.get(url).toPromise();
 
+    promise
+      .then((response) => {
+        //this.NotificationsService.addSuccess(this.text.successful_delete);
+        this.NotificationsService.addSuccess("Уведомление отправлено");
+      })
+      .catch((error) => {
+        window.location.href = url;
+        this.NotificationsService.addError(error);
       });
-
-    /*
-    this.http.post("http://localhost:3000/admin/send_email_assignee_from_task",this.projectIdentifier).subscribe(value =>{
-        console.log("success");
-        },
-        error => {
-          console.error('An error occurred:', error.error.message);
-
-        });
-     */
-
-/*
-    toPromise().then (function(response) {d
-      console.log("success");
-      //$scope.status = response.status;
-      //$scope.data = response.data;
-    }, function(response) {
-      console.log("error");
-      //$scope.data = response.data || 'Request failed';
-      //$scope.status = response.status;
-    });
-*/
-
-  //  pipe(
- //     catchError(this.handleError('addHero', hero))
-   // );
 
   }
 }

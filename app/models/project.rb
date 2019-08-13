@@ -213,6 +213,15 @@ class Project < ActiveRecord::Base
     statuses
   end
 
+  #tmd
+  def get_national_projects
+    NationalProject.where(:type => "National")
+  end
+
+  def get_federal_projects
+    NationalProject.where(:type => "Federal")
+  end
+
   # def full
   #   sql = "SELECT u.first_name, u.last_name, p.due_date FROM projects p JOIN members m ON p.id = m.project_id JOIN users u ON u.id = m.project_id"
   #   records_array = ActiveRecord::Base.connection.execute(sql).values

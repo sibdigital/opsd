@@ -67,18 +67,21 @@ class AdminController < ApplicationController
     # Force ActionMailer to raise delivery errors so we can catch it
     ActionMailer::Base.raise_delivery_errors = true
     begin
-      @workPackageId = params[:workPackageId];
+      workPackageId = params[:workPackageId];
 
-      @workPackage = WorkPackage.find(@workPackageId);
+      workPackage = WorkPackage.find(workPackageId);
 
-      @assigneee = User.find(@workPackage.assigned_to_id);
+      assigneee = User.find(workPackage.assigned_to_id);
 
-      UserMailer.work_package_notify_assignee(@assigneee).deliver_now
+      term_date = workPackage.due_date #ban
+
+      project_name = Project.find_by(id: workPackage.project_id).name #ban
+
+      UserMailer.work_package_notify_assignee(assigneee,term_date.to_s,workPackage,project_name).deliver_later #ban
     rescue => e
       flash[:error] = I18n.t(:notice_email_error, value: Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-    #redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
   end
  # )
 
