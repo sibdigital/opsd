@@ -30,11 +30,6 @@ module Organizations
         @org_type = Enumeration.find_by(name: "Муниципальное образование").id
       end
 
-      @parent_id = 0
-      if params[:parent_id] != nil
-        @parent_id = params[:parent_id]
-      end
-
       link_to new_organization_path(:org_type => @org_type, :parent_id => @parent_id ),
               aria: { label: t(:button_add) },
               class: 'wp-inline-create--add-link',

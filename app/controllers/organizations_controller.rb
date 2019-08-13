@@ -51,17 +51,7 @@ class OrganizationsController < ApplicationController
 
   def new
     @organization = Organization.new
-
     @organization.org_type = params[:org_type]
-    @parent_id = 0
-    if params[:parent_id] != nil
-      @parent_id = params[:parent_id]
-      else  @parent_id = 0
-    end
-    @organization.parent_id = @parent_id
-    if @organization.parent_id != 0
-       @organization_parent = Organization.find(@parent_id)
-    end
   end
 
   def create
