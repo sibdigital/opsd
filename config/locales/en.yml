@@ -3342,3 +3342,5 @@ en:
   label_project_deleted: Проект удален
   label_news_changed: Новость изменена
   label_news_deleted: Новость удалена
+  label_deadline_of_project_is_approaching: Приближается срок по проекту
+  label_deadline_of_project: Превышен срок по проекту

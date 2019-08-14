@@ -109,7 +109,7 @@ class BoardsController < ApplicationController
         Alert.create_pop_up_alert(@board,  "Created", User.current, member.user)
         #ban
         if Setting.notified_events.include?('board_added')
-          UserMailer.board_added(User.find_by(id:member.user_id), @board, User.current, @project).deliver_now
+          UserMailer.board_added(User.find_by(id:member.user_id), @board, User.current, @project).deliver_later
         end
       end
       redirect_to_settings_in_projects
@@ -127,7 +127,7 @@ class BoardsController < ApplicationController
         Alert.create_pop_up_alert(@board,  "Changed", User.current, member.user)
         #ban
         if Setting.notified_events.include?('board_changed')
-          UserMailer.board_changed(User.find_by(id:member.user_id), @board, User.current, @project).deliver_now
+          UserMailer.board_changed(User.find_by(id:member.user_id), @board, User.current, @project).deliver_later
         end
       end
       redirect_to_settings_in_projects
@@ -143,7 +143,7 @@ class BoardsController < ApplicationController
         Alert.create_pop_up_alert(@board, "Moved", User.current, member.user)
         #ban
         if Setting.notified_events.include?('board_moved')
-          UserMailer.board_moved(User.find_by(id:member.user_id), @board, User.current, @project).deliver_now
+          UserMailer.board_moved(User.find_by(id:member.user_id), @board, User.current, @project).deliver_later
         end
       end
     else
@@ -160,7 +160,7 @@ class BoardsController < ApplicationController
       Alert.create_pop_up_alert(@board,  "Deleted", User.current, member.user)
       #ban
       if Setting.notified_events.include?('board_deleted')
-        UserMailer.board_deleted(User.find_by(id:member.user_id), @board, User.current, @project).deliver_now
+        UserMailer.board_deleted(User.find_by(id:member.user_id), @board, User.current, @project).deliver_later
       end
     end
     redirect_to_settings_in_projects
