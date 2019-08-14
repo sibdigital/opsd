@@ -17,7 +17,7 @@ module API
                                      else
                                        WorkPackageProblem
                                          .where('work_package_id = ?', params[:work_package_id])
-                                         .order('risk_id asc')
+                                         .order('id asc')
                                      end
           end
 
@@ -36,8 +36,8 @@ module API
             work_package_problem.project_id = params[:project_id]
             work_package_problem.work_package_id = params[:work_package_id]
             work_package_problem.user_creator_id = current_user.id
-            work_package_problem.user_source_id = params[:user_source_id] #User.find(params[:user_source_id]).id
-            work_package_problem.organization_source_id = params[:organization_source_id] #Organization.find(params[:organization_source_id]).id
+            work_package_problem.user_source_id = params[:user_source_id]
+            work_package_problem.organization_source_id = params[:organization_source_id]
             work_package_problem.type = params[:type]
             work_package_problem.status = params[:status]
             work_package_problem.solution_date = params[:solution_date]
@@ -58,20 +58,20 @@ module API
             end
 
             delete do
-              #project = Project.find params[:project_id]
-
-              authorize :manage_work_package_problems, global: true #context: project
+              project = Project.find params[:project_id]
+              authorize(:manage_work_package_problems, context: project)
 
               WorkPackageProblem.destroy params[:id]
-              status 204
             end
 
             patch do
-              authorize :manage_work_package_problems, global: true #context: project
+              @project = Project.find(params[:project_id])
 
-              #@work_package_problem = WorkPackageProblem.find(params[:id])
-
-              WorkPackageProblem.update params[:id], params
+              if User.current.allowed_to?(:manage_work_package_problems, @project)
+                WorkPackageProblem.update params[:id], params
+              else
+                authorize(:manage_work_package_problems, context: @project)
+              end
             end
           end
         end

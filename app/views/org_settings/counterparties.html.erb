@@ -61,6 +61,14 @@
           </tbody>
         </table>
       </div>
+      <div class="wp-inline-create-button">
+        <%= link_to new_organization_path(:org_type => @org_type),
+                    aria: { label: t(:button_add) },
+                    class: 'wp-inline-create--add-link',
+                    title: t(:button_add) do
+          op_icon('icon icon-add')
+        end %>
+      </div>
     </div>
   <% else %>
     <div class="generic-table--container">
@@ -108,7 +116,7 @@
           </thead>
           <tbody>
 
-          <%= show_table_org(@counterparties) %>
+          <%= show_table_org(@counterparties,nil,0) %>
 
           </tbody>
         </table>

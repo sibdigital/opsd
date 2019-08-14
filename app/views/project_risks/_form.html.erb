@@ -1,3 +1,4 @@
+
 <%#--
 This file written by BBM
 23/04/2019
@@ -11,9 +12,12 @@ This file written by BBM
 <%= error_messages_for :risk %>
 <section class="form--section">
   <%= f.hidden_field 'type' %>
+  <%= f.hidden_field 'owner_id'%>
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+
   <div class="form--field"><%= f.text_field 'description', container_class: '-middle' %></div>
   <div class="form--field"><%= f.number_field 'possibility', container_class: '-xslim' %></div>
+  <div class="form--field"><%= f.check_box 'is_possibility', container_class: '-xslim' %></div>
   <div class="form--field"><%= f.number_field 'importance', container_class: '-xslim' %></div>
 
   <% if @typed_risk.class.colored? %>

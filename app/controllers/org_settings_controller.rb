@@ -129,7 +129,15 @@ class OrgSettingsController < ApplicationController
   # end
 
   def default_breadcrumb
-    l(:label_org_settings)
+    if @org_type == Enumeration.find_by(name: "Орган исполнительной власти").id
+      l(:label_iogv)
+    elsif @org_type == Enumeration.find_by(name: "Муниципальное образование").id
+      l(:label_municipalities)
+    elsif @org_type == Enumeration.find_by(name: "Контрагент").id
+      l(:label_counterparties)
+    else
+      l(:label_positions)
+    end
   end
 
   def show_local_breadcrumb

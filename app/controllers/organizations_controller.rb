@@ -51,17 +51,7 @@ class OrganizationsController < ApplicationController
 
   def new
     @organization = Organization.new
-
     @organization.org_type = params[:org_type]
-    @parent_id = 0
-    if params[:parent_id] != nil
-      @parent_id = params[:parent_id]
-      else  @parent_id = 0
-    end
-    @organization.parent_id = @parent_id
-    if @organization.parent_id != 0
-       @organization_parent = Organization.find(@parent_id)
-    end
   end
 
   def create
@@ -102,7 +92,15 @@ class OrganizationsController < ApplicationController
 
   def destroy
     @organization.destroy
-    redirect_to org_settings_path
+    if @organization.org_type == Enumeration.find_by(name: "Орган исполнительной власти").id
+      redirect_to org_settings_iogv_path
+    elsif @organization.org_type == Enumeration.find_by(name: "Муниципальное образование").id
+      redirect_to org_settings_municipalities_path
+    elsif @organization.org_type == Enumeration.find_by(name: "Контрагент").id
+      redirect_to org_settings_counterparties_path
+    else
+      redirect_to org_settings_positions_path
+    end
 
   end
 
@@ -112,7 +110,15 @@ class OrganizationsController < ApplicationController
     if action_name == 'index'
       t(:label_organizations)
     else
-      ActionController::Base.helpers.link_to(t(:label_organizations), organizations_path)
+      if @organization.org_type == Enumeration.find_by(name: "Орган исполнительной власти").id
+        ActionController::Base.helpers.link_to(t(:label_iogv), org_settings_iogv_path)
+      elsif @organization.org_type == Enumeration.find_by(name: "Муниципальное образование").id
+        ActionController::Base.helpers.link_to(t(:label_municipalities), org_settings_municipalities_path)
+      elsif @organization.org_type == Enumeration.find_by(name: "Контрагент").id
+        ActionController::Base.helpers.link_to(t(:label_counterparties), org_settings_counterparties_path)
+      else
+        ActionController::Base.helpers.link_to(t(:label_positions), org_settings_positions_path)
+      end
     end
   end
 
@@ -122,7 +128,7 @@ class OrganizationsController < ApplicationController
 
   def find_organization
     @organization = Organization.find(params[:id])
-    if @organization.parent_id != 0
+    if @organization.parent_id != nil
        @organization_parent = Organization.find(@organization.parent_id)
     end
   end

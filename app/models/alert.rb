@@ -142,14 +142,14 @@ class Alert < ActiveRecord::Base
 
     end
     text += "^в "
-    text += Time.current.to_formatted_s(:time)
+      text += Time.current.to_formatted_s(:time)
       Alert.create entity_id: entity.id,
                  alert_date: Date.today,
                  entity_type: class_name,
                  alert_type: "PopUp",
                  about: text,
                  created_by: createdby != nil ? createdby.id : 0,
-                 to_user: touser.id
+                 to_user: touser != nil ? touser.id : nil
   end
 
   private

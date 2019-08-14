@@ -23,6 +23,10 @@ This file written by BBM
                                  Importance.default.id
                                end
   %>
+  <div class="form--field"><%= f.select :owner_id,
+                                        options_for_select(User.distinct.joins("INNER JOIN members ON members.user_id = users.id INNER JOIN projects ON members.project_id="+@project.id.to_s).map { |u|  [u.name, u.id]}  ),
+                                        include_blank: true,
+                                        container_class: '-middle' %></div>
   <div class="form--field">  <%= f.select :possibility_id,
                                           options_for_select(Possibility.where(active: true).map {|u| [u.name, u.id]}, @selected_possibility_id),
                                           include_blank: true,
@@ -31,6 +35,7 @@ This file written by BBM
                                           options_for_select(Importance.where(active: true).map {|u| [u.name, u.id]}, @selected_importance_id),
                                           include_blank: true,
                                           container_class: '-slim' %></div>
+  <div class="form--field"><%= f.check_box 'is_possibility', container_class: '-middle' %></div>
   <% if @project_risk.class.colored? %>
     <%= render partial: '/colors/color_autocomplete_field',
                locals: {
@@ -48,11 +53,4 @@ This file written by BBM
       <%= f.check_box 'is_approve', container_class: '-middle', readonly: true, disabled: true %>
     </div>
   <% end %>
-
-  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-  <%= render partial: 'customizable/form', locals: { form: f,
-                                                     all_fields: true,
-                                                     only_required: false,
-                                                     obj: @project_risk } %>
-
 </section>

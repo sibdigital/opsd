@@ -313,6 +313,8 @@ class PermittedParams
                                                 :due_date,
                                                 :responsible_id,
                                                 :identifier,
+                                                :national_project_id,
+                                                :federal_project_id,
                                                 :project_type_id,
                                                 :project_approve_status_id, #+-tan 2019.07.06
                                                 :project_status_id,
@@ -422,7 +424,7 @@ class PermittedParams
   end
 
   def typed_risk
-    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
 
     permitted_params = permitted_params.merge(custom_field_values(:typed_risk))
     permitted_params
@@ -431,7 +433,7 @@ class PermittedParams
 
   def project_risk
     # +-tan
-    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve)
+    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
 
     permitted_params = permitted_params.merge(custom_field_values(:project_risk))
     permitted_params
