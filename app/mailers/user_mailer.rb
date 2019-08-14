@@ -145,7 +145,7 @@ class UserMailer < BaseMailer
     message_id @cost_object, user
 
     with_locale_for(user) do
-      subject = @cost_object.project.name+': '+@cost_object.subject
+      subject = 'В проект "'+@cost_object.project.name+'" добавлен бюджет '+@cost_object.subject
       mail_for_author author, to: user.mail, subject: subject
     end
   end

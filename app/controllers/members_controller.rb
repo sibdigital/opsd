@@ -64,7 +64,7 @@ class MembersController < ApplicationController
       members.each do |added_member|
         if Setting.notified_events.include?('member_added')
           @project.recipients.uniq.each do |user|
-            UserMailer.member_added(user, @project, User.find_by(id: added_member.user_id), User.current).deliver_now
+            UserMailer.member_added(user, @project, User.find_by(id: added_member.user_id), User.current).deliver_later
           end
         end
       end
@@ -108,7 +108,7 @@ class MembersController < ApplicationController
         #ban(
         if Setting.notified_events.include?('member_deleted')
           @project.recipients.uniq.each do |user|
-            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_now
+            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_later
           end
         end
         #)
@@ -119,7 +119,7 @@ class MembersController < ApplicationController
         #ban(
         if Setting.notified_events.include?('member_deleted')
           @project.recipients.uniq.each do |user|
-            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_now
+            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_later
           end
         end
         #)

@@ -109,7 +109,7 @@ class ProjectsController < ApplicationController
           if Setting.notified_events.include?('project_created')
             @project_office_members.uniq.each do |user|
               if user != nil
-                UserMailer.project_created(user, @project, User.current).deliver_now
+                UserMailer.project_created(user, @project, User.current).deliver_later
               end
             end
           end
@@ -165,7 +165,7 @@ class ProjectsController < ApplicationController
       end
       if Setting.notified_events.include?('project_changed')
         @project.recipients.uniq.each do |user|
-          UserMailer.project_changed(user, @project, User.current).deliver_now
+          UserMailer.project_changed(user, @project, User.current).deliver_later
         end
       end
       OpenProject::Notifications.send('project_updated', project: @altered_project)
@@ -250,7 +250,7 @@ class ProjectsController < ApplicationController
       end
       if Setting.notified_events.include?('project_deleted')
         @project.recipients.uniq.each do |user|
-          UserMailer.project_deleted(user, @project, User.current).deliver_now
+          UserMailer.project_deleted(user, @project, User.current).deliver_later
         end
       end
     else
