@@ -30,8 +30,6 @@ require 'api/v3/views/work_package_stat_representer'
 require 'api/v3/views/work_package_stat_collection_representer'
 require 'api/v3/views/risk_problem_stat_representer'
 require 'api/v3/views/risk_problem_stat_collection_representer'
-require 'api/v3/views/plan_fact_quarterly_target_value_representer'
-require 'api/v3/views/plan_fact_quarterly_target_value_collection_representer'
 
 module API
   module V3
