@@ -4,6 +4,8 @@
 
 require 'api/v3/work_package_targets/work_package_target_representer'
 require 'api/v3/work_package_targets/work_package_target_collection_representer'
+require 'api/v3/work_package_targets/plan_fact_value_representer'
+require 'api/v3/work_package_targets/plan_fact_value_collection_representer'
 
 module API
   module V3
@@ -74,6 +76,18 @@ module API
               end
             end
 
+          end
+        end
+
+        resources :plan_fact_quarterly_target_values do
+          before do
+            @plan_values = PlanFactQuarterlyTargetValue.where('project_id = ? and year = ? and target_id = ?', params[:project_id], params[:year], params[:target_id])
+          end
+
+          get do
+            PlanFactValueCollectionRepresenter.new(@plan_values,
+                                                   api_v3_paths.work_package_targets,
+                                                   current_user: current_user)
           end
         end
       end
