@@ -837,7 +837,7 @@ en:
     is_public: Общий
     project_status: Статус
     project_approve_status: Этап согласования
-    is_approve: Утвержден
+    is_approve: Утвержден?
     #knm(
 
     #)
