@@ -48,8 +48,8 @@ module API
 
         property :project,
                  exec_context: :decorator,
-                 #getter: ->(*) { represented.meeting_content.meeting.project },
-                 getter: ->(*) { 'Неизвестно' },
+                 getter: ->(*) { represented.meeting.project },
+                 #getter: ->(*) { 'Неизвестно' },
                  render_nil: true
 
         def _type

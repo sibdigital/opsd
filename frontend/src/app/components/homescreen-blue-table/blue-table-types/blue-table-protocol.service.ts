@@ -1,12 +1,9 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class BlueTableProtocolService extends BlueTableService {
   private data:any[] = [];
-  private promises:Promise<CollectionResource<HalResource>>[] = [];
   private data_local:any = {};
   private columns:string[] = ['', 'Ответственный', 'Срок', 'Исполнение'];
 
@@ -20,20 +17,18 @@ export class BlueTableProtocolService extends BlueTableService {
           .toPromise()
           .then((response:CollectionResource<HalResource>) => {
             response.elements.map((protocol:HalResource) => {
-              this.data_local[protocol.project.id] = this.data_local[protocol.project.id] || {targets: []};
-              this.data_local[protocol.project.id].targets.push(protocol);
+              if (!protocol.project.national_project_id) {
+                protocol.project.national_project_id = 0;
+              }
+              this.data_local[protocol.project.national_project_id] = this.data_local[protocol.project.national_project_id] || [];
+              this.data_local[protocol.project.national_project_id].push(protocol);
             });
             console.log(this.data_local);
-            resources.elements.map( (national:HalResource) => {
-              this.data.push(national);
-              if (national.projects) {
-                national.projects.map((project:HalResource) => {
-                  if (this.data_local[project['id']]) {
-                    let b = this.data_local[project['id']];
-                    b.targets.map((protocol:HalResource) => {
-                      this.data.push(protocol);
-                    });
-                  }
+            resources.elements.map( (el:HalResource) => {
+              this.data.push(el);
+              if (this.data_local[el.id]) {
+                this.data_local[el.id].map((protocol:HalResource) => {
+                  this.data.push(protocol);
                 });
               }
             });
@@ -59,12 +54,16 @@ export class BlueTableProtocolService extends BlueTableService {
     if (row._type === 'Protocol') {
       switch (i) {
         case 0: {
-          return row.name;
+          return 'Поручение: ' + row.name;
           break;
         }
         case 1: {
           if (row.user) {
-            return '<a href="' + super.getBasePath() + '/users/' + row.user.id + '">' + row.user.lastname + ' ' + row.user.firstname.slice(0, 1) + '.' + row.user.patronymic.slice(0, 1) + '.</a>';
+            let fio = row.user.lastname + ' ' + row.user.firstname.slice(0, 1) + '.';
+            if (row.user.patronymic) {
+              fio += row.user.patronymic.slice(0, 1) + '.';
+            }
+            return '<a href="' + super.getBasePath() + '/users/' + row.user.id + '">' + fio + '</a>';
           }
           break;
         }
@@ -82,7 +81,7 @@ export class BlueTableProtocolService extends BlueTableService {
         }
       }
     }
-    if (row._type === 'National Project') {
+    if (row._type === 'NationalProject') {
       switch (i) {
         case 0: {
           return row.name;
