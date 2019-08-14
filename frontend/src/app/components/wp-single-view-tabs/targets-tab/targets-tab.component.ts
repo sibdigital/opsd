@@ -100,6 +100,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   public planValues: ITargetValues[] = [];
   public checkErrors: IError[] = [];
   public months: string[] = [];
+  public quarterNames: string[] = [];
   protected readonly appBasePath:string;
 
   public text = {
@@ -129,6 +130,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     this.wpTargets = new Array<WpTarget>();
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
     this.months = 'Январь,Февраль,Март,Апрель,Май,Июнь,Июль,Август,Сентябрь,Октябрь,Ноябрь,Декабрь'.split(',');
+    this.quarterNames = '1-й квартал,2-й квартал,3-й квартал,4-й квартал'.split(',');
   }
 
   ngOnInit() {
