@@ -98,21 +98,21 @@ class ProjectsController < ApplicationController
             Alert.create_pop_up_alert(@project, "Created", User.current, member.user)
           end
           #ban(
-=begin
-          @project_office_member_ids = []
+          @project_office_members = []
           @memberroles = MemberRole.find_by_sql('select * from member_roles')
           @memberroles.each do |member_role|
             if member_role.role_id = 8 || member_role.role_id = 10 || member_role.role_id = 13
-              @project_office_member_ids << member_role.member_id
+              @member_id = Member.find_by(id: member_role.member_id)
+              @project_office_members << User.find_by(id: Member.find_by(id: @member_id))
             end
           end
           if Setting.notified_events.include?('project_created')
-            @project_office_member_ids.uniq.each do |member_id|
-              @user = User.find_by(id: Member.find_by(id: member_id))
-              UserMailer.project_created(@user, @project, User.current).deliver_now
+            @project_office_members.uniq.each do |user|
+              if user != nil
+                UserMailer.project_created(user, @project, User.current).deliver_now
+              end
             end
           end
-=end
           #)
           redirect_work_packages_or_overview
         end

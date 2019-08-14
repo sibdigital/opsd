@@ -112,6 +112,30 @@ class UserMailer < BaseMailer
   end
 
 #ban
+  def deadline_of_project_is_approaching(user, term_date, project)
+
+    headers['X-OpenProject-Type'] = 'Test'
+
+    @term_date = term_date
+    @project = project
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Приближается срок по проекту '+@project.name
+    end
+  end
+
+#ban
+  def deadline_of_project(user, term_date, project)
+
+    headers['X-OpenProject-Type'] = 'Test'
+
+    @term_date = term_date
+    @project = project
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Превышен срок по проекту '+@project.name
+    end
+  end
+
+#ban
   def cost_object_added(user, cost_object, author)
     @cost_object = cost_object
 

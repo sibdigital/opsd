@@ -61,9 +61,16 @@ class AlertsController < ApplicationController
        OR ( (days(alerts.last_date) + 3) <= CURRENT_DATE)");
 =end
     if Setting.notified_events.include?('deadline_of_work_package_is_approaching')
-      @WorkPackages = WorkPackage.find_by_sql("SELECT Work_Packages.* FROM Work_Packages LEFT JOIN alerts ON Work_Packages.id = alerts.entity_id where
-      (alerts.entity_id is null and (Work_Packages.due_date - CURRENT_DATE) < '#{Setting.remaining_count_days.to_i}' and Work_Packages.due_date > CURRENT_DATE)
-      OR ( (alerts.alert_date + 1) <= CURRENT_DATE) ");
+      @WorkPackages = WorkPackage.find_by_sql("
+      SELECT Work_Packages.* FROM Work_Packages LEFT JOIN
+      (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'WorkPackage' AND alerts.alert_type = 'Email') as al ON Work_Packages.id = al.entity_id where
+      (
+        al.entity_id IS NULL
+        and
+        (Work_Packages.due_date - CURRENT_DATE) < '#{Setting.remaining_count_days.to_i}' and Work_Packages.due_date > CURRENT_DATE
+      )
+      OR ( (al.alert_date + 1) <= CURRENT_DATE)
+      ");
 
       #puts(@WorkPackages.size)
 
@@ -76,7 +83,7 @@ class AlertsController < ApplicationController
 
           UserMailer.work_package_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
           #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
-          Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)
+          #Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)
           @alert = Alert.new
 
           @alert.entity_id = workPackage.id
@@ -95,9 +102,16 @@ class AlertsController < ApplicationController
     end
 
     if Setting.notified_events.include?('deadline_of_work_package')
-      @WorkPackagesDeadline = WorkPackage.find_by_sql("SELECT Work_Packages.* FROM Work_Packages LEFT JOIN alerts ON Work_Packages.id = alerts.entity_id where
-      (alerts.entity_id is null and Work_Packages.due_date <= CURRENT_DATE)
-      OR ( (alerts.alert_date + 1) <= CURRENT_DATE) ");
+      @WorkPackagesDeadline = WorkPackage.find_by_sql("
+      SELECT Work_Packages.* FROM Work_Packages LEFT JOIN
+      (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'WorkPackageDeadline' AND alerts.alert_type = 'Email') as al ON Work_Packages.id = al.entity_id where
+      (
+        al.entity_id IS NULL
+        and
+        Work_Packages.due_date <= CURRENT_DATE
+      )
+      OR ( (al.alert_date + 1) <= CURRENT_DATE)
+      ");
 
       @WorkPackagesDeadline.each do |workPackage|
 
@@ -114,7 +128,7 @@ class AlertsController < ApplicationController
           puts workPackage.id, ' entity_id: ', @alert.entity_id
 
           @alert.alert_date = Date.current
-          @alert.entity_type = 'WorkPackagesDeadline'
+          @alert.entity_type = 'WorkPackageDeadline'
           @alert.alert_type = 'Email'
           @alert.to_user = @assigneee.id
 
@@ -122,6 +136,72 @@ class AlertsController < ApplicationController
 
           #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
         end
+      end
+    end
+
+    if Setting.notified_events.include?('deadline_of_project_is_approaching')
+      @Projects = Project.find_by_sql("
+      SELECT projects.* FROM projects LEFT JOIN
+      (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'Project' AND alerts.alert_type = 'Email') as al ON projects.id = al.entity_id where
+      (
+        al.entity_id IS NULL
+        and
+        (cast(projects.due_date as date) - CURRENT_DATE) < '#{Setting.remaining_count_days.to_i}' and cast(projects.due_date as date) > CURRENT_DATE
+      )
+      OR ( (al.alert_date + 1) <= CURRENT_DATE)
+      ");
+
+      @Projects.each do |project|
+
+        project.recipients.uniq.each do |user|
+          @term_date = project.due_date
+          UserMailer.deadline_of_project_is_approaching(user, @term_date, project).deliver_now
+
+          #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
+        end
+        @alert = Alert.new
+
+        @alert.entity_id = project.id
+        puts project.id, ' entity_id: ', @alert.entity_id
+
+        @alert.alert_date = Date.current
+        @alert.entity_type = 'Project'
+        @alert.alert_type = 'Email'
+
+        @alert.save
+      end
+    end
+
+    if Setting.notified_events.include?('deadline_of_project')
+      @Projects = Project.find_by_sql("
+      SELECT projects.* FROM projects LEFT JOIN
+      (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'ProjectDeadline' AND alerts.alert_type = 'Email') as al ON projects.id = al.entity_id where
+      (
+        al.entity_id IS NULL
+        and
+        cast(projects.due_date as date) <= CURRENT_DATE
+      )
+      OR ( (al.alert_date + 1) <= CURRENT_DATE)
+      ");
+
+      @Projects.each do |project|
+
+        project.recipients.uniq.each do |user|
+          @term_date = project.due_date
+          UserMailer.deadline_of_project(user, @term_date, project).deliver_now
+
+          #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
+        end
+        @alert = Alert.new
+
+        @alert.entity_id = project.id
+        puts project.id, ' entity_id: ', @alert.entity_id
+
+        @alert.alert_date = Date.current
+        @alert.entity_type = 'ProjectDeadline'
+        @alert.alert_type = 'Email'
+
+        @alert.save
       end
     end
 
