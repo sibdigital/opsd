@@ -55,46 +55,46 @@ module API
               kt = Type.find_by name: I18n.t(:default_type_milestone)
               organization_id = params[:organization]
               if organization_id
-                records_array = ActiveRecord::Base.connection.execute <<-SQL
-select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
-    projects as p
-left join
-    (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(riski) as riski
-    from (
-             select wp.project_id,
-                    case when wp.days_to_due > 0 and wp.days_to_due <= 14 and wp.organization_id = #{organization_id} and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
-                    case when wp.days_to_due < 0 and wp.organization_id = #{organization_id} and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
-                    case when wp.organization_id = #{organization_id} then wp.created_problem_count else 0 end as riski
-             from v_work_package_ispoln_stat as wp
-         ) as slice
-    group by project_id) as p1
-on p.id = p1.project_id
-left join
-    (select project_id, sum(ispolneno) as ispolneno, sum(all_work_packages) as all_wps
-    from v_project_ispoln_stat
-    group by project_id) as p2
-on p.id = p2.project_id
+                records_array = ActiveRecord::Base.connection.execute <<~SQL
+                  select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
+                      projects as p
+                  left join
+                      (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(riski) as riski
+                      from (
+                               select wp.project_id,
+                                      case when wp.days_to_due > 0 and wp.days_to_due <= 14 and wp.organization_id = #{organization_id} and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
+                                      case when wp.days_to_due < 0 and wp.organization_id = #{organization_id} and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
+                                      case when wp.organization_id = #{organization_id} then wp.created_problem_count else 0 end as riski
+                               from v_work_package_ispoln_stat as wp
+                           ) as slice
+                      group by project_id) as p1
+                  on p.id = p1.project_id
+                  left join
+                      (select project_id, sum(ispolneno) as ispolneno, sum(all_work_packages) as all_wps
+                      from v_project_ispoln_stat
+                      group by project_id) as p2
+                  on p.id = p2.project_id
                 SQL
               else
-                records_array = ActiveRecord::Base.connection.execute <<-SQL
-select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
-    projects as p
-left join
-    (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(created_problem_count) as riski
-    from (
-             select wp.project_id,
-                    case when wp.days_to_due > 0 and wp.days_to_due <= 14 and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
-                    case when wp.days_to_due < 0 and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
-                    wp.created_problem_count
-             from v_work_package_ispoln_stat as wp
-         ) as slice
-    group by project_id) as p1
-on p.id = p1.project_id
-left join
-    (select project_id, sum(ispolneno) as ispolneno, sum(all_work_packages) as all_wps
-    from v_project_ispoln_stat
-    group by project_id) as p2
-on p.id = p2.project_id
+                records_array = ActiveRecord::Base.connection.execute <<~SQL
+                  select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
+                      projects as p
+                  left join
+                      (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(created_problem_count) as riski
+                      from (
+                               select wp.project_id,
+                                      case when wp.days_to_due > 0 and wp.days_to_due <= 14 and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
+                                      case when wp.days_to_due < 0 and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
+                                      wp.created_problem_count
+                               from v_work_package_ispoln_stat as wp
+                           ) as slice
+                      group by project_id) as p1
+                  on p.id = p1.project_id
+                  left join
+                      (select project_id, sum(ispolneno) as ispolneno, sum(all_work_packages) as all_wps
+                      from v_project_ispoln_stat
+                      group by project_id) as p2
+                  on p.id = p2.project_id
                 SQL
               end
               @wps = []
@@ -105,7 +105,7 @@ on p.id = p2.project_id
                 project = Project.find(arr['id'])
                 stroka['name'] = project.name
                 stroka['identifier'] = project.identifier
-                stroka['national_id'] = project.national_project_id || 0;
+                stroka['national_id'] = project.national_project_id || 0
                 stroka['kurator'] = project.curator.empty? ? '' : project.curator['fio']
                 stroka['kurator_id'] = project.curator.empty? ? '' : project.curator['id']
                 stroka['rukovoditel'] = project.rukovoditel.empty? ? '' : project.rukovoditel['fio']
@@ -125,30 +125,65 @@ on p.id = p2.project_id
 
           resources :work_package_ispoln_stat_view do
             get do
-              @wpis = WorkPackageIspolnStat.all
-              @wpis = @wpis.where(project_id: params[:project]) if params[:project].present?
-              WorkPackageIspolnStatCollectionRepresenter.new(@wpis,
-                                                             api_v3_paths.view('work_package_ispoln_stat_view'),
-                                                             page: to_i_or_nil(params[:offset]),
-                                                             per_page: 20,
-                                                             current_user: current_user)
-            end
-          end
-
-
-          resources :risk_problem_stat_view do
-            get do
-              @rps = RiskProblemStat
-                       .joins(:work_package_problem).all
-              #@rps = @rps.where(status: params['status']) if params['status'].present?
-              @rps = @rps.where(work_package_problems: {project_id: params[:project]}) if params[:project].present?
-              #@rps = @rps.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
-
-              RiskProblemStatCollectionRepresenter.new(@rps,
-                                                       api_v3_paths.view('risk_problem_stat_view'),
-                                                       page: to_i_or_nil(params[:offset]),
-                                                       per_page: 20,
-                                                       current_user: current_user)
+              wpis = WorkPackageIspolnStat.all
+              wpis = wpis.where(project_id: params[:project]) if params[:project].present? and params[:project]
+              wpis = wpis.where("days_to_due > 0 and days_to_due < ?", params[:limit]) if params[:limit].present? and params[:limit]
+              case params[:filter]
+              # TODO: проверить правильность этих фильтров
+              # when 'vsrok'
+              #  wpis = wpis.where(v_rabote: true)
+              # when 'sopozdaniem'
+              #  wpis = wpis.where(v_rabote: true)
+              when 'vrabote'
+                wpis = wpis.where(v_rabote: true)
+              when 'predstoyashie'
+                wpis = wpis.where("days_to_due > 0")
+              end
+              result = Hash.new
+              result['_type'] = 'Collection'
+              result['total'] = wpis.count
+              result['pageSize'] = params[:offset].present? ? 20 : wpis.count
+              result['offset'] = params[:offset].present? ? to_i_or_nil(params[:offset]) : 1
+              wpis = wpis.limit(20).offset((to_i_or_nil(params[:offset]) - 1) * 20) if params[:offset].present?
+              result['count'] = wpis.count
+              collection = []
+              wpis.group_by(&:project_id).each do |project, arr|
+                hash = Hash.new
+                hash['_type'] = 'Project'
+                hash['project_id'] = project
+                p = Project.find(project)
+                hash['name'] = p.name
+                hash['identifier'] = p.identifier
+                hash['national_id'] = p.national_project_id || 0
+                hash['work_packages'] = []
+                arr.each do |row|
+                  stroka = Hash.new
+                  stroka['_type'] = 'WorkPackageIspolnStat'
+                  stroka['work_package_id'] = row.id
+                  stroka['subject'] = row.subject
+                  stroka['otvetstvenniy'] = row.assigned_to.fio
+                  stroka['otvetstvenniy_id'] = row.assigned_to.id
+                  stroka['due_date'] = row.due_date
+                  stroka['status_name'] = row.status_name
+                  stroka['created_problem_count'] = row.created_problem_count
+                  # TODO:Переписать дату факт
+                  records_array = ActiveRecord::Base.connection.exec_query <<~SQL
+                    select created_at from work_package_journals as wpj
+                    inner join journals as j
+                    on wpj.journal_id = j.id
+                    where journable_type = 'WorkPackage'
+                    and journable_id = #{row.id}
+                    and status_id = 3
+                    order by wpj.id desc
+                    limit 1
+                  SQL
+                  stroka['fakt_ispoln'] = records_array.empty? ? '' : records_array[0]['created_at']
+                  hash['work_packages'] << stroka
+                end
+                collection << hash
+              end
+              result['elements'] = collection
+              result
             end
           end
 
@@ -170,9 +205,9 @@ on p.id = p2.project_id
                 arr.each do |row|
                   stroka = Hash.new
                   stroka['_type'] = 'PlanFactQuarterlyTargetValue'
-                  #wp = WorkPackage.find(row.work_package_id)
-                  #stroka['otvetstvenniy'] = wp.assigned_to.fio
-                  #stroka['otvetstvenniy_id'] = wp.assigned_to.id
+                  # wp = WorkPackage.find(row.work_package_id)
+                  # stroka['otvetstvenniy'] = wp.assigned_to.fio
+                  # stroka['otvetstvenniy_id'] = wp.assigned_to.id
                   stroka['name'] = Target.find(row.target_id).name
                   stroka['target_id'] = row.target_id
                   stroka['target_year_value'] = row.target_year_value
