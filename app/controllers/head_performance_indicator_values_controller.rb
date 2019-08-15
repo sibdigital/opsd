@@ -73,15 +73,16 @@ class HeadPerformanceIndicatorValuesController < ApplicationController
     end
 
   end
-  # def show_local_breadcrumb
-  #   true
-  # end
-  # def default_breadcrumb
-  #   if action_name == 'index'
-  #     t(:label_head_performance_indicator_values)
-  #   else
-  #     ActionController::Base.helpers.link_to(:label_head_performance_indicator_values, head_performance_indicator_value_path)
-  #   end
-  # end
 
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_head_performance_indicator_values)
+    else
+      ActionController::Base.helpers.link_to(t(:label_head_performance_indicator_values), head_performance_indicator_values_path)
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
 end

@@ -61,6 +61,8 @@ module Redmine
       notifications << Notifiable.new('project_created') #ban
       notifications << Notifiable.new('project_changed') #ban
       notifications << Notifiable.new('project_deleted') #ban
+      notifications << Notifiable.new('deadline_of_project_is_approaching') #ban
+      notifications << Notifiable.new('deadline_of_project') #ban
       notifications
     end
   end

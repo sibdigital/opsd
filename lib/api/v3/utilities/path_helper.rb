@@ -147,6 +147,15 @@ module API
           def self.project_risk(id)
             "#{project_risks}/#{id}"
           end
+
+          def self.plan_fact_quarterly_target_values
+            "#{root}/plan_fact_quarterly_target_values"
+          end
+
+          def self.plan_fact_quarterly_target_value(id)
+            "#{plan_fact_quarterly_target_values}/#{id}"
+          end
+
           #)
 
           def self.configuration

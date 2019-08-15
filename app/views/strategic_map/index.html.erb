@@ -1,0 +1,30 @@
+<style>
+  #mynetwork {
+    width: 100%;
+    height: 75vh;
+    margin: 10px;
+    border: 1px solid lightgray;
+  }
+</style>
+
+<% html_title l(:label_strategic_map) %>
+<%= toolbar title: l(:label_strategic_map)%>
+<div class="control">
+<div class="form--field" >
+  <div class="form--field-container">
+    <div class="form--select-container" >
+      <show-section-dropdown opt-value="selected" hide-sec-with-name="notified_projects">
+        <%= styled_select_tag 'choose_project_for_map',
+                              options_for_select(NationalProject.where(type: "National").map {|u| [u.name, u.id]}),
+                              container_class: '-wide' %>
+      </show-section-dropdown>
+      <button class="button-load-data" style="position: relative;vertical-align: top;horiz-align: left;display: inline-block;margin-top: 10px">Обновить данные</button>
+
+    </div>
+  </div>
+</div>
+
+
+</div>
+<div id="mynetwork"></div>
+<%=javascript_include_tag 'strategic_map' %>

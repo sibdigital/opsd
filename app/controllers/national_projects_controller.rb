@@ -117,6 +117,22 @@ class NationalProjectsController < ApplicationController
     nil
   end
 
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_national_projects)
+    elsif action_name == 'government_programs'
+      t(:label_government_programs)
+    elsif action_name == 'new_government'
+      ActionController::Base.helpers.link_to(t(:label_government_programs), government_programs_national_projects_path)
+    else
+      ActionController::Base.helpers.link_to(t(:label_national_projects), national_projects_path)
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
   def find_national_project
     @national_project = NationalProject.find(params[:id])
   end

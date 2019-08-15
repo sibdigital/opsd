@@ -409,6 +409,10 @@ OpenProject::Application.routes.draw do
   resources :production_calendars do
     get :refresh, on: :collection
   end
+
+  resources :strategic_map do
+    get :get_list, on: :collection
+  end
   #)
 
   scope 'admin' do
