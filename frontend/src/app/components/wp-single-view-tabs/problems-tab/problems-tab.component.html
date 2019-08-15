@@ -28,17 +28,16 @@
           <div>
             <input type="hidden" [(ngModel)]="wpProblem.project_id" [value]="workPackage.project.getId()" />
             <div style="float:left; width: 100%;">
-              <label for="input_type">Тип</label>
-              <select id="input_type" name="problem_type" [(ngModel)]="wpProblem.problem_type">
-                <option value="problem" selected="selected">Проблема</option>
-                <option value="risk">Риск</option>
+              <label>Тип</label>
+              <label style="width: 260px; float:left;"><input type="radio" name="problem_type" [(ngModel)]="wpProblem.problem_type"  value="problem" />Проблема</label>
+              <label><input type="radio" name="problem_type" [(ngModel)]="wpProblem.problem_type" value="risk" />Риск</label>
+            </div>
+
+            <div *ngIf="wpProblem.problem_type == 'risk'">
+              <label for="input_risk">Риск</label>
+              <select name="risk" id="input_risk" [(ngModel)]="wpProblem.risk_id">
+                <option *ngFor="let risk of risks | keyvalue" value="{{ risk.key }}">{{ risk.value }}</option>
               </select>
-              <div *ngIf="wpProblem.problem_type == 'risk'">
-                <label for="input_risk">Риск</label>
-                <select name="risk" id="input_risk" [(ngModel)]="wpProblem.risk_id">
-                  <option *ngFor="let risk of risks | keyvalue" value="{{ risk.key }}">{{ risk.value }}</option>
-                </select>
-              </div>
             </div>
 
             <div style="float:left; width: 100%;">

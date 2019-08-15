@@ -852,6 +852,7 @@ en:
     column_num: Номер поля во входном файле
     column_name: Название поля
     is_pk: Входит в первичный ключ
+    name: Наименование
     #)
     #(xcc
     organization: Организация
@@ -1434,6 +1435,7 @@ en:
   label_active_in_new_projects: Используется по умолчанию
   label_activity: Мониторинг
   label_interactive_map: Карта районов РБ
+  label_strategic_map: Стратегическая карта
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
@@ -3342,3 +3344,5 @@ en:
   label_project_deleted: Проект удален
   label_news_changed: Новость изменена
   label_news_deleted: Новость удалена
+  label_deadline_of_project_is_approaching: Приближается срок по проекту
+  label_deadline_of_project: Превышен срок по проекту

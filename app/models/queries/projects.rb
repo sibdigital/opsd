@@ -44,6 +44,10 @@ module Queries::Projects
   register.filter query, filters::NationalProjectFilter
   #)
 
+  #zbd(
+  register.filter query, filters::FederalProjectFilter
+  register.filter query, filters::DueDateFilter
+  # )
   register.order query, orders::DefaultOrder
   register.order query, orders::LatestActivityAtOrder
   register.order query, orders::RequiredDiskSpaceOrder

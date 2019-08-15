@@ -1,22 +1,22 @@
-#bbm
+#zbd
 
-class Queries::Projects::Filters::NationalProjectFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::FederalProjectFilter < Queries::Projects::Filters::ProjectFilter
   self.model = Project
 
   def human_name
-    'Национальный проект'
+    'Федеральный проект'
   end
 
   def type
-    :list_optional#:integer
+    :list_optional
   end
 
   def self.key
-    :national_project_id
+    :federal_project_id
   end
 
   def name
-    :national_project_id
+    :federal_project_id
   end
 
   def where
@@ -24,7 +24,7 @@ class Queries::Projects::Filters::NationalProjectFilter < Queries::Projects::Fil
   end
 
   def allowed_values
-    np = NationalProject.where('type = ?', 'National')
+    np = NationalProject.where('type = ?', 'Federal')
     if np.present?
       childs = np.map { |r| [r.name, r.id.to_s] }
     end

@@ -103,6 +103,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     button_continue: 'Да'
   };
 
+  problem_type = 'problem';
+
   constructor(readonly timezoneService:TimezoneService,
               protected I18n:I18nService,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -202,6 +204,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   /** Добавляет новую запись в wp_problems
    * */
   private addNewProblem(problem: WpProblem){
+    if(problem.problem_type == 'problem') { problem.risk_id = 0; }
+
     const path = this.pathHelper.api.v3.work_package_problems.toString();
     const params = {project_id: problem.project_id, work_package_id: problem.work_package_id, risk_id: problem.risk_id,
             user_creator_id: problem.user_creator_id, organization_source_id: problem.organization_source_id,
@@ -223,6 +227,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       description: problem.description, status: problem.status, type: problem.problem_type,
       user_source_id: problem.user_source_id, solution_date: problem.solution_date
     };
+
+    if(problem.problem_type == 'problem') { problem.risk_id = 0; }
 
     if(problem.status == 'solved' && problem.solution_date == undefined) {
       this.wpNotificationsService.handleRawError('Для статуса "Решено" необходимо наличие даты решения', this.workPackage);
