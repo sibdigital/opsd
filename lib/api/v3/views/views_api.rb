@@ -26,11 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/views/work_package_stat_representer'
-require 'api/v3/views/work_package_stat_collection_representer'
-require 'api/v3/views/risk_problem_stat_representer'
-require 'api/v3/views/risk_problem_stat_collection_representer'
-
 module API
   module V3
     module Views
@@ -38,17 +33,6 @@ module API
         helpers ::API::Utilities::ParamsHelper
 
         resources :views do
-          resources :work_package_stat_view do
-            get do
-              @wps = WorkPackageStat.all
-              WorkPackageStatCollectionRepresenter.new(@wps,
-                                                       api_v3_paths.views(work_package_stat_view),
-                                                       page: to_i_or_nil(params[:offset]),
-                                                       per_page: 20,
-                                                       current_user: current_user)
-            end
-          end
-
           resources :work_package_stat_by_proj_view do
             get do
               meropriyatie = Type.find_by name: I18n.t(:default_type_task)
@@ -120,6 +104,49 @@ module API
                 @wps << stroka
               end
               @wps
+            end
+          end
+
+          resources :risk_problem_stat_view do
+            get do
+              rps = RiskProblemStat.all
+              rps = rps.where(project_id: params[:project]) if params[:project].present?
+              rps = rps.where(type: params[:filter]) if params[:filter].present? and params[:filter] != 'all'
+              result = Hash.new
+              result['_type'] = 'Collection'
+              result['total'] = rps.count
+              result['pageSize'] = params[:offset].present? ? 20 : rps.count
+              result['offset'] = params[:offset].present? ? to_i_or_nil(params[:offset]) : 1
+              rps = rps.limit(20).offset((to_i_or_nil(params[:offset]) - 1) * 20) if params[:offset].present?
+              result['count'] = rps.count
+              collection = []
+              rps.group_by(&:project_id).each do |project, arr|
+                hash = Hash.new
+                hash['_type'] = 'Project'
+                hash['project_id'] = project
+                p = Project.find(project)
+                hash['name'] = p.name
+                hash['identifier'] = p.identifier
+                hash['national_id'] = p.national_project_id || 0
+                hash['problems'] = []
+                arr.each do |row|
+                  stroka = Hash.new
+                  stroka['_type'] = 'RiskProblemStat'
+                  stroka['work_package_id'] = row.work_package_id
+                  wpp = WorkPackageProblem.find(row.id)
+                  stroka['solution_date'] = wpp.solution_date
+                  stroka['risk_or_problem'] = wpp.risk ? wpp.risk.name : wpp.description
+                  stroka['user_creator'] = wpp.user_creator ? wpp.user_creator.fio : ''
+                  stroka['user_source'] = wpp.user_source ? wpp.user_source.fio : ''
+                  stroka['importance_id'] = row.importance_id
+                  stroka['importance'] = row.importance
+                  stroka['type'] = row.type
+                  hash['problems'] << stroka
+                end
+                collection << hash
+              end
+              result['elements'] = collection
+              result
             end
           end
 

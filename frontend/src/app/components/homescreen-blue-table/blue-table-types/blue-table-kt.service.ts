@@ -25,12 +25,6 @@ export class BlueTableKtService extends BlueTableService {
         });
         this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
         let params:any = {national: this.national_project_titles[this.page].id};
-        if (this.limit) {
-          params.limit = this.limit;
-        }
-        if (this.filter) {
-          params.filter = this.filter;
-        }
         this.halResourceService
           .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.work_package_ispoln_stat_view.toString(), params)
           .toPromise()
