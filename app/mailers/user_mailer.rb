@@ -75,11 +75,11 @@ class UserMailer < BaseMailer
     end
   end
 
-#iag, ban
+#iag, ban(
   def work_package_notify_assignee(user, term_date, workPackage, project_name)
     #@welcome_url = url_for(controller: '/homescreen')
 
-    headers['X-OpenProject-Type'] = 'Test'
+    #headers['X-OpenProject-Type'] = 'Test'
 
     @term_date = term_date
     @workPackage = workPackage
@@ -88,6 +88,7 @@ class UserMailer < BaseMailer
       mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие '+@workPackage.subject+' по проекту '+project_name
     end
   end
+#)
 
 #tan (
   # def notify_forum_notify_assignee(mail)
@@ -98,10 +99,10 @@ class UserMailer < BaseMailer
   #   mail to: "\"#{name}\" <#{mail}>", subject: 'Вы приглашены в дискуссию'
   # end
 
-#ban
+#ban(
   def work_package_deadline_notify_assignee(user, term_date, workPackage, project_name)
 
-    headers['X-OpenProject-Type'] = 'Test'
+    #headers['X-OpenProject-Type'] = 'Test'
 
     @term_date = term_date
     @workPackage = workPackage
@@ -111,10 +112,9 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def deadline_of_project_is_approaching(user, term_date, project)
 
-    headers['X-OpenProject-Type'] = 'Test'
+    #headers['X-OpenProject-Type'] = 'Test'
 
     @term_date = term_date
     @project = project
@@ -123,10 +123,9 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def deadline_of_project(user, term_date, project)
 
-    headers['X-OpenProject-Type'] = 'Test'
+    #headers['X-OpenProject-Type'] = 'Test'
 
     @term_date = term_date
     @project = project
@@ -135,12 +134,11 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def cost_object_added(user, cost_object, author)
     @cost_object = cost_object
 
-    open_project_headers 'Type'    => 'Cost_objects'
-    open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
+    #open_project_headers 'Type'    => 'Cost_objects'
+    #open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
 
     message_id @cost_object, user
 
@@ -150,12 +148,11 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def member_added(user, project, added_user, author)
     @project = project
     @added_user = added_user
 
-    open_project_headers 'Type'    => 'Members'
+    #open_project_headers 'Type'    => 'Members'
     #open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
 
     #message_id @project, user
@@ -166,12 +163,11 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def member_deleted(user, project, deleted_user, author)
     @project = project
     @deleted_user = deleted_user
 
-    open_project_headers 'Type'    => 'Members'
+    #open_project_headers 'Type'    => 'Members'
     #open_project_headers 'Project' => @cost_object.project.identifier if @cost_object.project
 
     #message_id @project, user
@@ -182,13 +178,12 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def board_added(user, board, author, project)
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
@@ -197,13 +192,12 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def board_changed(user, board, author, project)
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
@@ -212,13 +206,12 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def board_moved(user, board, author, project)
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
@@ -227,12 +220,11 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def board_deleted(user, board, author, project)
     @board = board
     @project = project
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
@@ -241,12 +233,11 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def news_changed(user, news, author, project)
     @news = news
     @project = project
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
@@ -255,12 +246,11 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def news_deleted(user, news, author, project)
     @news = news
     @project = project
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
@@ -269,11 +259,10 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def project_created(user, project, author)
     @project = project
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
@@ -282,12 +271,24 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
-  def project_changed(user, project, author)
+  def project_changed(user, project, author, old_status, old_start_date, old_due_date)
     @project = project
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
-    message_id @project, user
+    @old_status = old_status
+    @old_start_date = old_start_date
+    @old_due_date = old_due_date
+    @text = 'Дата обновления: '+@project.updated_on.to_s+'.'
+    if @old_status != @project.get_project_status.id
+      @text = @text+' Статус проекта: '+@project.get_project_status.name+'.'
+    end
+    if @old_start_date != @project.start_date.to_s
+      @text = @text+' Дата начала проекта: '+@project.start_date.to_s+'.'
+    end
+    if @old_due_date != @project.due_date.to_s
+      @text = @text+' Дата окончания проекта: '+@project.due_date.to_s+'.'
+    end
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
 
     with_locale_for(user) do
       subject = 'Изменен проект "'+@project.name+'"'
@@ -295,18 +296,18 @@ class UserMailer < BaseMailer
     end
   end
 
-#ban
   def project_deleted(user, project, author)
     @project = project
-    open_project_headers 'Type'    => 'Boards'
-    open_project_headers 'Project' => @project.identifier
-    message_id @project, user
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
 
     with_locale_for(user) do
       subject = 'Удален проект "'+@project.name+'"'
       mail_for_author author, to: user.mail, subject: subject
     end
   end
+#)
 
   def work_package_notify_assignee1(user, work_package , author = User.current)
     User.execute_as user do

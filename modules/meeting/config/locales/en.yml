@@ -51,6 +51,8 @@ en:
   permission_create_meetings: "Создание совещания"
   permission_edit_meetings: "Править встречи"
   permission_delete_meetings: "Удалить встречу"
+  permission_meetings_send_invite: "Отправить приглашение на совещание" #iag, ban
+  permission_send_meeting_agendas_icalendar: "Отправить повестку совещания в календарь" #iag, ban
   permission_view_meetings: "Просмотреть встречи"
   permission_create_meeting_agendas: "Управлять повестками дня"
   permission_close_meeting_agendas: "Закрыть повестки дня"
