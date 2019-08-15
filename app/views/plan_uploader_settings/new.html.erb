@@ -3,8 +3,9 @@
 ++#%>
 
 <% html_title l(:label_administration), 'Новое поле' %>
-<% local_assigns[:additional_breadcrumb] =  'Новое поле' %>
-<%= breadcrumb_toolbar 'Новое поле' %>
+<%# local_assigns[:additional_breadcrumb] =  'Новое поле' %>
+<%#= breadcrumb_toolbar @plan_uploader_settings %>
+
 <%= labelled_tabular_form_for @plan_uploader_setting do |f| %>
 
   <%= render partial: 'settings', locals: { f: f, columns: @columns} %>
