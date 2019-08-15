@@ -126,8 +126,11 @@ module API
           resources :work_package_ispoln_stat_view do
             get do
               wpis = WorkPackageIspolnStat.all
-              wpis = wpis.where(project_id: params[:project]) if params[:project].present? and params[:project]
-              wpis = wpis.where("days_to_due > 0 and days_to_due < ?", params[:limit]) if params[:limit].present? and params[:limit]
+              wpis = wpis.where(project_id: params[:project]) if params[:project].present?
+              if params[:national].present?
+                wpis = params[:national] == '0' ? wpis.where("national_project_id is null") : wpis.where(national_project_id: params[:national])
+              end
+              wpis = wpis.where("days_to_due > 0 and days_to_due < ?", params[:limit]) if params[:limit].present?
               case params[:filter]
               # TODO: проверить правильность этих фильтров
               # when 'vsrok'
