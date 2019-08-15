@@ -1,5 +1,8 @@
 <% html_title 'Настройка соответствия полей' %>
 
+<%# local_assigns[:additional_breadcrumb] = @plan_uploader_settings %>
+<%= breadcrumb_toolbar %>
+
 <%= toolbar title: 'Настройка соответствия полей' do %>
   <li class="toolbar-item">
     <%= link_to new_plan_uploader_setting_path,
@@ -50,7 +53,7 @@
             <%= content_tag(:td, link_to(h(setting.column_num), edit_plan_uploader_setting_path(setting.id))) %>
             <%= content_tag(:td, WorkPackage.human_attribute_name(setting.column_name)) %>
             <%= content_tag(:td, WorkPackage.human_attribute_name(setting.table_name)) %>
-            <%= content_tag(:td, setting.is_pk) %>
+            <%= content_tag(:td, check_box_tag('is_pk', setting.is_pk, setting.is_pk, readonly: true)) %>
             <%= content_tag(:td,
                             link_to(
                                 op_icon('icon icon-edit'),

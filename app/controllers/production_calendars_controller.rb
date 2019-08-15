@@ -100,6 +100,14 @@ class ProductionCalendarsController < ApplicationController
     end
   end
 
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_production_calendars)
+    else
+      ActionController::Base.helpers.link_to(t(:label_production_calendars), production_calendars_path)
+    end
+  end
+
   def show_local_breadcrumb
     true
   end
