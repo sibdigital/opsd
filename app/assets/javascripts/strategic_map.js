@@ -32,12 +32,20 @@ var options = {
       valign: 'middle'
     }
   },
+  groups: {
+    useDefaultGroups: false,
+    National: {},
+    Federal: {},
+  },
   edges: {
     arrows: {
       to: {
         enabled: true,
         type: 'arrow'
       }
+    },
+    color:{
+      inherit: 'both'
     },
     physics: true
   },
@@ -69,6 +77,7 @@ var options = {
   locale: 'ru'
 };
 
+
 // initialize your network!
 var network = new vis.Network(container, data, options);
 
@@ -91,18 +100,19 @@ function getProjects(){
       var groups = new Array();
       json.forEach(function (element) {
 
-         nodes.add({
-           id: element[2],
-           title: element[0],
-           group: element[3],
-           label: cutString(element[0],5)
-         });
-         if ( element[1] && element[2] ) {
-           edges.add({
-             from: element[1],
-             to: element[2]
-           });
-         }
+        nodes.add({
+          id: element[2],
+          title: element[0],
+          group: element[3],
+          label: element[0]
+          // color:
+        });
+        if ( element[1] && element[2] ) {
+          edges.add({
+            from: element[1],
+            to: element[2]
+          });
+        }
       });
       network = new vis.Network(container, data, options);
       network.fit();
