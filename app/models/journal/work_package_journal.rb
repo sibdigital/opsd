@@ -29,6 +29,17 @@
 
 class Journal::WorkPackageJournal < Journal::BaseJournal
   self.table_name = 'work_package_journals'
+
+  #+tan
+  before_save :add_work_package_id
+  #-tan
+
+  #+tan
+  def add_work_package_id
+    self.work_package_id = journal.journable_id
+  end
+
+  #-tan
 end
 
 ::WorkPackageJournal = Journal::WorkPackageJournal
