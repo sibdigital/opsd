@@ -1825,7 +1825,8 @@ en:
   label_done_ratio_project: Процент исполнения (KPI)
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
-  label_head_performance_indicator_values: Оценка деятельности высшего должностного лица
+  label_head_performance_indicator_values: Оценки деятельности высшего должностного лица
+  label_head_performance_indicator_value: Оценка деятельности высшего должностного лица
   label_head_performance_indicator_values_short: Оценка деятельности
   label_head_performance_indicator_values_new: Новая оценка деятельности высшего должностного лица
   label_positions: "Должности"
@@ -2347,7 +2348,7 @@ en:
   label_production_calendars: Производственные календари
   label_work_calendar: Производственный календарь
   permission_view_interactive_map: Просмотр карты
-  permission_view_national_and_federal_projects: Просмотр проектов и порграмм
+  permission_view_national_and_federal_projects: Просмотр проектов и программ
   permission_manage_national_and_federal_projects: Управление проектами и программами
   permission_manage_hpi_values: Управление оценками ВДЛ
   permission_view_hpi_values: Просмотр оценок ВДЛ
