@@ -39,11 +39,11 @@ class WorkPackageStatistik < ActiveRecord::Migration[5.2]
         from (
                select wpsi.*,
                       case
-                        when wpsi.ispolneno = false and due_date < current_date and
+                        when wpsi.ispolneno = false and due_date < current_timestamp and
                              not lower(status_name) in (lower('Завершен'), lower('Отменен')) then true
                         else false end as ne_ispolneno,
                       case
-                        when wpsi.ispolneno = false and (due_date >= current_date or due_date is null) and created_problem_count > 0 and
+                        when wpsi.ispolneno = false and (due_date >= current_timestamp or due_date is null) and created_problem_count > 0 and
                              not lower(status_name) in (lower('Завершен'), lower('Отменен')) then true
                         else false end as est_riski
                from (
