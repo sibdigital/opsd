@@ -18,10 +18,12 @@
                               options_for_select(NationalProject.where(type: "National").map {|u| [u.name, u.id]}),
                               container_class: '-wide' %>
       </show-section-dropdown>
+      <button class="button-load-data" style="position: relative;vertical-align: top;horiz-align: left;display: inline-block;margin-top: 10px">Обновить данные</button>
+
     </div>
   </div>
 </div>
-<button class="button-load-data">Обновить данные</button>
+
 
 </div>
 <div id="mynetwork"></div>
