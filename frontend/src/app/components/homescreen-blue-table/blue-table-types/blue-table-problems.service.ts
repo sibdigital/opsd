@@ -39,8 +39,8 @@ export class BlueTableProblemsService extends BlueTableService {
                 if (this.data_local[el.id]) {
                   this.data_local[el.id].map((row:HalResource) => {
                     this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                    row.problems.map((wp:HalResource) => {
-                      this.data.push(wp);
+                    row.problems.map((problem:HalResource) => {
+                      this.data.push(problem);
                     });
                   });
                 }
@@ -106,8 +106,8 @@ export class BlueTableProblemsService extends BlueTableService {
                   if (this.data_local[el.id]) {
                     this.data_local[el.id].map((row:HalResource) => {
                       this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                      row.problems.map((wp:HalResource) => {
-                        this.data.push(wp);
+                      row.problems.map((problem:HalResource) => {
+                        this.data.push(problem);
                       });
                     });
                   }
@@ -118,8 +118,8 @@ export class BlueTableProblemsService extends BlueTableService {
                 if (this.data_local[0]) {
                   this.data_local[0].map((row:HalResource) => {
                     this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                    row.problems.map((wp:HalResource) => {
-                      this.data.push(wp);
+                    row.problems.map((problem:HalResource) => {
+                      this.data.push(problem);
                     });
                   });
                 }
@@ -156,8 +156,8 @@ export class BlueTableProblemsService extends BlueTableService {
                     if (this.data_local[el.id]) {
                       this.data_local[el.id].map((row:HalResource) => {
                         this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                        row.problems.map((wp:HalResource) => {
-                          this.data.push(wp);
+                        row.problems.map((problem:HalResource) => {
+                          this.data.push(problem);
                         });
                       });
                     }
@@ -168,8 +168,8 @@ export class BlueTableProblemsService extends BlueTableService {
                   if (this.data_local[0]) {
                     this.data_local[0].map((row:HalResource) => {
                       this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                      row.problems.map((wp:HalResource) => {
-                        this.data.push(wp);
+                      row.problems.map((problem:HalResource) => {
+                        this.data.push(problem);
                       });
                     });
                   }
@@ -219,7 +219,12 @@ export class BlueTableProblemsService extends BlueTableService {
           break;
         }
         case 3: {
-          return row.type;
+          if (row.type === 'solved_risk') {
+            return 'Решен';
+          }
+          if (row.type === 'created_risk') {
+            return 'Не решен';
+          }
           break;
         }
         case 4: {
@@ -288,8 +293,8 @@ export class BlueTableProblemsService extends BlueTableService {
                 if (this.data_local[0]) {
                   this.data_local[0].map((row:HalResource) => {
                     this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                    row.problems.map((wp:HalResource) => {
-                      this.data.push(wp);
+                    row.problems.map((problem:HalResource) => {
+                      this.data.push(problem);
                     });
                   });
                 }
@@ -300,8 +305,8 @@ export class BlueTableProblemsService extends BlueTableService {
                   if (this.data_local[el.id]) {
                     this.data_local[el.id].map((row:HalResource) => {
                       this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                      row.problems.map((wp:HalResource) => {
-                        this.data.push(wp);
+                      row.problems.map((problem:HalResource) => {
+                        this.data.push(problem);
                       });
                     });
                   }
@@ -335,8 +340,8 @@ export class BlueTableProblemsService extends BlueTableService {
                     if (this.data_local[el.id]) {
                       this.data_local[el.id].map((row:HalResource) => {
                         this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                        row.problems.map((wp:HalResource) => {
-                          this.data.push(wp);
+                        row.problems.map((problem:HalResource) => {
+                          this.data.push(problem);
                         });
                       });
                     }
@@ -347,8 +352,8 @@ export class BlueTableProblemsService extends BlueTableService {
                   if (this.data_local[0]) {
                     this.data_local[0].map((row:HalResource) => {
                       this.data.push({_type: row._type, identifier: row.identifier, name: row.name});
-                      row.problems.map((wp:HalResource) => {
-                        this.data.push(wp);
+                      row.problems.map((problem:HalResource) => {
+                        this.data.push(problem);
                       });
                     });
                   }

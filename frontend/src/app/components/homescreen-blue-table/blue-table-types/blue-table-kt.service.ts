@@ -226,7 +226,7 @@ export class BlueTableKtService extends BlueTableService {
           break;
         }
         case 5: {
-          return '<a href="' + this.getBasePath() + '/vkladka1/problems">' + row.created_problem_count + '</a>';
+          return '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + row.project_id + '">' + row.created_problem_count + '</a>';
           break;
         }
       }
