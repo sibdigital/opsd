@@ -43,7 +43,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 export class WpMeetingAutocompleteComponent {
   public selectedWP: string = '';
   public selectedWPid: string;
-
+  private dialogOpened=false; // maybe try await
   constructor(readonly pathHelper:PathHelperService,
               readonly element:ElementRef,
               protected halResourceService:HalResourceService,
@@ -62,30 +62,48 @@ export class WpMeetingAutocompleteComponent {
     }
   }
 
+  //knm
+  cutString(str: string, maxlength: number): string {
+    var temp = str.split(' ');
+    if (temp.length > maxlength) {
+      str = str.split(' ', maxlength).join(' ') + '...';
+    }
+    return str;
+  }
+
   //bbm(
   openDialog():void {
     let ELEMENT_DATA:PeriodicElement[] = [];
-    this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString())
-      .toPromise()
-      .then((values:CollectionResource<WorkPackageResource>) => {
-        values.elements.map(wp => {
-          ELEMENT_DATA.push({id: wp.id,
-            subject: wp.subject,
-            type: wp.type.$link.title,
-            status: wp.status.$link.title,
-            assignee: wp.assignee ? wp.assignee.$link.title :null});
+    if (!this.dialogOpened) {
+      this.halResourceService
+        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString())
+        .toPromise()
+        .then((values: CollectionResource<WorkPackageResource>) => {
+          values.elements.map(wp => {
+            ELEMENT_DATA.push({
+              id: wp.id,
+              subject: wp.subject,
+              type: wp.type.$link.title,
+              status: wp.status.$link.title,
+              assignee: wp.assignee ? wp.assignee.$link.title : null
+            });
+          });
+          const dialogRef = this.dialog.open(WpMeetingDialogComponent, {
+            height: '700px',
+            width: '1050px',
+            data: ELEMENT_DATA
+          });
+          this.dialogOpened = true;
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              this.selectedWP = result.subject;
+              this.selectedWPid = result.id;
+
+            }
+            this.dialogOpened = false;
+          });
         });
-        const dialogRef = this.dialog.open(WpMeetingDialogComponent, {
-          width: '750px',
-          data: ELEMENT_DATA
-        });
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.selectedWP = result.subject;
-            this.selectedWPid = result.id;
-          }
-        });
-      });
+    }
+    this.dialogOpened=true;
   }
 }

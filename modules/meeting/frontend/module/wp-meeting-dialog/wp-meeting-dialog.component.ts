@@ -1,6 +1,8 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatPaginator, MatTableDataSource} from "@angular/material";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+// import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 export interface PeriodicElement {
   id: string;
@@ -18,6 +20,7 @@ export interface PeriodicElement {
 export class WpMeetingDialogComponent implements OnInit{
   displayedColumns: string[] = ['id', 'subject', 'type', 'status', 'assignee'];
   dataSource:MatTableDataSource<PeriodicElement>;
+  paginatorLength: number;
 
   public text = {
     subject: this.I18n.t('js.work_packages.properties.subject'),
@@ -33,6 +36,7 @@ export class WpMeetingDialogComponent implements OnInit{
     readonly I18n:I18nService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.dataSource = data;
+    this.paginatorLength = data.length
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
