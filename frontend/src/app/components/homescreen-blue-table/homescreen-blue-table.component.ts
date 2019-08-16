@@ -74,7 +74,7 @@ export class HomescreenBlueTableComponent implements OnInit {
   }
 
   public limitDays(i:number) {
-    this.data = this.blueTableModule.getDataWithLimit(i);
+    this.data = this.blueTableModule.getDataWithFilter('limit' + i);
   }
 
   public changeFilter(param:string) {

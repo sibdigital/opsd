@@ -178,7 +178,7 @@ class WorkPackage < ActiveRecord::Base
   acts_as_watchable
 
   before_create :default_assign
-  before_save :close_duplicates, :update_done_ratio_from_status
+  before_save :close_duplicates, :update_done_ratio_from_status, :set_fact_due
 
   acts_as_customizable
 
@@ -778,6 +778,20 @@ class WorkPackage < ActiveRecord::Base
 
     journal.save
   end
+
+  #+tan
+  def set_fact_due
+    #устанавливаем дату исполнения работ
+    created_problem_count = work_package_problems.where(status: 'created').count
+    attach_count = attachments.count
+    is_zaversh = status.name == I18n.t(:default_status_completed)
+
+    #TODO: все-таки должна быть нотификация
+    if (is_zaversh && attach_count > 0 && created_problem_count == 0 && self.due_date != nil)
+      self.fact_due_date = DateTime.current
+    end
+  end
+  # -tan
 
   # Query generator for selecting groups of issue counts for a project
   # based on specific criteria.

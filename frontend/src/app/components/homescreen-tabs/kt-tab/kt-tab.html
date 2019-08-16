@@ -31,8 +31,8 @@
         <td>Фильтр</td>
         <td>
             <a href="" (click)="this.blueChild.changeFilter('all')">Все</a> /
-            <a href="">Исполнено в срок</a> /
-            <a href="">Исполнено с опозданием</a> /
+            <a href="" (click)="this.blueChild.changeFilter('vsrok')">Исполнено в срок</a> /
+            <a href="" (click)="this.blueChild.changeFilter('sopozdaniem')">Исполнено с опозданием</a> /
             <a href="" (click)="this.blueChild.changeFilter('vrabote')">В работе</a> /
             <a href="" (click)="this.blueChild.changeFilter('predstoyashie')">Предстоящие</a>
         </td>

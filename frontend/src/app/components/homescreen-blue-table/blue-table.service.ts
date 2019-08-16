@@ -22,9 +22,6 @@ export abstract class BlueTableService {
   public getDataFromPage(i:number):any[] {
     return [];
   }
-  public getDataWithLimit(i:number):any[] {
-    return [];
-  }
   public getDataWithFilter(param:string):any[] {
     return [];
   }

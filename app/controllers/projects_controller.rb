@@ -153,6 +153,11 @@ class ProjectsController < ApplicationController
 
   def update
     @altered_project = Project.find(@project.id)
+    #ban(
+    @old_status = @project.get_project_status.id
+    @old_start_date = @project.start_date.to_s
+    @old_due_date = @project.due_date.to_s
+    #)
 
     @altered_project.attributes = permitted_params.project
     if validate_parent_id && @altered_project.save
@@ -163,11 +168,13 @@ class ProjectsController < ApplicationController
       Member.where(project_id: @altered_project.id).each do |member|
         Alert.create_pop_up_alert(@altered_project, "Changed", User.current, member.user)
       end
+      #ban(
       if Setting.notified_events.include?('project_changed')
         @project.recipients.uniq.each do |user|
-          UserMailer.project_changed(user, @project, User.current).deliver_later
+          UserMailer.project_changed(user, @project, User.current, @old_status, @old_start_date, @old_due_date).deliver_later
         end
       end
+      #)
       OpenProject::Notifications.send('project_updated', project: @altered_project)
     end
 
@@ -248,11 +255,13 @@ class ProjectsController < ApplicationController
       Member.where(project_id: @project.id).each do |member|
         Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
       end
+      #ban()
       if Setting.notified_events.include?('project_deleted')
         @project.recipients.uniq.each do |user|
           UserMailer.project_deleted(user, @project, User.current).deliver_later
         end
       end
+      #)
     else
       flash[:error] = I18n.t('projects.delete.schedule_failed', errors: call.errors.full_messages.join("\n"))
     end
