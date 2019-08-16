@@ -102,6 +102,18 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: "name",
       groupable: true
     },
+    #+tan
+    organization: {
+      association: 'organization',
+      sortable: "name",
+      groupable: true
+    },
+    raion: {
+      association: 'raion',
+      sortable: "name",
+      groupable: true
+    },
+    # -tan
     fixed_version: {
       association: 'fixed_version',
       sortable: ["name"],
@@ -123,6 +135,16 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
                   ELSE 0 END",
                  "#{WorkPackage.table_name}.due_date"]
     },
+    #+tan
+    fact_due_date: {
+      highlightable: true,
+      # Put empty due_dates in the far future rather than in the far past
+      sortable: ["CASE WHEN #{WorkPackage.table_name}.fact_due_date IS NULL
+                  THEN 1
+                  ELSE 0 END",
+                 "#{WorkPackage.table_name}.fact_due_date"]
+    },
+    # -tan
     estimated_hours: {
       sortable: "#{WorkPackage.table_name}.estimated_hours",
       summable: true
