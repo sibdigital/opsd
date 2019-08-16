@@ -1192,6 +1192,11 @@ en:
   default_role_events_responsible: Ответственный за блок мероприятий
   default_role_project_head: Руководитель проекта
   default_role_project_office_admin: Администратор проектного офиса
+  default_role_glava_regiona: Глава Республики Бурятия
+  default_role_glava_regiona_global: Глава Республики Бурятия (глобальная)
+  default_role_project_office_manager_global: Руководитель проектного офиса (глобальная)
+  default_role_project_activity_coordinator_global: Координатор проектной деятельности (глобальная)
+  default_role_project_office_coordinator_global: Сотрудник проектного офиса (глобальная)
   default_role_non_member: Не участник
   default_role_reader: Читатель
   default_role_member: Ответственный за блок мероприятий

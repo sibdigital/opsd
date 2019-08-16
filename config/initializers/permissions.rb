@@ -53,14 +53,16 @@ Redmine::AccessControl.map do |map|
                    },
                  public: true
 
-  map.permission :search_project,
-                 { search: :index },
-                 public: true
+  @map_permission = map.permission :search_project,
+                                   {search: :index},
+                                   public: true
+  @map_permission
 
   map.permission :add_project,
                  { projects: %i[new create],
                    members: [:paginate_users] },
-                 require: :loggedin
+                 require: :loggedin,
+                 public: true
 
   map.permission :edit_project,
                  { projects: %i[edit update custom_fields],

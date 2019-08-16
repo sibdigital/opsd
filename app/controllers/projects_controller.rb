@@ -91,6 +91,11 @@ class ProjectsController < ApplicationController
     if validate_parent_id && @project.save
       @project.set_allowed_parent!(params['project']['parent_id']) if params['project'].has_key?('parent_id')
       add_current_user_to_project_if_not_admin(@project)
+
+      #zbd(
+      add_global_users_to_project(@project)
+      #)
+
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
@@ -98,21 +103,7 @@ class ProjectsController < ApplicationController
             Alert.create_pop_up_alert(@project, "Created", User.current, member.user)
           end
           #ban(
-          @project_office_members = []
-          @memberroles = MemberRole.find_by_sql('select * from member_roles')
-          @memberroles.each do |member_role|
-            if member_role.role_id = 8 || member_role.role_id = 10 || member_role.role_id = 13
-              @member_id = Member.find_by(id: member_role.member_id)
-              @project_office_members << User.find_by(id: Member.find_by(id: @member_id))
-            end
-          end
-          if Setting.notified_events.include?('project_created')
-            @project_office_members.uniq.each do |user|
-              if user != nil
-                UserMailer.project_created(user, @project, User.current).deliver_later
-              end
-            end
-          end
+          deliver_mail_to_members
           #)
           redirect_work_packages_or_overview
         end
@@ -390,4 +381,75 @@ class ProjectsController < ApplicationController
       Setting.demo_projects_available = value
     end
   end
+
+  #zbd(
+  def add_global_users_to_project(project)
+    # найти пользаков с глобальной ролью. Исключаем Координатор от проектного офиса
+    global_users = []
+    PrincipalRole.joins(:role)
+      .where('not roles.name like ?', I18n.t(:default_role_project_office_coordinator_global))
+      .each { |global_user| global_users.push(global_user.principal_id) }
+    global_users = global_users.uniq
+
+    global_users.each do |global_user|
+      # найти обычные роли, совпадающие по названию
+      roles = []
+      sql = "select * from roles where type='Role' and name in (
+          select trim(replace(r.name, '(глобальная)', '')) from principal_roles pr
+          inner join roles r on r.id=pr.role_id
+          where principal_id = " + global_user.to_s + ")"
+
+      result = ActiveRecord::Base.connection.execute(sql)
+      index = 0
+      result.each do |row|
+        roles[index] = row['id']
+        index += 1
+      end
+
+      # добавить в участники проекта с аналогичными ролями без суффикса "(глобальная)"
+      if User.current.id != global_user # текущий польз уже добавлен ранее
+        m = Member.new do |member|
+          member.user = User.find(global_user)
+          member.role_ids = roles
+        end
+        project.members << m
+      end
+    end
+  end
+
+  def deliver_mail_to_members
+    @project_office_members = []
+    roles = []
+    Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
+                               I18n.t(:default_role_project_office_coordinator),
+                               I18n.t(:default_role_project_office_admin)])
+                              .each { |r| roles.push(r)}
+    members = Member.joins(:member_roles).where('role_id in (?)', roles)
+    members.each do |member|
+      if Setting.notified_events.include?('project_created')
+        user = User.find(member.user_id)
+        if user.present?
+          UserMailer.project_created(user, @project, User.current).deliver_later
+        end
+      end
+    end
+
+    # ban(
+    # @project_office_members = []
+    # @memberroles = MemberRole.find_by_sql('select * from member_roles')
+    # @memberroles.each do |member_role|
+    #   if member_role.role_id = 8 || member_role.role_id = 10 || member_role.role_id = 13
+    #     @member_id = Member.find_by(id: member_role.member_id)
+    #     @project_office_members << User.find_by(id: Member.find_by(id: @member_id))
+    #   end
+    # end
+    # if Setting.notified_events.include?('project_created')
+    #   @project_office_members.uniq.each do |user|
+    #     if user != nil
+    #       UserMailer.project_created(user, @project, User.current).deliver_later
+    #     end
+    #   end
+    # end
+  end
+  # )
 end

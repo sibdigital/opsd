@@ -312,8 +312,7 @@ module BasicData
         :commit_access,
         :view_commit_author_statistics,
         :view_members
-      ]
-      }
+      ]}
     end
 
     def project_activity_coordinator
@@ -365,8 +364,7 @@ module BasicData
         :commit_access,
         :view_commit_author_statistics,
         :view_members
-      ]
-      }
+      ]}
     end
 
     def project_office_coordinator
@@ -384,6 +382,128 @@ module BasicData
     def project_office_admin
       { name: I18n.t(:default_role_project_office_admin), position: 13, permissions: Role.new.setable_permissions.map(&:name) }
     end
+
+    def glava_regiona
+      { name: I18n.t(:default_role_glava_regiona), position: 14, permissions: Role.new.setable_permissions.map(&:name) }
+    end
+
+    # глобальные роли
+    def glava_regiona_global
+      { name: I18n.t(:default_role_glava_regiona_global), position: 15, permissions: Role.new.setable_permissions.map(&:name), type: 'GlobalRole' }
+    end
+
+    def project_office_coordinator_global
+      { name: I18n.t(:default_role_project_office_coordinator_global), position: 16, permissions: Role.new.setable_permissions.map(&:name), type: 'GlobalRole' }
+    end
+
+    def project_activity_coordinator_global
+      { name: I18n.t(:default_role_project_activity_coordinator_global), position: 17, permissions: [
+        :view_work_packages,
+        :export_work_packages,
+        :add_work_packages,
+        :move_work_packages,
+        :edit_work_packages,
+        :add_work_package_notes,
+        :edit_own_work_package_notes,
+        :manage_work_package_relations,
+        :manage_subtasks,
+        :manage_public_queries,
+        :save_queries,
+        :view_work_package_watchers,
+        :add_work_package_watchers,
+        :delete_work_package_watchers,
+        :view_calendar,
+        :comment_news,
+        :manage_news,
+        :log_time,
+        :view_time_entries,
+        :view_own_time_entries,
+        :edit_own_time_entries,
+        :view_timelines,
+        :edit_timelines,
+        :delete_timelines,
+        :view_reportings,
+        :edit_reportings,
+        :delete_reportings,
+        :manage_wiki,
+        :manage_wiki_menu,
+        :rename_wiki_pages,
+        :change_wiki_parent_page,
+        :delete_wiki_pages,
+        :view_wiki_pages,
+        :export_wiki_pages,
+        :view_wiki_edits,
+        :edit_wiki_pages,
+        :delete_wiki_pages_attachments,
+        :protect_wiki_pages,
+        :list_attachments,
+        :add_messages,
+        :edit_own_messages,
+        :delete_own_messages,
+        :browse_repository,
+        :view_changesets,
+        :commit_access,
+        :view_commit_author_statistics,
+        :view_members
+      ],
+        type: 'GlobalRole'
+      }
+    end
+
+    def project_office_manager_global
+      { name: I18n.t(:default_role_project_office_manager_global), position: 18, permissions: [
+        :view_work_packages,
+        :export_work_packages,
+        :add_work_packages,
+        :move_work_packages,
+        :edit_work_packages,
+        :add_work_package_notes,
+        :edit_own_work_package_notes,
+        :manage_work_package_relations,
+        :manage_subtasks,
+        :manage_public_queries,
+        :save_queries,
+        :view_work_package_watchers,
+        :add_work_package_watchers,
+        :delete_work_package_watchers,
+        :view_calendar,
+        :comment_news,
+        :manage_news,
+        :log_time,
+        :view_time_entries,
+        :view_own_time_entries,
+        :edit_own_time_entries,
+        :view_timelines,
+        :edit_timelines,
+        :delete_timelines,
+        :view_reportings,
+        :edit_reportings,
+        :delete_reportings,
+        :manage_wiki,
+        :manage_wiki_menu,
+        :rename_wiki_pages,
+        :change_wiki_parent_page,
+        :delete_wiki_pages,
+        :view_wiki_pages,
+        :export_wiki_pages,
+        :view_wiki_edits,
+        :edit_wiki_pages,
+        :delete_wiki_pages_attachments,
+        :protect_wiki_pages,
+        :list_attachments,
+        :add_messages,
+        :edit_own_messages,
+        :delete_own_messages,
+        :browse_repository,
+        :view_changesets,
+        :commit_access,
+        :view_commit_author_statistics,
+        :view_members
+      ],
+        type: 'GlobalRole'
+      }
+    end
+
     # )
 
     def non_member
