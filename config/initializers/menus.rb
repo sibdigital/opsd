@@ -85,7 +85,7 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
+            if: Proc.new { User.current.admin?||User.current.detect_in_global? } #User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
   # menu.push :coordination,
   #           { controller: '/projects', action: 'index' },
   #           if: Proc.new { User.current.detect_project_office_coordinator? }
@@ -141,8 +141,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/users' },
             caption: :label_user_plural,
             icon: 'icon2 icon-user',
-            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator?}
-
+            if: Proc.new { User.current.admin?||User.current.detect_in_global? } #User.current.detect_project_office_coordinator?||User.current.detect_project_administrator?}
 
   menu.push :roles,
             { controller: '/roles' },
@@ -154,7 +153,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :contracts,
             { controller: '/contracts' },
             icon: 'icon2 icon-enumerations',
-            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
+            #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
+            if: Proc.new {
+              User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:manage_contracts))
+            }
   # )
   menu.push :system_catalogs,
             {},
@@ -185,7 +187,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/workflows', action: 'edit' },
             caption: Proc.new { Workflow.model_name.human },
             icon: 'icon2 icon-workflow',
-            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?}
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
 
   menu.push :custom_fields,
             { controller: '/custom_fields' },
@@ -323,7 +325,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             {controller: '/interactive_map', action: 'index'},
             caption: :label_interactive_map,
             icon: 'icon2 icon-map',
-            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+            #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+            if: Proc.new {
+              User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:view_interactive_map))
+            }
+
   menu.push :nat_fed_gov,
             {},
             caption: :label_national_projects_government_programs,
@@ -406,24 +412,24 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_stage_analysis,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-analyze'
-  menu.push :communictaions,
+  menu.push :communications,
             {},
             param: :project_id,
-            caption: :label_communictaions,
+            caption: :label_communications,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-communication'
   menu.push :resources,
             {},
             param: :project_id,
             caption: :label_resources,
-            #after: :communictaion,
+            #after: :communication,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-resource'
   menu.push :control,
             {},
             param: :project_id,
             caption: :label_control,
-            #after: :communictaion,
+            #after: :communication,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-checkmark'
   #нехорошо из модуля переносить, но что делать TODO: need fix
@@ -497,7 +503,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_news_plural,
             icon: 'icon2 icon-news',
-            parent: :communictaions
+            parent: :communications
 
   menu.push :boards,
             { controller: '/boards', action: 'index', id: nil },

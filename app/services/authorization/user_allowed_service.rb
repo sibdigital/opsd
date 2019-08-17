@@ -96,7 +96,8 @@ class Authorization::UserAllowedService
   # See allowed_to? for the actions and valid options.
   def allowed_to_globally?(action, _options = {})
     # Admin users are always authorized
-    return true if user.admin?
+    #zbd return true if user.admin?
+    return true if user.admin? #||user.detect_in_global?
 
     has_authorized_role?(action)
   end

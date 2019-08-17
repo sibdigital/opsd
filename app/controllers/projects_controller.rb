@@ -384,7 +384,7 @@ class ProjectsController < ApplicationController
 
   #zbd(
   def add_global_users_to_project(project)
-    # найти пользаков с глобальной ролью. Исключаем Координатор от проектного офиса
+    # найти пользаков с глобальной ролью. Исключаем Координатор от проектного офиса (Сотрудника проектного офиса)
     global_users = []
     PrincipalRole.joins(:role)
       .where('not roles.name like ?', I18n.t(:default_role_project_office_coordinator_global))
@@ -392,13 +392,12 @@ class ProjectsController < ApplicationController
     global_users = global_users.uniq
 
     global_users.each do |global_user|
-      # найти обычные роли, совпадающие по названию
+      # найти обычные роли, совпадающие по названию, т.е. без слова (глобальная)
       roles = []
       sql = "select * from roles where type='Role' and name in (
           select trim(replace(r.name, '(глобальная)', '')) from principal_roles pr
           inner join roles r on r.id=pr.role_id
           where principal_id = " + global_user.to_s + ")"
-
       result = ActiveRecord::Base.connection.execute(sql)
       index = 0
       result.each do |row|
@@ -417,6 +416,7 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # переделал метод
   def deliver_mail_to_members
     @project_office_members = []
     roles = []
