@@ -109,8 +109,13 @@ module API
 
           resources :risk_problem_stat_view do
             get do
-              rps = RiskProblemStat.all
+              rps = RiskProblemStat
+                .joins(:project)
+                .all
               rps = rps.where(project_id: params[:project]) if params[:project].present?
+              if params[:national].present?
+                rps = params[:national] == '0' ? rps.where("projects.national_project_id is null") : rps.where(projects:{national_project_id: params[:national]})
+              end
               rps = rps.where(type: params[:filter]) if params[:filter].present? and params[:filter] != 'all'
               result = Hash.new
               result['_type'] = 'Collection'
@@ -150,6 +155,73 @@ module API
             end
           end
 
+          resources :quartered_work_package_targets_with_quarter_groups_view do
+            get do
+              qwptwqg = WorkPackageQuarterlyTarget.where("year = date_part('year', CURRENT_DATE)")
+              qwptwqg = qwptwqg.where(project_id: params[:project]) if params[:project].present?
+              if params[:national].present?
+                qwptwqg = params[:national] == '0' ? qwptwqg.where("national_project_id is null") : qwptwqg.where(national_project_id: params[:national])
+              end
+
+              result = Hash.new
+              result['_type'] = 'Collection'
+              result['total'] = qwptwqg.count
+              result['pageSize'] = params[:offset].present? ? 20 : qwptwqg.count
+              result['offset'] = params[:offset].present? ? to_i_or_nil(params[:offset]) : 1
+              qwptwqg = qwptwqg.limit(20).offset((to_i_or_nil(params[:offset]) - 1) * 20) if params[:offset].present?
+              result['count'] = qwptwqg.count
+              collection = []
+              qwptwqg.group_by(&:project_id).each do |project, arr|
+                hash = Hash.new
+                hash['_type'] = 'Project'
+                hash['project_id'] = project
+                p = Project.find(project)
+                hash['name'] = p.name
+                hash['identifier'] = p.identifier
+                hash['national_id'] = p.national_project_id || 0
+                hash['curator'] = p.curator['fio']
+                hash['curator_id'] = p.curator['id']
+                hash['rukovoditel'] = p.rukovoditel['fio']
+                hash['rukovoditel_id'] = p.rukovoditel['id']
+                hash['targets'] = []
+                arr.group_by(&:target_id).each do |target, subarr|
+                  stroka = Hash.new
+                  stroka['_type'] = 'Target'
+                  stroka['target_id'] = target
+                  t = Target.find(target)
+                  stroka['name'] = t.name
+                  stroka['work_packages'] = []
+                  subarr.each do |row|
+                    quarter1 = Hash.new
+                    quarter2 = Hash.new
+                    quarter3 = Hash.new
+                    quarter4 = Hash.new
+                    quarter1['_type'] = quarter2['_type'] = quarter3['_type'] = quarter4['_type'] = 'WorkPackageQuarterlyTarget'
+                    quarter1['work_package_id'] = quarter2['work_package_id'] = quarter3['work_package_id'] = quarter4['work_package_id'] = row.work_package_id
+                    wp = WorkPackage.find(row.id)
+                    quarter1['subject'] = quarter2['subject'] = quarter3['subject'] = quarter4['subject'] = wp.subject
+                    quarter1['plan'] = row.quarter1_plan_value
+                    quarter1['fact'] = row.quarter1_value
+                    quarter2['plan'] = row.quarter2_plan_value
+                    quarter2['fact'] = row.quarter2_value
+                    quarter3['plan'] = row.quarter3_plan_value
+                    quarter3['fact'] = row.quarter3_value
+                    quarter4['plan'] = row.quarter4_plan_value
+                    quarter4['fact'] = row.quarter4_value
+                    stroka['work_packages'] << quarter1
+                    stroka['work_packages'] << quarter2
+                    stroka['work_packages'] << quarter3
+                    stroka['work_packages'] << quarter4
+                  end
+                  hash['targets'] << stroka
+                end
+                collection << hash
+              end
+              result['elements'] = collection
+              result
+            end
+          end
+
           resources :work_package_ispoln_stat_view do
             get do
               wpis = WorkPackageIspolnStat.all
@@ -159,11 +231,10 @@ module API
               end
               wpis = wpis.where("days_to_due > 0 and days_to_due < ?", params[:limit]) if params[:limit].present?
               case params[:filter]
-              # TODO: проверить правильность этих фильтров
-              # when 'vsrok'
-              #  wpis = wpis.where(v_rabote: true)
-              # when 'sopozdaniem'
-              #  wpis = wpis.where(v_rabote: true)
+              when 'vsrok'
+                wpis = wpis.where(ispolneno_v_srok: true)
+              when 'sopozdaniem'
+                wpis = wpis.where(ispolneno_v_srok: false, ispolneno: true)
               when 'vrabote'
                 wpis = wpis.where(v_rabote: true)
               when 'predstoyashie'
@@ -190,24 +261,14 @@ module API
                   stroka = Hash.new
                   stroka['_type'] = 'WorkPackageIspolnStat'
                   stroka['work_package_id'] = row.id
+                  stroka['project_id'] = project
                   stroka['subject'] = row.subject
                   stroka['otvetstvenniy'] = row.assigned_to.fio
                   stroka['otvetstvenniy_id'] = row.assigned_to.id
                   stroka['due_date'] = row.due_date
                   stroka['status_name'] = row.status_name
                   stroka['created_problem_count'] = row.created_problem_count
-                  # TODO:Переписать дату факт
-                  records_array = ActiveRecord::Base.connection.exec_query <<~SQL
-                    select created_at from work_package_journals as wpj
-                    inner join journals as j
-                    on wpj.journal_id = j.id
-                    where journable_type = 'WorkPackage'
-                    and journable_id = #{row.id}
-                    and status_id = 3
-                    order by wpj.id desc
-                    limit 1
-                  SQL
-                  stroka['fakt_ispoln'] = records_array.empty? ? '' : records_array[0]['created_at']
+                  stroka['fakt_ispoln'] = row.fact_due_date
                   hash['work_packages'] << stroka
                 end
                 collection << hash
@@ -235,9 +296,6 @@ module API
                 arr.each do |row|
                   stroka = Hash.new
                   stroka['_type'] = 'PlanFactQuarterlyTargetValue'
-                  # wp = WorkPackage.find(row.work_package_id)
-                  # stroka['otvetstvenniy'] = wp.assigned_to.fio
-                  # stroka['otvetstvenniy_id'] = wp.assigned_to.id
                   stroka['name'] = Target.find(row.target_id).name
                   stroka['target_id'] = row.target_id
                   stroka['target_year_value'] = row.target_year_value
