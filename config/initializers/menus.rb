@@ -85,7 +85,8 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/users', action: 'index' },
-            if: Proc.new { User.current.admin?||User.current.detect_in_global? } #User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
+            #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator?||User.current.detect_in_global? }
   # menu.push :coordination,
   #           { controller: '/projects', action: 'index' },
   #           if: Proc.new { User.current.detect_project_office_coordinator? }
