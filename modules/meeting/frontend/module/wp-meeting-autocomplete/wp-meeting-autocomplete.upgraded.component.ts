@@ -66,7 +66,7 @@ export class WpMeetingAutocompleteComponent {
   openDialog():void {
     let ELEMENT_DATA:PeriodicElement[] = [];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString())
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {pageSize: 1024})//as unlimited
       .toPromise()
       .then((values:CollectionResource<WorkPackageResource>) => {
         values.elements.map(wp => {
