@@ -29,7 +29,6 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class DiagramHomescreenResource extends HalResource {
-
   public data:Array<number>;
   public label:string;
 }

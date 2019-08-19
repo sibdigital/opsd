@@ -1,6 +1,7 @@
-<div class="chart">
+<div style="padding:10px; text-align: center;">{{zagolovok}}</div>
+<div class="chart" [ngStyle]="hideMe()">
     <button class="changeChart" type="button" (click)="refresh()" style="display: none"></button>
-    <canvas id="chart" baseChart height="170px"
+    <canvas id="chart" baseChart height="300px"
             [datasets]="barChartData"
             [labels]="barChartLabels"
             [options]="barChartOptions"

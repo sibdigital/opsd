@@ -19,6 +19,10 @@ module API
         end
 
         property :id, render_nil: true
+        property :value,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.head_performance_indicator_values.last ? represented.head_performance_indicator_values.last.value : nil },
+                 render_nil: true
         property :name
         property :sort_code
 

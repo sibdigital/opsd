@@ -65,7 +65,7 @@ export class BlueTableDiscussService extends BlueTableService {
   public getTdData(row:any, i:number):string {
     switch (i) {
       case 0: {
-        return row.project ? row.project.id : '';
+        return '<a href="' + super.getBasePath() + '/projects/' + row.project.identifier + '">' + row.project.name + '</a>';
         break;
       }
       case 1: {
@@ -85,7 +85,7 @@ export class BlueTableDiscussService extends BlueTableService {
         break;
       }
       case 3: {
-        return row.updatedOn;
+        return this.format(row.updatedOn);
         break;
       }
     }
@@ -147,5 +147,9 @@ export class BlueTableDiscussService extends BlueTableService {
         });
       });
     return this.data;
+  }
+
+  public format(input:string):string {
+    return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }
 }

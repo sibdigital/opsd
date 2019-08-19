@@ -14,14 +14,15 @@ export const homescreenPerformanceDiagramSelector = 'homescreen-performance-diag
   selector: homescreenPerformanceDiagramSelector,
   templateUrl: './homescreen-performance-diagram.html'
 })
-export class HomescreenPerformanceDiagramComponent implements OnInit {
+export class HomescreenPerformanceDiagramComponent {
+  public zagolovok:string;
   public barChartOptions:ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       xAxes: [{
         ticks: {
-          display: false
+          display: false,
         },
         gridLines: {
           display: false,
@@ -30,8 +31,7 @@ export class HomescreenPerformanceDiagramComponent implements OnInit {
       }],
       yAxes: [{
         ticks: {
-          min:0,
-          max:120,
+          beginAtZero: true,
           display: false
         },
         gridLines: {
@@ -41,8 +41,8 @@ export class HomescreenPerformanceDiagramComponent implements OnInit {
       }]
     },
     legend: {
-      display: false,
-      position: 'right',
+      display: true,
+      position: 'bottom',
       labels: {
         boxWidth: 15
       }
@@ -57,12 +57,15 @@ export class HomescreenPerformanceDiagramComponent implements OnInit {
     },
   };
 
-  public barChartLabels:Label[] = ["1.", "2.", "3.", "4."];
+  public barChartLabels:Label[] = ['Показатель'];
   public barChartType:ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
   public barChartData:ChartDataSets[] = [
-    {data:[]}
+    {data:[0], label: "1.", backgroundColor: '#00b050', hoverBackgroundColor: '#00b050'},
+    {data:[0], label: "2.", backgroundColor: '#ffc000', hoverBackgroundColor: '#ffc000'},
+    {data:[0], label: "3.", backgroundColor: '#c00000', hoverBackgroundColor: '#c00000'},
+    {data:[0], label: "4.", backgroundColor: '#1f497d', hoverBackgroundColor: '#1f497d'}
   ];
 
   @ViewChild(BaseChartDirective) chart:BaseChartDirective;
@@ -72,35 +75,45 @@ export class HomescreenPerformanceDiagramComponent implements OnInit {
               protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService) { }
 
-  ngOnInit() {
-    let barChartName = this.element.nativeElement.getAttribute('performance-id') || 0;
-    /*this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName)
-      .toPromise()
-      .then((resource:DiagramHomescreenResource) => {
-        this.barChartData[0].data = resource.data;
-        this.barChartData[0].label = resource.label;
-        });*/
-    this.barChartData[0].data = [0, 0, 3, 0];
-    this.barChartData[0].label = 'label';
-    this.barChartData[0].backgroundColor = ['#00b050', '#ffc000', '#c00000', '#1f497d'];
-  }
-
-  public changeChartType() {
-    this.chart.chartType = this.barChartType;
-    this.chart.chart.update();
-  }
-
   public refresh() {
     let barChartName = this.element.nativeElement.getAttribute('performance-id') || 0;
-    if (barChartName % 2 === 0) {
-      this.barChartData[0].data = [6, 0, 0, 0];
-    } else {
-      this.barChartData[0].data = [0, 0, 3, 0];
-    }
+    this.halResourceService
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/head_performance', {performance: barChartName})
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        let maxim:number | undefined = _.max(resource.data);
+        if (maxim && this.chart.options.scales && this.chart.options.scales.yAxes) {
+          let maxValue = Number((maxim * 2).toFixed(0));
+          this.chart.options.scales.yAxes[0] = {
+            ticks: {
+              max: maxValue,
+              beginAtZero: true,
+              display: false
+            },
+            gridLines: {
+              display: true,
+              drawBorder: false,
+            }
+          };
+          this.chart.chart.update();
+        }
+        this.barChartData = [];
+        this.barChartData.push({data:[resource.data[0]], label: "1.", backgroundColor: '#00b050', hoverBackgroundColor: '#00b050'});
+        this.barChartData.push({data:[resource.data[1]], label: "2.", backgroundColor: '#ffc000', hoverBackgroundColor: '#ffc000'});
+        this.barChartData.push({data:[resource.data[2]], label: "3.", backgroundColor: '#c00000', hoverBackgroundColor: '#c00000'});
+        this.barChartData.push({data:[resource.data[3]], label: "4.", backgroundColor: '#1f497d', hoverBackgroundColor: '#1f497d'});
+        this.zagolovok = resource.label;
+      });
     /*this.barChartData = JSON.parse(this.element.nativeElement.getAttribute('chart-data'));
     this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d'];
-    this.chart.chart.update();*/
+    */
+  }
+
+  public hideMe() {
+    if (!this.zagolovok) {
+      return {'visibility': 'hidden'};
+    }
+    return {};
   }
 }
 

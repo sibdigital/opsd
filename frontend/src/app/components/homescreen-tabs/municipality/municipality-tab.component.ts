@@ -189,8 +189,8 @@ export class MunicipalityTabComponent implements OnInit {
   }
 
   public handleUserSubmit() {
-    if (this.selectedOption && this.selectedOption.$href) {
-      this.blueChild.changeFilter(this.selectedOption.$href);
+    if (this.selectedOption) {
+      this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.data = [];
       let from = new Date();
       let to = new Date();
@@ -223,7 +223,7 @@ export class MunicipalityTabComponent implements OnInit {
         {
           organization: {
             operator: '=',
-            values: [this.selectedOption.$href]
+            values: [String(this.selectedOption.$href)]
           }
         }
       ];
@@ -274,7 +274,7 @@ export class MunicipalityTabComponent implements OnInit {
         {
           organization: {
             operator: '=',
-            values: [this.selectedOption.$href]
+            values: [String(this.selectedOption.$href)]
           }
         }
       ];

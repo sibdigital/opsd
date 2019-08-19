@@ -37,6 +37,10 @@ export class BlueTablePerformanceService extends BlueTableService {
         return row.sortCode + '. ' + row.name;
         break;
       }
+      case 1: {
+        return row.value;
+        break;
+      }
     }
     return '';
   }
