@@ -30,6 +30,7 @@ import {Component, ElementRef} from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {UserResource} from 'core-app/modules/hal/resources/user-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {MatDialog} from "@angular/material";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -43,13 +44,18 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 export class WpMeetingAutocompleteComponent {
   public selectedWP: string = '';
   public selectedWPid: string;
+  public currentUserId: string;
   private dialogOpened=false; // maybe try await
   constructor(readonly pathHelper:PathHelperService,
               readonly element:ElementRef,
               protected halResourceService:HalResourceService,
               readonly I18n:I18nService,
               public dialog:MatDialog) {
+    this.halResourceService.get<CollectionResource<UserResource>>(this.pathHelper.api.v3.users.me.toString()).toPromise().then((usrs: CollectionResource<UserResource>)=>{
+      this.currentUserId = usrs.id
+    })
     if (this.element.nativeElement.getAttribute('wpId')) {
+
       this.selectedWPid = JSON.parse(this.element.nativeElement.getAttribute('wpId'));
       this.halResourceService
         .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpBySubjectOrId(this.selectedWPid, true).toString())
@@ -62,14 +68,6 @@ export class WpMeetingAutocompleteComponent {
     }
   }
 
-  //knm
-  cutString(str: string, maxlength: number): string {
-    var temp = str.split(' ');
-    if (temp.length > maxlength) {
-      str = str.split(' ', maxlength).join(' ') + '...';
-    }
-    return str;
-  }
 
   //bbm(
   openDialog():void {
@@ -80,13 +78,16 @@ export class WpMeetingAutocompleteComponent {
         .toPromise()
         .then((values: CollectionResource<WorkPackageResource>) => {
           values.elements.map(wp => {
-            ELEMENT_DATA.push({
-              id: wp.id,
-              subject: wp.subject,
-              type: wp.type.$link.title,
-              status: wp.status.$link.title,
-              assignee: wp.assignee ? wp.assignee.$link.title : null
-            });
+            if (wp.assignee.idFromLink == this.currentUserId)
+            {
+              ELEMENT_DATA.push({
+                id: wp.id,
+                subject: wp.subject,
+                type: wp.type.$link.title,
+                status: wp.status.$link.title,
+                assignee: wp.assignee ? wp.assignee.$link.title : null
+              });
+            }
           });
           const dialogRef = this.dialog.open(WpMeetingDialogComponent, {
             height: '700px',
