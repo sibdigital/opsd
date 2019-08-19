@@ -2,6 +2,8 @@
 class Queries::WorkPackages::Filter::RaionFilter <
   ::Queries::WorkPackages::Filter::WorkPackageFilter
 
+  attr_reader :raions
+
   def type
     :list_optional#:integer
   end
@@ -15,14 +17,18 @@ class Queries::WorkPackages::Filter::RaionFilter <
   end
 
   def allowed_values
-    values  = Raion.all { |r| [r.name, r.id.to_s]  }
-    values
-    #values || []
+    values  = raions.map { |r| [r.name, r.id.to_s]  }
+    values || []
+  end
+
+  def values=(values)
+    @values = Array(values).map(&:to_s)
   end
 
   def value_objects
     int_values = values.map(&:to_i)
-    int_values
+
+    raions.select { |c| int_values.include?(c.id) }
   end
 
   def ar_object_filter?
@@ -33,8 +39,10 @@ class Queries::WorkPackages::Filter::RaionFilter <
     true
   end
 
-  # def where
-  #   operator_strategy.sql_for_field(values, self.class.model.table_name, self.class.key)
-  # end
+  private
+
+  def raions
+    @raions ||= Raion.all || []
+  end
 
 end

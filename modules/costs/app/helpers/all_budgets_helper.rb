@@ -81,6 +81,8 @@ module AllBudgetsHelper
 
       {
         project: project,
+        curator: project.curator,
+        rukovoditel: project.rukovoditel,
         total_budget: total_budget,
         labor_budget: labor_budget,
         material_budget: material_budget,

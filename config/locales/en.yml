@@ -824,6 +824,7 @@ en:
     description: Описание
     display_sums: Отображение суммы
     due_date: Дата окончания
+    fact_due_date: Фактическая дата окончания
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
     firstname: Имя
@@ -2935,6 +2936,7 @@ en:
         assigned_to: Назначенный
         type: Тип
         due_date: Дате окончания
+        fact_due_date: Фактическая дата окончания
         name: Наименование
         status: Состояние
         start_date: Дата начала
