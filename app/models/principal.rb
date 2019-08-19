@@ -167,6 +167,14 @@ class Principal < ActiveRecord::Base
     end
   end
 
+  #bbm(
+  def fio
+    result = self.lastname + ' ' + self.firstname.slice(0...1) +'.'
+    result += self.patronymic.slice(0...1)+'.' if self.patronymic
+    result
+  end
+  # )
+
   protected
 
   # Make sure we don't try to insert NULL values (see #4632)
@@ -177,14 +185,6 @@ class Principal < ActiveRecord::Base
     self.mail ||= ''
     true
   end
-
-  #bbm(
-  def fio
-    result = self.lastname + ' ' + self.firstname.slice(0...1) +'.'
-    result += self.patronymic.slice(0...1)+'.' if self.patronymic
-    result
-  end
-  # )
 
   extend Pagination::Model
 end

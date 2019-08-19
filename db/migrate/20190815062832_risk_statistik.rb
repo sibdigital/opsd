@@ -4,6 +4,7 @@ class RiskStatistik < ActiveRecord::Migration[5.2]
       create or replace view v_risk_problem_stat as (
         with problems as (
           select wpp.id,
+                 wpp.project_id,
                  wpp.work_package_id,
                  case
                    when status = 'created' and not risk_id is null then risk_id

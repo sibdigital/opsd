@@ -96,7 +96,7 @@ export const HOMESCREEN_ROUTES = [
   },
   {
     name: 'homescreen.kt',
-    url: '/kt',
+    url: '/kt?id',
     component: KtTabComponent,
   },
   {
@@ -106,7 +106,7 @@ export const HOMESCREEN_ROUTES = [
   },
   {
     name: 'homescreen.problems',
-    url: '/problems',
+    url: '/problems?id',
     component: ProblemsTabComponent
   },
   {

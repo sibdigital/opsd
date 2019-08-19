@@ -64,6 +64,7 @@ import {HomescreenProgressBarComponent} from "core-components/homescreen-progres
 import {PerformanceTabComponent} from "core-components/homescreen-tabs/performance-tab/performance-tab.component";
 import {BlueTablePerformanceService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-performance.service";
 import {HomescreenPerformanceDiagramComponent} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
+import {ActivatedRoute, RouterModule} from "@angular/router";
 
 @NgModule({
   imports: [

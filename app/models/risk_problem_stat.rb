@@ -11,6 +11,7 @@ class RiskProblemStat < ActiveRecord::Base
   end
 
   belongs_to :work_package
+  belongs_to :project
   belongs_to :work_package_problem, foreign_key: "id"
   belongs_to :importance, foreign_key: "importance_id", class_name: 'Importance'
 end

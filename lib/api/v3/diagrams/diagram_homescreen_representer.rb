@@ -7,8 +7,9 @@ module API
   module V3
     module Diagrams
       class DiagramHomescreenRepresenter < ::API::Decorators::Single
-        def initialize(name: {}, current_user:)
+        def initialize(name: {}, params:, current_user:)
           @name = name
+          @performance = params['performance']
         end
 
         property :data,
@@ -25,6 +26,7 @@ module API
                    when 'fed_budget' then fed_budget_data
                    when 'reg_budget' then reg_budget_data
                    when 'other_budget' then other_budget_data
+                   when 'head_performance' then head_performance_data
                    else [0, 0, 0, 0]
                    end
                  },
@@ -33,7 +35,10 @@ module API
         property :label,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   'false1'
+                   case @name
+                   when 'head_performance' then head_performance_label
+                   else 'false1'
+                   end
                  },
                  render_nil: true
 
@@ -212,6 +217,40 @@ group by type, importance_id
 
         def indicator_proizvoditelnost_truda_data
           [0, 0, 0, 0]
+        end
+
+        def head_performance_label
+          if @performance
+            head_performance = HeadPerformanceIndicator.find(@performance)
+            head_performance.name
+          else
+            ''
+          end
+        end
+
+        def head_performance_data
+          if @performance
+            head_performance = HeadPerformanceIndicator.find(@performance)
+            quarter1 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 1).last
+            value1 = quarter1 ? quarter1.value : 0
+            quarter2 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 2).last
+            value2 = quarter2 ? quarter2.value : 0
+            quarter3 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 3).last
+            value3 = quarter3 ? quarter3.value : 0
+            quarter4 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 4).last
+            value4 = quarter4 ? quarter4.value : 0
+            [value1, value2, value3, value4]
+          else
+            [0, 0, 0, 0]
+          end
         end
       end
     end

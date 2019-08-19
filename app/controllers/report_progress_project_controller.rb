@@ -43,6 +43,7 @@ class ReportProgressProjectController < ApplicationController
     generate_targets_sheet
     generate_status_execution_budgets_sheet
     generate_status_achievement_sheet
+    generate_dynamic_achievement_kt_sheet
 
     #+tan
     dir_path = File.absolute_path('.') + '/public/reports'
@@ -453,6 +454,63 @@ class ReportProgressProjectController < ApplicationController
 
   end
 
+  def generate_dynamic_achievement_kt_sheet
+    sheet = @workbook['Динамика достижения КП']
+
+    sheetDataDiagram = @workbook['Данные для диаграмм']
+
+    result_array = get_month_kt_values
+
+    not_time = 0
+    riski = 0
+
+    result_array.each do |kt|
+        if  kt["month"].to_i == 1
+          sheetDataDiagram.insert_cell(9, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(9, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 2
+          sheetDataDiagram.insert_cell(10, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(10, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 3
+          sheetDataDiagram.insert_cell(11, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(11, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 4
+          sheetDataDiagram.insert_cell(12, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(12, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 5
+          sheetDataDiagram.insert_cell(13, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(13, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 6
+          sheetDataDiagram.insert_cell(14, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(14, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 7
+          sheetDataDiagram.insert_cell(15, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(15, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 8
+          sheetDataDiagram.insert_cell(16, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(16, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 9
+          sheetDataDiagram.insert_cell(17, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(17, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 10
+          sheetDataDiagram.insert_cell(18, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(18, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 11
+          sheetDataDiagram.insert_cell(19, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(19, 3, kt["value"].to_i)
+        elsif kt["month"].to_i == 12
+          sheetDataDiagram.insert_cell(20, 2, kt["plan_value"].to_i)
+          sheetDataDiagram.insert_cell(21, 3, kt["value"].to_i)
+        end
+
+        not_time += kt["not_time"].to_i
+        riski += kt["riski"].to_i
+    end
+
+    sheet[2][6].change_contents(not_time)
+    sheet[4][6].change_contents(riski)
+  end
+
 
    def fed_budget_data
     cost_objects = CostObject.where(project_id: @project.id)
@@ -591,6 +649,61 @@ class ReportProgressProjectController < ApplicationController
     result = result_sql[0]
   end
 
+
+  def get_month_kt_values
+    sql = "with
+              plan_kt as (
+               select EXTRACT(MONTH FROM wp.due_date) as plan_month, count(wp.id) as plan_kt
+               from v_work_package_ispoln_stat wp
+               inner join types t on wp.type_id = t.id
+               where EXTRACT(year FROM due_date) = EXTRACT(year FROM current_date) and
+                     t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
+             "  group by EXTRACT(MONTH FROM wp.due_date)
+             ),
+              fact_kt as (
+                 select EXTRACT(MONTH FROM wp.fact_due_date) as fact_month, count(wp.id) as fact_kt
+                 from v_work_package_ispoln_stat wp
+                         inner join types t on wp.type_id = t.id
+                 where EXTRACT(year FROM fact_due_date) = EXTRACT(year FROM current_date) and
+                     t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
+              "   group by EXTRACT(MONTH FROM wp.fact_due_date)
+              ),
+              not_time_kt as (
+                 select EXTRACT(MONTH FROM wp.fact_due_date) as fact_month, count(wp.id) as fact_kt
+                 from v_work_package_ispoln_stat wp
+                         inner join types t on wp.type_id = t.id
+                 where EXTRACT(year FROM fact_due_date) = EXTRACT(year FROM current_date) and
+                       days_to_due < 0 and t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
+              "    group by EXTRACT(MONTH FROM wp.fact_due_date)
+              ),
+              riski_kt as (
+                 select EXTRACT(MONTH FROM wp.due_date) as plan_month, count(wp.id) as riski
+                 from v_work_package_ispoln_stat wp
+                         inner join types t on wp.type_id = t.id
+                 where EXTRACT(year FROM due_date) = EXTRACT(year FROM current_date) and
+                       est_riski = true and t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
+              "   group by EXTRACT(MONTH FROM wp.due_date)
+              )
+
+
+             select p.plan_month as month, p.plan_kt as plan_value, coalesce(f.fact_kt, 0) as value,
+                    coalesce(nt.fact_kt, 0) as not_time, coalesce(r.riski, 0) as riski
+             from plan_kt p
+             left outer join   fact_kt f on f.fact_month = p.plan_month
+             left outer join   not_time_kt nt on nt.fact_month = p.plan_month
+             left outer join   riski_kt r on r.plan_month = p.plan_month"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+
+    result_array
+  end
 
   def destroy
     redirect_to action: 'index'

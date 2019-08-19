@@ -76,7 +76,7 @@ export class BlueTableBudgetService extends BlueTableService {
           break;
         }
         case 3: {
-          return row.project.due_date;
+          return this.format(row.project.due_date);
           break;
         }
         case 4: {
@@ -102,6 +102,14 @@ export class BlueTableBudgetService extends BlueTableService {
       }
     }
     return '';
+  }
+
+  public format(input:string):string {
+    if (input) {
+      return input.slice(3, 5) + '.' + input.slice(0, 2) + '.' + input.slice(6, 10);
+    } else {
+      return '';
+    }
   }
 
   public getTdClass(row:any, i:number):string {

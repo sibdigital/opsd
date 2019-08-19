@@ -5,12 +5,13 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {StateService} from "@uirouter/core";
 
 interface ValueOption {
   name:string;
   kurator:string;
   rukovoditel:string;
-  $href:string | null;
+  $href:number | null;
 }
 
 @Component({
@@ -26,7 +27,8 @@ export class ProblemsTabComponent {
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
 
   constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              readonly $state:StateService) {
   }
 
   ngOnInit() {
@@ -36,8 +38,15 @@ export class ProblemsTabComponent {
         this.valueOptions = projects.elements.map((el:HalResource) => {
           return {name: el.name, kurator: el.curator ? el.curator.fio : '', rukovoditel: el.rukovoditel ? el.rukovoditel.fio : '' , $href: el.id};
         });
-        this.valueOptions.unshift({name: 'Все проекты', kurator: '-', rukovoditel:'-', $href: '0'});
+        this.valueOptions.unshift({name: 'Все проекты', kurator: '-', rukovoditel:'-', $href: 0});
         this.value = this.valueOptions[0];
+        if (this.$state.params.id) {
+          let option:ValueOption | undefined = _.find(this.valueOptions, o => String(o.$href) === this.$state.params.id);
+          if (option !== undefined) {
+            this.selectedOption = option;
+            this.handleUserSubmit();
+          }
+        }
       });
   }
 
@@ -48,18 +57,11 @@ export class ProblemsTabComponent {
 
   public set selectedOption(val:ValueOption) {
     let option = _.find(this.valueOptions, o => o.$href === val.$href);
-
-    // Special case 'null' value, which angular
-    // only understands in ng-options as an empty string.
-    if (option && option.$href === '') {
-      option.$href = null;
-    }
-
     this.value = option;
   }
 
   public handleUserSubmit() {
-    if (this.selectedOption && this.selectedOption.$href) {
+    if (this.selectedOption) {
       this.blueChild.changeFilter('project' + this.selectedOption.$href);
       this.curator = this.selectedOption.kurator;
       this.ruk = this.selectedOption.rukovoditel;

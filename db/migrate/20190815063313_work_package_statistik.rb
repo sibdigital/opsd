@@ -34,26 +34,28 @@ class WorkPackageStatistik < ActiveRecord::Migration[5.2]
                p.national_project_id,
                p.federal_project_id,
                wpp.*,
-               NOT (wpp.ne_ispolneno OR wpp.ne_ispolneno OR wpp.est_riski) as v_rabote,
-               wpp.due_date::date - current_date::date                         as days_to_due
+               NOT (wpp.ispolneno OR wpp.ne_ispolneno OR wpp.est_riski) as v_rabote,
+               wpp.due_date::date - current_date::date                     as days_to_due,
+               wpp.ispolneno and wpp.due_date >= wpp.fact_due_date         as ispolneno_v_srok
         from (
                select wpsi.*,
                       case
-                        when wpsi.ispolneno = false and due_date < current_date and
+                        when wpsi.ispolneno = false and due_date < current_timestamp and
                              not lower(status_name) in (lower('Завершен'), lower('Отменен')) then true
                         else false end as ne_ispolneno,
                       case
-                        when wpsi.ispolneno = false and (due_date >= current_date or due_date is null) and created_problem_count > 0 and
+                        when wpsi.ispolneno = false and (due_date >= current_timestamp or due_date is null) and created_problem_count > 0 and
                              not lower(status_name) in (lower('Завершен'), lower('Отменен')) then true
                         else false end as est_riski
                from (
                       select wps.*,
                              s.name as status_name,
-                             case
-                               when wps.result_agreed AND created_problem_count = 0 AND attach_count > 0 and
-                                    lower(s.name) = lower('Завершен') and not due_date is null then true
-                               else false
-                               end  as ispolneno
+                             --case
+                             --  when wps.result_agreed AND created_problem_count = 0 AND attach_count > 0 and
+                             --       lower(s.name) = lower('Завершен') and not due_date is null then true
+                             --  else false
+                             --  end  as ispolneno
+                             not fact_due_date is null as ispolneno
                       from v_work_package_stat as wps
                              left join statuses as s
                                        on wps.status_id = s.id

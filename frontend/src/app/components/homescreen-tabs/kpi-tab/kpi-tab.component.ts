@@ -5,11 +5,12 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {StateService} from "@uirouter/core";
 
 interface ValueOption {
   name:string;
   dueDate:string;
-  $href:string | null;
+  $href:number | null;
 }
 
 @Component({
@@ -24,7 +25,8 @@ export class KpiTabComponent {
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
 
   constructor(protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper:PathHelperService,
+              readonly $state:StateService) {
   }
 
   ngOnInit() {
@@ -38,9 +40,15 @@ export class KpiTabComponent {
             $href: el.id
           };
         });
-        this.valueOptions.unshift({name: 'Все проекты', dueDate: '', $href: '0'});
+        this.valueOptions.unshift({name: 'Все проекты', dueDate: '', $href: 0});
         this.value = this.valueOptions[0];
-        this.handleUserSubmit();
+        if (this.$state.params.id) {
+          let option:ValueOption | undefined = _.find(this.valueOptions, o => String(o.$href) === this.$state.params.id);
+          if (option !== undefined) {
+            this.selectedOption = option;
+            this.handleUserSubmit();
+          }
+        }
       });
   }
 
@@ -51,18 +59,11 @@ export class KpiTabComponent {
 
   public set selectedOption(val:ValueOption) {
     let option = _.find(this.valueOptions, o => o.$href === val.$href);
-
-    // Special case 'null' value, which angular
-    // only understands in ng-options as an empty string.
-    if (option && option.$href === '') {
-      option.$href = null;
-    }
-
     this.value = option;
   }
 
   public handleUserSubmit() {
-    if (this.selectedOption && this.selectedOption.$href) {
+    if (this.selectedOption) {
       this.blueChild.changeFilter('project' + this.selectedOption.$href);
       this.dueDate = this.format(this.selectedOption.dueDate);
     }
