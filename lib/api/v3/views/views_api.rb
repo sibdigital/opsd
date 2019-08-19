@@ -192,26 +192,28 @@ module API
                   stroka['name'] = t.name
                   stroka['work_packages'] = []
                   subarr.each do |row|
-                    quarter1 = Hash.new
-                    quarter2 = Hash.new
-                    quarter3 = Hash.new
-                    quarter4 = Hash.new
-                    quarter1['_type'] = quarter2['_type'] = quarter3['_type'] = quarter4['_type'] = 'WorkPackageQuarterlyTarget'
-                    quarter1['work_package_id'] = quarter2['work_package_id'] = quarter3['work_package_id'] = quarter4['work_package_id'] = row.work_package_id
+                    quarter = Hash.new
+                    quarter['_type'] = 'WorkPackageQuarterlyTarget'
+                    quarter['work_package_id'] = row.work_package_id
                     wp = WorkPackage.find(row.id)
-                    quarter1['subject'] = quarter2['subject'] = quarter3['subject'] = quarter4['subject'] = wp.subject
-                    quarter1['plan'] = row.quarter1_plan_value
-                    quarter1['fact'] = row.quarter1_value
-                    quarter2['plan'] = row.quarter2_plan_value
-                    quarter2['fact'] = row.quarter2_value
-                    quarter3['plan'] = row.quarter3_plan_value
-                    quarter3['fact'] = row.quarter3_value
-                    quarter4['plan'] = row.quarter4_plan_value
-                    quarter4['fact'] = row.quarter4_value
-                    stroka['work_packages'] << quarter1
-                    stroka['work_packages'] << quarter2
-                    stroka['work_packages'] << quarter3
-                    stroka['work_packages'] << quarter4
+                    quarter['subject'] = wp.subject
+                    quarter['assignee'] = wp.assigned_to.fio
+                    quarter['assignee_id'] = wp.assigned_to.id
+                    case DateTime.now.month
+                    when 1, 2, 3
+                      quarter['plan'] = row.quarter1_plan_value
+                      quarter['fact'] = row.quarter1_value
+                    when 4, 5, 6
+                      quarter['plan'] = row.quarter2_plan_value
+                      quarter['fact'] = row.quarter2_value
+                    when 7, 8, 9
+                      quarter['plan'] = row.quarter3_plan_value
+                      quarter['fact'] = row.quarter3_value
+                    when 10, 11, 12
+                      quarter['plan'] = row.quarter4_plan_value
+                      quarter['fact'] = row.quarter4_value
+                    end
+                    stroka['work_packages'] << quarter
                   end
                   hash['targets'] << stroka
                 end

@@ -759,6 +759,11 @@ class User < Principal
     member != nil
   end
 
+  #zbd есть ли в списке глобальных ролей
+  def detect_in_global?()
+    PrincipalRole.find_by(principal_id: User.current.id).present?
+  end
+
   def events_responsible?(project)
     roles = User.current.roles_for_project(project)
     roles.find_all{ |r| r.name == Role.events_responsible.name}.size() > 0

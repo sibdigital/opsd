@@ -96,4 +96,15 @@ class StagesController < ApplicationController
     @user = current_user
   end
 
+  def default_breadcrumb
+    if action_name == 'show'
+      "Этапы"
+    else
+      ActionController::Base.helpers.link_to("Этапы", stages_path)
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
 end

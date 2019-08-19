@@ -53,14 +53,16 @@ Redmine::AccessControl.map do |map|
                    },
                  public: true
 
-  map.permission :search_project,
-                 { search: :index },
-                 public: true
+  @map_permission = map.permission :search_project,
+                                   {search: :index},
+                                   public: true
+  @map_permission
 
   map.permission :add_project,
                  { projects: %i[new create],
                    members: [:paginate_users] },
-                 require: :loggedin
+                 require: :loggedin,
+                 public: true
 
   map.permission :edit_project,
                  { projects: %i[edit update custom_fields],
@@ -356,11 +358,12 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   #knm(
-  # map.project_module :interactive_map do |i_map|
-  #   i_map.permission :view_interactive_map,
-  #                    { interactive_map: :index },
-  #                    require: :member
-  # end
+  map.project_module :interactive_map do |i_map|
+    i_map.permission :view_interactive_map,
+                     { interactive_map: :index },
+                     require: :member,
+                     public: true
+  end
   # )
   #bbm(
   map.project_module :project_risks
