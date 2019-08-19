@@ -62,8 +62,15 @@ module BasicData
       #project_office_coordinator, project_office_admin, project_head, events_responsible
       project_admin, project_curator, project_customer,
       project_office_manager, project_activity_coordinator, project_office_coordinator,
-      events_responsible, project_head#, project_office_admin
+      events_responsible, project_head, #, project_office_admin
+      #zbd(
+      glava_regiona,
+      glava_regiona_global,
+      project_office_coordinator_global,
+      project_office_manager_global,
+      project_activity_coordinator_global
       #)
+     #)
       ]
     end
 
