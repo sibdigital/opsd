@@ -59,9 +59,13 @@ See docs/COPYRIGHT.rdoc for more details.
         </label>
         <span class="form--field-container">
           <span class="form--text-field-container -middle">
-            <select>
+            <select name="global_role_id">
               <% @roles_4_cur_member.each_key do |key|  %>
-                <option value="<%= key %>"><%=@roles_4_cur_member[key]%></option>
+                <% if key == session[:global_role_id] %>
+                  <option selected value="<%= key %>"><%=@roles_4_cur_member[key]%></option>
+                <% else %>
+                  <option value="<%= key %>"><%=@roles_4_cur_member[key]%></option>
+                <% end %>
               <% end %>
             </select>
           </span>
