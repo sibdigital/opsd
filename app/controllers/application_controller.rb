@@ -114,6 +114,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :user_setup,
+                :set_global_role,
                 :check_if_login_required,
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
@@ -168,6 +169,19 @@ class ApplicationController < ActionController::Base
     User.current
   end
   helper_method :current_user
+
+
+  #bbm(
+  def set_global_role
+    if(!session[:global_role_id])
+      session[:global_role_id] = '0' #nobody
+      MemberRole.joins(:role).joins(:member).where(members: {user_id: User.current.id}).map do |mr|
+        session[:global_role_id] = mr.role.id.to_s if mr.role.name == I18n.t(:default_role_project_curator) and session[:global_role] != 'head'
+        session[:global_role_id] = mr.role.id.to_s if mr.role.name == I18n.t(:default_role_project_head)
+      end
+    end
+  end
+  # )
 
   def user_setup
     # Find the current user
