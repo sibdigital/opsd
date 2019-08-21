@@ -690,6 +690,15 @@ class User < Principal
     WorkPackage.on_active_project.with_author(self).visible.count
   end
 
+  #bbm(
+  def self.global_role=(id)
+    @global_role_id = id
+  end
+
+  def self.global_role
+    @global_role_id ||= '0'
+  end
+  # )
   def self.current=(user)
     @current_user = user
   end

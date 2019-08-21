@@ -173,13 +173,49 @@ class ApplicationController < ActionController::Base
 
   #bbm(
   def set_global_role
-    if(!session[:global_role_id])
+    unless session[:global_role_id]
       session[:global_role_id] = '0' #nobody
+      importance = 0
       MemberRole.joins(:role).joins(:member).where(members: {user_id: User.current.id}).map do |mr|
-        session[:global_role_id] = mr.role.id.to_s if mr.role.name == I18n.t(:default_role_project_curator) and session[:global_role] != 'head'
-        session[:global_role_id] = mr.role.id.to_s if mr.role.name == I18n.t(:default_role_project_head)
+        if mr.role.name == I18n.t(:default_role_reader) and importance < 1
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 1 # Читатель
+        end
+        if mr.role.name == I18n.t(:default_role_member) and importance < 2
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 2 # Ответственный за блок мероприятий
+        end
+        if mr.role.name == I18n.t(:default_role_project_office_admin) and importance < 3
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 3 # Администратор проектного офиса
+        end
+        if mr.role.name == I18n.t(:default_role_project_office_coordinator) and importance < 4
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 4 # Координатор от проектного офиса
+        end
+        if mr.role.name == I18n.t(:default_role_project_head) and importance < 5
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 5 # Руководитель проекта
+        end
+        if mr.role.name == I18n.t(:default_role_project_curator) and importance < 6
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 6 # Куратор проекта
+        end
+        if mr.role.name == I18n.t(:default_role_project_office_manager) and importance < 7
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 7 # Руководитель проектного офиса
+        end
+        if mr.role.name == I18n.t(:default_role_project_activity_coordinator) and importance < 8
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 8 # Координатор проектной деятельности
+        end
+        if mr.role.name == I18n.t(:default_role_glava_regiona) and importance < 9
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 9 # Глава Республики Бурятия
+        end
       end
     end
+    User.global_role = session[:global_role_id]
   end
   # )
 

@@ -67,6 +67,8 @@ export class ApiV3Paths {
   //bbm(
   public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
 
+  public readonly work_packages_by_role = new SimpleResourceCollection(this.apiV3Base, 'work_packages_by_role');
+
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
 
   public readonly risk_problem_stat_view = new SimpleResourceCollection(this.apiV3Base, 'views/risk_problem_stat_view');

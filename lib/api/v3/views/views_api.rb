@@ -25,12 +25,12 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
 module API
   module V3
     module Views
       class ViewsAPI < ::API::OpenProjectAPI
         helpers ::API::Utilities::ParamsHelper
+        helpers ::API::V3::Utilities::RoleHelper
 
         resources :views do
           resources :work_package_stat_by_proj_view do
@@ -87,21 +87,24 @@ module API
                 stroka['_type'] = 'Project'
                 stroka['project_id'] = arr['id']
                 project = Project.find(arr['id'])
-                stroka['name'] = project.name
-                stroka['identifier'] = project.identifier
-                stroka['national_id'] = project.national_project_id || 0
-                stroka['kurator'] = project.curator.empty? ? '' : project.curator['fio']
-                stroka['kurator_id'] = project.curator.empty? ? '' : project.curator['id']
-                stroka['rukovoditel'] = project.rukovoditel.empty? ? '' : project.rukovoditel['fio']
-                stroka['rukovoditel_id'] = project.rukovoditel.empty? ? '' : project.rukovoditel['id']
-                stroka['budget_fraction'] = project.get_budget_fraction
-                stroka['dueDate'] = project.due_date
-                stroka['preds'] = arr['preds'] || 0
-                stroka['prosr'] = arr['prosr'] || 0
-                stroka['riski'] = arr['riski'] || 0
-                stroka['ispolneno'] = arr['ispolneno'] || 0
-                stroka['all_wps'] = arr['all_wps'] || 0
-                @wps << stroka
+                exist = which_role(project, current_user, global_role)
+                if exist
+                  stroka['name'] = project.name
+                  stroka['identifier'] = project.identifier
+                  stroka['national_id'] = project.national_project_id || 0
+                  stroka['kurator'] = project.curator.empty? ? '' : project.curator['fio']
+                  stroka['kurator_id'] = project.curator.empty? ? '' : project.curator['id']
+                  stroka['rukovoditel'] = project.rukovoditel.empty? ? '' : project.rukovoditel['fio']
+                  stroka['rukovoditel_id'] = project.rukovoditel.empty? ? '' : project.rukovoditel['id']
+                  stroka['budget_fraction'] = project.get_budget_fraction
+                  stroka['dueDate'] = project.due_date
+                  stroka['preds'] = arr['preds'] || 0
+                  stroka['prosr'] = arr['prosr'] || 0
+                  stroka['riski'] = arr['riski'] || 0
+                  stroka['ispolneno'] = arr['ispolneno'] || 0
+                  stroka['all_wps'] = arr['all_wps'] || 0
+                  @wps << stroka
+                end
               end
               @wps
             end

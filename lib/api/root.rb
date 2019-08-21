@@ -73,6 +73,12 @@ module API
         User.current
       end
 
+      #bbm(
+      def global_role
+        User.global_role
+      end
+      # )
+
       def warden
         env['warden']
       end
