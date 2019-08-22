@@ -233,6 +233,10 @@ class Role < ActiveRecord::Base
     finded_role = where(name: I18n.t(:default_role_project_office_admin)).first
     finded_role
   end
+  def self.glava_regiona
+    finded_role = where(name: I18n.t(:default_role_glava_regiona)).first
+    finded_role
+  end
   #-tan
 
   def self.by_permission(permission)

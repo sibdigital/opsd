@@ -690,6 +690,15 @@ class User < Principal
     WorkPackage.on_active_project.with_author(self).visible.count
   end
 
+  #bbm(
+  def self.global_role=(id)
+    @global_role_id = id
+  end
+
+  def self.global_role
+    @global_role_id ||= '0'
+  end
+  # )
   def self.current=(user)
     @current_user = user
   end
@@ -757,6 +766,11 @@ class User < Principal
     poc = Role.find {|r| r.name == Role.project_admin.name}
     member = memberships.detect { |m| m.roles.where(id: poc.id).size() > 0 }
     member != nil
+  end
+
+  #zbd есть ли в списке глобальных ролей
+  def detect_in_global?()
+    PrincipalRole.find_by(principal_id: User.current.id).present?
   end
 
   def events_responsible?(project)

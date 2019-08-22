@@ -18,7 +18,7 @@ module API
 
           route_param :name do
             get do
-              DiagramHomescreenRepresenter.new(name: params[:name], current_user: current_user)
+              DiagramHomescreenRepresenter.new(params: params, current_user: current_user, global_role: global_role)
             end
           end
         end

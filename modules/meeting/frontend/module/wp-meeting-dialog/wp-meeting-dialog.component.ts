@@ -32,13 +32,14 @@ export class WpMeetingDialogComponent implements OnInit{
     public dialogRef: MatDialogRef<WpMeetingDialogComponent>,
     readonly I18n:I18nService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.dataSource = data;
+    this.dataSource = new MatTableDataSource<PeriodicElement>(data);
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    console.log(this.dataSource);
   }
 
   onNoClick(): void {

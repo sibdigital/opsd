@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatPaginator, MatTableDataSource} from "@angular/material";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
@@ -41,6 +41,7 @@ export class WpRelationsDialogComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    console.log(this.paginator);
   }
 
   onNoClick():void {

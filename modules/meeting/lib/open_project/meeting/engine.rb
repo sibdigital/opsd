@@ -54,7 +54,7 @@ module OpenProject::Meeting
            param: :project_id,
            #after: :communication, #+-tan
            icon: 'icon2 icon-meetings',
-           parent: :communictaions #+-tan
+           parent: :communications #+-tan
 
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'

@@ -14,4 +14,8 @@ class TargetType < Enumeration
   def transfer_relations(to)
     targets.update_all(type_id: to.id)
   end
+
+  def type_name
+    name
+  end
 end

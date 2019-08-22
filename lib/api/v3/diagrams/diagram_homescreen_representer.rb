@@ -7,8 +7,13 @@ module API
   module V3
     module Diagrams
       class DiagramHomescreenRepresenter < ::API::Decorators::Single
-        def initialize(name: {}, current_user:)
-          @name = name
+        include ::API::V3::Utilities::RoleHelper
+
+        def initialize(params:, current_user:, global_role:)
+          @name = params[:name]
+          @performance = params[:performance]
+          @current_user = current_user
+          @global_role = global_role
         end
 
         property :data,
@@ -25,6 +30,7 @@ module API
                    when 'fed_budget' then fed_budget_data
                    when 'reg_budget' then reg_budget_data
                    when 'other_budget' then other_budget_data
+                   when 'head_performance' then head_performance_data
                    else [0, 0, 0, 0]
                    end
                  },
@@ -33,7 +39,10 @@ module API
         property :label,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   'false1'
+                   case @name
+                   when 'head_performance' then head_performance_label
+                   else 'false1'
+                   end
                  },
                  render_nil: true
 
@@ -58,12 +67,16 @@ where yearly.year = date_part('year', current_date)
 group by yearly.project_id, yearly.target_id
           SQL
           @plan_facts.map do |plan|
-            chislitel = plan.final_fact_year_value || 0;
-            znamenatel = plan.target_plan_year_value;
-            procent = znamenatel == 0 ? 0 : chislitel / znamenatel
-            ne_ispolneno += 1 if procent == 0
-            v_rabote += 1 if procent < 100
-            ispolneno += 1 if procent == 100
+            project = Project.find(plan.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              chislitel = plan.final_fact_year_value || 0;
+              znamenatel = plan.target_plan_year_value;
+              procent = znamenatel == 0 ? 0 : chislitel / znamenatel
+              ne_ispolneno += 1 if procent == 0
+              v_rabote += 1 if procent < 100
+              ispolneno += 1 if procent == 100
+            end
           end
           result = []
           # Порядок важен
@@ -80,10 +93,14 @@ group by yearly.project_id, yearly.target_id
           riski = 0
           kt = Type.find_by name: I18n.t(:default_type_milestone)
           ProjectIspolnStat.where(type_id: kt.id).map do |ispoln|
-            ispolneno += ispoln.ispolneno
-            v_rabote += ispoln.v_rabote
-            ne_ispolneno += ispoln.ne_ispolneno
-            riski += ispoln.est_riski
+            project = Project.find(ispoln.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              ispolneno += ispoln.ispolneno
+              v_rabote += ispoln.v_rabote
+              ne_ispolneno += ispoln.ne_ispolneno
+              riski += ispoln.est_riski
+            end
           end
           result = []
           # Порядок важен
@@ -100,8 +117,12 @@ group by yearly.project_id, yearly.target_id
           spent = BigDecimal("0")
 
           cost_objects.each do |cost_object|
-            total_budget += cost_object.budget
-            spent += cost_object.spent
+            project = Project.find(cost_object.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              total_budget += cost_object.budget
+              spent += cost_object.spent
+            end
           end
 
           spent
@@ -121,14 +142,18 @@ group by yearly.project_id, yearly.target_id
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
           @risks = ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
-select type, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
+select type, project_id, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
 where type in ('created_risk', 'no_risk_problem')
-group by type, importance_id
+group by type, project_id, importance_id
           SQL
           @risks.map do |risk|
-            net_riskov += risk.count if risk.type=='no_risk_problem'
-            neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
-            kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+            project = Project.find(risk.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              net_riskov += risk.count if risk.type=='no_risk_problem'
+              neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
+              kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+            end
           end
           result = []
           # Порядок важен
@@ -212,6 +237,40 @@ group by type, importance_id
 
         def indicator_proizvoditelnost_truda_data
           [0, 0, 0, 0]
+        end
+
+        def head_performance_label
+          if @performance
+            head_performance = HeadPerformanceIndicator.find(@performance)
+            head_performance.name
+          else
+            ''
+          end
+        end
+
+        def head_performance_data
+          if @performance
+            head_performance = HeadPerformanceIndicator.find(@performance)
+            quarter1 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 1).last
+            value1 = quarter1 ? quarter1.value : 0
+            quarter2 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 2).last
+            value2 = quarter2 ? quarter2.value : 0
+            quarter3 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 3).last
+            value3 = quarter3 ? quarter3.value : 0
+            quarter4 = head_performance.head_performance_indicator_values
+                         .where("year = date_part('year', CURRENT_DATE)")
+                         .where(quarter: 4).last
+            value4 = quarter4 ? quarter4.value : 0
+            [value1, value2, value3, value4]
+          else
+            [0, 0, 0, 0]
+          end
         end
       end
     end

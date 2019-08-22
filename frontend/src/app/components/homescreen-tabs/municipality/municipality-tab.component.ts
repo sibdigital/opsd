@@ -77,7 +77,7 @@ export class MunicipalityTabComponent implements OnInit {
       }
     ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersGreen)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map( (el, i) => {
@@ -128,7 +128,7 @@ export class MunicipalityTabComponent implements OnInit {
       }
     ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersRed)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map( (el, i) => {
@@ -189,8 +189,8 @@ export class MunicipalityTabComponent implements OnInit {
   }
 
   public handleUserSubmit() {
-    if (this.selectedOption && this.selectedOption.$href) {
-      this.blueChild.changeFilter(this.selectedOption.$href);
+    if (this.selectedOption) {
+      this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.data = [];
       let from = new Date();
       let to = new Date();
@@ -223,12 +223,12 @@ export class MunicipalityTabComponent implements OnInit {
         {
           organization: {
             operator: '=',
-            values: [this.selectedOption.$href]
+            values: [String(this.selectedOption.$href)]
           }
         }
       ];
       this.halResourceService
-        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersGreen)})
+        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
         .toPromise()
         .then((resources:CollectionResource<WorkPackageResource>) => {
           resources.elements.map((el, i) => {
@@ -274,12 +274,12 @@ export class MunicipalityTabComponent implements OnInit {
         {
           organization: {
             operator: '=',
-            values: [this.selectedOption.$href]
+            values: [String(this.selectedOption.$href)]
           }
         }
       ];
       this.halResourceService
-        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersRed)})
+        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
         .toPromise()
         .then((resources:CollectionResource<WorkPackageResource>) => {
           resources.elements.map((el, i) => {

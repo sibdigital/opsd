@@ -29,7 +29,7 @@ module TargetsHelper
         tag_td = content_tag(:td) do
           # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
           ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
-            link_to(h(target.name), edit_project_target_path(id: target.id))
+            link_to(h(target.name), edit_project_target_path(id: target.id), title: target.name)
         end
         html = html + tag_td
         html = html + content_tag(:td, target.target_status)

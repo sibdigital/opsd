@@ -23,7 +23,6 @@ export class BlueTableProtocolService extends BlueTableService {
               this.data_local[protocol.project.national_project_id] = this.data_local[protocol.project.national_project_id] || [];
               this.data_local[protocol.project.national_project_id].push(protocol);
             });
-            console.log(this.data_local);
             resources.elements.map( (el:HalResource) => {
               this.data.push(el);
               if (this.data_local[el.id]) {

@@ -341,6 +341,10 @@ export class BlueTableKpiService extends BlueTableService {
           return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/activity?plan_type=execution">' + row.subject + '</a>';
           break;
         }
+        case 2: {
+          return '<a href="' + super.getBasePath() + '/users/' + row.assignee_id + '">' + row.assignee + '</a>';
+          break;
+        }
         case 3: {
           return row.fact;
           break;

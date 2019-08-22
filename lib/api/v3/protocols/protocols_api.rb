@@ -37,7 +37,6 @@ module API
           get do
             @protocols = MeetingProtocol.all
 
-
             ProtocolCollectionRepresenter.new(@protocols,
                                                      api_v3_paths.national_projects,
                                                      current_user: current_user)
