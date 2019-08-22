@@ -489,7 +489,7 @@ en:
         curator_position: Должность куратора
       organization:
         parent: Вышестоящая организация
-        name: Название организации
+        name: Наименование
       typed_risk:
         owner: Владелец риска
         is_possibility: Является возможностью
@@ -838,7 +838,7 @@ en:
     is_public: Общий
     project_status: Статус
     project_approve_status: Этап согласования
-    is_approve: Утвержден?
+    is_approve: Утверждено
     #knm(
 
     #)
@@ -3349,3 +3349,15 @@ en:
   label_news_deleted: Новость удалена
   label_deadline_of_project_is_approaching: Приближается срок по проекту
   label_deadline_of_project: Превышен срок по проекту
+
+  national_project_zdravoohr: Здравоохранение
+  national_project_demogr: Демография
+  national_project_cultur: Культура
+  national_project_avtodor: Безопасные и качественные автомобильные дороги
+  national_project_gorsreda: Жильё и городская среда
+  national_project_ekol: Экология
+  national_project_nauka: Наука
+  national_project_msp: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+  national_project_digital: Цифровая экономика
+  national_project_trud: Производительность труда и поддержка занятости
+  national_project_export: Международная кооперация и экспорт
