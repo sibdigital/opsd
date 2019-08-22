@@ -77,7 +77,7 @@ export class MunicipalityTabComponent implements OnInit {
       }
     ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersGreen)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map( (el, i) => {
@@ -128,7 +128,7 @@ export class MunicipalityTabComponent implements OnInit {
       }
     ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersRed)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map( (el, i) => {
@@ -228,7 +228,7 @@ export class MunicipalityTabComponent implements OnInit {
         }
       ];
       this.halResourceService
-        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersGreen)})
+        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
         .toPromise()
         .then((resources:CollectionResource<WorkPackageResource>) => {
           resources.elements.map((el, i) => {
@@ -279,7 +279,7 @@ export class MunicipalityTabComponent implements OnInit {
         }
       ];
       this.halResourceService
-        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersRed)})
+        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
         .toPromise()
         .then((resources:CollectionResource<WorkPackageResource>) => {
           resources.elements.map((el, i) => {

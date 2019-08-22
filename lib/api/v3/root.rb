@@ -67,6 +67,7 @@ module API
       mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
       mount ::API::V3::Protocols::ProtocolsAPI
       mount ::API::V3::Views::ViewsAPI
+      mount ::API::V3::WorkPackages::WorkPackagesByRoleAPI
       # )
       # +tan 2019.07.30
       mount ::API::V3::Boards::BoardsAPI
