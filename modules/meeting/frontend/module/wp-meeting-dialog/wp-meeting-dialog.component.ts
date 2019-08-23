@@ -32,22 +32,23 @@ export class WpMeetingDialogComponent implements OnInit{
     planning: this.I18n.t('js.label_plan_stage_package').toLowerCase(),
     execution: this.I18n.t('js.label_work_package').toLowerCase()
   };
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     public dialogRef: MatDialogRef<WpMeetingDialogComponent>,
     readonly I18n:I18nService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.paginatorArray = data;
     this.paginatorLength = data.length;
-    this.dataSource = data;
+    this.dataSource = new MatTableDataSource<PeriodicElement>(data);
     this.paginatorIndex = 0;
-    this.paginatorSize = 20;
+    this.paginatorSize = 5;
   }
 
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    console.log(this.dataSource);
   }
 
 

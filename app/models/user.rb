@@ -719,6 +719,13 @@ class User < Principal
     User.current.admin? ? Role.all : User.current.roles_for_project(project)
   end
 
+  def all_roles()
+    user_roles = Array.new()
+    Project.find_each do |project|
+      user_roles = user_roles + User.current.roles(project)
+    end
+    user_roles
+  end
   #+tan 2019.07.05
   #project_admin, project_curator, project_customer,
   #  project_office_manager, project_activity_coordinator, project_office_coordinator,
