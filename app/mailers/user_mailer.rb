@@ -38,7 +38,7 @@ class UserMailer < BaseMailer
       mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - тестовое сообщение'
     end
   end
-
+=begin
   def work_package_added(user, journal, author)
     User.execute_as user do
       work_package = journal.journable.reload
@@ -55,7 +55,21 @@ class UserMailer < BaseMailer
       end
     end
   end
+=end
+#ban (
+  def work_package_added(user, project, work_package, author)
+    @project = project
+    @work_package = work_package
+    set_work_package_headers(work_package)
 
+    message_id work_package, user
+
+    with_locale_for(user) do
+      subject = 'В проекте '+@project.name.to_s+' добавлено мероприятие '+@work_package.subject
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+#)
   def work_package_updated(user, journal, author = User.current)
     User.execute_as user do
       work_package = journal.journable.reload

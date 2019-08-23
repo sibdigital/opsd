@@ -58,6 +58,14 @@ class WorkPackages::CreateService
                        work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
                        work_package.save
                        Alert.create_pop_up_alert(work_package, "Created", User.current, work_package.assigned_to)
+                       #ban(
+                       @project = Project.find_by(id: work_package.project_id)
+                       if Setting.notified_events.include?('work_package_added')
+                         @project.recipients.uniq.each do |user|
+                           UserMailer.work_package_added(user, @project, work_package, User.current).deliver_later
+                         end
+                       end
+                       #)
                      else
                        false
                      end
