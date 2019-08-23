@@ -36,15 +36,20 @@ module API
   module V3
     module NationalProjects
       class NationalProjectCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        include ::API::V3::Utilities::RoleHelper
+
         element_decorator ::API::V3::NationalProjects::NationalProjectRepresenter
 
         def initialize(models,
                        params,
                        self_link,
-                       current_user:)
+                       current_user:,
+                       global_role:)
           super(models,
                 self_link,
                 current_user: current_user)
+          @current_user = current_user
+          @global_role = global_role
         end
 
         collection :elements,
@@ -61,6 +66,15 @@ module API
         def render_tree(tree, pid)
           represented.map do |el|
             if el.parent_id == pid then
+              unless pid
+                exist = nil
+                el.projects.map do |project|
+                  exist ||= which_role(project, @current_user, @global_role)
+                end
+                unless exist
+                  next
+                end
+              end
               @elements << element_decorator.create(el, current_user: current_user)
               render_tree(tree, el.id)
             end
