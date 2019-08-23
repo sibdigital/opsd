@@ -40,6 +40,10 @@ module API
 
         property :id, render_nil: true
         property :name, render_nil: true
+        property :name,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.name[0..50]},
+                 render_nil: true
 
         property :leader, render_nil: true
         property :leader_position, render_nil: true

@@ -27,4 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-Ссылка на список пакетов работ по проекту: <%= project_url(@project)+'/work_packages' %>
+<h1>
+  <%= @message.board.project.name %> - <%= @message.board.name %>: <%= link_to(@message.subject, @message_url) %>
+</h1>
+<em><%= @message.author %></em>
+
+<%= format_text @message.content, object: @message, only_path: false  %>

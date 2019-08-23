@@ -33,9 +33,21 @@ module API
   module V3
     module Protocols
       class ProtocolsAPI < ::API::OpenProjectAPI
+        helpers ::API::V3::Utilities::RoleHelper
+
         resources :protocols do
           get do
-            @protocols = MeetingProtocol.all
+            projects = [0]
+            Project.all.each do |project|
+              exist = which_role(project, current_user, global_role)
+              if exist
+                projects << project.id
+              end
+            end
+
+            @protocols = MeetingProtocol
+                           .joins(:meeting)
+                           .where("meetings.project_id in (" + projects.join(",")+ ")")
 
             ProtocolCollectionRepresenter.new(@protocols,
                                                      api_v3_paths.national_projects,

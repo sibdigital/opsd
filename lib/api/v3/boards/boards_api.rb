@@ -9,6 +9,8 @@ module API
   module V3
     module Boards
       class BoardsAPI < ::API::OpenProjectAPI
+        helpers ::API::V3::Utilities::RoleHelper
+        
         resources :boards do
           before do
             authorize(:view_work_packages, global: true)
@@ -37,7 +39,16 @@ module API
           end
 
           get do
-            topics = Message.where("#{Message.table_name}.parent_id IS NULL and locked = false")#.find_by_sql(
+            projects = [0]
+            Project.all.each do |project|
+              exist = which_role(project, current_user, global_role)
+              if exist
+                projects << project.id
+              end
+            end
+            topics = Message
+                       .joins(:board)
+                       .where("#{Message.table_name}.parent_id IS NULL and locked = false and boards.project_id in (" + projects.join(",")+ ")")#.find_by_sql(
             #    "select *
             #     from messages
             #     where parent_id IS NULL and locked = false" #TODO только для открытых проектов
