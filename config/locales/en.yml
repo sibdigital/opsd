@@ -3357,6 +3357,12 @@ en:
   label_deadline_of_project: Превышен срок по проекту
   label_message_changed: Сообщение изменено
   label_message_deleted: Сообщение удалено
+  label_group_created: Группа создана
+  label_group_deleted: Группа удалена
+  label_status_created: В системном справочнике статусов пакета работ добавлен статус
+  label_status_deleted: В системном справочнике статусов пакета работ удален статус
+  label_type_created: В системном справочнике типов рабочих пакетов добавлен тип
+  label_type_deleted: В системном справочнике типов рабочих пакетов удален тип
 
   national_project_zdravoohr: Здравоохранение
   national_project_demogr: Демография

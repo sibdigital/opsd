@@ -321,6 +321,78 @@ class UserMailer < BaseMailer
       mail_for_author author, to: user.mail, subject: subject
     end
   end
+
+  def group_created(user, group, author)
+    @group = group
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создана группа "'+@group.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def group_deleted(user, groupname, author)
+    @groupname = groupname
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удалена группа "'+@groupname+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def status_created(user, status, author)
+    @status = status
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создан статус "'+@status.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def status_deleted(user, statusname, author)
+    @statusname = statusname
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удален статус "'+@statusname+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def type_created(user, type, author)
+    @type = type
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создан тип рабочего пакета "'+@type.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def type_deleted(user, typename, author)
+    @typename = typename
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удален тип рабочего пакета "'+@typename+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
 #)
 
   def work_package_notify_assignee1(user, work_package , author = User.current)
