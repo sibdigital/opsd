@@ -75,23 +75,46 @@ export class HomescreenDiagramComponent implements OnInit {
     this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
     this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
     let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
+    let organization = this.element.nativeElement.getAttribute('organization-id') || 0;
     this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName)
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {organization: organization})
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.barChartData[0].data = resource.data;
         this.barChartData[0].label = resource.label;
-        });
+        if (resource.label === 'visible') {
+          this.element.nativeElement.parentElement.removeAttribute('style');
+          this.element.nativeElement.parentElement.style.visibility = 'visible';
+          this.element.nativeElement.parentElement.style.width = '350px';
+        }
+        if (resource.label === 'hidden') {
+          this.element.nativeElement.parentElement.removeAttribute('style');
+          this.element.nativeElement.parentElement.style.display = 'none';
+        }
+      });
     this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d']; //default color set
-    /*if (this.barChartData[0].label === 'false' && this.barChartOptions.legend) {
-          this.barChartOptions.legend.display = false;
-        }*/
   }
 
-  public changeChartType() {
-    this.chart.chartType = this.barChartType;
-    this.chart.chart.update();
-  }
+  /*public refresh() {
+    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
+    let organization = this.element.nativeElement.getAttribute('organization-id') || 0;
+    this.halResourceService
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {organization: organization})
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.barChartData[0].data = resource.data;
+        this.barChartData[0].label = resource.label;
+        if (resource.label === 'visible') {
+          this.element.nativeElement.parentElement.removeAttribute('style');
+          this.element.nativeElement.parentElement.style.visibility = 'visible';
+          this.element.nativeElement.parentElement.style.width = '350px';
+        }
+        if (resource.label === 'hidden') {
+          this.element.nativeElement.parentElement.removeAttribute('style');
+          this.element.nativeElement.parentElement.style.display = 'none';
+        }
+      });
+  }*/
 }
 
 DynamicBootstrapper.register({ selector: homescreenDiagramSelector, cls: HomescreenDiagramComponent });
