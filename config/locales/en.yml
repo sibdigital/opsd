@@ -3355,6 +3355,8 @@ en:
   label_news_deleted: Новость удалена
   label_deadline_of_project_is_approaching: Приближается срок по проекту
   label_deadline_of_project: Превышен срок по проекту
+  label_message_changed: Сообщение изменено
+  label_message_deleted: Сообщение удалено
 
   national_project_zdravoohr: Здравоохранение
   national_project_demogr: Демография

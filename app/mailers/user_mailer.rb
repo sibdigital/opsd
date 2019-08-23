@@ -503,6 +503,36 @@ class UserMailer < BaseMailer
     end
   end
 
+#ban (
+  def message_changed(user, message, author)
+    @message     = message
+    @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
+
+    open_project_headers 'Project'      => @message.project.identifier,
+                         'Wiki-Page-Id' => @message.parent_id || @message.id,
+                         'Type'         => 'Forum'
+
+    message_id @message, user
+    references @message.parent, user if @message.parent
+
+    with_locale_for(user) do
+      subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id} - сообщение изменено] #{@message.subject}"
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def message_deleted(user, project_name, board_name, message_subject, author)
+    @project_name = project_name
+    @board_name = board_name
+    @message_subject = message_subject
+
+    with_locale_for(user) do
+      subject = "[#{@project_name} - #{@board_name} - сообщение удалено] #{@message_subject}"
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+#)
+
   def account_activated(user)
     @user = user
 
