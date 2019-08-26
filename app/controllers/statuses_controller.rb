@@ -52,6 +52,9 @@ class StatusesController < ApplicationController
     @status = Status.new(permitted_params.status)
     if @status.save
       flash[:notice] = l(:notice_successful_create)
+      #ban(
+      deliver_mail_to_project_office_members
+      #)
       redirect_to action: 'index'
     else
       render action: 'new'
@@ -80,8 +83,14 @@ class StatusesController < ApplicationController
     if status.is_default?
       flash[:error] = l(:error_unable_delete_default_status)
     else
+      #ban(
+      @statusname = @status.name
+      #)
       status.destroy
       flash[:notice] = l(:notice_successful_delete)
+      #ban(
+      deliver_mail_to_project_office_members_about_del
+      #)
     end
     redirect_to action: 'index'
   rescue
@@ -113,4 +122,42 @@ class StatusesController < ApplicationController
   def show_local_breadcrumb
     true
   end
+
+  # ban(
+  def deliver_mail_to_project_office_members
+    @project_office_members = []
+    roles = []
+    Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
+                               I18n.t(:default_role_project_office_coordinator),
+                               I18n.t(:default_role_project_office_admin)])
+      .each { |r| roles.push(r)}
+    members = Member.joins(:member_roles).where('role_id in (?)', roles)
+    members.each do |member|
+      if Setting.notified_events.include?('status_created')
+        user = User.find(member.user_id)
+        if user.present?
+          UserMailer.status_created(user, @status, User.current).deliver_later
+        end
+      end
+    end
+  end
+
+  def deliver_mail_to_project_office_members_about_del
+    @project_office_members = []
+    roles = []
+    Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
+                               I18n.t(:default_role_project_office_coordinator),
+                               I18n.t(:default_role_project_office_admin)])
+      .each { |r| roles.push(r)}
+    members = Member.joins(:member_roles).where('role_id in (?)', roles)
+    members.each do |member|
+      if Setting.notified_events.include?('status_deleted')
+        user = User.find(member.user_id)
+        if user.present?
+          UserMailer.status_deleted(user, @statusname, User.current).deliver_later
+        end
+      end
+    end
+  end
+  # )
 end

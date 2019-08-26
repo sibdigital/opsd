@@ -38,7 +38,7 @@ class UserMailer < BaseMailer
       mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - тестовое сообщение'
     end
   end
-
+=begin
   def work_package_added(user, journal, author)
     User.execute_as user do
       work_package = journal.journable.reload
@@ -55,7 +55,21 @@ class UserMailer < BaseMailer
       end
     end
   end
+=end
+#ban (
+  def work_package_added(user, project, work_package, author)
+    @project = project
+    @work_package = work_package
+    set_work_package_headers(work_package)
 
+    message_id work_package, user
+
+    with_locale_for(user) do
+      subject = 'В проекте '+@project.name.to_s+' добавлено мероприятие '+@work_package.subject
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+#)
   def work_package_updated(user, journal, author = User.current)
     User.execute_as user do
       work_package = journal.journable.reload
@@ -304,6 +318,78 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Удален проект "'+@project.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def group_created(user, group, author)
+    @group = group
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создана группа "'+@group.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def group_deleted(user, groupname, author)
+    @groupname = groupname
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удалена группа "'+@groupname+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def status_created(user, status, author)
+    @status = status
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создан статус "'+@status.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def status_deleted(user, statusname, author)
+    @statusname = statusname
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удален статус "'+@statusname+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def type_created(user, type, author)
+    @type = type
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создан тип рабочего пакета "'+@type.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def type_deleted(user, typename, author)
+    @typename = typename
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удален тип рабочего пакета "'+@typename+'"'
       mail_for_author author, to: user.mail, subject: subject
     end
   end

@@ -81,6 +81,9 @@ class GroupsController < ApplicationController
         flash[:notice] = l(:notice_successful_create)
         format.html do redirect_to(groups_path) end
         format.xml  do render xml: @group, status: :created, location: @group end
+        #ban(
+        deliver_mail_to_project_office_members
+        #)
       else
         format.html do render action: 'new' end
         format.xml  do render xml: @group.errors, status: :unprocessable_entity end
@@ -108,8 +111,14 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.xml
   def destroy
+    #ban(
+    @groupname = @group.name
+    #)
     @group.destroy
 
+    #ban(
+    deliver_mail_to_project_office_members_about_del
+    #)
     respond_to do |format|
       flash[:notice] = l(:notice_successful_delete)
       format.html do redirect_to(groups_url) end
@@ -189,4 +198,42 @@ class GroupsController < ApplicationController
   def show_local_breadcrumb
     true
   end
+
+  # ban(
+  def deliver_mail_to_project_office_members
+    @project_office_members = []
+    roles = []
+    Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
+                               I18n.t(:default_role_project_office_coordinator),
+                               I18n.t(:default_role_project_office_admin)])
+      .each { |r| roles.push(r)}
+    members = Member.joins(:member_roles).where('role_id in (?)', roles)
+    members.each do |member|
+      if Setting.notified_events.include?('group_created')
+        user = User.find(member.user_id)
+        if user.present?
+          UserMailer.group_created(user, @group, User.current).deliver_later
+        end
+      end
+    end
+  end
+
+  def deliver_mail_to_project_office_members_about_del
+    @project_office_members = []
+    roles = []
+    Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
+                               I18n.t(:default_role_project_office_coordinator),
+                               I18n.t(:default_role_project_office_admin)])
+      .each { |r| roles.push(r)}
+    members = Member.joins(:member_roles).where('role_id in (?)', roles)
+    members.each do |member|
+      if Setting.notified_events.include?('group_deleted')
+        user = User.find(member.user_id)
+        if user.present?
+          UserMailer.group_deleted(user, @groupname, User.current).deliver_later
+        end
+      end
+    end
+  end
+  # )
 end
