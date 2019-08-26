@@ -278,7 +278,7 @@ en:
                   type: :default_type_task
                   start: 0
                   plan_type: execution
-                  duration: 0
+                  duration: 3
                   attachments:
                     - project_modules.jpg
                   organization: Министерство культуры
@@ -292,9 +292,9 @@ en:
                 в образовательных учреждениях отрасли культуры на 10% за счет расширения перечня реализуемых образовательных программ и учебных дисциплин, в том числе интерактивной направленности.
               status: :default_status_in_work
               type: :default_type_result
-              start: 7
+              start: -10
               plan_type: execution
-              duration: 17
+              duration: 77
               organization: Министерство культуры
               assigned: bdr
               raion: 22
@@ -302,9 +302,9 @@ en:
                 - subject: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
                   status: :default_status_in_work
                   type: :default_type_result
-                  start: -20
+                  start: -10
                   plan_type: execution
-                  duration: 70
+                  duration: 15
                   organization: Министерство культуры
                   assigned: tvs
                   raion: 22
@@ -314,7 +314,7 @@ en:
                       type: :default_type_result
                       start: -10
                       plan_type: execution
-                      duration: -5
+                      duration: 5
                       organization: Министерство культуры
                       assigned: tvs
                       raion: 1
@@ -323,7 +323,7 @@ en:
                       type: :default_type_result
                       start: -11
                       plan_type: execution
-                      duration: -1
+                      duration: 1
                       organization: Министерство культуры
                       assigned: tvs
                       raion: 2
@@ -343,7 +343,7 @@ en:
                       type: :default_type_result
                       start: -10
                       plan_type: execution
-                      duration: -5
+                      duration: 5
                       organization: Министерство культуры
                       assigned: tvs
                       raion: 10
@@ -377,9 +377,9 @@ en:
                 - subject: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                   status: :default_status_not_start
                   type: :default_type_result
-                  start: 16
+                  start: 6
                   plan_type: execution
-                  duration: 5
+                  duration: 58
                   organization: Министерство культуры
                   relations:
                     - to: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
@@ -389,7 +389,7 @@ en:
                 - subject: В Республике Бурятия оснащено 32 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами (нарастающим итогом)
                   status: :default_status_not_start
                   type: :default_type_task
-                  start: 22
+                  start: 65
                   plan_type: execution
                   duration: 2
                   organization: Министерство культуры
@@ -401,7 +401,7 @@ en:
                 - subject: В Республике Бурятия оснащено 49 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами (нарастающим итогом)
                   status: :default_status_not_start
                   type: :default_type_task
-                  start: 22
+                  start: 65
                   plan_type: execution
                   duration: 2
                   organization: Министерство культуры
@@ -413,7 +413,7 @@ en:
             - subject: Создание (реконструкция) и капитальный ремонт культурно-досуговых учреждений в сельской местности
               status: :default_status_in_work
               type: :default_type_milestone
-              start: 25
+              start: 68
               plan_type: execution
               duration: 0
               organization: Министерство культуры
@@ -427,7 +427,7 @@ en:
               type: :default_type_result
               start: 28
               plan_type: execution
-              duration: 2
+              duration: 3
               organization: Министерство культуры
               assigned: blb
               raion: 22
@@ -456,7 +456,7 @@ en:
             - subject: Создание в Республике Бурятия модельных муниципальных библиотек
               status: :default_status_not_start
               type: :default_type_milestone
-              start: 32
+              start: 69
               plan_type: execution
               duration: 0
               organization: Министерство культуры
@@ -470,6 +470,8 @@ en:
                   plan_type: execution
                   status: :default_status_not_start
                   type: :default_type_milestone
+                  start: 69
+                  duration: 0
                   organization: Министерство культуры
                   description: |
                     С 2019 по 2024 годы будут направлены заявки на участие в конкурсе на создание 2-х модельных муниципальных библиотек ежегодно.

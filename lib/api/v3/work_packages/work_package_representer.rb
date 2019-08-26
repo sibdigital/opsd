@@ -470,6 +470,14 @@ module API
 
         associated_resource :status
 
+        #bbm(
+        property :is_closed,
+        exec_context: :decorator,
+          getter: ->(*) {
+            represented.status.is_closed
+          }
+        # )
+
         associated_resource :author,
                             v3_path: :user,
                             representer: ::API::V3::Users::UserRepresenter

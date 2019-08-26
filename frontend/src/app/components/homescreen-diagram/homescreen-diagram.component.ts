@@ -75,15 +75,15 @@ export class HomescreenDiagramComponent implements OnInit {
     this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
     this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
     let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
-    let organization = this.element.nativeElement.getAttribute('organization-id') || 0;
+    //let organization = this.element.nativeElement.getAttribute('organization-id') || 0;
     this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {organization: organization})
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, /*{organization: organization}*/)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.barChartData[0].data = resource.data;
         this.barChartData[0].label = resource.label;
         if (resource.label === 'visible') {
-          this.element.nativeElement.parentElement.removeAttribute('style');
+          //this.element.nativeElement.parentElement.removeAttribute('style');
           this.element.nativeElement.parentElement.style.visibility = 'visible';
           this.element.nativeElement.parentElement.style.width = '350px';
         }
