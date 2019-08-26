@@ -202,7 +202,11 @@ import {WpTargetAutocompleteComponent} from "core-components/wp-single-view-tabs
 import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
 import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tabs/targets-tab/targets-tab.component";
 //)
-
+//knm
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
+import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topics-dialog.component";
 
 @NgModule({
   imports: [
@@ -221,7 +225,9 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
     BrowserAnimationsModule,
     //)bbm
     OpenprojectAttachmentsModule,
-
+  //knm
+    MatTooltipModule,
+    DragDropModule,
     // Work package custom actions
     //WpCustomActionsModule,
     DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent])
@@ -421,7 +427,10 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
     WpTargetAutocompleteComponent,
     WorkPackageProblemsTabComponent,
     // )
-
+    //bbm(
+    WpTopicsAutocompleteComponent,
+    WpTopicsDialogComponent,
+    //)
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
@@ -468,6 +477,10 @@ import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tab
   entryComponents: [
     //bbm(
     WpRelationsDialogComponent,
+    //bbm(
+    WpTopicsAutocompleteComponent,
+    WpTopicsDialogComponent,
+    //)
     //)bbm
     // Split view
     WorkPackageSplitViewComponent,

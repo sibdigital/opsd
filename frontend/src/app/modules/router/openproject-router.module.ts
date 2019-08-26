@@ -74,24 +74,12 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     },
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
     FirstRouteService,
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
   ],
   declarations: [
     ApplicationBaseComponent,
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
   ],
   entryComponents: [
     ApplicationBaseComponent,
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
   ],
   exports: [
   ]

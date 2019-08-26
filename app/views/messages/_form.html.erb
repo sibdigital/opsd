@@ -39,7 +39,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= f.text_field :subject, required: true, container_class: '-wide', autofocus: true %>
 </div>
 
-<wp-topics-autocomplete-upgraded wpId='<%= @message.work_package ? @message.work_package.id : '' %>' projectObject='<%= @message.project ? @message.project.id : '' %>'>
+<wp-topics-autocomplete-upgraded wpId='<%= @message.work_package ? @message.work_package.id : '' %>' projectObject='<%= @project ? @project.id : '' %>'>
 </wp-topics-autocomplete-upgraded>
 
 <% unless replying %>
