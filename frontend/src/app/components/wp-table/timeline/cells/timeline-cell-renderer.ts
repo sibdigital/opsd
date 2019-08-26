@@ -364,13 +364,17 @@ export class TimelineCellRenderer {
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
     let type = wp.type;
-
     if (!type) {
       element.style.backgroundColor = this.fallbackColor;
     }
-
-    const id = type.getId();
-    element.classList.add(Highlighting.rowClass('type', id));
+    //bbm(
+    if (wp.isClosed) {
+      element.style.backgroundColor = 'rgba(255, 165, 0, 1)';//orange
+    } else {
+      const id = type.getId();
+      element.classList.add(Highlighting.rowClass('type', id));
+    }
+    //)
   }
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {
