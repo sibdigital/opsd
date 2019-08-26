@@ -511,6 +511,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             if: Proc.new { |p| p.boards.any? },
             caption: :label_board_plural,
+            parent: :communications,
             icon: 'icon2 icon-ticket-note'
 
   #+-tan 2019.07.16
