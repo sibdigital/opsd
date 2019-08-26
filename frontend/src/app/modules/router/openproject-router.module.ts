@@ -43,7 +43,9 @@ import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} f
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatPaginatorIntlRussian";
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
-
+//knm
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   imports: [
     UIRouterModule.forRoot({
@@ -57,8 +59,11 @@ import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/hom
     MatDialogModule,
     MatTableModule,
     MatPaginatorModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
     //)
+    //knm
+    MatTooltipModule,
+    DragDropModule
   ],
   providers: [
     {
