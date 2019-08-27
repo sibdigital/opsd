@@ -1888,8 +1888,8 @@ en:
   label_repository: Репозиторий
   label_repository_root: Корень хранилища
   label_repository_plural: Репозитории
-  label_required: требуется
-  label_requires: требуется
+  label_required: требуется для
+  label_requires: требует выполнения
   label_result_plural: Результаты
   label_reverse_chronological_order: В обратном хронологическом порядке
   label_revision: Редакция
