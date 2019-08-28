@@ -455,7 +455,7 @@ class ReportProgressProjectController < ApplicationController
   end
 
   def generate_dynamic_achievement_kt_sheet
-    sheet = @workbook['Динамика достижения КП']
+    sheet = @workbook['Динамика достижения КТ']
 
     sheetDataDiagram = @workbook['Данные для диаграмм']
 
