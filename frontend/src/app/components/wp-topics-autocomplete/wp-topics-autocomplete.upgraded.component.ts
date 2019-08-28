@@ -45,12 +45,18 @@ export const wpTopicsAutocompleteUpgraded = 'wp-topics-autocomplete-upgraded';
 export class WpTopicsAutocompleteComponent {
   public selectedWP:string = '';
   public selectedWPid:string;
-
+  private dialogOpened = false; // maybe try await
+  private projectID:string;
   constructor(readonly pathHelper:PathHelperService,
               readonly element:ElementRef,
               protected halResourceService:HalResourceService,
               readonly I18n:I18nService,
-              public dialog:MatDialog) {
+              public dialog:MatDialog) {  }
+
+  ngOnInit() {
+    if (this.element.nativeElement.getAttribute('projectObject')) {
+      this.projectID = JSON.parse(this.element.nativeElement.getAttribute('projectObject'));
+    }
     if (this.element.nativeElement.getAttribute('wpId')) {
       this.selectedWPid = JSON.parse(this.element.nativeElement.getAttribute('wpId'));
       this.halResourceService
@@ -67,8 +73,9 @@ export class WpTopicsAutocompleteComponent {
   //bbm(
   openDialog():void {
     let ELEMENT_DATA:PeriodicElement[] = [];
+    if (!this.dialogOpened) {
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString())
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpByProject(this.projectID).toString())
       .toPromise()
       .then((values:CollectionResource<WorkPackageResource>) => {
         values.elements.map(wp => {
@@ -79,7 +86,8 @@ export class WpTopicsAutocompleteComponent {
             assignee: wp.assignee ? wp.assignee.$link.title :null});
         });
         const dialogRef = this.dialog.open(WpTopicsDialogComponent, {
-          width: '750px',
+          height: '680px',
+          // width: '1050px',
           data: ELEMENT_DATA
         });
         dialogRef.afterClosed().subscribe(result => {
@@ -87,8 +95,11 @@ export class WpTopicsAutocompleteComponent {
             this.selectedWP = result.subject;
             this.selectedWPid = result.id;
           }
+          this.dialogOpened = false;
         });
       });
+    }
+    this.dialogOpened = true;
   }
 }
 

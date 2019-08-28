@@ -1,6 +1,8 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ElementRef, Optional, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatPaginator, MatTableDataSource} from "@angular/material";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+// import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 export interface PeriodicElement {
   id:string;
@@ -18,7 +20,10 @@ export interface PeriodicElement {
 export class WpTopicsDialogComponent implements OnInit {
   displayedColumns:string[] = ['id', 'subject', 'type', 'status', 'assignee'];
   dataSource:MatTableDataSource<PeriodicElement>;
-
+  paginatorLength: number;
+  paginatorIndex: number;
+  paginatorSize: number;
+  paginatorArray: any;
   public text = {
     subject: this.I18n.t('js.work_packages.properties.subject'),
     type: this.I18n.t('js.work_packages.properties.type'),
@@ -32,13 +37,19 @@ export class WpTopicsDialogComponent implements OnInit {
     public dialogRef:MatDialogRef<WpTopicsDialogComponent>,
     readonly I18n:I18nService,
     @Inject(MAT_DIALOG_DATA) public data:any) {
-    this.dataSource = data;
+    this.paginatorArray = data;
+    this.paginatorLength = data.length;
+    this.dataSource = new MatTableDataSource<PeriodicElement>(data);
+    this.paginatorIndex = 0;
+    this.paginatorSize = 5;
+
   }
 
   @ViewChild(MatPaginator) paginator:MatPaginator;
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    console.log(this.dataSource);
   }
 
   onNoClick():void {

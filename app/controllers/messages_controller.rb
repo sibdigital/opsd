@@ -62,6 +62,7 @@ class MessagesController < ApplicationController
 
   # new topic
   def new
+    @project = @board.project
     @message = Message.new.tap do |m|
       m.author = User.current
       m.board = @board
@@ -70,6 +71,7 @@ class MessagesController < ApplicationController
 
   # Create a new topic
   def create
+
     @message = Message.new.tap do |m|
       m.author = User.current
       m.board = @board

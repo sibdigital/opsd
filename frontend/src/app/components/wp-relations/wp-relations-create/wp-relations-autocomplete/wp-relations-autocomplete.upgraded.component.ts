@@ -64,7 +64,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
 
   private $element:JQuery;
   private $input:JQuery;
-
+  private dialogOpened = false; // maybe try await
   constructor(readonly elementRef:ElementRef,
               readonly PathHelper:PathHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
@@ -161,6 +161,7 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
   //bbm(
   openDialog():void {
     let ELEMENT_DATA:PeriodicElement[] = [];
+    if (!this.dialogOpened) {
     this.candidateWorkPackages().then((values) => {
       values.map(wp => {
         ELEMENT_DATA.push({id: wp.id,
@@ -170,7 +171,8 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
           assignee: wp.assignee ? wp.assignee.$link.title :null});
       });
       const dialogRef = this.dialog.open(WpRelationsDialogComponent, {
-        width: '750px',
+        height: '680px',
+        // width: '1050px',
         data: {
           wp_array: ELEMENT_DATA,
           planType: this.workPackage.planType
@@ -183,8 +185,11 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
           input.val(this.getIdentifier(result));
           this.onSelect.emit(result.id);
         }
+        this.dialogOpened = false;
       });
     });
+    }
+    this.dialogOpened = true;
   }
 
   private candidateWorkPackages():Promise<WorkPackageResource[]> {

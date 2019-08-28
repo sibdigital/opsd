@@ -19,7 +19,10 @@ export class WpRelationsDialogComponent implements OnInit {
   displayedColumns:string[] = ['id', 'subject', 'type', 'status', 'assignee'];
   dataSource:MatTableDataSource<PeriodicElement>;
   planType:string|undefined;
-
+  paginatorLength: number;
+  paginatorIndex: number;
+  paginatorSize: number;
+  paginatorArray: any;
   public text = {
     subject: this.I18n.t('js.work_packages.properties.subject'),
     type: this.I18n.t('js.work_packages.properties.type'),
@@ -35,6 +38,10 @@ export class WpRelationsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data:any) {
     this.dataSource = new MatTableDataSource<PeriodicElement>(data.wp_array);
     this.planType = data.planType;
+    this.paginatorArray = data;
+    this.paginatorLength = data.length;
+    this.paginatorIndex = 0;
+    this.paginatorSize = 5;
   }
 
   @ViewChild(MatPaginator) paginator:MatPaginator;

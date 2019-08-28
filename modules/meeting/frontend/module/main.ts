@@ -35,7 +35,9 @@ import {WpMeetingDialogComponent} from "./wp-meeting-dialog/wp-meeting-dialog.co
 import {MatPaginatorIntlRussian} from "./wp-meeting-dialog/MatPaginatorIntlRussian";
 import {WpMeetingAutocompleteComponent} from "./wp-meeting-autocomplete/wp-meeting-autocomplete.upgraded.component";
 import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
-
+//knm
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 export function initializeMeetingPlugin(injector:Injector) {
     return () => {
         window.OpenProject.getPluginContext()
@@ -58,7 +60,10 @@ export function initializeMeetingPlugin(injector:Injector) {
         MatDialogModule,
         MatTableModule,
         MatPaginatorModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        //knm
+        MatTooltipModule,
+        DragDropModule
     ],
     declarations: [
         WpMeetingDialogComponent,

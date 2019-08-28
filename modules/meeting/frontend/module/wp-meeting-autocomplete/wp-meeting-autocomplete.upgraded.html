@@ -8,7 +8,7 @@
       <input size="60" container_class="-wide" class="form--text-field" aria-required="true" type="text"
              value="{{selectedWPid}}" name="meeting[work_package_id]" id="meeting_work_package_id" style="display: none;">
       {{selectedWP}}
-      <button mat-raised-button (click)="openDialog()" style="width: 30px; float: right;" type="button" >...</button>
+      <button mat-raised-button (click)="openDialog()" [ngStyle]="{'background':'#1a68a3','color':'#fff','padding':'10px','float':'right','border':'none','border-radius':'1px'}" type="button" >...</button>
     </span>
   </span>
 </div>
