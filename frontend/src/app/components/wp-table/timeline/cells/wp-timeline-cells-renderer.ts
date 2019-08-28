@@ -35,6 +35,7 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {WorkPackageTimelineCell} from './wp-timeline-cell';
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 export class WorkPackageTimelineCellsRenderer {
 
@@ -78,7 +79,7 @@ export class WorkPackageTimelineCellsRenderer {
   public refreshSingleCell(cell:WorkPackageTimelineCell) {
     const renderInfo = this.renderInfoFor(cell.workPackageId);
 
-    if (renderInfo.workPackage) {
+    if (renderInfo && renderInfo.workPackage) {
       cell.refreshView(renderInfo);
     }
   }
