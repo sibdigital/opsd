@@ -366,6 +366,16 @@ module API
                    represented.milestone?
                  }
 
+        property :fact_due_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.fact_due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
         property :due_date,
                  exec_context: :decorator,
                  getter: ->(*) do

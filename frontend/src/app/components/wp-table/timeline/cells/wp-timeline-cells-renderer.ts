@@ -35,6 +35,7 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {WorkPackageTimelineCell} from './wp-timeline-cell';
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 export class WorkPackageTimelineCellsRenderer {
 
@@ -76,9 +77,9 @@ export class WorkPackageTimelineCellsRenderer {
   }
 
   public refreshSingleCell(cell:WorkPackageTimelineCell) {
-    const renderInfo = this.renderInfoFor(cell.workPackageId);
+    const renderInfo = cell.classIdentifier.slice(-4) === 'fact' ? this.renderInfoForFact(cell.workPackageId) : this.renderInfoFor(cell.workPackageId);
 
-    if (renderInfo.workPackage) {
+    if (renderInfo && renderInfo.workPackage) {
       cell.refreshView(renderInfo);
     }
   }
@@ -116,6 +117,20 @@ export class WorkPackageTimelineCellsRenderer {
       }
 
       newCells.push(identifier);
+
+      //bbm(
+      // Пытаюсь добавить другой cell рядом с текущим
+      //const identifierFact = renderedRow.classIdentifier.slice(0, 7) + '0' + renderedRow.classIdentifier.slice(8);
+      const identifierFact = renderedRow.classIdentifier + '-fact';
+      // Create a cell unless we already have an active cell
+      if (!this.cells[identifierFact]) {
+        const factCell = this.buildCellFact(identifierFact, wpId.toString());
+        if (factCell) {
+          this.cells[identifierFact] = factCell;
+        }
+      }
+      newCells.push(identifierFact);
+      //)
     });
 
     _.difference(currentlyActive, newCells).forEach((identifier:string) => {
@@ -143,4 +158,45 @@ export class WorkPackageTimelineCellsRenderer {
       changeset: new WorkPackageChangeset(this.injector, wp)
     } as RenderInfo;
   }
+  //bbm(
+  //попытка добавить факт cell в timeline
+  private buildCellFact(classIdentifier:string, workPackageId:string) {
+    const renderInfo = this.renderInfoForFact(workPackageId);
+    if (renderInfo) {
+      return new WorkPackageTimelineCell(
+        this.injector,
+        this.wpTimeline,
+        this.cellRenderers,
+        renderInfo,
+        classIdentifier,
+        workPackageId
+      );
+    } else {
+      return null;
+    }
+  }
+
+  private renderInfoForFact(wpId:string):RenderInfo | null {
+    const wp = this.states.workPackages.get(wpId).value!;
+    if (wp.factDueDate) {
+      let wpClone:WorkPackageResource = Object.assign({}, wp);
+      let startDate = new Date(wpClone.dueDate + 'Z00:00:00:000');
+      let dueDate = new Date(wpClone.factDueDate + 'Z00:00:00:000');
+      if (startDate > dueDate) {
+        let tmp = startDate;
+        startDate = dueDate;
+        dueDate = tmp;
+      }
+      wpClone.startDate = startDate.toISOString().slice(0, 10);
+      wpClone.dueDate = dueDate.toISOString().slice(0, 10);
+      return {
+        viewParams: this.wpTimeline.viewParameters,
+        workPackage: wpClone,
+        changeset: new WorkPackageChangeset(this.injector, wpClone)
+      } as RenderInfo;
+    } else {
+      return null;
+    }
+  }
+  //)
 }
