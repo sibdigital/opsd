@@ -5,8 +5,50 @@
 <fieldset class="form--fieldset -with-control" id="modules-form">
   <legend class="form--fieldset-legend"><%= "Данные паспорта проекта" %></legend>
   <div>
+    <%= labelled_tabular_form_for @altered_project, url: project_path(@project) do |form| %>
     <section class="form--section">
-
+      <%= render partial: "projects/form/attributes/name",
+                 locals: { form: form } %>
+      <%= render partial: "projects/form/attributes/description",
+                 locals: { form: form } %>
+      <%= render partial: "projects/form/attributes/start_date",
+                 locals: { form: form } %>
+      <%= render partial: "projects/form/attributes/due_date",
+                 locals: { form: form } %>
     </section>
+
+    <section class="form--section">
+      <% @selected_project_status_id = if @project.new_record?
+                                         ProjectStatus.default.id
+                                       else @project.get_project_status.id end
+         @selected_project_approve_status_id = if @project.new_record?
+                                                 ProjectApproveStatus.default.id
+                                               else @project.get_project_approve_status.id end
+
+         @selected_national_project = @project.national_project_id
+         @selected_federal_project = @project.federal_project_id
+
+      %>
+      <% if  User.current.project_admin?(@project) || User.current.project_head?(@project) || User.current.admin?%>
+        <div class="form--field">
+          <%= form.select :project_status_id,
+                       options_for_select(@project.get_allowed_project_statuses.map {|u| [u.name, u.id]}, @selected_project_status_id),
+                       include_blank: true,
+                       container_class: '-slim' %></div>
+      <% else %>
+  <span>
+    Статус: <% @project.get_project_status %>
+  </span>
+      <% end %>
+  <div class="form--field">
+    <%= form.select :project_approve_status_id,
+                 options_for_select(@project.get_allowed_project_approve_status.map {|u| [u.name, u.id]}, @selected_project_approve_status_id),
+                 include_blank: true,
+                 container_class: '-slim' %>
   </div>
+  </section>
+      <%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+    <% end %>
+  </div>
+
 </fieldset>
