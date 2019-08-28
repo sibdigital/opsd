@@ -369,7 +369,7 @@ export class TimelineCellRenderer {
     }
     //bbm(
     if (wp.isClosed) {
-      element.style.backgroundColor = 'rgba(255, 165, 0, 1)';//orange
+      element.style.backgroundColor = 'rgba(255, 165, 0, 1)'; //orange
     } else {
       const id = type.getId();
       element.classList.add(Highlighting.rowClass('type', id));
