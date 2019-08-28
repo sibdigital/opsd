@@ -14,7 +14,7 @@ class CatalogLoadersController < ApplicationController
     @catalog_loader = CatalogLoader.new
   end
 
-  def create v
+  def create
     @first_row_num = params[:first_row_num]
 
     if @plan_uploader.save
