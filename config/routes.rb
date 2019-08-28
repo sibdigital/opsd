@@ -384,6 +384,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :catalog_loaders do
+    post :load, on: :collection
+  end
+
   #knm(
   resources :alerts do
     get :get_pop_up_alerts, on: :collection
