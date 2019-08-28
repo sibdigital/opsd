@@ -20,7 +20,7 @@ import {
   WorkPackageCellLabels
 } from './wp-timeline-cell';
 import {
-  classNameBarLabel,
+  classNameBarLabel, classNameFactBar,
   classNameLeftHandle,
   classNameRightHandle
 } from './wp-timeline-cell-mouse-handler';
@@ -100,7 +100,9 @@ export class TimelineCellRenderer {
 
     this.assignDate(changeset, 'startDate', dates.startDate);
     this.assignDate(changeset, 'dueDate', dates.dueDate);
-
+    //bbm(
+    this.assignDate(changeset, 'factDueDate', dates.factDueDate);
+    //)
     this.updateLabels(true, labels, changeset);
   }
 
@@ -118,7 +120,6 @@ export class TimelineCellRenderer {
 
     const startDate = moment(changeset.value('startDate'));
     const dueDate = moment(changeset.value('dueDate'));
-
     let dates:CellDateMovement = {};
 
     if (direction === 'left') {
@@ -252,6 +253,33 @@ export class TimelineCellRenderer {
     this.checkForActiveSelectionMode(renderInfo, bar);
     this.checkForSpecialDisplaySituations(renderInfo, bar);
 
+    //bbm(
+    let fact = moment(renderInfo.workPackage.factDueDate);
+    if (!_.isNaN(fact.valueOf())) {
+      let factBar = _.find(bar.childNodes, (child:any) => {
+        return child.className === 'factBar';
+      });
+      let factWidth = fact.diff(due, 'days');
+      if (factWidth > 0) {
+        let containerRight = _.find(bar.childNodes, (child:any) => {
+          return child.className === 'containerRight';
+        });
+        if (containerRight) {
+          containerRight.style.paddingLeft = calculatePositionValueForDayCount(viewParams, factWidth);
+        }
+        if (factBar) {
+          factBar.style.left = calculatePositionValueForDayCount(viewParams, duration);
+          factBar.style.width = calculatePositionValueForDayCount(viewParams, factWidth);
+        }
+      } else {
+        if (factBar) {
+          factBar.style.left = calculatePositionValueForDayCount(viewParams, duration + factWidth);
+          factBar.style.width = calculatePositionValueForDayCount(viewParams, 0 - factWidth);
+        }
+      }
+    }
+    //)
+
     return true;
   }
 
@@ -315,7 +343,13 @@ export class TimelineCellRenderer {
     right.className = classNameRightHandle;
     bar.appendChild(left);
     bar.appendChild(right);
-
+    //bbm(
+    if (renderInfo.workPackage.factDueDate) {
+      const fact = document.createElement('div');
+      fact.className = classNameFactBar;
+      bar.appendChild(fact);
+    }
+    //)
     return bar;
   }
 

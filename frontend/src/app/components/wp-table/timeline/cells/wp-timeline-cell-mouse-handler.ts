@@ -46,6 +46,9 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
 export const classNameRightHandle = 'rightHandle';
+//bbm(
+export const classNameFactBar = 'factBar';
+//)
 export const classNameBarLabel = 'bar-label';
 
 

@@ -124,19 +124,9 @@ export class WorkPackageTimelineCell {
     return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  //bbm(
-  private get cellElementFact() {
-    return this.cellContainer.find(`.${this.classIdentifier.slice(0, -5)}`);
-  }
-
-  private factOrNot():string {
-    return this.classIdentifier.slice(-4);
-  }
-  //)
-
   private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo):JQuery {
     const body = this.workPackageTimeline.timelineBody[0];
-    const cell = this.factOrNot() === 'fact' ? this.cellElementFact : this.cellElement;
+    const cell = this.cellElement;
 
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
@@ -157,7 +147,7 @@ export class WorkPackageTimelineCell {
     cell.append(this.wpElement);
 
     // Allow editing if editable
-    if (renderer.canMoveDates(renderInfo.workPackage) && this.factOrNot() !== 'fact') {
+    if (renderer.canMoveDates(renderInfo.workPackage)) {
       this.wpElement.classList.add('-editable');
 
       registerWorkPackageMouseHandler(
