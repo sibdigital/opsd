@@ -148,6 +148,11 @@ module API
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
 
+          schema :fact_due_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+
           schema :date,
                  type: 'Date',
                  required: false,

@@ -490,10 +490,24 @@ export class TimelineCellRenderer {
 
     // Get the rendered field
     let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute, changeset);
+    //bbm(
+    let [fieldFact, spanFact] = attribute === 'dueDate' ? this.fieldRenderer.renderFieldValue(changeset.workPackage, 'factDueDate', changeset) : [null, span];
+    //)
 
     if (label && field && span) {
       span.classList.add('label-content');
       label.appendChild(span);
+      //bbm(
+      if (spanFact.textContent !== '-' && attribute === 'dueDate') {
+        let spanLeft = document.createElement('span');
+        spanLeft.textContent = '(Фактически: ';
+        label.appendChild(spanLeft);
+        label.appendChild(spanFact);
+        let spanRight = document.createElement('span');
+        spanRight.textContent = ')';
+        label.appendChild(spanRight);
+      }
+      //)
       label.classList.add('not-empty');
     } else if (label) {
       label.classList.remove('not-empty');
