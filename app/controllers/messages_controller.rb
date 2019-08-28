@@ -151,7 +151,8 @@ class MessagesController < ApplicationController
       @message.participants.each do |participiant|
         Alert.create_pop_up_alert(@message, "Changed", User.current,participiant.user)
         #ban(
-        UserMailer.message_changed(participiant.user, @message, User.current).deliver_now
+        @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+        UserMailer.message_changed(participiant.user, @message, User.current, @timenow).deliver_now
         #)
       end
       @message.reload
@@ -173,7 +174,8 @@ class MessagesController < ApplicationController
     @message.participants.each do |participiant|
       Alert.create_pop_up_alert(@message, "Deleted", User.current, participiant.user)
       #ban(
-      UserMailer.message_deleted(participiant.user, @project_name, @board_name, @message_subject, User.current).deliver_now
+      @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+      UserMailer.message_deleted(participiant.user, @project_name, @board_name, @message_subject, User.current, @timenow).deliver_now
       # )
     end
     flash[:notice] = l(:notice_successful_delete)
