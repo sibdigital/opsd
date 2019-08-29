@@ -393,14 +393,56 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   ##zbd(
   menu.push :stages,
-            { controller: '/stages', action: 'show' },
+            {},
             param: :project_id,
             caption: :label_stages,
             if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-etap',
-            parent: :analyze
+            icon: 'icon2 icon-etap'
   # )
-
+  # knm(
+  menu.push :stages_init,
+            {controller: '/stages', action: 'init'},
+            param: :project_id,
+            caption: :label_stage_init,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_analysis,
+            {controller: '/stages', action: 'analysis'},
+            param: :project_id,
+            caption: :label_stage_analysis,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_planning,
+            {controller: '/stages', action: 'planning'},
+            param: :project_id,
+            caption: :label_stage_planning,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_execution,
+            {controller: '/stages', action: 'execution'},
+            param: :project_id,
+            caption: :label_stage_execution,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_control,
+            {controller: '/stages', action: 'control'},
+            param: :project_id,
+            caption: :label_stage_control,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_completion,
+            {controller: '/stages', action: 'completion'},
+            param: :project_id,
+            caption: :label_stage_completion,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  # )
   # +tan 2019.07.16
   # menu.push :all_plans,
   #             { controller: '/stages', action: 'show' },

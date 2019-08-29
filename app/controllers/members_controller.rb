@@ -61,10 +61,11 @@ class MembersController < ApplicationController
       flash[:notice] = members_added_notice members
       Alert.create_pop_up_alert(members.first, "Created", User.current, members.first.user)
       #ban(
+      @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
       members.each do |added_member|
         if Setting.notified_events.include?('member_added')
           @project.recipients.uniq.each do |user|
-            UserMailer.member_added(user, @project, User.find_by(id: added_member.user_id), User.current).deliver_later
+            UserMailer.member_added(user, @project, User.find_by(id: added_member.user_id), User.current, @timenow).deliver_later
           end
         end
       end
@@ -106,9 +107,10 @@ class MembersController < ApplicationController
         flash.notice = I18n.t(:notice_member_deleted, user: @member.principal.name)
         Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
         #ban(
+        @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
         if Setting.notified_events.include?('member_deleted')
           @project.recipients.uniq.each do |user|
-            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_later
+            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current, @timenow).deliver_later
           end
         end
         #)
@@ -117,9 +119,10 @@ class MembersController < ApplicationController
         flash.notice = I18n.t(:notice_member_removed, user: @member.principal.name)
         Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
         #ban(
+        @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
         if Setting.notified_events.include?('member_deleted')
           @project.recipients.uniq.each do |user|
-            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current).deliver_later
+            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current, @timenow).deliver_later
           end
         end
         #)
