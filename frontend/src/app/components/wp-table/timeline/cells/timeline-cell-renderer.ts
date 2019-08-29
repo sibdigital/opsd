@@ -397,17 +397,23 @@ export class TimelineCellRenderer {
   }
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
-    let type = wp.type;
+    //bbm(
+    /*let type = wp.type;
     if (!type) {
       element.style.backgroundColor = this.fallbackColor;
     }
-    //bbm(
     if (wp.isClosed) {
       element.style.backgroundColor = 'rgba(255, 165, 0, 1)'; //orange
     } else {
       const id = type.getId();
       element.classList.add(Highlighting.rowClass('type', id));
+    }*/
+    let status = wp.status;
+    if (!status) {
+      element.style.backgroundColor = this.fallbackColor;
     }
+    const id = status.getId();
+    element.classList.add(Highlighting.rowClass('status', id));
     //)
   }
 
