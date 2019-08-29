@@ -37,7 +37,9 @@ export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boo
   public visible:boolean;
   public zoomLevel:TimelineZoomLevel;
   public labels:TimelineLabels;
-
+  //bbm(
+  public firstOrLastDueDate:boolean = false;
+  //)
   constructor(query:QueryResource) {
     super();
     this.visible = query.timelineVisible;

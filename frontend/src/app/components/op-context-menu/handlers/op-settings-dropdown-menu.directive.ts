@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Input, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, Injector, Input, OnDestroy} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -47,6 +47,9 @@ import {
   triggerEditingEvent
 } from "core-components/wp-query-select/wp-query-selectable-title.component";
 import {TableState} from "core-components/wp-table/table-state/table-state";
+import {TimelineCellRenderer} from "core-components/wp-table/timeline/cells/timeline-cell-renderer";
+import {WorkPackageTimelineTableController} from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
+import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 
 @Directive({
   selector: '[opSettingsContextMenu]'
@@ -64,7 +67,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
               readonly authorisationService:AuthorisationService,
               readonly states:States,
               readonly tableState:TableState,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly workPackageTableTimelineService:WorkPackageTableTimelineService) {
 
     super(elementRef, opContextMenu);
   }
@@ -266,7 +270,19 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',
         onClick: () => false
+      },
+      //bbm(
+      {
+        // Sharing modal
+        linkText: this.I18n.t('js.toolbar.settings.first_or_last_due_date'),
+        icon: 'icon-ordered-list',
+        onClick: ($event:JQueryEventObject) => {
+          this.workPackageTableTimelineService.toggleFirstOrLasDueDate();
+
+          return true;
+        }
       }
+      //)
     ];
   }
 }

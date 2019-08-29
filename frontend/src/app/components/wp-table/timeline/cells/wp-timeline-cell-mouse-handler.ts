@@ -48,6 +48,7 @@ export const classNameLeftHandle = 'leftHandle';
 export const classNameRightHandle = 'rightHandle';
 //bbm(
 export const classNameFactBar = 'factBar';
+export const classNameHistBar = 'histBar';
 //)
 export const classNameBarLabel = 'bar-label';
 

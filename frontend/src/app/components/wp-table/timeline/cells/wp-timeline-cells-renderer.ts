@@ -79,7 +79,7 @@ export class WorkPackageTimelineCellsRenderer {
   public refreshSingleCell(cell:WorkPackageTimelineCell) {
     const renderInfo = this.renderInfoFor(cell.workPackageId);
 
-    if (renderInfo && renderInfo.workPackage) {
+    if (renderInfo.workPackage) {
       cell.refreshView(renderInfo);
     }
   }

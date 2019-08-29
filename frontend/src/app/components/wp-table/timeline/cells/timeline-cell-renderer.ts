@@ -20,7 +20,7 @@ import {
   WorkPackageCellLabels
 } from './wp-timeline-cell';
 import {
-  classNameBarLabel, classNameFactBar,
+  classNameBarLabel, classNameFactBar, classNameHistBar,
   classNameLeftHandle,
   classNameRightHandle
 } from './wp-timeline-cell-mouse-handler';
@@ -33,6 +33,7 @@ import Moment = moment.Moment;
 import {Injector} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {TableState} from "core-components/wp-table/table-state/table-state";
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -102,6 +103,10 @@ export class TimelineCellRenderer {
     this.assignDate(changeset, 'dueDate', dates.dueDate);
     //bbm(
     this.assignDate(changeset, 'factDueDate', dates.factDueDate);
+    this.assignDate(changeset, 'firstDueDate', dates.firstDueDate);
+    this.assignDate(changeset, 'lastDueDate', dates.lastDueDate);
+    this.assignDate(changeset, 'firstStartDate', dates.firstStartDate);
+    this.assignDate(changeset, 'lastStartDate', dates.lastStartDate);
     //)
     this.updateLabels(true, labels, changeset);
   }
@@ -261,9 +266,7 @@ export class TimelineCellRenderer {
       });
       let factWidth = fact.diff(due, 'days');
       if (factWidth > 0) {
-        let containerRight = _.find(bar.childNodes, (child:any) => {
-          return child.className === 'containerRight';
-        });
+        let containerRight = _.find(bar.childNodes, (child:any) => {return child.className === 'containerRight'; });
         if (containerRight) {
           containerRight.style.paddingLeft = calculatePositionValueForDayCount(viewParams, factWidth);
         }
@@ -276,6 +279,23 @@ export class TimelineCellRenderer {
           factBar.style.left = calculatePositionValueForDayCount(viewParams, duration + factWidth);
           factBar.style.width = calculatePositionValueForDayCount(viewParams, 0 - factWidth);
         }
+      }
+    }
+    let histStart = renderInfo.viewParams.settings.firstOrLastDueDate ? moment(renderInfo.workPackage.firstStartDate) : moment(renderInfo.workPackage.lastStartDate);
+    let histDue = renderInfo.viewParams.settings.firstOrLastDueDate ? moment(renderInfo.workPackage.firstDueDate) : moment(renderInfo.workPackage.lastDueDate);
+    if (!_.isNaN(histStart.valueOf()) && !_.isNaN(histDue.valueOf())) {
+      let histBar = _.find(bar.childNodes, (child:any) => {return child.className === 'histBar'; });
+      const offsetHistStart = histStart.diff(start, 'days');
+      const histWidth = histDue.diff(histStart, 'days') + 1;
+      if (histBar) {
+        histBar.style.left = calculatePositionValueForDayCount(viewParams, offsetHistStart);
+        histBar.style.width = calculatePositionValueForDayCount(viewParams, histWidth);
+        let status = renderInfo.workPackage.status;
+        if (!status) {
+          histBar.style.borderColor = 'black';
+        }
+        const id = status.getId();
+        histBar.classList.add(Highlighting.borderClass('status', id));
       }
     }
     //)
@@ -349,6 +369,11 @@ export class TimelineCellRenderer {
       fact.className = classNameFactBar;
       bar.appendChild(fact);
     }
+    if (renderInfo.workPackage.firstDueDate && renderInfo.workPackage.lastDueDate && renderInfo.workPackage.firstStartDate && renderInfo.workPackage.lastStartDate) {
+      const hist = document.createElement('div');
+      hist.className = classNameHistBar;
+      bar.appendChild(hist);
+    }
     //)
     return bar;
   }
@@ -397,23 +422,25 @@ export class TimelineCellRenderer {
   }
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
-    //bbm(
-    /*let type = wp.type;
-    if (!type) {
-      element.style.backgroundColor = this.fallbackColor;
-    }
-    if (wp.isClosed) {
-      element.style.backgroundColor = 'rgba(255, 165, 0, 1)'; //orange
-    } else {
-      const id = type.getId();
-      element.classList.add(Highlighting.rowClass('type', id));
-    }*/
     let status = wp.status;
     if (!status) {
       element.style.backgroundColor = this.fallbackColor;
     }
     const id = status.getId();
     element.classList.add(Highlighting.rowClass('status', id));
+    //bbm(
+    /*if (renderInfo.viewParams.settings.firstOrLastDueDate) {
+      let type = wp.type;
+      if (!type) {
+        element.style.backgroundColor = this.fallbackColor;
+      }
+      if (wp.isClosed) {
+        element.style.backgroundColor = 'rgba(255, 165, 0, 1)'; //orange
+      } else {
+        const id = type.getId();
+        element.classList.add(Highlighting.rowClass('type', id));
+      }
+    } else {*/
     //)
   }
 

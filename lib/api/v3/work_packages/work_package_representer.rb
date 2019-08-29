@@ -366,16 +366,6 @@ module API
                    represented.milestone?
                  }
 
-        property :fact_due_date,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   datetime_formatter.format_date(represented.fact_due_date, allow_nil: true)
-                 end,
-                 render_nil: true,
-                 skip_render: ->(_) {
-                   represented.milestone?
-                 }
-
         property :due_date,
                  exec_context: :decorator,
                  getter: ->(*) do
@@ -486,6 +476,56 @@ module API
           getter: ->(*) {
             represented.status.is_closed
           }
+
+        property :fact_due_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.fact_due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :first_due_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.first_due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :last_due_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.last_due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :first_start_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.first_start_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :last_start_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.last_start_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
         # )
 
         associated_resource :author,

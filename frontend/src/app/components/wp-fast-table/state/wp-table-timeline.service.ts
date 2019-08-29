@@ -37,7 +37,6 @@ import {WorkPackageQueryStateService, WorkPackageTableBaseService} from './wp-ta
 
 @Injectable()
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService<WorkPackageTableTimelineState> implements WorkPackageQueryStateService {
-
   public constructor(tableState:TableState) {
     super(tableState);
   }
@@ -144,6 +143,14 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     currentState.autoZoom = value;
     this.state.putValue(currentState);
   }
+
+  //bbm(
+  public toggleFirstOrLasDueDate(value = !this.current.autoZoom) {
+    let currentState = this.current;
+    currentState.firstOrLastDueDate = !currentState.firstOrLastDueDate;
+    this.state.putValue(currentState);
+  }
+  //)
 
   public isAutoZoomEnabled():boolean {
     return this.current.autoZoom;

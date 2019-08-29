@@ -45,7 +45,9 @@ export class TimelineViewParametersSettings {
   zoomLevel:TimelineZoomLevel = 'days';
 
   autoZoom:boolean = true;
-
+  //bbm(
+  firstOrLastDueDate:boolean = false;
+  //)
 }
 
 // Can't properly map the enum to a string aray
