@@ -756,6 +756,11 @@ class User < Principal
     roles.find_all{ |r| r.name == Role.project_activity_coordinator.name}.size > 0
   end
 
+  def project_region_head?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.name == Role.glava_regiona.name}.size > 0
+  end
+
   def project_office_coordinator?(project)
     roles = User.current.roles_for_project(project)
     roles.find_all{ |r| r.name == Role.project_office_coordinator.name}.size > 0
