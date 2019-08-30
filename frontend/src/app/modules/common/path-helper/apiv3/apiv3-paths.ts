@@ -100,6 +100,10 @@ export class ApiV3Paths {
   public readonly protocols = new SimpleResource(this.apiV3Base, 'protocols');
   //)
 
+  //iag(
+  public readonly meetings = new SimpleResource(this.apiV3Base, 'meetings');
+  //)
+
   // /api/v3/time_entries
   public readonly time_entries = new Apiv3TimeEntriesPaths(this.apiV3Base);
 
