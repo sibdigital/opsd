@@ -207,6 +207,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
 import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topics-dialog.component";
+import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
+import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-pagination.component";
 
 @NgModule({
   imports: [
@@ -337,6 +339,9 @@ import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topic
 
     WorkPackagesTableController,
     WorkPackageTablePaginationComponent,
+    //bbm(
+    WorkPackageRelationsPaginationComponent,
+    //)
 
     WpResizerDirective,
 
@@ -447,6 +452,9 @@ import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topic
 
     // Modals
     WpTableConfigurationModalComponent,
+    //bbm(
+    WpRelationsConfigurationModalComponent,
+    //)
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,
     WpTableConfigurationFiltersTab,
@@ -534,6 +542,9 @@ import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topic
 
     // Modals
     WpTableConfigurationModalComponent,
+    //bbm(
+    WpRelationsConfigurationModalComponent,
+    //)
     WpTableConfigurationRelationSelectorComponent,
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,
@@ -563,6 +574,7 @@ import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topic
   exports: [
     WorkPackagesTableController,
     WorkPackageTablePaginationComponent,
+    WorkPackageRelationsPaginationComponent,
     WorkPackageEmbeddedTableComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,

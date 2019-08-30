@@ -842,6 +842,7 @@ en:
       label_name: Имя
       label_delete_page: Удалить текущую страницу
       button_apply: Применить
+      button_choose: Выбрать
       button_save: Сохранить
       button_submit: Отправить
       button_cancel: Отмена

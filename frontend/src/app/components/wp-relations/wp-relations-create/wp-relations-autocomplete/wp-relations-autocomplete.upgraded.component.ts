@@ -37,6 +37,11 @@ import {
   WpRelationsDialogComponent
 } from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
 import {MatDialog} from "@angular/material";
+import {WpTableConfigurationModalComponent} from "core-components/wp-table/configuration-modal/wp-table-configuration.modal";
+import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
+import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 
 @Component({
   selector: 'wp-relations-autocomplete-upgraded',
@@ -64,13 +69,12 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
 
   private $element:JQuery;
   private $input:JQuery;
-  private dialogOpened = false; // maybe try await
   constructor(readonly elementRef:ElementRef,
               readonly PathHelper:PathHelperService,
               readonly loadingIndicatorService:LoadingIndicatorService,
               readonly I18n:I18nService,
               //bbm(
-              public dialog:MatDialog) {
+              readonly opModalService:OpModalService) {
               // )
   }
 
@@ -160,47 +164,17 @@ export class WpRelationsAutocompleteComponent implements OnInit, OnDestroy {
 
   //bbm(
   openDialog():void {
-    let ELEMENT_DATA:PeriodicElement[] = [];
-    if (!this.dialogOpened) {
-    this.candidateWorkPackages().then((values) => {
-      values.map(wp => {
-        ELEMENT_DATA.push({id: wp.id,
-          subject: wp.subject,
-          type: wp.type.$link.title,
-          status: wp.status.$link.title,
-          assignee: wp.assignee ? wp.assignee.$link.title :null});
-      });
-      const dialogRef = this.dialog.open(WpRelationsDialogComponent, {
-        height: '680px',
-        // width: '1050px',
-        data: {
-          wp_array: ELEMENT_DATA,
-          planType: this.workPackage.planType
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.$element = jQuery(this.elementRef.nativeElement);
-          const input = this.$input = this.$element.find('.wp-relations--autocomplete');
-          input.val(this.getIdentifier(result));
-          this.onSelect.emit(result.id);
-        }
-        this.dialogOpened = false;
-      });
+    const modal = this.opModalService.show<WpRelationsConfigurationModalComponent>(WpRelationsConfigurationModalComponent, {
+      workPackage: this.workPackage,
+      selectedRelationType: this.selectedRelationType
     });
-    }
-    this.dialogOpened = true;
-  }
-
-  private candidateWorkPackages():Promise<WorkPackageResource[]> {
-    return this.workPackage.availableRelationCandidates.$link.$fetch({
-      query: '',
-      type: this.selectedRelationType,
-      pageSize: 1024, //as unlimited
-    }).then((collection:CollectionResource) => {
-      return collection.elements || [];
-    }).catch(() => {
-      return [];
+    modal.closingEvent.subscribe((modal:WpRelationsConfigurationModalComponent) => {
+      if (modal.selectedWp) {
+        this.$element = jQuery(this.elementRef.nativeElement);
+        const input = this.$input = this.$element.find('.wp-relations--autocomplete');
+        input.val(this.getIdentifier(modal.selectedWp));
+        this.onSelect.emit(modal.selectedWp.id);
+      }
     });
   }
   //)

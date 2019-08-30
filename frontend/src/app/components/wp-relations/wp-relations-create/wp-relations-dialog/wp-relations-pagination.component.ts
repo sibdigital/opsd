@@ -26,27 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {PaginationService} from 'core-components/table-pagination/pagination-service';
-import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
-import {IPaginationOptions} from './pagination-service';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
+import {PaginationInstance} from "core-components/table-pagination/pagination-instance";
 
 @Component({
-  selector: '[tablePagination]',
-  templateUrl: './table-pagination.component.html'
+  templateUrl: 'wp-relations-pagination.component.html',
+  selector: 'wp-relations-pagination'
 })
-export class TablePaginationComponent implements OnInit {
-  @Input() totalEntries:string;
-  @Input() hideForSinglePageResults:boolean = false;
-  @Input() calculatePerPage:boolean = false;
-  @Output() updateResults = new EventEmitter<PaginationInstance>();
-
+export class WorkPackageRelationsPaginationComponent implements OnInit, OnDestroy {
   public pagination:PaginationInstance;
+
   public text = {
     label_previous: this.I18n.t('js.pagination.pages.previous'),
     label_next: this.I18n.t('js.pagination.pages.next'),
-    per_page: this.I18n.t('js.label_per_page'),
     no_other_page: this.I18n.t('js.pagination.no_other_page')
   };
 
@@ -54,23 +49,18 @@ export class TablePaginationComponent implements OnInit {
   public pageNumbers:number[] = [];
   public postPageNumbers:number[] = [];
   public prePageNumbers:number[] = [];
-  public perPageOptions:number[] = [];
 
-  constructor(protected paginationService:PaginationService,
+  constructor(protected wpRelationsConfigurationModalComponent:WpRelationsConfigurationModalComponent,
               readonly I18n:I18nService) {
   }
 
-  ngOnInit():void {
-    this.paginationService
-      .loadPaginationOptions()
-      .then((paginationOptions:IPaginationOptions) => {
-        this.perPageOptions = paginationOptions.perPageOptions;
-        this.newPagination(paginationOptions);
-      });
-  }
-
-  public newPagination(paginationOptions:IPaginationOptions) {
-    this.pagination = new PaginationInstance(1, parseInt(this.totalEntries), paginationOptions.perPage);
+  ngOnInit() {
+    this.wpRelationsConfigurationModalComponent
+      .observeUntil(componentDestroyed(this))
+      .subscribe((wpPagination:PaginationInstance) => {
+        this.pagination = wpPagination;
+        this.update();
+    });
   }
 
   public update() {
@@ -78,34 +68,14 @@ export class TablePaginationComponent implements OnInit {
     this.updatePageNumbers();
   }
 
-  public selectPerPage(perPage:number) {
-    this.pagination.perPage = perPage;
-    this.paginationService.setPerPage(perPage);
-    this.showPage(1);
-  }
-
-  public showPage(page:number) {
-    this.pagination.page = page;
-
-    this.updateCurrentRangeLabel();
-    this.updatePageNumbers();
-
-    this.onUpdatedPage();
-  }
-
-  public onUpdatedPage() {
-    this.updateResults.emit(this.pagination);
+  ngOnDestroy():void {
+    // Empty
   }
 
   public get isVisible() {
-    return !this.hideForSinglePageResults || (this.pagination.total > this.pagination.perPage);
+    return this.pagination.total > this.pagination.perPage;
   }
 
-  /**
-   * @name updateCurrentRange
-   *
-   * @description Defines a string containing page bound information inside the directive scope
-   */
   public updateCurrentRangeLabel() {
     if (this.pagination.total) {
       this.currentRange = '(' + this.pagination.getLowerPageBound() + ' - ' + this.pagination.getUpperPageBound(this.pagination.total) + '/' + this.pagination.total + ')';
@@ -120,8 +90,8 @@ export class TablePaginationComponent implements OnInit {
    * @description Defines a list of all pages in numerical order inside the scope
    */
   public updatePageNumbers() {
-    var maxVisible = this.paginationService.getMaxVisiblePageOptions();
-    var truncSize = this.paginationService.getOptionsTruncationSize();
+    var maxVisible = 6;
+    var truncSize = 1;
 
     var pageNumbers = [];
 
@@ -146,15 +116,9 @@ export class TablePaginationComponent implements OnInit {
     this.pageNumbers = pageNumbers;
   }
 
-  public showPerPageOptions() {
-    return !this.calculatePerPage &&
-           this.perPageOptions.length > 0 &&
-           this.pagination.total > this.perPageOptions[0];
-  }
-
   private truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {
     if (perform) {
-      var truncationSize = this.paginationService.getOptionsTruncationSize();
+      var truncationSize = 1;
       var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
       if (truncatedNums.length >= truncationSize * 2) {
         truncatedNums.splice(truncateFrom, truncatedNums.length - truncationSize);
@@ -163,5 +127,9 @@ export class TablePaginationComponent implements OnInit {
     } else {
       return [];
     }
+  }
+
+  public showPage(pageNumber:number) {
+    this.wpRelationsConfigurationModalComponent.updateFromObject({page: pageNumber});
   }
 }

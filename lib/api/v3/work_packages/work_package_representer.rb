@@ -142,6 +142,17 @@ module API
           }
         end
 
+        #bbm(
+        link :availableRelationCandidatesPaged do
+          next if represented.new_record?
+
+          {
+            href: api_v3_paths.work_package_available_relation_candidates_paged(represented.id),
+            title: "Potential work packages to relate to (paged)"
+          }
+        end
+        # )
+
         link :customFields,
              cache_if: -> { current_user_allowed_to(:edit_project, context: represented.project) } do
           next if represented.project.nil?
