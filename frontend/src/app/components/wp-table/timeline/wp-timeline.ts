@@ -46,7 +46,7 @@ export class TimelineViewParametersSettings {
 
   autoZoom:boolean = true;
   //bbm(
-  firstOrLastDueDate:boolean = false;
+  firstOrLastHistDate:number = 0;
   //)
 }
 

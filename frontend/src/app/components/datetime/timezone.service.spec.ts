@@ -35,7 +35,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 
-describe('TimezoneService', function () {
+describe('timezoneService', function () {
 
   let TIME = '2013-02-08T09:30:26';
   let DATE = '2013-02-08';

@@ -274,10 +274,33 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       //bbm(
       {
         // Sharing modal
-        linkText: this.I18n.t('js.toolbar.settings.first_or_last_due_date'),
+        disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 0,
+        linkText: this.I18n.t('js.toolbar.settings.no_hist_date'),
         icon: 'icon-ordered-list',
         onClick: ($event:JQueryEventObject) => {
-          this.workPackageTableTimelineService.toggleFirstOrLasDueDate();
+          this.workPackageTableTimelineService.setFirstOrLasHistDate(0);
+
+          return true;
+        }
+      },
+      {
+        // Sharing modal
+        disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 1,
+        linkText: this.I18n.t('js.toolbar.settings.first_hist_date'),
+        icon: 'icon-ordered-list',
+        onClick: ($event:JQueryEventObject) => {
+          this.workPackageTableTimelineService.setFirstOrLasHistDate(1);
+
+          return true;
+        }
+      },
+      {
+        // Sharing modal
+        disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 2,
+        linkText: this.I18n.t('js.toolbar.settings.last_hist_date'),
+        icon: 'icon-ordered-list',
+        onClick: ($event:JQueryEventObject) => {
+          this.workPackageTableTimelineService.setFirstOrLasHistDate(2);
 
           return true;
         }

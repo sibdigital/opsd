@@ -157,7 +157,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         this.viewParameters.settings.autoZoom = timelineState.autoZoom;
         this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         //bbm(
-        this.viewParameters.settings.firstOrLastDueDate = timelineState.firstOrLastDueDate;
+        this.viewParameters.settings.firstOrLastHistDate = timelineState.firstOrLastHistDate;
         //)
         this.refreshRequest.putValue(undefined);
       });
