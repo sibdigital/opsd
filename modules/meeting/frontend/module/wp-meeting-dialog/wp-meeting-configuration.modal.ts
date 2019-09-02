@@ -19,20 +19,18 @@ import {Observable} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {input, InputState} from "reactivestates";
 import {PaginationUpdateObject} from "core-components/wp-fast-table/state/wp-table-pagination.service";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Component({
-  templateUrl: './wp-relations-configuration.modal.html'
+  templateUrl: './wp-meeting-configuration.modal.html'
 })
-export class WpRelationsConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-
-  private workPackage:WorkPackageResource;
-  private selectedRelationType:string;
-  private filterCandidatesFor:string;
+export class WpMeetingConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   public noResults = false;
   public wpList:WorkPackageResource[];
   public selectedWp:WorkPackageResource;
   public pagination = input<PaginationInstance>();
-
+  private projectId:string;
   /* Close on escape? */
   public closeOnEscape = true;
 
@@ -60,20 +58,14 @@ export class WpRelationsConfigurationModalComponent extends OpModalComponent imp
               readonly injector:Injector,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+              readonly elementRef:ElementRef,
+              readonly halResourceService:HalResourceService,
+              readonly pathHelper:PathHelperService) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
-    this.workPackage = this.locals['workPackage'];
-    if (this.workPackage.planType === 'execution') {
-      this.text.title += ' ' + this.text.execution;
-    }
-    if (this.workPackage.planType === 'planning') {
-      this.text.title += ' ' + this.text.planning;
-    }
-    this.selectedRelationType = this.locals['selectedRelationType'];
-    this.filterCandidatesFor = this.locals['filterCandidatesFor'];
+    this.projectId = this.locals['projectId'];
     this.$element = jQuery(this.elementRef.nativeElement);
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then((collection:CollectionResource<WorkPackageResource>) => {
@@ -113,10 +105,9 @@ export class WpRelationsConfigurationModalComponent extends OpModalComponent imp
   }
 
   protected loadForm() {
-    return this.workPackage.availableRelationCandidatesPaged.$link.$fetch({
-      query: '',
-      type: this.filterCandidatesFor || this.selectedRelationType
-    });
+    return this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpByProject(this.projectId).toString(), {pageSize: 10})
+      .toPromise();
   }
 
   public get state():InputState<PaginationInstance> {
@@ -128,18 +119,20 @@ export class WpRelationsConfigurationModalComponent extends OpModalComponent imp
   }
 
   public updateFromObject(object:PaginationUpdateObject) {
-    this.loadingIndicator.indicator('modal').promise = this.workPackage.availableRelationCandidatesPaged.$link.$fetch({
-      query: '',
-      type: this.filterCandidatesFor || this.selectedRelationType,
-      offset: object.page
-    }).then((collection:CollectionResource<WorkPackageResource>) => {
-      this.$element.find('.ui-autocomplete--loading').hide();
-      this.wpList = collection.elements || [];
-      let currentPagination = new PaginationInstance(collection.offset, collection.total, collection.pageSize);
-      this.state.putValue(currentPagination);
-    }).catch(() => {
-      this.$element.find('.ui-autocomplete--loading').hide();
-      this.wpList = [];
-    });
+    this.loadingIndicator.indicator('modal').promise = this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpByProject(this.projectId).toString(), {
+        pageSize: 10,
+        offset: object.page
+      })
+      .toPromise()
+      .then((collection:CollectionResource<WorkPackageResource>) => {
+        this.$element.find('.ui-autocomplete--loading').hide();
+        this.wpList = collection.elements || [];
+        let currentPagination = new PaginationInstance(collection.offset, collection.total, collection.pageSize);
+        this.state.putValue(currentPagination);
+      }).catch(() => {
+        this.$element.find('.ui-autocomplete--loading').hide();
+        this.wpList = [];
+      });
   }
 }
