@@ -831,7 +831,9 @@ en:
         visibility_settings: Параметры видимости ...
         page_settings: Переименовать представления...
         delete: Удалить
-        first_or_last_due_date: Первый или последний базовый план
+        first_hist_date: Базовый план
+        last_hist_date: Последние изменения
+        no_hist_date: Только текущий
       filter: Фильтр
       unselected_title: Пакет работ
       search_query_label: Найти сохраненные представления
