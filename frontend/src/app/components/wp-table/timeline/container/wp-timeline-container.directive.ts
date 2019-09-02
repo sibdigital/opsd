@@ -32,6 +32,8 @@ import {INotification, NotificationsService} from 'core-app/modules/common/notif
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import * as moment from 'moment';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import {Moment} from 'moment';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {debounceTime, delay, filter, map, take, takeUntil, throttleTime, withLatestFrom} from 'rxjs/operators';
@@ -456,5 +458,19 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       }
     }
   }
-
+  //bbm(
+  public captureScreen() {
+    html2canvas(this.outerContainer.get(0)).then(canvas => {
+      // Few necessary setting options
+      let pageWidth = 208;
+      let imgHeight = 295;
+      let imgWidth = canvas.width * imgHeight / canvas.height;
+      const contentDataURL = canvas.toDataURL('image/png');
+      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      var position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('gantt_' + moment().toISOString() + '.pdf'); // Generated PDF
+    });
+  }
+  //)
 }

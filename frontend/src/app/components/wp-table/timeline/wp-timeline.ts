@@ -1,6 +1,3 @@
-import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,6 +25,9 @@ import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-ch
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
+import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 import * as moment from 'moment';
 import {InputState, MultiInputState} from 'reactivestates';
 import {RenderedRow} from '../../wp-fast-table/builders/primary-render-pass';
@@ -37,9 +37,6 @@ export const timelineElementCssClass = 'timeline-element';
 export const timelineGridElementCssClass = 'wp-timeline--grid-element';
 export const timelineMarkerSelectionStartClass = 'selection-start';
 
-/**
- *
- */
 export class TimelineViewParametersSettings {
 
   zoomLevel:TimelineZoomLevel = 'days';
