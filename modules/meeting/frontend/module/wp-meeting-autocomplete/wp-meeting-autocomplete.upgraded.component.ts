@@ -64,7 +64,7 @@ export class WpMeetingAutocompleteComponent {
      this.projectID = JSON.parse(this.element.nativeElement.getAttribute('projectObject'));
     }
     this.halResourceService.get<CollectionResource<UserResource>>(this.pathHelper.api.v3.users.me.toString()).toPromise().then((usrs: CollectionResource<UserResource>)=>{
-      this.currentUserId = usrs.id
+      this.currentUserId = usrs.id;
     });
     if (this.element.nativeElement.getAttribute('wpId')) {
 
