@@ -937,7 +937,10 @@ en:
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
-
+#  knm(
+  button_approve: Утвердить
+  button_confirm: Согласовать
+#  )
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
