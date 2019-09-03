@@ -4,10 +4,13 @@ class PlanUploaderSettingsController < ApplicationController
 
   before_action :find_setting, only: [:edit, :update, :destroy]
   # before_action :get_columns, only: [:new, :edit, :update]
+  before_action :get_tables, only: [:new, :edit, :update]
 
   attr_accessor :selected_table
 
+
   def index
+    @plan_uploader_settings_types = PlanUploaderSetting.select(:setting_type).group('setting_type').order('setting_type asc').all
     @plan_uploader_settings = PlanUploaderSetting.order('table_name asc, column_num asc').all
   end
 
@@ -18,11 +21,8 @@ class PlanUploaderSettingsController < ApplicationController
   def new
     @plan_uploader_setting = PlanUploaderSetting.new
     # @plan_uploader_setting.table_name = 'work_packages'
+    get_tables
     get_columns
-  end
-
-  def show
-
   end
 
   def create
@@ -76,6 +76,13 @@ class PlanUploaderSettingsController < ApplicationController
   end
 
   protected
+
+  def get_tables
+    @table = [
+                ["Мероприятия", "work_packages"],
+                ["Государственные контракты", "contracts"]
+              ]
+  end
 
   def get_columns
     not_permit_fields = ["id", "created_at", "updated_at"]

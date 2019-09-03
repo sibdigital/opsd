@@ -5,7 +5,6 @@
 class PlanUploadersController < ApplicationController
   require 'roo'
   require 'date'
-  #require 'translit'
   include PlanUploadersHelper
 
   def index
@@ -26,10 +25,14 @@ class PlanUploadersController < ApplicationController
       # if @plan_uploader.status
       # load_eb
       # else
-      load
+      if params[:plan_type] == 1
+        load
+      else
+        load_plan2
+      end
       # end
       # render "new"
-      redirect_to project_stages_path, notice: "Данные загружены."
+      redirect_to planning_project_stages_path, notice: "Данные загружены."
     else
       render "new"
     end
@@ -44,11 +47,11 @@ class PlanUploadersController < ApplicationController
   protected
 
   def load
-
     prepare_roo
     filename = Rails.root.join('public', @plan_uploader.name.store_path)
 
-    settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("table_name = 'work_packages'").order('column_num ASC').all
+    #settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("table_name = 'work_packages'").order('column_num ASC').all
+    settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("setting_type = 'UploadPlanType1'").order('column_num ASC').all
 
     row_num = @first_row_num.to_i
     rows = []
@@ -215,6 +218,156 @@ class PlanUploadersController < ApplicationController
   end
 
 
+  # загрузка плана "Контрольные точки" из электр-го бюджета
+  def load_plan2
+    prepare_roo
+    filename = Rails.root.join('public', @plan_uploader.name.store_path)
+
+    #settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("table_name = 'work_packages'").order('column_num ASC').all
+    settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("setting_type = 'UploadPlanType2'").order('column_num ASC').all
+
+    result = ""
+    result_value = ""
+    point = ""
+
+    row_num = 2  # @first_row_num.to_i
+    rows = []
+    xlsx = Roo::Excelx.new(filename)
+    xlsx.each_row_streaming(offset: 1) do |row|
+      rr = {}
+      #settings.each { |setting| rr[setting.column_name] = Hash['column_name', setting.column_name, setting.column_name, row[setting.column_num].value, 'is_pk', setting.is_pk] }
+
+      if row[0].value.present? #Результат
+        result = row[0].value
+        result_value = ""
+        point = ""
+      else
+        if row[1].value.present? #Значение результата
+          result_value = row[1].value
+        else
+          if row[2].present? #Контрольная точка
+            point = row[2].value
+          else #Мероприятие
+            rr = Hash["result", result,
+                           "result_value", result_value,
+                           "point", point,
+                           "work", row[4].value,
+                           "desc", row[7].value,
+                           "assigned_to", row[5].value,
+                           "start_date", row[8].value,
+                           "due_date", row[9].value]
+            rows.push rr
+          end
+        end
+      end
+
+    end
+
+    puts "Row count: " + rows.count.to_s
+
+    @project_for_load = Project.find(params[:project_id])
+
+    insert_count = 0
+    break_count = 0
+
+    rows.each do |row|
+      if row['work'].to_s[0..250] == "Мероприятия по контрольной точке отсутствуют"
+        break_count += 1
+        next
+      end
+
+      is_new_record = false
+      task = WorkPackage.where(:project_id => @project_for_load.id,
+                               :subject => row['work'].to_s[0..250],
+                               :start_date => row['start_date'],
+                               :due_date => row['due_date']
+              )
+              .first_or_initialize do |wp|
+        is_new_record = true
+        wp.subject = row['work'].to_s[0..250]
+        wp.due_date = row['due_date']
+        wp.description = row['desc']
+        if row['assigned_to'] == 0
+          wp.assigned_to_id = nil
+        end
+
+        if (row['assigned_to'].present?)&&(row['assigned_to'] != 0)
+          fio = row['assigned_to'].delete('.')
+          fio = fio.split(' ')
+
+          users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
+          if users.count == 0
+            u = User.new(language: Setting.default_language,
+                         mail_notification: Setting.default_notification_option)
+            u.login = fio[0] + fio[1][0] + fio[2][0]
+            u.login = convert(u.login.downcase, :english)
+            u.firstname = fio[1]
+            u.lastname = fio[0]
+            if fio[2].present?
+              u.patronymic = fio[2]
+            end
+            u.admin = 0
+            u.status = 1
+            #u.language = Setting.default_language
+            u.type = User
+            #u.mail_notification = Setting.default_notification_option
+            if Setting.mail_from.index("@") != nil
+              u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
+            else
+              u.mail = u.login + '@example.net'
+            end
+            u.first_login = true
+
+            if u.save!
+              wp.assigned_to_id = User.last.id
+              #добавить юзера в участника проекта
+              #project_members_path(project_id: @project_for_load, action: 'create')
+              if Member.where(user_id: User.last.id, project_id: @project_for_load.id).count < 1
+                @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
+              end
+            end
+          else
+            wp.assigned_to_id = users[0].id
+            #добавить юзера в участника проекта
+            #project_members_path(project_id: @project_for_load, action: 'create')
+            if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
+              @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
+            end
+          end
+        end
+
+        if row['start_date'].present?
+          if row['start_date'] == Date.parse('1899-12-30')
+            wp.start_date = @project_for_load.created_on
+          else
+            wp.start_date  = Date.parse(row['start_date'].to_s)
+          end
+        else
+          row['start_date'] = @project_for_load.created_on
+        end
+
+        wp.project_id = @project_for_load.id
+        wp.type_id = Type.find_by(name: I18n.t(:default_type_milestone)).id
+        wp.status_id = Status.default.id
+        wp.plan_type = 'execution'
+        wp.author_id = User.current.id
+        wp.position = 1
+        wp.priority_id = IssuePriority.default.id
+
+        # сохраняем без валидации
+        if wp.save(validate: false)
+          insert_count += 1
+        else
+          puts row['work']
+        end
+      end
+    end
+
+    puts "Insert count: " + insert_count.to_s
+    puts "Break count: " + break_count.to_s
+  end
+
+
   def prepare_roo
     Roo::Excelx::Cell::Number.module_eval do
       def create_numeric(number)
@@ -233,12 +386,12 @@ class PlanUploadersController < ApplicationController
   end
 
 
-  private
-
-  def new_member(user_id)
-    Member.new(permitted_params.member).tap do |member|
-      member.user_id = user_id if user_id
-    end
-  end
+  # private
+  #
+  # def new_member(user_id)
+  #   Member.new(permitted_params.member).tap do |member|
+  #     member.user_id = user_id if user_id
+  #   end
+  # end
 
 end

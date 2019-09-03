@@ -8,7 +8,7 @@
 
 <%= labelled_tabular_form_for @plan_uploader_setting do |f| %>
 
-  <%= render partial: 'settings', locals: { f: f, columns: @columns} %>
+  <%= render partial: 'settings', locals: { f: f, columns: @columns, table: @table} %>
   <%#= render partial: 'settings', locals: { f: f } %>
 
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
