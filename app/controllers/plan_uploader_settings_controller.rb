@@ -4,7 +4,6 @@ class PlanUploaderSettingsController < ApplicationController
 
   before_action :find_setting, only: [:edit, :update, :destroy]
   # before_action :get_columns, only: [:new, :edit, :update]
-  # before_action :get_tables, only: [:new, :edit, :update]
 
   attr_accessor :selected_table
 
@@ -54,38 +53,33 @@ class PlanUploaderSettingsController < ApplicationController
     selected_column = params["selectedColumn"]
     not_permitted_fields = ["id", "created_at", "updated_at"]
     catalog = nil
-
     @columns = []
 
     case selected_column
       when "contracts"
         catalog = Contract
-
       when "work_packages"
         catalog = WorkPackage
     end
 
     catalog.column_names.each do |col|
       if !col.in?(not_permitted_fields)
-        @columns << [catalog.human_attribute_name(col), col]
+        @columns << {
+                       'human_name': catalog.human_attribute_name(col),
+                       'name': col
+        }
       end
     end
 
-    @columns
+    render json: @columns
   end
 
   protected
 
-  # def get_tables
-  #   @table = [
-  #               ["Мероприятия", "work_packages"],
-  #               ["Государственные контракты", "contracts"]
-  #             ]
-  # end
-
   def get_columns
     not_permit_fields = ["id", "created_at", "updated_at"]
     @columns = []
+
     WorkPackage.column_names.each_with_index do |col, index|
       if !col.in?(not_permit_fields)
         @columns << [WorkPackage.human_attribute_name(col), col]

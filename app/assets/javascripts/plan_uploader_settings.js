@@ -22,10 +22,19 @@ var loadList = function() {
     console.log(selectedValue);
     jQuery.ajax({
       type: 'GET',
-      url: 'http://localhost:3000/admin/plan_uploader_settings/update_column',
+      url: 'admin/plan_uploader_settings/update_column',
       data: { selectedColumn: selectedValue },
       async: true,
-      success:
+      success: function (json) {
+        console.log(json);
+        var dropDownList = jQuery('#column-list');
+        dropDownList.html('');
+        jQuery.each(json, function(index) {
+          dropDownList.append(
+            jQuery('<option></option>').val(json[index].name).html(json[index].human_name)
+          );
+        });
+      }
     });
   });
 };

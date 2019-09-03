@@ -528,7 +528,7 @@ class PermittedParams
 
 
   def plan_uploader_setting
-    params.require(:plan_uploader_setting).permit(:setting_type, :column_name, :column_num, :is_pk, :table_name)
+    params.require(:plan_uploader_setting).permit(:setting_type, :column_name, :column_num, :is_pk, :table_name, :column_type)
   end
 
   # )

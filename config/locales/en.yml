@@ -852,6 +852,10 @@ en:
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
     column_name: Название поля
+    #tmd
+    column_type: Тип поля
+    text: Текст
+    number: Номер
     is_pk: Входит в первичный ключ
     name: Наименование
     #)
