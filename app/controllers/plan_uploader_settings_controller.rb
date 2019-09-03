@@ -3,7 +3,9 @@ class PlanUploaderSettingsController < ApplicationController
   layout 'admin'
 
   before_action :find_setting, only: [:edit, :update, :destroy]
-  before_action :get_columns, only: [:new, :edit, :update]
+  # before_action :get_columns, only: [:new, :edit, :update]
+
+  attr_accessor :selected_table
 
   def index
     @plan_uploader_settings = PlanUploaderSetting.order('table_name asc, column_num asc').all
@@ -15,7 +17,12 @@ class PlanUploaderSettingsController < ApplicationController
 
   def new
     @plan_uploader_setting = PlanUploaderSetting.new
-    @plan_uploader_setting.table_name = 'work_packages'
+    # @plan_uploader_setting.table_name = 'work_packages'
+    get_columns
+  end
+
+  def show
+
   end
 
   def create
@@ -44,11 +51,31 @@ class PlanUploaderSettingsController < ApplicationController
     return
   end
 
-  protected
+  def update_column
+    selected_column = params["selectedColumn"]
+    not_permitted_fields = ["id", "created_at", "updated_at"]
+    catalog = nil
 
-  def find_setting
-    @plan_uploader_setting = PlanUploaderSetting.find(params[:id])
+    @columns = []
+
+    case selected_column
+      when "contracts"
+        catalog = Contract
+
+      when "work_packages"
+        catalog = WorkPackage
+    end
+
+    catalog.column_names.each do |col|
+      if !col.in?(not_permitted_fields)
+        @columns << [catalog.human_attribute_name(col), col]
+      end
+    end
+
+    @columns
   end
+
+  protected
 
   def get_columns
     not_permit_fields = ["id", "created_at", "updated_at"]
@@ -60,11 +87,16 @@ class PlanUploaderSettingsController < ApplicationController
     end
   end
 
+  def find_setting
+    @plan_uploader_setting = PlanUploaderSetting.find(params[:id])
+  end
+
   def default_breadcrumb
     if action_name == 'index'
       'Настройка полей'
     else
-      ActionController::Base.helpers.link_to('Настройка полей', plan_uploader_setting_path)
+      'Настройка полей'
+      #ActionController::Base.helpers.link_to('Настройка полей', plan_uploader_setting_path)
     end
   end
 

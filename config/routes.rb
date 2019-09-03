@@ -392,7 +392,7 @@ OpenProject::Application.routes.draw do
   resources :alerts do
     get :get_pop_up_alerts, on: :collection
     get :read_alert, on: :collection
-    get :get_delay_setting, on: :collection
+    get :get_delay_setting, on: :collection 
     get :notify_by_email
 
   end
@@ -463,7 +463,10 @@ OpenProject::Application.routes.draw do
     #zbd(
     resources :contracts
 
-    resources :plan_uploader_settings,  controller: 'plan_uploader_settings'
+    resources :plan_uploader_settings do
+      #tmd
+      get :update_column, on: :collection
+    end
 
     # )
 
