@@ -20,7 +20,7 @@ import {
   WorkPackageCellLabels
 } from './wp-timeline-cell';
 import {
-  classNameBarLabel,
+  classNameBarLabel, classNameFactBar, classNameHistBar,
   classNameLeftHandle,
   classNameRightHandle
 } from './wp-timeline-cell-mouse-handler';
@@ -33,6 +33,7 @@ import Moment = moment.Moment;
 import {Injector} from '@angular/core';
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {TableState} from "core-components/wp-table/table-state/table-state";
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -45,7 +46,7 @@ export interface CellDateMovement {
 export type LabelPosition = 'left' | 'right' | 'farRight';
 
 export class TimelineCellRenderer {
-  readonly TimezoneService = this.injector.get(TimezoneService);
+  readonly timezoneService = this.injector.get(TimezoneService);
   readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
@@ -100,7 +101,13 @@ export class TimelineCellRenderer {
 
     this.assignDate(changeset, 'startDate', dates.startDate);
     this.assignDate(changeset, 'dueDate', dates.dueDate);
-
+    //bbm(
+    this.assignDate(changeset, 'factDueDate', dates.factDueDate);
+    this.assignDate(changeset, 'firstDueDate', dates.firstDueDate);
+    this.assignDate(changeset, 'lastDueDate', dates.lastDueDate);
+    this.assignDate(changeset, 'firstStartDate', dates.firstStartDate);
+    this.assignDate(changeset, 'lastStartDate', dates.lastStartDate);
+    //)
     this.updateLabels(true, labels, changeset);
   }
 
@@ -118,7 +125,6 @@ export class TimelineCellRenderer {
 
     const startDate = moment(changeset.value('startDate'));
     const dueDate = moment(changeset.value('dueDate'));
-
     let dates:CellDateMovement = {};
 
     if (direction === 'left') {
@@ -252,6 +258,57 @@ export class TimelineCellRenderer {
     this.checkForActiveSelectionMode(renderInfo, bar);
     this.checkForSpecialDisplaySituations(renderInfo, bar);
 
+    //bbm(
+    let fact = moment(renderInfo.workPackage.factDueDate);
+    if (!_.isNaN(fact.valueOf())) {
+      let factBar = _.find(bar.childNodes, (child:any) => {
+        return child.className === 'factBar';
+      });
+      let factWidth = fact.diff(due, 'days');
+      if (factWidth > 0) {
+        let containerRight = _.find(bar.childNodes, (child:any) => {return child.className === 'containerRight'; });
+        if (containerRight) {
+          containerRight.style.paddingLeft = calculatePositionValueForDayCount(viewParams, factWidth);
+        }
+        if (factBar) {
+          factBar.style.left = calculatePositionValueForDayCount(viewParams, duration);
+          factBar.style.width = calculatePositionValueForDayCount(viewParams, factWidth);
+        }
+      } else {
+        if (factBar) {
+          factBar.style.left = calculatePositionValueForDayCount(viewParams, duration + factWidth);
+          factBar.style.width = calculatePositionValueForDayCount(viewParams, 0 - factWidth);
+        }
+      }
+    }
+    if (renderInfo.viewParams.settings.firstOrLastHistDate !== 0) {
+      let histStart = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? moment(renderInfo.workPackage.firstStartDate) : moment(renderInfo.workPackage.lastStartDate);
+      let histDue = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? moment(renderInfo.workPackage.firstDueDate) : moment(renderInfo.workPackage.lastDueDate);
+      if (!_.isNaN(histStart.valueOf()) && !_.isNaN(histDue.valueOf())) {
+        let histBar = _.find(bar.childNodes, (child:any) => {
+          return child.className === 'histBar';
+        });
+        const offsetHistStart = offsetStart === 0 ? histStart.diff(viewParams.dateDisplayStart, 'days') : histStart.diff(start, 'days');
+        const histWidth = histDue.diff(histStart, 'days') + 1;
+        if (histBar) {
+          histBar.style.left = calculatePositionValueForDayCount(viewParams, offsetHistStart);
+          histBar.style.width = calculatePositionValueForDayCount(viewParams, histWidth);
+          let status = renderInfo.workPackage.status;
+          if (!status) {
+            histBar.style.borderColor = 'black';
+          }
+          const id = status.getId();
+          const today = moment().startOf('day');
+          const overdueOrNot = histDue.diff(today, 'days');
+          if (overdueOrNot <= -1) {
+            histBar.classList.add('__hl_border_overdue');
+          } else {
+            histBar.classList.add(Highlighting.borderClass('status', id));
+          }
+        }
+      }
+    }
+    //)
     return true;
   }
 
@@ -315,7 +372,22 @@ export class TimelineCellRenderer {
     right.className = classNameRightHandle;
     bar.appendChild(left);
     bar.appendChild(right);
-
+    //bbm(
+    if (renderInfo.workPackage.factDueDate) {
+      const fact = document.createElement('div');
+      fact.className = classNameFactBar;
+      bar.appendChild(fact);
+    }
+    if (renderInfo.viewParams.settings.firstOrLastHistDate !== 0) {
+      let histStart = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? renderInfo.workPackage.firstStartDate : renderInfo.workPackage.lastStartDate;
+      let histDue = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? renderInfo.workPackage.firstDueDate : renderInfo.workPackage.lastDueDate;
+      if (histStart && histDue) {
+        const hist = document.createElement('div');
+        hist.className = classNameHistBar;
+        bar.appendChild(hist);
+      }
+    }
+    //)
     return bar;
   }
 
@@ -363,14 +435,31 @@ export class TimelineCellRenderer {
   }
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
-    let type = wp.type;
-
-    if (!type) {
-      element.style.backgroundColor = this.fallbackColor;
+    const diff = this.timezoneService.daysFromToday(wp.dueDate);
+    if (diff <= -1) {
+      element.classList.add('__hl_row_overdue');
+    } else {
+      let status = wp.status;
+      if (!status) {
+        element.style.backgroundColor = this.fallbackColor;
+      }
+      const id = status.getId();
+      element.classList.add(Highlighting.rowClass('status', id));
     }
-
-    const id = type.getId();
-    element.classList.add(Highlighting.rowClass('type', id));
+    //bbm( Старый вариант по типу мероприятия
+    /*if (renderInfo.viewParams.settings.firstOrLastHistDate) {
+      let type = wp.type;
+      if (!type) {
+        element.style.backgroundColor = this.fallbackColor;
+      }
+      if (wp.isClosed) {
+        element.style.backgroundColor = 'rgba(255, 165, 0, 1)'; //orange
+      } else {
+        const id = type.getId();
+        element.classList.add(Highlighting.rowClass('type', id));
+      }
+    } else {*/
+    //)
   }
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {
@@ -452,10 +541,24 @@ export class TimelineCellRenderer {
 
     // Get the rendered field
     let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute, changeset);
+    //bbm(
+    let [fieldFact, spanFact] = attribute === 'dueDate' ? this.fieldRenderer.renderFieldValue(changeset.workPackage, 'factDueDate', changeset) : [null, span];
+    //)
 
     if (label && field && span) {
       span.classList.add('label-content');
       label.appendChild(span);
+      //bbm(
+      if (spanFact.textContent !== '-' && attribute === 'dueDate') {
+        let spanLeft = document.createElement('span');
+        spanLeft.textContent = '(Фактически: ';
+        label.appendChild(spanLeft);
+        label.appendChild(spanFact);
+        let spanRight = document.createElement('span');
+        spanRight.textContent = ')';
+        label.appendChild(spanRight);
+      }
+      //)
       label.classList.add('not-empty');
     } else if (label) {
       label.classList.remove('not-empty');

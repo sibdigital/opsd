@@ -37,13 +37,6 @@ import {
 } from "core-app/modules/router/openproject.routes";
 import {ChartsModule} from "ng2-charts";
 import {FormsModule} from "@angular/forms";
-import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topics-dialog.component";
-import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
-import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatPaginatorIntlRussian} from "core-app/components/wp-topics-dialog/MatPaginatorIntlRussian";
-import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
-
 @NgModule({
   imports: [
     UIRouterModule.forRoot({
@@ -54,10 +47,6 @@ import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/hom
     //bbm(
     ChartsModule,
     FormsModule,
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
-    BrowserAnimationsModule
     //)
   ],
   providers: [
@@ -67,26 +56,13 @@ import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/hom
       deps: [Injector],
       multi: true
     },
-    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
     FirstRouteService,
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
   ],
   declarations: [
     ApplicationBaseComponent,
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
   ],
   entryComponents: [
     ApplicationBaseComponent,
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
   ],
   exports: [
   ]

@@ -178,7 +178,7 @@ class WorkPackage < ActiveRecord::Base
   acts_as_watchable
 
   before_create :default_assign
-  before_save :close_duplicates, :update_done_ratio_from_status, :set_fact_due
+  before_save :close_duplicates, :update_done_ratio_from_status, :set_fact_due, :change_base_plan_dates
 
   acts_as_customizable
 
@@ -789,6 +789,24 @@ class WorkPackage < ActiveRecord::Base
     #TODO: все-таки должна быть нотификация
     if (is_zaversh && attach_count > 0 && created_problem_count == 0 && self.due_date != nil)
       self.fact_due_date = DateTime.current
+    end
+  end
+
+  def change_base_plan_dates
+    if self.first_due_date == nil && self.due_date != nil
+      self.first_due_date = self.due_date
+    end
+
+    if self.first_start_date == nil && self.start_date != nil
+      self.first_start_date = self.start_date
+    end
+
+    if self.due_date_changed?
+      self.last_due_date = self.due_date
+    end
+
+    if self.start_date_changed?
+      self.last_start_date = self.start_date
     end
   end
   # -tan

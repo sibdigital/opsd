@@ -1,8 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {StateService} from "@uirouter/core";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
@@ -55,7 +53,7 @@ export class DesktopTabComponent implements OnInit {
       }
     ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersGreen)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map( (el, i) => {
@@ -100,7 +98,7 @@ export class DesktopTabComponent implements OnInit {
       }
     ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages.toString(), {filters: JSON.stringify(filtersRed)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map( (el, i) => {

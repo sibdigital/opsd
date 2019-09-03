@@ -690,6 +690,15 @@ class User < Principal
     WorkPackage.on_active_project.with_author(self).visible.count
   end
 
+  #bbm(
+  def self.global_role=(id)
+    @global_role_id = id
+  end
+
+  def self.global_role
+    @global_role_id ||= '0'
+  end
+  # )
   def self.current=(user)
     @current_user = user
   end
@@ -710,6 +719,13 @@ class User < Principal
     User.current.admin? ? Role.all : User.current.roles_for_project(project)
   end
 
+  def all_roles()
+    user_roles = Array.new()
+    Project.find_each do |project|
+      user_roles = user_roles + User.current.roles(project)
+    end
+    user_roles
+  end
   #+tan 2019.07.05
   #project_admin, project_curator, project_customer,
   #  project_office_manager, project_activity_coordinator, project_office_coordinator,
@@ -738,6 +754,11 @@ class User < Principal
   def project_activity_coordinator?(project)
     roles = User.current.roles_for_project(project)
     roles.find_all{ |r| r.name == Role.project_activity_coordinator.name}.size > 0
+  end
+
+  def project_region_head?(project)
+    roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.name == Role.glava_regiona.name}.size > 0
   end
 
   def project_office_coordinator?(project)

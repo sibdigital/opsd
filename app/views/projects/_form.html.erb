@@ -39,34 +39,39 @@ See docs/COPYRIGHT.rdoc for more details.
 </section>
 
 <section class="form--section">
-  <% @selected_project_status_id = if project.new_record?
+  <%# @selected_project_status_id = if project.new_record?
                                      ProjectStatus.default.id
                                    else project.get_project_status.id end
      @selected_project_approve_status_id = if project.new_record?
                                      ProjectApproveStatus.default.id
                                    else project.get_project_approve_status.id end
-
+  %>
+     <%
      @selected_national_project = project.national_project_id
      @selected_federal_project = project.federal_project_id
 
   %>
-  <% if  User.current.project_admin?(project) || User.current.project_head?(project) || User.current.admin?%>
+  <%# if  User.current.project_admin?(project) || User.current.project_head?(project) || User.current.admin?%>
   <div class="form--field">
-    <%= f.select :project_status_id,
+    <%# f.select :project_status_id,
         options_for_select(project.get_allowed_project_statuses.map {|u| [u.name, u.id]}, @selected_project_status_id),
         include_blank: true,
-        container_class: '-slim' %></div>
-  <% else %>
+        container_class: '-slim' %>
+<!--  </div>-->
+  <%# else %>
   <span>
-    Статус: <% project.get_project_status %>
+    Статус: <strong><%= project.get_project_status %></strong>
   </span>
-  <% end %>
+  <%# end %>
   </div>
   <div class="form--field">
-    <%= f.select :project_approve_status_id,
+    <%# f.select :project_approve_status_id,
                  options_for_select(project.get_allowed_project_approve_status.map {|u| [u.name, u.id]}, @selected_project_approve_status_id),
                  include_blank: true,
                  container_class: '-slim' %>
+    <span>
+    Этап согласования: <strong><%= project.get_project_approve_status %></strong>
+  </span>
   </div>
 
   <div class="form--field">

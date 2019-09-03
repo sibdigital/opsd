@@ -32,13 +32,30 @@ module API
   module V3
     module Problems
       class ProblemsAPI < ::API::OpenProjectAPI
+        helpers ::API::V3::Utilities::RoleHelper
+
         resources :problems do
           get do
             @problems = WorkPackageProblem
               .joins(:work_package)
               .all
             @problems = @problems.where(status: params['status']) if params['status'].present?
-            @problems = @problems.where(project_id: params['project']) if params['project'].present?
+            @problems = if params['project'].present?
+                          @problems.where(project_id: params['project'])
+                        else
+                          projects = []
+                          Project.all.each do |project|
+                            exist = which_role(project, current_user, global_role)
+                            if exist
+                              projects << project.id
+                            end
+                          end
+                          if projects.empty?
+                            @problems.where(project_id: nil)
+                          else
+                            @problems.where('work_package_problems.project_id in (' + projects.join(',') + ')')
+                          end
+                        end
             @problems = @problems.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
             @offset = params['offset'] || "1"
             ProblemCollectionRepresenter.new(@problems,

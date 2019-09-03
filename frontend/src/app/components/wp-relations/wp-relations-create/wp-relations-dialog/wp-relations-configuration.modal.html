@@ -1,0 +1,46 @@
+<div class="op-modal--portal ">
+  <div class="op-modal--modal-container -wide loading-indicator--location work-packages-modal"
+       data-indicator-name="modal">
+    <div class="op-modal--modal-header">
+      <a class="op-modal--modal-close-button-highlight">
+        <i
+            class="icon-close"
+            (click)="closeMe($event)"
+            [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <h2 [textContent]="text.title" class="op-modal--modal-header-title"></h2>
+
+    <div class="tab-content" #tabContentOutlet>
+      <no-results *ngIf="noResults"
+                  [title]="text.noResults">
+      </no-results>
+      <table *ngIf="!noResults" class="op-modal--modal-table">
+        <thead style="width: 1000px">
+          <th>ID</th>
+          <th [textContent]="text.subject"></th>
+          <th [textContent]="text.type"></th>
+          <th [textContent]="text.status"></th>
+          <th [textContent]="text.assignee"></th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let wp of wpList">
+            <td [textContent]="wp.id"></td>
+            <td>
+              <a href=""
+                 (click)="submitWPID(wp)"
+                 [textContent]="wp.subject">
+              </a>
+            </td>
+            <td [textContent]="wp.source._links.type.title"></td>
+            <td [textContent]="wp.source._links.status.title"></td>
+            <td [textContent]="wp.source._links.assignee.title"></td>
+          </tr>
+        </tbody>
+      </table>
+      <wp-relations-pagination></wp-relations-pagination>
+    </div>
+  </div>
+</div>

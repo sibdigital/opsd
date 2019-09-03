@@ -43,7 +43,8 @@ class DeliverWorkPackageNotificationJob < DeliverNotificationJob
     raise 'aggregated journal got outdated' unless journal
 
     if journal.initial?
-      UserMailer.work_package_added(recipient, journal, sender)
+      #ban - отключил, добавил в create_service.rb
+      #UserMailer.work_package_added(recipient, journal, sender)
     else
       UserMailer.work_package_updated(recipient, journal, sender)
     end

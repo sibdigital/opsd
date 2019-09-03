@@ -3,6 +3,12 @@ export namespace Highlighting {
     return `__hl_row_${property}_${id}`;
   }
 
+  //bbm(
+  export function borderClass(property:string, id:string|number) {
+    return `__hl_border_${property}_${id}`;
+  }
+  //)
+
   export function inlineClass(property:string, id:string|number) {
     return `__hl_inl_${property}_${id}`;
   }

@@ -7,9 +7,14 @@ module API
   module V3
     module Diagrams
       class DiagramHomescreenRepresenter < ::API::Decorators::Single
-        def initialize(name: {}, params:, current_user:)
-          @name = name
-          @performance = params['performance']
+        include ::API::V3::Utilities::RoleHelper
+
+        def initialize(params:, current_user:, global_role:)
+          @name = params[:name]
+          @performance = params[:performance]
+          @organization = params[:organization]
+          @current_user = current_user
+          @global_role = global_role
         end
 
         property :data,
@@ -20,9 +25,19 @@ module API
                    when 'kt' then desktop_kt_data
                    when 'budget' then desktop_budget_data
                    when 'riski' then desktop_riski_data
-                   when 'zdravoohranenie' then indicator_zdravoohranenie_data
-                   when 'obrazovanie' then indicator_obrazovanie_data
-                   when 'proizvoditelnost_truda' then indicator_proizvoditelnost_truda_data
+                   when 'zdravoohranenie' then indicator_data(I18n.t(:national_project_zdravoohr))
+                   when 'obrazovanie' then indicator_data(I18n.t(:national_project_obraz))
+                   when 'demografia' then indicator_data(I18n.t(:national_project_demogr))
+                   when 'cultura' then indicator_data(I18n.t(:national_project_cultur))
+                   when 'avtodorogi' then indicator_data(I18n.t(:national_project_avtodor))
+                   when 'gorsreda' then indicator_data(I18n.t(:national_project_gorsreda))
+                   when 'ekologia' then indicator_data(I18n.t(:national_project_ekol))
+                   when 'nauka' then indicator_data(I18n.t(:national_project_nauka))
+                   when 'msp' then indicator_data(I18n.t(:national_project_msp))
+                   when 'digital' then indicator_data(I18n.t(:national_project_digital))
+                   when 'trud' then indicator_data(I18n.t(:national_project_trud))
+                   when 'export' then indicator_data(I18n.t(:national_project_export))
+                   when 'republic' then indicator_data(nil)
                    when 'fed_budget' then fed_budget_data
                    when 'reg_budget' then reg_budget_data
                    when 'other_budget' then other_budget_data
@@ -37,6 +52,19 @@ module API
                  getter: ->(*) {
                    case @name
                    when 'head_performance' then head_performance_label
+                   when 'zdravoohranenie' then indicator_label
+                   when 'obrazovanie' then indicator_label
+                   when 'demografia' then indicator_label
+                   when 'cultura' then indicator_label
+                   when 'avtodorogi' then indicator_label
+                   when 'gorsreda' then indicator_label
+                   when 'ekologia' then indicator_label
+                   when 'nauka' then indicator_label
+                   when 'msp' then indicator_label
+                   when 'digital' then indicator_label
+                   when 'trud' then indicator_label
+                   when 'export' then indicator_label
+                   when 'republic' then indicator_label
                    else 'false1'
                    end
                  },
@@ -63,12 +91,16 @@ where yearly.year = date_part('year', current_date)
 group by yearly.project_id, yearly.target_id
           SQL
           @plan_facts.map do |plan|
-            chislitel = plan.final_fact_year_value || 0;
-            znamenatel = plan.target_plan_year_value;
-            procent = znamenatel == 0 ? 0 : chislitel / znamenatel
-            ne_ispolneno += 1 if procent == 0
-            v_rabote += 1 if procent < 100
-            ispolneno += 1 if procent == 100
+            project = Project.find(plan.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              chislitel = plan.final_fact_year_value || 0;
+              znamenatel = plan.target_plan_year_value;
+              procent = znamenatel == 0 ? 0 : chislitel / znamenatel
+              ne_ispolneno += 1 if procent == 0
+              v_rabote += 1 if procent < 100
+              ispolneno += 1 if procent == 100
+            end
           end
           result = []
           # Порядок важен
@@ -85,10 +117,14 @@ group by yearly.project_id, yearly.target_id
           riski = 0
           kt = Type.find_by name: I18n.t(:default_type_milestone)
           ProjectIspolnStat.where(type_id: kt.id).map do |ispoln|
-            ispolneno += ispoln.ispolneno
-            v_rabote += ispoln.v_rabote
-            ne_ispolneno += ispoln.ne_ispolneno
-            riski += ispoln.est_riski
+            project = Project.find(ispoln.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              ispolneno += ispoln.ispolneno
+              v_rabote += ispoln.v_rabote
+              ne_ispolneno += ispoln.ne_ispolneno
+              riski += ispoln.est_riski
+            end
           end
           result = []
           # Порядок важен
@@ -105,8 +141,12 @@ group by yearly.project_id, yearly.target_id
           spent = BigDecimal("0")
 
           cost_objects.each do |cost_object|
-            total_budget += cost_object.budget
-            spent += cost_object.spent
+            project = Project.find(cost_object.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              total_budget += cost_object.budget
+              spent += cost_object.spent
+            end
           end
 
           spent
@@ -126,14 +166,18 @@ group by yearly.project_id, yearly.target_id
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
           @risks = ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
-select type, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
+select type, project_id, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
 where type in ('created_risk', 'no_risk_problem')
-group by type, importance_id
+group by type, project_id, importance_id
           SQL
           @risks.map do |risk|
-            net_riskov += risk.count if risk.type=='no_risk_problem'
-            neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
-            kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+            project = Project.find(risk.project_id)
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              net_riskov += risk.count if risk.type=='no_risk_problem'
+              neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
+              kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+            end
           end
           result = []
           # Порядок важен
@@ -207,16 +251,83 @@ group by type, importance_id
           result << ostatok
         end
 
-        def indicator_zdravoohranenie_data
-          [0, 0, 0, 0]
+        def indicator_label
+          if @indikator_data and @indikator_data == [0, 0, 0, 0]
+            'hidden'
+          else
+            'visible'
+          end
         end
 
-        def indicator_obrazovanie_data
-          [0, 0, 0, 0]
-        end
-
-        def indicator_proizvoditelnost_truda_data
-          [0, 0, 0, 0]
+        def indicator_data(name)
+          max = 1
+          overage = 0.8
+          projects = [0]
+          net_otkloneniy = 0
+          small_otkloneniya = 0
+          big_otkloneniya = 0
+          net_dannyh = 0
+          Project.all.each do |project|
+            exist = which_role(project, @current_user, @global_role)
+            if exist
+              projects << project.id
+            end
+          end
+          nat_proj = NationalProject.find_by(name: name)
+          pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id in (" + projects.join(",")+ ")")
+          pfqtv = if name
+                    pfqtv.where(national_project_id: nat_proj.id)
+                  else
+                    pfqtv.where("national_project_id is null")
+                  end
+          quarter = ((Time.now.month - 1) / 3) + 1
+          pfqtv.group_by(&:target_id).each do |target, arr|
+            fact_value = 0
+            target_value = 0
+            total = 0
+            arr.each do |row|
+              case quarter
+              when 1
+                f = row.fact_quarter1_value
+                t = row.target_quarter1_value
+              when 2
+                f = row.fact_quarter2_value
+                t = row.target_quarter2_value
+              when 3
+                f = row.fact_quarter3_value
+                t = row.target_quarter3_value
+              when 4
+                f = row.fact_quarter4_value
+                t = row.target_quarter4_value
+              end
+              if f
+                if t
+                  fact_value += f
+                  target_value += t
+                  total += 1
+                elsif row.target_year_value
+                  fact_value += f
+                  target_value += row.target_year_value
+                  total += 1
+                else
+                  net_dannyh += 1
+                end
+              else
+                net_dannyh += 1
+              end
+            end
+            drob = target_value == 0 ? 0 : fact_value/target_value
+            if drob == 1
+              net_otkloneniy += total
+            end
+            if drob >= overage and drob < max
+              small_otkloneniya += total
+            end
+            if drob < overage
+              big_otkloneniya += total
+            end
+          end
+          @indikator_data = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]
         end
 
         def head_performance_label

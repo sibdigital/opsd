@@ -38,7 +38,8 @@ module API
             NationalProjectCollectionRepresenter.new(@national_projects,
                                                      params,
                                                      api_v3_paths.national_projects,
-                                                     current_user: current_user)
+                                                     current_user: current_user,
+                                                     global_role: global_role)
           end
 
           params do

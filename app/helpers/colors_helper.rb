@@ -80,6 +80,10 @@ module ColorsHelper
       concat ".__hl_inl_#{name}_#{entry.id} { #{inline_style}; }\n"
       concat ".__hl_dot_#{name}_#{entry.id}::before { #{inline_style}; border-color: #{border_color}; }\n"
       concat ".__hl_row_#{name}_#{entry.id} { #{row_style}; }\n"
+      #bbm(
+      border_style = "border-color: #{color.hexcode} !important;"
+      concat ".__hl_border_#{name}_#{entry.id} { #{border_style}; }\n"
+      # )
 
       # Mark color as bright through CSS variable
       # so it can be used to add a separate -bright class

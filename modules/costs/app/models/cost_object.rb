@@ -154,12 +154,14 @@ class CostObject < ActiveRecord::Base
   def name
     subject
   end
-  #ban
+  #ban(
   def send_cost_object_added_mail
+    @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
     if Setting.notified_events.include?('cost_object_added')
       recipients.uniq.each do |user|
-        UserMailer.cost_object_added(user, self, User.current).deliver_later
+        UserMailer.cost_object_added(user, self, User.current, @timenow).deliver_later
       end
     end
   end
+  #)
 end

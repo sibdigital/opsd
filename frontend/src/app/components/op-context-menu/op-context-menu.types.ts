@@ -6,7 +6,7 @@ export interface OpContextMenuLocalsMap {
   items:OpContextMenuItem[];
   contextMenuId?:string;
   [key:string]:any;
-};
+}
 
 export interface OpContextMenuItem {
   disabled?:boolean;

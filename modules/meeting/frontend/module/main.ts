@@ -27,14 +27,14 @@
 // ++
 
 import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
-import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ChartsModule} from 'ng2-charts';
 import {HookService} from "../../hook-service";
-import {WpMeetingDialogComponent} from "./wp-meeting-dialog/wp-meeting-dialog.component";
-import {MatPaginatorIntlRussian} from "./wp-meeting-dialog/MatPaginatorIntlRussian";
 import {WpMeetingAutocompleteComponent} from "./wp-meeting-autocomplete/wp-meeting-autocomplete.upgraded.component";
 import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
+import {WorkPackageMeetingPaginationComponent} from "./wp-meeting-dialog/wp-meeting-pagination.component";
+import {WpMeetingConfigurationModalComponent} from "./wp-meeting-dialog/wp-meeting-configuration.modal";
+import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 
 export function initializeMeetingPlugin(injector:Injector) {
     return () => {
@@ -44,8 +44,8 @@ export function initializeMeetingPlugin(injector:Injector) {
         });
         const hookService = injector.get(HookService);
         hookService.register('openProjectAngularBootstrap', () => {
-            return [
-                { selector: 'wp-meeting-dialog', cls: WpMeetingDialogComponent },
+            return [,
+                { selector: 'wp-meeting-pagination', cls: WorkPackageMeetingPaginationComponent },
                 { selector: 'wp-meeting-autocomplete-upgraded', cls: WpMeetingAutocompleteComponent }
             ];
         });
@@ -55,22 +55,21 @@ export function initializeMeetingPlugin(injector:Injector) {
 @NgModule({
     imports: [
         ChartsModule,
-        MatDialogModule,
-        MatTableModule,
-        MatPaginatorModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        OpenprojectCommonModule
     ],
     declarations: [
-        WpMeetingDialogComponent,
+        WorkPackageMeetingPaginationComponent,
+        WpMeetingConfigurationModalComponent,
         WpMeetingAutocompleteComponent
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: initializeMeetingPlugin, deps: [Injector], multi: true },
-        { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
     ],
     entryComponents: [
-        WpMeetingDialogComponent,
-        WpMeetingAutocompleteComponent
+        WorkPackageMeetingPaginationComponent,
+        WpMeetingConfigurationModalComponent,
+        WpMeetingAutocompleteComponent,
     ]
 })
 export class PluginModule {

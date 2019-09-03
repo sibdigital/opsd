@@ -7,7 +7,7 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Langy
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -207,8 +207,25 @@ OpenProject::Application.routes.draw do
     end
 
     #zbd(
-    get 'stages', controller: 'stages', action: 'show', as: :stages
+    resource :stages do
+      get 'analysis' => 'stages#analysis', on: :collection
+      get 'control' => 'stages#control', on: :collection
+      get 'completion' => 'stages#completion', on: :collection
+      get 'execution' => 'stages#execution', on: :collection
+      get 'init' => 'stages#init', on: :collection
+      get 'proceed_init' => 'stages#proceed_init', on: :collection
+      get 'cancel_init' => 'stages#cancel_init', on: :collection
+      get 'planning' => 'stages#planning', on: :collection
+      # get :control, action: 'control'
+      # get :completion, action: 'completion'
+      # get :execution, action: 'execution'
+      # get :init, action: 'init'
+      # get :planning, action: 'planning'
+    end
     # )
+    #knm(
+
+    #)
     # +tan 2019.07.07
     resources :plan_uploaders, controller: 'plan_uploaders'
     #-tan

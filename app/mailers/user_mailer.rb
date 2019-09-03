@@ -38,7 +38,7 @@ class UserMailer < BaseMailer
       mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - тестовое сообщение'
     end
   end
-
+=begin
   def work_package_added(user, journal, author)
     User.execute_as user do
       work_package = journal.journable.reload
@@ -55,7 +55,21 @@ class UserMailer < BaseMailer
       end
     end
   end
+=end
+#ban (
+  def work_package_added(user, project, work_package, author)
+    @project = project
+    @work_package = work_package
+    set_work_package_headers(work_package)
 
+    message_id work_package, user
+
+    with_locale_for(user) do
+      subject = 'В проекте '+@project.name.to_s+' добавлено мероприятие '+@work_package.subject
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+#)
   def work_package_updated(user, journal, author = User.current)
     User.execute_as user do
       work_package = journal.journable.reload
@@ -134,7 +148,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def cost_object_added(user, cost_object, author)
+  def cost_object_added(user, cost_object, author, timenow)
+    @timenow = timenow
     @cost_object = cost_object
 
     #open_project_headers 'Type'    => 'Cost_objects'
@@ -148,7 +163,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def member_added(user, project, added_user, author)
+  def member_added(user, project, added_user, author, timenow)
+    @timenow = timenow
     @project = project
     @added_user = added_user
 
@@ -163,7 +179,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def member_deleted(user, project, deleted_user, author)
+  def member_deleted(user, project, deleted_user, author, timenow)
+    @timenow = timenow
     @project = project
     @deleted_user = deleted_user
 
@@ -178,7 +195,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_added(user, board, author, project)
+  def board_added(user, board, author, project, timenow)
+    @timenow = timenow
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
@@ -192,7 +210,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_changed(user, board, author, project)
+  def board_changed(user, board, author, project, timenow)
+    @timenow = timenow
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
@@ -206,7 +225,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_moved(user, board, author, project)
+  def board_moved(user, board, author, project, timenow)
+    @timenow = timenow
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
@@ -220,20 +240,22 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_deleted(user, board, author, project)
-    @board = board
+  def board_deleted(user, boardname, author, project, timenow)
+    @timenow = timenow
+    @boardname = boardname
     @project = project
     #open_project_headers 'Type'    => 'Boards'
     #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
-      subject = 'По проекту "'+@project.name+'" удалена дискуссия: '+@board.name
+      subject = 'По проекту "'+@project.name+'" удалена дискуссия: '+@boardname
       mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def news_changed(user, news, author, project)
+  def news_changed(user, news, author, project, timenow)
+    @timenow = timenow
     @news = news
     @project = project
     #open_project_headers 'Type'    => 'Boards'
@@ -246,7 +268,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def news_deleted(user, news, author, project)
+  def news_deleted(user, news, author, project, timenow)
+    @timenow = timenow
     @news = news
     @project = project
     #open_project_headers 'Type'    => 'Boards'
@@ -296,7 +319,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def project_deleted(user, project, author)
+  def project_deleted(user, project, author, timenow)
+    @timenow = timenow
     @project = project
     #open_project_headers 'Type'    => 'Boards'
     #open_project_headers 'Project' => @project.identifier
@@ -304,6 +328,78 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Удален проект "'+@project.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def group_created(user, group, author)
+    @group = group
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создана группа "'+@group.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def group_deleted(user, groupname, author)
+    @groupname = groupname
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удалена группа "'+@groupname+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def status_created(user, status, author)
+    @status = status
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создан статус "'+@status.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def status_deleted(user, statusname, author)
+    @statusname = statusname
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удален статус "'+@statusname+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def type_created(user, type, author)
+    @type = type
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Создан тип рабочего пакета "'+@type.name+'"'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def type_deleted(user, typename, author)
+    @typename = typename
+    #open_project_headers 'Type'    => 'Boards'
+    #open_project_headers 'Project' => @project.identifier
+    #message_id @project, user
+
+    with_locale_for(user) do
+      subject = 'Удален тип рабочего пакета "'+@typename+'"'
       mail_for_author author, to: user.mail, subject: subject
     end
   end
@@ -502,6 +598,38 @@ class UserMailer < BaseMailer
       mail_for_author author, to: user.mail, subject: subject
     end
   end
+
+#ban (
+  def message_changed(user, message, author, timenow)
+    @timenow = timenow
+    @message     = message
+    @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
+
+    open_project_headers 'Project'      => @message.project.identifier,
+                         'Wiki-Page-Id' => @message.parent_id || @message.id,
+                         'Type'         => 'Forum'
+
+    message_id @message, user
+    references @message.parent, user if @message.parent
+
+    with_locale_for(user) do
+      subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id} - сообщение изменено] #{@message.subject}"
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+
+  def message_deleted(user, project_name, board_name, message_subject, author, timenow)
+    @timenow = timenow
+    @project_name = project_name
+    @board_name = board_name
+    @message_subject = message_subject
+
+    with_locale_for(user) do
+      subject = "[#{@project_name} - #{@board_name} - сообщение удалено] #{@message_subject}"
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
+#)
 
   def account_activated(user)
     @user = user

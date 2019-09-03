@@ -831,6 +831,11 @@ en:
         visibility_settings: Параметры видимости ...
         page_settings: Переименовать представления...
         delete: Удалить
+        first_hist_date: Базовый план
+        save_gantt_pdf: Сохранить диаграмму Гантта в PDF
+        save_gantt_png: Сохранить диаграмму Гантта в PNG
+        last_hist_date: Последние изменения
+        no_hist_date: Только текущий
       filter: Фильтр
       unselected_title: Пакет работ
       search_query_label: Найти сохраненные представления
@@ -841,6 +846,7 @@ en:
       label_name: Имя
       label_delete_page: Удалить текущую страницу
       button_apply: Применить
+      button_choose: Выбрать
       button_save: Сохранить
       button_submit: Отправить
       button_cancel: Отмена
@@ -914,3 +920,17 @@ en:
         all_projects: все проекты
         project_and_subprojects: и все подпроекты
         search_for: Поиск по
+    national_project_zdravoohr: Здравоохранение
+    national_project_demogr: Демография
+    national_project_cultur: Культура
+    national_project_avtodor: Безопасные и качественные автомобильные дороги
+    national_project_gorsreda: Жильё и городская среда
+    national_project_ekol: Экология
+    national_project_nauka: Наука
+    national_project_msp_short: Малое и среднее предпринимательство и поддержка и...
+    national_project_msp: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+    national_project_digital: Цифровая экономика
+    national_project_trud: Производительность труда и поддержка занятости
+    national_project_export: Международная кооперация и экспорт
+    national_project_obraz: Образование
+    project_republic: Проекты Республики Бурятия

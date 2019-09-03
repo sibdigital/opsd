@@ -61,7 +61,9 @@ class AddAttachmentService
   def save(attachment)
     ActiveRecord::Base.transaction do
       attachment.save!
-      Alert.create_pop_up_alert(attachment,"Added",User.current,attachment.container.assigned_to)
+      if !attachment.container.nil?
+        Alert.create_pop_up_alert(attachment,"Added",User.current,attachment.container.assigned_to)
+      end
       if container.respond_to? :add_journal
         # reload to get the newly added attachment
         container.attachments.reload

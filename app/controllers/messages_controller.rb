@@ -62,6 +62,7 @@ class MessagesController < ApplicationController
 
   # new topic
   def new
+    @project = @board.project
     @message = Message.new.tap do |m|
       m.author = User.current
       m.board = @board
@@ -70,6 +71,7 @@ class MessagesController < ApplicationController
 
   # Create a new topic
   def create
+
     @message = Message.new.tap do |m|
       m.author = User.current
       m.board = @board
@@ -148,6 +150,10 @@ class MessagesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       @message.participants.each do |participiant|
         Alert.create_pop_up_alert(@message, "Changed", User.current,participiant.user)
+        #ban(
+        @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+        UserMailer.message_changed(participiant.user, @message, User.current, @timenow).deliver_now
+        #)
       end
       @message.reload
       redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
@@ -159,9 +165,18 @@ class MessagesController < ApplicationController
   # Delete a messages
   def destroy
     return render_403 unless @message.destroyable_by?(User.current)
+    #ban(
+    @project_name = @message.board.project.name
+    @board_name = @message.board.name
+    @message_subject = @message.subject
+    #)
     @message.destroy
     @message.participants.each do |participiant|
       Alert.create_pop_up_alert(@message, "Deleted", User.current, participiant.user)
+      #ban(
+      @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+      UserMailer.message_deleted(participiant.user, @project_name, @board_name, @message_subject, User.current, @timenow).deliver_now
+      # )
     end
     flash[:notice] = l(:notice_successful_delete)
     redirect_target = if @message.parent.nil?

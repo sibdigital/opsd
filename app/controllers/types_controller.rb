@@ -56,6 +56,9 @@ class TypesController < ApplicationController
       @type = call.result
 
       call.on_success do
+        #ban(
+        deliver_mail_to_project_office_members
+        #)
         redirect_to_type_tab_path(@type, t(:notice_successful_create))
       end
 
@@ -116,8 +119,14 @@ class TypesController < ApplicationController
     # or they are standard types
     # put that into the model and do a `if @type.destroy`
     if @type.work_packages.empty? && !@type.is_standard?
+      #ban(
+      @typename = @type.name
+      #)
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
+      #ban(
+      deliver_mail_to_project_office_members_about_del
+      #)
     else
       flash[:error] = if @type.is_standard?
                         t(:error_can_not_delete_standard_type)
@@ -166,4 +175,42 @@ class TypesController < ApplicationController
   def show_local_breadcrumb
     true
   end
+
+  # ban(
+  def deliver_mail_to_project_office_members
+    @project_office_members = []
+    roles = []
+    Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
+                               I18n.t(:default_role_project_office_coordinator),
+                               I18n.t(:default_role_project_office_admin)])
+      .each { |r| roles.push(r)}
+    members = Member.joins(:member_roles).where('role_id in (?)', roles)
+    members.each do |member|
+      if Setting.notified_events.include?('type_created')
+        user = User.find(member.user_id)
+        if user.present?
+          UserMailer.type_created(user, @type, User.current).deliver_later
+        end
+      end
+    end
+  end
+
+  def deliver_mail_to_project_office_members_about_del
+    @project_office_members = []
+    roles = []
+    Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
+                               I18n.t(:default_role_project_office_coordinator),
+                               I18n.t(:default_role_project_office_admin)])
+      .each { |r| roles.push(r)}
+    members = Member.joins(:member_roles).where('role_id in (?)', roles)
+    members.each do |member|
+      if Setting.notified_events.include?('type_deleted')
+        user = User.find(member.user_id)
+        if user.present?
+          UserMailer.type_deleted(user, @typename, User.current).deliver_later
+        end
+      end
+    end
+  end
+  # )
 end

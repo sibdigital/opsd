@@ -80,7 +80,12 @@
           hide(lengthField, regexpField, defaultValueFields);
           unsearchable();
           break;
-
+        case 'rtf':
+          deactivate(defaultValueFields);
+          deactivate(possibleValues);
+          hide(lengthField, regexpField, defaultValueFields, formulaField);
+          unsearchable();
+          break;
         case 'list':
           deactivate(defaultValueFields);
           hide(lengthField, regexpField, defaultValueFields, formulaField);

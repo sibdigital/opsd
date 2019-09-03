@@ -1,0 +1,24 @@
+<div style="display: block;">
+  <ul class="widget-box--arrow-links">
+    <li style="margin: 10px;">
+      <%= link_to 'Пакеты работ', project_work_packages_path(@project)  %>
+    </li>
+    <li style="margin: 10px;">
+      <%= link_to 'Календарь', project_work_packages_calendar_index_path(@project)  %>
+    </li>
+    <li style="margin: 10px;">
+      <%= link_to 'Стратегическая карта', project_activity_index_path(@project)  %>
+    </li>
+    <li style="margin: 10px;">
+      Загрузка плана мероприятий (XLS)
+      <ul style="clear: both;">
+        <li style="clear: both;">
+          <%= link_to 'Загрузить', new_project_plan_uploader_path(@project)  %>
+        </li>
+        <li style="clear: both;">
+          <%= link_to 'Настройки полей', plan_uploader_settings_path %>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
