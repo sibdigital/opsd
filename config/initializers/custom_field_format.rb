@@ -75,4 +75,9 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: :label_formula,
                                                      order: 10,
                                                      formatter: 'CustomValue::FormulaStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('rtf',
+                                                     label: :label_rtf,
+                                                     order: 11,
+                                                     formatter: 'CustomValue::RtfStrategy')
 end

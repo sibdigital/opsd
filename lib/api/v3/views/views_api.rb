@@ -25,12 +25,22 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
 module API
   module V3
     module Views
       class ViewsAPI < ::API::OpenProjectAPI
         helpers ::API::Utilities::ParamsHelper
+        helpers ::API::V3::Utilities::RoleHelper
+
+        before do
+          @projects = [0]
+          Project.all.each do |project|
+            exist = which_role(project, current_user, global_role)
+            if exist
+              @projects << project.id
+            end
+          end
+        end
 
         resources :views do
           resources :work_package_stat_by_proj_view do
@@ -41,7 +51,7 @@ module API
               if organization_id
                 records_array = ActiveRecord::Base.connection.execute <<~SQL
                   select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
-                      projects as p
+                      (select * from projects where id in (#{@projects.join(",")}))as p
                   left join
                       (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(riski) as riski
                       from (
@@ -62,7 +72,7 @@ module API
               else
                 records_array = ActiveRecord::Base.connection.execute <<~SQL
                   select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
-                      projects as p
+                      (select * from projects where id in (#{@projects.join(",")}))as p
                   left join
                       (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(created_problem_count) as riski
                       from (
@@ -112,7 +122,11 @@ module API
               rps = RiskProblemStat
                 .joins(:project)
                 .all
-              rps = rps.where(project_id: params[:project]) if params[:project].present?
+              rps = if params[:project].present?
+                      rps.where(project_id: params[:project])
+                    else
+                      rps.where("project_id in (" + @projects.join(",")+ ")")
+                    end
               if params[:national].present?
                 rps = params[:national] == '0' ? rps.where("projects.national_project_id is null") : rps.where(projects:{national_project_id: params[:national]})
               end
@@ -158,7 +172,11 @@ module API
           resources :quartered_work_package_targets_with_quarter_groups_view do
             get do
               qwptwqg = WorkPackageQuarterlyTarget.where("year = date_part('year', CURRENT_DATE)")
-              qwptwqg = qwptwqg.where(project_id: params[:project]) if params[:project].present?
+              qwptwqg = if params[:project].present?
+                          qwptwqg.where(project_id: params[:project])
+                        else
+                          qwptwqg.where("project_id in (" + @projects.join(",")+ ")")
+                        end
               if params[:national].present?
                 qwptwqg = params[:national] == '0' ? qwptwqg.where("national_project_id is null") : qwptwqg.where(national_project_id: params[:national])
               end
@@ -227,7 +245,11 @@ module API
           resources :work_package_ispoln_stat_view do
             get do
               wpis = WorkPackageIspolnStat.all
-              wpis = wpis.where(project_id: params[:project]) if params[:project].present?
+              wpis = if params[:project].present?
+                       wpis.where(project_id: params[:project])
+                     else
+                       wpis.where("project_id in (" + @projects.join(",")+ ")")
+                     end
               if params[:national].present?
                 wpis = params[:national] == '0' ? wpis.where("national_project_id is null") : wpis.where(national_project_id: params[:national])
               end
@@ -283,8 +305,12 @@ module API
           resources :plan_fact_quarterly_target_values_view do
             get do
               pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE)")
-              pfqtv = pfqtv.where(project_id: params[:project]) if params[:project].present?
-              pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
+              pfqtv = if params[:project].present?
+                        pfqtv.where(project_id: params[:project])
+                      else
+                        pfqtv.where("project_id in (" + @projects.join(",")+ ")")
+                      end
+            pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
               result = []
               pfqtv.group_by(&:project_id).each do |project, arr|
                 hash = Hash.new

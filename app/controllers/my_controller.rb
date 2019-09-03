@@ -52,13 +52,16 @@ class MyController < ApplicationController
   end
   alias :page :index
 
+  #bbm(
   def account
     @roles_4_cur_member = Hash.new
+    @roles_4_cur_member['0'] = '-'
     MemberRole.joins(:role).joins(:member).where(members: {user_id: @user.id}).map do |mr|
-      @roles_4_cur_member[mr.role.id] = mr.role.name
+      @roles_4_cur_member[mr.role.id.to_s] = mr.role.name
     end
     @roles_4_cur_member
   end
+  # )
 
   def update_account
     write_settings @user, request, permitted_params, params
@@ -68,6 +71,7 @@ class MyController < ApplicationController
       flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
       flash[:notice] = nil
     end
+    session[:global_role_id] = params[:global_role_id]
   end
 
   def settings; end

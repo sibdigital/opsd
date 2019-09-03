@@ -75,8 +75,9 @@ class CustomFieldFormBuilder < TabularFormBuilder
       custom_field_input_list(field, input_options)
     when 'formula'
       cf_id = input_options[:id].scan(/\d+/).first
-      from = options[:from]
-      field = calculate_formula(obj.id, obj.class.name, cf_id, from)
+      field = calculate_formula(obj.id, obj.class.name, cf_id, options[:from])
+    when 'rtf'
+      text_area(field, input_options.merge(with_text_formatting: true))
     else
       text_field(field, input_options)
     end

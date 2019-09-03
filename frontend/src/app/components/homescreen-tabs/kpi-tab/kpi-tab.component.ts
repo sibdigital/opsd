@@ -46,7 +46,6 @@ export class KpiTabComponent {
           let option:ValueOption | undefined = _.find(this.valueOptions, o => String(o.$href) === this.$state.params.id);
           if (option !== undefined) {
             this.selectedOption = option;
-            this.handleUserSubmit();
           }
         }
       });

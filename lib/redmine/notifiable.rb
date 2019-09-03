@@ -47,6 +47,8 @@ module Redmine
       notifications << Notifiable.new('news_comment_added')
       notifications << Notifiable.new('file_added')
       notifications << Notifiable.new('message_posted')
+      notifications << Notifiable.new('message_changed') #ban
+      notifications << Notifiable.new('message_deleted') #ban
       notifications << Notifiable.new('wiki_content_added')
       notifications << Notifiable.new('wiki_content_updated')
       notifications << Notifiable.new('cost_object_added') #ban
@@ -63,6 +65,12 @@ module Redmine
       notifications << Notifiable.new('project_deleted') #ban
       notifications << Notifiable.new('deadline_of_project_is_approaching') #ban
       notifications << Notifiable.new('deadline_of_project') #ban
+      notifications << Notifiable.new('group_created') #ban
+      notifications << Notifiable.new('group_deleted') #ban
+      notifications << Notifiable.new('status_created') #ban
+      notifications << Notifiable.new('status_deleted') #ban
+      notifications << Notifiable.new('type_created') #ban
+      notifications << Notifiable.new('type_deleted') #ban
       notifications
     end
   end

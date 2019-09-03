@@ -5,7 +5,7 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 export class BlueTableMunicipalityService extends BlueTableService {
   private data:any[] = [];
-  private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные мероприятия/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
+  private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные кт/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
   private national_project_titles:{id:number, name:string}[] = [];
   private filter:string = '1';
   private data_local:any = {};

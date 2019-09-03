@@ -81,7 +81,6 @@ export class HomescreenBlueTableComponent implements OnInit {
     this.data = this.blueTableModule.getDataWithFilter(param);
   }
 
-
   public hello(i:number) {
     jQuery(homescreenPerformanceDiagramSelector).attr('performance-id', i);
     jQuery('button.changeChart').trigger('click');
