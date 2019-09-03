@@ -471,5 +471,12 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       pdf.save('gantt_' + moment().toISOString() + '.pdf'); // Generated PDF
     });
   }
+  public captureScreen2() {
+    html2canvas(this.outerContainer.get(0)).then(canvas => {
+      const contentDataURL = canvas.toDataURL('image/png');
+      let image = contentDataURL.replace("image/png", "image/octet-stream");
+      window.open(image);
+    });
+  }
   //)
 }

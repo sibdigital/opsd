@@ -297,10 +297,18 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
-        linkText: this.I18n.t('js.toolbar.settings.save_gantt'),
-        icon: 'icon-view-timeline',
+        linkText: this.I18n.t('js.toolbar.settings.save_gantt_pdf'),
+        icon: 'icon-export-pdf',
         onClick: ($event:JQueryEventObject) => {
           jQuery('#btn-capture-gantt').trigger('click');
+          return true;
+        }
+      },
+      {
+        linkText: this.I18n.t('js.toolbar.settings.save_gantt_png'),
+        icon: 'icon-image1',
+        onClick: ($event:JQueryEventObject) => {
+          jQuery('#btn-capture-gantt2').trigger('click');
           return true;
         }
       }

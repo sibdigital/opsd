@@ -52,6 +52,7 @@ class Alert < ActiveRecord::Base
   end
 
   def self.create_pop_up_alert(entity, aboutwhat,createdby,touser)
+    begin
     text = ""
     if createdby != nil
       fio = createdby.name(:lastname_f_p)
@@ -96,6 +97,9 @@ class Alert < ActiveRecord::Base
 
     elsif aboutwhat == "Created" && class_name == "Message"
       text += "Пользователь #{fio} создал тему \"#{entity.subject}\""
+
+    elsif aboutwhat == "Created" && class_name == "Document"
+      text += "Пользователь #{fio} загрузил документ \"#{entity.title}\""
       #Изменение
     elsif aboutwhat == "Changed" && class_name == "WorkPackage"
       text += "Пользователь #{fio} изменил ваше мероприятие \"#{entity.subject}\""
@@ -150,6 +154,9 @@ class Alert < ActiveRecord::Base
                  about: text,
                  created_by: createdby != nil ? createdby.id : 0,
                  to_user: touser != nil ? touser.id : nil
+      rescue StandardError => e
+        puts "#{e.class}: #{e.message}"
+      end
   end
 
   private
