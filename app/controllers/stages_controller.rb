@@ -19,6 +19,14 @@ class StagesController < ApplicationController
     @altered_project = @project
   end
 
+  def cancel_init
+    @project.project_status_id = ProjectStatus.where(name: I18n.t(:default_project_status_not_start)).first.id
+    @project.save
+    @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_init)).first.id
+    @project.save
+    redirect_to action: 'init'
+  end
+
   def proceed_init
     if User.current.project_head? @project
       @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_project_head)).first.id

@@ -214,6 +214,7 @@ OpenProject::Application.routes.draw do
       get 'execution' => 'stages#execution', on: :collection
       get 'init' => 'stages#init', on: :collection
       get 'proceed_init' => 'stages#proceed_init', on: :collection
+      get 'cancel_init' => 'stages#cancel_init', on: :collection
       get 'planning' => 'stages#planning', on: :collection
       # get :control, action: 'control'
       # get :completion, action: 'completion'

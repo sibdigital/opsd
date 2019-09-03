@@ -44,12 +44,12 @@
       <% if(  User.current.project_head?(@project) || User.current.project_office_manager?(@project) || User.current.project_curator?(@project)  || User.current.project_activity_coordinator?(@project)  || User.current.project_region_head?(@project)  ) && @button_visibility %>
         <div class="form--field">
           <%= link_to content_tag(:span, l(:button_approve) ), {:action => "proceed_init"}, :class=>"button -highlight -with-icon icon-checkmark" %>
-          <span class="button -with-icon icon-close" ><%= l(:button_decline)%></span>
+          <%= link_to content_tag(:span, l(:button_decline) ), {:action => "cancel_init"}, :class=>"button -with-icon icon-close" %>
         </div>
       <% elsif User.current.project_office_coordinator?(@project) && @button_visibility %>
         <div class="form--field">
           <%= link_to content_tag(:span, l(:button_confirm)), {:action => "proceed_init"}, :class=>"button -highlight -with-icon icon-checkmark" %>
-          <span class="button -with-icon icon-close" ><%= l(:button_decline)%></span>
+          <%= link_to content_tag(:span, l(:button_decline) ), {:action => "cancel_init"}, :class=>"button -with-icon icon-close" %>
         </div>
       <% end %>
 
