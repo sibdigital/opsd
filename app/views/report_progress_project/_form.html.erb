@@ -3,7 +3,31 @@ This file written by XCC
 06/07/2019
 ++#%>
 
+<script type="text/javascript">
+ $(document).load(function(){
+    $('#target_selection').on('change', function(){
+        var selected_val = $(this).val();
+          alert(selected_val);
+        var link_url = $('#report_progress_project_pril_1_2')[0].pathname
+        var new_link_url = link_url + "?report_id=report_progress_project_pril_1_2?selected_target_id=" + selected_val;
+        $('#report_progress_project_pril_1_2').attr('href', new_link_url);
+    })
+ });
+
+</script>
+
 <%= error_messages_for :report_progress_project %>
+<%= error_messages_for :target %>
 <section class="form--section">
-  <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'button' %>
+     <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'button' %>
+
+  <h3>Графики достижения показателей. Приложение 1, 2</h3>
+
+
+  <div class="form--field">
+     <%= select_tag('selected_target_id', options_for_select(@project.targets.map {|u| [u.name, u.id]}), id: "target_selection") %>
+    <%= link_to "Сформировать", id: 'report_progress_project_pril_1_2', class: 'button', remote: true %>
+  </div>
+
+
 </section>

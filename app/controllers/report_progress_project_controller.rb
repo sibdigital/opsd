@@ -12,9 +12,19 @@ class ReportProgressProjectController < ApplicationController
 
   before_action :verify_reportsProgressProject_module_activated
 
+  def index_params
+    params.require(:report_id)
+  end
 
   def index
+
+    #@project_targets = Target.find_by_sql("SELECT t.* FROM targets t where t.project_id=" + @project.id.to_s)
+    @selected_target_id = 0
     @project = Project.find(params[:project_id])
+    @vals = {
+      project: @project,
+      selected_target_id: 0
+    }
     if @project.national_project_id
       @national_project = NationalProject.find(@project.national_project_id)
     else
@@ -30,6 +40,16 @@ class ReportProgressProjectController < ApplicationController
       generate_project_progress_report_out
       send_to_user filepath: @ready_project_progress_report_path
     end
+
+    if  params[:report_id] == 'report_progress_project_pril_1_2'
+      #index_params
+      generate_report_progress_project_pril_1_2_out
+      send_to_user filepath: @ready_report_progress_project_pril_1_2_path
+    end
+
+
+    @targets = @project.targets
+    @target = @targets.first
 
   end
 
@@ -56,6 +76,34 @@ class ReportProgressProjectController < ApplicationController
     @workbook.write(@ready_project_progress_report_path)
   end
 
+  def generate_report_progress_project_pril_1_2_out
+
+    template_path = File.absolute_path('.') +'/'+'app/reports/templates/report_progress_project_pril_1_2.xlsx'
+    @workbook_pril = RubyXL::Parser.parse(template_path)
+    @workbook_pril.calc_pr.full_calc_on_load = true
+
+    generate_pril_1_2
+
+    dir_path = File.absolute_path('.') + '/public/reports'
+    if  !File.directory?(dir_path)
+      Dir.mkdir dir_path
+    end
+
+    @ready_report_progress_project_pril_1_2_path = dir_path + '/report_progress_project_pril_1_2_out.xlsx'
+    @workbook_pril.write(@ready_report_progress_project_pril_1_2_path)
+
+  end
+
+  def generate_pril_1_2
+    #puts @target.id
+    #puts params[:target_id]
+    sheet = @workbook_pril['Данные для диаграмм']
+
+    @target = Target.find(params[:selected_target_id])
+    sheet[2][2].change_contents(@target.id)
+
+
+  end
 
   def generate_title_sheet
 
