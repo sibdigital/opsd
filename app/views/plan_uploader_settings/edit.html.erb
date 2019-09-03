@@ -11,7 +11,8 @@ by zbd
 
 <%= labelled_tabular_form_for @plan_uploader_setting do |f| %>
 
-  <%= render partial: 'settings', locals: { f: f , colname: @plan_uploader_setting.column_name, columns: @columns} %>
+  <%#= render partial: 'settings', locals: { f: f , colname: @plan_uploader_setting.column_name, columns: @columns } %>
+  <%= render partial: 'settings', locals: { f: f , colname: @plan_uploader_setting.column_name } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 
 <% end %>
