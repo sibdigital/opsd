@@ -4,7 +4,7 @@ class PlanUploaderSettingsController < ApplicationController
 
   before_action :find_setting, only: [:edit, :update, :destroy]
   # before_action :get_columns, only: [:new, :edit, :update]
-  before_action :get_tables, only: [:new, :edit, :update]
+  # before_action :get_tables, only: [:new, :edit, :update]
 
   attr_accessor :selected_table
 
@@ -16,12 +16,11 @@ class PlanUploaderSettingsController < ApplicationController
 
   def edit
     @plan_uploader_setting = PlanUploaderSetting.find(params[:id])
+    get_columns
   end
 
   def new
     @plan_uploader_setting = PlanUploaderSetting.new
-    # @plan_uploader_setting.table_name = 'work_packages'
-    get_tables
     get_columns
   end
 
@@ -77,12 +76,12 @@ class PlanUploaderSettingsController < ApplicationController
 
   protected
 
-  def get_tables
-    @table = [
-                ["Мероприятия", "work_packages"],
-                ["Государственные контракты", "contracts"]
-              ]
-  end
+  # def get_tables
+  #   @table = [
+  #               ["Мероприятия", "work_packages"],
+  #               ["Государственные контракты", "contracts"]
+  #             ]
+  # end
 
   def get_columns
     not_permit_fields = ["id", "created_at", "updated_at"]

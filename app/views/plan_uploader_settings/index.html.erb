@@ -4,24 +4,26 @@
 <%= breadcrumb_toolbar %>
 
 <%= toolbar title: 'Настройка соответствия полей' do %>
-  <li class="toolbar-item">
-    <%= link_to new_plan_uploader_setting_path,
+<!--  <li class="toolbar-item">-->
+    <%#= link_to new_plan_uploader_setting_path,
                 { class: 'button -alt-highlight',
                   aria: {label: 'Новое поле'},
                   title: 'Новое поле'} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text">Новое поле</span>
-    <% end %>
-  </li>
+      <%#= op_icon('button--icon icon-add') %>
+<!--      <span class="button--text">Новое поле</span>-->
+    <%# end %>
+<!--  </li>-->
 <% end %>
 
 
 <%= form_tag({}) do -%>
 
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <% @plan_uploader_settings_types.each do |setting_type| %>
-        <%= content_tag(:p, setting_type.setting_type) %>
+  <% @plan_uploader_settings_types.each do |setting_type| %>
+    <h3 class="-no-border">
+      <%= setting_type.setting_type %>
+    </h3>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
         <table class="generic-table" id="plan_uploader_settings_items">
         <colgroup>
           <col highlight-col>
@@ -55,8 +57,16 @@
           <% end %>
         </tbody>
         </table>
-      <% end %>
-    </div>
-  </div>
 
+        <div class="wp-inline-create-button">
+        <%= link_to new_plan_uploader_setting_path(setting_type: setting_type.setting_type),
+                    { class: 'wp-inline-create--add-link',
+                      aria: {label: 'Новое поле'},
+                      title: 'Новое поле'} do %>
+                      <%= op_icon('icon icon-add') %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 <% end -%>
