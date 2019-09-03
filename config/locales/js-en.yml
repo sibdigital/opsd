@@ -832,6 +832,8 @@ en:
         page_settings: Переименовать представления...
         delete: Удалить
         first_hist_date: Базовый план
+        save_gantt_pdf: Сохранить диаграмму Гантта в PDF
+        save_gantt_png: Сохранить диаграмму Гантта в PNG
         last_hist_date: Последние изменения
         no_hist_date: Только текущий
       filter: Фильтр
