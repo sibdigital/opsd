@@ -37,6 +37,9 @@
             <%= PlanUploaderSetting.human_attribute_name(:column_name) %>
           </th>
           <th>
+            <%= PlanUploaderSetting.human_attribute_name(:column_type) %>
+          </th>
+          <th>
             <%= PlanUploaderSetting.human_attribute_name(:table_name) %>
           </th>
           <th>
@@ -52,6 +55,7 @@
           <tr id="setting-<%= setting.id %>">
             <%= content_tag(:td, link_to(h(setting.column_num), edit_plan_uploader_setting_path(setting.id))) %>
             <%= content_tag(:td, WorkPackage.human_attribute_name(setting.column_name)) %>
+            <%= content_tag(:td, setting.column_type) %>
             <%= content_tag(:td, WorkPackage.human_attribute_name(setting.table_name)) %>
             <%= content_tag(:td, check_box_tag('is_pk', setting.is_pk, setting.is_pk, readonly: true)) %>
             <%= content_tag(:td,
