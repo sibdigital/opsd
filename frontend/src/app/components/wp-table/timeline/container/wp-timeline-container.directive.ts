@@ -462,13 +462,12 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   public captureScreen() {
     html2canvas(this.outerContainer.get(0)).then(canvas => {
       // Few necessary setting options
-      let pageWidth = 208;
-      let imgHeight = 295;
-      let imgWidth = canvas.width * imgHeight / canvas.height;
+      let pageWidth = 295;
+      let pageHeight = 208;
+      //let imgWidth = canvas.height * imgHeight / canvas.width;
       const contentDataURL = canvas.toDataURL('image/png');
-      let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
-      var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      let pdf = new jsPDF('l', 'mm', 'a4'); // A4 size page of PDF
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, pageWidth, pageHeight);
       pdf.save('gantt_' + moment().toISOString() + '.pdf'); // Generated PDF
     });
   }
