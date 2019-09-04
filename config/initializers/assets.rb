@@ -28,5 +28,6 @@ OpenProject::Application.configure do
     interactive_map.js
     network.js
     strategic_map.js
+    plan_uploader_settings.js
   )
 end
