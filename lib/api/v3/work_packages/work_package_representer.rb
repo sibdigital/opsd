@@ -339,6 +339,32 @@ module API
         property :sed_href,
                  render_nil: true
 
+        property :days,
+                 render_nil: false,
+                 getter: ->(*) {
+                   pcalendar = ProductionCalendar.where('date >= ?',start_date)
+                   working_days = []
+                   Setting.where(name: 'work_days').map do |i|
+                     working_days = i.value.digits.to_a
+                   end
+                   i = 0
+                   current = start_date
+                   while current < due_date
+                     current += 1
+                     cal = pcalendar.find_by(date: current) rescue nil
+                     if cal
+                       if cal.day_type == 0
+                         i += 1
+                       end
+                     else
+                       if working_days.include? current.wday
+                         i += 1
+                       end
+                     end
+                   end
+                   i
+                 }
+
         property :problems_count,
                  render_nil: true,
                  getter: ->(*) {
