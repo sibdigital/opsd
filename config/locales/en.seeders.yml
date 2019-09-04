@@ -1332,23 +1332,65 @@ en:
           column_num: 2
           is_pk: true
           table_name: work_packages
+          setting_type: UploadPlanType1
+          column_type: text
         - column_name: plan_num_pp
           column_num: 1
           is_pk: true
           table_name: work_packages
+          setting_type: UploadPlanType1
+          column_type: number
         - column_name: start_date
           column_num: 3
           is_pk: false
           table_name: work_packages
+          setting_type: UploadPlanType1
+          column_type: date
         - column_name: due_date
           column_num: 4
           is_pk: false
           table_name: work_packages
+          setting_type: UploadPlanType1
+          column_type: date
         - column_name: assigned_to_id
           column_num: 5
           is_pk: false
           table_name: work_packages
+          setting_type: UploadPlanType1
+          column_type: user
         - column_name: description
           column_num: 6
           is_pk: false
           table_name: work_packages
+          setting_type: UploadPlanType2
+          column_type: text
+        - column_name: subject
+          column_num: 4
+          is_pk: false
+          table_name: work_packages
+          setting_type: UploadPlanType2
+          column_type: text
+        - column_name: start_date
+          column_num: 8
+          is_pk: false
+          table_name: work_packages
+          setting_type: UploadPlanType2
+          column_type: date
+        - column_name: due_date
+          column_num: 9
+          is_pk: false
+          table_name: work_packages
+          setting_type: UploadPlanType2
+          column_type: date
+        - column_name: assigned_to_id
+          column_num: 5
+          is_pk: false
+          table_name: work_packages
+          setting_type: UploadPlanType2
+          column_type: user
+        - column_name: description
+          column_num: 7
+          is_pk: false
+          table_name: work_packages
+          setting_type: UploadPlanType2
+          column_type: text

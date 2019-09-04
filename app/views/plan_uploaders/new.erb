@@ -6,7 +6,8 @@
       <label for="row_num">Тип плана:</label>
       <span class="form--field-container">
         <span class="form--text-field-container -middle">
-          <%= select_tag 'plan_type', options_for_select([['План 1 (План мероприятий по реализации регионального проекта)', 1], ['План 2 (Контрольные точки)', 2]]) %>
+          <%#= select_tag 'plan_type', options_for_select([['План 1 (План мероприятий по реализации регионального проекта)', 1], ['План 2 (Контрольные точки)', 2]]) %>
+          <%= select_tag 'plan_type', options_for_select(@settings_types) %>
         </span>
       </span>
     </div>

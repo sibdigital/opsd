@@ -14,6 +14,7 @@ class PlanUploadersController < ApplicationController
   def new
     @project = Project.find(params[:project_id])
     @plan_uploader = PlanUploader.new
+    get_setting_types
   end
 
   def create
@@ -76,7 +77,7 @@ class PlanUploadersController < ApplicationController
         end
 
         is_new_record = false
-        task = WorkPackage.where(:plan_num_pp => params['plan_num_pp'], :subject => params['subject'].to_s[0..250]).first_or_create! do |wp|
+        task = WorkPackage.where(:project_id => @project_for_load.id, :plan_num_pp => params['plan_num_pp'], :subject => params['subject'].to_s[0..250]).first_or_create! do |wp|
           is_new_record = true
           wp.subject = params['subject'].to_s[0..250]
           wp.due_date = params['due_date']
@@ -224,7 +225,7 @@ class PlanUploadersController < ApplicationController
     filename = Rails.root.join('public', @plan_uploader.name.store_path)
 
     #settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("table_name = 'work_packages'").order('column_num ASC').all
-    settings = PlanUploaderSetting.select('column_name, column_num, is_pk').where("setting_type = 'UploadPlanType2'").order('column_num ASC').all
+    settings = PlanUploaderSetting.select('column_type, column_name, column_num, is_pk').where("setting_type = 'UploadPlanType2'").order('column_num ASC').all
 
     result = ""
     result_value = ""
@@ -235,7 +236,10 @@ class PlanUploadersController < ApplicationController
     xlsx = Roo::Excelx.new(filename)
     xlsx.each_row_streaming(offset: 1) do |row|
       rr = {}
+
       #settings.each { |setting| rr[setting.column_name] = Hash['column_name', setting.column_name, setting.column_name, row[setting.column_num].value, 'is_pk', setting.is_pk] }
+      col_num = {}
+      settings.each { |setting| col_num[setting.column_name] = setting.column_num }
 
       if row[0].value.present? #Результат
         result = row[0].value
@@ -251,11 +255,12 @@ class PlanUploadersController < ApplicationController
             rr = Hash["result", result,
                            "result_value", result_value,
                            "point", point,
-                           "work", row[4].value,
-                           "desc", row[7].value,
-                           "assigned_to", row[5].value,
-                           "start_date", row[8].value,
-                           "due_date", row[9].value]
+                           "work", row[col_num['subject']].value, #row[4].value,
+                           "desc", row[col_num['description']].value, #row[7].value,
+                           "assigned_to", row[col_num['assigned_to_id']].value, #row[5].value,
+                           "start_date", row[col_num['start_date']].value, #row[8].value,
+                           "due_date", row[col_num['due_date']].value  #row[9].value]
+                  ]
             rows.push rr
           end
         end
@@ -386,7 +391,17 @@ class PlanUploadersController < ApplicationController
   end
 
 
-  # private
+  private
+
+  def get_setting_types
+    @settings_types = []
+    @plan_uploader_settings_types = PlanUploaderSetting.select(:setting_type).group('setting_type').order('setting_type asc').all
+    @plan_uploader_settings_types.each do |setting|
+      @settings_types << [setting.setting_type, setting.setting_type]
+    end
+    @settings_types
+  end
+
   #
   # def new_member(user_id)
   #   Member.new(permitted_params.member).tap do |member|

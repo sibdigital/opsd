@@ -37,6 +37,18 @@ var loadList = function() {
       }
     });
   });
+
+  jQuery('#setting-type-select').change(function()
+  {
+    var selectedValue = jQuery('#setting-type-select').val();
+    console.log(selectedValue);
+
+    if(selectedValue == 999) {
+      jQuery('#setting-type-select').hide();
+      jQuery('#setting-type-block').append("<input placeholder=\"введите новое значение типа\" id=\"setting-type-input\" class=\"form--text-field\" type=\"text\" name=\"plan_uploader_setting[setting_type]\">");
+    }
+  });
+
 };
 
 

@@ -10,9 +10,11 @@ by zbd
 <%= toolbar title: "Изменение поля" %>
 
 <%= labelled_tabular_form_for @plan_uploader_setting do |f| %>
-
-  <%#= render partial: 'settings', locals: { f: f , colname: @plan_uploader_setting.column_name, columns: @columns } %>
-  <%= render partial: 'settings', locals: { f: f , colname: @plan_uploader_setting.column_name } %>
+  <%= render partial: 'settings', locals: { f: f, columns: @columns,
+                                            colname: @plan_uploader_setting.column_name,
+                                            table: @table,
+                                            setting_type: @setting_type,
+                                            setting_types: @settings_types
+  } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-
 <% end %>
