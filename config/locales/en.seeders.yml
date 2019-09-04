@@ -1362,7 +1362,7 @@ en:
           column_num: 6
           is_pk: false
           table_name: work_packages
-          setting_type: UploadPlanType2
+          setting_type: UploadPlanType1
           column_type: text
         - column_name: subject
           column_num: 4
