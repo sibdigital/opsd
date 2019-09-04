@@ -317,10 +317,18 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :info,
             { controller: '/admin', action: 'info' },
-            caption: :label_information_plural,
+            caption: :label_information,
             last: true,
             icon: 'icon2 icon-info1',
             if: Proc.new { User.current.admin?}
+
+  # tmd
+  menu.push :groups,
+            { controller: '/plan_uploader_settings' },
+            caption: :label_plan_uploader_settings,
+            icon: 'icon2 icon-custom-fields',
+            if: Proc.new { User.current.admin?}
+
   #knm(
   menu.push :interactive_map,
             {controller: '/interactive_map', action: 'index'},

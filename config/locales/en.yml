@@ -562,6 +562,12 @@ en:
         required_doc_type: Необходимый контрольный документ
         result_agreed: Результат согласован
         #)
+        #knm(
+        first_due_date: Изначальная дата окончания
+        last_due_date: Текущая дата окончания
+        first_start_date: Изначальная дата начала
+        last_start_date: Текущая дата начала
+        #)
       doorkeeper/application:
         uid: ID клиента
         secret: Секрет клиента
@@ -810,6 +816,7 @@ en:
     blocks_ids: Идентификаторы заблокированных рабочих пакетов
     category: Категория
     sed_href: Ссылка СЭД
+    days: Количество рабочих дней
     code: Код
     comment: Комментарий
     comments: Комментарий
@@ -840,7 +847,10 @@ en:
     project_approve_status: Этап согласования
     is_approve: Утверждено
     #knm(
-
+#    first_due_date: Изначальная дата окончания
+#    last_due_date: Текущая дата окончания
+#    first_start_date: Изначальная дата начала
+#    last_start_date: Текущая дата начала
     #)
     issue: Пакет работ
     lastname: Фамилия
@@ -852,8 +862,14 @@ en:
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
     column_name: Название поля
+    setting_type: Тип настройки
+    text: Текст
+    number: Номер
     is_pk: Входит в первичный ключ
     name: Наименование
+    #)
+    #tmd (
+    column_type: Тип поля
     #)
     #(xcc
     organization: Организация
@@ -937,7 +953,10 @@ en:
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
-
+#  knm(
+  button_approve: Утвердить
+  button_confirm: Согласовать
+#  )
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
@@ -1849,6 +1868,7 @@ en:
   label_project_view_all: Реестр проектов
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
+  label_plan_uploader_settings: Настройка соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
   label_target_new: Добавить целевой показатель
@@ -2798,11 +2818,12 @@ en:
   text_journal_aggregation_time_explanation: Объединить журналы для отображения, если
     разница в их возрасте меньше заданного значения. Это приведет к задержке почтовых
     уведомлений на указанное время.
-  text_journal_changed: "%{label} изменено с %{old} <br/><strong>на</strong> %{new}"
+  text_journal_changed: "%{label} изменено с %{old} <strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
-  text_journal_changed_with_diff: "%{label} изменена (%{link})"
+  text_journal_changed_with_diff: "%{label} изменено (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
+  text_journal_hidden: "Текст о %{label} будет скрыт (Скрытое поле)"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"

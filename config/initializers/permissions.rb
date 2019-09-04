@@ -45,7 +45,7 @@ Redmine::AccessControl.map do |map|
                    agreements: %i[index new create edit update destroy],
                    #)
                    #zbd(
-                   stages: [:show,:init,:control,:execution,:completion,:analysis,:planning],
+                   stages: [:show,:init,:control,:execution,:completion,:analysis, :planning, :proceed_init, :cancel_init],
                    #)
                    #zbd(
                    raions: [:show]

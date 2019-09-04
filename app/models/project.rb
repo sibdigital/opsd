@@ -115,7 +115,7 @@ Project < ActiveRecord::Base
            class_name: 'Member'
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal
-
+  acts_as_journalized
   has_many :enabled_modules, dependent: :delete_all
   has_and_belongs_to_many :types, -> {
     order("#{::Type.table_name}.position")

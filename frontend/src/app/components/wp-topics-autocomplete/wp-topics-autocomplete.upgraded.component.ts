@@ -31,10 +31,10 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {MatDialog} from "@angular/material";
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {PeriodicElement, WpTopicsDialogComponent} from "../wp-topics-dialog/wp-topics-dialog.component";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {WpTopicsConfigurationModalComponent} from "core-components/wp-topics-dialog/wp-topics-configuration.modal";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
 
 export const wpTopicsAutocompleteUpgraded = 'wp-topics-autocomplete-upgraded';
 
@@ -45,17 +45,19 @@ export const wpTopicsAutocompleteUpgraded = 'wp-topics-autocomplete-upgraded';
 export class WpTopicsAutocompleteComponent {
   public selectedWP:string = '';
   public selectedWPid:string;
-  private dialogOpened = false; // maybe try await
-  private projectID:string;
+  private projectId:string;
   constructor(readonly pathHelper:PathHelperService,
               readonly element:ElementRef,
               protected halResourceService:HalResourceService,
               readonly I18n:I18nService,
-              public dialog:MatDialog) {  }
+              //bbm(
+              readonly opModalService:OpModalService) {
+    // )
+  }
 
   ngOnInit() {
     if (this.element.nativeElement.getAttribute('projectObject')) {
-      this.projectID = JSON.parse(this.element.nativeElement.getAttribute('projectObject'));
+      this.projectId = JSON.parse(this.element.nativeElement.getAttribute('projectObject'));
     }
     if (this.element.nativeElement.getAttribute('wpId')) {
       this.selectedWPid = JSON.parse(this.element.nativeElement.getAttribute('wpId'));
@@ -72,35 +74,20 @@ export class WpTopicsAutocompleteComponent {
 
   //bbm(
   openDialog():void {
-    let ELEMENT_DATA:PeriodicElement[] = [];
-    if (!this.dialogOpened) {
-    this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.wpByProject(this.projectID).toString())
-      .toPromise()
-      .then((values:CollectionResource<WorkPackageResource>) => {
-        values.elements.map(wp => {
-          ELEMENT_DATA.push({id: wp.id,
-            subject: wp.subject,
-            type: wp.type.$link.title,
-            status: wp.status.$link.title,
-            assignee: wp.assignee ? wp.assignee.$link.title :null});
-        });
-        const dialogRef = this.dialog.open(WpTopicsDialogComponent, {
-          height: '680px',
-          // width: '1050px',
-          data: ELEMENT_DATA
-        });
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.selectedWP = result.subject;
-            this.selectedWPid = result.id;
-          }
-          this.dialogOpened = false;
-        });
-      });
-    }
-    this.dialogOpened = true;
+    const modal = this.opModalService.show<WpTopicsConfigurationModalComponent>(WpTopicsConfigurationModalComponent, {projectId: this.projectId});
+    modal.closingEvent.subscribe((modal:WpTopicsConfigurationModalComponent) => {
+      if (modal.selectedWp) {
+        /*this.$element = jQuery(this.element.nativeElement);
+        const input = this.$input = this.$element.find('.wp-relations--autocomplete');
+        input.val(this.getIdentifier(modal.selectedWp));
+        this.onSelect.emit(modal.selectedWp.id);*/
+
+        this.selectedWP = modal.selectedWp.subject;
+        this.selectedWPid = modal.selectedWp.id;
+      }
+    });
   }
+  //)
 }
 
 DynamicBootstrapper.register({ selector: wpTopicsAutocompleteUpgraded, cls: WpTopicsAutocompleteComponent });

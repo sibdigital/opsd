@@ -145,10 +145,15 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   //bbm(
-  public toggleFirstOrLasDueDate(value = !this.current.autoZoom) {
+  public setFirstOrLasHistDate(option:number) {
     let currentState = this.current;
-    currentState.firstOrLastDueDate = !currentState.firstOrLastDueDate;
+    currentState.firstOrLastHistDate = option;
     this.state.putValue(currentState);
+  }
+
+  public getFirstOrLasHistDate():number {
+    let currentState = this.current;
+    return currentState.firstOrLastHistDate;
   }
   //)
 

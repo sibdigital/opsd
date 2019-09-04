@@ -831,7 +831,11 @@ en:
         visibility_settings: Параметры видимости ...
         page_settings: Переименовать представления...
         delete: Удалить
-        first_or_last_due_date: Первый или последний базовый план
+        first_hist_date: Базовый план
+        save_gantt_pdf: Сохранить диаграмму Гантта в PDF
+        save_gantt_png: Сохранить диаграмму Гантта в PNG
+        last_hist_date: Последние изменения
+        no_hist_date: Только текущий
       filter: Фильтр
       unselected_title: Пакет работ
       search_query_label: Найти сохраненные представления
@@ -842,6 +846,7 @@ en:
       label_name: Имя
       label_delete_page: Удалить текущую страницу
       button_apply: Применить
+      button_choose: Выбрать
       button_save: Сохранить
       button_submit: Отправить
       button_cancel: Отмена

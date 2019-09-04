@@ -25,10 +25,12 @@ module DemoData
 
     def new_setting(attributes)
       PlanUploaderSetting.new.tap do |s|
-        s.column_name  =        attributes[:column_name]
-        s.column_num =         attributes[:column_num]
-        s.is_pk  =   attributes[:is_pk]
-        s.table_name  =   attributes[:table_name]
+        s.column_name = attributes[:column_name]
+        s.column_num = attributes[:column_num]
+        s.is_pk = attributes[:is_pk]
+        s.table_name = attributes[:table_name]
+        s.setting_type = attributes[:setting_type]
+        s.column_type = attributes[:column_type]
       end
     end
   end

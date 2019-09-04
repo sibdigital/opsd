@@ -46,7 +46,7 @@ export interface CellDateMovement {
 export type LabelPosition = 'left' | 'right' | 'farRight';
 
 export class TimelineCellRenderer {
-  readonly TimezoneService = this.injector.get(TimezoneService);
+  readonly timezoneService = this.injector.get(TimezoneService);
   readonly wpTableTimeline:WorkPackageTableTimelineService = this.injector.get(WorkPackageTableTimelineService);
   public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer(this.injector, 'timeline');
 
@@ -281,25 +281,34 @@ export class TimelineCellRenderer {
         }
       }
     }
-    let histStart = renderInfo.viewParams.settings.firstOrLastDueDate ? moment(renderInfo.workPackage.firstStartDate) : moment(renderInfo.workPackage.lastStartDate);
-    let histDue = renderInfo.viewParams.settings.firstOrLastDueDate ? moment(renderInfo.workPackage.firstDueDate) : moment(renderInfo.workPackage.lastDueDate);
-    if (!_.isNaN(histStart.valueOf()) && !_.isNaN(histDue.valueOf())) {
-      let histBar = _.find(bar.childNodes, (child:any) => {return child.className === 'histBar'; });
-      const offsetHistStart = histStart.diff(start, 'days');
-      const histWidth = histDue.diff(histStart, 'days') + 1;
-      if (histBar) {
-        histBar.style.left = calculatePositionValueForDayCount(viewParams, offsetHistStart);
-        histBar.style.width = calculatePositionValueForDayCount(viewParams, histWidth);
-        let status = renderInfo.workPackage.status;
-        if (!status) {
-          histBar.style.borderColor = 'black';
+    if (renderInfo.viewParams.settings.firstOrLastHistDate !== 0) {
+      let histStart = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? moment(renderInfo.workPackage.firstStartDate) : moment(renderInfo.workPackage.lastStartDate);
+      let histDue = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? moment(renderInfo.workPackage.firstDueDate) : moment(renderInfo.workPackage.lastDueDate);
+      if (!_.isNaN(histStart.valueOf()) && !_.isNaN(histDue.valueOf())) {
+        let histBar = _.find(bar.childNodes, (child:any) => {
+          return child.className === 'histBar';
+        });
+        const offsetHistStart = offsetStart === 0 ? histStart.diff(viewParams.dateDisplayStart, 'days') : histStart.diff(start, 'days');
+        const histWidth = histDue.diff(histStart, 'days') + 1;
+        if (histBar) {
+          histBar.style.left = calculatePositionValueForDayCount(viewParams, offsetHistStart);
+          histBar.style.width = calculatePositionValueForDayCount(viewParams, histWidth);
+          let status = renderInfo.workPackage.status;
+          if (!status) {
+            histBar.style.borderColor = 'black';
+          }
+          const id = status.getId();
+          const today = moment().startOf('day');
+          const overdueOrNot = histDue.diff(today, 'days');
+          if (overdueOrNot <= -1) {
+            histBar.classList.add('__hl_border_overdue');
+          } else {
+            histBar.classList.add(Highlighting.borderClass('status', id));
+          }
         }
-        const id = status.getId();
-        histBar.classList.add(Highlighting.borderClass('status', id));
       }
     }
     //)
-
     return true;
   }
 
@@ -369,10 +378,14 @@ export class TimelineCellRenderer {
       fact.className = classNameFactBar;
       bar.appendChild(fact);
     }
-    if (renderInfo.workPackage.firstDueDate && renderInfo.workPackage.lastDueDate && renderInfo.workPackage.firstStartDate && renderInfo.workPackage.lastStartDate) {
-      const hist = document.createElement('div');
-      hist.className = classNameHistBar;
-      bar.appendChild(hist);
+    if (renderInfo.viewParams.settings.firstOrLastHistDate !== 0) {
+      let histStart = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? renderInfo.workPackage.firstStartDate : renderInfo.workPackage.lastStartDate;
+      let histDue = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? renderInfo.workPackage.firstDueDate : renderInfo.workPackage.lastDueDate;
+      if (histStart && histDue) {
+        const hist = document.createElement('div');
+        hist.className = classNameHistBar;
+        bar.appendChild(hist);
+      }
     }
     //)
     return bar;
@@ -422,14 +435,19 @@ export class TimelineCellRenderer {
   }
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
-    let status = wp.status;
-    if (!status) {
-      element.style.backgroundColor = this.fallbackColor;
+    const diff = this.timezoneService.daysFromToday(wp.dueDate);
+    if (diff <= -1) {
+      element.classList.add('__hl_row_overdue');
+    } else {
+      let status = wp.status;
+      if (!status) {
+        element.style.backgroundColor = this.fallbackColor;
+      }
+      const id = status.getId();
+      element.classList.add(Highlighting.rowClass('status', id));
     }
-    const id = status.getId();
-    element.classList.add(Highlighting.rowClass('status', id));
-    //bbm(
-    /*if (renderInfo.viewParams.settings.firstOrLastDueDate) {
+    //bbm( Старый вариант по типу мероприятия
+    /*if (renderInfo.viewParams.settings.firstOrLastHistDate) {
       let type = wp.type;
       if (!type) {
         element.style.backgroundColor = this.fallbackColor;

@@ -13,9 +13,44 @@ class StagesController < ApplicationController
   end
 
   def init
+    @button_visibility = check_button_visibility
     @id = params['project_id']
     params['id'] = params['project_id']
     @altered_project = @project
+  end
+
+  def cancel_init
+    @project.project_status_id = ProjectStatus.where(name: I18n.t(:default_project_status_not_start)).first.id
+    @project.save
+    @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_init)).first.id
+    @project.save
+    redirect_to action: 'init'
+  end
+
+  def proceed_init
+    if User.current.project_head? @project
+      @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_project_head)).first.id
+      @project.save
+    elsif User.current.project_office_coordinator? @project
+      @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_agreed_project_office_coordinator)).first.id
+      @project.save
+    elsif User.current.project_office_manager? @project
+      @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_agreed_project_office_manager)).first.id
+      @project.save
+    elsif User.current.project_curator? @project
+      @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_curator)).first.id
+      @project.save
+    elsif User.current.project_activity_coordinator? @project
+      @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_glava)).first.id
+      @project.project_status_id = ProjectStatus.where(name: I18n.t(:default_project_status_in_work)).first.id
+      @project.save
+    elsif User.current.project_region_head? @project
+      @project.project_status_id = ProjectStatus.where(name: I18n.t(:default_project_status_in_work)).first.id
+      @project.save
+      @project.project_approve_status_id = ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_glava)).first.id
+      @project.save
+    end
+    redirect_to action: 'init'
   end
 
   def completion
@@ -24,6 +59,24 @@ class StagesController < ApplicationController
 
   def analysis
     @id = params['project_id']
+  end
+
+  def check_button_visibility
+    response = false
+    if (User.current.project_head? @project )&& (@project.project_approve_status_id == ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_init)).first.id)
+      response = true
+    elsif (User.current.project_office_coordinator? @project) && (@project.project_approve_status_id == ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_project_head)).first.id)
+      response = true
+    elsif  (User.current.project_office_manager? @project) && (@project.project_approve_status_id == ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_agreed_project_office_coordinator)).first.id)
+      response = true
+    elsif  (User.current.project_curator? @project) && (@project.project_approve_status_id == ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_agreed_project_office_manager)).first.id)
+      response = true
+    elsif  (User.current.project_activity_coordinator? @project) && (@project.project_approve_status_id == ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_curator)).first.id)
+      response = true
+    elsif  (User.current.project_region_head? @project )&& (@project.project_approve_status_id == ProjectApproveStatus.where(name: I18n.t(:default_project_approve_status_approve_curator)).first.id)
+      response = true
+    end
+    response
   end
 
   def control

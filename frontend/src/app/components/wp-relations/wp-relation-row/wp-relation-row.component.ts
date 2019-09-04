@@ -6,6 +6,7 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
 import {Component, ElementRef, Inject, Input, OnInit, ViewChild} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 
 @Component({
@@ -18,8 +19,10 @@ export class WorkPackageRelationRowComponent implements OnInit {
   @Input() public groupByWorkPackageType:boolean;
 
   @ViewChild('relationDescriptionTextarea') readonly relationDescriptionTextarea:ElementRef;
-
-  public relationType:string;
+  //bbm(
+  public currentRelationType:string;
+  public delay:number = 0;
+  //)
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
   public availableRelationTypes:{ label:string, name:string }[];
@@ -62,7 +65,10 @@ export class WorkPackageRelationRowComponent implements OnInit {
 
   ngOnInit() {
     this.relation = this.relatedWorkPackage.relatedBy as RelationResource;
-
+    //bbm(
+    this.currentRelationType = this.relation.normalizedType(this.workPackage);
+    this.delay = this.relation.delay;
+    //)
     this.userInputs.newRelationText = this.relation.description || '';
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
@@ -74,8 +80,7 @@ export class WorkPackageRelationRowComponent implements OnInit {
    * That is, normalize `precedes` where the work package is the `to` link.
    */
   public get normalizedRelationType() {
-    var type = this.relation.normalizedType(this.workPackage);
-    return this.I18n.t('js.relation_labels.' + type);
+    return this.I18n.t('js.relation_labels.' + this.currentRelationType);
   }
 
   public get relationReady() {
@@ -161,4 +166,16 @@ export class WorkPackageRelationRowComponent implements OnInit {
       .catch((err:any) => this.wpNotificationsService.handleRawError(err,
         this.relatedWorkPackage));
   }
+
+  //bbm(
+  public saveDelay() {
+    this.wpRelations.updateRelation(this.relation, {delay: this.delay})
+      .then((savedRelation:RelationResource) => {
+        this.relation = savedRelation;
+        this.relatedWorkPackage.relatedBy = savedRelation;
+        this.delay = this.relation.delay;
+        this.wpNotificationsService.showSave(this.relatedWorkPackage);
+      });
+  }
+  //)
 }
