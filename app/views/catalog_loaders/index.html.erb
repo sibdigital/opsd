@@ -3,6 +3,7 @@
 <%= form_tag load_catalog_loaders_path, multipart: true do %>
   <%= file_field_tag "file" %>
   <%= text_field_tag "first_row" %>
+  <%= hidden_field_tag "catalog_type", params[:catalog_type] %>
 
   <%= submit_tag "Загрузить" %>
 <% end %>

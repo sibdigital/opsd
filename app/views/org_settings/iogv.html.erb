@@ -111,7 +111,6 @@
                 </div>
               </div>
             </th>
-
           </tr>
           </thead>
           <tbody>
@@ -123,16 +122,6 @@
       </div>
       <div class="wp-inline-create-button">
         <%= link_to new_organization_path(:org_type => @org_type),
-                    aria: { label: t(:button_add) },
-                    class: 'wp-inline-create--add-link',
-                    title: t(:button_add) do
-          op_icon('icon icon-add')
-        end %>
-      </div>
-
-      <div class="wp-inline-create-button">
-
-        <%= link_to catalog_loaders_path(:org_type => @org_type),
                     aria: { label: t(:button_add) },
                     class: 'wp-inline-create--add-link',
                     title: t(:button_add) do
