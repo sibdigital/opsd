@@ -44,7 +44,7 @@ import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/t
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {WorkPackageEditingPortalService} from "core-app/modules/fields/edit/editing-portal/wp-editing-portal-service";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
-import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
+import {EditFieldControlsComponent} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
