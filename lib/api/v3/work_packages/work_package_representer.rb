@@ -342,11 +342,8 @@ module API
         property :days,
                  render_nil: false,
                  getter: ->(*) {
-                   pcalendar = ProductionCalendar.where('date >= ?',start_date)
-                   working_days = []
-                   Setting.where(name: 'work_days').map do |i|
-                     working_days = i.value.digits.to_a
-                   end
+                   pcalendar = ProductionCalendar.get_transfered
+                   working_days = Setting.working_days
                    i = 0
                    current = start_date
                    while current < due_date
