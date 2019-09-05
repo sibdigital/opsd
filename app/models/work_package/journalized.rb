@@ -94,8 +94,9 @@ module WorkPackage::Journalized
                                   :planning_element_status_id,
                                   :author_id, :responsible_id,
                                   #zbd(
-                                  :contract_id, :target_id
+                                  :contract_id, :target_id, :required_doc_type_id, :organization_id
                                   #)
+
     register_on_journal_formatter :datetime, :start_date, :due_date
     register_on_journal_formatter :plaintext, :subject
   end
