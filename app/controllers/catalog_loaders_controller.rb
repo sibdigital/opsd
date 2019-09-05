@@ -41,15 +41,24 @@ class CatalogLoadersController < ApplicationController
       file.write(uploaded_io.read)
     end
 
-    settings = PlanUploaderSetting.select('column_name, column_num, column_type, is_pk').where("table_name = ?", @catalog).order('column_num ASC').all
-
-    settings.each do |item|
-
-    end
-
+    settings = PlanUploaderSetting.select('column_name, column_num, column_type, is_pk').where("table_name = ?", catalog).order('column_num ASC').all
     xlsx = Roo::Excelx.new(filename)
+
     xlsx.each_row_streaming(offset: starts_from - 1) do |row|
-      settings.each { |setting| rr[setting.column_name] = Hash['column_name', setting.column_name, setting.column_name, row[setting.column_num].value, 'is_pk', setting.is_pk] }
+      attributes = {}
+      for i in (0...settings.length)
+        attribute = settings[i]['column_name']
+        attributes[attribute] = row[i].to_s
+      end
+
+      case catalog
+      when "contract"
+        contract = Contract.new(attributes)
+        contract.save
+      when "work_package"
+        work_package = WorkPackage.new(attributes)
+        work_package.save
+      end
 
     end
 
