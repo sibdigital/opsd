@@ -169,6 +169,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       .toPromise()
       .then((resource:HalResource) => {
         let els = resource.elements;
+        this.wpTargetIds = [];
         this.wpTargets = els.map( (el:any) => {
             // список id
             if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
@@ -308,7 +309,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       if (this.wpTargets.find(value => {
         return (value.target_id == target.target_id)
           && (value.year == target.year)
-          && (value.quarter == target.quarter)
+          && ((value.quarter == target.quarter)||(value.quarter == null))
           && (value.month == null)    // когда месяц не указан
           && (value.id != target.id) // не сравниваем с самим собой
       })
