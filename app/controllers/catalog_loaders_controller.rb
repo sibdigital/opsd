@@ -52,16 +52,19 @@ class CatalogLoadersController < ApplicationController
       end
 
       case catalog
-      when "contract"
+      when "contracts"
         contract = Contract.new(attributes)
-        contract.save
-      when "work_package"
+        # Возвращает true или false. Если false - вывести сообщение об ошибке
+        result = contract.save
+      when "work_packages"
         work_package = WorkPackage.new(attributes)
         work_package.save
       end
 
+      # flash[:notice] = l(:notice_successful_create)
     end
 
+    redirect_to :controller => catalog, :action => 'index'
   end
 
 
