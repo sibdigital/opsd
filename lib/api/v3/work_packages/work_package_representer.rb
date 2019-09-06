@@ -142,6 +142,17 @@ module API
           }
         end
 
+        #bbm(
+        link :availableRelationCandidatesPaged do
+          next if represented.new_record?
+
+          {
+            href: api_v3_paths.work_package_available_relation_candidates_paged(represented.id),
+            title: "Potential work packages to relate to (paged)"
+          }
+        end
+        # )
+
         link :customFields,
              cache_if: -> { current_user_allowed_to(:edit_project, context: represented.project) } do
           next if represented.project.nil?
@@ -328,6 +339,29 @@ module API
         property :sed_href,
                  render_nil: true
 
+        property :days,
+                 render_nil: false,
+                 getter: ->(*) {
+                   pcalendar = ProductionCalendar.get_transfered
+                   working_days = Setting.working_days
+                   i = 0
+                   current = start_date
+                   while current < due_date
+                     current += 1
+                     cal = pcalendar.find_by(date: current) rescue nil
+                     if cal
+                       if cal.day_type == 0
+                         i += 1
+                       end
+                     else
+                       if working_days.include? current.wday
+                         i += 1
+                       end
+                     end
+                   end
+                   i
+                 }
+
         property :problems_count,
                  render_nil: true,
                  getter: ->(*) {
@@ -469,6 +503,64 @@ module API
         associated_resource :project
 
         associated_resource :status
+
+        #bbm(
+        property :is_closed,
+        exec_context: :decorator,
+          getter: ->(*) {
+            represented.status.is_closed
+          }
+
+        property :fact_due_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.fact_due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :first_due_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.first_due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :last_due_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.last_due_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :first_start_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.first_start_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+
+        property :last_start_date,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_date(represented.last_start_date, allow_nil: true)
+                 end,
+                 render_nil: true,
+                 skip_render: ->(_) {
+                   represented.milestone?
+                 }
+        # )
 
         associated_resource :author,
                             v3_path: :user,

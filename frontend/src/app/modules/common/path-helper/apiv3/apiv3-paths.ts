@@ -195,4 +195,8 @@ export class ApiV3Paths {
 
     return this.apiV3Base + '/work_packages' + '?' + filters.toParams() + encodeURI('&sortBy=[["updatedAt","desc"]]&offset=1&pageSize=10');
   }
+
+  public wpByProject(projectId:string) {
+    return this.apiV3Base + '/projects/' + projectId + '/work_packages';
+  }
 }

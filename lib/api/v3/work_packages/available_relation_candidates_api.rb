@@ -31,6 +31,7 @@ module API
     module WorkPackages
       class AvailableRelationCandidatesAPI < ::API::OpenProjectAPI
         helpers ::API::V3::WorkPackages::AvailableRelationCandidatesHelper
+        helpers ::API::Utilities::ParamsHelper
 
         resources :available_relation_candidates do
           params do
@@ -54,6 +55,40 @@ module API
             )
           end
         end
+
+        #bbm(
+        resources :available_relation_candidates_paged do
+          params do
+            optional :type, type: String, default: "relates" # relation type
+            optional :pageSize, type: Integer, default: 10
+            optional :offset, type: Integer, default: 1
+          end
+          get do
+            from = @work_package
+
+            canonical_type = Relation.canonical_type(params[:type])
+            work_packages = if params[:type] != 'parent' && canonical_type == params[:type]
+                              WorkPackage
+                                .relateable_to(from).order(:id)
+                            else
+                              WorkPackage
+                                .relateable_from(from).order(:id)
+                            end
+            WorkPackageCollectionRepresenter.new(
+              work_packages,
+              api_v3_paths.available_relation_candidates(from.id),
+              project: nil,
+              query: {},
+              page: to_i_or_nil(params[:offset]),
+              per_page: to_i_or_nil(params[:pageSize]),
+              groups: nil,
+              total_sums: nil,
+              embed_schemas: false,
+              current_user: current_user
+            )
+          end
+        end
+        #)
       end
     end
   end

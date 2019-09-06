@@ -2,17 +2,26 @@
 <%= breadcrumb_toolbar "Загрузить" %>
 <%= labelled_tabular_form_for [@project, @plan_uploader] do |f| %>
   <div class = "upload">
+    <div class="form--field" >
+      <label for="row_num">Тип плана:</label>
+      <span class="form--field-container">
+        <span class="form--text-field-container -middle">
+          <%#= select_tag 'plan_type', options_for_select([['План 1 (План мероприятий по реализации регионального проекта)', 1], ['План 2 (Контрольные точки)', 2]]) %>
+          <%= select_tag 'plan_type', options_for_select(@settings_types) %>
+        </span>
+      </span>
+    </div>
     <div class="form--field">
-      <%#= f.text_field 'status', container_class: '-middle' %>
       <%= f.file_field :name, container_class: '-middle' %>
-      <%#= f.text_field 'first_row_num', container_class: '-middle' %>
+    </div>
+    <div class="form--field" >
       <label for="row_num">№ первой строки (по умолчанию):</label>
       <span class="form--field-container">
         <span class="form--text-field-container -middle">
           <input id="row_num" type="text" name="first_row_num" value="5" class="-form--text-field" container_class="-middle">
         </span>
       </span>
-      <%= f.submit "Загрузить", class: "btn btn-primary" %>
     </div>
+    <%= f.submit "Загрузить", class: "btn btn-primary" %>
   </div>
 <% end %>

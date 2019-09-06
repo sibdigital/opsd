@@ -28,6 +28,21 @@
 #++
 
 class Setting < ActiveRecord::Base
+  #bbm(
+  @@working_days = []
+  after_save :reset_working_days
+  def reset_working_days
+    @@working_days = []
+  end
+  def self.working_days
+    if @@working_days == []
+      Setting.where(name: 'work_days').map do |i|
+        @@working_days = i.value.digits.to_a
+      end
+    end
+    @@working_days
+  end
+  # )
   DATE_FORMATS = [
     '%Y-%m-%d',
     '%d/%m/%Y',

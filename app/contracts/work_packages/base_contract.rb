@@ -160,6 +160,9 @@ module WorkPackages
       end
 
       super + model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }
+      #bbm(
+      super + ['days']
+      # )
     end
 
     private

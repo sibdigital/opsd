@@ -3,30 +3,32 @@ class PlanUploaderSettingsController < ApplicationController
   layout 'admin'
 
   before_action :find_setting, only: [:edit, :update, :destroy]
-  # before_action :update_column, only: [:new, :edit, :update]
+  # before_action :get_columns, only: [:new, :edit, :update]
+  before_action :get_setting_types, except: [:destroy]
+
+  attr_accessor :selected_table
+
 
   def index
     @plan_uploader_settings = PlanUploaderSetting.order('table_name asc, column_num asc').all
   end
 
   def edit
+    @setting_type = params['setting_type']
     @plan_uploader_setting = PlanUploaderSetting.find(params[:id])
-  end
-
-  def new
-    @plan_uploader_setting = PlanUploaderSetting.new
-    # @plan_uploader_setting.table_name = 'work_packages'
     get_columns
   end
 
-  def show
-
+  def new
+    @setting_type = params['setting_type']
+    @plan_uploader_setting = PlanUploaderSetting.new
+    get_columns
   end
 
   def create
     @plan_uploader_setting = PlanUploaderSetting.new(permitted_params.plan_uploader_setting)
 
-    if @plan_uploader_setting.save!
+    if @plan_uploader_setting.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: 'index'
     else
@@ -75,6 +77,26 @@ class PlanUploaderSettingsController < ApplicationController
   end
 
   protected
+
+  def get_setting_types
+    # массив типов для общего списка
+    @plan_uploader_settings_types = PlanUploaderSetting.select(:setting_type).group('setting_type').order('setting_type asc').all
+    # массив типов для select'ов
+    @settings_types = []
+    @plan_uploader_settings_types.each do |setting|
+      @settings_types << [setting.setting_type, setting.setting_type]
+    end
+
+    if !@settings_types.include?(['UploadPlanType1', 'UploadPlanType1'])
+      @settings_types << ['UploadPlanType1', 'UploadPlanType1']
+    end
+    if !@settings_types.include?(['UploadPlanType2', 'UploadPlanType2'])
+      @settings_types << ['UploadPlanType2', 'UploadPlanType2']
+    end
+    @settings_types << ['выберите для ввода новой настройки', 999]
+    # текущее значение
+    @setting_type = params[:setting_type]
+  end
 
   def get_columns
     not_permit_fields = ["id", "created_at", "updated_at"]

@@ -148,7 +148,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def cost_object_added(user, cost_object, author)
+  def cost_object_added(user, cost_object, author, timenow)
+    @timenow = timenow
     @cost_object = cost_object
 
     #open_project_headers 'Type'    => 'Cost_objects'
@@ -162,7 +163,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def member_added(user, project, added_user, author)
+  def member_added(user, project, added_user, author, timenow)
+    @timenow = timenow
     @project = project
     @added_user = added_user
 
@@ -177,7 +179,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def member_deleted(user, project, deleted_user, author)
+  def member_deleted(user, project, deleted_user, author, timenow)
+    @timenow = timenow
     @project = project
     @deleted_user = deleted_user
 
@@ -192,7 +195,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_added(user, board, author, project)
+  def board_added(user, board, author, project, timenow)
+    @timenow = timenow
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
@@ -206,7 +210,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_changed(user, board, author, project)
+  def board_changed(user, board, author, project, timenow)
+    @timenow = timenow
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
@@ -220,7 +225,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_moved(user, board, author, project)
+  def board_moved(user, board, author, project, timenow)
+    @timenow = timenow
     @board = board
     @project = project
     @url_to_board = Setting.host_name+'/projects/'+@project.name+'/boards/'+@board.id.to_s
@@ -234,20 +240,22 @@ class UserMailer < BaseMailer
     end
   end
 
-  def board_deleted(user, board, author, project)
-    @board = board
+  def board_deleted(user, boardname, author, project, timenow)
+    @timenow = timenow
+    @boardname = boardname
     @project = project
     #open_project_headers 'Type'    => 'Boards'
     #open_project_headers 'Project' => @project.identifier
     #message_id @project, user
 
     with_locale_for(user) do
-      subject = 'По проекту "'+@project.name+'" удалена дискуссия: '+@board.name
+      subject = 'По проекту "'+@project.name+'" удалена дискуссия: '+@boardname
       mail_for_author author, to: user.mail, subject: subject
     end
   end
 
-  def news_changed(user, news, author, project)
+  def news_changed(user, news, author, project, timenow)
+    @timenow = timenow
     @news = news
     @project = project
     #open_project_headers 'Type'    => 'Boards'
@@ -260,7 +268,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def news_deleted(user, news, author, project)
+  def news_deleted(user, news, author, project, timenow)
+    @timenow = timenow
     @news = news
     @project = project
     #open_project_headers 'Type'    => 'Boards'
@@ -310,7 +319,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def project_deleted(user, project, author)
+  def project_deleted(user, project, author, timenow)
+    @timenow = timenow
     @project = project
     #open_project_headers 'Type'    => 'Boards'
     #open_project_headers 'Project' => @project.identifier
@@ -590,7 +600,8 @@ class UserMailer < BaseMailer
   end
 
 #ban (
-  def message_changed(user, message, author)
+  def message_changed(user, message, author, timenow)
+    @timenow = timenow
     @message     = message
     @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
 
@@ -607,7 +618,8 @@ class UserMailer < BaseMailer
     end
   end
 
-  def message_deleted(user, project_name, board_name, message_subject, author)
+  def message_deleted(user, project_name, board_name, message_subject, author, timenow)
+    @timenow = timenow
     @project_name = project_name
     @board_name = board_name
     @message_subject = message_subject

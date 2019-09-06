@@ -225,7 +225,8 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public getSchemaName(name:string):string {
-    if (this.isMilestone && (name === 'startDate' || name === 'dueDate')) {
+    //bbm(if (this.isMilestone && (name === 'startDate' || name === 'dueDate')) {)
+    if (this.isMilestone && (name === 'startDate' || name === 'dueDate' || name === 'factDueDate')) {
       return 'date';
     } else {
       return name;

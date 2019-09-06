@@ -1,6 +1,7 @@
-<form name="add_relation_form" class="form">
-  <input type="text"
-         class="wp-relations--autocomplete ui-autocomplete--input" style="display: inline"
+<form name="add_relation_form" class="form" >
+    <div style="display: flex">
+    <input type="text"
+         class="wp-relations--autocomplete ui-autocomplete--input"
          [ngClass]="{ '-error': noResults && !initialSelection }"
          (keydown.enter)="handleEnterPressed($event)"
          (keydown.escape)="onEscapePressed.emit($event)"
@@ -15,5 +16,9 @@
       <div class="block-5"></div>
     </div>
   </div>
-  <button mat-raised-button (click)="openDialog()" style="width: 30px; margin-left: -35px;">...</button>
+    <button (click)="openDialog()"
+            [ngStyle]="{'background':'#1a68a3','color':'#fff','margin-left':'10px','margin-right':'10px','float':'right','border':'none','border-radius':'1px'}"
+            type="button">
+      ...</button>
+    </div>
 </form>

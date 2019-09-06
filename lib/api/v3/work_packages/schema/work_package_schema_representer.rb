@@ -125,6 +125,9 @@ module API
                  required: false,
                  min_length: 1,
                  max_length: 255
+          schema :days,
+                 type: 'Integer',
+                 required: false
           # )
 
           #zbd(
@@ -147,6 +150,29 @@ module API
                  type: 'Date',
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
+
+          #bbm(
+          schema :fact_due_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+          schema :first_due_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+          schema :last_due_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+          schema :first_start_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+          schema :last_start_date,
+                 type: 'Date',
+                 required: false,
+                 show_if: ->(*) { !represented.milestone? }
+          # )
 
           schema :date,
                  type: 'Date',

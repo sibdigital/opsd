@@ -246,10 +246,11 @@ class ProjectsController < ApplicationController
       Member.where(project_id: @project.id).each do |member|
         Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
       end
-      #ban()
+      #ban(
+      @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
       if Setting.notified_events.include?('project_deleted')
         @project.recipients.uniq.each do |user|
-          UserMailer.project_deleted(user, @project, User.current).deliver_later
+          UserMailer.project_deleted(user, @project, User.current, @timenow).deliver_later
         end
       end
       #)

@@ -317,7 +317,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :info,
             { controller: '/admin', action: 'info' },
-            caption: :label_plan_uploader_settings,
+            caption: :label_information,
             last: true,
             icon: 'icon2 icon-info1',
             if: Proc.new { User.current.admin?}
@@ -326,6 +326,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :groups,
             { controller: '/plan_uploader_settings' },
             caption: :label_plan_uploader_settings,
+            icon: 'icon2 icon-custom-fields',
             if: Proc.new { User.current.admin?}
 
   #knm(
@@ -400,14 +401,56 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   ##zbd(
   menu.push :stages,
-            { controller: '/stages', action: 'show' },
+            {},
             param: :project_id,
             caption: :label_stages,
             if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-etap',
-            parent: :analyze
+            icon: 'icon2 icon-etap'
   # )
-
+  # knm(
+  menu.push :stages_init,
+            {controller: '/stages', action: 'init'},
+            param: :project_id,
+            caption: :label_stage_init,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_analysis,
+            {controller: '/stages', action: 'analysis'},
+            param: :project_id,
+            caption: :label_stage_analysis,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_planning,
+            {controller: '/stages', action: 'planning'},
+            param: :project_id,
+            caption: :label_stage_planning,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_execution,
+            {controller: '/stages', action: 'execution'},
+            param: :project_id,
+            caption: :label_stage_execution,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_control,
+            {controller: '/stages', action: 'control'},
+            param: :project_id,
+            caption: :label_stage_control,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  menu.push :stages_completion,
+            {controller: '/stages', action: 'completion'},
+            param: :project_id,
+            caption: :label_stage_completion,
+            if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-etap',
+            parent: :stages
+  # )
   # +tan 2019.07.16
   # menu.push :all_plans,
   #             { controller: '/stages', action: 'show' },
@@ -518,6 +561,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             if: Proc.new { |p| p.boards.any? },
             caption: :label_board_plural,
+            parent: :communications,
             icon: 'icon2 icon-ticket-note'
 
   #+-tan 2019.07.16

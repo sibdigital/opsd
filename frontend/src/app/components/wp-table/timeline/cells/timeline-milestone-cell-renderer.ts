@@ -114,7 +114,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return direction;
   }
 
-  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo): boolean {
+  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
     const viewParams = renderInfo.viewParams;
     const date = moment(renderInfo.changeset.value('date'));
 
