@@ -27,6 +27,412 @@
 #++
 en:
   seeders:
+
+    basic_data:
+      national_projects:
+        - name: Здравоохранение
+          type: National
+          leader_position: Министр здравоохранения РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: Т.А. Голикова
+          leader: В.И. Скворцова
+        - name: Образование
+          type: National
+          leader_position: Министр просвещения РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: Т.А. Голикова
+          leader: О.Ю. Васильева
+        - name: Демография
+          type: National
+          leader_position: Министр труда и социальной защиты РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: Т.А. Голикова
+          leader: М.А. Топилин
+        - name: Культура
+          type: National
+          leader_position: Министр культуры РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: О.Ю. Голодец
+          leader: В.Р. Мединский
+        - name: Безопасные и качественные автомобильные дороги
+          type: National
+          leader_position: Министр транспорта РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: М.А. Акимов
+          leader: Е.И. Дитрих
+        - name: Жильё и городская среда
+          type: National
+          leader_position: Министр строительства и жилищно-коммунального хозяйства РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: В.Л. Мутко
+          leader: В.В. Якушев
+        - name: Экология
+          type: National
+          leader_position: Министр природных ресурсов и экологии РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: А.В. Гордеев
+          leader: Д.Н. Кобылкин
+        - name: Наука
+          type: National
+          leader_position: Министр науки и высшего образования РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: Т.А. Голикова
+          leader: М.М. Котюков
+        - name: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+          type: National
+          leader_position: Министр экономического развития РФ
+          curator_position: Первый заместитель Председателя Правительства РФ - Министр финансов РФ
+          curator: А.Г. Силуанов
+          leader: М.С. Орешкин
+        - name: Цифровая экономика
+          type: National
+          leader_position: Министр цифрового развития, связи и массовых коммуникаций РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: М.А. Акимов
+          leader: К.Ю. Носков
+        - name: Производительность труда и поддержка занятости
+          type: National
+          leader_position: Министр экономического развития РФ
+          curator_position: Первый заместитель Председателя Правительства РФ - Министр финансов РФ
+          curator: А.Г. Силуанов
+          leader: М.С. Орешкин
+        - name: Международная кооперация и экспорт
+          type: National
+          leader_position: Министр промышленности и торговли РФ
+          curator_position: Первый заместитель Председателя Правительства РФ - Министр финансов РФ
+          curator: А.Г. Силуанов
+          leader: Д.В. Мантуров
+        - name: Комплексный план модернизации и расширения магистральной инфраструктуры на период до 2024 года
+          type: National
+          leader_position: Министр транспорта РФ
+          curator_position: Заместитель Председателя Правительства РФ
+          curator: М.А. Акимов
+          leader: Е.И. Дитрих
+
+      federal_projects:
+        - name: Развитие системы оказания первичной медико-санитарной помощи
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+        - name: Борьба с сердечно-сосудистыми заболеваниями
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+        - name: Борьба с онкологическими заболеваниями
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+        - name: Развитие детского здравоохранения, включая создание современной инфраструктуры оказания медицинской помощи детям
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+        - name: Обеспечение медицинских организаций системы здравоохранения квалифицированными кадрами
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+        - name: Развитие сети национальных медицинских исследовательских центров и внедрение инновационных медицинских технологий
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+        - name: Создание единого цифрового контура в здравоохранении на основе единой государственной информационной системы в сфере здравоохранения (ЕГИСЗ)
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+        - name: Развитие экспорта медицинских услуг
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Здравоохранение
+
+        - name: Современная школа
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Успех каждого ребенка
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Поддержка семей, имеющих детей
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Цифровая образовательная среда
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Учитель будущего
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Молодые профессионалы
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Новые возможности для каждого
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Экспорт образования
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+        - name: Социальные лифты для каждого
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Образование
+
+        - name: Финансовая поддержка семей при рождении детей
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Демография
+        - name: Содействие занятости женщин - создание условий дошкольного образования для детей в возрасте до трех лет
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Демография
+        - name: Разработка и реализация программы системной поддержки и повышения качества жизни граждан старшего поколения
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Демография
+        - name: Формирование системы мотивации граждан к здоровому образу жизни, включая здоровое питание и отказ от вредных привычек
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Демография
+        - name: Создание для всех категорий и групп населения условий для занятий физической культурой и спортом, массовым спортом, в том числе повышение уровня обеспеченности населения объектами спорта, а также подготовка спортивного резерва
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Демография
+
+
+        - name: Культурная среда
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Культура
+        - name: Творческие люди
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Культура
+        - name: Цифровая культура
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Культура
+
+        - name: Жилье
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Жильё и городская среда
+        - name: Формирование комфортной городской среды
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Жильё и городская среда
+        - name: Обеспечение устойчивого сокращения непригодного для проживания жилищного фонда
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Жильё и городская среда
+        - name: Ипотека
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Жильё и городская среда
+
+        - name: Чистая страна
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Комплексная система обращения с твердыми коммунальными отходами
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Инфраструктура для обращения с отходами I-II классов опасности
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Чистый воздух
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Чистая вода
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Оздоровление Волги
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Сохранение озера Байкал
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Сохранение уникальных водных объектов
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Сохранение биологического разнообразия и развитие экологического туризма
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Сохранение лесов
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+        - name: Внедрение наилучших доступных технологий
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Экология
+
+        - name: Развитие научной и научно-производственной кооперации
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Наука
+        - name: Развитие передовой инфраструктуры для проведения исследований и разработок в Российской Федерации
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Наука
+        - name: Развитие кадрового потенциала в сфере исследований и разработок
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Наука
+
+        - name: Улучшение условий ведения предпринимательской деятельности
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+        - name: Расширение доступа субъектов МСП к финансовым ресурсам, в том числе к льготному финансированию
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+        - name: Акселерация субъектов малого и среднего предпринимательства
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+        - name: Создание системы поддержки фермеров и развитие сельской кооперации
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+        - name: Популяризация предпринимательства
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
+
+        - name: Информационная безопасность
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Цифровая экономика
+        - name: Цифровые технологии
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Цифровая экономика
+        - name: Цифровое государственное управление
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Цифровая экономика
+
+        - name: Системные меры по повышению производительности труда
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Производительность труда и поддержка занятости
+        - name: технологий
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Производительность труда и поддержка занятости
+        - name: Адресная поддержка повышения производительности труда на предприятиях
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Производительность труда и поддержка занятости
+        - name: Поддержка занятости и повышение эффективности рынка труда для обеспечения роста производительности труда
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Производительность труда и поддержка занятости
+
+        - name: Промышленный экспорт
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Международная кооперация и экспорт
+        - name: Экспорт продукции АПК
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Международная кооперация и экспорт
+        - name: Логистика международной торговли
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Международная кооперация и экспорт
+        - name: Экспорт услуг
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Международная кооперация и экспорт
+        - name: Системные меры развития международной кооперации и экспорта
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Международная кооперация и экспорт
+
+        - name: Железнодорожный транспорт и транзит
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Комплексный план модернизации и расширения магистральной инфраструктуры на период до 2024 года
+        - name: Транспортно-логистические центры
+          type: Federal
+          leader_position:
+          curator_position:
+          parent: Комплексный план модернизации и расширения магистральной инфраструктуры на период до 2024 года
+
     demo_data:
       welcome:
         title: Вас приветствует Система управления проектами Республики Бурятия!
@@ -50,83 +456,6 @@ en:
         - name: Не выпущен необходимый нормативно-правовой акт
         - name: Не пройдены надзорные мероприятия
         - name: Изменено законодательство
-
-      national_projects:
-        - name: Здравоохранение
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Образование
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Демография
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Культура
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Безопасные и качественные автомобильные дороги
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Жильё и городская среда
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Экология
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Наука
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Малое и среднее предпринимательство и поддержка индивидуальной предпринимательской инициативы
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Цифровая экономика
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Производительность труда и поддержка занятости
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-        - name: Международная кооперация и экспорт
-          type: National
-          leader_position: Министр
-          curator_position: Заместитель Председателя Правительства
-
-      federal_projects:
-        - name: Обеспечение качественно нового уровня развития инфраструктуры культуры «Культурная среда»
-          type: Federal
-          leader_position: Заместитель министра
-          curator_position: Министр
-          parent: Культура
-        - name: Жилье
-          type: Federal
-          leader_position: Заместитель министра
-          curator_position: Министр
-          parent: Жильё и городская среда
-        - name: Формирование комфортной городской среды
-          type: Federal
-          leader_position: Заместитель министра
-          curator_position: Министр
-          parent: Жильё и городская среда
-        - name: Создание единого цифрового контура в здравоохранении на основе ЕГИСЗ
-          type: Federal
-          leader_position: Заместитель министра
-          curator_position: Министр
-          parent: Здравоохранение
-        - name: Снижение смертности населения трудоспособного возраста
-          type: Federal
-          leader_position: Заместитель министра
-          curator_position: Министр
-          parent: Здравоохранение
 
       projects:
         cultura:

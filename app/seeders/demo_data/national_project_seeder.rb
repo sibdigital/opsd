@@ -8,21 +8,21 @@ module DemoData
     def initialize; end
 
     def seed_data!
-      national_projects = translate_with_base_url("seeders.demo_data.national_projects")
-
-      national_projects.each do |attributes|
-        print '.'
-        tr_attr = national_project_attributes attributes
-        national_project = NationalProject.create tr_attr
-      end
-
-      federal_projects = translate_with_base_url("seeders.demo_data.federal_projects")
-
-      federal_projects.each do |attributes|
-        print '.'
-        tr_attr = federal_project_attributes attributes
-        national_project = NationalProject.create tr_attr
-      end
+      # national_projects = translate_with_base_url("seeders.demo_data.national_projects")
+      #
+      # national_projects.each do |attributes|
+      #   print '.'
+      #   tr_attr = national_project_attributes attributes
+      #   national_project = NationalProject.create tr_attr
+      # end
+      #
+      # federal_projects = translate_with_base_url("seeders.demo_data.federal_projects")
+      #
+      # federal_projects.each do |attributes|
+      #   print '.'
+      #   tr_attr = federal_project_attributes attributes
+      #   national_project = NationalProject.create tr_attr
+      # end
     end
 
     private

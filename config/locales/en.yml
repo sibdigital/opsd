@@ -1220,6 +1220,7 @@ en:
   default_role_non_member: Не участник
   default_role_reader: Читатель
   default_role_member: Ответственный за блок мероприятий
+  default_role_ispolnitel: Исполнитель
   default_type: Пакет работ
   default_project_status_not_start: не начат
   default_project_status_in_work: в работе
