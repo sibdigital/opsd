@@ -207,6 +207,25 @@ en:
                 - type
                 - status
                 - assigned_to
+          versions:
+            - name: 1.Инициирование
+              status: open
+              sharing: none
+            - name: 2.Анализ
+              status: open
+              sharing: none
+            - name: 3.Планирование
+              status: open
+              sharing: none
+            - name: 4.Исполнение
+              status: open
+              sharing: none
+            - name: 5.Контроль
+              status: open
+              sharing: none
+            - name: 6.Завершение
+              status: open
+              sharing: none
           work_packages:
             - subject: Утверждена проектно-сметная документация
                 по строительству центров культурного развития
@@ -527,6 +546,25 @@ en:
               status: open
               type: :default_type_task
               hierarchy: true
+          versions:
+            - name: 1.Инициирование
+              status: open
+              sharing: none
+            - name: 2.Анализ
+              status: open
+              sharing: none
+            - name: 3.Планирование
+              status: open
+              sharing: none
+            - name: 4.Исполнение
+              status: open
+              sharing: none
+            - name: 5.Контроль
+              status: open
+              sharing: none
+            - name: 6.Завершение
+              status: open
+              sharing: none
           work_packages:
             - subject: Подготовка пакета документов для финансирования мероприятий по переселению микрорайонов УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района из средств республиканского бюджета.
               status: :default_status_not_start

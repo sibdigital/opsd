@@ -7,6 +7,12 @@
           th.colA { width: 20%; }
           .input-period { min-width: 70px; height: 25px; }
           .input-value { max-width: 70px; }
+          div.buttons {
+              display: inline-block;
+              width: 60px;
+              padding-left: 5px;
+              padding-bottom: 15px;
+          }
       </style>
 
     <div class="wp-relations-create">
@@ -61,7 +67,7 @@
                   <th class="colA">Месяц</th>
                   <th class="colA">Плановое значение</th>
                   <th class="colA">Фактическое значение</th>
-                  <th></th>
+                  <th><div class="buttons"></div></th>
                 </tr>
               </thead>
             </table>
@@ -200,18 +206,18 @@
         <input [(ngModel)]="editedTarget.value" class="input-value" />
     </td>
     <td>
-    <accessible-by-keyboard
-            (execute)="updateTarget(editedTarget)"
-            linkClass="wp-create-relation--save"
-            aria-hidden="false">
-        <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
-    </accessible-by-keyboard>
-    <accessible-by-keyboard
-            (execute)="cancelEdit()"
-            linkClass="wp-create-relation--cancel"
-            aria-hidden="false">
-        <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
-    </accessible-by-keyboard>
+            <accessible-by-keyboard
+                    (execute)="updateTarget(editedTarget)"
+                    linkClass="wp-create-relation--save"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-checkmark -padded" [icon-title]="text.save"></op-icon>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard
+                    (execute)="cancelEdit()"
+                    linkClass="wp-create-relation--cancel"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
+            </accessible-by-keyboard>
 </td>
 </ng-template>
 
@@ -223,21 +229,23 @@
     <td class="colA">{{ value.plan_value }}</td>
     <td class="colA">{{ value.value }}</td>
     <td>
-      <accessible-by-keyboard *ngIf="factValueCanEdit"
-                              (execute)="editTarget(value)"
-                              [linkTitle]="text.edit"
-                              class="edit-activity">
-        <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit"></op-icon>
-      </accessible-by-keyboard>
+      <div class="buttons">
+          <accessible-by-keyboard *ngIf="factValueCanEdit"
+                                  (execute)="editTarget(value)"
+                                  [linkTitle]="text.edit"
+                                  class="edit-activity">
+            <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit"></op-icon>
+          </accessible-by-keyboard>
 
-      <accessible-by-keyboard *ngIf="planValueCanEdit"
-                              (execute)="deleteTarget(value)"
-                              aria-hidden="false"
-                              [linkAriaLabel]="text.removeButton"
-                              [linkTitle]="text.removeButton"
-                              linkClass="relation-row--remove-btn">
-        <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
-      </accessible-by-keyboard>
+          <accessible-by-keyboard *ngIf="planValueCanEdit"
+                                  (execute)="deleteTarget(value)"
+                                  aria-hidden="false"
+                                  [linkAriaLabel]="text.removeButton"
+                                  [linkTitle]="text.removeButton"
+                                  linkClass="relation-row--remove-btn">
+            <op-icon icon-classes="icon-remove -padded wp-relations--icon" [icon-title]="text.removeButton"></op-icon>
+          </accessible-by-keyboard>
+      </div>
     </td>
 </ng-template>
 

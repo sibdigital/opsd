@@ -103,8 +103,9 @@ module WorkPackage::Journalized
                                   :required_doc_type_id,
                                   # -
                                   #zbd(
-                                  :contract_id, :target_id
+                                  :contract_id, :target_id, :required_doc_type_id, :organization_id
                                   #)
+
     # :datetime - формат даты
     register_on_journal_formatter :datetime, :start_date, :due_date,
                                   # knm +
