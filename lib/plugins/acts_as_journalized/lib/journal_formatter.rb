@@ -75,7 +75,8 @@ module JournalFormatter
       named_association: JournalFormatter::NamedAssociation,
       fraction: JournalFormatter::Fraction,
       decimal: JournalFormatter::Decimal,
-      id: JournalFormatter::Id }
+      id: JournalFormatter::Id,
+      hidden: JournalFormatter::Hidden}
   end
 
   self.formatters = default_formatters
