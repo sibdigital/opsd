@@ -459,6 +459,8 @@ class PlanUploadersController < ApplicationController
     @reault_values = []
     @kt_id = 0
 
+    insert_tg_count = 0
+    insert_kt_count = 0
     insert_count = 0
     break_count = 0
     row_count = 0
@@ -470,7 +472,7 @@ class PlanUploadersController < ApplicationController
         result = row[0].value
         result = result.sub "Результат :", ""
         result = result.strip
-
+        result = result[0..255]
         result_value = ""
         point = ""
 
@@ -484,6 +486,7 @@ class PlanUploadersController < ApplicationController
           t.project_id = @project_for_load.id
           t.is_approve = true
           t.parent_id = 0
+          insert_tg_count += 1
         end
 
       else
@@ -526,12 +529,14 @@ class PlanUploadersController < ApplicationController
             point = row[2].value
             point = point.sub "Контрольная точка :", ""
             point = point.strip
+            date_str = point[-11..-2]
+            point = point[0..250]
             # создаем пакет работ с типом Контрольная точка
-            #kt = WorkPackage.new
-            kpoint = WorkPackage.where(:project_id => @project_for_load.id,
-                                   :subject => point,
-                                   :type_id => Type.find_by(name: I18n.t(:default_type_milestone)).id)
-                      .first_or_initialize do |kt|
+            kt = WorkPackage.new
+            #kpoint = WorkPackage.where(:project_id => @project_for_load.id,
+            #                       :subject => point,
+            #                       :type_id => Type.find_by(name: I18n.t(:default_type_milestone)).id)
+            #          .first_or_create! do |kt|
               kt.subject = point
               kt.project_id = @project_for_load.id
               kt.type_id = Type.find_by(name: I18n.t(:default_type_milestone)).id
@@ -540,14 +545,18 @@ class PlanUploadersController < ApplicationController
               kt.author_id = User.current.id
               kt.position = 1
               kt.priority_id = IssuePriority.default.id
-              insert_count += 1
-            end
-            # сохраняем без валидации
-            #if kt.save(validate: false)
-            if kpoint.present?
 
-              #@kt_id = WorkPackage.last.id
-              @kt_id = kpoint.id
+              if date_check?(date_str)
+                kt.due_date = date_str
+              end
+            #end
+            # сохраняем без валидации
+            if kt.save(validate: false)
+            #if kpoint.present?
+
+              insert_kt_count += 1
+              @kt_id = WorkPackage.last.id
+              #@kt_id = kpoint.id
 
               wpt = WorkPackageTarget.new
               wpt.project_id = @project_for_load.id
@@ -573,16 +582,18 @@ class PlanUploadersController < ApplicationController
               break_count += 1
               #next
             else
-              task = WorkPackage.where(:project_id => @project_for_load.id,
-                                       :subject => row[col_num['subject']].value.to_s[0..250],
-                                       :start_date => row[col_num['start_date']].value,
-                                       :due_date => row[col_num['due_date']].value
-              )
-                       .first_or_initialize do |wp|
-                is_new_record = true
-                wp.subject = row[col_num['subject']].value
+              # task = WorkPackage.where(:project_id => @project_for_load.id,
+              #                          :subject => row[col_num['subject']].value.to_s[0..255],
+              #                          :start_date => row[col_num['start_date']].value,
+              #                          :due_date => row[col_num['due_date']].value
+              # )
+              #          .first_or_initialize do |wp|
+
+              wp = WorkPackage.new
+                #is_new_record = true
+                wp.subject = row[col_num['subject']].value.to_s[0..255]
                 wp.due_date = row[col_num['due_date']].value
-                wp.description = row[col_num['description']].value
+                wp.description = row[col_num['description']].value.to_s[0..255]
                 if row[col_num['assigned_to_id']].value == 0
                   wp.assigned_to_id = nil
                 end
@@ -646,22 +657,33 @@ class PlanUploadersController < ApplicationController
                 wp.position = 1
                 wp.priority_id = IssuePriority.default.id
 
+                @wp_id = 0
                 # сохраняем без валидации
                 if wp.save(validate: false)
                   insert_count += 1
+                  @wp_id = WorkPackage.last.id
                 else
                   puts "not loaded: " + row
                 end
-              end
+              #end
 
               # добавляем связи иерархии
-              if @kt_id != 0
-                Relation.find_or_create_by(from_id: @kt_id, to_id: task.id) do |rel|
+              # if @kt_id != 0
+              #   Relation.find_or_create_by(from_id: @kt_id, to_id: task.id) do |rel|
+              #     rel.from_id = @kt_id
+              #     rel.to_id = task.id
+              #     rel.hierarchy = 1
+              #   end
+              # end
+
+              if @kt_id != 0 && @wp_id != 0
+                Relation.find_or_create_by(from_id: @kt_id, to_id: @wp_id) do |rel|
                   rel.from_id = @kt_id
-                  rel.to_id = task.id
+                  rel.to_id = @wp_id
                   rel.hierarchy = 1
                 end
               end
+
             end
           end
         end
@@ -670,6 +692,8 @@ class PlanUploadersController < ApplicationController
 
     puts "Row count: " + row_count.to_s
     puts "Insert count: " + insert_count.to_s
+    puts "Insert KT count: " + insert_kt_count.to_s
+    puts "Insert target count: " + insert_tg_count.to_s
     puts "Break count: " + break_count.to_s
   end
 
@@ -709,4 +733,12 @@ class PlanUploadersController < ApplicationController
   #   end
   # end
 
+  def date_check?(date_str)
+    begin
+      Date.parse(date_str)
+      true
+    rescue
+      false
+    end
+  end
 end
