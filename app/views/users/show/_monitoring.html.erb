@@ -1,0 +1,100 @@
+<% unless @events_by_day.empty? %>
+  <div id="activity">
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" id="user_monitoring_activity">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.type') %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.name') %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.project') %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.date') %>
+                </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.time') %>
+                </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @events_by_day.keys.sort.reverse.each do |day| %>
+            <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+              <tr>
+                <td>
+                  <%= e.event_name %>
+                </td>
+                <td>
+                  <%= content_tag('span', h(e.project), class: 'project') %>
+                </td>
+                <td>
+                  <%= link_to format_activity_title(e.event_title), e.event_url %>
+                </td>
+                <td>
+                  <%= format_activity_day(day) %>
+                </td>
+                <td>
+                  <span class="time"><%= format_time(e.event_datetime, false) %></span>
+                </td>
+              </tr>
+            <% end -%>
+          <% end -%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <%= other_formats_links do |f| %>
+    <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', id: nil, user_id: @user, key: User.current.rss_key} %>
+  <% end %>
+
+  <% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', user_id: @user, format: :atom, key: User.current.rss_key) %>
+  <% end %>
+<% end %>
+<%= call_hook :view_account_right_bottom, user: @user %>
+
+

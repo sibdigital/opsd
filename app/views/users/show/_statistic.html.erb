@@ -1,0 +1,126 @@
+<div class="statistics">
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="user_statistics">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.type') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.name') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.date') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.time') %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for stat in @statistics["wp_appointment"] %>
+          <tr>
+            <td> <% if stat.assigned_to_id == @user.id %>
+                <%=  l(:text_user_assigned_to_wp)%>
+              <% elsif  stat.responsible_id == @user.id%>
+                <%=  l(:text_user_responsible_to_wp) %>
+              <% end %></td>
+            <td>
+              <%= stat.subject %>
+            </td>
+            <td>
+              <%= format_activity_day(Journal.find(stat.journal_id).created_at) %>
+            </td>
+            <td>
+              <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+            </td>
+          </tr>
+        <% end %>
+        <% for stat in @statistics["wp_created"] %>
+          <tr>
+            <td>
+              <%=  l(:text_user_created_wp)%>
+            </td>
+            <td>
+              <%= stat.subject %>
+            </td>
+            <td>
+              <%= format_activity_day(Journal.find(stat.journal_id).created_at) %>
+            </td>
+            <td>
+              <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+            </td>
+          </tr>
+        <% end %>
+        <% for stat in @statistics["wp_overdue"] %>
+        <tr>
+          <td>
+            <%=  l(:text_user_overdue_wp)%>
+          </td>
+          <td>
+            <%= stat.subject %>
+          </td>
+          <td>
+            <%= format_activity_day(Journal.find(stat.journal_id).created_at)  %>
+          </td>
+          <td>
+            <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+          </td>
+        </tr>
+        <% end %>
+        <% for stat in @statistics["wp_done"] %>
+        <tr>
+          <td>
+            <%=  l(:text_user_done_wp)%>
+          </td>
+          <td>
+            <%= stat.subject %>
+          </td>
+          <td>
+            <%= format_activity_day(Journal.find(stat.journal_id).created_at)  %>
+          </td>
+          <td>
+            <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+          </td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<%= call_hook :view_account_left_bottom, user: @user %>
+
+
+
