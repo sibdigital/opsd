@@ -72,6 +72,7 @@ class DocumentsController < ApplicationController
 
     if @document.save
       render_attachment_warning_if_needed(@document)
+      Alert.create_pop_up_alert(@document,"Created",User.current,User.current)
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_documents_path(@project)
     else
@@ -113,6 +114,7 @@ class DocumentsController < ApplicationController
       users = saved_attachments.first.container.recipients
       users.each do |user|
         UserMailer.attachments_added(user, saved_attachments).deliver
+
       end
     end
     redirect_to action: 'show', id: @document

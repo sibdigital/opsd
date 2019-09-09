@@ -1,8 +1,8 @@
 <div class="op-modal--portal ">
-  <div class="op-modal--modal-container -wide loading-indicator--location"
+  <div class="op-modal--modal-container -wide loading-indicator--location work-packages-modal"
        data-indicator-name="modal">
     <div class="op-modal--modal-header">
-      <a class="op-modal--modal-close-button">
+      <a class="op-modal--modal-close-button-highlight">
         <i
             class="icon-close"
             (click)="closeMe($event)"
@@ -11,17 +11,13 @@
       </a>
     </div>
 
-    <h3 [textContent]="text.title"></h3>
-
-    <ng-container *ngIf="!!prependModalComponent">
-      <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
-    </ng-container>
+    <h2 [textContent]="text.title" class="op-modal--modal-header-title"></h2>
 
     <div class="tab-content" #tabContentOutlet>
       <no-results *ngIf="noResults"
                   [title]="text.noResults">
       </no-results>
-      <table *ngIf="!noResults">
+      <table *ngIf="!noResults" class="op-modal--modal-table">
         <thead style="width: 1000px">
           <th>ID</th>
           <th [textContent]="text.subject"></th>

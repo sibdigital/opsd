@@ -32,16 +32,8 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {
-  PeriodicElement,
-  WpRelationsDialogComponent
-} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
-import {MatDialog} from "@angular/material";
-import {WpTableConfigurationModalComponent} from "core-components/wp-table/configuration-modal/wp-table-configuration.modal";
 import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
 
 @Component({
   selector: 'wp-relations-autocomplete-upgraded',

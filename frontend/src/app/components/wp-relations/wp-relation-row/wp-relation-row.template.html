@@ -67,7 +67,22 @@
       </accessible-by-keyboard>
     </div>
   </div>
-
+  <!--bbm(-->
+  <div class="grid-block hierarchy-item description-container"
+       *ngIf="userInputs.showRelationInfo && (currentRelationType === 'precedes' || currentRelationType === 'follows')">
+    <div class="grid-content medium-2 collapse">
+      <div class="delay-label">
+        <span>Отсрочка: </span>
+      </div>
+    </div>
+    <div class="grid-content medium-5 collapse">
+      <input [(ngModel)]="delay">
+    </div>
+    <div class="grid-content medium-3 collapse">
+      <button type="button" class="button" (click)="saveDelay()">Сохранить</button>
+    </div>
+  </div>
+  <!--)bbm-->
   <div class="grid-block hierarchy-item description-container"
        *ngIf="userInputs.showRelationInfo">
     <div class="wp-relation--description-read-value"

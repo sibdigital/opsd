@@ -193,22 +193,16 @@ import {WorkPackageFilterByTextInputComponent} from "core-components/filters/qui
 import {PlanStagePackageQuerySelectableTitleComponent} from "core-components/psp-query-select/psp-query-selectable-title.component";
 import {PlanStagePackageQuerySelectDropdownComponent} from "core-components/psp-query-select/psp-query-select-dropdown.component";
 import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-select/psp-static-queries.service";
-import {WpRelationsDialogComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-dialog.component";
-import {MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatTableModule} from "@angular/material";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatPaginatorIntlRussian} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/MatPaginatorIntlRussian";
 //zbd(
 import {WpTargetAutocompleteComponent} from "core-components/wp-single-view-tabs/targets-tab/wp-target-autocomplete/wp-target-autocomplete.component";
 import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
 import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tabs/targets-tab/targets-tab.component";
 //)
-//knm
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
-import {WpTopicsDialogComponent} from "core-components/wp-topics-dialog/wp-topics-dialog.component";
 import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
 import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-pagination.component";
+import {WpTopicsConfigurationModalComponent} from "core-components/wp-topics-dialog/wp-topics-configuration.modal";
+import {WorkPackageTopicsPaginationComponent} from "core-components/wp-topics-dialog/wp-topics-pagination.component";
+import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
 
 @NgModule({
   imports: [
@@ -220,16 +214,7 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     OpenprojectEditorModule,
 
     ChartsModule,
-    //bbm(
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
-    BrowserAnimationsModule,
-    //)bbm
     OpenprojectAttachmentsModule,
-  //knm
-    MatTooltipModule,
-    DragDropModule,
     // Work package custom actions
     //WpCustomActionsModule,
     DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent])
@@ -242,10 +227,6 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
       multi: true
     },
     WorkPackageTablePaginationService,
-
-    //bbm(
-    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlRussian },
-    //)
     // Timeline
     WorkPackageTableTimelineService,
 
@@ -309,9 +290,6 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     WpTableConfigurationService,
   ],
   declarations: [
-    //bbm(
-    WpRelationsDialogComponent,
-    //)bbm
     // Routing
     WorkPackagesBaseComponent,
     WorkPackagesListComponent,
@@ -341,6 +319,7 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     WorkPackageTablePaginationComponent,
     //bbm(
     WorkPackageRelationsPaginationComponent,
+    WorkPackageTopicsPaginationComponent,
     //)
 
     WpResizerDirective,
@@ -426,16 +405,15 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     WorkPackageRelationsCreateComponent,
     WorkPackageRelationsHierarchyComponent,
     WpRelationsAutocompleteComponent,
+    //bbm(
+    WpTopicsAutocompleteComponent,
+    //)
     WorkPackageBreadcrumbParentComponent,
     //zbd(
     WorkPackageTargetsTabComponent,
     WpTargetAutocompleteComponent,
     WorkPackageProblemsTabComponent,
     // )
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
@@ -454,6 +432,7 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     WpTableConfigurationModalComponent,
     //bbm(
     WpRelationsConfigurationModalComponent,
+    WpTopicsConfigurationModalComponent,
     //)
     WpTableConfigurationColumnsTab,
     WpTableConfigurationDisplaySettingsTab,
@@ -483,13 +462,6 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     WpButtonMacroModal,
   ],
   entryComponents: [
-    //bbm(
-    WpRelationsDialogComponent,
-    //bbm(
-    WpTopicsAutocompleteComponent,
-    WpTopicsDialogComponent,
-    //)
-    //)bbm
     // Split view
     WorkPackageSplitViewComponent,
 
@@ -544,6 +516,8 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     WpTableConfigurationModalComponent,
     //bbm(
     WpRelationsConfigurationModalComponent,
+    WpTopicsConfigurationModalComponent,
+    WpTopicsAutocompleteComponent,
     //)
     WpTableConfigurationRelationSelectorComponent,
     WpTableConfigurationColumnsTab,
@@ -575,6 +549,7 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
     WorkPackagesTableController,
     WorkPackageTablePaginationComponent,
     WorkPackageRelationsPaginationComponent,
+    WorkPackageTopicsPaginationComponent,
     WorkPackageEmbeddedTableComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,

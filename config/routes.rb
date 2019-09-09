@@ -213,6 +213,8 @@ OpenProject::Application.routes.draw do
       get 'completion' => 'stages#completion', on: :collection
       get 'execution' => 'stages#execution', on: :collection
       get 'init' => 'stages#init', on: :collection
+      get 'proceed_init' => 'stages#proceed_init', on: :collection
+      get 'cancel_init' => 'stages#cancel_init', on: :collection
       get 'planning' => 'stages#planning', on: :collection
       # get :control, action: 'control'
       # get :completion, action: 'completion'
@@ -399,11 +401,15 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :catalog_loaders do
+    post :load, on: :collection
+  end
+
   #knm(
   resources :alerts do
     get :get_pop_up_alerts, on: :collection
     get :read_alert, on: :collection
-    get :get_delay_setting, on: :collection
+    get :get_delay_setting, on: :collection 
     get :notify_by_email
 
   end
@@ -474,7 +480,10 @@ OpenProject::Application.routes.draw do
     #zbd(
     resources :contracts
 
-    resources :plan_uploader_settings,  controller: 'plan_uploader_settings'
+    resources :plan_uploader_settings do
+      #tmd
+      get :update_column, on: :collection
+    end
 
     # )
 

@@ -41,7 +41,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
               readonly workPackageId:string,
               public $element:JQuery,
               public additionalPositionArgs:any = {}) {
-    super(injector.get(OPContextMenuService))
+    super(injector.get(OPContextMenuService));
   }
 
   public get locals():OpContextMenuLocalsMap {
@@ -145,7 +145,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
             return false;
           }
 
-          this.triggerContextMenuAction(action)
+          this.triggerContextMenuAction(action);
           return true;
         }
       };
@@ -189,7 +189,7 @@ export class OpWorkPackageContextMenu extends OpContextMenuHandler {
             return true;
           }
         },
-      )
+      );
     }
 
     return items;

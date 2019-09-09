@@ -421,3 +421,23 @@ jQuery( document ).ready(function() {
     });
 });
 //)
+//knm +
+jQuery(document).ready(function(){
+    jQuery('.hide-head').click(function(){
+        if (!this.className.includes("-hided"))
+        {
+            head_id = this.id
+            jQuery('#'+head_id+'.hide-section').hide("fast");
+            jQuery('#'+head_id+'.wp-table--hierarchy-span')[0].innerHTML="►"
+            this.className += "-hided"
+        }
+        else
+        {
+            head_id = this.id
+            jQuery('#'+head_id+'.hide-section').show("fast");
+            jQuery('#'+head_id+'.wp-table--hierarchy-span')[0].innerHTML="▼"
+            this.className = this.className.replace("-hided", "")
+        }
+    });
+});
+//-

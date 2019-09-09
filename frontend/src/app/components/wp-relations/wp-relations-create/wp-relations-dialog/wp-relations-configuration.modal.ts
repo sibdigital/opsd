@@ -2,17 +2,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef, EventEmitter,
-  Inject, InjectionToken,
+  Inject,
   Injector,
   OnDestroy,
-  OnInit, Optional,
+  OnInit,
 } from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {ComponentType} from "@angular/cdk/portal";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {PaginationInstance} from "core-components/table-pagination/pagination-instance";
@@ -20,8 +19,6 @@ import {Observable} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {input, InputState} from "reactivestates";
 import {PaginationUpdateObject} from "core-components/wp-fast-table/state/wp-table-pagination.service";
-
-export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
   templateUrl: './wp-relations-configuration.modal.html'
@@ -59,7 +56,6 @@ export class WpRelationsConfigurationModalComponent extends OpModalComponent imp
   public onDataUpdated = new EventEmitter<void>();
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any> | null,
               readonly I18n:I18nService,
               readonly injector:Injector,
               readonly loadingIndicator:LoadingIndicatorService,
@@ -69,6 +65,15 @@ export class WpRelationsConfigurationModalComponent extends OpModalComponent imp
   }
 
   ngOnInit() {
+    this.workPackage = this.locals['workPackage'];
+    if (this.workPackage.planType === 'execution') {
+      this.text.title += ' ' + this.text.execution;
+    }
+    if (this.workPackage.planType === 'planning') {
+      this.text.title += ' ' + this.text.planning;
+    }
+    this.selectedRelationType = this.locals['selectedRelationType'];
+    this.filterCandidatesFor = this.locals['filterCandidatesFor'];
     this.$element = jQuery(this.elementRef.nativeElement);
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then((collection:CollectionResource<WorkPackageResource>) => {
@@ -108,15 +113,6 @@ export class WpRelationsConfigurationModalComponent extends OpModalComponent imp
   }
 
   protected loadForm() {
-    this.workPackage = this.locals['workPackage'];
-    if (this.workPackage.planType === 'execution') {
-      this.text.title += ' ' + this.text.execution;
-    }
-    if (this.workPackage.planType === 'planning') {
-      this.text.title += ' ' + this.text.planning;
-    }
-    this.selectedRelationType = this.locals['selectedRelationType'];
-    this.filterCandidatesFor = this.locals['filterCandidatesFor'];
     return this.workPackage.availableRelationCandidatesPaged.$link.$fetch({
       query: '',
       type: this.filterCandidatesFor || this.selectedRelationType

@@ -32,6 +32,8 @@ import {INotification, NotificationsService} from 'core-app/modules/common/notif
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {TableState} from 'core-components/wp-table/table-state/table-state';
 import * as moment from 'moment';
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import {Moment} from 'moment';
 import {componentDestroyed, untilComponentDestroyed} from 'ng2-rx-componentdestroyed';
 import {debounceTime, delay, filter, map, take, takeUntil, throttleTime, withLatestFrom} from 'rxjs/operators';
@@ -157,7 +159,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         this.viewParameters.settings.autoZoom = timelineState.autoZoom;
         this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         //bbm(
-        this.viewParameters.settings.firstOrLastDueDate = timelineState.firstOrLastDueDate;
+        this.viewParameters.settings.firstOrLastHistDate = timelineState.firstOrLastHistDate;
         //)
         this.refreshRequest.putValue(undefined);
       });
@@ -456,5 +458,25 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       }
     }
   }
-
+  //bbm(
+  public captureScreen() {
+    html2canvas(this.outerContainer.get(0)).then(canvas => {
+      // Few necessary setting options
+      let pageWidth = 295;
+      let pageHeight = 208;
+      //let imgWidth = canvas.height * imgHeight / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png');
+      let pdf = new jsPDF('l', 'mm', 'a4'); // A4 size page of PDF
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, pageWidth, pageHeight);
+      pdf.save('gantt_' + moment().toISOString() + '.pdf'); // Generated PDF
+    });
+  }
+  public captureScreen2() {
+    html2canvas(this.outerContainer.get(0)).then(canvas => {
+      const contentDataURL = canvas.toDataURL('image/png');
+      let image = contentDataURL.replace("image/png", "image/octet-stream");
+      window.open(image);
+    });
+  }
+  //)
 }

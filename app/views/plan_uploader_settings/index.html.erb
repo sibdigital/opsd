@@ -4,76 +4,62 @@
 <%= breadcrumb_toolbar %>
 
 <%= toolbar title: 'Настройка соответствия полей' do %>
-  <li class="toolbar-item">
-    <%= link_to new_plan_uploader_setting_path,
+<!--  <li class="toolbar-item">-->
+    <%#= link_to new_plan_uploader_setting_path,
                 { class: 'button -alt-highlight',
                   aria: {label: 'Новое поле'},
                   title: 'Новое поле'} do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text">Новое поле</span>
-    <% end %>
-  </li>
+      <%#= op_icon('button--icon icon-add') %>
+<!--      <span class="button--text">Новое поле</span>-->
+    <%# end %>
+<!--  </li>-->
 <% end %>
 
 
-<%= form_tag({}) do -%>
-
+<% @plan_uploader_settings_types.each do |setting_type| %>
+  <h3 class="-no-border">
+    <%= setting_type.setting_type %>
+  </h3>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table" id="plan_uploader_settings_items">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-        </colgroup>
-        <thead>
-        <tr>
-          <th>
-            <%= PlanUploaderSetting.human_attribute_name(:column_num) %>
-          </th>
-          <th>
-            <%= PlanUploaderSetting.human_attribute_name(:column_name) %>
-          </th>
-          <th>
-            <%= PlanUploaderSetting.human_attribute_name(:table_name) %>
-          </th>
-          <th>
-            <%= PlanUploaderSetting.human_attribute_name(:is_pk) %>
-          </th>
-          <th>
-            Действия
-          </th>
-        </tr>
-        </thead>
-        <tbody>
+      <thead>
+      <tr>
+        <th>
+          <%= PlanUploaderSetting.human_attribute_name(:column_num) %>
+        </th>
+        <th>
+          <%= PlanUploaderSetting.human_attribute_name(:column_name) %>
+        </th>
+        <th>
+          <%= PlanUploaderSetting.human_attribute_name(:column_type) %>
+        </th>
+        <th>
+          <%= PlanUploaderSetting.human_attribute_name(:table_name) %>
+        </th>
+        <th>
+          <%= PlanUploaderSetting.human_attribute_name(:is_pk) %>
+        </th>
+        <th>
+          Действия
+        </th>
+      </tr>
+      </thead>
+      <tbody>
         <% @plan_uploader_settings.each do |setting| %>
-          <tr id="setting-<%= setting.id %>">
-            <%= content_tag(:td, link_to(h(setting.column_num), edit_plan_uploader_setting_path(setting.id))) %>
-            <%= content_tag(:td, WorkPackage.human_attribute_name(setting.column_name)) %>
-            <%= content_tag(:td, WorkPackage.human_attribute_name(setting.table_name)) %>
-            <%= content_tag(:td, check_box_tag('is_pk', setting.is_pk, setting.is_pk, readonly: true)) %>
-            <%= content_tag(:td,
-                            link_to(
-                                op_icon('icon icon-edit'),
-                                edit_plan_uploader_setting_path(setting.id),
-                                title: "Редактировать"
-                            ) +' '+
-                            link_to(
-                                op_icon('icon icon-delete'),
-                                plan_uploader_settings_path(setting),
-                                method: :delete,
-                                data: {confirm: I18n.t(:text_are_you_sure)},
-                                title: t(:button_delete)
-                            )
-                )
-            %>
-          </tr>
+          <%= render partial: 'settings_table', locals: { setting: setting, setting_type: setting_type} %>
         <% end %>
-        </tbody>
+      </tbody>
       </table>
+
+      <div class="wp-inline-create-button">
+      <%= link_to new_plan_uploader_setting_path(setting_type: setting_type.setting_type),
+                  { class: 'wp-inline-create--add-link',
+                    aria: {label: 'Новое поле'},
+                    title: 'Новое поле'} do %>
+                    <%= op_icon('icon icon-add') %>
+      <% end %>
+      </div>
     </div>
   </div>
-
-<% end -%>
+<% end %>

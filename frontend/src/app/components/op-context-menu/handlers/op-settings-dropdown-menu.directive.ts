@@ -47,8 +47,6 @@ import {
   triggerEditingEvent
 } from "core-components/wp-query-select/wp-query-selectable-title.component";
 import {TableState} from "core-components/wp-table/table-state/table-state";
-import {TimelineCellRenderer} from "core-components/wp-table/timeline/cells/timeline-cell-renderer";
-import {WorkPackageTimelineTableController} from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
 import {WorkPackageTableTimelineService} from "core-components/wp-fast-table/state/wp-table-timeline.service";
 
 @Directive({
@@ -69,7 +67,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
               readonly tableState:TableState,
               readonly I18n:I18nService,
               readonly workPackageTableTimelineService:WorkPackageTableTimelineService) {
-
     super(elementRef, opContextMenu);
   }
 
@@ -273,12 +270,45 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
       },
       //bbm(
       {
-        // Sharing modal
-        linkText: this.I18n.t('js.toolbar.settings.first_or_last_due_date'),
+        disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 0,
+        linkText: this.I18n.t('js.toolbar.settings.no_hist_date'),
         icon: 'icon-ordered-list',
         onClick: ($event:JQueryEventObject) => {
-          this.workPackageTableTimelineService.toggleFirstOrLasDueDate();
-
+          this.workPackageTableTimelineService.setFirstOrLasHistDate(0);
+          return true;
+        }
+      },
+      {
+        disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 1,
+        linkText: this.I18n.t('js.toolbar.settings.first_hist_date'),
+        icon: 'icon-ordered-list',
+        onClick: ($event:JQueryEventObject) => {
+          this.workPackageTableTimelineService.setFirstOrLasHistDate(1);
+          return true;
+        }
+      },
+      {
+        disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 2,
+        linkText: this.I18n.t('js.toolbar.settings.last_hist_date'),
+        icon: 'icon-ordered-list',
+        onClick: ($event:JQueryEventObject) => {
+          this.workPackageTableTimelineService.setFirstOrLasHistDate(2);
+          return true;
+        }
+      },
+      {
+        linkText: this.I18n.t('js.toolbar.settings.save_gantt_pdf'),
+        icon: 'icon-export-pdf',
+        onClick: ($event:JQueryEventObject) => {
+          jQuery('#btn-capture-gantt').trigger('click');
+          return true;
+        }
+      },
+      {
+        linkText: this.I18n.t('js.toolbar.settings.save_gantt_png'),
+        icon: 'icon-image1',
+        onClick: ($event:JQueryEventObject) => {
+          jQuery('#btn-capture-gantt2').trigger('click');
           return true;
         }
       }
