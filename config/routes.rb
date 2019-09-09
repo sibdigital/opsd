@@ -608,9 +608,9 @@ OpenProject::Application.routes.draw do
 
   resources :users do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
-
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      match ':tab' => 'users#show', via: :get, as: 'tab_show'
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation

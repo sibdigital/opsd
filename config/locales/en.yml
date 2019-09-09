@@ -191,6 +191,9 @@ en:
     my_page:
       no_results_title_text: Новые данные отсутствуют.
   users:
+    monitoring: Мониторинг
+    main: Главная
+    statistic: Статистика
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   prioritiies:
@@ -851,6 +854,7 @@ en:
 #    last_due_date: Текущая дата окончания
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
+    time: Время
     #)
     issue: Пакет работ
     lastname: Фамилия
@@ -1380,6 +1384,7 @@ en:
     work_package_closed: Пакет работ закрыт
     work_package_edit: Пакет работ отредактирован
     work_package_note: Примечание к пакету работ добавлено
+    document: Прикреплен документ
   export:
     format:
       atom: Atom
@@ -1902,7 +1907,7 @@ en:
   label_report: Отчет
   label_report_bug: Сообщить об ошибке
   label_report_plural: Отчеты
-  label_reported_work_packages: Отчетные меропрития
+  label_reported_work_packages: Отчетные мероприятия
   label_reporting: Отчетность
   label_reporting_plural: Отчетности
   label_repository: Репозиторий
@@ -2828,6 +2833,19 @@ en:
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_latest_note: 'Последний комментарий: %{note}'
+#  knm +
+  text_user_assigned_to_wp: 'Назначен исполнителем пакета работ'
+  text_user_responsible_to_wp: 'Назначен ответственным над пакетом работ'
+  text_user_created_wp: 'Создал пакет работ'
+  text_user_overdue_wp: 'Просрочил пакет работ'
+  text_user_done_wp: 'Выполнил пакет работ'
+  statistics_accept_appointment: 'Принятие полномочий исполнителя/руководителя: %{count}'
+  statistics_action_with_wp: 'Действия с объектами: %{count}'
+  statistics_wps_created: 'Создано объектов: %{count}'
+  statistics_wps_deleted: 'Удалено объектов: %{count}'
+  statistics_wps_done: 'Выполнено объектов: %{count}'
+  statistics_wps_overdue: 'Просрочено объектов: %{count}'
+#  -
   text_length_between: Количество символов между %{min} и %{max} .
   text_line_separated: Допускается  несколько значений (одна строка для каждого значения).
   text_load_default_configuration: Загрузить конфигурацию по умолчанию

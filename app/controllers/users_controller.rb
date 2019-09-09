@@ -75,10 +75,19 @@ class UsersController < ApplicationController
   end
 
   def show
+    if params[:tab].blank?
+      @tab = "main"
+    else
+      @tab = params[:tab]
+    end
     # show projects based on current user visibility
     @memberships = @user.memberships
                         .visible(current_user)
+    # @statistics = Journal.where(user_id: User.current.id).order('created_at asc') # - user changes
 
+    # @statistics = Journal.where(user_id: User.current.id).select(:journable_type, :journable_id).distinct #- user changes distinct
+
+    @statistics =  find_user_stats
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
@@ -94,6 +103,56 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { render layout: 'no_menu' }
     end
+  end
+
+  def find_user_stats
+    stats = {}
+    # find all wps assigned for user
+    wpj = WorkPackageJournal.where("assigned_to_id = ? OR responsible_id = ?", @user.id, @user.id)
+    wpj_uniqs = wpj.select(:work_package_id).distinct
+    wpj_vs = Array.new
+    wpj_uniqs.each do |uniq|
+      wpj_v = WorkPackageJournal.where("work_package_id = ? AND assigned_to_id = ? OR responsible_id = ?", uniq.work_package_id, @user.id, @user.id).order(journal_id: :asc).first
+      wpj_vs.push(wpj_v)
+    end
+    stats["wp_appointment"] = wpj_vs
+    #find created wps
+    wpj = WorkPackageJournal.where("author_id = ?", @user.id)
+    wpj_uniqs = wpj.select(:work_package_id).distinct
+    wpj_vs = Array.new
+    wpj_uniqs.each do |uniq|
+      wpj_v = WorkPackageJournal.where("work_package_id = ? AND author_id = ?", uniq.work_package_id, @user.id).order(journal_id: :asc).first
+      wpj_vs.push(wpj_v)
+    end
+    stats["wp_created"] = wpj_vs
+    # find deleted wps - trouble : deleted project don't saves anywhere
+    # find done wps
+    wpj = WorkPackageJournal.where("assigned_to_id = ? AND done_ratio = ?", @user.id,  100)
+    wpj_uniqs = wpj.select(:work_package_id).distinct
+    wpj_vs = Array.new
+    wpj_uniqs.each do |uniq|
+      wpj_v = WorkPackageJournal.where("work_package_id = ? AND done_ratio = ? AND assigned_to_id = ? ", uniq.work_package_id, 100, @user.id).order(journal_id: :asc).first
+      wpj_vs.push(wpj_v)
+    end
+    stats["wp_done"] = wpj_vs
+    # catalogs changes
+    # adding docs
+
+    # updating docs
+
+    # deleting docs - trouble: the same with the wps
+    # discussion messages
+    # tables changes
+    # find expired wps
+    wpj = WorkPackageJournal.where("assigned_to_id = ? AND due_date > ?", @user.id,  User.current.today)
+    wpj_uniqs = wpj.select(:work_package_id).distinct
+    wpj_vs = Array.new
+    wpj_uniqs.each do |uniq|
+      wpj_v = WorkPackageJournal.where("work_package_id = ? AND due_date > ? AND assigned_to_id = ? ", uniq.work_package_id, User.current.today, @user.id).order(journal_id: :asc).first
+      wpj_vs.push(wpj_v)
+    end
+    stats["wp_overdue"] = wpj_vs
+    stats
   end
 
   def new
