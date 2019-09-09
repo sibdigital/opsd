@@ -7,7 +7,7 @@ module NationalProjectsHelper
     federal_projects = all_projects.where(type: "Federal")
     html = ''
     national_projects.each do |national_project|
-      html = html + '<tr national-project-id="' + national_project.id.to_s + '" data-class-identifier="wp-row-' + national_project.id.to_s + '" class="wp-table--row wp--row wp-row-' + national_project.id.to_s + ' wp-row-' + national_project.id.to_s + '-table issue __hierarchy-group-' + national_project.parent_id.to_s + ' __hierarchy-root-' + national_project.id.to_s + '">'
+      html = html + '<tr national-project-id="' + national_project.id.to_s + '" data-class-identifier="wp-row-' + national_project.id.to_s + '" class="wp-table--row wp--row wp-row-' + national_project.id.to_s + ' wp-row-' + national_project.id.to_s + '-table issue __hierarchy-group-' + national_project.parent_id.to_s + ' __hierarchy-root-' + national_project.id.to_s + ' ">'
       html = html + content_tag(:td, link_to(national_project.id, edit_national_project_path(id: national_project.id)))
       tag_td = content_tag(:td) do
                 # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
@@ -40,7 +40,7 @@ module NationalProjectsHelper
 
           tag_td = content_tag(:td) do
             # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
-            ('<span class="wp-table--hierarchy-span" style="width: ' + 45.to_s + 'px;"></span>').html_safe +
+            ('<span class="wp-table--hierarchy-span" style="width: ' + 25.to_s + 'px;"></span>').html_safe +
               link_to(h(federal_project.name), edit_national_project_path(id: federal_project.id))
           end
           html = html + tag_td
