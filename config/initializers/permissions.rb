@@ -137,6 +137,9 @@ Redmine::AccessControl.map do |map|
     wpt.permission :edit_required_doc_type,
                    { work_packages: %i[edit update] },
                    require: :member
+    wpt.permission :edit_fixed_version,
+                   { work_packages: %i[edit update] },
+                   require: :member
     #)
     # Issues
     wpt.permission :view_work_packages,

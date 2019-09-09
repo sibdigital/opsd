@@ -2,13 +2,13 @@
 # This file written by BBM
 # 26/04/2019
 
-module DemoData
+module BasicData
   class NationalProjectSeeder < Seeder
 
     def initialize; end
 
     def seed_data!
-      national_projects = translate_with_base_url("seeders.demo_data.national_projects")
+      national_projects = translate_with_base_url("seeders.basic_data.national_projects")
 
       national_projects.each do |attributes|
         print '.'
@@ -16,7 +16,7 @@ module DemoData
         national_project = NationalProject.create tr_attr
       end
 
-      federal_projects = translate_with_base_url("seeders.demo_data.federal_projects")
+      federal_projects = translate_with_base_url("seeders.basic_data.federal_projects")
 
       federal_projects.each do |attributes|
         print '.'
@@ -33,6 +33,8 @@ module DemoData
         type:         attributes[:type],
         leader_position:    attributes[:leader_position],
         curator_position:   attributes[:curator_position],
+        leader:    attributes[:leader],
+        curator:   attributes[:curator],
         start_date: Date.new(2019, 1, 1),
         due_date:   Date.new(2024, 12, 31)
       }
@@ -44,7 +46,9 @@ module DemoData
         type:         attributes[:type],
         leader_position:    attributes[:leader_position],
         curator_position:   attributes[:curator_position],
-        start_date: Date.new(2019, 2, 1),
+        leader:    attributes[:leader],
+        curator:   attributes[:curator],
+        start_date: Date.new(2019, 1, 1),
         due_date:   Date.new(2024, 12, 31),
         parent_id: np_by_name(attributes[:parent])
       }

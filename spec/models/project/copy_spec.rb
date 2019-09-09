@@ -457,5 +457,20 @@ describe Project::Copy, type: :model do
 
       it { is_expected.to eq(project.categories.count) }
     end
+
+    #zbd(
+    describe '#copy_targets' do
+      before do
+        FactoryBot.create(:target, project: project)
+
+        copy.send(:copy_targets, project)
+        copy.save
+      end
+
+      subject { copy.targets.count }
+
+      it { is_expected.to eq(project.targets.count) }
+    end
+    # )
   end
 end
