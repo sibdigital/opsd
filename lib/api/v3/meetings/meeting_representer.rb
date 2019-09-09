@@ -24,7 +24,7 @@ module API
         property :agenda_text,
                  render_nil: true,
                  exec_context: :decorator,
-                 getter: ->(*) { represented.agenda.text }
+                 getter: ->(*) { represented.agenda ? represented.agenda.text : "" }
 
         property :participant_list,
                  render_nil: true,
