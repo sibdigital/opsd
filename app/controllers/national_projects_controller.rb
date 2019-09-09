@@ -31,7 +31,7 @@ class NationalProjectsController < ApplicationController
     }
     sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
-    @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
+    @national_projects = NationalProject.order(sort_clause)
   end
   def show
     sort_columns = {'id' => "#{NationalProject.table_name}.id",
@@ -44,7 +44,7 @@ class NationalProjectsController < ApplicationController
     }
     sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
-    @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
+    @national_projects = NationalProject.order(sort_clause)
   end
 
   def edit
