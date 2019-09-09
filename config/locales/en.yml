@@ -2839,12 +2839,22 @@ en:
   text_user_created_wp: 'Создал пакет работ'
   text_user_overdue_wp: 'Просрочил пакет работ'
   text_user_done_wp: 'Выполнил пакет работ'
+  text_user_added_doc: 'Добавил документ'
+  text_user_updated_doc: 'Обновил документ'
+  text_user_deleted_doc: 'Удалил документ'
+  text_user_messaged_board: 'Оставил сообщение'
+  text_user_updated_message: 'Отредактировал сообщение'
   statistics_accept_appointment: 'Принятие полномочий исполнителя/руководителя: %{count}'
   statistics_action_with_wp: 'Действия с объектами: %{count}'
   statistics_wps_created: 'Создано объектов: %{count}'
   statistics_wps_deleted: 'Удалено объектов: %{count}'
   statistics_wps_done: 'Выполнено объектов: %{count}'
   statistics_wps_overdue: 'Просрочено объектов: %{count}'
+  statistics_docs_added: 'Добавлено документов: %{count}'
+  statistics_docs_updated: 'Обновлено документов: %{count}'
+  statistics_docs_deleted: 'Удалено документов: %{count}'
+  statistics_boards_messaged: 'Оставлено сообщений: %{count}'
+  statistics_boards_messages_updated: 'Отредактировано сообщений: %{count}'
 #  -
   text_length_between: Количество символов между %{min} и %{max} .
   text_line_separated: Допускается  несколько значений (одна строка для каждого значения).

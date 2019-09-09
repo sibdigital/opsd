@@ -127,7 +127,7 @@ class UsersController < ApplicationController
     stats["wp_created"] = wpj_vs
     # find deleted wps - trouble : deleted project don't saves anywhere
     # find done wps
-    wpj = WorkPackageJournal.where("assigned_to_id = ? AND done_ratio = ?", @user.id,  100)
+    wpj = WorkPackageJournal.where("assigned_to_id = ? AND done_ratio = ?", @user.id, 100)
     wpj_uniqs = wpj.select(:work_package_id).distinct
     wpj_vs = Array.new
     wpj_uniqs.each do |uniq|
@@ -137,12 +137,38 @@ class UsersController < ApplicationController
     stats["wp_done"] = wpj_vs
     # catalogs changes
     # adding docs
-
+    allj = Journal.where("journable_type = ? AND user_id = ? AND version = ?", "Document", @user.id, 1)
+    docj_vs = Array.new
+    allj.each do |uniq|
+      doc_j = Journal::DocumentJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
+      docj_vs.push(doc_j)
+    end
+    stats["doc_created"] = docj_vs
     # updating docs
-
+    allj = Journal.where("journable_type = ? AND user_id = ? AND version > ?", "Document", @user.id, 1)
+    docj_vs = Array.new
+    allj.each do |uniq|
+      doc_j = Journal::DocumentJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
+      docj_vs.push(doc_j)
+    end
+    stats["doc_updated"] = docj_vs
     # deleting docs - trouble: the same with the wps
     # discussion messages
+    allj = Journal.where("journable_type = ? AND user_id = ? AND version = ?", "Message", @user.id, 1)
+    mesj_vs = Array.new
+    allj.each do |uniq|
+      mes_j = MessageJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
+      mesj_vs.push(mes_j)
+    end
+    stats["board_messaged"] = mesj_vs
     # tables changes
+    allj = Journal.where("journable_type = ? AND user_id = ? AND version > ?", "Message", @user.id, 1)
+    mesj_vs = Array.new
+    allj.each do |uniq|
+      mes_j = MessageJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
+      mesj_vs.push(mes_j)
+    end
+    stats["message_updated"] = mesj_vs
     # find expired wps
     wpj = WorkPackageJournal.where("assigned_to_id = ? AND due_date > ?", @user.id,  User.current.today)
     wpj_uniqs = wpj.select(:work_package_id).distinct

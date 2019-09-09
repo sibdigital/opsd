@@ -49,9 +49,17 @@
         </tr>
         </thead>
         <tbody>
+        <tr id="wp_appointment" class="hide-head">
+          <td><span id="wp_appointment" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_accept_appointment, @statistics["wp_appointment"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
         <% for stat in @statistics["wp_appointment"] %>
-          <tr>
-            <td> <% if stat.assigned_to_id == @user.id %>
+          <tr id="wp_created" class="hide-section">
+            <td>
+              <span class="wp-table--hierarchy-span" style="width:45px;"></span>
+              <% if stat.assigned_to_id == @user.id %>
                 <%=  l(:text_user_assigned_to_wp)%>
               <% elsif  stat.responsible_id == @user.id%>
                 <%=  l(:text_user_responsible_to_wp) %>
@@ -67,9 +75,16 @@
             </td>
           </tr>
         <% end %>
+        <tr id="wp_created" class="hide-head">
+          <td><span id="wp_created" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_wps_created, @statistics["wp_created"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
         <% for stat in @statistics["wp_created"] %>
-          <tr>
+          <tr id="wp_created" class="hide-section">
             <td>
+              <span class="wp-table--hierarchy-span" style="width:45px;"></span>
               <%=  l(:text_user_created_wp)%>
             </td>
             <td>
@@ -83,9 +98,16 @@
             </td>
           </tr>
         <% end %>
+        <tr id="wp_overdue" class="hide-head">
+          <td><span id="wp_overdue" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_wps_overdue, @statistics["wp_overdue"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
         <% for stat in @statistics["wp_overdue"] %>
-        <tr>
+        <tr id="wp_overdue" class="hide-section">
           <td>
+            <span class="wp-table--hierarchy-span" style="width:45px;"></span>
             <%=  l(:text_user_overdue_wp)%>
           </td>
           <td>
@@ -99,9 +121,16 @@
           </td>
         </tr>
         <% end %>
+        <tr id="wp_done" class="hide-head">
+          <td><span id="wp_done" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_wps_done, @statistics["wp_done"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
         <% for stat in @statistics["wp_done"] %>
-        <tr>
+        <tr id="wp_overdue" class="hide-section">
           <td>
+            <span class="wp-table--hierarchy-span" style="width:45px;"></span>
             <%=  l(:text_user_done_wp)%>
           </td>
           <td>
@@ -114,6 +143,98 @@
             <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
           </td>
         </tr>
+        <% end %>
+        <tr id="doc_created" class="hide-head">
+          <td><span id="doc_created" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_docs_added, @statistics["doc_created"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% for stat in @statistics["doc_created"] %>
+          <tr id="doc_created" class="hide-section">
+            <td>
+              <span class="wp-table--hierarchy-span" style="width:45px;"></span>
+              <%=  l(:text_user_added_doc)%>
+            </td>
+            <td>
+              <%= stat.title %>
+            </td>
+            <td>
+              <%= format_activity_day(Journal.find(stat.journal_id).created_at)  %>
+            </td>
+            <td>
+              <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+            </td>
+          </tr>
+        <% end %>
+        <tr id="doc_updated" class="hide-head">
+          <td><span id="doc_updated" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_docs_updated, @statistics["doc_updated"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% for stat in @statistics["doc_updated"] %>
+          <tr id="doc_updated" class="hide-section">
+            <td>
+              <span class="wp-table--hierarchy-span" style="width:45px;"></span>
+              <%=  l(:text_user_updated_doc)%>
+            </td>
+            <td>
+              <%= stat.title %>
+            </td>
+            <td>
+              <%= format_activity_day(Journal.find(stat.journal_id).created_at)  %>
+            </td>
+            <td>
+              <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+            </td>
+          </tr>
+        <% end %>
+        <tr id="board_messaged" class="hide-head">
+          <td><span id="board_messaged" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_boards_messaged, @statistics["board_messaged"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% for stat in @statistics["board_messaged"] %>
+          <tr id="board_messaged" class="hide-section">
+            <td>
+              <span class="wp-table--hierarchy-span" style="width:45px;"></span>
+              <%=  l(:text_user_messaged_board)%>
+            </td>
+            <td>
+              <b><%= stat.subject%></b>: <%= stat.content %>
+            </td>
+            <td>
+              <%= format_activity_day(Journal.find(stat.journal_id).created_at)  %>
+            </td>
+            <td>
+              <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+            </td>
+          </tr>
+        <% end %>
+        <tr id="message_updated" class="hide-head">
+          <td><span id="message_updated" class="wp-table--hierarchy-span" style="width: 25px;">▼</span><b> <%= l(:statistics_boards_messages_updated, @statistics["message_updated"].count) %></b></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <% for stat in @statistics["message_updated"] %>
+          <tr id="message_updated" class="hide-section">
+            <td>
+              <span class="wp-table--hierarchy-span" style="width:45px;"></span>
+              <%=  l(:text_user_updated_message)%>
+            </td>
+            <td>
+              <b><%= stat.subject%></b>: <%= stat.content %>
+            </td>
+            <td>
+              <%= format_activity_day(Journal.find(stat.journal_id).created_at)  %>
+            </td>
+            <td>
+              <%= format_time(Journal.find(stat.journal_id).created_at,false) %>
+            </td>
+          </tr>
         <% end %>
         </tbody>
       </table>
