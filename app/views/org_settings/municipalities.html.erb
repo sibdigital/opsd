@@ -1,5 +1,15 @@
 <% html_title l(:label_administration), l(:label_municipalities) %>
-<%= toolbar title: l(:label_municipalities)%>
+<%= toolbar title: l(:label_municipalities) do %>
+  <li class="toolbar-item">
+    <%= link_to(catalog_loaders_path(catalog_type: "organizations", org_type: @org_type ),
+                aria: { label: t(:button_add) },
+                class: 'button -alt-highlight',
+                title: t(:button_add)) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text">Загрузка через Excel</span>
+    <% end %>
+  </li>
+<% end %>
 <!--new version of this by knm-->
 <%= form_tag({}) do -%>
   <% if @municipalities.empty? %>
@@ -131,6 +141,16 @@
       </div>
     </div>
   <% end %>
+
+  <div class="toolbar-item">
+    <%= link_to(catalog_loaders_path(catalog_type: "organizations", org_type: @org_type ),
+                aria: { label: t(:button_add) },
+                class: 'button -alt-highlight',
+                title: t(:button_add)) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text">Загрузка через Excel</span>
+    <% end %>
+  </div>
 <%end %>
 
 

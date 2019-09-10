@@ -1394,3 +1394,104 @@ en:
           table_name: work_packages
           setting_type: UploadPlanType2
           column_type: text
+        - column_name: contract_subject
+          column_num: 1
+          is_pk: false
+          table_name: contracts
+          setting_type: UploadPlanType3
+          column_type: text
+        - column_name: contract_num
+          column_num: 2
+          is_pk: false
+          table_name: contracts
+          setting_type: UploadPlanType3
+          column_type: text
+        - column_name: price
+          column_num: 3
+          is_pk: false
+          table_name: contracts
+          setting_type: UploadPlanType3
+          column_type: text
+        - column_name: contract_date
+          column_num: 4
+          is_pk: false
+          table_name: contracts
+          setting_type: UploadPlanType3
+          column_type: text
+        - column_name: eis_href
+          column_num: 5
+          is_pk: false
+          table_name: contracts
+          setting_type: UploadPlanType3
+          column_type: text
+        - column_name: executor
+          column_num: 6
+          is_pk: false
+          table_name: contracts
+          setting_type: UploadPlanType3
+          column_type: text
+        - column_name: name
+          column_num: 1
+          is_pk: false
+          table_name: organizations
+          setting_type: UploadPlanType4
+          column_type: text
+        - column_name: inn
+          column_num: 2
+          is_pk: false
+          table_name: organizations
+          setting_type: UploadPlanType4
+          column_type: text
+        - column_name: org_prav_forma
+          column_num: 3
+          is_pk: false
+          table_name: organizations
+          setting_type: UploadPlanType4
+          column_type: text
+        - column_name: org_prav_forma
+          column_num: 3
+          is_pk: false
+          table_name: organizations
+          setting_type: UploadPlanType4
+          column_type: text
+        - column_name: ur_addr
+          column_num: 4
+          is_pk: false
+          table_name: organizations
+          setting_type: UploadPlanType4
+          column_type: text
+        - column_name: post_addr
+          column_num: 5
+          is_pk: false
+          table_name: organizations
+          setting_type: UploadPlanType4
+          column_type: text
+        - column_name: mail
+          column_num: 1
+          is_pk: false
+          table_name: users
+          setting_type: UploadPlanType5
+          column_type: text
+        - column_name: lastname
+          column_num: 2
+          is_pk: false
+          table_name: users
+          setting_type: UploadPlanType5
+          column_type: text
+        - column_name: firstname
+          column_num: 3
+          is_pk: false
+          table_name: users
+          setting_type: UploadPlanType5
+          column_type: text
+        - column_name: patronymic
+          column_num: 4
+          is_pk: false
+          table_name: users
+          setting_type: UploadPlanType5
+          column_type: text
+
+
+
+
+

@@ -3,7 +3,10 @@
 <!--  <div class="form--field"><%#= f.text_field 'table_name', required: true, readonly: true, container_class: '-middle' %></div>-->
 <!--  <div class="form--field"><%#= f.text_field 'column_name', required: true, container_class: '-middle' %></div>-->
   <%# setting_types = [["План 1 (План мероприятий по реализации регионального проекта)", "UploadPlanType1"], ["План 2 (Контрольные точки)", "UploadPlanType2"]] %>
-  <% table = [["Мероприятия", "work_packages"], ["Государственные контракты", "contracts"]] %>
+  <% table = [["Мероприятия", "work_packages"], ["Государственные контракты", "contracts"],
+              ["Организации", "organizations"], ["Пользователи", "users"],
+              ["Должности", "positions"], ["Типовые риски", "risks"],
+              ["Произвольный объект", "arbitary_objects"]] %>
   <% type = [["Текст", "text"], ["Число", "number"], ["Дата", "date"], ["Пользователь", "user"]] %>
 
   <div class="form--field" id="setting-type-block">

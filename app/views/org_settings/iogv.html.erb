@@ -1,7 +1,18 @@
 <% html_title l(:label_administration), l(:label_iogv) %>
-<%= toolbar title: l(:label_iogv)%>
+<%= toolbar title: l(:label_iogv) do %>
+  <li class="toolbar-item">
+    <%= link_to(catalog_loaders_path(catalog_type: "organizations", org_type: @org_type ),
+                aria: { label: t(:button_add) },
+                class: 'button -alt-highlight',
+                title: t(:button_add)) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text">Загрузка через Excel</span>
+    <% end %>
+  </li>
+<% end %>
 <!--new version of this by knm-->
 <%= form_tag({}) do -%>
+
   <% if @iogv.empty? %>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
@@ -130,7 +141,7 @@
       </div>
     </div>
   <% end %>
-<%end %>
+<% end %>
 
 
 
