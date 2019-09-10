@@ -485,6 +485,9 @@ en:
       production_calendar:
         day_type: Тип дня недели
       national_project:
+        national: Национальный проект
+        federal: Федеральный проект
+        government: Государственная программа
         parent: Национальный проект
         leader: Руководитель
         leader_position: Должность руководителя
@@ -2839,14 +2842,18 @@ en:
 #  knm +
   text_user_assigned_to_wp: 'Назначен исполнителем пакета работ'
   text_user_responsible_to_wp: 'Назначен ответственным над пакетом работ'
-  text_user_created_wp: 'Создал пакет работ'
+  text_user_created_workpackage: 'Создал пакет работ'
+  text_user_deleted_workpackage: 'Удалил пакет работ'
+  text_user_updated_workpackage: 'Обновил пакет работ'
   text_user_overdue_wp: 'Просрочил пакет работ'
   text_user_done_wp: 'Выполнил пакет работ'
-  text_user_added_doc: 'Добавил документ'
-  text_user_updated_doc: 'Обновил документ'
-  text_user_deleted_doc: 'Удалил документ'
-  text_user_messaged_board: 'Оставил сообщение'
+  text_user_created_document: 'Добавил документ'
+  text_user_updated_document: 'Обновил документ'
+  text_user_deleted_document: 'Удалил документ'
+  text_user_created_message: 'Оставил сообщение'
   text_user_updated_message: 'Отредактировал сообщение'
+  text_user_updated_nationalproject: 'Изменил каталог'
+  text_user_created_nationalproject: 'Создал каталог'
   statistics_accept_appointment: 'Принятие полномочий исполнителя/руководителя: %{count}'
   statistics_action_with_wp: 'Действия с объектами: %{count}'
   statistics_wps_created: 'Создано объектов: %{count}'
@@ -2858,6 +2865,8 @@ en:
   statistics_docs_deleted: 'Удалено документов: %{count}'
   statistics_boards_messaged: 'Оставлено сообщений: %{count}'
   statistics_boards_messages_updated: 'Отредактировано сообщений: %{count}'
+  statistics_nationalproject_created: 'Создано национальных проектов: %{count}'
+  statistics_nationalproject_updated: 'Изменено национальных проектов: %{count}'
 #  -
   text_length_between: Количество символов между %{min} и %{max} .
   text_line_separated: Допускается  несколько значений (одна строка для каждого значения).
