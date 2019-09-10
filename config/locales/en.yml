@@ -1205,6 +1205,9 @@ en:
   default_role_reader: Читатель
   default_role_member: Ответственный за блок мероприятий
   default_type: Пакет работ
+  default_target: Цель
+  default_indicator: Показатель
+  default_result: Результат
   default_project_status_not_start: не начат
   default_project_status_in_work: в работе
   default_project_status_ready_to_check: готов к проверке

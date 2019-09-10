@@ -98,7 +98,7 @@ class ReportProgressProjectController < ApplicationController
     #puts @target.id
     #puts params[:target_id]
     sheet = @workbook_pril['Данные для диаграмм']
-
+    selected_target = params[:target]
     @target = Target.find(params[:selected_target_id])
     sheet[2][2].change_contents(@target.id)
 
@@ -116,26 +116,31 @@ class ReportProgressProjectController < ApplicationController
     sheet[12][3].change_contents(@date_today)
     sheet[22][11].change_contents(@project.name)
 
-    #  0ba53d -зеленый
-    #  ff0000 -красный
-    #  ffd800 -желтый
-#    sheet.sheet_data[27][5].change_fill('ff0000')
-#    sheet.sheet_data[27][9].change_fill('ffd800')
-#    sheet.sheet_data[27][13].change_fill('0ba53d')
-#    sheet.sheet_data[27][17].change_fill('0ba53d')
-#    sheet.sheet_data[27][21].change_fill('ffd800')
-
   end
 
   def generate_key_risk_sheet
-    sheet = @workbook['Ключевые риски']
-    @workPackageProblems = WorkPackageProblem.where(project_id: @project.id)
+       sheet = @workbook['Ключевые риски']
+       workPackageProblems = WorkPackageProblem.where(project_id: @project.id)
 
-    data_row = 3
-    @workPackageProblems.each_with_index do |workPackageProblem, i|
+       data_row = 3
+       workPackageProblems.each_with_index do |workPackageProblem, i|
+       status_risk = 0
+       if workPackageProblem.risk!=nil
+         status_risk = get_v_risk_problem_stat(workPackageProblem.risk.id.to_s)
+       end
 
        sheet.insert_cell(data_row + i, 0, i+1)
        sheet.insert_cell(data_row + i, 1, "")
+
+       if status_risk == 1
+         sheet.sheet_data[data_row + i][1].change_fill('0ba53d')
+       elsif status_risk == 2
+         sheet.sheet_data[data_row + i][1].change_fill('ffd800')
+       elsif status_risk == 3
+         sheet.sheet_data[data_row + i][1].change_fill('ff0000')
+       else
+           sheet.sheet_data[data_row + i][1].change_fill('d7d7d7')
+       end
        sheet.insert_cell(data_row + i, 2, workPackageProblem.work_package.subject)
        sheet.insert_cell(data_row + i, 3, workPackageProblem.risk==nil ? "" : workPackageProblem.risk.description)
        sheet.insert_cell(data_row + i, 4, workPackageProblem.description)
@@ -165,43 +170,70 @@ class ReportProgressProjectController < ApplicationController
        sheet.sheet_data[data_row + i][4].change_border(:left, 'thin')
        sheet.sheet_data[data_row + i][4].change_border(:right, 'thin')
 
+       end
+
+    #  0ba53d -зеленый
+    #  ff0000 -красный
+    #  ffd800 -желтый
+    #  d7d7d7 - серый
+
+    # установка цвета статуса для риска
+    sheet = @workbook['Титульный лист']
+    if get_v_risk_problem_stat_critic == 1
+      sheet.sheet_data[27][5].change_fill('ff0000')
+    elsif get_v_risk_problem_stat_low == 1
+      sheet.sheet_data[27][5].change_fill('ffd800')
+    else
+      sheet.sheet_data[27][5].change_fill('d7d7d7')
+    end
+
+    if get_v_risk_problem_stat_solved == 1
+      sheet.sheet_data[27][5].change_fill('0ba53d')
     end
   end
 
   def generate_targets_sheet
 
     sheet = @workbook['Сведения о значениях целей']
-
-    result_array_targets = get_value_targets
-
+    result_array_targets = get_value_targets_indicators
+    status = 0
     data_row = 4
-
     result_array_targets.each_with_index do |target, i|
+    factQuarterTargetValue = target["fact_quarter4_value"] != "0" ? target["fact_quarter4_value"] : ( target["fact_quarter3_value"]!= "0" ? target["fact_quarter3_value"] : (target["fact_quarter2_value"] != "0" ? target["fact_quarter2_value"] : (target["fact_quarter1_value"] != "0" ? target["fact_quarter1_value"] : "0")) )
+    procent = '%.2f' %(target["plan_year_value"].to_i == 0 ? 0 : (factQuarterTargetValue.to_f / target["plan_year_value"].to_f )*100)
+    measure_unit = target["measure_name"] == nil ? "" : target["measure_name"].to_s
+    devation = procent.to_f / 100
+    no_devation =  Setting.find_by(name: 'no_devation').value
+    small_devation =  Setting.find_by(name: 'small_devation').value
 
-    @workPackageTarget = WorkPackageTarget.find_by(work_package_id: target["work_package_id"])
-    @prevWorkPackageTarget = WorkPackageTarget.find_by(project_id: @project.id, work_package_id: target["work_package_id"], year: Date.today.year-1, quarter: 4, month: 12, target_id: target["target_id"])
+    sheet.insert_cell(data_row + i, 0, i+1)
+    sheet.insert_cell(data_row + i, 1, "")
+    if devation < small_devation.to_f
+      sheet.sheet_data[data_row + i][1].change_fill('ff0000')
+      status = 1
+    elsif (devation >= small_devation.to_f && devation >  no_devation.to_f)
+      sheet.sheet_data[data_row + i][1].change_fill('ffd800')
+      if status != 1
+        status = 2
+      end
+    elsif devation  == no_devation.to_f
+        sheet.sheet_data[data_row + i][1].change_fill('0ba53d')
+        if status != 1 && status != 2
+          status = 3
+        end
+    else
+      sheet.sheet_data[data_row + i][1].change_fill('d7d7d7')
+    end
 
-
-    @targetExecutionValues = TargetExecutionValue.find_by(year: Date.today.year, quarter: 4, target_id: target["target_id"])
-    @targetExecutionValues = @targetExecutionValues == nil ? TargetExecutionValue.find_by(year: Date.today.year, quarter: nil , target_id: target["target_id"]) : @targetExecutionValues
-
-    @workPackageTargetValue = target["quarter4"] != "0" ? target["quarter4"] : ( target["quarter3"]!= "0" ? target["quarter3"] : (target["quarter2"] != "0" ? target["quarter2"] : (target["quarter1"] != "0" ? target["quarter1"] : "0")) )
-
-    @procent = '%.2f' %(@targetExecutionValues == nil ? 0 : (@workPackageTargetValue.to_f / @targetExecutionValues.value)*100)
-
-    measure_unit = @workPackageTarget.target.measure_unit == nil ? "" : @workPackageTarget.target.measure_unit.short_name
-
-      sheet.insert_cell(data_row + i, 0, i+1)
-      sheet.insert_cell(data_row + i, 1, "")
-      sheet.insert_cell(data_row + i, 2, @workPackageTarget.work_package.subject)
+      sheet.insert_cell(data_row + i, 2, target["name"])
       sheet.insert_cell(data_row + i, 3, measure_unit)
-      sheet.insert_cell(data_row + i, 4, @prevWorkPackageTarget == nil ? "" : @prevWorkPackageTarget.value)
-      sheet.insert_cell(data_row + i, 5, target["quarter1"])
-      sheet.insert_cell(data_row + i, 6, target["quarter2"])
-      sheet.insert_cell(data_row + i, 7, target["quarter3"])
-      sheet.insert_cell(data_row + i, 8, target["quarter4"])
-      sheet.insert_cell(data_row + i, 9, @targetExecutionValues == nil ? "" : @targetExecutionValues.value)
-      sheet.insert_cell(data_row + i, 10, @procent)
+      sheet.insert_cell(data_row + i, 4, target["fact_year_value"].to_f)
+      sheet.insert_cell(data_row + i, 5, target["fact_quarter1_value"].to_f)
+      sheet.insert_cell(data_row + i, 6, target["fact_quarter2_value"].to_f)
+      sheet.insert_cell(data_row + i, 7, target["fact_quarter3_value"].to_f)
+      sheet.insert_cell(data_row + i, 8, target["fact_quarter4_value"].to_f)
+      sheet.insert_cell(data_row + i, 9, target["plan_year_value"].to_f)
+      sheet.insert_cell(data_row + i, 10, procent)
       sheet.insert_cell(data_row + i, 11, "")
 
       sheet.sheet_data[data_row + i][0].change_border(:top, 'thin')
@@ -266,19 +298,68 @@ class ReportProgressProjectController < ApplicationController
 
     end
 
+    #  0ba53d -зеленый
+    #  ff0000 -красный
+    #  ffd800 -желтый
+    #  d7d7d7 - серый
+
+    # установка цвета статуса для показателей на титульном листе
+    sheet = @workbook['Титульный лист']
+    if status == 1
+       sheet.sheet_data[27][9].change_fill('ff0000')
+    elsif status == 2
+      sheet.sheet_data[27][9].change_fill('ffd800')
+    elsif status == 3
+      sheet.sheet_data[27][9].change_fill('0ba53d')
+    else
+      sheet.sheet_data[27][9].change_fill('d7d7d7')
+    end
+
   end
 
   def generate_status_achievement_sheet
+
+    no_devation =  Setting.find_by(name: 'no_devation').value
+    small_devation =  Setting.find_by(name: 'small_devation').value
+
     sheet = @workbook['Статус достижения результатов']
 
     data_row = 3
     incriment = 0
-    targets = Target.where('project_id = ?', @project.id)
+    status_result = 0
+    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
+    targets = Target.where(project_id: @project.id, type_id: id_type_result)
     targets.each_with_index do |target, i|
-      target.id
+
+      result = get_value_results(target.id.to_s)
+
+      factQuarterTargetValue = result["fact_quarter4_value"].to_i != 0 ? result["fact_quarter4_value"] : ( result["fact_quarter3_value"].to_i != 0 ? target["fact_quarter3_value"] : (target["fact_quarter2_value"].to_i != 0 ? target["fact_quarter2_value"] : (target["fact_quarter1_value"].to_i != 0 ? target["fact_quarter1_value"] : 0)) )
+      procent = '%.2f' %(result["plan_year_value"].to_i == 0 ? 0 : (factQuarterTargetValue.to_f / result["plan_year_value"].to_f )*100)
+      devation = procent.to_f / 100
+
+
+      sheet.insert_cell(data_row + i + incriment, 1, "")
+      if devation < small_devation.to_f
+        sheet.sheet_data[data_row + i+ incriment][1].change_fill('ff0000')
+        status_result = 1
+      elsif (devation >= small_devation.to_f && devation >  no_devation.to_f)
+        sheet.sheet_data[data_row + i+ incriment][1].change_fill('ffd800')
+        if status_result != 1
+          status_result = 2
+        end
+      elsif devation  == no_devation.to_f
+        sheet.sheet_data[data_row + i+ incriment][1].change_fill('0ba53d')
+        if status_result != 1 && status_result != 2
+          status_result = 3
+        end
+      else
+        sheet.sheet_data[data_row + i+ incriment][1].change_fill('d7d7d7')
+      end
+
+
       status = get_status_achievement(target.id.to_s)
       sheet.insert_cell(data_row + i + incriment, 0, i+1)
-      sheet.insert_cell(data_row + i + incriment, 1, "")
+
       sheet.insert_cell(data_row + i + incriment, 2, status["name"])
       sheet.insert_cell(data_row + i + incriment, 3, "")
       sheet.insert_cell(data_row + i + incriment, 4, "")
@@ -425,37 +506,51 @@ class ReportProgressProjectController < ApplicationController
     end
 
 
+    #  0ba53d -зеленый
+    #  ff0000 -красный
+    #  ffd800 -желтый
+    #  d7d7d7 - серый
+
+    # установка цвета статуса для результатов на титульном листе
+    sheet = @workbook['Титульный лист']
+    if status_result == 1
+      sheet.sheet_data[27][17].change_fill('ff0000')
+    elsif status_result == 2
+      sheet.sheet_data[27][17].change_fill('ffd800')
+    elsif status_result == 3
+      sheet.sheet_data[27][17].change_fill('0ba53d')
+    else
+      sheet.sheet_data[27][17].change_fill('d7d7d7')
+    end
+
   end
 
-  def get_value_targets
+  def get_value_targets_indicators
 
-    sql = "with slice as (select project_id, target_id, work_package_id, year, quarter, max(month) as month
-               from work_package_targets as wpt
-                          where year = extract(year from current_date) and project_id = "+@project.id.to_s+
-          "               group by project_id, target_id, work_package_id, year, quarter
-          ),
-               slice_values as (
-                 select s.*, value, plan_value
-                 from slice as s
-                        inner join work_package_targets as w
-                                   on (s.project_id, s.target_id, s.work_package_id, s.year, s.quarter, s.month) =
-                                      (w.project_id, w.target_id, w.work_package_id, w.year, w.quarter, w.month)
-               )
-          select project_id, work_package_id, target_id, year, plan_value,  value as quarter1, 0 as quarter2, 0 as quarter3, 0 as quarter4
-          FROM slice_values as wpt
-          where quarter = 1
-          union all
-          select project_id, work_package_id, target_id, year, plan_value, 0 as quarter1, value as quarter2, 0 as quarter3, 0 as quarter4
-          FROM slice_values as wpt
-          where quarter = 2
-          union all
-          select project_id, work_package_id, target_id, year, plan_value, 0 as quarter1, 0 as quarter2, value as quarter3, 0 as quarter4
-          FROM slice_values as wpt
-          where quarter = 3
-          union all
-          select project_id, work_package_id, target_id, year, plan_value, 0 as quarter1, 0 as quarter2, 0 as quarter3, value as quarter4
-          FROM slice_values as wpt
-          where quarter = 4"
+    sql = "with
+            prev_year_value as (
+             select  pf.target_id, pf.fact_year_value
+             from v_plan_fact_quarterly_target_values as pf
+             where pf.year = (extract(year from current_date)-1) and pf.project_id = " + @project.id.to_s + "
+            ),
+            current_year_value as (
+              select  cf.target_id, cf.fact_quarter1_value,
+                      cf.fact_quarter2_value, cf.fact_quarter3_value, cf.fact_quarter4_value,
+                      cf.plan_year_value
+              from v_plan_fact_quarterly_target_values as cf
+              where cf.year = extract(year from current_date) and cf.project_id = "+ @project.id.to_s + "
+            )
+            select t.name, m.short_name as measure_name, coalesce(p.fact_year_value, 0) as fact_year_value,
+            coalesce(c.fact_quarter1_value, 0) as fact_quarter1_value, coalesce(c.fact_quarter2_value, 0) as fact_quarter2_value,
+            coalesce(c.fact_quarter3_value, 0) as fact_quarter3_value, coalesce(c.fact_quarter4_value, 0) as fact_quarter4_value,
+            coalesce(c.plan_year_value, 0) as plan_year_value
+            FROM targets t
+            left join current_year_value c on c.target_id = t.id
+            left join prev_year_value p on p.target_id = t.id
+            left join measure_units m on m.id = t.measure_unit_id
+            inner join enumerations e on e.id = t.type_id
+            where ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
+
 
     result = ActiveRecord::Base.connection.execute(sql)
     index = 0
@@ -468,6 +563,41 @@ class ReportProgressProjectController < ApplicationController
 
     result_array_targets
   end
+
+
+  def get_value_results(target_id)
+
+    sql = "with
+            prev_year_value as (
+             select  pf.target_id, pf.fact_year_value
+             from v_plan_fact_quarterly_target_values as pf
+             where pf.year = (extract(year from current_date)-1) and pf.project_id = " + @project.id.to_s + "
+            ),
+            current_year_value as (
+              select  cf.target_id, cf.fact_quarter1_value,
+                      cf.fact_quarter2_value, cf.fact_quarter3_value, cf.fact_quarter4_value,
+                      cf.plan_year_value
+              from v_plan_fact_quarterly_target_values as cf
+              where cf.year = extract(year from current_date) and cf.project_id = "+ @project.id.to_s + "
+            )
+            select t.name, m.short_name as measure_name, coalesce(p.fact_year_value, 0) as fact_year_value,
+            coalesce(c.fact_quarter1_value, 0) as fact_quarter1_value, coalesce(c.fact_quarter2_value, 0) as fact_quarter2_value,
+            coalesce(c.fact_quarter3_value, 0) as fact_quarter3_value, coalesce(c.fact_quarter4_value, 0) as fact_quarter4_value,
+            coalesce(c.plan_year_value, 0) as plan_year_value
+            FROM targets t
+            left join current_year_value c on c.target_id = t.id
+            left join prev_year_value p on p.target_id = t.id
+            left join measure_units m on m.id = t.measure_unit_id
+            inner join enumerations e on e.id = t.type_id
+            where e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
+
+
+    result_sql = ActiveRecord::Base.connection.execute(sql)
+
+    result = result_sql[0]
+  end
+
+
 
   def generate_status_execution_budgets_sheet
 
@@ -500,6 +630,67 @@ class ReportProgressProjectController < ApplicationController
     sheetDataDiagram[4][14].change_contents(result_other_budjet[1])
     sheetDataDiagram[5][14].change_contents(result_other_budjet[2])
 
+
+    no_devation =  Setting.find_by(name: 'no_devation').value
+    small_devation =  Setting.find_by(name: 'small_devation').value
+
+    fed_devation = result_fed_budjet[0] / result_fed_budjet[3]
+    reg_devation = result_fed_budjet[0] / result_reg_budjet[3]
+    other_devation = result_fed_budjet[0] / result_other_budjet[3]
+
+    if  fed_devation < small_devation.to_f
+      status_fed = 1
+    elsif   fed_devation >= small_devation.to_f && fed_devation < no_devation.to_f
+      status_fed = 2
+    elsif   fed_devation == no_devation.to_f
+      status_fed = 3
+    else status_fed = 0
+    end
+
+    if  reg_devation < small_devation.to_f
+      status_reg = 1
+    elsif   reg_devation >= small_devation.to_f && reg_devation < no_devation.to_f
+      status_reg = 2
+    elsif   reg_devation == no_devation.to_f
+      status_reg = 3
+    else status_reg = 0
+    end
+
+    if  other_devation < small_devation.to_f
+      status_other = 1
+    elsif   other_devation >= small_devation.to_f && other_devation < no_devation.to_f
+      status_other = 2
+    elsif   other_devation == no_devation.to_f
+      status_other = 3
+    else status_other = 0
+    end
+
+    if status_fed == 3 && status_reg == 3 && status_other == 3
+      status = 3
+    elsif status_fed == 1 || status_reg == 1 || status_other == 1
+      status = 1
+    elsif status_fed == 2 || status_reg == 2 || status_other == 2
+      status = 2
+    else status  = 0
+    end
+
+    #  0ba53d -зеленый
+    #  ff0000 -красный
+    #  ffd800 -желтый
+    #  d7d7d7 - серый
+
+    # установка цвета статуса для бюджета на титульном листе
+    sheetTitle = @workbook['Титульный лист']
+    if status == 1
+      sheetTitle.sheet_data[27][13].change_fill('ff0000')
+
+    elsif status == 2
+      sheetTitle.sheet_data[27][13].change_fill('ffd800')
+    elsif status == 3
+      sheetTitle.sheet_data[27][13].change_fill('0ba53d')
+    else
+      sheetTitle.sheet_data[27][13].change_fill('d7d7d7')
+    end
   end
 
   def generate_dynamic_achievement_kt_sheet
@@ -511,6 +702,7 @@ class ReportProgressProjectController < ApplicationController
 
     not_time = 0
     riski = 0
+    index = 0
 
     result_array.each do |kt|
         if  kt["month"].to_i == 1
@@ -553,10 +745,30 @@ class ReportProgressProjectController < ApplicationController
 
         not_time += kt["not_time"].to_i
         riski += kt["riski"].to_i
+
+        index += 1
     end
 
     sheet[2][6].change_contents(not_time)
     sheet[4][6].change_contents(riski)
+
+    #  0ba53d -зеленый
+    #  ff0000 -красный
+    #  ffd800 -желтый
+    #  d7d7d7 - серый
+
+    # установка цвета статуса для контрольных точек на титульном листе
+    sheetTitle = @workbook['Титульный лист']
+    if not_time > 0
+      sheetTitle.sheet_data[27][21].change_fill('ff0000')
+    elsif riski > 0
+      sheetTitle.sheet_data[27][21].change_fill('ffd800')
+    elsif index > 0
+      sheetTitle.sheet_data[27][21].change_fill('0ba53d')
+    else
+      sheetTitle.sheet_data[27][21].change_fill('d7d7d7')
+    end
+
   end
 
 
@@ -752,6 +964,81 @@ class ReportProgressProjectController < ApplicationController
 
     result_array
   end
+
+  def get_v_risk_problem_stat(risk_id)
+    sql = " select vr.type, e.name
+            from v_risk_problem_stat vr
+            left outer join enumerations e on e.id = vr.importance_id
+            where vr.problem_id = " + risk_id
+
+    result_sql= ActiveRecord::Base.connection.execute(sql)
+    result = 0
+    if result_sql[0]["type"].to_s == "solved_risk"
+      result = 1
+    elsif result_sql[0]["type"].to_s == "created_risk" && result_sql[0]["name"].to_s == I18n.t(:default_impotance_low)
+      result = 2
+    elsif result_sql[0]["type"].to_s == "created_risk" && result_sql[0]["name"].to_s == I18n.t(:default_impotance_critical)
+      result = 3
+    end
+
+    result
+  end
+
+  def get_v_risk_problem_stat_critic
+    sql = " select count(vr.id) as count_risk
+            from v_risk_problem_stat vr
+            inner join enumerations e on e.id = vr.importance_id "+
+          " where  e.name='"+I18n.t(:default_impotance_critical)+"' and vr.project_id=" + @project.id.to_s
+
+    result_sql= ActiveRecord::Base.connection.execute(sql)
+    result = result_sql[0]["count_risk"].to_i > 0 ? 1 : 0
+    result
+  end
+
+  def get_v_risk_problem_stat_low
+    sql = " select count(vr.id)  as count_risk
+            from v_risk_problem_stat vr
+            inner join enumerations e on e.id = vr.importance_id "+
+      " where  e.name='"+I18n.t(:default_impotance_low)+"' and vr.project_id=" + @project.id.to_s
+
+    result_sql= ActiveRecord::Base.connection.execute(sql)
+    result = result_sql[0]["count_risk"].to_i > 0 ? 1 : 0
+    result
+  end
+
+
+  def get_v_risk_problem_stat_solved
+    sql = " select type
+            from v_risk_problem_stat
+            where  project_id=" + @project.id.to_s
+
+    result_sql= ActiveRecord::Base.connection.execute(sql)
+
+    result_array = []
+    is_risk = 0
+    index = 0;
+    result_sql.each do |row|
+      if row["type"].to_s != 'solved_risk'
+        is_risk = 1
+      end
+      index += 1
+    end
+
+    result = is_risk == 0 && index > 0  ? 1 : 0
+    result
+  end
+
+
+  def get_v_risk_problem_stat_is_empty
+    sql = " select count(vr.id) as count_risk
+            from v_risk_problem_stat vr
+            where  vr.project_id=" + @project.id.to_s
+
+    result_sql= ActiveRecord::Base.connection.execute(sql)
+    result = rresult_sql[0]["count_risk"].to_i == 0 ? 1 : 0
+    result
+  end
+
 
   def destroy
     redirect_to action: 'index'

@@ -12,8 +12,8 @@ This file written by XCC
 
 
   <div class="form--field">
-     <%= select_tag('selected_target_id', options_for_select(@project.targets.map {|u| [u.name, u.id]})) %>
-    <%= link_to "Сформировать", {report_id: "report_progress_project_pril_1_2" }, class: 'button' %>
+     <%= select_tag "selected_target_id", options_for_select(@project.targets.map {|u| [u.name, u.id]}, params[:target]) %>
+    <%= link_to "Сформировать", {report_id: "report_progress_project_pril_1_2", selected_target_id: params[:target]}, class: 'button' %>
   </div>
 
 

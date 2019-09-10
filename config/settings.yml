@@ -404,4 +404,10 @@ remaining_count_days:
 #xcc(
 region_name:
   default: Республика Бурятия
+
+no_devation:
+  default: 1
+
+small_devation:
+    default: 0.8
 #)
