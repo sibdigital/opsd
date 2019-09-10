@@ -60,6 +60,14 @@ See docs/COPYRIGHT.rdoc for more details.
              locals: { name: "categories", checked: true,
                           label: l(:label_work_package_category_plural),
                           count: project.categories.count } %>
+<!-- zbd -->
+  <%= render partial: "copy_projects/copy_settings/block_checkbox",
+             locals: { name: "targets", checked: true, label: l(:label_targets),
+                       count: project.targets.count } %>
+  <%= render partial: "copy_projects/copy_settings/block_checkbox",
+             locals: { name: "project_risks", checked: true, label: l(:label_project_risks),
+                       count: project.project_risks.count } %>
+
   <%= hidden_field_tag 'only[]', '' %>
 
   <br />

@@ -5,7 +5,6 @@ class NationalProjectsController < ApplicationController
   before_action :find_national_project, only: [:edit, :update, :destroy]
   # before_action :authorize_global, only: [:government_programs, :show, :index, :edit, :update, :destroy, :new]
   include SortHelper
-  include PaginationHelper
   include ::IconsHelper
   include ::ColorsHelper
   include TargetsHelper
@@ -19,7 +18,7 @@ class NationalProjectsController < ApplicationController
     }
     sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
-    @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
+    @national_projects = NationalProject.order(sort_clause)
   end
   def government_programs
     sort_columns = {'id' => "#{NationalProject.table_name}.id",
@@ -32,7 +31,7 @@ class NationalProjectsController < ApplicationController
     }
     sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
-    @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
+    @national_projects = NationalProject.order(sort_clause)
   end
   def show
     sort_columns = {'id' => "#{NationalProject.table_name}.id",
@@ -45,7 +44,7 @@ class NationalProjectsController < ApplicationController
     }
     sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
-    @national_projects = NationalProject.order(sort_clause).page(page_param).per_page(per_page_param)
+    @national_projects = NationalProject.order(sort_clause)
   end
 
   def edit

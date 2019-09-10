@@ -41,6 +41,10 @@ class WorkPackage < ActiveRecord::Base
 
   include OpenProject::Journal::AttachmentHelper
 
+  #+tan
+  include ActiveModel::Dirty
+  # -tan
+
   DONE_RATIO_OPTIONS = %w(field status disabled).freeze
   ATTRIBS_WITH_VALUES_FROM_CHILDREN =
     %w(start_date due_date estimated_hours done_ratio).freeze
@@ -801,12 +805,12 @@ class WorkPackage < ActiveRecord::Base
       self.first_start_date = self.start_date
     end
 
-    if self.due_date_changed?
-      self.last_due_date = self.due_date
+    if self.due_date_changed? && self.last_due_date != self.due_date_was
+      self.last_due_date = self.due_date_was
     end
 
-    if self.start_date_changed?
-      self.last_start_date = self.start_date
+    if self.start_date_changed? && self.last_start_date != self.start_date_was
+      self.last_start_date = self.start_date_was
     end
   end
   # -tan

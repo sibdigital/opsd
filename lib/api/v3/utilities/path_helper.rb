@@ -270,6 +270,14 @@ module API
             "#{head_performances}/#{id}"
           end
 
+          def self.meetings
+            "#{root}/meetings"
+          end
+
+          def self.meeting(id)
+            "#{meetings}/#{id}"
+          end
+
           def self.protocols
             "#{root}/protocols"
           end

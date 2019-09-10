@@ -400,12 +400,20 @@ Redmine::MenuManager.map :project_menu do |menu|
 
 
   ##zbd(
+  # menu.push :stages,
+  #           {},
+  #           param: :project_id,
+  #           caption: :label_stages,
+  #           if: Proc.new { |p| p.module_enabled?('stages') },
+  #           icon: 'icon2 icon-etap'
+
   menu.push :stages,
-            {},
+            { controller: '/versions', action: 'index' },
             param: :project_id,
             caption: :label_stages,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') }, # p.shared_versions.any? },
             icon: 'icon2 icon-etap'
+
   # )
   # knm(
   menu.push :stages_init,
@@ -498,11 +506,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             parent: :control,
             icon: 'icon2 icon-checkmark'
 
-  menu.push :roadmap,
-            { controller: '/versions', action: 'index' },
-            param: :project_id,
-            if: Proc.new { |p| p.shared_versions.any? },
-            icon: 'icon2 icon-roadmap'
+  # zbd
+  # menu.push :roadmap,
+  #           { controller: '/versions', action: 'index' },
+  #           param: :project_id,
+  #           if: Proc.new { |p| p.shared_versions.any? },
+  #           icon: 'icon2 icon-roadmap'
 
   menu.push :work_packages_execution,
             { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },

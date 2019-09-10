@@ -55,7 +55,7 @@ module BasicData
       # т.к. участник - это ответственный за блок мероприятий
       # администратор проектного офиса - это координатор от проектного офиса
      [#project_admin,
-      #member,
+      member,
       reader,
       #zbd( +tan 2019.07.05
       #project_curator, project_customer, project_office_manager, project_activity_coordinator,
@@ -85,7 +85,7 @@ module BasicData
     end
 
     def member
-     { name: I18n.t(:default_role_member), position: 3, permissions: [
+     { name: I18n.t(:default_role_ispolnitel), position: 3, permissions: [
           :view_work_packages,
           :export_work_packages,
           :add_work_packages,

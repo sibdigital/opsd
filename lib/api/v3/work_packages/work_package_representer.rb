@@ -346,7 +346,7 @@ module API
                    working_days = Setting.working_days
                    i = 0
                    current = start_date
-                   while current < due_date
+                   while current and current < due_date
                      current += 1
                      cal = pcalendar.find_by(date: current) rescue nil
                      if cal

@@ -17,6 +17,11 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 import {DomSanitizer} from "@angular/platform-browser";
 import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
 import {OpTitleService} from "core-components/html/op-title.service";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+//import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -40,7 +45,11 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               private element:ElementRef,
               readonly i18n:I18nService,
               readonly notificationsService:NotificationsService,
-              private sanitizer:DomSanitizer) { }
+              private sanitizer:DomSanitizer,
+    //          private protocolService: BlueTableProtocolService,
+              protected halResourceService:HalResourceService,
+              protected pathHelper:PathHelperService
+  ) { }
 
   ngOnInit() {
     // Clear any old subscribers
@@ -88,17 +97,17 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   public addTooltip($event:any) {
     let event = $event.detail.event;
     let element = $event.detail.element;
-    let workPackage = event.workPackage;
+//    let workPackage = event.workPackage;
 
     jQuery(element).tooltip({
-      content: this.contentString(workPackage),
+      content: event.type_event == "meeting" ? this.contentStringMeeting(event.meeting) : this.contentString(event.workPackage),
       items: '.fc-content',
       track: true
     });
   }
 
   public toWPFullView($event:any) {
-    let workPackage = $event.detail.event.workPackage;
+//    let workPackage = $event.detail.event.workPackage;
 
     // do not display the tooltip on the wp show page
     this.removeTooltip($event.detail.jsEvent.currentTarget);
@@ -109,10 +118,19 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     // Ensure current calendar URL is pushed to history
     window.history.pushState({}, this.titleService.current, window.location.href);
 
-    this.$state.go(
-      'work-packages.show',
-      { workPackageId: workPackage.id },
-      { inherit: false });
+
+    if ($event.detail.event.type_event == "meeting"){
+      let meeting = $event.detail.event.meeting;
+
+      window.location.href = this.pathHelper.appBasePath + '/meetings/' + meeting.id;
+    }else{
+      let workPackage = $event.detail.event.workPackage;
+
+      this.$state.go(
+        'work-packages.show',
+        { workPackageId: workPackage.id },
+        { inherit: false });
+    }
   }
 
   private get calendarElement() {
@@ -152,14 +170,44 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   private setupWorkPackagesListener() {
     this.tableState.results.values$().pipe(
       untilComponentDestroyed(this)
-    ).subscribe((collection:WorkPackageCollectionResource) => {
+    ).subscribe((collection: WorkPackageCollectionResource) => {
       this.warnOnTooManyResults(collection);
       this.mapToCalendarEvents(collection.elements);
       this.setCalendarsDate();
+      this.getMeetingEvents();
     });
   }
 
+  private getMeetingEvents() {
+    this.halResourceService
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.meetings.toString()).toPromise().then(
+
+      (resources: CollectionResource<HalResource>) => {
+
+        let events = resources.elements.map((meeting: HalResource) => {
+
+          return {
+            title: meeting.title,
+            start: meeting.startTime,
+            //end: meeting.startTime,
+            className: `__hl_row_type_${meeting.workPackageId}`,
+            //workPackage: meeting.workPackage,
+            meeting: meeting,
+            type_event: "meeting"
+          }
+
+        });
+
+        let oldEvent = this.ucCalendar.clientEvents(null);
+
+        events = oldEvent.concat (events);
+
+        this.ucCalendar.renderEvents(events);
+      });
+  }
+
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
+
     let events = workPackages.map((workPackage:WorkPackageResource) => {
       let startDate = this.eventDate(workPackage, 'start');
       let endDate = this.eventDate(workPackage, 'due');
@@ -169,7 +217,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         start: startDate,
         end: endDate,
         className: `__hl_row_type_${workPackage.type.getId()}`,
-        workPackage: workPackage
+        workPackage: workPackage,
+        type_event: "workpackage"
       };
     });
 
@@ -262,6 +311,32 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     } else {
       return workPackage[`${type}Date`];
     }
+  }
+
+  private contentStringMeeting(meeting:any) {
+    return `
+        <b> Совещание: </b> ${this.sanitizer.sanitize(SecurityContext.HTML, meeting.title)}
+        
+        <ul class="tooltip--map">
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">Повестка:</span>
+            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.agendaText)}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.startDate')}:</span>
+            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.startTime)}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">Местоположение:</span>
+            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.location)}</span>
+          </li>
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">Участники и приглашенные:</span>
+            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.participantList)}</span>
+          </li>
+          
+        </ul>
+        `;
   }
 
   private contentString(workPackage:WorkPackageResource) {

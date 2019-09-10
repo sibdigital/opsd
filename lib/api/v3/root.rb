@@ -69,6 +69,9 @@ module API
       mount ::API::V3::Views::ViewsAPI
       mount ::API::V3::WorkPackages::WorkPackagesByRoleAPI
       # )
+      # (iag
+      mount ::API::V3::Meetings::MeetingsAPI
+      # )
       # +tan 2019.07.30
       mount ::API::V3::Boards::BoardsAPI
       mount ::API::V3::Raions::RaionsAPI
