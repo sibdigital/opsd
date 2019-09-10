@@ -27,7 +27,18 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l("label_project_new") %>
-<%= toolbar title: l(:label_project_new) %>
+<%= toolbar title: l(:label_project_new) do %>
+  <li class="toolbar-item">
+    <%= link_to project_templates_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_copy_project_from_template)},
+                  title: t(:label_copy_project_from_template)} do %>
+      <%= op_icon('button--icon icon-copy') %>
+      <span class="button--text"><%= t(:label_copy_project_from_template) %></span>
+    <% end %>
+  </li>
+<% end %>
+
 <%= labelled_tabular_form_for @project do |f| %>
   <%= render partial: 'form', locals: { f: f,
                                          project: @project,
@@ -38,3 +49,4 @@ See docs/COPYRIGHT.rdoc for more details.
                                        } %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
+

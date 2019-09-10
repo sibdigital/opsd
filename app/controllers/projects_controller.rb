@@ -340,6 +340,16 @@ class ProjectsController < ApplicationController
     end
   end
 
+  #zbd(
+  def filter_projects_by_type(projects)
+    if params[:type] == Project::TYPE_TEMPLATE
+      projects.templates
+    else
+      projects.projects
+    end
+  end
+  # )
+
   def assign_default_create_variables
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
@@ -368,6 +378,10 @@ class ProjectsController < ApplicationController
                .per_page(per_page_param)
 
     filter_projects_by_permission projects
+
+    #zbd(
+    filter_projects_by_type projects
+    # )
   end
 
   # Validates parent_id param according to user's permissions

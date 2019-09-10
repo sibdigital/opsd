@@ -328,8 +328,8 @@ OpenProject::Application.routes.draw do
 
     resources :report_progress_project do
     end
-
     #)
+
     resources :activity, :activities, only: :index, controller: 'activities'
 
     resources :boards do
@@ -436,6 +436,10 @@ OpenProject::Application.routes.draw do
   end
   #)
 
+  #zbd(
+  get '/project_templates' => 'project_templates#index'
+  # )
+
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
@@ -484,7 +488,6 @@ OpenProject::Application.routes.draw do
       #tmd
       get :update_column, on: :collection
     end
-
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
