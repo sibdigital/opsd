@@ -152,6 +152,13 @@ module API
         }
       end
       # )
+      # iag (
+      link :meetings do
+        {
+          href: api_v3_paths.meetings
+        }
+      end
+      # )
       property :instance_name,
                getter: ->(*) { Setting.app_title }
 
