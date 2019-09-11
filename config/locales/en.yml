@@ -807,8 +807,8 @@ en:
     updated: 'Обновлено: %{title}'
   attributes:
     active: Активно
-    assigned_to: Назначенный
-    assignee: Назначенный
+    assigned_to: Ответственный
+    assignee: Ответственный
     attachments: Вложения
     author: Автор
     base: 'Общая ошибка:'
@@ -1304,7 +1304,7 @@ en:
   enumeration_project_status: Статус проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
-    по крайней мере один пакет работ, назначенный для версии, определенной в этом
+    по крайней мере одно мероприятие, назначенное для версии, определенной в этом
     проекте.'
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
@@ -2962,7 +2962,7 @@ en:
         date: дата
         default: по умолчанию
       column:
-        assigned_to: Назначенный
+        assigned_to: Ответственный
         type: Тип
         due_date: Дате окончания
         fact_due_date: Фактическая дата окончания

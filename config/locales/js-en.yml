@@ -689,7 +689,7 @@ en:
         estimatesAndTime: Затраты и время
         other: Другие
       properties:
-        assignee: Назначенный
+        assignee: Ответственный
         author: Автор
         createdAt: Создано
         description: Описание

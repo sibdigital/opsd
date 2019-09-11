@@ -659,7 +659,7 @@ en:
                   children:
                     - subject: Оснащена пианино школа в Баргузинском районе
                       status: :default_status_in_work
-                      type: :default_type_milestone
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 5
@@ -668,7 +668,7 @@ en:
                       raion: 1
                     - subject: Оснащена пианино школа в Баунтовском районе
                       status: :default_status_completed
-                      type: :default_type_milestone
+                      type: :default_type_task
                       start: -11
                       plan_type: execution
                       duration: 1
@@ -678,7 +678,7 @@ en:
                       require_doc_type_id: Отчет
                     - subject: Оснащена пианино школа в Муйском районе
                       status: :default_status_completed
-                      type: :default_type_milestone
+                      type: :default_type_task
                       start: -5
                       plan_type: execution
                       duration: 5
@@ -688,7 +688,7 @@ en:
                       require_doc_type_id: Отчет
                     - subject: Оснащена пианино школа в Кижингинском районе
                       status: :default_status_not_start
-                      type: :default_type_milestone
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 5
@@ -697,7 +697,7 @@ en:
                       raion: 10
                     - subject: Оснащена пианино школа в Кяхтинском районе
                       status: :default_status_in_work
-                      type: :default_type_milestone
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 15
@@ -706,7 +706,7 @@ en:
                       raion: 12
                     - subject: Оснащена пианино школа в Бичурском районе
                       status: :default_status_in_work
-                      type: :default_type_milestone
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 2
@@ -715,7 +715,7 @@ en:
                       raion: 3
                     - subject: Оснащена пианино школа в Тарбагатайском районе
                       status: :default_status_in_work
-                      type: :default_type_milestone
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 3
