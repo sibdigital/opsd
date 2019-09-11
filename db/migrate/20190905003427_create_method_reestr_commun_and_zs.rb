@@ -4,6 +4,9 @@ class CreateMethodReestrCommunAndZs < ActiveRecord::Migration[5.2]
 
     add_column :targets, :is_additional, :boolean #определяет является ли показатель основным или дополнительным,
     # если истина то дополнительный
+    add_column :targets, :basic_data, :date #дата на которую указан базовый показатель
+    add_column :targets, :plan_data, :date #дата на которую планируется достижение планового значения
+    #
 
     # методика расчета
     create_table :target_calc_procedures do |t|
