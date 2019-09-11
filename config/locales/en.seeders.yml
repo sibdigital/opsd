@@ -467,6 +467,7 @@ en:
           start_date: "20190101"
           due_date: "20241231"
           project_approve_status: :default_project_approve_status_approve_glava
+          type: "project"
           description: >
             Результат федерального проекта (справочно из паспорта федерального проекта): Создание центров культурного развития в субъектах Российской Федерации в городах
 
@@ -832,6 +833,7 @@ en:
           project_approve_status: :default_project_approve_status_approve_glava
           start_date: "20190101"
           due_date: "20241231"
+          type: "project"
           description: |
             Расселение аварийного жилищного фонда микрорайонов «УМТС – Икибзяк» (18 квартир) и «Механизированная колонна – 136» (17 квартир) и устранение неэффективных расходов на тепло, - водоснабжение путем оптимизации коммунальных сетей и ликвидации неэффективных котельных.
           timeline:
@@ -1031,6 +1033,7 @@ en:
           project_approve_status: :default_project_approve_status_approve_glava
           start_date: "20190101"
           due_date: "20241231"
+          type: "project"
           description: |
             В 2019 г. планируется благоустроить 112 дворовых и 120 общественных территорий
           timeline:
