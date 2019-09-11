@@ -27,6 +27,11 @@ class UserTasksController < ApplicationController
     @user_task.user_creator = User.current
     if @user_task.save
       redirect_to @user_task
+      if @user_task.kind == 'Request'
+        @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+        @user = User.find_by(id: @user_task.assigned_to_id)
+        UserMailer.user_task_request_created(@user, @user_task, User.current, @timenow).deliver_now
+      end
     else
       render 'new'
     end

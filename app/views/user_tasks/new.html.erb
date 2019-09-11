@@ -4,7 +4,7 @@ This file written by BAN
 ++#%>
 <%= form_with model: @user_task, local: true do |form| %>
 
-  <h1>Cоздание</h1>
+  <h1><%= params[:head_text] %></h1>
 
   <%= render partial: "user_tasks/form", locals: { form: form } %>
   <%= form.hidden_field 'kind', value: params[:kind] %>

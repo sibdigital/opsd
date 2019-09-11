@@ -403,6 +403,30 @@ class UserMailer < BaseMailer
       mail_for_author author, to: user.mail, subject: subject
     end
   end
+
+  def user_task_request_created(user, user_task, author, timenow)
+    @user_task = user_task
+    @timenow = timenow
+    case @user_task.object_type
+    when 'WorkPackage'
+      @url_to_object = work_package_url(WorkPackage.find_by(id: @user_task.object_id))
+      @link_to_response = new_user_task_url(kind: 'Response', object_type: 'WorkPackage', head_text: 'Ответ на запрос на приемку задачи',
+                                            project_id: @user_task.project_id, object_id: @user_task.object_id,
+                                            assigned_to_id: @user_task.user_creator_id, related_task_id: @user_task.id)
+      @begin_text = 'Вам направлен запрос на приемку задачи. В случае несогласия, вы можете написать ответ на запрос. Для этого перейдите по ссылке: '+@link_to_response
+    when 'Organization'
+      @url_to_object = organizations_url
+      @begin_text = 'Справочник, в который требуется внести изменения: Организации'
+    when 'Contract'
+      @url_to_object = contracts_url
+      @begin_text = 'Справочник, в который требуется внести изменения: Государственные контракты'
+    end
+
+    with_locale_for(user) do
+      subject = 'Вам направлен запрос'
+      mail_for_author author, to: user.mail, subject: subject
+    end
+  end
 #)
 
   def work_package_notify_assignee1(user, work_package , author = User.current)
