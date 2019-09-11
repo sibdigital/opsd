@@ -28,6 +28,9 @@
 #++
 
 OpenProject::Application.routes.draw do
+  #ban(
+  resources :user_tasks
+  #)
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
@@ -315,9 +318,10 @@ OpenProject::Application.routes.draw do
     end
     # )
     #xcc(
-    resources :targets #do
+    resources :targets do
     #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
-    #end
+      match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
+    end
 
     resources :arbitary_objects do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
@@ -328,8 +332,8 @@ OpenProject::Application.routes.draw do
 
     resources :report_progress_project do
     end
-
     #)
+
     resources :activity, :activities, only: :index, controller: 'activities'
 
     resources :boards do
@@ -436,6 +440,10 @@ OpenProject::Application.routes.draw do
   end
   #)
 
+  #zbd(
+  get '/project_templates' => 'project_templates#index'
+  # )
+
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
@@ -485,6 +493,7 @@ OpenProject::Application.routes.draw do
       get :update_column, on: :collection
     end
 
+    resources :typed_targets
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
@@ -710,6 +719,10 @@ OpenProject::Application.routes.draw do
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'
+
+    #ban(
+    get '/my/tasks', action: 'tasks'
+    #)
   end
 
   scope controller: 'onboarding' do

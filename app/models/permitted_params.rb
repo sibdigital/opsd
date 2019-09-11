@@ -318,6 +318,7 @@ class PermittedParams
                                                 :project_type_id,
                                                 :project_approve_status_id, #+-tan 2019.07.06
                                                 :project_status_id,
+                                                :type,
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
@@ -491,7 +492,7 @@ class PermittedParams
   # )
   #xcc(
   def target
-    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id)
+    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type)
   end
 
   def target_execution_value
@@ -526,11 +527,13 @@ class PermittedParams
     permitted_params
   end
 
-
   def plan_uploader_setting
     params.require(:plan_uploader_setting).permit(:setting_type, :column_name, :column_num, :is_pk, :table_name, :column_type)
   end
 
+  def typed_target
+    params.require(:typed_target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type)
+  end
   # )
 
   def watcher

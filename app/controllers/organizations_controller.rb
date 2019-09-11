@@ -92,6 +92,7 @@ class OrganizationsController < ApplicationController
 
   def destroy
     @organization.destroy
+    #TODO переделать Enumeration на конткретную модель. Например, OrganizationType
     if @organization.org_type == Enumeration.find_by(name: "Орган исполнительной власти").id
       redirect_to org_settings_iogv_path
     elsif @organization.org_type == Enumeration.find_by(name: "Муниципальное образование").id

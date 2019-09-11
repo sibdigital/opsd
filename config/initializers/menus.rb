@@ -83,6 +83,11 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
+  #ban(
+  menu.push :my_tasks,
+            { controller: '/my', action: 'tasks' },
+            if: Proc.new { User.current.logged? }
+  #)
   menu.push :administration,
             { controller: '/users', action: 'index' },
             #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
@@ -215,6 +220,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/typed_risks' },
             icon: 'icon2 icon-risks',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+
+  #zbd(
+  menu.push :typed_targets,
+            { controller: '/typed_targets', action: 'index' },
+            icon: 'icon2 icon-target',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  # )
 
   menu.push :control_levels,
             { controller: '/control_levels' },
@@ -387,7 +399,8 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
             { controller: '/projects', action: 'show' },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.type == Project::TYPE_PROJECT }
   #xcc(
   menu.push :targets,
             { controller: '/targets', action: 'index' },
@@ -490,6 +503,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_control,
             #after: :communication,
             #if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-checkmark'
   #нехорошо из модуля переносить, но что делать TODO: need fix
   # menu.push :meetings,
@@ -610,7 +624,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             {},
             param: :project_id,
             caption: :label_reports,
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.type == Project::TYPE_PROJECT }
 
   menu.push :report_progress_project,
             {controller: '/report_progress_project', action: 'index' },
@@ -643,11 +658,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('agreements') },
             parent: :control,
             icon: 'icon2 icon-info1'
-
-
   # )
-
-
 
   menu.push :settings,
             { controller: '/project_settings', action: 'show' },

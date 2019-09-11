@@ -1,0 +1,13 @@
+<%#--
+This file written by BAN
+11/09/2019
+++#%>
+<%= form_with model: @user_task, local: true do |form| %>
+
+  <h1>Cоздание</h1>
+
+  <%= render partial: "user_tasks/form", locals: { form: form } %>
+  <%= form.hidden_field 'kind', value: params[:kind] %>
+  <p><%= form.submit 'Создать' %></p>
+  <%= link_to 'Вернуться к списку', user_tasks_path %>
+<% end %>
