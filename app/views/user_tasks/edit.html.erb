@@ -1,0 +1,12 @@
+<%#--
+This file written by BAN
+11/09/2019
+++#%>
+<%= form_with model: @user_task, local: true do |form| %>
+
+  <h1>Редактирование задачи/запроса</h1>
+
+  <%= render partial: "user_tasks/form", locals: { form: form } %>
+  <p><%= form.submit 'Сохранить' %></p>
+  <%= link_to 'Вернуться к списку', user_tasks_path %>
+<% end %>

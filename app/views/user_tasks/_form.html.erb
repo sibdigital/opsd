@@ -1,0 +1,50 @@
+<%#--
+This file written by BAN
+11/09/2019
+++#%>
+  <% if @user_task.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        Ошибка(и):
+      </h2>
+      <ul>
+        <% @user_task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="width:50%">
+
+    <p>
+      <%= form.label :project_id %>
+      <%= form.collection_select(:project_id, Project.all, :id, :name) %>
+    </p>
+
+    <p>
+      <%= form.label :object_type %>
+      <%= form.select(:object_type, options_for_select(@object_types,1)) %>
+    </p>
+
+    <p>
+      <%= form.label :assigned_to_id %>
+      <%= form.collection_select(:assigned_to_id, User.all, :id, :lastname) %>
+    </p>
+
+    <p>
+      <%= form.label :text %>
+      <%= form.text_area :text %>
+    </p>
+
+    <p>
+      <%= form.label :due_date %>
+      <%= form.date_field :due_date %>
+    </p>
+
+    <p>
+      <%= form.label :completed %>
+      <%= form.check_box :completed %>
+    </p>
+
+  </div>

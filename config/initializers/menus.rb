@@ -83,6 +83,11 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
+  #ban(
+  menu.push :my_tasks,
+            { controller: '/my', action: 'tasks' },
+            if: Proc.new { User.current.logged? }
+  #)
   menu.push :administration,
             { controller: '/users', action: 'index' },
             #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }

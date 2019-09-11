@@ -63,6 +63,12 @@ class MyController < ApplicationController
   end
   # )
 
+  #ban(
+  def tasks
+    @user_tasks = UserTask.all
+  end
+  # )
+
   def update_account
     write_settings @user, request, permitted_params, params
 
