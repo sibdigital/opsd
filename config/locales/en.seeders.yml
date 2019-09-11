@@ -1117,7 +1117,7 @@ en:
           parent_id: 0
           measure_unit_id: Единица
           is_approve: true
-        - name:
+        - name: Строительство (реконструкция, техническое перевооружение, приобретение) объекта недвижимого имущества
           type_id: Результат
           parent_id: 0
           is_approve: true
