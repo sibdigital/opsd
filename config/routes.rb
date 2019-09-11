@@ -28,6 +28,9 @@
 #++
 
 OpenProject::Application.routes.draw do
+  #ban(
+  resources :user_tasks
+  #)
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
@@ -716,6 +719,10 @@ OpenProject::Application.routes.draw do
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'
+
+    #ban(
+    get '/my/tasks', action: 'tasks'
+    #)
   end
 
   scope controller: 'onboarding' do

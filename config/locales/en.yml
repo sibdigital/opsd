@@ -479,6 +479,12 @@ en:
         head_performance_indicator_id: Показатель деятельности высшего должностного лица
         head_performance_indicator: Показатель деятельности высшего должностного лица
         month: Месяц
+      # tmd
+      plan_uploader_setting:
+        text: Текст
+        number: Число
+        user: Пользователь
+        date: Дата
       production_calendar:
         day_type: Тип дня недели
       national_project:
@@ -2236,6 +2242,7 @@ en:
   notice_email_sent: На адрес %{value} было отправлено письмо
   notice_failed_to_save_work_packages: 'Не удалось сохранить %{count} пакет(-ов) работ
     из %{total},  выбрано: %{ids}.'
+  notice_error_occured_while_loading: В процессе загрузки возникли ошибки. Некоторые данные не были загружены.
   notice_failed_to_save_members: 'Не удалось сохранить участника(-ов): %{errors}.'
   notice_file_not_found: Страница, к которой Вы обратились, не существует или была
     удалена.
@@ -3411,3 +3418,6 @@ en:
   national_project_export: Международная кооперация и экспорт
   national_project_obraz: Образование
   project_republic: Проекты Республики Бурятия
+
+  label_my_tasks: Мои запросы/задачи
+  label_user_tasks: Запросы/задачи

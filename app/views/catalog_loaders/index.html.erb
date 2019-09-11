@@ -1,8 +1,23 @@
 <% html_title "Загрузить" %>
 <%= breadcrumb_toolbar "Загрузить" %>
-<%= form_tag load_catalog_loaders_path, multipart: true do %>
-  <%= file_field_tag "file" %>
-  <%= text_field_tag "first_row" %>
+<section class="form--section">
+  <%= form_tag load_catalog_loaders_path, multipart: true do %>
+    <%= label_tag "Загрузить документ:" %>
+    <div class="form--field">
+      <%= file_field_tag "file" %>
+    </div>
 
-  <%= submit_tag "Загрузить" %>
-<% end %>
+    <%= label_tag "Номер первой строки:" %>
+    <div class="form--field">
+      <%= text_field_tag "first_row", nil, style: 'width: 150px;' %>
+    </div>
+
+    <%= hidden_field_tag "catalog_type", params[:catalog_type] %>
+    <%= hidden_field_tag "org_type", params[:org_type] %>
+    <%= hidden_field_tag "org_type_str", params[:org_type_str] %>
+
+    <div class="form--field">
+      <%= submit_tag "Загрузить" %>
+    </div>
+  <% end %>
+</section>
