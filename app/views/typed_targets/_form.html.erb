@@ -1,0 +1,57 @@
+<%= error_messages_for :target %>
+<section class="form--section">
+  <%= f.hidden_field 'project_id' %>
+  <%= f.hidden_field 'parent_id' %>
+  <%# @selected_status_id = if @typed_target.id
+                             @typed_target.status_id
+                           elsif TargetStatus.default
+                             TargetStatus.default.id
+                           end
+     @selected_type_id = if @typed_target.id
+                           @typed_target.type_id
+                         elsif TargetType.default
+                           TargetType.default.id
+                         end
+  %>
+
+  <div class="form--field">
+    <%#= f.select :parent_id,
+                 options_for_select(@typed_targets_arr, @typed_target.parent_id),
+                 container_class: '-middle'
+    %>
+  </div>
+<!--  <div class="form--field"><label class="form--label -required">Тип<span class="form--label-required" aria-hidden="true">*</span></label>-->
+<!--    <span class="form--field-container"><%#= f.collection_radio_buttons :type_id,-->
+<!--                                                                       TargetType.where(active: true),-->
+<!--                                                                       :id,-->
+<!--                                                                       :type_name, {},-->
+<!--                                                                       {required: true} %></span></div>-->
+
+  <%= f.hidden_field 'type', value: Target::TYPED_TARGET %>
+  <%= f.hidden_field 'type_id', value: TargetType.find_by(name: 'Результат').id %>
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+
+  <div class="form--field"><%= f.select :measure_unit_id,
+                                        options_for_select(MeasureUnit.all.map {|u| [u.short_name, u.id]}, @typed_target.measure_unit_id),
+                                        include_blank: true,
+                                        required: true,
+                                        container_class: '-middle' %></div>
+
+  <div class="form--field"><%= f.text_field 'basic_value', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'plan_value', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'comment', container_class: '-middle' %></div>
+<!--  <div class="form--field"><%#= f.select :status_id,
+                                        options_for_select(TargetStatus.where(active: true).map {|u| [u.name, u.id]}, @selected_status_id),
+                                        include_blank: true,
+                                        container_class: '-middle' %></div>
+-->
+  <% if User.current.admin?%>
+    <div class="form--field">
+      <%= f.check_box 'is_approve', container_class: '-middle'%>
+    </div>
+  <% else%>
+    <div class="form--field">
+      <%= f.check_box 'is_approve', container_class: '-middle', readonly: true, disabled: true %>
+    </div>
+  <% end %>
+</section>

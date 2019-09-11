@@ -216,6 +216,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-risks',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
 
+  #zbd(
+  menu.push :typed_targets,
+            { controller: '/typed_targets', action: 'index' },
+            icon: 'icon2 icon-target',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  # )
+
   menu.push :control_levels,
             { controller: '/control_levels' },
             icon: 'icon2 icon-control-levels',

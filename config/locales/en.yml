@@ -1988,6 +1988,8 @@ en:
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
   #zbd(
+  label_typed_targets: Типовые результаты
+  label_typed_target_new: Новый типовой результат
   label_contracts: Государственные контракты
   label_contracts_new: Новый гос.контракт
   label_contracts_value: Значение гос.контракта

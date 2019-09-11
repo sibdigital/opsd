@@ -1,0 +1,9 @@
+<% html_title l(:label_administration), "#{l(:label_edit)} #{TypedTarget.model_name.human} #{h @typed_target.name}" %>
+
+<% local_assigns[:additional_breadcrumb] = @typed_target %>
+<%= breadcrumb_toolbar @typed_target %>
+
+<%= labelled_tabular_form_for @typed_target do |f| %>
+  <%= render partial: 'typed_targets/form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

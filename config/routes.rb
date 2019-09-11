@@ -315,9 +315,10 @@ OpenProject::Application.routes.draw do
     end
     # )
     #xcc(
-    resources :targets #do
+    resources :targets do
     #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
-    #end
+      match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
+    end
 
     resources :arbitary_objects do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
@@ -488,6 +489,8 @@ OpenProject::Application.routes.draw do
       #tmd
       get :update_column, on: :collection
     end
+
+    resources :typed_targets
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
