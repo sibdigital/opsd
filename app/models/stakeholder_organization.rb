@@ -1,4 +1,4 @@
-class StakeholderOrganization < Stakeholder::Base
+class StakeholderOrganization < Stakeholder
 
   belongs_to :target # целевой показатель, для которого приводится методика
   belongs_to :project
