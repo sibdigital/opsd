@@ -71,16 +71,26 @@ class PlanUploaderSettingsController < ApplicationController
       catalog = Position
     when "arbitary_objects"
       catalog = ArbitaryObject
+    when "groups"
+      catalog = Group
     end
 
-    catalog.column_names.each do |col|
-      if !col.in?(not_permitted_fields)
-        @columns << {
-                       'human_name': catalog.human_attribute_name(col),
-                       'name': col
-        }
+    if selected_column == "groups"
+      @columns << {
+        'human_name': "Наименование",
+        'name': "lastname"
+      }
+    else
+      catalog.column_names.each do |col|
+        if !col.in?(not_permitted_fields)
+          @columns << {
+            'human_name': catalog.human_attribute_name(col),
+            'name': col
+          }
+        end
       end
     end
+
 
     render json: @columns
   end

@@ -1,7 +1,7 @@
 <% html_title l(:label_administration), l(:label_iogv) %>
 <%= toolbar title: l(:label_iogv) do %>
   <li class="toolbar-item">
-    <%= link_to(catalog_loaders_path(catalog_type: "organizations", org_type: @org_type ),
+    <%= link_to(catalog_loaders_path(catalog_type: "organizations", org_type: @org_type, org_type_str: "iogv" ),
                 aria: { label: t(:button_add) },
                 class: 'button -alt-highlight',
                 title: t(:button_add)) do %>

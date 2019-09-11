@@ -9,30 +9,13 @@ class CatalogLoadersController < ApplicationController
 
   end
 
-  # def new
-  #   @catalog_loader = CatalogLoader.new
-  # end
-
-  # def create
-  #   @first_row_num = params[:first_row_num]
-  #
-  #   if @plan_uploader.save
-  #     load
-  #     redirect_to project_stages_path, notice: "Данные загружены."
-  #   else
-  #     render "new"
-  #   end
-  # end
-
   def destroy
 
   end
 
   def load
     uploaded_io = params[:file]
-    starts_from = params[:first_row].to_i
     catalog = params[:catalog_type]
-    org_type = params[:org_type]
     filename = ''
 
     File.open(Rails.root.join('public', 'uploads', 'catalog_loaders', uploaded_io.original_filename), 'wb') do |file|
@@ -45,8 +28,9 @@ class CatalogLoadersController < ApplicationController
 
     error_occured = false
 
-    xlsx.each_row_streaming(offset: starts_from - 1) do |row|
+    xlsx.each_row_streaming(offset: params[:first_row].to_i - 1) do |row|
       attributes = {}
+
       for i in (0...settings.length)
         attribute = settings[i]['column_name']
         if settings[i]['column_type'] == "date"
@@ -57,7 +41,6 @@ class CatalogLoadersController < ApplicationController
           rescue Exception => e
             break
           end
-
         else
           attributes[attribute] = row[settings[i]['column_num'] - 1].to_s
         end
@@ -69,16 +52,25 @@ class CatalogLoadersController < ApplicationController
       when "contracts"
         object = Contract.new(attributes)
       when "organizations"
-        attributes['org_type'] = org_type
+        attributes['org_type'] = params[:org_type]
         object = Organization.new(attributes)
       when "users"
         object = User.new(attributes)
       when "positions"
         object = Position.new(attributes)
       when "risks"
+        possibility_array = Enumeration.where(:name => attributes['possibility_id'], :type => "Possibility").pluck(:id)
+        importance_array = Enumeration.where(:name => attributes['importance_id'], :type => "Importance").pluck(:id)
+        attributes['possibility_id'] = possibility_array[0]
+        attributes['importance_id'] = importance_array[0]
+        attributes['type'] = "TypedRisk"
+
         object = Risk.new(attributes)
       when "arbitary_objects"
         object = ArbitaryObject.new(attributes)
+      when "groups"
+        attributes['type'] = "Group"
+        object = Group.new(attributes)
       end
 
       # Возвращает true или false. Если false - вывести сообщение об ошибке
@@ -92,7 +84,16 @@ class CatalogLoadersController < ApplicationController
     else
       flash[:notice] = l(:notice_successful_create)
     end
-    redirect_to :controller => catalog, :action => 'index'
+
+    if catalog == "positions"
+      redirect_to :controller => "org_settings", :action => "positions"
+    elsif catalog == "organizations"
+      redirect_to :controller => "org_settings", :action => params[:org_type_str]
+    elsif catalog == "risks"
+      redirect_to :controller => "typed_risks", :action => "index"
+    else
+      redirect_to :controller => catalog, :action => 'index'
+    end
   end
 
 end
