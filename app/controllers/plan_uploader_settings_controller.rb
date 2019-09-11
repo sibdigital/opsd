@@ -3,7 +3,6 @@ class PlanUploaderSettingsController < ApplicationController
   layout 'admin'
 
   before_action :find_setting, only: [:edit, :update, :destroy]
-  # before_action :get_columns, only: [:new, :edit, :update]
   before_action :get_setting_types, except: [:destroy]
 
   attr_accessor :selected_table
@@ -58,20 +57,40 @@ class PlanUploaderSettingsController < ApplicationController
     @columns = []
 
     case selected_column
-      when "contracts"
-        catalog = Contract
-      when "work_packages"
-        catalog = WorkPackage
+    when "contracts"
+      catalog = Contract
+    when "work_packages"
+      catalog = WorkPackage
+    when "organizations"
+      catalog = Organization
+    when "users"
+      catalog = User
+    when "risks"
+      catalog = Risk
+    when "positions"
+      catalog = Position
+    when "arbitary_objects"
+      catalog = ArbitaryObject
+    when "groups"
+      catalog = Group
     end
 
-    catalog.column_names.each do |col|
-      if !col.in?(not_permitted_fields)
-        @columns << {
-                       'human_name': catalog.human_attribute_name(col),
-                       'name': col
-        }
+    if selected_column == "groups"
+      @columns << {
+        'human_name': "Наименование",
+        'name': "lastname"
+      }
+    else
+      catalog.column_names.each do |col|
+        if !col.in?(not_permitted_fields)
+          @columns << {
+            'human_name': catalog.human_attribute_name(col),
+            'name': col
+          }
+        end
       end
     end
+
 
     render json: @columns
   end
