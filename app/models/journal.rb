@@ -50,6 +50,10 @@ class Journal < ActiveRecord::Base
   after_create :save_data, if: :data
   after_save :save_data, :touch_journable
 
+  #+tan
+  before_save :add_project_id
+  # -tan
+
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
@@ -172,4 +176,11 @@ class Journal < ActiveRecord::Base
   def journalized_object_type
     "#{journaled_type.gsub('Journal', '')}".constantize
   end
+
+  #+tan
+  def add_project_id
+    self.project_id = project() != nil ? project().id : nil
+  end
+# -tan
+
 end

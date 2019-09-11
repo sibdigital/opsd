@@ -33,6 +33,7 @@ Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  { projects: [:show],
                    activities: [:index],
+                   statistics: [:index],
                    #bbm(
                    project_risk_characts: %i[new create edit update destroy],
                    project_risks: %i[index new create edit update choose_typed

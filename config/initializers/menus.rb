@@ -507,7 +507,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-checkmark'
   #knm+
   menu.push :statistics,
-            { controller: '/activities', action: 'index' },
+            { controller: '/statistics', action: 'index' },
             param: :project_id,
             if: Proc.new { |p| p.module_enabled?('activity') },
             parent: :control,

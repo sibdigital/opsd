@@ -331,7 +331,9 @@ OpenProject::Application.routes.draw do
 
     #)
     resources :activity, :activities, only: :index, controller: 'activities'
-
+    # knm+
+    resources :statistic, :statistics, only: :index, controller: 'statistics'
+    #  -
     resources :boards do
       member do
         get :confirm_destroy
