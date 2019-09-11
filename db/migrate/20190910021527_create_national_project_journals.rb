@@ -1,7 +1,7 @@
 class CreateNationalProjectJournals < ActiveRecord::Migration[5.2]
   def change
     create_table :national_project_journals do |t|
-      t.integer :journal_id
+      t.integer :journal_id, null: false
       t.string :name # наименование проекта
       t.string :leader # ФИО руководителя проекта
       t.string :leader_position # должность руководителя проекта
@@ -14,6 +14,7 @@ class CreateNationalProjectJournals < ActiveRecord::Migration[5.2]
       t.datetime :due_date # дата завершения
       t.string :description # описание
       t.timestamps
+      t.index [:journal_id]
     end
   end
 end

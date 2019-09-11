@@ -50,19 +50,12 @@
         </thead>
         <tbody>
         <% @statistics.each do |stat| %>
-          <% if stat.project == @project %>
             <tr id="statistics-<%= stat.id %>">
               <td>
                 <% if stat.version == 1 %>
                   <%= t("text_project_created_"+stat.journable_type.to_s.downcase) %>
                 <%elsif stat.version > 1 %>
-                  <% if stat.journable_type == "WorkPackage" && WorkPackageJournal.where(journal_id: stat.id).first.done_ratio == 100 && WorkPackageJournal.where(journal_id: Journal.where(journable_id: stat.journable_id, version: stat.version - 1)).first.done_ratio <100%>
-                    <%=  t('text_user_done_wp') %>
-                    <%# elsif stat.journable_type == "WorkPackage" && WorkPackageJournal.where(journal_id: stat.id).first.due_date < Date.current %>
-                    <%#=  t('text_user_overdue_wp') %>
-                  <% else %>
-                    <%= t("text_project_updated_"+stat.journable_type.to_s.downcase) %>
-                  <% end %>
+                  <%= t("text_project_updated_"+stat.journable_type.to_s.downcase) %>
                 <% else %>
                   <%= stat.journable_type %>
                 <% end %>
@@ -70,12 +63,22 @@
               <td>
                 <% if stat.journable_type == "WorkPackage"%>
                   <%= WorkPackageJournal.where(journal_id: stat.id).first.subject %>
-                <% elsif stat.journable_type == "NationalProject"%>
-                  <%= NationalProjectJournal.where(journal_id: stat.id).first.name %>
+                <% elsif stat.journable_type == "Project"%>
+                  <%= Journal::ProjectJournal.where(journal_id: stat.id).first.name %>
                 <% elsif stat.journable_type == "Message"%>
                   <%= MessageJournal.where(journal_id: stat.id).first.content%>
                 <% elsif stat.journable_type == "Document"%>
                   <%= DocumentJournal.where(journal_id: stat.id).first.title%>
+                <% elsif stat.journable_type == "News"%>
+                  <%= NewsJournal.where(journal_id: stat.id).first.title%>
+                <% elsif stat.journable_type == "Member"%>
+                  <%= User.find(MemberJournal.where(journal_id: stat.id).first.user_id).fio%>
+                <% elsif stat.journable_type == "Meeting"%>
+                  <%= Journal::MeetingJournal.where(journal_id: stat.id).first.title%>
+                <% elsif stat.journable_type == "MeetingContent"%>
+                  <%= Journal::MeetingContentJournal.where(journal_id: stat.id).first.text%>
+                <% elsif stat.journable_type == "CostObject"%>
+                  <%= CostObjectJournal.where(journal_id: stat.id).first.subject%>
                 <% else %>
                   <%= stat.journable_id %>
                 <% end %>
@@ -88,7 +91,6 @@
               </td>
             </tr>
           <% end  %>
-        <% end %>
         </tbody>
       </table>
     </div>

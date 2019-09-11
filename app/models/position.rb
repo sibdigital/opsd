@@ -3,6 +3,7 @@
 class Position < ActiveRecord::Base
 
   acts_as_customizable
+  acts_as_journalized
 
   def to_s;
     name

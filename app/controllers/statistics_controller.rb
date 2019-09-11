@@ -11,7 +11,17 @@ class StatisticsController < ApplicationController
     sort_init 'id', 'asc'
     sort_update sort_columns
 
-    @statistics =  Journal.where("journable_type = ? OR journable_type = ? OR journable_type = ? OR journable_type = ?", "WorkPackage", "Document", "Message", "Project").order(sort_clause)
+    @statistics =  Journal.where("(journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ? OR
+                                                     journable_type = ?) AND project_id = ?",
+                                                    "WorkPackage", "Document", "Message", "Project","Member","News","Meeting" ,"MeetingContent","CostObject", "Board", @project.id).order(sort_clause)
                      .page(page_param)
                      .per_page(per_page_param)
   end

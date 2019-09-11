@@ -116,6 +116,7 @@ class User < Principal
   end
 
   acts_as_customizable
+  # acts_as_journalized
 
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on

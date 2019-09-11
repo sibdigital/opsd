@@ -64,7 +64,7 @@
             <% if stat.journable_type == "WorkPackage"%>
               <%= WorkPackageJournal.where(journal_id: stat.id).first.subject %>
             <% elsif stat.journable_type == "NationalProject"%>
-              <%= NationalProjectJournal.where(journal_id: stat.id).first.name %>
+              <%= Journal::NationalProjectJournal.where(journal_id: stat.id).first.name %>
             <% elsif stat.journable_type == "Message"%>
               <%= MessageJournal.where(journal_id: stat.id).first.content%>
             <% elsif stat.journable_type == "Document"%>
