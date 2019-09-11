@@ -38,7 +38,7 @@ module Project::Copy
     # specify the order of associations to copy
     #base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values']
     #zbd
-    base.copy_precedence ['members', 'versions', 'categories', 'targets', 'project_risks', 'work_packages', 'wiki', 'custom_values']
+    base.copy_precedence ['members', 'versions', 'categories', 'arbitary_objects', 'agreements', 'targets', 'project_risks', 'work_packages', 'wiki', 'custom_values']
   end
 
   module CopyMethods

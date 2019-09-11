@@ -31,4 +31,5 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= form.text_field :name, required: true,
                              autofocus: form.object&.name&.empty?,
                              container_class: '-wide' %>
+  <%= form.hidden_field :type, value: Project::TYPE_PROJECT %>
 </div>

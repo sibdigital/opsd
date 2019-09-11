@@ -1,0 +1,77 @@
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "project/description_handling.js" %>
+  <%#= javascript_include_tag "project/filters.js" %>
+<% end %>
+
+<% html_title("Шаблоны проектов") -%>
+
+<%= toolbar title: t(:label_project_templates) do %>
+  <%# if User.current.allowed_to?(:add_project, nil, global: true) %>
+<!--    <li class="toolbar-item">-->
+      <%#= link_to new_project_path,-->
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_project_new)},
+                    title: t(:label_project_new) } do %>
+        <%#= op_icon('button--icon icon-add') %>
+<!--        <span class="button--text"><%#= t(:label_project_new) %></span>-->
+      <%# end %>
+<!--    </li>-->
+  <%# end %>
+
+<!--  <li class="toolbar-item">-->
+<!--    <button id="projects-filter-toggle-button" title="<%#= t(:label_filters_toggle) %>" class="button toolbar-icon <%#= filter_set? ? '-active' : '' %>">-->
+      <%#= op_icon("icon-filter button--icon") %>
+<!--    </button>-->
+<!--  </li>-->
+<!--  <li class="toolbar-item">-->
+    <%#= link_to t(:label_overall_activity), activities_path, class: 'button' %>
+<!--  </li>-->
+<% end %>
+
+<%#= render partial: 'projects/filters/form', locals: { query: @query } %>
+
+<% if @templates.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="project-table">
+        <thead>
+        <tr>
+          <th>
+            <%= Project.human_attribute_name(:name) %>
+          </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @templates.each do |project, level| %>
+          <tr class="basics context-menu--reveal project root leaf -no-highlighting -expanded">
+            <td class="name project--hierarchy">
+              <i class="projects-table--hierarchy-icon"></i>
+              <%= link_to_project(project, {}, {}, false) %>
+            </td>
+            <td>
+              <% if User.current.detect_project_office_coordinator? || User.current.detect_project_administrator? || User.current.admin? %>
+                  <%= link_to copy_from_project_path(project, coming_from: :settings), class: 'copy', accesskey: accesskey(:copy) do %>
+                    <%= op_icon('icon-copy ') %>
+                    <span class="button--text"><%= t(:label_copy_project_from_template) %></span>
+                  <% end %>
+              <% end %>
+
+            </td>
+          </tr>
+          <tr class="project-description project root leaf -expanded">
+            <td colspan="2" class="project--hierarchy" style="padding-left: 40px;">
+              <div class="description-container">
+                <span class="wiki"><%= format_text(project.short_description(255), project: project) %></span>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box(no_projects_result_box_params) %>
+<% end %>
+
