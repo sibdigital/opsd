@@ -37,7 +37,12 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   private
 
   def render_projects_dropdown
-    label = !!(@project && !@project.name.empty?) ? @project.name : t(:label_select_project)
+
+    label = !!(@project && !@project.name.empty?) ?
+#zbd (
+               (@project.type == Project::TYPE_TEMPLATE) ? 'ШАБЛОН - '+ @project.name : @project.name
+# )
+               : t(:label_select_project)
     render_menu_dropdown_with_items(
       label: label,
       label_options: { id: 'projects-menu' },
@@ -53,7 +58,11 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def project_items
-    [project_index_item, project_new_item]
+    [project_index_item, project_new_item,
+      #zbd(
+      project_tpl_index_item
+      #)
+    ]
   end
 
   def project_index_item
@@ -82,4 +91,16 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) }
     )
   end
+
+  #zbd(
+  def project_tpl_index_item
+    Redmine::MenuManager::MenuItem.new(
+      :list_project_tpl,
+      { controller: '/project_templates', action: 'index' },
+      caption: "Шаблоны проектов",
+      icon: "icon-custom-fields icon4"
+    )
+  end
+  #)
+
 end

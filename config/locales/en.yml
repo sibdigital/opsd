@@ -1028,7 +1028,7 @@ en:
       у пользователей. Включите, если вы изменили юридический аспект согласия с вышеизложенным.
     update_consent_last_time: 'Последнее обновление согласования: %{update_time}'
   copy_project:
-    started: Копирование проекта «%{source_project_name}» в «%{target_project_name}»
+    started: Создание проекта «%{target_project_name}» из шаблона «%{source_project_name}»
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
       будет доступен.
     failed: Не удается скопировать проект %{source_project_name}
@@ -1036,8 +1036,8 @@ en:
     errors: Ошибка
     project_custom_fields: Настраиваемые поля проекта
     text:
-      failed: Не удалось скопировать проект «%{source_project_name}» в проект «%{target_project_name}».
-      succeeded: Скопированный проект «%{source_project_name}» в «%{target_project_name}».
+      failed: Не удалось создать проект «%{target_project_name}» из шаблона «%{source_project_name}».
+      succeeded: Созданный проект «%{target_project_name}» из шаблона «%{source_project_name}».
   create_new_page: Wiki-страница
   date:
     abbr_day_names:
@@ -1505,6 +1505,7 @@ en:
   label_api_access_key_type: API
   label_applied_status: Прикладной статус
   label_archive_project: Архивировать проект
+  label_archive_project_template: Архивировать шаблон
   label_ascending: По возрастанию
   label_assigned_to_me_work_packages: Переданные мне мероприятия
   label_associated_revisions: Связанные изменения
@@ -1583,6 +1584,8 @@ en:
   label_copy_target: Цель
   label_copy_workflow_from: Копировать рабочий поток из
   label_copy_project: Копировать проект
+  label_copy_project_to_template: Сохранить как шаблон
+  label_copy_project_from_template: Создать проект из шаблона
   label_core_version: Основной этап
   label_current_status: Текущий статус
   label_current_version: Текущий этап
@@ -1601,6 +1604,7 @@ en:
   label_default: По умолчанию
   label_delete_user: Удалить пользователя
   label_delete_project: Удалить проект
+  label_delete_project_template: Удалить шаблон
   label_deleted: удалено
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_descending: По убыванию
@@ -1674,7 +1678,7 @@ en:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
-  label_agreements: Соглашение
+  label_agreements: Соглашения
   label_agreement: Соглашение о реализации регионального проекта
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
@@ -1855,8 +1859,10 @@ en:
   label_project_default_type: Разрешить пустой тип
   label_project_hierarchy: Иерархия проектов
   label_project_new: Инициировать проект
+  label_project_new_from_template: Инициировать проект из шаблона
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
+  label_project_templates: Шаблоны проектов
   label_done_ratio_project: Процент исполнения (KPI)
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
@@ -1872,6 +1878,7 @@ en:
   label_organization_value: "Организация"
   label_project_risk_value: Значение риска
   label_project_settings: Настройки проекта
+  label_project_template_settings: Настройки шаблона
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
     пространства"
   label_project_view_all: Реестр проектов
@@ -2327,7 +2334,8 @@ en:
   permission_change_wiki_parent_page: Смена родительской wiki-страницы
   permission_comment_news: Комментировать новость
   permission_commit_access: Возможность чтения/записи в репозиторий (commit)
-  permission_copy_projects: Копировать проект
+  #permission_copy_projects: Копировать проект
+  permission_copy_projects: Создать шаблон проекта
   permission_delete_work_package_watchers: Удалить наблюдателей
   permission_delete_work_packages: Удалить мероприятия
   permission_delete_messages: Удалить сообщения
