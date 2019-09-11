@@ -205,8 +205,11 @@ module DemoData
           national_project_id: national_project(key),
           federal_project_id: federal_project(key),
           start_date: Date.strptime(start_date(key),"%Y%m%d"),
-          due_date: Date.strptime(due_date(key),"%Y%m%d")
+          due_date: Date.strptime(due_date(key),"%Y%m%d"),
           #-tan
+          # zbd (
+          type: project_type(key)
+          # )
         }
       end
 
@@ -246,6 +249,12 @@ module DemoData
         national_project_by_name(name)
       end
       #-tan
+
+      #zbd(
+      def project_type(key)
+        translate_with_base_url("seeders.demo_data.projects.#{key}.type")
+      end
+      #)
 
       def project_name(key)
         translate_with_base_url("seeders.demo_data.projects.#{key}.name")

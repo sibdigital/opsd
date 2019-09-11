@@ -38,6 +38,16 @@ See docs/COPYRIGHT.rdoc for more details.
       <span class="button--text"><%= t('activerecord.models.group') %></span>
     <% end %>
   </li>
+
+  <li class="toolbar-item">
+    <%= link_to(catalog_loaders_path(catalog_type: "groups" ),
+                aria: { label: t(:button_add) },
+                class: 'button -alt-highlight',
+                title: t(:button_add)) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text">Загрузка через Excel</span>
+    <% end %>
+  </li>
 <% end %>
 <% if @groups.any? %>
   <div class="generic-table--container">
