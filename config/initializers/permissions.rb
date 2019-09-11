@@ -120,7 +120,7 @@ Redmine::AccessControl.map do |map|
 
     wpt.permission :manage_work_package_target_plan_values,
                    work_package_targets: %i[index new create edit update destroy],
-                   targets: %i[index new create edit update destroy],
+                   targets: %i[index new create edit update destroy choose_typed],
                    require: :member
 
     wpt.permission :view_work_package_targets,

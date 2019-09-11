@@ -34,7 +34,7 @@
   <div class="form--field"><%= f.select :measure_unit_id,
                                         options_for_select(MeasureUnit.all.map {|u| [u.short_name, u.id]}, @typed_target.measure_unit_id),
                                         include_blank: true,
-                                        required: true,
+                                        required: false,
                                         container_class: '-middle' %></div>
 
   <div class="form--field"><%= f.text_field 'basic_value', container_class: '-middle' %></div>

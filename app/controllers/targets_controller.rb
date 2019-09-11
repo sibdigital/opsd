@@ -53,7 +53,6 @@ class TargetsController < ApplicationController
 
     @targets_arr = [['', 0]]
     @targets_arr += Target.where('project_id = ?', @project.id).map {|u| [u.name, u.id]}
-
   end
 
   def choose_typed
@@ -75,7 +74,7 @@ class TargetsController < ApplicationController
           raise ActiveRecord::Rollback
         end
       end
-      redirect_to action: 'index'
+      redirect_to project_targets_path #action: 'index'
     end
   end
 
@@ -103,7 +102,7 @@ class TargetsController < ApplicationController
 
   def destroy
     @target.destroy
-    redirect_to action: 'index'
+    redirect_to project_targets_path # action: 'index'
     nil
   end
 
@@ -122,7 +121,6 @@ class TargetsController < ApplicationController
     else
       #ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path(project_id: @project.identifier))
       ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path)
-
     end
   end
 
@@ -155,7 +153,8 @@ class TargetsController < ApplicationController
     target.plan_value = typed_target.plan_value
     target.comment = typed_target.comment
     target.is_approve = typed_target.is_approve
-    target.type = typed_target.type
+    target.type = nil
+    target.parent_id = 0
 
     # typed_target.risk_characts.each do |typed_target_charact|
     #   target_charact = target.risk_characts.build

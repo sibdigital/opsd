@@ -8,5 +8,9 @@
     <div class="form--field" id="choose_typed_targets"><%= typed_targets_multiselect %></div>
   </section>
 
-  <%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %>
+  <% if TypedTarget.all.count > 0 %>
+    <%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %>
+  <% else %>
+    <p>Список пуст</p>
+  <% end %>
 <% end %>
