@@ -147,7 +147,7 @@ class TypesController < ApplicationController
 
   def load_projects_and_types
     @types = ::Type.order(Arel.sql('position'))
-    @projects = Project.all
+    @projects = Project.where(type: Project::TYPE_PROJECT).all
   end
 
   def redirect_to_type_tab_path(type, notice)
@@ -166,7 +166,7 @@ class TypesController < ApplicationController
 
   def render_edit_tab(type)
     @tab = params[:tab]
-    @projects = Project.all
+    @projects = Project.where(type: Project::TYPE_PROJECT).all
     @type = type
 
     render action: 'edit'

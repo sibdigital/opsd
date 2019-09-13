@@ -86,9 +86,9 @@ class CatalogLoadersController < ApplicationController
     end
 
     if catalog == "positions"
-      redirect_to :controller => "org_settings", :action => "positions"
+      redirect_to :controller => "organizations", :action => "positions"
     elsif catalog == "organizations"
-      redirect_to :controller => "org_settings", :action => params[:org_type_str]
+      redirect_to :controller => "organizations", :action => "index"
     elsif catalog == "risks"
       redirect_to :controller => "typed_risks", :action => "index"
     else

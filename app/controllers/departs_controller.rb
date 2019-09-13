@@ -21,7 +21,7 @@ class DepartsController < ApplicationController
 
     if @depart.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to controller: 'org_settings', action: 'index', tab:'departs'
+      redirect_to controller: 'organizations', action: 'index', tab:'departs'
     else
       render action: 'new'
     end
@@ -30,7 +30,7 @@ class DepartsController < ApplicationController
   def update
     if @depart.update_attributes(permitted_params.depart)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to controller: 'org_settings', action: 'index', tab:'departs'
+      redirect_to controller: 'organizations', action: 'index', tab:'departs'
     else
       render action: 'edit'
     end
@@ -38,7 +38,7 @@ class DepartsController < ApplicationController
 
   def destroy
     @depart.destroy
-    redirect_to controller: 'org_settings', action: 'index', tab:'departs'
+    redirect_to controller: 'organizations', action: 'index', tab:'departs'
     return
   end
 

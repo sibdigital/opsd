@@ -126,43 +126,45 @@ class PlanUploadersController < ApplicationController
             fio = params['assigned_to_id'].delete('.')
             fio = fio.split(' ')
 
-            users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
-            if users.count == 0
-              u = User.new(language: Setting.default_language,
-                           mail_notification: Setting.default_notification_option)
-              u.login = fio[0] + fio[1][0] + fio[2][0]
-              u.login = convert(u.login.downcase, :english)
-              u.firstname = fio[1]
-              u.lastname = fio[0]
-              if fio[2].present?
-                u.patronymic = fio[2]
-              end
-              u.admin = 0
-              u.status = 1
-              u.type = User
-              if Setting.mail_from.index("@") != nil
-                u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
-              else
-                u.mail = u.login + '@example.net'
-              end
-              u.first_login = true
+            wp.assigned_to_id = add_user(fio)
 
-              if u.save!
-                wp.assigned_to_id = User.last.id
-                #добавить юзера в участника проекта
-                #project_members_path(project_id: @project_for_load, action: 'create')
-                if Member.where(user_id: User.last.id, project_id: @project_for_load.id).count < 1
-                  @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
-                end
-              end
-            else
-              wp.assigned_to_id = users[0].id
-              #добавить юзера в участника проекта
-              #project_members_path(project_id: @project_for_load, action: 'create')
-              if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
-                @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
-              end
-            end
+            # users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
+            # if users.count == 0
+            #   u = User.new(language: Setting.default_language,
+            #                mail_notification: Setting.default_notification_option)
+            #   u.login = fio[0] + fio[1][0] + fio[2][0]
+            #   u.login = convert(u.login.downcase, :english)
+            #   u.firstname = fio[1]
+            #   u.lastname = fio[0]
+            #   if fio[2].present?
+            #     u.patronymic = fio[2]
+            #   end
+            #   u.admin = 0
+            #   u.status = 1
+            #   u.type = User
+            #   if Setting.mail_from.index("@") != nil
+            #     u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
+            #   else
+            #     u.mail = u.login + '@example.net'
+            #   end
+            #   u.first_login = true
+            #
+            #   if u.save!
+            #     wp.assigned_to_id = User.last.id
+            #     #добавить юзера в участника проекта
+            #     #project_members_path(project_id: @project_for_load, action: 'create')
+            #     if Member.where(user_id: User.last.id, project_id: @project_for_load.id).count < 1
+            #       @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
+            #     end
+            #   end
+            # else
+            #   wp.assigned_to_id = users[0].id
+            #   #добавить юзера в участника проекта
+            #   #project_members_path(project_id: @project_for_load, action: 'create')
+            #   if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
+            #     @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
+            #   end
+            # end
 
           end
 
@@ -198,23 +200,26 @@ class PlanUploadersController < ApplicationController
 
           if (params['assigned_to_id'].present?)&&(params['assigned_to_id'] != 0)
             fio = params['assigned_to_id'].split(' ')
+
+            params['assigned_to_id'] = add_user(fio)
+
             #user = User.find_or_create_by(firstname: fio[1], lastname: fio[0], patronymic: fio[2]) do |u|
-            user = User.where(:firstname => fio[1], :lastname => fio[0], :patronymic => fio[2]).first_or_create! do |u|
-              u.login = fio[0] + fio[1][0] + fio[2][0]
-              u.login = convert(u.login.downcase, :english)
-              u.admin = 0
-              u.status = 1
-              u.language = Setting.default_language
-              u.type = User
-              u.mail_notification = Setting.default_notification_option
-              if Setting.mail_from.index("@") != nil
-                u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
-              else
-                u.mail = u.login + '@example.net'
-              end
-              u.first_login = true
-            end
-            params['assigned_to_id'] = user.id
+            # user = User.where(:firstname => fio[1], :lastname => fio[0], :patronymic => fio[2]).first_or_create! do |u|
+            #   u.login = fio[0] + fio[1][0] + fio[2][0]
+            #   u.login = convert(u.login.downcase, :english)
+            #   u.admin = 0
+            #   u.status = 1
+            #   u.language = Setting.default_language
+            #   u.type = User
+            #   u.mail_notification = Setting.default_notification_option
+            #   if Setting.mail_from.index("@") != nil
+            #     u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
+            #   else
+            #     u.mail = u.login + '@example.net'
+            #   end
+            #   u.first_login = true
+            # end
+            # params['assigned_to_id'] = user.id
 
             #добавить юзера в участника проекта
             #project_members_path(project_id: @project_for_load, action: 'create')
@@ -353,45 +358,47 @@ class PlanUploadersController < ApplicationController
           fio = row['assigned_to'].delete('.')
           fio = fio.split(' ')
 
-          users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
-          if users.count == 0
-            u = User.new(language: Setting.default_language,
-                         mail_notification: Setting.default_notification_option)
-            u.login = fio[0] + fio[1][0] + fio[2][0]
-            u.login = convert(u.login.downcase, :english)
-            u.firstname = fio[1]
-            u.lastname = fio[0]
-            if fio[2].present?
-              u.patronymic = fio[2]
-            end
-            u.admin = 0
-            u.status = 1
-            #u.language = Setting.default_language
-            u.type = User
-            #u.mail_notification = Setting.default_notification_option
-            if Setting.mail_from.index("@") != nil
-              u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
-            else
-              u.mail = u.login + '@example.net'
-            end
-            u.first_login = true
+          wp.assigned_to_id = add_user(fio)
 
-            if u.save!
-              wp.assigned_to_id = User.last.id
-              #добавить юзера в участника проекта
-              #project_members_path(project_id: @project_for_load, action: 'create')
-              if Member.where(user_id: User.last.id, project_id: @project_for_load.id).count < 1
-                @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
-              end
-            end
-          else
-            wp.assigned_to_id = users[0].id
-            #добавить юзера в участника проекта
-            #project_members_path(project_id: @project_for_load, action: 'create')
-            if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
-              @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
-            end
-          end
+          # users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
+          # if users.count == 0
+          #   u = User.new(language: Setting.default_language,
+          #                mail_notification: Setting.default_notification_option)
+          #   u.login = fio[0] + fio[1][0] + fio[2][0]
+          #   u.login = convert(u.login.downcase, :english)
+          #   u.firstname = fio[1]
+          #   u.lastname = fio[0]
+          #   if fio[2].present?
+          #     u.patronymic = fio[2]
+          #   end
+          #   u.admin = 0
+          #   u.status = 1
+          #   #u.language = Setting.default_language
+          #   u.type = User
+          #   #u.mail_notification = Setting.default_notification_option
+          #   if Setting.mail_from.index("@") != nil
+          #     u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
+          #   else
+          #     u.mail = u.login + '@example.net'
+          #   end
+          #   u.first_login = true
+          #
+          #   if u.save!
+          #     wp.assigned_to_id = User.last.id
+          #     #добавить юзера в участника проекта
+          #     #project_members_path(project_id: @project_for_load, action: 'create')
+          #     if Member.where(user_id: User.last.id, project_id: @project_for_load.id).count < 1
+          #       @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
+          #     end
+          #   end
+          # else
+          #   wp.assigned_to_id = users[0].id
+          #   #добавить юзера в участника проекта
+          #   #project_members_path(project_id: @project_for_load, action: 'create')
+          #   if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
+          #     @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
+          #   end
+          # end
         end
 
         if row['start_date'].present?
@@ -602,41 +609,43 @@ class PlanUploadersController < ApplicationController
                   fio = row[col_num['assigned_to_id']].value.delete('.')
                   fio = fio.split(' ')
 
-                  users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
-                  if users.count == 0
-                    u = User.new(language: Setting.default_language,
-                                 mail_notification: Setting.default_notification_option)
-                    u.login = fio[0] + fio[1][0] + fio[2][0]
-                    u.login = convert(u.login.downcase, :english)
-                    u.firstname = fio[1]
-                    u.lastname = fio[0]
-                    if fio[2].present?
-                      u.patronymic = fio[2]
-                    end
-                    u.admin = 0
-                    u.status = 1
-                    u.type = User
-                    if Setting.mail_from.index("@") != nil
-                      u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
-                    else
-                      u.mail = u.login + '@example.net'
-                    end
-                    u.first_login = true
+                  wp.assigned_to_id = add_user(fio)
 
-                    if u.save!
-                      wp.assigned_to_id = User.last.id
-                      #добавить юзера в участника проекта
-                      if Member.where(user_id: User.last.id, project_id: @project_for_load.id).count < 1
-                        @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
-                      end
-                    end
-                  else
-                    wp.assigned_to_id = users[0].id
-                    #добавить юзера в участника проекта
-                    if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
-                      @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
-                    end
-                  end
+                  # users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
+                  # if users.count == 0
+                  #   u = User.new(language: Setting.default_language,
+                  #                mail_notification: Setting.default_notification_option)
+                  #   u.login = fio[0] + fio[1][0] + fio[2][0]
+                  #   u.login = convert(u.login.downcase, :english)
+                  #   u.firstname = fio[1]
+                  #   u.lastname = fio[0]
+                  #   if fio[2].present?
+                  #     u.patronymic = fio[2]
+                  #   end
+                  #   u.admin = 0
+                  #   u.status = 1
+                  #   u.type = User
+                  #   if Setting.mail_from.index("@") != nil
+                  #     u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
+                  #   else
+                  #     u.mail = u.login + '@example.net'
+                  #   end
+                  #   u.first_login = true
+                  #
+                  #   if u.save!
+                  #     wp.assigned_to_id = User.last.id
+                  #     #добавить юзера в участника проекта
+                  #     if Member.where(user_id: User.last.id, project_id: @project_for_load.id).count < 1
+                  #       @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
+                  #     end
+                  #   end
+                  # else
+                  #   wp.assigned_to_id = users[0].id
+                  #   #добавить юзера в участника проекта
+                  #   if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
+                  #     @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
+                  #   end
+                  # end
                 end
 
                 if row[col_num['start_date']].present?
@@ -717,6 +726,50 @@ class PlanUploadersController < ApplicationController
 
   private
 
+  def add_user(fio)
+    assigned_to_id = nil
+
+    users = User.find_by_sql("select * from users where lastname||substr(firstname,1,1)||(case when patronymic is null or patronymic = '' then '' else substr(patronymic,1,1) end) = '" + fio[0] + fio[1][0] + fio[2][0] + "'")
+    if users.count == 0
+      u = User.new(language: Setting.default_language,
+                   mail_notification: Setting.default_notification_option)
+      u.login = fio[0] + fio[1][0] + fio[2][0]
+      u.login = convert(u.login.downcase, :english)
+      u.firstname = fio[1]
+      u.lastname = fio[0]
+      if fio[2].present?
+        u.patronymic = fio[2]
+      end
+      u.admin = 0
+      u.status = 1
+      u.type = User
+      if Setting.mail_from.index("@") != nil
+        u.mail = u.login + Setting.mail_from.to_s[Setting.mail_from.index("@")..Setting.mail_from.size-1]
+      else
+        u.mail = u.login + '@example.net'
+      end
+      u.first_login = true
+
+      if u.save!
+        assigned_to_id = User.last.id
+        #добавить юзера в участника проекта
+        #project_members_path(project_id: @project_for_load, action: 'create')
+        if Member.where(user_id: assigned_to_id, project_id: @project_for_load.id).count < 1
+          @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
+        end
+      end
+    else
+      assigned_to_id = users[0].id
+      #добавить юзера в участника проекта
+      #project_members_path(project_id: @project_for_load, action: 'create')
+      if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
+        @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
+      end
+    end
+
+    assigned_to_id
+  end
+
   def get_setting_types
     @settings_types = []
     @plan_uploader_settings_types = PlanUploaderSetting.select(:setting_type).group('setting_type').order('setting_type asc').all
@@ -725,13 +778,6 @@ class PlanUploadersController < ApplicationController
     end
     @settings_types
   end
-
-  #
-  # def new_member(user_id)
-  #   Member.new(permitted_params.member).tap do |member|
-  #     member.user_id = user_id if user_id
-  #   end
-  # end
 
   def date_check?(date_str)
     begin

@@ -4,7 +4,7 @@
 
   <p>
     <%= form.label :project_id %>
-    <%= form.collection_select(:project_id, Project.all, :id, :name) %>
+    <%= form.collection_select(:project_id, Project.where(type: Project::TYPE_PROJECT).all, :id, :name) %>
   </p>
 
   <p>

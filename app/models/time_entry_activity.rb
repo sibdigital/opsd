@@ -46,7 +46,7 @@ class TimeEntryActivity < Enumeration
   end
 
   def activated_projects
-    scope = Project.all
+    scope = Project.where(type: Project::TYPE_PROJECT).all
 
     scope = if active?
               scope

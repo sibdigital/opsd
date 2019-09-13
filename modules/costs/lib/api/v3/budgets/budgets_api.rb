@@ -75,7 +75,7 @@ module API
           end
 
           get :budget do
-            Project.all.map do |p|
+            Project.where(type: Project::TYPE_PROJECT).all.map do |p|
               AllBudgetsHelper.cost_by_project p
             end
           end

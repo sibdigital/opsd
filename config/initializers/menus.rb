@@ -244,25 +244,28 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-organization',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? ||User.current.detect_project_administrator?}
   menu.push :org_iogv,
-            {controller: '/org_settings', action: 'iogv' },
+            #{controller: '/org_settings', action: 'iogv' },
+            {controller: '/organizations', state: nil, type: 'iogv', action: 'index' },
             icon: 'icon2 icon-organization',
             caption: :label_iogv,
             parent: :org_settings
 
   menu.push :org_municipalities,
-            {controller: '/org_settings', action: 'municipalities' },
+            #{controller: '/org_settings', action: 'municipalities' },
+            {controller: '/organizations', state: nil, type: 'municipalities', action: 'index' },
             icon: 'icon2 icon-organization',
             caption: :label_municipalities,
             parent: :org_settings
 
   menu.push :org_counterparties,
-            {controller: '/org_settings', action: 'counterparties' },
+            #{controller: '/org_settings', action: 'counterparties' },
+            {controller: '/organizations', state: nil, type: 'counterparties', action: 'index' },
             icon: 'icon2 icon-organization',
             caption: :label_counterparties,
             parent: :org_settings
 
   menu.push :org_positions,
-            {controller: '/org_settings', action: 'positions' },
+            {controller: '/organizations', state: nil, type: 'positions', action: 'index' },
             icon: 'icon2 icon-position',
             caption: :label_positions,
             parent: :org_settings
@@ -609,6 +612,15 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_member_plural,
             icon: 'icon2 icon-group',
             parent: :resources
+
+  #zbd (
+  menu.push :stakeholders,
+            { controller: '/stakeholders', action: 'index' },
+            param: :project_id,
+            caption: :label_stakeholder_plural,
+            icon: 'icon2 icon-group',
+            parent: :resources
+  # )
 
   #bbm(
   menu.push :project_risks,

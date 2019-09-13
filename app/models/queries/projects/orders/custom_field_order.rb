@@ -29,7 +29,7 @@
 #++
 
 class Queries::Projects::Orders::CustomFieldOrder < Queries::BaseOrder
-  self.model = Project.all
+  self.model = Project.where(type: Project::TYPE_PROJECT).all
 
   validates :custom_field, presence: { message: I18n.t(:'activerecord.errors.messages.does_not_exist') }
 
