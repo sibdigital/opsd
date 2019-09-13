@@ -54,7 +54,6 @@ class TargetsController < ApplicationController
     else
       @targets = @project.targets
                    .where(:type_id => @type_id)
-                   .order(sort_clause)
                    .page(page_param)
                    .per_page(per_page_param)
     end
