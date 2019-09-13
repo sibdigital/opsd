@@ -22,7 +22,7 @@ This file written by XCC
     <h3>Свойства</h3>
     <%= labelled_tabular_form_for @target, url: project_target_path(project_id: @project) do |f| %>
     <%#= form_with(model: @target, url: project_target_path(project_id: @project)) do |f| %>
-      <%= render partial: 'targets/form/form', locals: { f: f } %>
+      <%= render partial: 'targets/form/form', locals: { f: f, target_id: params[:type_id] } %>
       <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
         <%= styled_button_tag l(:button_save),  class: '-highlight -with-icon icon-checkmark' %>
       <% end %>
