@@ -966,7 +966,7 @@ en:
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
   button_duplicate: Дублировать
-  button_edit: Правка
+  button_edit: Изменить
   button_edit_associated_wikipage: 'Редактирование связанной wiki-страницы: %{page_title}'
   button_expand_all: Развернуть все
   button_filter: Фильтр
@@ -1476,6 +1476,7 @@ en:
   label_added: Добавлено
   label_added_time_by: Добавлено %{author} %{age} назад
   label_national_projects: Национальные проекты
+  label_national_project_short: Нац.проект
   label_national_project_new: Новый национальный проект
   label_additional_workflow_transitions_for_assignee: Дополнительные переходы допускается,
     если пользователь является правопреемником

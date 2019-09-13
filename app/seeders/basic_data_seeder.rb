@@ -54,6 +54,7 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::RaionSeeder,
       BasicData::HeadPerformanceIndicatorSeeder,
       BasicData::NationalProjectSeeder,
+      BasicData::CostSeeder,
       # )
       BasicData::SettingSeeder
     ]
