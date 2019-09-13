@@ -2,7 +2,7 @@
 # This file written by BBM
 # 26/04/2019
 
-module BasikData
+module BasicData
   class TypedTargetSeeder < Seeder
 
     def initialize; end

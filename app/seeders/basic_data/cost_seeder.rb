@@ -8,7 +8,7 @@ module BasicData
     def initialize; end
 
     def seed_data!
-      cost_types = translate_with_base_url("seeders.demo_data.cost_types")
+      cost_types = translate_with_base_url("seeders.basic_data.cost_types")
 
       cost_types.each do |attributes|
         print '.'
