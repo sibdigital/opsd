@@ -41,6 +41,15 @@ Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
 
+  self.inheritance_column = nil # иначе колонка type используется для
+  # single table inheritance т.е наследования сущностей, хранящихся в одной таблице
+
+  #zbd(
+  # Project types
+  TYPE_PROJECT    = 'project'
+  TYPE_TEMPLATE   = 'template'
+  #)
+
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
@@ -150,6 +159,9 @@ Project < ActiveRecord::Base
 
   #zbd(
   has_many :stages, dependent: :destroy
+
+  has_many :stakeholder_users, dependent: :destroy
+  has_many :stakeholder_organizations, dependent: :destroy
   # )
   #xcc(
   has_many :targets
@@ -367,10 +379,20 @@ Project < ActiveRecord::Base
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
-  scope :active, -> { where(status: STATUS_ACTIVE) }
-  scope :public_projects, -> { where(is_public: true) }
-  scope :visible, ->(user = User.current) { Project.visible_by(user) }
-  scope :newest, -> { order(created_on: :desc) }
+  #scope :active, -> { where(status: STATUS_ACTIVE) }
+  #scope :public_projects, -> { where(is_public: true) }
+  #scope :visible, ->(user = User.current) { Project.visible_by(user) }
+  #scope :newest, -> { order(created_on: :desc) }
+
+  #zbd(
+  scope :visible, ->(user = User.current) { Project.where(type: TYPE_PROJECT).visible_by(user) }
+  scope :active, -> { where(status: STATUS_ACTIVE, type: TYPE_PROJECT) }
+  scope :public_projects, -> { where(is_public: true, type: TYPE_PROJECT) }
+  scope :newest, -> { where(type: TYPE_PROJECT).order(created_on: :desc) }
+
+  scope :projects, -> { where(type: TYPE_PROJECT) }
+  scope :templates, -> { where(type: TYPE_TEMPLATE) }
+  # )
 
   def visible?(user = User.current)
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))

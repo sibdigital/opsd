@@ -83,6 +83,11 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
+  #ban(
+  menu.push :my_tasks,
+            { controller: '/my', action: 'tasks' },
+            if: Proc.new { User.current.logged? }
+  #)
   menu.push :administration,
             { controller: '/users', action: 'index' },
             #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
@@ -216,6 +221,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-risks',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
 
+  #zbd(
+  menu.push :typed_targets,
+            { controller: '/typed_targets', action: 'index' },
+            icon: 'icon2 icon-target',
+            if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  # )
+
   menu.push :control_levels,
             { controller: '/control_levels' },
             icon: 'icon2 icon-control-levels',
@@ -232,25 +244,28 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-organization',
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? ||User.current.detect_project_administrator?}
   menu.push :org_iogv,
-            {controller: '/org_settings', action: 'iogv' },
+            #{controller: '/org_settings', action: 'iogv' },
+            {controller: '/organizations', state: nil, type: 'iogv', action: 'index' },
             icon: 'icon2 icon-organization',
             caption: :label_iogv,
             parent: :org_settings
 
   menu.push :org_municipalities,
-            {controller: '/org_settings', action: 'municipalities' },
+            #{controller: '/org_settings', action: 'municipalities' },
+            {controller: '/organizations', state: nil, type: 'municipalities', action: 'index' },
             icon: 'icon2 icon-organization',
             caption: :label_municipalities,
             parent: :org_settings
 
   menu.push :org_counterparties,
-            {controller: '/org_settings', action: 'counterparties' },
+            #{controller: '/org_settings', action: 'counterparties' },
+            {controller: '/organizations', state: nil, type: 'counterparties', action: 'index' },
             icon: 'icon2 icon-organization',
             caption: :label_counterparties,
             parent: :org_settings
 
   menu.push :org_positions,
-            {controller: '/org_settings', action: 'positions' },
+            {controller: '/organizations', state: nil, type: 'positions', action: 'index' },
             icon: 'icon2 icon-position',
             caption: :label_positions,
             parent: :org_settings
@@ -317,10 +332,18 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :info,
             { controller: '/admin', action: 'info' },
-            caption: :label_information_plural,
+            caption: :label_information,
             last: true,
             icon: 'icon2 icon-info1',
             if: Proc.new { User.current.admin?}
+
+  # tmd
+  menu.push :groups,
+            { controller: '/plan_uploader_settings' },
+            caption: :label_plan_uploader_settings,
+            icon: 'icon2 icon-custom-fields',
+            if: Proc.new { User.current.admin?}
+
   #knm(
   menu.push :interactive_map,
             {controller: '/interactive_map', action: 'index'},
@@ -379,7 +402,8 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
             { controller: '/projects', action: 'show' },
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.type == Project::TYPE_PROJECT }
   #xcc(
   menu.push :targets,
             { controller: '/targets', action: 'index' },
@@ -392,12 +416,20 @@ Redmine::MenuManager.map :project_menu do |menu|
 
 
   ##zbd(
+  # menu.push :stages,
+  #           {},
+  #           param: :project_id,
+  #           caption: :label_stages,
+  #           if: Proc.new { |p| p.module_enabled?('stages') },
+  #           icon: 'icon2 icon-etap'
+
   menu.push :stages,
-            {},
+            { controller: '/versions', action: 'index' },
             param: :project_id,
             caption: :label_stages,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') }, # p.shared_versions.any? },
             icon: 'icon2 icon-etap'
+
   # )
   # knm(
   menu.push :stages_init,
@@ -474,6 +506,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_control,
             #after: :communication,
             #if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-checkmark'
   #нехорошо из модуля переносить, но что делать TODO: need fix
   # menu.push :meetings,
@@ -490,11 +523,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             parent: :control,
             icon: 'icon2 icon-checkmark'
 
-  menu.push :roadmap,
-            { controller: '/versions', action: 'index' },
-            param: :project_id,
-            if: Proc.new { |p| p.shared_versions.any? },
-            icon: 'icon2 icon-roadmap'
+  # zbd
+  # menu.push :roadmap,
+  #           { controller: '/versions', action: 'index' },
+  #           param: :project_id,
+  #           if: Proc.new { |p| p.shared_versions.any? },
+  #           icon: 'icon2 icon-roadmap'
 
   menu.push :work_packages_execution,
             { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },
@@ -579,6 +613,15 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-group',
             parent: :resources
 
+  #zbd (
+  menu.push :stakeholders,
+            { controller: '/stakeholders', action: 'index' },
+            param: :project_id,
+            caption: :label_stakeholder_plural,
+            icon: 'icon2 icon-group',
+            parent: :analyze
+  # )
+
   #bbm(
   menu.push :project_risks,
             { controller: '/project_risks', action: 'index' },
@@ -593,7 +636,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             {},
             param: :project_id,
             caption: :label_reports,
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.type == Project::TYPE_PROJECT }
 
   menu.push :report_progress_project,
             {controller: '/report_progress_project', action: 'index' },
@@ -626,11 +670,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('agreements') },
             parent: :control,
             icon: 'icon2 icon-info1'
-
-
   # )
-
-
 
   menu.push :settings,
             { controller: '/project_settings', action: 'show' },

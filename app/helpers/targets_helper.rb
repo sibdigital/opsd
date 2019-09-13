@@ -1,6 +1,8 @@
 # xcc
 #
 module TargetsHelper
+  include OpenProject::FormTagHelper
+
   # def targets_tabs
   #   tabs = [
   #     {
@@ -95,4 +97,15 @@ module TargetsHelper
   #   end
   #   html.length !=0 ? ('<ul>' + html + '</ul>').html_safe : ''
   # end
+
+  def typed_targets_multiselect
+    content_tag(:span, class: 'form--field-container -vertical') do
+      hidden_field_tag("choose_typed[]", '') +
+        TypedTarget.all.map do |target|
+          content_tag(:label, class: 'form--label-with-check-box') do
+            styled_check_box_tag("choose_typed[]", target.id) + target.name
+          end
+        end.join.html_safe
+    end
+  end
 end

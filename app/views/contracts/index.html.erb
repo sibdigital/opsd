@@ -13,6 +13,16 @@ by zbd
       <span class="button--text">Гос.контракт</span>
     <% end %>
   </li>
+
+  <li class="toolbar-item">
+    <%= link_to(catalog_loaders_path(catalog_type: "contracts"),
+                aria: { label: t(:button_add) },
+                class: 'button -alt-highlight',
+                title: t(:button_add)) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text">Загрузка через Excel</span>
+    <% end %>
+  </li>
 <% end %>
 
 <% if @contracts.empty? %>

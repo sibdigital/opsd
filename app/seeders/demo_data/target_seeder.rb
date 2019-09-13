@@ -45,7 +45,8 @@ module DemoData
         project_id:   project_by_name(attributes[:project]),
         parent_id: attributes[:parent_id],
         measure_unit_id: unit_by_name(attributes[:measure_unit_id]),
-        is_approve: attributes[:is_approve]
+        is_approve: attributes[:is_approve],
+        type: attributes[:type]
       }
     end
 

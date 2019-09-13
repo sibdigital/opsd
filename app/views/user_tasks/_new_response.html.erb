@@ -1,0 +1,15 @@
+<div style="width:50%">
+
+  <%= form.hidden_field 'object_type', value: params[:object_type] %>
+  <%= form.hidden_field 'due_date', value: Time.now.strftime("%d/%m/%Y %H:%M") %>
+  <%= form.hidden_field 'project_id', value: params[:project_id] %>
+  <%= form.hidden_field 'object_id', value: params[:object_id] %>
+  <%= form.hidden_field 'assigned_to_id', value: params[:assigned_to_id] %>
+  <%= form.hidden_field 'related_task_id', value: params[:related_task_id] %>
+
+  <p>
+    <%= form.label :text %>
+    <%= form.text_area :text %>
+  </p>
+
+</div>

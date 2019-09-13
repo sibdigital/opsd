@@ -339,6 +339,29 @@ module API
         property :sed_href,
                  render_nil: true
 
+        property :days,
+                 render_nil: false,
+                 getter: ->(*) {
+                   pcalendar = ProductionCalendar.get_transfered
+                   working_days = Setting.working_days
+                   i = 0
+                   current = start_date
+                   while current and current < due_date
+                     current += 1
+                     cal = pcalendar.find_by(date: current) rescue nil
+                     if cal
+                       if cal.day_type == 0
+                         i += 1
+                       end
+                     else
+                       if working_days.include? current.wday
+                         i += 1
+                       end
+                     end
+                   end
+                   i
+                 }
+
         property :problems_count,
                  render_nil: true,
                  getter: ->(*) {

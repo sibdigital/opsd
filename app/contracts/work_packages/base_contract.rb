@@ -68,8 +68,9 @@ module WorkPackages
     #+tan
     attribute :raion_id
     #-tan
+
     attribute :fixed_version_id do
-      validate_fixed_version_is_assignable
+      validate_fixed_version_is_assignable :fixed_version_id, 'fixed_version_id'
     end
 
     validate :validate_no_reopen_on_closed_version
@@ -160,6 +161,9 @@ module WorkPackages
       end
 
       super + model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }
+      #bbm(
+      super + ['days']
+      # )
     end
 
     private
@@ -231,10 +235,17 @@ module WorkPackages
       end
     end
 
-    def validate_fixed_version_is_assignable
+    def validate_fixed_version_is_assignable(attribute, id_attribute)
       if model.fixed_version_id && !model.assignable_versions.map(&:id).include?(model.fixed_version_id)
         errors.add :fixed_version_id, :inclusion
       end
+      #zbd(
+      if model.changed.include?(id_attribute)
+        unless @user.allowed_to_in_project?(:edit_fixed_version, model.project)
+          errors.add attribute, "У вас нет прав для изменения поля"
+        end
+      end
+      #)
     end
 
     def validate_user_allowed_to_set_parent
@@ -330,9 +341,6 @@ module WorkPackages
         end
       end
     end
-
-    #TODO (zbd) добавить проверку "статус завершен должен устанавливаться только при условии если в файлы, прикрепленные к задаче добавлен не менее, чем один документ с типом, совпадающим с реквизитом "Необходимый контрольный документ"."
-    #)
 
   end
 end

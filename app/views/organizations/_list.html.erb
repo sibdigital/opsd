@@ -1,18 +1,10 @@
-<% html_title l(:label_administration), l(:label_iogv) %>
-<%= toolbar title: l(:label_iogv)%>
 <!--new version of this by knm-->
 <%= form_tag({}) do -%>
-  <% if @iogv.empty? %>
+
+  <% if organizations.empty? %>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table" id="national_project_items">
-          <!--        <colgroup>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--        </colgroup>-->
           <thead>
           <tr>
             <th>
@@ -51,7 +43,6 @@
                 </div>
               </div>
             </th>
-
           </tr>
           </thead>
           <tbody>
@@ -62,7 +53,8 @@
         </table>
       </div>
       <div class="wp-inline-create-button">
-        <%= link_to new_organization_path(:org_type => @org_type),
+        <%= # link_to new_organization_path(:org_type => org_type),
+            link_to new_organization_path(:org_type => org_type),
                     aria: { label: t(:button_add) },
                     class: 'wp-inline-create--add-link',
                     title: t(:button_add) do
@@ -74,15 +66,6 @@
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table" id="national_projects_items">
-          <!--        <colgroup>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--        </colgroup>-->
           <thead>
           <tr>
             <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
@@ -111,18 +94,18 @@
                 </div>
               </div>
             </th>
-
           </tr>
           </thead>
           <tbody>
 
-          <%= show_table_org(@iogv,nil,0) %>
+          <%= show_table_org(organizations, nil, 0) %>
 
           </tbody>
         </table>
       </div>
       <div class="wp-inline-create-button">
-        <%= link_to new_organization_path(:org_type => @org_type),
+        <%= #link_to new_organization_path(:org_type => org_type),
+            link_to new_organization_path(:org_type => org_type),
                     aria: { label: t(:button_add) },
                     class: 'wp-inline-create--add-link',
                     title: t(:button_add) do
@@ -131,18 +114,4 @@
       </div>
     </div>
   <% end %>
-<%end %>
-
-
-
-
-
-<!--old version of this-->
-<%# if @organization_parent != nil %>
-<!--  <div class="form--field">-->
-    <%#= l(:label_organization_parent )  %>
-    <%#= ':' %>
-    <%#= @organization_parent %>
-<!--  </div>-->
-<%# end %>
-<%#= cell ::Organizations::TableCell, Organization.where(org_type: @iogv.id)%>
+<% end %>

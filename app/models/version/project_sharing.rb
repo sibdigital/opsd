@@ -36,7 +36,7 @@ module Version::ProjectSharing
   private
 
   def project_sharing_join
-    projects = Project.all
+    projects = Project.where(type: Project::TYPE_PROJECT).all
     projects_table = projects.arel_table
     versions_table = Version.arel_table
 

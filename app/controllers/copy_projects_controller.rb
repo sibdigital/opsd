@@ -72,6 +72,12 @@ class CopyProjectsController < ApplicationController
     copy_project = Project.new
     copy_project.attributes = permitted_params.project
 
+    #zbd(
+    copy_project.type = Project::TYPE_TEMPLATE
+    copy_project.project_status_id = ProjectStatus.find_by(name: 'не начат').id
+    copy_project.project_approve_status_id = ProjectApproveStatus.find_by(name: 'инициирован').id
+    # )
+
     # cannot use set_allowed_parent! as it requires a persisted project
     if copy_project.allowed_parent?(params['project']['parent_id'])
       copy_project.parent_id = params['project']['parent_id']

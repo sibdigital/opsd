@@ -56,6 +56,7 @@ module API
           end
         end
 
+        #bbm(
         resources :available_relation_candidates_paged do
           params do
             optional :type, type: String, default: "relates" # relation type
@@ -87,6 +88,7 @@ module API
             )
           end
         end
+        #)
       end
     end
   end

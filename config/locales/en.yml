@@ -110,7 +110,7 @@ en:
     enabled_in_project: Разрешено в проекте
     contained_in_type: Содержится в типе
     confirm_destroy_option: Удаление опции приведет к удалению всех ее вхождений (например,
-      в меропрития). Вы уверены, что вы хотите удалить ее?
+      в мероприятия). Вы уверены, что вы хотите удалить ее?
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
@@ -218,7 +218,7 @@ en:
   statuses:
     edit:
       status_readonly_html: |
-        Установите флажок, чтобы пометить меропрития доступными только для чтения.
+        Установите флажок, чтобы пометить мероприятия доступными только для чтения.
         Никакие атрибуты не будут изменяться кроме статуса.
         <br/>
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
@@ -243,7 +243,7 @@ en:
       query_group_placeholder: Дайте таблице название
       reset: Восстановить значения по умолчанию
       type_color_text: 'Щелкните, чтобы задать или изменить цвет этого типа. Выбранный
-        цвет позволяет различать меропрития на диаграммах Гантта.
+        цвет позволяет различать мероприятия на диаграммах Гантта.
 
 '
   versions:
@@ -263,7 +263,7 @@ en:
       few: 'Пакетов работ, являющихся потомками: %{count}'
       many: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
-      could_not_be_saved: 'Не удалось сохранить следующие меропрития:'
+      could_not_be_saved: 'Не удалось сохранить следующие мероприятия:'
     move:
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
         Их статус изменен быть не может.
@@ -305,13 +305,12 @@ en:
     deletion_info:
       data_consequences:
         other: Данные, созданные пользователем (адрес электронной почты, предпочтения,
-          меропрития, wiki-записи) полностью не удаляются. Рабочие пакеты, wiki-записи
+          мероприятия, wiki-записи) полностью не удаляются. Мероприятия, wiki-записи
           и пр. могут влиять на работы других пользователей, поэтому такие данные
           не удаляются, а закрепляются за другой, специальной учетной записью, именуемой
           «Удаленный пользователь». После такого переназначения определить кому принадлежали
           эти данные ранее становиться невозможно.
-        self: Данные, созданные Вами (адрес электронной почты, предпочтения, пакеты
-          работ, wiki-записи) полностью не удаляются. Рабочие пакеты, wiki-записи
+        self: Данные, созданные Вами (адрес электронной почты, предпочтения, мероприятия, wiki-записи) полностью не удаляются. Мероприятия, wiki-записи
           и пр. могут влиять на работы других пользователей, поэтому такие данные
           не удаляются, а закрепляются за другой, специальной учетной записью, именуемой
           «Удаленный пользователь». После такого переназначения определить кому принадлежали
@@ -479,6 +478,12 @@ en:
         head_performance_indicator_id: Показатель деятельности высшего должностного лица
         head_performance_indicator: Показатель деятельности высшего должностного лица
         month: Месяц
+      # tmd
+      plan_uploader_setting:
+        text: Текст
+        number: Число
+        user: Пользователь
+        date: Дата
       production_calendar:
         day_type: Тип дня недели
       national_project:
@@ -561,6 +566,12 @@ en:
         #zbd(
         required_doc_type: Необходимый контрольный документ
         result_agreed: Результат согласован
+        #)
+        #knm(
+        first_due_date: Изначальная дата окончания
+        last_due_date: Текущая дата окончания
+        first_start_date: Изначальная дата начала
+        last_start_date: Текущая дата начала
         #)
       doorkeeper/application:
         uid: ID клиента
@@ -802,14 +813,15 @@ en:
     updated: 'Обновлено: %{title}'
   attributes:
     active: Активно
-    assigned_to: Назначенный
-    assignee: Назначенный
+    assigned_to: Ответственный
+    assignee: Ответственный
     attachments: Вложения
     author: Автор
     base: 'Общая ошибка:'
     blocks_ids: Идентификаторы заблокированных рабочих пакетов
     category: Категория
     sed_href: Ссылка СЭД
+    days: Количество рабочих дней
     code: Код
     comment: Комментарий
     comments: Комментарий
@@ -840,7 +852,10 @@ en:
     project_approve_status: Этап согласования
     is_approve: Утверждено
     #knm(
-
+#    first_due_date: Изначальная дата окончания
+#    last_due_date: Текущая дата окончания
+#    first_start_date: Изначальная дата начала
+#    last_start_date: Текущая дата начала
     #)
     issue: Пакет работ
     lastname: Фамилия
@@ -852,8 +867,14 @@ en:
     table_name: Имя таблицы
     column_num: Номер поля во входном файле
     column_name: Название поля
+    setting_type: Тип настройки
+    text: Текст
+    number: Номер
     is_pk: Входит в первичный ключ
     name: Наименование
+    #)
+    #tmd (
+    column_type: Тип поля
     #)
     #(xcc
     organization: Организация
@@ -1005,7 +1026,7 @@ en:
       у пользователей. Включите, если вы изменили юридический аспект согласия с вышеизложенным.
     update_consent_last_time: 'Последнее обновление согласования: %{update_time}'
   copy_project:
-    started: Копирование проекта «%{source_project_name}» в «%{target_project_name}»
+    started: Создание проекта «%{target_project_name}» из шаблона «%{source_project_name}»
       началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
       будет доступен.
     failed: Не удается скопировать проект %{source_project_name}
@@ -1013,8 +1034,8 @@ en:
     errors: Ошибка
     project_custom_fields: Настраиваемые поля проекта
     text:
-      failed: Не удалось скопировать проект «%{source_project_name}» в проект «%{target_project_name}».
-      succeeded: Скопированный проект «%{source_project_name}» в «%{target_project_name}».
+      failed: Не удалось создать проект «%{target_project_name}» из шаблона «%{source_project_name}».
+      succeeded: Созданный проект «%{target_project_name}» из шаблона «%{source_project_name}».
   create_new_page: Wiki-страница
   date:
     abbr_day_names:
@@ -1204,6 +1225,7 @@ en:
   default_role_non_member: Не участник
   default_role_reader: Читатель
   default_role_member: Ответственный за блок мероприятий
+  default_role_ispolnitel: Исполнитель
   default_type: Пакет работ
   default_project_status_not_start: не начат
   default_project_status_in_work: в работе
@@ -1223,7 +1245,7 @@ en:
   #default_type_epic: Эпический
   #default_type_feature: Функция
   default_type_milestone: Контрольная точка
-  default_type_result: Тип результата
+  #default_type_result: Тип результата
   #default_type_phase: Фаза
   default_type_task: Мероприятие
   #default_type_user_story: Описание пользователя
@@ -1288,7 +1310,7 @@ en:
   enumeration_project_status: Статус проекта
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект не может быть заархивирован: существует
-    по крайней мере один пакет работ, назначенный для версии, определенной в этом
+    по крайней мере одно мероприятие, назначенное для версии, определенной в этом
     проекте.'
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
@@ -1449,7 +1471,7 @@ en:
   label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
   label_add_note: Добавить заметку
-  label_add_related_work_packages: Добавить связанные меропрития
+  label_add_related_work_packages: Добавить связанные мероприятия
   label_add_subtask: Добавить подзадачу
   label_added: Добавлено
   label_added_time_by: Добавлено %{author} %{age} назад
@@ -1480,8 +1502,9 @@ en:
   label_api_access_key_type: API
   label_applied_status: Прикладной статус
   label_archive_project: Архивировать проект
+  label_archive_project_template: Архивировать шаблон
   label_ascending: По возрастанию
-  label_assigned_to_me_work_packages: Переданные мне меропрития
+  label_assigned_to_me_work_packages: Переданные мне мероприятия
   label_associated_revisions: Связанные изменения
   label_attachment_delete: Удалить файл
   label_attachment_new: Новый файл
@@ -1558,6 +1581,8 @@ en:
   label_copy_target: Цель
   label_copy_workflow_from: Копировать рабочий поток из
   label_copy_project: Копировать проект
+  label_copy_project_to_template: Сохранить как шаблон
+  label_copy_project_from_template: Создать проект из шаблона
   label_core_version: Основной этап
   label_current_status: Текущий статус
   label_current_version: Текущий этап
@@ -1576,6 +1601,7 @@ en:
   label_default: По умолчанию
   label_delete_user: Удалить пользователя
   label_delete_project: Удалить проект
+  label_delete_project_template: Удалить шаблон
   label_deleted: удалено
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_descending: По убыванию
@@ -1649,7 +1675,7 @@ en:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
-  label_agreements: Соглашение
+  label_agreements: Соглашения
   label_agreement: Соглашение о реализации регионального проекта
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
@@ -1830,8 +1856,10 @@ en:
   label_project_default_type: Разрешить пустой тип
   label_project_hierarchy: Иерархия проектов
   label_project_new: Инициировать проект
+  label_project_new_from_template: Инициировать проект из шаблона
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
+  label_project_templates: Шаблоны проектов
   label_done_ratio_project: Процент исполнения (KPI)
   label_project_risks: Риски и возможности
   label_project_risk_new: Добавить риск
@@ -1847,11 +1875,13 @@ en:
   label_organization_value: "Организация"
   label_project_risk_value: Значение риска
   label_project_settings: Настройки проекта
+  label_project_template_settings: Настройки шаблона
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового
     пространства"
   label_project_view_all: Реестр проектов
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
+  label_plan_uploader_settings: Настройка соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
   label_target_new: Добавить целевой показатель
@@ -1873,7 +1903,7 @@ en:
     почте
   label_registration_automatic_activation: Автоматическая активация учетной записи
   label_registration_manual_activation: Ручная активация учетной записи
-  label_related_work_packages: Связанные меропрития
+  label_related_work_packages: Связанные мероприятия
   label_relates: Связан с
   label_relates_to: Связан с
   label_relation_delete: Удалить связь
@@ -1885,7 +1915,7 @@ en:
   label_report: Отчет
   label_report_bug: Сообщить об ошибке
   label_report_plural: Отчеты
-  label_reported_work_packages: Отчетные меропрития
+  label_reported_work_packages: Отчетные мероприятия
   label_reporting: Отчетность
   label_reporting_plural: Отчетности
   label_repository: Репозиторий
@@ -1901,10 +1931,10 @@ en:
   label_risk_characts_new: Добавить характеристику риска
   label_risk_characts_value: Значение характеристики риска
   label_risk_characts: Характеристики риска
-  label_roadmap: Дорожная карта
-  label_roadmap_edit: Редактировать дорожную карту %{name}
+  label_roadmap: Этапы проекта #Дорожная карта
+  label_roadmap_edit: Редактировать этап %{name}
   label_roadmap_due_in: Завершится через %{value}
-  label_roadmap_no_work_packages: На этом этапе меропрития отсутствуют
+  label_roadmap_no_work_packages: На этом этапе мероприятия отсутствуют
   label_roadmap_overdue: "%{value} запаздывание"
   label_role_and_permissions: Роли и разрешения
   label_role_new: Новая роль
@@ -1963,9 +1993,12 @@ en:
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
   #zbd(
+  label_typed_targets: Типовые результаты
+  label_typed_target_new: Новый типовой результат
   label_contracts: Государственные контракты
   label_contracts_new: Новый гос.контракт
   label_contracts_value: Значение гос.контракта
+  label_stakeholder_plural: Заинтересованные стороны
   #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
@@ -1989,6 +2022,7 @@ en:
   label_user_new: Новый пользователь
   label_user_plural: Пользователи
   label_user_search: Найти пользователя
+  label_version: Этап
   label_version_new: Новый этап
   label_version_plural: Этапы
   label_version_sharing_descendants: С подпроектами
@@ -2000,7 +2034,7 @@ en:
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
   label_view_revisions: Просмотр версий
-  label_watched_work_packages: Наблюдаемые меропрития
+  label_watched_work_packages: Наблюдаемые мероприятия
   label_what_is_this: Что это?
   label_week: Неделя
   label_wiki_content_added: Wiki-страница добавлена
@@ -2036,12 +2070,12 @@ en:
   label_work_package_status_plural: Статусы пакета работ
   label_work_package_types: Типы рабочих пакетов
   label_work_package_updated: Пакет работ обновлен
-  label_work_package_tracking: Отслеживание меропрития
-  label_work_package_view_all: Посмотреть все меропрития
+  label_work_package_tracking: Отслеживание мероприятия
+  label_work_package_view_all: Посмотреть все мероприятия
   label_work_package_view_all_assigned_to_me: Входящая информация по мероприятиям
-  label_work_package_view_all_reported_by_me: Исходящая информация по меропритиям
+  label_work_package_view_all_reported_by_me: Исходящая информация по мероприятиям
   label_work_package_view_all_responsible_for: Входящая информация (подотчетные мероприятия)
-  label_work_package_view_all_watched: Исходящая информация (наблюдаемые меропрития)
+  label_work_package_view_all_watched: Исходящая информация (наблюдаемые мероприятия)
   label_work_package_watchers: Наблюдатель
   label_workflow: Рабочий поток
   label_workflow_plural: Рабочие потоки
@@ -2208,6 +2242,7 @@ en:
   notice_email_sent: На адрес %{value} было отправлено письмо
   notice_failed_to_save_work_packages: 'Не удалось сохранить %{count} пакет(-ов) работ
     из %{total},  выбрано: %{ids}.'
+  notice_error_occured_while_loading: В процессе загрузки возникли ошибки. Некоторые данные не были загружены.
   notice_failed_to_save_members: 'Не удалось сохранить участника(-ов): %{errors}.'
   notice_file_not_found: Страница, к которой Вы обратились, не существует или была
     удалена.
@@ -2300,9 +2335,10 @@ en:
   permission_change_wiki_parent_page: Смена родительской wiki-страницы
   permission_comment_news: Комментировать новость
   permission_commit_access: Возможность чтения/записи в репозиторий (commit)
-  permission_copy_projects: Копировать проект
+  #permission_copy_projects: Копировать проект
+  permission_copy_projects: Создать шаблон проекта
   permission_delete_work_package_watchers: Удалить наблюдателей
-  permission_delete_work_packages: Удалить меропрития
+  permission_delete_work_packages: Удалить мероприятия
   permission_delete_messages: Удалить сообщения
   permission_delete_own_messages: Удалить свои сообщения
   permission_delete_reportings: Удалить отчеты
@@ -2334,6 +2370,7 @@ en:
   permission_manage_work_package_problems: Управление проблемами/рисками мероприятия
   permission_view_work_package_problems: Просмотр проблем/рисков мероприятия
   permission_edit_required_doc_type: Редактирование типа контрольного документа
+  permission_edit_fixed_version: Редактирование этапа
   #)
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
@@ -2603,7 +2640,7 @@ en:
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
-  setting_display_subprojects_work_packages: Отображать меропрития подпроектов в
+  setting_display_subprojects_work_packages: Отображать мероприятия подпроектов в
     основном проекте по умолчанию
   setting_emails_footer: содержимое  нижней части почтовых сообщений
   setting_emails_header: Заголовок письма
@@ -2724,7 +2761,7 @@ en:
     доступ к ресурсам.
   text_analyze: 'Дополнительный анализ: %{subject}'
   text_are_you_sure: Вы уверены?
-  text_are_you_sure_with_children: Удалить мероприятие и все дочерние меропрития?
+  text_are_you_sure_with_children: Удалить мероприятие и все дочерние мероприятия?
   text_assign_to_project: Назначить на проект
   text_form_configuration: 'Вы можете настроить, какие поля будут показываться в формах
     пакетов работ. Вы можете свободно сгруппировать поля с учетом потребностей вашего
@@ -2801,11 +2838,12 @@ en:
   text_journal_aggregation_time_explanation: Объединить журналы для отображения, если
     разница в их возрасте меньше заданного значения. Это приведет к задержке почтовых
     уведомлений на указанное время.
-  text_journal_changed: "%{label} изменено с %{old} <br/><strong>на</strong> %{new}"
+  text_journal_changed: "%{label} изменено с %{old} <strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
-  text_journal_changed_with_diff: "%{label} изменена (%{link})"
+  text_journal_changed_with_diff: "%{label} изменено (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
+  text_journal_hidden: "Текст о %{label} будет скрыт (Скрытое поле)"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
@@ -2942,7 +2980,7 @@ en:
         date: дата
         default: по умолчанию
       column:
-        assigned_to: Назначенный
+        assigned_to: Ответственный
         type: Тип
         due_date: Дате окончания
         fact_due_date: Фактическая дата окончания
@@ -3380,3 +3418,6 @@ en:
   national_project_export: Международная кооперация и экспорт
   national_project_obraz: Образование
   project_republic: Проекты Республики Бурятия
+
+  label_my_tasks: Мои запросы/задачи
+  label_user_tasks: Запросы/задачи

@@ -20,7 +20,7 @@ class PositionsController < ApplicationController
 
     if @position.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to controller: 'org_settings', action: 'positions' #:back #action: 'index'
+      redirect_to controller: 'organizations', action: 'positions' #:back #action: 'index'
     else
       render action: 'new'
     end
@@ -29,7 +29,7 @@ class PositionsController < ApplicationController
   def update
     if @position.update_attributes(permitted_params.position)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to controller: 'org_settings', action: 'positions' #:back #action: 'index'
+      redirect_to controller: 'organizations', action: 'positions' #:back #action: 'index'
     else
       render action: 'edit'
     end
@@ -37,7 +37,7 @@ class PositionsController < ApplicationController
 
   def destroy
     @position.destroy
-    redirect_to controller: 'org_settings', action: 'positions' #:back #action: 'index'
+    redirect_to controller: 'organizations', action: 'positions' #:back #action: 'index'
     return
   end
 

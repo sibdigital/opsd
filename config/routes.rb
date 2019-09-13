@@ -28,6 +28,9 @@
 #++
 
 OpenProject::Application.routes.draw do
+  #ban(
+  resources :user_tasks
+  #)
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
@@ -222,10 +225,10 @@ OpenProject::Application.routes.draw do
       # get :init, action: 'init'
       # get :planning, action: 'planning'
     end
-    # )
-    #knm(
 
-    #)
+    resources :stakeholders, controller: 'stakeholders'
+    # )
+
     # +tan 2019.07.07
     resources :plan_uploaders, controller: 'plan_uploaders'
     #-tan
@@ -315,9 +318,10 @@ OpenProject::Application.routes.draw do
     end
     # )
     #xcc(
-    resources :targets #do
+    resources :targets do
     #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
-    #end
+      match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
+    end
 
     resources :arbitary_objects do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
@@ -328,8 +332,8 @@ OpenProject::Application.routes.draw do
 
     resources :report_progress_project do
     end
-
     #)
+
     resources :activity, :activities, only: :index, controller: 'activities'
 
     resources :boards do
@@ -401,11 +405,15 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :catalog_loaders do
+    post :load, on: :collection
+  end
+
   #knm(
   resources :alerts do
     get :get_pop_up_alerts, on: :collection
     get :read_alert, on: :collection
-    get :get_delay_setting, on: :collection
+    get :get_delay_setting, on: :collection 
     get :notify_by_email
 
   end
@@ -431,6 +439,10 @@ OpenProject::Application.routes.draw do
     get :get_list, on: :collection
   end
   #)
+
+  #zbd(
+  get '/project_templates' => 'project_templates#index'
+  # )
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]
@@ -458,6 +470,8 @@ OpenProject::Application.routes.draw do
     # +tan 2019.04.25
     #  в том числе необходимо, чтобы работал ресурсный роутинг типа new_depart_path и тд
     resources :positions
+
+    get '/organizations/positions' => 'organizations#positions'
     resources :organizations #do
       #get '/new/:tab', action: 'new'
       #collection do
@@ -476,8 +490,12 @@ OpenProject::Application.routes.draw do
     #zbd(
     resources :contracts
 
-    resources :plan_uploader_settings,  controller: 'plan_uploader_settings'
+    resources :plan_uploader_settings do
+      #tmd
+      get :update_column, on: :collection
+    end
 
+    resources :typed_targets
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
@@ -529,13 +547,14 @@ OpenProject::Application.routes.draw do
     match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
   #knm
-  get '/org_settings/iogv' => 'org_settings#iogv'
-  get '/org_settings/municipalities' => 'org_settings#municipalities'
-  get '/org_settings/counterparties' => 'org_settings#counterparties'
+  # get '/org_settings/iogv' => 'org_settings#iogv'
+  # get '/org_settings/municipalities' => 'org_settings#municipalities'
+  # get '/org_settings/counterparties' => 'org_settings#counterparties'
   get '/org_settings/positions' => 'org_settings#positions'
   # -knm
   #+ 2019.04.26 TAN
-  get '/org_settings' => 'org_settings#index'
+  #get '/org_settings' => 'org_settings#index'
+  #resources :org_settings
   #scope 'org_settings', controller: 'org_settings' do
   #  match 'edit', action: 'edit', via: %i[get post]
   #end
@@ -703,6 +722,10 @@ OpenProject::Application.routes.draw do
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'
+
+    #ban(
+    get '/my/tasks', action: 'tasks'
+    #)
   end
 
   scope controller: 'onboarding' do

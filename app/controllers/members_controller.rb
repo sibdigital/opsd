@@ -68,6 +68,10 @@ class MembersController < ApplicationController
             UserMailer.member_added(user, @project, User.find_by(id: added_member.user_id), User.current, @timenow).deliver_later
           end
         end
+
+        #zbd(
+        add_to_stakeholders added_member
+        # )
       end
       #)
       redirect_to project_members_path(project_id: @project, status: 'all')
@@ -326,4 +330,38 @@ class MembersController < ApplicationController
       l(:notice_members_added, number: members.size)
     end
   end
+
+  #zbd(
+  def add_to_stakeholders(member)
+    user = User.find(member.user_id)
+    if user.present?
+      su = StakeholderUser.where(user_id: user.id, project_id: @project.id).first_or_create do |s|
+        s.user_id = user.id
+        s.organization_id = user.organization_id
+        s.name = user.name
+        #s.description = added_member.roles.to_s
+        s.phone_wrk = user.phone_wrk
+        s.phone_wrk_add = user.phone_wrk_add
+        s.phone_mobile = user.phone_mobile
+        s.mail_add = user.mail_add
+        s.address = user.address
+        s.cabinet = user.cabinet
+      end
+
+      org = Organization.find(user.organization_id)
+      if org.present?
+        so = StakeholderOrganization.where(organization_id: org.id, project_id: @project).first_or_create do |s|
+          s.organization_id = org.id
+          s.name = org.name
+          s.phone_wrk = org.phone_wrk
+          s.phone_wrk_add = org.phone_wrk_add
+          s.phone_mobile = org.phone_mobile
+          s.mail_add = org.mail_add
+          s.address = org.address
+          s.cabinet = org.cabinet
+        end
+      end
+    end
+  end
+  # )
 end

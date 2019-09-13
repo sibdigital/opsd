@@ -1,0 +1,32 @@
+<%#--
+This file written by BAN
+11/09/2019
+++#%>
+  <% if @user_task.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        Ошибка(и):
+      </h2>
+      <ul>
+        <% @user_task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<%= case params[:kind]
+    when 'Note'
+      render partial: "user_tasks/new_note", locals: { form: form }
+    when 'Request'
+      if params[:object_type] == 'WorkPackage'
+        render partial: "user_tasks/new_request_wp", locals: { form: form }
+        else
+        render partial: "user_tasks/new_request", locals: { form: form }
+        end
+    when 'Task'
+      render partial: "user_tasks/new_task", locals: { form: form }
+    when 'Response'
+      render partial: "user_tasks/new_response", locals: { form: form }
+    end
+%>

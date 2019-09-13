@@ -237,6 +237,8 @@ notified_events:
   - status_updated
   - work_package_priority_updated
   - news_added
+  - news_changed #ban
+  - news_deleted #ban
   - news_comment_added
   - file_added
   - message_posted
@@ -282,6 +284,8 @@ work_package_list_default_columns:
   - type
   - status
   - assigned_to
+  - start_date
+  - due_date
   - updated_on
 work_package_list_default_highlighting_mode:
   default: 'inline'

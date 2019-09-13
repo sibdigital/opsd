@@ -36,7 +36,9 @@ module Project::Copy
     base.not_to_copy ['id', 'created_on', 'updated_on', 'name', 'identifier', 'status', 'lft', 'rgt']
 
     # specify the order of associations to copy
-    base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values']
+    #base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values']
+    #zbd
+    base.copy_precedence ['members', 'versions', 'categories', 'arbitary_objects', 'agreements', 'targets', 'project_risks', 'work_packages', 'wiki', 'custom_values']
   end
 
   module CopyMethods
@@ -142,6 +144,41 @@ module Project::Copy
       end
     end
 
+    #zbd(
+    # Copies issue targets from +project+
+    def copy_targets(project, selected_copies = [])
+      project.targets.each do |target|
+        new_target = Target.new
+        new_target.send(:assign_attributes, target.attributes.dup.except('id', 'project_id'))
+        targets << new_target
+      end
+    end
+
+    def copy_project_risks(project, selected_copies = [])
+      project.project_risks.each do |risk|
+        new_risk = ProjectRisk.new
+        new_risk.send(:assign_attributes, risk.attributes.dup.except('id', 'project_id'))
+        project_risks << new_risk
+      end
+    end
+
+    def copy_arbitary_objects(project, selected_copies = [])
+      project.arbitary_objects.each do |obj|
+        new_object = ArbitaryObject.new
+        new_object.send(:assign_attributes, obj.attributes.dup.except('id', 'project_id'))
+        arbitary_objects << new_object
+      end
+    end
+
+    def copy_agreements(project, selected_copies = [])
+      project.agreements.each do |obj|
+        new_agreement = Agreement.new
+        new_agreement.send(:assign_attributes, obj.attributes.dup.except('id', 'project_id'))
+        agreements << new_agreement
+      end
+    end
+    # )
+
     # Copies issues from +project+
     def copy_work_packages(project, selected_copies = [])
       # Stores the source issue id as a key and the copied issues as the
@@ -218,6 +255,8 @@ module Project::Copy
           new_relation.save
         end
       end
+
+      #TODO (zbd) добавить копирование wp_targets, wp_problems
     end
 
     # Copies members from +project+
