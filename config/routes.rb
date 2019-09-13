@@ -329,6 +329,9 @@ OpenProject::Application.routes.draw do
     resources :report_progress_project do
     end
 
+    resources :report_passport do
+    end
+
     #)
     resources :activity, :activities, only: :index, controller: 'activities'
 

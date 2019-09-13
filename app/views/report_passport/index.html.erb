@@ -1,0 +1,12 @@
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<% html_title l(:label_reports) %>
+<%= breadcrumb_toolbar l(:label_report_passport) %>
+ <%= labelled_tabular_form_for [@project] do |f| %>
+<%= render partial: 'report_passport/form', locals: { f: f } %>
+<% end %>
+
