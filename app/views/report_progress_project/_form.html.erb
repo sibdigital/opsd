@@ -8,13 +8,4 @@ This file written by XCC
 <section class="form--section">
      <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'button' %>
 
-  <h3>Графики достижения показателей. Приложение 1, 2</h3>
-
-
-  <div class="form--field">
-     <%= select_tag "selected_target_id", options_for_select(@project.targets.map {|u| [u.name, u.id]}, params[:target]) %>
-    <%= link_to "Сформировать", {report_id: "report_progress_project_pril_1_2", selected_target_id: params[:target]}, class: 'button' %>
-  </div>
-
-
 </section>
