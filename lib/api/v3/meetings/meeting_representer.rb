@@ -33,7 +33,7 @@ module API
 
         property :workPackageId,
                  exec_context: :decorator,
-                 getter: ->(*) { represented.work_package.id }
+                 getter: ->(*) { represented.work_package ? represented.work_package.id : nil }
 
         def _type
           'Meeting'
