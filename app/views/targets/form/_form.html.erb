@@ -36,11 +36,11 @@ This file written by XCC
                                           container_class: '-middle' %></div>
 -->
   <div class="form--field"><label class="form--label -required">Тип<span class="form--label-required" aria-hidden="true">*</span></label>
-    <span class="form--field-container"><%= f.collection_radio_buttons :type_id,
+    <span class="form--field-container"><%= f.collection_radio_buttons(:type_id,
                                         TargetType.where(active: true),
                                         :id,
-                                        :type_name, {},
-                                        {required: true} %></span></div>
+                                        :type_name, { checked: target_id },
+                                        { required: true})%></span></div>
 
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
 

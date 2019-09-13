@@ -206,6 +206,10 @@ en:
     index:
       no_results_title_text: Сейчас статусы отчётов отсутствуют.
       no_results_content_text: Добавить статус отчёта
+  targets:
+    target: "Цель"
+    indicator: "Показатель"
+    result: "Результат"
   typed_risks:
     edit:
       properties: Свойства
@@ -1680,13 +1684,18 @@ en:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
+  label_admin_user_info: Пользователи и роли
+  label_admin_dictionaries: Справочники
+  label_admin_project_office: Проектный офис
+
   label_agreements: Соглашения
   label_agreement: Соглашение о реализации регионального проекта
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
   label_raion: Район
   label_raions: Районы
-  label_target: Целевые показатели
+  label_target: Цели и результаты
+  label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
@@ -1890,7 +1899,9 @@ en:
   label_plan_uploader_settings: Настройка соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
-  label_target_new: Добавить целевой показатель
+  label_target_new: Добавить цель
+  label_indicator_new: Добавить целевой показатель
+  label_result_new: Добавить результат
   label_child_target_new: Добавить дочерний целевой показатель
   label_target_parent: Родитель
   label_target_value: Целевой показатель
