@@ -672,6 +672,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-info1',
             parent: :reports
 
+  menu.push :report_passport,
+            {controller: '/report_passport', action: 'index' },
+            param: :project_id,
+            caption: :label_report_passport,
+            icon: 'icon2 icon-info1',
+            parent: :reports
+
+
   menu.push :additional,
             {},
             param: :project_id,

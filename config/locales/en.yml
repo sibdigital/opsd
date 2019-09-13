@@ -936,6 +936,7 @@ en:
     other_liabilities_2282: Иные обязательства п.п. 2.2.8.2
     national_project: Национальный проект
     federal_project: Федеральный проект
+    date_end: Действует до
   #)
   button_add: Добавить
   value_for_hpi: Значение показателя
@@ -1231,6 +1232,9 @@ en:
   default_role_member: Ответственный за блок мероприятий
   default_role_ispolnitel: Исполнитель
   default_type: Пакет работ
+  default_target: Цель
+  default_indicator: Показатель
+  default_result: Результат
   default_project_status_not_start: не начат
   default_project_status_in_work: в работе
   default_project_status_ready_to_check: готов к проверке
@@ -1802,6 +1806,7 @@ en:
   ladel_additional: Дополнительно
   label_reports: Отчеты
   label_report_progress_project: Отчет о ходе реализации проекта
+  label_report_passport: Паспорт регионального проекта
   label_resources: Ресурсы
   label_control: Контроль
   label_nobody: никто

@@ -332,6 +332,10 @@ OpenProject::Application.routes.draw do
 
     resources :report_progress_project do
     end
+
+    resources :report_passport do
+    end
+
     #)
 
     resources :activity, :activities, only: :index, controller: 'activities'
@@ -413,7 +417,7 @@ OpenProject::Application.routes.draw do
   resources :alerts do
     get :get_pop_up_alerts, on: :collection
     get :read_alert, on: :collection
-    get :get_delay_setting, on: :collection 
+    get :get_delay_setting, on: :collection
     get :notify_by_email
 
   end

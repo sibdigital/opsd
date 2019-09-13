@@ -4,13 +4,13 @@ require 'rubyXL/convenience_methods/color'
 require 'rubyXL/convenience_methods/font'
 require 'rubyXL/convenience_methods/workbook'
 require 'rubyXL/convenience_methods/worksheet'
-class ReportProgressProjectController < ApplicationController
+class ReportPassportController < ApplicationController
 
   include Downloadable
 
-  default_search_scope :report_progress_project
+  default_search_scope :report_passport
 
-  before_action :verify_reportsProgressProject_module_activated
+  before_action :verify_reportPassport_module_activated
 
   def index_params
     params.require(:report_id)
@@ -18,13 +18,7 @@ class ReportProgressProjectController < ApplicationController
 
   def index
 
-    #@project_targets = Target.find_by_sql("SELECT t.* FROM targets t where t.project_id=" + @project.id.to_s)
-    @selected_target_id = 0
     @project = Project.find(params[:project_id])
-    @vals = {
-      project: @project,
-      selected_target_id: 0
-    }
     if @project.national_project_id
       @national_project = NationalProject.find(@project.national_project_id)
     else
@@ -36,85 +30,68 @@ class ReportProgressProjectController < ApplicationController
       @federal_project = nil
     end
 
-    if  params[:report_id] == 'report_progress_project'
-      generate_project_progress_report_out
-      send_to_user filepath: @ready_project_progress_report_path
+    if  params[:report_id] == 'report_passport'
+      generate_passport_report_out
+      send_to_user filepath: @ready_passport_report_path
     end
 
-    if  params[:report_id] == 'report_progress_project_pril_1_2'
-      #index_params
-      generate_report_progress_project_pril_1_2_out
-      send_to_user filepath: @ready_report_progress_project_pril_1_2_path
-    end
-
-
-    @targets = @project.targets
-    @target = @targets.first
 
   end
 
-  def generate_project_progress_report_out
-    template_path = File.absolute_path('.') +'/'+'app/reports/templates/project_progress_report.xlsx'
+  def generate_passport_report_out
+    template_path = File.absolute_path('.') +'/'+'app/reports/templates/passport.xlsx'
     @workbook = RubyXL::Parser.parse(template_path)
     @workbook.calc_pr.full_calc_on_load = true
 
     generate_title_sheet
-    generate_key_risk_sheet
-    generate_targets_sheet
-    generate_status_execution_budgets_sheet
-    generate_status_achievement_sheet
-    generate_dynamic_achievement_kt_sheet
-
-    #+tan
-    dir_path = File.absolute_path('.') + '/public/reports'
-    if  !File.directory?(dir_path)
-      Dir.mkdir dir_path
-    end
-    #-tan
-
-    @ready_project_progress_report_path = dir_path + '/project_progress_report_out.xlsx'
-    @workbook.write(@ready_project_progress_report_path)
-  end
-
-  def generate_report_progress_project_pril_1_2_out
-
-    template_path = File.absolute_path('.') +'/'+'app/reports/templates/report_progress_project_pril_1_2.xlsx'
-    @workbook_pril = RubyXL::Parser.parse(template_path)
-    @workbook_pril.calc_pr.full_calc_on_load = true
-
-    generate_pril_1_2
+    #generate_key_risk_sheet
+    #generate_targets_sheet
+    #generate_status_execution_budgets_sheet
+    #generate_status_achievement_sheet
+    #generate_dynamic_achievement_kt_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
       Dir.mkdir dir_path
     end
 
-    @ready_report_progress_project_pril_1_2_path = dir_path + '/report_progress_project_pril_1_2_out.xlsx'
-    @workbook_pril.write(@ready_report_progress_project_pril_1_2_path)
 
+    @ready_passport_report_path = dir_path + '/passport_out.xlsx'
+    @workbook.write(@ready_passport_report_path)
   end
 
-  def generate_pril_1_2
-    #puts @target.id
-    #puts params[:target_id]
-    sheet = @workbook_pril['Данные для диаграмм']
-    selected_target = params[:target]
-    @target = Target.find(params[:selected_target_id])
-    sheet[2][2].change_contents(@target.id)
 
-
-  end
 
   def generate_title_sheet
 
-    @leader_federal_project = @federal_project == nil ? "" : (@federal_project.leader == nil ? "" : @federal_project.leader)
+
     @date_today = Date.today.strftime("%d.%m.%Y")
+    curatorProject = get_Member(I18n.t(:default_role_project_curator))
+    leaderProject = get_Member(I18n.t(:default_role_project_head))
+    adminProject = get_Member(I18n.t(:default_role_project_admin))
+    start_date = @project.start_date
+    due_date = @project.due_date
+    period_project = (start_date == nil ? "": start_date.strftime("%d.%m.%Y"))+" - " + (due_date == nil ? "": due_date.strftime("%d.%m.%Y"))
+    sheet = @workbook['Основные положения']
 
-    sheet = @workbook['Титульный лист']
+    sheet[14][0].change_contents(@project.name)
+    sheet[18][1].change_contents(@federal_project == nil ? "" :@federal_project.name)
+    sheet[19][1].change_contents(@project.name)
+    sheet[19][6].change_contents(period_project)
+    sheet[20][1].change_contents(curatorProject)
+    sheet[21][1].change_contents(leaderProject)
+    sheet[22][1].change_contents(adminProject)
 
-    sheet[9][3].change_contents(@leader_federal_project)
-    sheet[12][3].change_contents(@date_today)
-    sheet[22][11].change_contents(@project.name)
+  # default_role_project_admin: Администратор проекта
+  # default_role_project_curator: Куратор проекта
+  # default_role_project_customer: Заказчик проекта
+  # default_role_project_office_manager: Руководитель проектного офиса
+  # default_role_project_activity_coordinator: Координатор проектной деятельности
+  # default_role_project_office_coordinator: Координатор от проектного офиса
+  # default_role_events_responsible: Ответственный за блок мероприятий
+  # default_role_project_head: Руководитель проекта
+  # default_role_project_office_admin: Администратор проектного офиса
+
 
   end
 
@@ -524,6 +501,43 @@ class ReportProgressProjectController < ApplicationController
     end
 
   end
+
+
+  def get_Member(role_name)
+  userList = User.find_by_sql("  SELECT u.* FROM users u
+                                           INNER JOIN members  m ON m.user_id = u.id
+                                           INNER JOIN member_roles mr ON  mr.member_id = m.id
+                                           INNER JOIN roles r ON  mr.role_id = r.id and r.name ='" +role_name+"' "+
+                                 "INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s)
+
+  if userList.empty?
+    user = User.new
+  else
+    user = userList[0]
+  end
+
+  if user.patronymic.to_s.empty?
+    patronymic = ""
+  else  patronymic = user.patronymic
+  end
+
+  if user.lastname.to_s.empty?
+    lastname = ""
+  else  lastname = user.lastname
+  end
+
+  if user.firstname.to_s.empty?
+    firstname = ""
+  else  firstname = user.firstname
+  end
+
+  if user.firstname.to_s.empty?
+    firstname = ""
+  else  firstname = user.firstname
+  end
+
+  fio = lastname + " " + firstname + " " + patronymic
+end
 
   def get_value_targets_indicators
 
@@ -1061,7 +1075,7 @@ class ReportProgressProjectController < ApplicationController
     render_404
   end
 
-  def verify_reportsProgressProject_module_activated
+  def verify_reportPassport_module_activated
     render_403 if @project && !@project.module_enabled?('reports')
   end
 
