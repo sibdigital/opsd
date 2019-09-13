@@ -41,7 +41,7 @@ module Organizations
 
     def inline_create_link
 
-      link_to org_settings_path(:parent_id => organization.id, :tab => params[:tab]),
+      link_to organization_path(:parent_id => organization.id, :tab => params[:tab]),
               aria: { label: t(:button_click_to_reveal) },
               class: 'wp-inline-create--add-link',
               title: t(:button_click_to_reveal) do

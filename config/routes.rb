@@ -225,10 +225,10 @@ OpenProject::Application.routes.draw do
       # get :init, action: 'init'
       # get :planning, action: 'planning'
     end
-    # )
-    #knm(
 
-    #)
+    resources :stakeholders, controller: 'stakeholders'
+    # )
+
     # +tan 2019.07.07
     resources :plan_uploaders, controller: 'plan_uploaders'
     #-tan
@@ -332,6 +332,10 @@ OpenProject::Application.routes.draw do
 
     resources :report_progress_project do
     end
+
+    resources :report_passport do
+    end
+
     #)
 
     resources :activity, :activities, only: :index, controller: 'activities'
@@ -413,7 +417,7 @@ OpenProject::Application.routes.draw do
   resources :alerts do
     get :get_pop_up_alerts, on: :collection
     get :read_alert, on: :collection
-    get :get_delay_setting, on: :collection 
+    get :get_delay_setting, on: :collection
     get :notify_by_email
 
   end
@@ -470,6 +474,8 @@ OpenProject::Application.routes.draw do
     # +tan 2019.04.25
     #  в том числе необходимо, чтобы работал ресурсный роутинг типа new_depart_path и тд
     resources :positions
+
+    get '/organizations/positions' => 'organizations#positions'
     resources :organizations #do
       #get '/new/:tab', action: 'new'
       #collection do
@@ -545,13 +551,14 @@ OpenProject::Application.routes.draw do
     match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
   #knm
-  get '/org_settings/iogv' => 'org_settings#iogv'
-  get '/org_settings/municipalities' => 'org_settings#municipalities'
-  get '/org_settings/counterparties' => 'org_settings#counterparties'
+  # get '/org_settings/iogv' => 'org_settings#iogv'
+  # get '/org_settings/municipalities' => 'org_settings#municipalities'
+  # get '/org_settings/counterparties' => 'org_settings#counterparties'
   get '/org_settings/positions' => 'org_settings#positions'
   # -knm
   #+ 2019.04.26 TAN
-  get '/org_settings' => 'org_settings#index'
+  #get '/org_settings' => 'org_settings#index'
+  #resources :org_settings
   #scope 'org_settings', controller: 'org_settings' do
   #  match 'edit', action: 'edit', via: %i[get post]
   #end
