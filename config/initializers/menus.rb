@@ -396,13 +396,39 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.type == Project::TYPE_PROJECT }
   #xcc(
   menu.push :targets,
-            { controller: '/targets', action: 'index' },
+            { controller: '/targets', state: nil, action: 'index' },
             param: :project_id,
             caption: :label_target,
             if: Proc.new { |p| p.module_enabled?('targets') },
-            icon: 'icon2 icon-target',
-            parent: :all_plans
+            icon: 'icon2 icon-target'
   # )
+
+  #tmd
+  menu.push :targets_target,
+            { controller: '/targets', state: nil, target_type: 'target', action: 'index' },
+            param: :project_id,
+            caption: :label_target_targets,
+            if: Proc.new { |p| p.module_enabled?('targets') },
+            icon: 'icon2 icon-target',
+            parent: :targets
+
+  #tmd
+  menu.push :targets_indicator,
+            { controller: '/targets', state: nil, target_type: 'indicator', action: 'index' },
+            param: :project_id,
+            caption: :label_targets,
+            if: Proc.new { |p| p.module_enabled?('targets') },
+            icon: 'icon2 icon-target',
+            parent: :targets
+
+  #tmd
+  menu.push :targets_result,
+            { controller: '/targets', state: nil, target_type: 'result', action: 'index'},
+            param: :project_id,
+            caption: :label_result_plural,
+            if: Proc.new { |p| p.module_enabled?('targets') },
+            icon: 'icon2 icon-target',
+            parent: :targets
 
 
   ##zbd(

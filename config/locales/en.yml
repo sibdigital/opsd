@@ -206,6 +206,10 @@ en:
     index:
       no_results_title_text: Сейчас статусы отчётов отсутствуют.
       no_results_content_text: Добавить статус отчёта
+  targets:
+    target: "Цель"
+    indicator: "Показатель"
+    result: "Результат"
   typed_risks:
     edit:
       properties: Свойства
@@ -1682,7 +1686,8 @@ en:
   label_arbitary_objects: Произвольные объекты
   label_raion: Район
   label_raions: Районы
-  label_target: Целевые показатели
+  label_target: Цели и результаты
+  label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
