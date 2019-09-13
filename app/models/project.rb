@@ -159,6 +159,9 @@ Project < ActiveRecord::Base
 
   #zbd(
   has_many :stages, dependent: :destroy
+
+  has_many :stakeholder_users, dependent: :destroy
+  has_many :stakeholder_organizations, dependent: :destroy
   # )
   #xcc(
   has_many :targets

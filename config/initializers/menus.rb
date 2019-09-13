@@ -619,7 +619,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_stakeholder_plural,
             icon: 'icon2 icon-group',
-            parent: :resources
+            parent: :analyze
   # )
 
   #bbm(
