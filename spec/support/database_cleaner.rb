@@ -6,9 +6,9 @@ RSpec.configure do |config|
   # We're still using database_cleaner in cucumber however, so we can use it to ensure we run
   # with a clean database (which use_transactional_fixtures does not ensure).
   # c.f., spec/support/database_cleaner
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = true #false - tan 2019.09.11
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:truncation) #transaction - tan 2019.09.11
   end
 end

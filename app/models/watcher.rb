@@ -40,7 +40,7 @@ class Watcher < ActiveRecord::Base
   def self.prune(user: [], project_id: nil)
     user_ids = Array(user).compact.map { |u| u.is_a?(User) ? u.id : nil }.compact
 
-    projects = project_id ? Project.where(id: project_id) : Project.all
+    projects = project_id ? Project.where(id: project_id, type: Project::TYPE_PROJECT) : Project.where(type: Project::TYPE_PROJECT).all
 
     prune_project_related(user_ids, projects)
   end

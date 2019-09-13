@@ -225,10 +225,10 @@ OpenProject::Application.routes.draw do
       # get :init, action: 'init'
       # get :planning, action: 'planning'
     end
-    # )
-    #knm(
 
-    #)
+    resources :stakeholders, controller: 'stakeholders'
+    # )
+
     # +tan 2019.07.07
     resources :plan_uploaders, controller: 'plan_uploaders'
     #-tan
@@ -318,7 +318,10 @@ OpenProject::Application.routes.draw do
     end
     # )
     #xcc(
-    resources :targets
+    resources :targets do
+    #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
+      match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
+    end
 
     resources :arbitary_objects do
       get '/edit/:tab' => 'arbitary_objects#edit', on: :member, as: 'edit_tab'
@@ -467,6 +470,8 @@ OpenProject::Application.routes.draw do
     # +tan 2019.04.25
     #  в том числе необходимо, чтобы работал ресурсный роутинг типа new_depart_path и тд
     resources :positions
+
+    get '/organizations/positions' => 'organizations#positions'
     resources :organizations #do
       #get '/new/:tab', action: 'new'
       #collection do
@@ -489,6 +494,8 @@ OpenProject::Application.routes.draw do
       #tmd
       get :update_column, on: :collection
     end
+
+    resources :typed_targets
     # )
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
@@ -540,13 +547,14 @@ OpenProject::Application.routes.draw do
     match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
   #knm
-  get '/org_settings/iogv' => 'org_settings#iogv'
-  get '/org_settings/municipalities' => 'org_settings#municipalities'
-  get '/org_settings/counterparties' => 'org_settings#counterparties'
+  # get '/org_settings/iogv' => 'org_settings#iogv'
+  # get '/org_settings/municipalities' => 'org_settings#municipalities'
+  # get '/org_settings/counterparties' => 'org_settings#counterparties'
   get '/org_settings/positions' => 'org_settings#positions'
   # -knm
   #+ 2019.04.26 TAN
-  get '/org_settings' => 'org_settings#index'
+  #get '/org_settings' => 'org_settings#index'
+  #resources :org_settings
   #scope 'org_settings', controller: 'org_settings' do
   #  match 'edit', action: 'edit', via: %i[get post]
   #end

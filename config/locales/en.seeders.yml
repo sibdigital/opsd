@@ -492,7 +492,7 @@ en:
           types:
             - :default_type_task
             - :default_type_milestone
-            - :default_type_result
+            #- :default_type_result
             #- :default_type_task
             #- :default_type_task
           categories:
@@ -525,9 +525,9 @@ en:
                 - start_date
                 - due_date
               sort_by: id
-            - name: Результаты
+            - name: Контрольные точки
               status: open
-              type: :default_type_result
+              type: :default_type_milestone
               hierarchy: true
               sort_by: id
               columns:
@@ -577,7 +577,7 @@ en:
               description: |
                 Центры культурного развития – это многофункциональное культурное пространство с концертным залом, музейно-выставочным пространством, библиотекой, помещениями для занятий творчеством и кинозалами для детей и взрослых, сервисными зонами (кафе, сувенирные киоски). В итоге реализации проекта доступ к современным услугам ЦКР получат около 60 тыс. жителей и гостей (туристов) Кабанского района.
               status: :default_status_in_work
-              type: :default_type_result
+              type: :default_type_milestone
               priority: :default_priority_high
               estimated_hours: 8
               start: 0
@@ -590,7 +590,7 @@ en:
               description: |
                 Характеристика результата федерального проекта (справочно из паспорта федерального проекта): (указывается характеристика результата федерального проекта): Выделены на конкурсной основе гранты на реновацию не менее 15 региональных и муниципальных учреждений отрасли культуры для реализации проектов, направленных на улучшение качества культурной среды
               status: :default_status_in_work
-              type: :default_type_result
+              type: :default_type_milestone
               priority: :default_priority_high
               estimated_hours: 8
               start: 0
@@ -640,7 +640,7 @@ en:
                 1 700 детских музыкальных, художественных, хореографических школ и школ искусств (34% от общего количества детских школ искусств по видам искусств) и 100 училищ (42% от общего количества училищ), оснащенных музыкальными инструментами, оборудованием, учебными материалами. Результат – улучшение качества учебного процесса для одаренных детей, а также увеличение числа учащихся
                 в образовательных учреждениях отрасли культуры на 10% за счет расширения перечня реализуемых образовательных программ и учебных дисциплин, в том числе интерактивной направленности.
               status: :default_status_in_work
-              type: :default_type_result
+              type: :default_type_milestone
               start: -10
               plan_type: execution
               duration: 77
@@ -650,7 +650,7 @@ en:
               children:
                 - subject: В Республике Бурятия оснащены 26 пианино отечественного производства 26 детских школ искусств в рамках совместной программы Минпромторга России Минкультуры России (будет осуществлена централизованная поставка 26 пианино)
                   status: :default_status_in_work
-                  type: :default_type_result
+                  type: :default_type_milestone
                   start: -10
                   plan_type: execution
                   duration: 15
@@ -660,7 +660,7 @@ en:
                   children:
                     - subject: Оснащена пианино школа в Баргузинском районе
                       status: :default_status_in_work
-                      type: :default_type_result
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 5
@@ -669,7 +669,7 @@ en:
                       raion: 1
                     - subject: Оснащена пианино школа в Баунтовском районе
                       status: :default_status_completed
-                      type: :default_type_result
+                      type: :default_type_task
                       start: -11
                       plan_type: execution
                       duration: 1
@@ -679,7 +679,7 @@ en:
                       require_doc_type_id: Отчет
                     - subject: Оснащена пианино школа в Муйском районе
                       status: :default_status_completed
-                      type: :default_type_result
+                      type: :default_type_task
                       start: -5
                       plan_type: execution
                       duration: 5
@@ -689,7 +689,7 @@ en:
                       require_doc_type_id: Отчет
                     - subject: Оснащена пианино школа в Кижингинском районе
                       status: :default_status_not_start
-                      type: :default_type_result
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 5
@@ -698,7 +698,7 @@ en:
                       raion: 10
                     - subject: Оснащена пианино школа в Кяхтинском районе
                       status: :default_status_in_work
-                      type: :default_type_result
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 15
@@ -707,7 +707,7 @@ en:
                       raion: 12
                     - subject: Оснащена пианино школа в Бичурском районе
                       status: :default_status_in_work
-                      type: :default_type_result
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 2
@@ -716,7 +716,7 @@ en:
                       raion: 3
                     - subject: Оснащена пианино школа в Тарбагатайском районе
                       status: :default_status_in_work
-                      type: :default_type_result
+                      type: :default_type_task
                       start: -10
                       plan_type: execution
                       duration: 3
@@ -725,7 +725,7 @@ en:
                       raion: 19
                 - subject: В Республике Бурятия оснащено 16 образовательных учреждений в сфере культуры (колледж искусств, хореографический колледж и детские школы искусств) музыкальными инструментами, оборудованием и учебными материалами
                   status: :default_status_not_start
-                  type: :default_type_result
+                  type: :default_type_task
                   start: 6
                   plan_type: execution
                   duration: 58
@@ -773,7 +773,7 @@ en:
               raion: 14
             - subject: Обеспечение учреждений культуры передвижными многофункциональными культурными центрами (автоклубами)
               status: :default_status_in_work
-              type: :default_type_result
+              type: :default_type_milestone
               start: 28
               plan_type: execution
               duration: 3
@@ -783,7 +783,7 @@ en:
               children:
                 - subject: Отбор заявок муниципальных образований Республики Бурятии
                   status: :default_status_not_start
-                  type: :default_type_result
+                  type: :default_type_task
                   start: 28
                   plan_type: execution
                   duration: 1
@@ -852,7 +852,7 @@ en:
           types:
             - :default_type_task
             - :default_type_milestone
-            - :default_type_result
+            #- :default_type_result
             #- :default_type_result
             #- :default_type_user_story
             #- :default_type_bug
@@ -871,7 +871,7 @@ en:
               sort_by: id
               type:
                 - :default_type_milestone
-                - :default_type_result
+                - :default_type_task
               timeline: true
             - name: Открытые задачи
               status: open
@@ -899,7 +899,7 @@ en:
           work_packages:
             - subject: Подготовка пакета документов для финансирования мероприятий по переселению микрорайонов УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района из средств республиканского бюджета.
               status: :default_status_not_start
-              type: :default_type_result
+              type: :default_type_milestone
               start: 26
               plan_type: execution
               duration: 0
@@ -1052,7 +1052,6 @@ en:
           types:
             - :default_type_task
             - :default_type_milestone
-            - :default_type_result
             #- :default_type_result
             #- :default_type_user_story
             #- :default_type_bug
@@ -1117,7 +1116,81 @@ en:
           parent_id: 0
           measure_unit_id: Единица
           is_approve: true
-
+        - name: Строительство (реконструкция, техническое перевооружение, приобретение) объекта недвижимого имущества
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Оказание услуг (выполнение работ)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Создание (реорганизация) организации (структурного подразделения)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение образовательных мероприятий
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Принятие нормативного правового (правового) акта
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Утверждение документа
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение массовых мероприятий
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Создание (развитие) информационно-телекоммуникационного сервиса (информационной системы)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Благоустройство территории, ремонт объектов недвижимого имущества
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение информационно-коммуникационной кампании
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Обеспечение реализации федерального (регионального) проекта (результата федерального (регионального) проекта)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение научно-исследовательских (опытно­конструкторских) работ, реализация проекта внедрения новой информационной технологии
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Создание Российской промышленной зоны за рубежом
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Приобретение товаров, работ, услуг
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Обеспечено привлечение квалифицированных кадров
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
       target_execution_values:
         - target: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)
           year: 2019

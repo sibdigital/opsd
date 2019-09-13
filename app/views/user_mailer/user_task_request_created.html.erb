@@ -1,0 +1,6 @@
+<p><%= @begin_text %></p>
+<p>Ссылка на объект: <%= @url_to_object %></p>
+<p>Требуемая дата: <%= @user_task.due_date %></p>
+<p>Текст запроса: <%= @user_task.text %></p>
+<p>Дата направления запроса: <%= @timenow %></p>
+<p>Автор запроса: <%= User.find_by(id: @user_task.user_creator_id).lastname %></p>

@@ -122,7 +122,7 @@ module BasicData
       {
         types[I18n.t(:default_type_task)]       => [new, in_progress, closed, rejected, on_hold, in_testing],
         types[I18n.t(:default_type_milestone)]  => [new, in_progress, closed, rejected, on_hold, in_testing],
-        types[I18n.t(:default_type_result)]  => [new, in_progress, closed, rejected, on_hold, in_testing],
+        #types[I18n.t(:default_type_result)]  => [new, in_progress, closed, rejected, on_hold, in_testing],
         #+-tan 01.07.2019
         # types[I18n.t(:default_type_milestone)]  => [new, in_progress, closed, rejected, on_hold, in_testing],
         # types[I18n.t(:default_type_phase)]      => [new, in_progress, closed, rejected, on_hold, in_testing],

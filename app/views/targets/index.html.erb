@@ -1,4 +1,4 @@
-<% html_title l(:label_administration), l(:label_targets) %>
+<% html_title l(:label_administration), l(:label_target) %>
 
 <%= toolbar title: @title do %>
   <li class="toolbar-item">
@@ -107,14 +107,19 @@
   <%= render :partial => 'targets/form/list', :locals => {:targets => @targets} %>
 <% end %>
 
-<% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
-  <%= link_to new_project_target_path(:parent_id => params[:parent_id]),
-              aria: {label: t(:label_target_new)},
-              class: 'wp-inline-create--add-link',
-              style: 'margin-top: 5px;',
-              title: t(:label_target_new) do %>
-    <%= op_icon('button--icon icon-add') %>
-  <% end %>
+<%= pagination_links_full @targets %>
 
-  <%= pagination_links_full @targets %>
+<% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
+  <div class="wp-inline-create-button">
+    <%= link_to new_project_target_path(:parent_id => params[:parent_id], :type_id => @type_id),
+                aria: {label: t(:label_target_new)},
+                class: 'wp-inline-create--add-link',
+                style: 'margin-top: 5px;',
+                title: t(:label_target_new) do %>
+      <%= op_icon('button--icon icon-add') %>
+    <% end %>
+  </div>
+  <div class="wp-inline-create-button">
+    <%= link_to "Добавить типовой результат", choose_typed_project_targets_path() %>
+  </div>
 <% end %>

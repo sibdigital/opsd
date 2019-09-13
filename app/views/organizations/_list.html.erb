@@ -1,28 +1,10 @@
-<% html_title l(:label_administration), l(:label_counterparties) %>
-<%= toolbar title: l(:label_counterparties) do %>
-  <li class="toolbar-item">
-    <%= link_to(catalog_loaders_path(catalog_type: "organizations", org_type: @org_type, org_type_str: "counterparties" ),
-                aria: { label: t(:button_add) },
-                class: 'button -alt-highlight',
-                title: t(:button_add)) do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text">Загрузка через Excel</span>
-    <% end %>
-  </li>
-<% end %>
 <!--new version of this by knm-->
 <%= form_tag({}) do -%>
-  <% if @counterparties.empty? %>
+
+  <% if organizations.empty? %>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table" id="national_project_items">
-          <!--        <colgroup>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--        </colgroup>-->
           <thead>
           <tr>
             <th>
@@ -61,7 +43,6 @@
                 </div>
               </div>
             </th>
-
           </tr>
           </thead>
           <tbody>
@@ -72,7 +53,8 @@
         </table>
       </div>
       <div class="wp-inline-create-button">
-        <%= link_to new_organization_path(:org_type => @org_type),
+        <%= # link_to new_organization_path(:org_type => org_type),
+            link_to new_organization_path(:org_type => org_type),
                     aria: { label: t(:button_add) },
                     class: 'wp-inline-create--add-link',
                     title: t(:button_add) do
@@ -84,15 +66,6 @@
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table" id="national_projects_items">
-          <!--        <colgroup>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--          <col highlight-col>-->
-          <!--        </colgroup>-->
           <thead>
           <tr>
             <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
@@ -121,18 +94,18 @@
                 </div>
               </div>
             </th>
-
           </tr>
           </thead>
           <tbody>
 
-          <%= show_table_org(@counterparties,nil,0) %>
+          <%= show_table_org(organizations, nil, 0) %>
 
           </tbody>
         </table>
       </div>
       <div class="wp-inline-create-button">
-        <%= link_to new_organization_path(:org_type => @org_type),
+        <%= #link_to new_organization_path(:org_type => org_type),
+            link_to new_organization_path(:org_type => org_type),
                     aria: { label: t(:button_add) },
                     class: 'wp-inline-create--add-link',
                     title: t(:button_add) do
@@ -142,17 +115,3 @@
     </div>
   <% end %>
 <% end %>
-
-
-
-
-
-<!--old version of this-->
-<%# if @organization_parent != nil %>
-<!--  <div class="form--field">-->
-    <%#= l(:label_organization_parent )  %>
-    <%#= ':' %>
-    <%#= @organization_parent %>
-<!--  </div>-->
-<%# end %>
-<%#= cell ::Organizations::TableCell, Organization.where(org_type: @counterparties.id)%>

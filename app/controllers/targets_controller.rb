@@ -24,25 +24,26 @@ class TargetsController < ApplicationController
     sort_update sort_columns
 
     default = false
-    @title = nil
     name = ""
 
+    @title = nil
     case params[:target_type]
     when "target"
-      @title = "Цели"
+      @title = I18n.t('label_target_targets')
       name = I18n.t('targets.target')
     when "indicator"
-      @title = "Целевые показатели"
+      @title = I18n.t('label_targets')
       name = I18n.t('targets.indicator')
     when "result"
-      @title = "Результаты"
+      @title = I18n.t('label_result_plural')
       name = I18n.t('targets.result')
     else
       default = true
     end
 
-    type_id = TargetType.where(:name => name).pluck(:id)
+    data = TargetType.where(:name => name).pluck(:id)
 
+    @type_id = data[0]
     @parent_id = parent_id_param
 
     if default
@@ -52,7 +53,7 @@ class TargetsController < ApplicationController
                    .per_page(per_page_param)
     else
       @targets = @project.targets
-                   .where(:type_id => type_id[0])
+                   .where(:type_id => @type_id)
                    .order(sort_clause)
                    .page(page_param)
                    .per_page(per_page_param)

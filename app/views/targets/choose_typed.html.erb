@@ -1,0 +1,16 @@
+<% html_title l(:label_administration), 'Добавить типовой результат' %>
+<% breadcrumb_paths(default_breadcrumb, 'Добавить типовой результат')%>
+<%= toolbar title: 'Добавить типовой результат' %>
+
+<%= styled_form_tag({action: 'choose_typed'}) do %>
+
+  <section class="form--section">
+    <div class="form--field" id="choose_typed_targets"><%= typed_targets_multiselect %></div>
+  </section>
+
+  <% if TypedTarget.all.count > 0 %>
+    <%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %>
+  <% else %>
+    <p>Список пуст</p>
+  <% end %>
+<% end %>

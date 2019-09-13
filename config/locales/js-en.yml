@@ -56,13 +56,13 @@ en:
     button_export-atom: Скачать Atom
     calendar:
       title: Календарь
-      too_many: Пакетов работ больше (%{count}), чем может быть показано в календаре
-        (%{max}). Отфильтруйте пакеты, чтобы сфокусироваться на нужных.
+      too_many: Мероприятий больше (%{count}), чем может быть показано в календаре
+        (%{max}). Отфильтруйте мероприятия.
     description_available_columns: Доступные столбцы
     description_current_position: 'Вы находитесь здесь:'
-    description_select_work_package: 'Выберите пакет работ #%{id}'
+    description_select_work_package: 'Выберите мероприятие #%{id}'
     description_selected_columns: Выбранные столбцы
-    description_subwork_package: 'Потомок пакета работ #%{id}'
+    description_subwork_package: 'Потомок мероприятия #%{id}'
     editor:
       preview: Переключить режим предпросмотра
       source_code: Переключить режим источника уценок
@@ -106,16 +106,16 @@ en:
 
 '
         work_package_button:
-          button: Вставить кнопку создания пакета работ
-          type: Тип пакета работ
+          button: Вставить кнопку создания мероприятия
+          type: Тип мероприятия
           button_style: Стиль используемой кнопки
           button_style_hint: 'Дополнительно: Проверьте, чтобы макрос выглядел как
             кнопка, а не как ссылка.'
-          without_type: Создать пакет работ
-          with_type: 'Создать пакет работ (Тип: %{typename})'
+          without_type: Создать
+          with_type: 'Создать (Тип: %{typename})'
         embedded_table:
-          button: Вложить таблицу пакетов работ
-          text: "[Placeholder] Таблица внедренных пакетов работ"
+          button: Вложить таблицу мероприятий
+          text: "[Placeholder] Таблица внедренных мероприятий"
         embedded_calendar:
           text: "[Placeholder] Встроенный календарь"
     custom_actions:
@@ -169,15 +169,15 @@ en:
           title: Затраченное время (за последние 7 дней)
           no_results: Нет записей о входах за последние 7 дней.
         work_packages_accountable:
-          title: Пакеты работ, в которых я подотчетен
+          title: Мероприятия, в которых я подотчетен
         work_packages_assigned:
-          title: Переданные мне пакеты работ
+          title: Мои мероприятия и КТ
         work_packages_remaining:
-          title: Пакеты работ до даты завершения <14 дней
+          title: Мероприятия и КТ до даты завершения < 14 дней
         work_packages_created:
-          title: Пакеты работ, созданные мной
+          title: Мероприятия и КТ, созданные мной
         work_packages_watched:
-          title: Пакеты работ, просмотренные мной
+          title: Мероприятия и КТ, просмотренные мной
         work_packages_calendar:
           title: Календарь
     label_activate: Активировать
@@ -196,14 +196,14 @@ en:
     label_added_time_by: Добавил(-а) %{author} %{age}
     label_ago: дней назад
     label_all: все
-    label_all_work_packages: Все пакеты работ
+    label_all_work_packages: Все мероприятия и КТ
     label_and: и
     label_ascending: По возрастанию
     label_author: 'Автор: %{user}'
     label_between: между
     label_board_locked: Заперто
     label_board_sticky: Стикер
-    label_create_work_package: Создать новый пакет работ
+    label_create_work_package: Создать
     label_created_by: Автор
     label_date: Дата
     label_date_with_format: 'Введите %{date_attribute}, используя следующий формат:
@@ -222,7 +222,7 @@ en:
     label_contains: содержит
     label_created_on: Создано
     label_edit_comment: Редактировать этот комментарий
-    label_edit_status: Изменить статус пакета работ
+    label_edit_status: Изменить статус
     label_equals: "—"
     label_expand: Развернуть
     label_expanded: развернуто
@@ -294,16 +294,16 @@ en:
     label_total_amount: 'Всего: %{amount}'
     label_updated_on: Обновлено
     label_warning: Предупреждение
-    label_work_package: Пакет работ
-    label_work_package_plural: Пакеты работ
+    label_work_package: Мероприятие
+    label_work_package_plural: Мероприятия
     label_plan_stage_package_plural: Этапы плана работ
     label_watch: Просмотреть
-    label_watch_work_package: Наблюдать за пакетом работ
+    label_watch_work_package: Наблюдать
     label_watcher_added_successfully: Наблюдатель успешно добавлен!
     label_watcher_deleted_successfully: Наблюдатель успешно удален!
     label_work_package_details_you_are_here: Вы находитесь на вкладке %{tab}  %{type}  %{subject}.
     label_unwatch: Прекратить наблюдение
-    label_unwatch_work_package: Прекратить наблюдение за пакетом работ
+    label_unwatch_work_package: Прекратить наблюдение
     label_uploaded_by: Загружено
     label_default_queries: Представления по умолчанию
     label_starred_queries: Избранные представления
@@ -323,7 +323,7 @@ en:
     label_remove_all_files: Удалить все файлы
     label_add_description: Добавить описание для %{file}
     label_upload_notification: Загрузка файлов...
-    label_work_package_upload_notification: 'Загрузка файлов для пакета работ #%{id}:
+    label_work_package_upload_notification: 'Загрузка файлов для мероприятия #%{id}:
       %{subject}'
     label_files_to_upload: 'Эти файлы будут загружены:'
     label_rejected_files: 'Эти файлы не могут быть загружены:'
@@ -331,7 +331,7 @@ en:
       больше, чем %{maximumFilesize}
     label_wait: Пожалуйста, подождите конфигурирование...
     label_upload_counter: "%{done} %{count} файлов, готовы"
-    label_validation_error: 'Пакет работ не удалось сохранить из-за следующих ошибок:'
+    label_validation_error: 'Мероприятие не удалось сохранить из-за ошибок:'
     help_texts:
       show_modal: Показать содержимое атрибута текста справки
     onboarding:
@@ -373,12 +373,12 @@ en:
         wp_back_button: Стрелка возвращает к списку пакетов работ.
         wp_create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
           проекту.
-        wp_timeline_button: Активируйте <b>Диаграмму Гантта</b> для создания
+        wp_timeline_button: Активируйте <b>Диаграмму Ганта</b> для создания
           временной шкалы вашего проекта.
         wp_timeline: Отредактируйте план вашего проекта. Создайте новые
           фазы, вехи и добавьте зависимости. План может быть изменен членами команды.
         help_menu: В меню <b>Справка</b> руководство пользователя и дополнительные
-          справочные материалы. <br>Приятной работы с OpenProject!
+          справочные материалы. <br>
     password_confirmation:
       field_description: Необходимо ввести свой пароль для подтверждения изменений.
       title: Для продолжения введите свой пароль
@@ -398,8 +398,8 @@ en:
       required_outside_context: Вы находитесь вне контекста проекта. Пожалуйста, выберите
         вначале контекст проекта для того, чтобы выбрать тип и состояние
       context: Контекст проекта
-      work_package_belongs_to: Этот пакет работ относится к проекту %{projectname}.
-      click_to_switch_context: Открыть пакет работ в этом проекте.
+      work_package_belongs_to: Мероприятие относится к проекту %{projectname}.
+      click_to_switch_context: Открыть мероприятие в этом проекте.
       autocompleter:
         label: Автоматическое завершение проекта
     text_are_you_sure: Вы уверены?
@@ -496,7 +496,7 @@ en:
       created: Создана
       solved: Решена
     relations_autocomplete:
-      placeholder: Внести Id cвязанного пакета работ
+      placeholder: Внести Id cвязанного мероприятия
       parent_placeholder: Выберите нового родителя, нажмите ввод для снятия, escape
         для отмены
     repositories:
@@ -529,7 +529,7 @@ en:
       activate_dsc: активировать исполнение сортировки по убыванию
       activate_no: активировать для удаления сортировки
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные
-      пакет(-ы) работ?
+      мероприятия?
     text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
@@ -627,18 +627,16 @@ en:
       comment_added: Комментарий добавлен.
       comment_send_failed: Произошла ошибка. Не удалось отправить комментарий.
       comment_updated: Комментарий обновлен.
-      confirm_edit_cancel: Вы уверены, что хотите отменить редактирование рабочего
-        пакета?
+      confirm_edit_cancel: Вы уверены, что хотите отменить редактирование?
       description_filter: Фильтр
       description_enter_text: Введите текст
       description_options_hide: Скрыть параметры
       description_options_show: Показать параметры
       error:
-        update_conflict_refresh: Кликните здесь для обновления пакета работ и обновления
-          до последней версии.
-        edit_prohibited: Редактирование %{attribute} этого пакета работ заблокировано.
-          Либо этот атрибут является производным от отношений (например, потомков)
-          или же не конфигурируется.
+        update_conflict_refresh: Кликните здесь для обновления.
+        edit_prohibited: Редактирование %{attribute} этого мероприятия заблокировано.
+          Атрибут является производным от отношений (например, потомков)
+          или у вас нет прав на его изменение.
         format:
           date: "%{attribute} не соответствует дате - ожидается гггг-мм-дд."
         general: Произошла ошибка.
@@ -652,48 +650,46 @@ en:
       label_column_multiselect: 'Комбинированные ниспадающие поле: выбор  клавишами
         со стрелками, подтвержднение выбора нажатием клавиши enter, удаление  клавишей
         backspace'
-      message_error_during_bulk_delete: Произошла ошибка при попытке удаления пакетов
-        работ.
-      message_successful_bulk_delete: Пакет работ успешно удален.
-      message_successful_show_in_fullscreen: Кликните здесь, чтобы открыть этот пакет
-        работ в полноэкранном режиме.
+      message_error_during_bulk_delete: Произошла ошибка при попытке удаления.
+      message_successful_bulk_delete: Мероприятие успешно удален.
+      message_successful_show_in_fullscreen: Кликните, чтобы открыть мероприятие
+        в полноэкранном режиме.
       message_view_spent_time: Показать время, затраченное на этот комплекс работ
-      message_work_package_read_only: В этом статусе пакет работ заблокирован. Никакой
-        атрибут, отличный от статуса, изменен быть не может.
+      message_work_package_read_only: В этом статусе мероприятие не редактируется. Изменен может быть только статус.
       no_value: Значение отсутствует
       placeholder_filter_by_text: Тема, описание, комментарии, ...
       inline_create:
-        title: Кликните здесь, чтобы добавить новый пакет работ в этот список
+        title: Кликните, чтобы добавить мероприятие в список
       create:
-        title: Новый пакет работ
+        title: Новый
         header: Новый %{type}
-        header_no_type: Новый пакет работ (Тип не установлен)
+        header_no_type: Новый (Тип не установлен)
         header_with_parent: Новый %{type} (дочерний элемент %{parent_type} № %{id})
         button: Создать
       copy:
-        title: Копировать пакет работ
+        title: Копировать
       hierarchy:
         show: Скрыть режим иерархии
         hide: Скрыть режим иерархии
         toggle_button: Кликните для перехода в иерархический режим.
-        leaf: Лист пакета работ уровня %{level}.
+        leaf: Лист мероприятия уровня %{level}.
         children_collapsed: Уровень иерархии %{level}, свернут. Кликните, чтобы показать
           отфильтрованные дочерние элементы
         children_expanded: Уровень иерархии %{level}, развернут. Кликните, чтобы свернуть
           отфильтрованные дочерние элементы
       faulty_query:
-        title: Не удалось загрузить рабочие пакеты.
-        description: Ваше представление ошибочно и не может быть обработано.
+        title: Не удалось загрузить мероприятия
+        description: Представление ошибочно и не может быть обработано.
       no_results:
-        title: Нет пакетов работ для показа.
+        title: Нет мероприятий и КТ для показа.
         description: Ничего не найдено.
       property_groups:
         details: Детали
         people: Ответственные
-        estimatesAndTime: Смета & время
+        estimatesAndTime: Затраты и время
         other: Другие
       properties:
-        assignee: Назначенный
+        assignee: Ответственный
         author: Автор
         createdAt: Создано
         description: Описание
@@ -723,10 +719,10 @@ en:
         summary: Сводка
       jump_marks:
         pagination: Перейти вёрстке таблицы
-        label_pagination: Кликните здесь чтобы пропустить таблицу рабочих пакетов
+        label_pagination: Кликните, чтобы пропустить таблицу мероприятий
           и перейти к вёрстке
         content: Перейти к содержанию
-        label_content: Кликните здесь, чтобы пропустить меню и перейти к содержанию
+        label_content: Кликните, чтобы пропустить меню и перейти к содержанию
       placeholders:
         default: "-"
         description: Нажмите, чтобы ввести описание...
@@ -756,9 +752,9 @@ en:
             в любом случае?
         text_no_results: Подходящие представления не найдены.
       table:
-        configure_button: Настроить таблицу пакетов работ
-        summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов
-          работ в столбцах.
+        configure_button: Настроить таблицу
+        summary: Таблица с названиями мероприятий в строках и атрибутами мероприятий
+          в столбцах.
         text_inline_edit: Большинство клеток этой таблицы – кнопки для активирования
           встроенного редактора данного атрибута.
         text_sort_hint: Ссылки в заголовках таблиц позволяют сортировать, группировать,
@@ -766,10 +762,10 @@ en:
         text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш
           со стрелками.
       table_configuration:
-        button: Настроить эту таблицу пакетов работ
-        choose_display_mode: Показывать пакеты работ в виде
-        modal_title: Настройка таблицы пакетов работ
-        embedded_tab_disabled: Эта вкладка конфигурации не доступна для редактируемого
+        button: Настроить таблицу
+        choose_display_mode: Показывать мероприятия в виде
+        modal_title: Настройка таблицы
+        embedded_tab_disabled: Вкладка конфигурации не доступна для редактируемого
           вами встроенного представления.
         default: по умолчанию
         display_settings: Настройки экрана
@@ -795,13 +791,12 @@ en:
           в табличном представлении. Вы можете перетаскивать столбцы для изменения
           их порядка.
         upsale:
-          attribute_highlighting: Хотите выделить некоторые пакеты работ из общей
-            массы?
-          relation_columns: Нужно видеть отношения в списке пакетов работ?
-          check_out_link: Проверьте корпоративную версию.
+          attribute_highlighting: Хотите выделить мероприятия?
+          relation_columns: Нужно видеть отношения в мероприятиях работ?
+          check_out_link: .
         relation_filters:
-          first_part: Показать все пакеты работы
-          second_part: текущий пакет работ
+          first_part: Показать все мероприятия и КТ
+          second_part: текущее мероприятие
       tabs:
         problems: Проблемы
         targets: Целевые показатели
@@ -837,7 +832,7 @@ en:
         last_hist_date: Последние изменения
         no_hist_date: Только текущий
       filter: Фильтр
-      unselected_title: Пакет работ
+      unselected_title: Мероприятие
       search_query_label: Найти сохраненные представления
       search_query_title: Кликните для поиска сохраненных представлений
       placeholder_query_title: Задать заголовок для этого представления
@@ -856,10 +851,10 @@ en:
       destroy_work_package:
         title: Подтвердите удаление %{label}
         text: Вы уверены, что хотите удалить следующую %{label} ?
-        has_children: 'Пакет работ имеет %{childUnits}:'
+        has_children: 'Мероприятие/КТ имеет %{childUnits}:'
         confirm_deletion_children: Я понимаю, что ВСЕ производные элементы указанных
-          пакетов работ будут рекурсивно удалены.
-        deletes_children: Все дочерние пакеты работ и их потомки будут также рекурсивно
+          мероприятий будут рекурсивно удалены.
+        deletes_children: Все дочерние мероприятия и их потомки будут также рекурсивно
           удалены.
     notice_successful_create: Создание выполнено.
     notice_successful_delete: Удаление выполнено.
@@ -892,15 +887,15 @@ en:
       ресурсе.
     units:
       workPackage:
-        one: пакет работ
-        other: пакеты работ
-        few: пакеты работ
-        many: work packages
+        one: мероприятие
+        other: мероприятия
+        few: мероприятия
+        many: мероприятия и КТ
       child_work_packages:
-        one: пакет работ с одним дочерним
-        other: пакет работ с %{count} дочерними
-        few: пакет работ с %{count} дочерними
-        many: Пакет работ с %{count} дочерними
+        one: мероприятие с одним дочерним
+        other: мероприятие с %{count} дочерними
+        few: мероприятие с %{count} дочерними
+        many: мероприятие с %{count} дочерними
       hour:
         one: 1 час
         other: "%{count} часов"
