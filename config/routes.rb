@@ -319,8 +319,8 @@ OpenProject::Application.routes.draw do
     # )
     #xcc(
     resources :targets do
-    #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
-      match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
+     get '/edit' => 'targets#edit', on: :member, as: 'edit'
+     match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
     end
 
     resources :arbitary_objects do

@@ -104,7 +104,7 @@
     </div>
   </div>
 <% else %>
-  <%= render :partial => 'targets/form/list', :locals => {:targets => @targets} %>
+  <%= render :partial => 'targets/form/list', :locals => {:targets => @targets } %>
 <% end %>
 
 <%= pagination_links_full @targets %>
