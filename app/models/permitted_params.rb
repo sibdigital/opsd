@@ -534,6 +534,10 @@ class PermittedParams
   def typed_target
     params.require(:typed_target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type)
   end
+
+  def stakeholder_outer
+    params.require(:stakeholder_outer).permit(:name, :project_id, :organization_id, :user_id, :description, :type, :phone_wrk, :phone_wrk_add, :phone_mobile, :mail_add, :address, :cabinet)
+  end
   # )
 
   def watcher

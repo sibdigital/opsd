@@ -509,6 +509,15 @@ en:
         owner: Владелец риска
         is_possibility: Является возможностью
 #        end
+      #zbd(
+      stakeholder:
+        mail_add: Эл.почта (дополнительная)
+        phone_wrk: Рабочий телефон
+        phone_wrk_add: Добавочный номер
+        phone_mobile: Мобильный телефон
+        address: Адрес
+        cabinet: Кабинет
+      #)
       user:
         admin: Администратор
         auth_source: Способ аутентификации
@@ -2016,6 +2025,10 @@ en:
   label_contracts_new: Новый гос.контракт
   label_contracts_value: Значение гос.контракта
   label_stakeholder_plural: Заинтересованные стороны
+  label_stakeholders: Заинтересованные стороны
+  label_stakeholder_outer_new: Новая внешняя заинтересованная сторона
+  label_stakeholder_outer: Внешняя заинтересованная сторона
+  label_communication_meetings_plural: План коммуникаций
   #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
