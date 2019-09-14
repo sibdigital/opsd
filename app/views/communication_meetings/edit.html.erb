@@ -1,0 +1,10 @@
+<% html_title l(:label_administration), l(:label_communication_meetings) %>
+<% local_assigns[:additional_breadcrumb] = @com_meeting.name %>
+<%= breadcrumb_toolbar l(:label_edit) +': ' + @com_meeting.name %>
+
+<%= labelled_tabular_form_for [@project, @com_meeting] do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+

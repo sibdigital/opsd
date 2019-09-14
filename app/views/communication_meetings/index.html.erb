@@ -1,3 +1,20 @@
-План коммуникаций
-
 Список встреч
+
+<div class="wp-inline-create-button">
+  <%= link_to new_project_communication_meeting_path(),
+              aria: {label: 'Add'},
+              class: 'wp-inline-create--add-link',
+              title: 'Add' do
+    op_icon('icon icon-add')
+  end %>
+</div>
+
+<div class="wp-inline-create-button">
+  <%= link_to edit_project_communication_meeting_path(id: 1),
+              aria: {label: 'Edit'},
+              class: 'wp-inline-create--add-link button',
+              title: 'Edit' do
+    op_icon('button icon icon-add')
+  end %>
+</div>
+

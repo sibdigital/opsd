@@ -2040,6 +2040,7 @@ en:
   label_stakeholder_outer_new: Новая внешняя заинтересованная сторона
   label_stakeholder_outer: Внешняя заинтересованная сторона
   label_communication_meetings_plural: План коммуникаций
+  label_communication_requirements: Список информационных потребностей
   #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
