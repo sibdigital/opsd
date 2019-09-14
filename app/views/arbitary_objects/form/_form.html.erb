@@ -33,11 +33,13 @@ This file written by XCC
     </div>
   <% end %>
 
-  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-  <%= render partial: 'customizable/form', locals: { form: f,
-                                                     all_fields: true,
-                                                     only_required: false,
-                                                     obj: @arbitary_object,
-                                                     from: 'arbitrary_objects' } %>
+  <% unless f.object.custom_field_values.empty? %>
+    <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+    <%= render partial: 'customizable/form', locals: { form: f,
+                                                       all_fields: true,
+                                                       only_required: false,
+                                                       obj: @arbitary_object,
+                                                       from: 'arbitrary_objects' } %>
+  <% end %>
 
 </section>
