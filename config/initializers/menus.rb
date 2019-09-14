@@ -651,6 +651,15 @@ Redmine::MenuManager.map :project_menu do |menu|
             parent: :communications,
             icon: 'icon2 icon-ticket-note'
 
+  #zbd(
+  menu.push :communication_meetings,
+            { controller: '/communication_meetings', action: 'index' },
+            param: :project_id,
+            caption: :label_communication_meetings_plural,
+            icon: 'icon2 icon-communication',
+            parent: :communications
+  # )
+
   #+-tan 2019.07.16
   # menu.push :repository,
   #           { controller: '/repositories', action: 'show' },

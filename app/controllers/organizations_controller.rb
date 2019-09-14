@@ -69,6 +69,10 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def show
+
+  end
+
   def destroy
     @organization.destroy
     redirect_to organizations_path(org_type: @organization.org_type)

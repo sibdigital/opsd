@@ -27,12 +27,14 @@ by zbd
     </div>
   <% end %>
 
-  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-  <%= render partial: 'customizable/form', locals: { form: f,
-                                    all_fields: true,
-                                    only_required: false,
-                                    obj: @contract,
-                                    from: 'contracts' } %>
+  <% unless f.object.custom_field_values.empty? %>
+    <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+    <%= render partial: 'customizable/form', locals: { form: f,
+                                      all_fields: true,
+                                      only_required: false,
+                                      obj: @contract,
+                                      from: 'contracts' } %>
+  <% end %>
 
 </section>
 

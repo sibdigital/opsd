@@ -226,7 +226,11 @@ OpenProject::Application.routes.draw do
       # get :planning, action: 'planning'
     end
 
-    resources :stakeholders, controller: 'stakeholders'
+    #resources :stakeholders, controller: 'stakeholders', except: %i[show]
+    get 'stakeholders' => 'stakeholders#index'
+    resources :stakeholder_outers, controller: 'stakeholder_outers', except: %i[show]
+
+    resources :communication_meetings, controller: 'communication_meetings'
     # )
 
     # +tan 2019.07.07
@@ -319,8 +323,8 @@ OpenProject::Application.routes.draw do
     # )
     #xcc(
     resources :targets do
-    #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
-      match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
+     get '/edit' => 'targets#edit', on: :member, as: 'edit'
+     match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
     end
 
     resources :arbitary_objects do
@@ -450,6 +454,13 @@ OpenProject::Application.routes.draw do
 
   #zbd(
   get '/project_templates' => 'project_templates#index'
+
+  # get 'stakeholders' => 'stakeholders#index'
+  # get 'stakeholder_outers' => 'stakeholders#new'
+  # get 'stakeholder_outers/:id/edit' => 'stakeholders#edit'
+  # post 'stakeholder_outers' => 'stakeholders#create'
+  # patch 'stakeholder_outers/:id' => 'stakeholders#update'
+  # delete 'stakeholder_outers/:id' => 'stakehodlers#destroy'
   # )
 
   scope 'admin' do

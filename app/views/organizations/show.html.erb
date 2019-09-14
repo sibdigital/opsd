@@ -1,20 +1,25 @@
 <%#--
-This file written by TAN
-25/04/2019
+#-- encoding: UTF-8
+#+-tan 2019.04.25
 ++#%>
 
-<%#
-  needs locals:
-  f: labelled form builder
-%>
+<%# html_title l(:label_administration), l(:label_org_settings) -%>
 
-<%= error_messages_for :organization %>
+<%#= toolbar title: l(:label_org_settings) %>
+
+<%#= render_tabs org_settings_tabs %>
+
+<% html_title l(:label_administration), "#{Organization.model_name.human} #{h @organization.name}" %>
+
+<% local_assigns[:additional_breadcrumb] =  l(:label_edit) %>
+<%= breadcrumb_toolbar l(:label_edit) + ': ' + @organization.name %>
+
 <% if @organization_parent != nil %>
-<div class="form--field">
-  <%= l(:label_organization_parent )  %>
-  <%= ':' %>
-  <%= @organization_parent %>
-</div>
+  <div class="form--field">
+    <%= l(:label_organization_parent )  %>
+    <%= ':' %>
+    <%= @organization_parent %>
+  </div>
 <% end %>
 <section class="form--section">
   <%= f.hidden_field 'org_type' %>
@@ -22,9 +27,9 @@ This file written by TAN
   <div class="form--field content--split"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
   <% if @organization.id == nil %>
     <div class="form--field content--split"><%= f.select 'parent_id', options_for_select(Organization.where(org_type: @organization.org_type).map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
-    <% else %>
+  <% else %>
     <div class="form--field content--split"><%= f.select 'parent_id', options_for_select(Organization.where(org_type: @organization.org_type).where("id != ?", @organization.id).map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
-<% end %>
+  <% end %>
   <div class="form--field content--split"><%= f.text_field 'inn', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.check_box 'is_legal_entity', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'org_prav_forma', container_class: '-middle' %></div>
@@ -43,14 +48,12 @@ This file written by TAN
     </div>
   <% end %>
 
-  <% unless f.object.custom_field_values.empty? %>
-    <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-    <%= render partial: 'customizable/form', locals: { form: f,
+  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+  <%= render partial: 'customizable/form', locals: { form: f,
                                                      all_fields: true,
                                                      only_required: false,
-                                                      obj: @organization,
-                                                      from: 'organizations' } %>
+                                                     obj: @organization,
+                                                     from: 'organizations' } %>
 
-  <% end %>
+
 </section>
-

@@ -754,20 +754,67 @@ class PlanUploadersController < ApplicationController
         assigned_to_id = User.last.id
         #добавить юзера в участника проекта
         #project_members_path(project_id: @project_for_load, action: 'create')
-        if Member.where(user_id: assigned_to_id, project_id: @project_for_load.id).count < 1
-          @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
-        end
+
+        add_to_members(assigned_to_id, u)
+
+        # if Member.where(user_id: assigned_to_id, project_id: @project_for_load.id).count < 1
+        #   @project_for_load.add_member!(u, Role.where(name: "Ответственный за блок мероприятий").first)
+        # end
       end
     else
       assigned_to_id = users[0].id
       #добавить юзера в участника проекта
       #project_members_path(project_id: @project_for_load, action: 'create')
-      if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
-        @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
-      end
+
+      add_to_members(users[0].id, users[0])
+
+      # if Member.where(user_id: users[0].id, project_id: @project_for_load.id).count < 1
+      #   @project_for_load.add_member!(users[0], Role.where(name: "Ответственный за блок мероприятий").first)
+      # end
     end
 
     assigned_to_id
+  end
+
+  def add_to_members(user_id, user)
+    if Member.where(user_id: user_id, project_id: @project_for_load.id).count < 1
+      @project_for_load.add_member!(user, Role.where(name: "Ответственный за блок мероприятий").first)
+      add_to_stakeholders(user_id, user)
+    end
+  end
+
+  def add_to_stakeholders(user_id, user)
+    #user = User.find(user_id)
+    if user.present?
+      su = StakeholderUser.where(user_id: user_id, project_id: @project_for_load.id).first_or_create do |s|
+        s.user_id = user_id
+        s.organization_id = user.organization_id
+        s.name = user.name
+        #s.description = added_member.roles.to_s
+        s.phone_wrk = user.phone_wrk
+        s.phone_wrk_add = user.phone_wrk_add
+        s.phone_mobile = user.phone_mobile
+        s.mail_add = user.mail_add
+        s.address = user.address
+        s.cabinet = user.cabinet
+      end
+
+      if user.organization_id.present?
+        org = Organization.find(user.organization_id)
+        if org.present?
+          so = StakeholderOrganization.where(organization_id: org.id, project_id: @project_for_load).first_or_create do |s|
+            s.organization_id = org.id
+            s.name = org.name
+            s.phone_wrk = org.phone_wrk
+            s.phone_wrk_add = org.phone_wrk_add
+            s.phone_mobile = org.phone_mobile
+            s.mail_add = org.mail_add
+            s.address = org.address
+            s.cabinet = org.cabinet
+          end
+        end
+      end
+    end
   end
 
   def get_setting_types

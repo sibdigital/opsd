@@ -42,9 +42,12 @@ See docs/COPYRIGHT.rdoc for more details.
                      container_class: '-middle' %>
   </div>
 
-  <%= render partial: 'customizable/form', locals: { form: f,
-                                                     all_fields: true,
-                                                     only_required: false,
-                                                     obj: @group,
-                                                     from: 'group_users' } %>
+  <% unless f.object.custom_field_values.empty? %>
+    <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+    <%= render partial: 'customizable/form', locals: { form: f,
+                                                       all_fields: true,
+                                                       only_required: false,
+                                                       obj: @group,
+                                                       from: 'group_users' } %>
+  <% end %>
 </section>
