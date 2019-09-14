@@ -78,6 +78,11 @@ class UsersController < ApplicationController
   def show
     if params[:tab].blank?
       @tab = "main"
+      params[:tab] = "main"
+    # elsif params[:tab] == "edit"
+    #   @auth_sources = AuthSource.all
+    #   @membership ||= Member.new
+    #   render :edit and return
     else
       @tab = params[:tab]
     end
@@ -90,12 +95,29 @@ class UsersController < ApplicationController
     sort_columns = {'journable_type' => "#{Journal.table_name}.journable_type", 'journable_id' => "#{Journal.table_name}.journable_id"}
     sort_init 'id', 'asc'
     sort_update sort_columns
-    @statistics =  Journal.where("(journable_type = ? OR journable_type = ? OR journable_type = ? OR journable_type = ?) AND user_id = ?", "WorkPackage", "NationalProject", "Document", "Message",@user.id).order(sort_clause)
+    @statistics =  Journal.where("(journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?) AND user_id = ?",
+                                                  "WorkPackage", "NationalProject", "Document", "Message","Board","Meeting","MeetingContent","News","Project", "CostObject",@user.id).order(sort_clause)
                      .page(page_param)
                      .per_page(per_page_param)
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
-
+    project_roles = Journal.where("journable_type = ? AND user_id = ?","MemberRole",@user.id)
+    roles_entries = Journal::MemberRoleJournal.where(journal_id: project_roles.map(&:id)).where("role_id =? OR role_id = ?",Role.find_by(name: I18n.t(:default_role_project_head)).id, Role.find_by(name: I18n.t(:default_role_ispolnitel)).id)
+    @changeroles = roles_entries.order(sort_clause)
+                     .page(page_param)
+                     .per_page(per_page_param)
+    @wpstats = WorkPackageIspolnStat.where(assigned_to_id: @user.id).order(sort_clause)
+                 .page(page_param)
+                 .per_page(per_page_param)
     unless User.current.admin?
       if !(@user.active? ||
          @user.registered?) ||
@@ -108,97 +130,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { render layout: 'no_menu' }
     end
-  end
-
-  def find_user_stats
-    # stats = {}
-    # # find all wps assigned for user
-    # wpj = WorkPackageJournal.where("assigned_to_id = ? OR responsible_id = ?", @user.id, @user.id)
-    # wpj_uniqs = wpj.select(:work_package_id).distinct
-    # wpj_vs = Array.new
-    # wpj_uniqs.each do |uniq|
-    #   wpj_v = WorkPackageJournal.where("work_package_id = ? AND assigned_to_id = ? OR responsible_id = ?", uniq.work_package_id, @user.id, @user.id).order(journal_id: :asc).first
-    #   wpj_vs.push(wpj_v)
-    # end
-    # stats["wp_appointment"] = wpj_vs
-    # #find created wps
-    # wpj = WorkPackageJournal.where("author_id = ?", @user.id)
-    # wpj_uniqs = wpj.select(:work_package_id).distinct
-    # wpj_vs = Array.new
-    # wpj_uniqs.each do |uniq|
-    #   wpj_v = WorkPackageJournal.where("work_package_id = ? AND author_id = ?", uniq.work_package_id, @user.id).order(journal_id: :asc).first
-    #   wpj_vs.push(wpj_v)
-    # end
-    # stats["wp_created"] = wpj_vs
-    # # find deleted wps - trouble : deleted project don't saves anywhere
-    # # find done wps
-    # wpj = WorkPackageJournal.where("assigned_to_id = ? AND done_ratio = ?", @user.id, 100)
-    # wpj_uniqs = wpj.select(:work_package_id).distinct
-    # wpj_vs = Array.new
-    # wpj_uniqs.each do |uniq|
-    #   wpj_v = WorkPackageJournal.where("work_package_id = ? AND done_ratio = ? AND assigned_to_id = ? ", uniq.work_package_id, 100, @user.id).order(journal_id: :asc).first
-    #   wpj_vs.push(wpj_v)
-    # end
-    # stats["wp_done"] = wpj_vs
-    # # catalogs creating
-    # allj = Journal.where("journable_type = ? AND user_id = ? AND version = ?", "NationalProject", @user.id, 1)
-    # npj_vs = Array.new
-    # allj.each do |uniq|
-    #   np_j = Journal::NationalProjectJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
-    #   npj_vs.push(np_j)
-    # end
-    # stats["np_created"] = npj_vs
-    # # catalog changes
-    # allj = Journal.where("journable_type = ? AND user_id = ? AND version > ?", "NationalProject", @user.id, 1)
-    # npj_vs = Array.new
-    # allj.each do |uniq|
-    #   np_j = Journal::NationalProjectJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
-    #   npj_vs.push(np_j)
-    # end
-    # stats["np_updated"] = npj_vs
-    # # adding docs
-    # allj = Journal.where("journable_type = ? AND user_id = ? AND version = ?", "Document", @user.id, 1)
-    # docj_vs = Array.new
-    # allj.each do |uniq|
-    #   doc_j = Journal::DocumentJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
-    #   docj_vs.push(doc_j)
-    # end
-    # stats["doc_created"] = docj_vs
-    # # updating docs
-    # allj = Journal.where("journable_type = ? AND user_id = ? AND version > ?", "Document", @user.id, 1)
-    # docj_vs = Array.new
-    # allj.each do |uniq|
-    #   doc_j = Journal::DocumentJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
-    #   docj_vs.push(doc_j)
-    # end
-    # stats["doc_updated"] = docj_vs
-    # # deleting docs - trouble: the same with the wps
-    # # discussion messages
-    # allj = Journal.where("journable_type = ? AND user_id = ? AND version = ?", "Message", @user.id, 1)
-    # mesj_vs = Array.new
-    # allj.each do |uniq|
-    #   mes_j = Journal::MessageJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
-    #   mesj_vs.push(mes_j)
-    # end
-    # stats["board_messaged"] = mesj_vs
-    # # tables changes
-    # allj = Journal.where("journable_type = ? AND user_id = ? AND version > ?", "Message", @user.id, 1)
-    # mesj_vs = Array.new
-    # allj.each do |uniq|
-    #   mes_j = Journal::MessageJournal.where(journal_id: uniq.id).order(journal_id: :asc).first
-    #   mesj_vs.push(mes_j)
-    # end
-    # stats["message_updated"] = mesj_vs
-    # # find expired wps
-    # wpj = WorkPackageJournal.where("assigned_to_id = ? AND due_date > ?", @user.id,  User.current.today)
-    # wpj_uniqs = wpj.select(:work_package_id).distinct
-    # wpj_vs = Array.new
-    # wpj_uniqs.each do |uniq|
-    #   wpj_v = WorkPackageJournal.where("work_package_id = ? AND due_date > ? AND assigned_to_id = ? ", uniq.work_package_id, User.current.today, @user.id).order(journal_id: :asc).first
-    #   wpj_vs.push(wpj_v)
-    # end
-    # stats["wp_overdue"] = wpj_vs
-    # stats
   end
 
   def new

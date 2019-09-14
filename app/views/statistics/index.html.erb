@@ -1,102 +1,21 @@
-<div class="statistics">
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" id="user_statistics">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-        </colgroup>
-        <thead>
-        <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= l('attributes.type') %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= l('attributes.name') %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= l('attributes.date') %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= l('attributes.time') %>
-                </span>
-              </div>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @statistics.each do |stat| %>
-            <tr id="statistics-<%= stat.id %>">
-              <td>
-                <% if stat.version == 1 %>
-                  <%= t("text_project_created_"+stat.journable_type.to_s.downcase) %>
-                <%elsif stat.version > 1 %>
-                  <%= t("text_project_updated_"+stat.journable_type.to_s.downcase) %>
-                <% else %>
-                  <%= stat.journable_type %>
-                <% end %>
-              </td>
-              <td>
-                <% if stat.journable_type == "WorkPackage"%>
-                  <%= WorkPackageJournal.where(journal_id: stat.id).first.subject %>
-                <% elsif stat.journable_type == "Project"%>
-                  <%= Journal::ProjectJournal.where(journal_id: stat.id).first.name %>
-                <% elsif stat.journable_type == "Message"%>
-                  <%= MessageJournal.where(journal_id: stat.id).first.content%>
-                <% elsif stat.journable_type == "Document"%>
-                  <%= DocumentJournal.where(journal_id: stat.id).first.title%>
-                <% elsif stat.journable_type == "News"%>
-                  <%= NewsJournal.where(journal_id: stat.id).first.title%>
-                <% elsif stat.journable_type == "Member"%>
-                  <%= User.find(MemberJournal.where(journal_id: stat.id).first.user_id).fio%>
-                <% elsif stat.journable_type == "Meeting"%>
-                  <%= Journal::MeetingJournal.where(journal_id: stat.id).first.title%>
-                <% elsif stat.journable_type == "MeetingContent"%>
-                  <%= Journal::MeetingContentJournal.where(journal_id: stat.id).first.text%>
-                <% elsif stat.journable_type == "CostObject"%>
-                  <%= CostObjectJournal.where(journal_id: stat.id).first.subject%>
-                <% else %>
-                  <%= stat.journable_id %>
-                <% end %>
-              </td>
-              <td>
-                <%= format_activity_day(stat.created_at) %>
-              </td>
-              <td>
-                <%= format_time(stat.created_at,false) %>
-              </td>
-            </tr>
-          <% end  %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <%= pagination_links_full @statistics %>
+<div class="tabs">
+  <ul>
+    <li>
+      <%= link_to t("label_statistics_main"),
+                  project_statistics_path(project: @project.id, tab: :main),
+                  class: "#{'selected' if @tab == "main" }"  %>
+    </li>
+    <li>
+      <%= link_to t("label_statistics_additional"),
+                  project_statistics_path(project: @project.id, tab: :additional),
+                  class: "#{'selected' if @tab == 'additional' }"  %>
+    </li>
+  </ul>
 </div>
+
+<%= render partial: "statistics/#{@tab}"%>
+
+
 <%= call_hook :view_account_left_bottom, user: @user %>
 
 

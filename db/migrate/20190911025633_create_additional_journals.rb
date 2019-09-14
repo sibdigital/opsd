@@ -112,6 +112,7 @@ class CreateAdditionalJournals < ActiveRecord::Migration[5.2]
       t.index [:journal_id]
     end
     add_column :journals, :project_id, :integer
+    add_column :journals, :is_created, :boolean, default: false
     add_index :journals, :project_id
   end
 end

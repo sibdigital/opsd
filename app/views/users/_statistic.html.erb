@@ -1,0 +1,115 @@
+<div class="statistics">
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="user_statistics">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.type') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.name') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.date') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.time') %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @statistics.count == 0 %>
+          <tr>
+            <td colspan="4"><%= I18n.t :no_results_title_text %></td>
+          </tr>
+        <% else %>
+          <% @statistics.each do |stat| %>
+            <tr id="statistics-<%= stat.id %>">
+              <td>
+                <% if stat.is_deleted && stat.next.nil?%>
+                  <%= t("text_user_deleted_"+stat.journable_type.to_s.downcase) %>
+                <% elsif stat.version == 1 %>
+                  <%= t("text_user_created_"+stat.journable_type.to_s.downcase) %>
+                <%elsif stat.version > 1 %>
+                  <%= t("text_user_updated_"+stat.journable_type.to_s.downcase) %>
+                <% else %>
+                  <%= stat.journable_type %>
+                <% end %>
+              </td>
+              <td>
+                <% if stat.journable_type == "WorkPackage"%>
+                  <%= WorkPackageJournal.where(journal_id: stat.id).first.subject %>
+                <% elsif stat.journable_type == "NationalProject"%>
+                  <%= Journal::NationalProjectJournal.where(journal_id: stat.id).first.name %>
+                <% elsif stat.journable_type == "Project"%>
+                  <%= Journal::ProjectJournal.where(journal_id: stat.id).first.name %>
+                <% elsif stat.journable_type == "Message"%>
+                  <%= Journal::MessageJournal.where(journal_id: stat.id).first.content%>
+                <% elsif stat.journable_type == "Document"%>
+                  <%= Journal::DocumentJournal.where(journal_id: stat.id).first.title%>
+                <% elsif stat.journable_type == "News"%>
+                  <%= Journal::NewsJournal.where(journal_id: stat.id).first.title%>
+                <% elsif stat.journable_type == "Member"%>
+                  <%= User.find(Journal::MemberJournal.where(journal_id: stat.id).first.user_id).fio%>
+                <% elsif stat.journable_type == "Meeting"%>
+                  <%= Journal::MeetingJournal.where(journal_id: stat.id).first.title%>
+                <% elsif stat.journable_type == "MeetingContent"%>
+                  <%= Journal::MeetingContentJournal.where(journal_id: stat.id).first.text%>
+                <% elsif stat.journable_type == "CostObject"%>
+                  <%= Journal::CostObjectJournal.where(journal_id: stat.id).first.subject%>
+                <% elsif stat.journable_type == "Board"%>
+                  <%= Journal::BoardJournal.where(journal_id: stat.id).first.name%>
+                <% else %>
+                  <%= stat.journable_id %>
+                <% end %>
+              </td>
+              <td>
+                <%= format_activity_day(stat.created_at) %>
+              </td>
+              <td>
+                <%= format_time(stat.created_at,false) %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= pagination_links_full @statistics %>
+</div>
+<%= call_hook :view_account_left_bottom, user: @user %>
+
+
+

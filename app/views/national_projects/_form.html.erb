@@ -7,8 +7,12 @@
     if type_of_national_project=="Government" || type_of_national_project=="National"
       f.hidden_field 'parent_id'
     else %>
-
-    <div class="form--field"> <%= f.select :parent_id, options_for_select(NationalProject.where(type: "National").map { |u| [u.name, u.id] }), include_blank: true, container_class: '-middle' %></div>
+    <% @selected_national = if @national_project.id
+                                                @national_project.parent_id
+                                              else
+                                                nil
+                                              end%>
+    <div class="form--field"> <%= f.select :parent_id, options_for_select(NationalProject.where(type: "National").map { |u| [u.name, u.id] }, @selected_national), include_blank: true, container_class: '-middle' %></div>
    <% end %>
   <div class="form--field"><%= f.text_field :leader, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field :leader_position, container_class: '-middle' %></div>

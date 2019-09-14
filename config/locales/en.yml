@@ -194,6 +194,7 @@ en:
     monitoring: Мониторинг
     main: Главная
     statistic: Статистика
+    additional: Дополнительно
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   prioritiies:
@@ -1968,6 +1969,8 @@ en:
   label_start_to_end: от начала до конца
   label_start_to_start: Пуск, чтобы начать
   label_statistics: Статистика
+  label_statistics_main: Основная
+  label_statistics_additional: Дополнительная
   label_status: Состояние
   label_status_updated: Состояние  пакета работ обновлено
   label_stay_logged_in: Запомнить
@@ -2858,24 +2861,28 @@ en:
 #  Типы действий для проектов
   text_project_created_project: 'Создан проект'
   text_project_updated_project: 'Изменен проект'
+  text_project_updated_status: 'Изменен статус проекта'
   text_project_deleted_project: 'Удален проект'
-  text_project_head_accepted: 'Назначен руководитель'
-  text_project_head_changed: 'Руководитель сменен'
-  text_project_doer_accepted: 'Назначен исполнитель'
-  text_project_doer_changed: 'Исполнитель сменен'
+  text_project_role_accepted: 'Назначен %{value}'
+  text_project_role_changed: '%{value} сменен'
   text_project_created_member: 'Добавлен участник'
   text_project_updated_member: 'Участник изменен'
   text_project_deleted_member: 'Удален участник'
   text_project_created_workpackage: 'Создан пакет работ'
   text_project_deleted_workpackage: 'Удален пакет работ'
   text_project_updated_workpackage: 'Обновлен пакет работ'
-  text_project_overdue_wp: 'Просрочен пакет работ'
+  text_project_overdue_wp: 'Пакет работ просрочен %{count}'
+  text_project_trouble_wp: 'Пакет работ с рисками'
+  text_project_done_wp: 'Пакет работ выполнен'
+  text_project_done_in_time_wp: 'Пакет работ выполнен до %{count}'
+  text_project_in_work_wp: 'Пакет работ выполняется'
   text_project_changed_status: 'Сменен статус проекта'
   text_project_created_document: 'Добавлен документ'
   text_project_updated_document: 'Обновлен документ'
   text_project_deleted_document: 'Удален документ'
   text_project_created_message: 'Оставлено сообщение'
   text_project_updated_message: 'Отредактировано сообщение'
+  text_project_deleted_message: 'Удалено сообщение'
   text_project_created_news: 'Написана новость'
   text_project_updated_news: 'Изменена новость'
   text_project_deleted_news: 'Удалена новость'
@@ -2888,10 +2895,31 @@ en:
   text_project_created_board: 'Создана дискуссия'
   text_project_updated_board: 'Обновлена дискуссия'
   text_project_deleted_board: 'Удалена дискуссия'
-  text_project_created_costobject: 'Создана дискуссия'
-  text_project_updated_costobject: 'Обновлена дискуссия'
-  text_project_deleted_costobject: 'Удалена дискуссия'
+  text_project_created_costobject: 'Создан бюджет'
+  text_project_updated_costobject: 'Обновлен бюджет'
+  text_project_deleted_costobject: 'Удален бюджет'
 #  Типы действий для юзера
+  text_user_created_project: 'Создал проект'
+  text_user_updated_project: 'Обновил проект'
+  text_user_deleted_project: 'Удалил проект'
+  text_user_created_meeting: 'Создал совещание'
+  text_user_updated_meeting: 'Обновил совещение'
+  text_user_deleted_meeting: 'Удалил совещание'
+  text_user_created_meetingcontent: 'Создал тему совещания'
+  text_user_updated_meetingcontent: 'Обновил тему совещания'
+  text_user_deleted_meetingcontent: 'Удалил тему совещания'
+  text_user_created_news: 'Создал новость'
+  text_user_updated_news: 'Обновил новость'
+  text_user_deleted_news: 'Удалил новость'
+  text_user_created_board: 'Создал дискуссию'
+  text_user_updated_board: 'Обновил дискуссию'
+  text_user_deleted_board: 'Удалил дискуссию'
+  text_user_created_member: 'Добавил участника'
+  text_user_updated_member: 'Обновил участника'
+  text_user_deleted_member: 'Удалил участника'
+  text_user_created_costobject: 'Создал бюджет'
+  text_user_updated_costobject: 'Обновил бюджет'
+  text_user_deleted_costobject: 'Удалил бюджет'
   text_user_doer_accepted: 'Назначен исполнителем'
   text_user_head_accepted: 'Назначен руководителем'
   text_user_created_workpackage: 'Создал пакет работ'

@@ -332,7 +332,9 @@ OpenProject::Application.routes.draw do
 
     resources :activity, :activities, only: :index, controller: 'activities'
     # knm+
-    resources :statistic, :statistics, only: :index, controller: 'statistics'
+    resources :statistic, :statistics, only: :index, controller: 'statistics' do
+      # match ':tab' => 'statistics#index', via: :get, as: 'tab_index'
+    end
     #  -
     resources :boards do
       member do
@@ -615,7 +617,6 @@ OpenProject::Application.routes.draw do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
-      match ':tab' => 'users#show', via: :get, as: 'tab_show'
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation

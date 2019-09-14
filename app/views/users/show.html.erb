@@ -46,22 +46,27 @@ See docs/COPYRIGHT.rdoc for more details.
   <ul>
     <li>
       <%= link_to t("users.main"),
-                  tab_show_user_path(id: @user.id, tab: :main),
+                  user_path(id: @user.id, tab: :main),
                   class: "#{'selected' if @tab == "main" }"  %>
     </li>
     <li>
       <%= link_to t("users.monitoring"),
-                  tab_show_user_path(id: @user.id, tab: :monitoring),
+                  user_path(id: @user.id, tab: :monitoring),
                   class: "#{'selected' if @tab == 'monitoring' }"  %>
     </li>
     <li>
       <%= link_to t("users.statistic"),
-                  tab_show_user_path(id: @user.id, tab: :statistic),
+                  user_path(id: @user.id, tab: :statistic),
                   class: "#{'selected' if @tab == 'statistic' }"  %>
+    </li>
+    <li>
+    <%= link_to t("label_statistics_additional"),
+                  user_path(id: @user.id, tab: :additional),
+                  class: "#{'selected' if @tab == 'additional'}"%>
     </li>
   </ul>
 </div>
 
-<%= render partial: "users/show/#{@tab}"%>
+<%= render partial: "#{@tab}", locals: {tab: @tab}%>
 
 <% html_title h(@user.name) %>

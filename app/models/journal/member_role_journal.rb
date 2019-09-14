@@ -6,7 +6,6 @@ class Journal::MemberRoleJournal < Journal::BaseJournal
   #
   # # +knm
   # def add_project_id
-  #   self.project_id =
   # end
   # -knm
 end
