@@ -36,6 +36,7 @@ class MemberRole < ActiveRecord::Base
 
   validates_presence_of :role
   validate :validate_project_member_role
+  acts_as_journalized
 
   def validate_project_member_role
     errors.add :role_id, :invalid if role && !role.member?

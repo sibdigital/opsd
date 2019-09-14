@@ -10,6 +10,7 @@ class RiskCharact < ActiveRecord::Base
   scope :at_risk, ->(risk_id) {
     where(risk_id: risk_id)
   }
+  acts_as_journalized
 
   acts_as_list scope: 'type = \'#{type}\' and risk_id = \'#{risk_id}\''
 

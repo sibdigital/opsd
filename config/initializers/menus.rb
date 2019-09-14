@@ -576,7 +576,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('activity') },
             parent: :control,
             icon: 'icon2 icon-checkmark'
-
+  #knm+
+  menu.push :statistics,
+            { controller: '/statistics', action: 'index' },
+            param: :project_id,
+            if: Proc.new { |p| p.module_enabled?('activity') },
+            parent: :control,
+            icon: 'icon2 icon-checkmark'
+  # -
   # zbd
   # menu.push :roadmap,
   #           { controller: '/versions', action: 'index' },

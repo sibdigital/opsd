@@ -50,6 +50,9 @@ class Journal < ActiveRecord::Base
   after_create :save_data, if: :data
   after_save :save_data, :touch_journable
 
+  #+tan
+  before_save :add_project_id
+  # -tan
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
@@ -97,6 +100,18 @@ class Journal < ActiveRecord::Base
     version < 2
   end
 
+  def destroy
+    # if !self.is_deleted
+      self.is_deleted = true
+      self.save
+      # if self.next.nil?
+      #   @clone = Journal.new(self.attributes)
+      #   @clone.save
+      # end
+      run_callbacks :destroy
+      freeze
+    # end
+  end
   # The anchor number for html output
   def anchor
     version - 1
@@ -108,6 +123,8 @@ class Journal < ActiveRecord::Base
       journable.project
     elsif journable.is_a? Project
       journable
+    elsif journable.is_a? MemberRole
+      journable.member.project
     end
   end
 
@@ -141,7 +158,9 @@ class Journal < ActiveRecord::Base
   def previous
     predecessor
   end
-
+  def next
+    successor
+  end
   private
 
   def save_data
@@ -169,7 +188,22 @@ class Journal < ActiveRecord::Base
                      .first
   end
 
+  def successor
+    @successor ||= self.class
+                     .where(journable_type: journable_type, journable_id: journable_id)
+                     .where("#{self.class.table_name}.version > ?", version)
+                     .order("#{self.class.table_name}.version DESC")
+                     .first
+  end
+
   def journalized_object_type
     "#{journaled_type.gsub('Journal', '')}".constantize
   end
+
+  #+tan
+  def add_project_id
+    self.project_id = project() != nil ? project().id : nil
+  end
+# -tan
+
 end

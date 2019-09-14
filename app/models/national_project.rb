@@ -1,6 +1,7 @@
 class NationalProject < ActiveRecord::Base
   self.inheritance_column = nil # иначе колонка type используется для
   # single table inheritance т.е наследования сущностей, хранящихся в одной таблице
+  acts_as_journalized
   has_many :projects
   has_many :agreements, foreign_key: 'national_project_id'
   has_many :agreements, foreign_key: 'federal_project_id'

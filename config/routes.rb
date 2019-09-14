@@ -339,7 +339,11 @@ OpenProject::Application.routes.draw do
     #)
 
     resources :activity, :activities, only: :index, controller: 'activities'
-
+    # knm+
+    resources :statistic, :statistics, only: :index, controller: 'statistics' do
+      # match ':tab' => 'statistics#index', via: :get, as: 'tab_index'
+    end
+    #  -
     resources :boards do
       member do
         get :confirm_destroy
@@ -624,7 +628,6 @@ OpenProject::Application.routes.draw do
 
   resources :users do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
-
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'

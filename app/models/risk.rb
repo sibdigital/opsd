@@ -8,6 +8,7 @@ class Risk < ActiveRecord::Base
   belongs_to :importance
 
   has_many :risk_characts, dependent: :destroy
+  acts_as_journalized
 
   # удаление должно быть каскадное, пока нечего каскадить
 
