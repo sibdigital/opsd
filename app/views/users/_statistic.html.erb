@@ -1,3 +1,33 @@
+<%= styled_form_tag(user_path(id: @user.id, tab: :statistic), { method: :get, id: 'query_form' }) do %>
+  <fieldset id="filters" class="simple-filters--container">
+    <legend><%= t(:label_filter) %></legend>
+    <h2><%= t(:label_filter) %></h2>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_date, t(:label_by_date), class: 'simple-filters--filter-name' %>
+        <div class='simple-filters--filter-value'>
+          <%= styled_text_field_tag :filter_date, @filter_date, class: '-augmented-datepicker' %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_action, t(:label_by_action), class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_select_tag :filter_action,options_for_select(["WorkPackage", "NationalProject", "Document", "Message","Board","Meeting","MeetingContent","News","Project", "CostObject"],@filter_action), include_blank: true  %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_action, t(:label_by_type), class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_select_tag :filter_type, options_for_select(["Создание", "Обновление", "Удаление"],@filter_type),include_blank: true %>
+        </div>
+      </li>
+      <li class="simple-filters--controls">
+        <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
+        <%= link_to t(:button_clear), user_path(id: @user.id, tab: :statistic), class: 'button -small -with-icon icon-undo' %>
+      </li>
+    </ul>
+  </fieldset>
+<% end %>
 <div class="statistics">
   <div class="generic-table--container">
     <div class="generic-table--results-container">

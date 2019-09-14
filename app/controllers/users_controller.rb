@@ -76,7 +76,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    if params[:tab].blank?
+    if params[:commit] == "Применить"
+      @tab = "statistic"
+      params[:tab] = "statistic"
+      params[:filter_date].blank? ? @filter_date = "" : @filter_date = params[:filter_date]
+      params[:filter_action].blank? ? @filter_action = "" : @filter_action = params[:filter_action]
+      params[:filter_type].blank? ? @filter_type = "" : @filter_type = params[:filter_type]
+    elsif params[:tab].blank?
       @tab = "main"
       params[:tab] = "main"
     # elsif params[:tab] == "edit"

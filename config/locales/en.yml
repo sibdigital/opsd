@@ -2401,6 +2401,10 @@ en:
   #knm(
   setting_days_text: Дни недели
   button_refresh: Обновить
+  label_filter: Фильтр
+  label_by_date: По дате
+  label_by_type: По типу
+  label_by_action: По действию
   label_production_calendar: Производственный календарь
   label_production_calendars: Производственные календари
   label_work_calendar: Производственный календарь
