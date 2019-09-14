@@ -505,6 +505,15 @@ en:
         owner: Владелец риска
         is_possibility: Является возможностью
 #        end
+      #zbd(
+      stakeholder:
+        mail_add: Эл.почта (дополнительная)
+        phone_wrk: Рабочий телефон
+        phone_wrk_add: Добавочный номер
+        phone_mobile: Мобильный телефон
+        address: Адрес
+        cabinet: Кабинет
+      #)
       user:
         admin: Администратор
         auth_source: Способ аутентификации
