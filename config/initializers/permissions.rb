@@ -48,6 +48,7 @@ Redmine::AccessControl.map do |map|
                    stages: [:show,:init,:control,:execution,:completion,:analysis, :planning, :proceed_init, :cancel_init],
                    stakeholders: %i[index edit new create update destroy],
                    stakeholder_outers: %i[edit new create update destroy],
+                   communication_meetings: %i[index edit new create update destroy],
                    #)
                    #zbd(
                    raions: [:show]
