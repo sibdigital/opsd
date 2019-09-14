@@ -1,0 +1,83 @@
+<%= form_tag({}) do -%>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="targets_items">
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("name", :caption => CommunicationMeeting.human_attribute_name(:name)) %>
+          <%= sort_header_tag("theme", :caption => CommunicationMeeting.human_attribute_name(:theme)) %>
+          <%= sort_header_tag("kind", :caption => CommunicationMeeting.human_attribute_name(:kind)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CommunicationMeeting.human_attribute_name(:place) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CommunicationMeeting.human_attribute_name(:sposob) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CommunicationMeeting.human_attribute_name(:period) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CommunicationMeeting.human_attribute_name(:user_id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <% @com_meeting.each do |meet| %>
+          <tr id="com_meet-<%= meet.id %>">
+            <td><%= link_to meet.id, edit_project_communication_meeting_path(id: meet.id) %></td>
+            <%= content_tag(:td, link_to(h(meet.name), edit_project_communication_meeting_path(id: meet.id))) %>
+            <%#= content_tag(:td, (CommunicationMeeting.where(id: typed_target.status_id).map {|u| [u.name]}).join) %>
+            <%#= content_tag(:td, (CommunicationMeeting.where(id: typed_target.type_id).map {|u| [u.name]}).join) %>
+            <%#= content_tag(:td, (CommunicationMeeting.where(id: typed_target.measure_unit_id).map {|u| [u.short_name]}).join) %>
+            <%#= content_tag(:td, typed_target.basic_value) %>
+            <%#= content_tag(:td, typed_target.plan_value) %>
+            <%#= content_tag(:td, typed_target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" ) %>
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-delete'),
+                project_communication_meeting_path(id: meet.id),
+                method: :delete,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                title: t(:button_delete))) %>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<% end -%>

@@ -1,0 +1,10 @@
+<% html_title l(:label_communication_requirements) %>
+<% local_assigns[:additional_breadcrumb] = @com_req.name %>
+<%= breadcrumb_toolbar l(:label_edit) +': ' + @com_req.name %>
+
+<%= labelled_tabular_form_for [@project, @com_req] do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+

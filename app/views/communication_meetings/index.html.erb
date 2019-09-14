@@ -1,20 +1,20 @@
-Список встреч
+<%= 'План коммуникаций - ' + @tab %>
 
-<div class="wp-inline-create-button">
-  <%= link_to new_project_communication_meeting_path(),
-              aria: {label: 'Add'},
-              class: 'wp-inline-create--add-link',
-              title: 'Add' do
-    op_icon('icon icon-add')
-  end %>
+<div class="tabs">
+  <ul>
+    <li>
+      <%= link_to 'Информационные потребности',
+                  project_communication_meetings_path(project_id: @project.id, tab: :req),
+                  class: "#{'selected' if @tab == "req" }"  %>
+    </li>
+    <li>
+      <%= link_to 'Встречи и участники',
+                  project_communication_meetings_path(project_id: @project.id, tab: :meet),
+                  class: "#{'selected' if @tab == 'meet' }"  %>
+    </li>
+  </ul>
 </div>
 
-<div class="wp-inline-create-button">
-  <%= link_to edit_project_communication_meeting_path(id: 1),
-              aria: {label: 'Edit'},
-              class: 'wp-inline-create--add-link button',
-              title: 'Edit' do
-    op_icon('button icon icon-add')
-  end %>
-</div>
+<%= render partial: "communication_meetings/#{@tab}"%>
+
 
