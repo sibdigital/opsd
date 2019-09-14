@@ -14,12 +14,12 @@ module DemoData
       cost_entries = translate_with_base_url("seeders.demo_data.cost_entries")
       rates = translate_with_base_url("seeders.demo_data.rates")
 
-      cost_types.each do |attributes|
-        print '.'
-        tr_attr = cost_type_attributes(attributes)
-        targ = CostType.create tr_attr
-        targ.save!
-      end
+      # cost_types.each do |attributes|
+      #   print '.'
+      #   tr_attr = cost_type_attributes(attributes)
+      #   targ = CostType.create tr_attr
+      #   targ.save!
+      # end
 
       rates.each do |attributes|
         print '.'

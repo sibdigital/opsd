@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag "project/filters.js" %>
 <% end %>
 
-<% html_title(t(:label_project_plural)) -%>
+<% html_title(t(:label_project_reestr)) -%>
 
 <%= toolbar title: t(:label_project_reestr) do %>
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>
@@ -65,7 +65,18 @@ See docs/COPYRIGHT.rdoc for more details.
           <tr>
             <%= render partial: 'hierarchy_header' %>
             <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
-            <%= projects_sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :json) %>
+            <% if User.current.admin? %>
+              <%= projects_sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :json) %>
+            <% end %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                <span>
+                  <%= l(:label_national_project_short) %>
+                </span>
+                </div>
+              </div>
+            </th>
             <%= projects_sort_header_tag('project_status_id', caption: Project.human_attribute_name(:project_status), param: :json) %>
             <%= projects_sort_header_tag('project_approve_status_id', caption: Project.human_attribute_name(:project_approve_status), param: :json) %>
             <th>
@@ -79,9 +90,9 @@ See docs/COPYRIGHT.rdoc for more details.
             </th>
             <% if User.current.admin? %>
               <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
-              <%= projects_sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on), param: :json) %>
-              <%= projects_sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at), param: :json) %>
             <% end %>
+            <%= projects_sort_header_tag('created_on', caption: Project.human_attribute_name(:start_date), param: :json) %>
+            <%= projects_sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:due_date), param: :json) %>
             <th class="-right">
               <div class="generic-table--header-outer">
                 <div class="generic-table--header">
@@ -106,15 +117,18 @@ See docs/COPYRIGHT.rdoc for more details.
                 <% end %>
                 <%= link_to_project(project, {}, {}, false) %>
               </td>
-              <td><%= checked_image project.is_public? %></td>
+              <% if User.current.admin? %>
+                <td><%= checked_image project.is_public? %></td>
+              <% end %>
+              <%= content_tag(:td,  (!project.national_project.nil? ? project.national_project.name : "") + (!project.federal_project.nil? ? (">" + project.federal_project.name) : "")) %>
               <%= content_tag(:td,  project.get_project_status) %>
               <%= content_tag(:td,  project.get_project_approve_status) %>
               <%= content_tag(:td,  '%.2f' % project.get_done_ratio) %>
               <% if User.current.admin? %>
                 <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
-                <td><%= format_date(project.created_on) %></td>
-                <td><%= format_date(project.latest_activity_at) %></td>
               <% end %>
+              <td><%= format_date(project.start_date) %></td>
+              <td><%= format_date(project.due_date) %></td>
               <td class="buttons">
                 <% items = project_more_menu_items(project) %>
                 <% if items.any?  %>

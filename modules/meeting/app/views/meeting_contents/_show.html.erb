@@ -82,11 +82,11 @@ See doc/COPYRIGHT.md for more details.
 
                 <% if authorize_for(:meetings, :destroy) &&  !meeting_protocol.completed%>
                   <%= content_tag(:td, button_to(
-                    "Отметить как выполненное",
+                    "Исполнить",
                     meeting_protocol_path(id: meeting_protocol.id),
                     method: :put,
                     #data: {confirm: I18n.t(:text_are_you_sure)},
-                    data: {confirm: "Отметить порчение как выполненное?"},
+                    data: {confirm: "Поручение исполнено?"},
                     title: t(:button_edit))) -%>
                 <% else -%>
                 <td> </td>
