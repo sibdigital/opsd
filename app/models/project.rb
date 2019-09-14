@@ -162,6 +162,7 @@ Project < ActiveRecord::Base
 
   has_many :stakeholder_users, dependent: :destroy
   has_many :stakeholder_organizations, dependent: :destroy
+  has_many :stakeholder_outers, dependent: :destroy
   # )
   #xcc(
   has_many :targets

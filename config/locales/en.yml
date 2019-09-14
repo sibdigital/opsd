@@ -1999,6 +1999,9 @@ en:
   label_contracts_new: Новый гос.контракт
   label_contracts_value: Значение гос.контракта
   label_stakeholder_plural: Заинтересованные стороны
+  label_stakeholders: Заинтересованные стороны
+  label_stakeholder_outer_new: Новая внешняя заинтересованная сторона
+  label_stakeholder_outer: Внешняя заинтересованная сторона
   #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами

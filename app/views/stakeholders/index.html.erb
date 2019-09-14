@@ -1,0 +1,40 @@
+<% html_title l(:label_administration), l(:label_stakeholders) %>
+<%= toolbar title: l(:label_stakeholders) do %>
+  <li class="toolbar-item">
+  </li>
+<% end %>
+
+<div style="margin-bottom: 30px;">
+  <h3>Организации</h3>
+  <% if @org_stakeholders.present? %>
+    <%= render :partial => 'stakeholders/list', :locals => {:type => 'orgs', :data => @org_stakeholders} %>
+  <% else %>
+    <%= l(:no_results_title_text) %>
+  <% end %>
+</div>
+
+<div style="margin-bottom: 30px;">
+  <h3>Участники</h3>
+  <% if @user_stakeholders.present? %>
+    <%= render :partial => 'stakeholders/list', :locals => {:type => 'users', :data => @user_stakeholders} %>
+  <% else %>
+    <%= l(:no_results_title_text) %>
+  <% end %>
+</div>
+
+<div>
+  <h3>Внешние стороны</h3>
+  <% if @outer_stakeholders.present? %>
+    <%= render :partial => 'stakeholders/list_outer', :locals => {:type => 'outers', :data => @outer_stakeholders} %>
+  <% else %>
+    <%= l(:no_results_title_text) %>
+  <% end %>
+  <div class="wp-inline-create-button">
+    <%= link_to new_project_stakeholder_outer_path, #(type: 'StakeholderOuter'),
+                aria: {label: t(:label_stakeholder_outer_new)},
+                class: 'wp-inline-create--add-link',
+                title: t(:label_stakeholder_outer_new) do
+      op_icon('icon icon-add')
+    end %>
+  </div>
+</div>
