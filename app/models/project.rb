@@ -154,7 +154,8 @@ Project < ActiveRecord::Base
 
   #bbm(
   has_many :project_risks
-  belongs_to :national_project
+  belongs_to :national_project, -> { where(type: 'National') }, class_name: "NationalProject", foreign_key: "national_project_id"
+  belongs_to :federal_project, -> { where(type: 'Federal') }, class_name: "NationalProject", foreign_key: "federal_project_id"
   # )
 
   #zbd(

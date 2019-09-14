@@ -433,6 +433,94 @@ en:
           curator_position:
           parent: Комплексный план модернизации и расширения магистральной инфраструктуры на период до 2024 года
 
+      cost_types:
+        - name: Федеральный бюджет
+          unit: Результат
+          unit_plural: Результаты
+        - name: Региональный бюджет
+          unit: Результат
+          unit_plural: Результаты
+        - name: Внебюджетные средства
+          unit: Результат
+          unit_plural: Результаты
+
+      typed_target:
+        - name: Строительство (реконструкция, техническое перевооружение, приобретение) объекта недвижимого имущества
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Оказание услуг (выполнение работ)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Создание (реорганизация) организации (структурного подразделения)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение образовательных мероприятий
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Принятие нормативного правового (правового) акта
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Утверждение документа
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение массовых мероприятий
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Создание (развитие) информационно-телекоммуникационного сервиса (информационной системы)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Благоустройство территории, ремонт объектов недвижимого имущества
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение информационно-коммуникационной кампании
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Обеспечение реализации федерального (регионального) проекта (результата федерального (регионального) проекта)
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Проведение научно-исследовательских (опытно­конструкторских) работ, реализация проекта внедрения новой информационной технологии
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Создание Российской промышленной зоны за рубежом
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Приобретение товаров, работ, услуг
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+          type: TypedTarget
+        - name: Обеспечено привлечение квалифицированных кадров
+          type_id: Результат
+          parent_id: 0
+          is_approve: true
+
+
     demo_data:
       welcome:
         title: Вас приветствует Система управления проектами Республики Бурятия!
@@ -1116,81 +1204,7 @@ en:
           parent_id: 0
           measure_unit_id: Единица
           is_approve: true
-        - name: Строительство (реконструкция, техническое перевооружение, приобретение) объекта недвижимого имущества
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Оказание услуг (выполнение работ)
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Создание (реорганизация) организации (структурного подразделения)
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Проведение образовательных мероприятий
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Принятие нормативного правового (правового) акта
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Утверждение документа
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Проведение массовых мероприятий
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Создание (развитие) информационно-телекоммуникационного сервиса (информационной системы)
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Благоустройство территории, ремонт объектов недвижимого имущества
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Проведение информационно-коммуникационной кампании
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Обеспечение реализации федерального (регионального) проекта (результата федерального (регионального) проекта)
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Проведение научно-исследовательских (опытно­конструкторских) работ, реализация проекта внедрения новой информационной технологии
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Создание Российской промышленной зоны за рубежом
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Приобретение товаров, работ, услуг
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
-        - name: Обеспечено привлечение квалифицированных кадров
-          type_id: Результат
-          parent_id: 0
-          is_approve: true
-          type: TypedTarget
+
       target_execution_values:
         - target: Количество созданных (реконструированных) и капитально отремонтированных объектов организаций культуры в Республике Бурятия (ед.)
           year: 2019
@@ -1641,16 +1655,6 @@ en:
           type: User
           mail_notification: only_my_events
 
-      cost_types:
-        - name: Федеральный бюджет
-          unit: Результат
-          unit_plural: Результаты
-        - name: Региональный бюджет
-          unit: Результат
-          unit_plural: Результаты
-        - name: Внебюджетные средства
-          unit: Результат
-          unit_plural: Результаты
       rates:
         - rate: 1
           type: CostRate

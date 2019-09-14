@@ -206,6 +206,10 @@ en:
     index:
       no_results_title_text: Сейчас статусы отчётов отсутствуют.
       no_results_content_text: Добавить статус отчёта
+  targets:
+    target: "Цель"
+    indicator: "Показатель"
+    result: "Результат"
   typed_risks:
     edit:
       properties: Свойства
@@ -941,6 +945,7 @@ en:
     other_liabilities_2282: Иные обязательства п.п. 2.2.8.2
     national_project: Национальный проект
     federal_project: Федеральный проект
+    date_end: Действует до
   #)
   button_add: Добавить
   value_for_hpi: Значение показателя
@@ -975,7 +980,7 @@ en:
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
   button_duplicate: Дублировать
-  button_edit: Правка
+  button_edit: Изменить
   button_edit_associated_wikipage: 'Редактирование связанной wiki-страницы: %{page_title}'
   button_expand_all: Развернуть все
   button_filter: Фильтр
@@ -1236,6 +1241,9 @@ en:
   default_role_member: Ответственный за блок мероприятий
   default_role_ispolnitel: Исполнитель
   default_type: Пакет работ
+  default_target: Цель
+  default_indicator: Показатель
+  default_result: Результат
   default_project_status_not_start: не начат
   default_project_status_in_work: в работе
   default_project_status_ready_to_check: готов к проверке
@@ -1485,6 +1493,7 @@ en:
   label_added: Добавлено
   label_added_time_by: Добавлено %{author} %{age} назад
   label_national_projects: Национальные проекты
+  label_national_project_short: Нац.проект
   label_national_project_new: Новый национальный проект
   label_additional_workflow_transitions_for_assignee: Дополнительные переходы допускается,
     если пользователь является правопреемником
@@ -1684,13 +1693,18 @@ en:
   label_stage_control: Контроль
   label_stage_completion: Завершение
 
+  label_admin_user_info: Пользователи и роли
+  label_admin_dictionaries: Справочники
+  label_admin_project_office: Проектный офис
+
   label_agreements: Соглашения
   label_agreement: Соглашение о реализации регионального проекта
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
   label_raion: Район
   label_raions: Районы
-  label_target: Целевые показатели
+  label_target: Цели и результаты
+  label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
@@ -1806,6 +1820,7 @@ en:
   ladel_additional: Дополнительно
   label_reports: Отчеты
   label_report_progress_project: Отчет о ходе реализации проекта
+  label_report_passport: Паспорт регионального проекта
   label_resources: Ресурсы
   label_control: Контроль
   label_nobody: никто
@@ -1893,7 +1908,9 @@ en:
   label_plan_uploader_settings: Настройка соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
-  label_target_new: Добавить целевой показатель
+  label_target_new: Добавить цель
+  label_indicator_new: Добавить целевой показатель
+  label_result_new: Добавить результат
   label_child_target_new: Добавить дочерний целевой показатель
   label_target_parent: Родитель
   label_target_value: Целевой показатель

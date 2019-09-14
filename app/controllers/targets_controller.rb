@@ -23,12 +23,41 @@ class TargetsController < ApplicationController
     sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
 
+    default = false
+    name = ""
+
+    @title = nil
+    case params[:target_type]
+    when "target"
+      @title = I18n.t('label_target_targets')
+      name = I18n.t('targets.target')
+    when "indicator"
+      @title = I18n.t('label_targets')
+      name = I18n.t('targets.indicator')
+    when "result"
+      @title = I18n.t('label_result_plural')
+      name = I18n.t('targets.result')
+    else
+      default = true
+    end
+
+    data = TargetType.where(:name => name).pluck(:id)
+
+    @type_id = data[0]
     @parent_id = parent_id_param
 
-    @targets = @project.targets
-                       .order(sort_clause)
-                       .page(page_param)
-                       .per_page(per_page_param)
+    if default
+      @targets = @project.targets
+                   .order(sort_clause)
+                   .page(page_param)
+                   .per_page(per_page_param)
+    else
+      @targets = @project.targets
+                   .where(:type_id => @type_id)
+                   .page(page_param)
+                   .per_page(per_page_param)
+    end
+
   end
 
   def edit
