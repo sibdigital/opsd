@@ -1902,6 +1902,7 @@ en:
   label_project_hierarchy: Иерархия проектов
   label_project_new: Инициировать проект
   label_project_new_from_template: Инициировать проект из шаблона
+  label_project_new_template: Создать шаблон
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
   label_project_templates: Шаблоны проектов
