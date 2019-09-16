@@ -69,11 +69,30 @@ This file written by BBM
         </thead>
         <tbody>
 
-          <%= render_tree(targets, 0, 0) %>
-
+          <% if params[:target_type] == nil %>
+            <%= render_tree(targets, 0, 0) %>
+          <% else %>
+            <% targets.each do |target| %>
+              <tr id="data-work-package-id=<%= target.id.to_s %>">
+                <%= content_tag(:td, link_to(target.id, edit_project_target_path(id: target.id))) %>
+                <%= content_tag(:td, link_to(h(target.name), edit_project_target_path(id: target.id), title: target.name)) %>
+                <%= content_tag(:td, target.target_status) %>
+                <%= content_tag(:td, target.target_type) %>
+                <%= content_tag(:td, target.measure_unit) %>
+                <%= content_tag(:td, target.basic_value) %>
+                <%= content_tag(:td, target.plan_value) %>
+                <%= content_tag(:td, target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" ) %>
+                <%= content_tag(:td, link_to(
+                    op_icon('icon icon-delete'),
+                    project_target_path(id: target.id),
+                    method: :delete,
+                    data: {confirm: I18n.t(:text_are_you_sure)},
+                    title: t(:button_delete))) %>
+              </tr>
+            <% end %>
+        <% end %>
         </tbody>
       </table>
     </div>
   </div>
-
 <% end -%>

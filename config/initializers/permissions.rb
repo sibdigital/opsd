@@ -33,6 +33,7 @@ Redmine::AccessControl.map do |map|
   map.permission :view_project,
                  { projects: [:show],
                    activities: [:index],
+                   statistics: [:index],
                    #bbm(
                    project_risk_characts: %i[new create edit update destroy],
                    project_risks: %i[index new create edit update choose_typed
@@ -46,9 +47,15 @@ Redmine::AccessControl.map do |map|
                    #)
                    #zbd(
                    stages: [:show,:init,:control,:execution,:completion,:analysis, :planning, :proceed_init, :cancel_init],
+                   stakeholders: %i[index edit new create update destroy],
+                   stakeholder_outers: %i[edit new create update destroy],
+                   communication_meetings: %i[index edit new create update destroy],
+                   communication_requirements: %i[edit new create update destroy],
+                   communication_meeting_members: %i[edit new create update destroy],
                    #)
                    #zbd(
-                   raions: [:show]
+                   raions: [:show],
+                   contracts: %i[index new create edit update destroy]
                    #)
                    },
                  public: true

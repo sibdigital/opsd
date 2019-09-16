@@ -130,12 +130,23 @@ class TargetsController < ApplicationController
   end
 
   def destroy
-    @target.destroy
+    destroy_cascade(@target)
     redirect_to project_targets_path # action: 'index'
     nil
   end
 
   protected
+
+  def destroy_cascade(target)
+    target_id = target.id
+    target.destroy
+
+    descendants = Target.where(:parent_id => target_id)
+
+    descendants.each do |item|
+      destroy_cascade(item)
+    end
+  end
 
   def find_target
     @target = @project.targets.find(params[:id])

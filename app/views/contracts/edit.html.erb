@@ -10,7 +10,7 @@ by zbd
 <%= breadcrumb_toolbar "Правка контракта №: "+@contract.contract_num %>
 
 
-<%= labelled_tabular_form_for @contract do |f| %>
+<%= labelled_tabular_form_for @contract, url: edit_project_contract_path do |f| %>
 
   <%= render partial: 'contracts/form/form', locals: { f: f } %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>

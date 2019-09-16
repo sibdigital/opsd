@@ -6,6 +6,7 @@ class ArbitaryObject < ActiveRecord::Base
   has_many :work_packages, foreign_key: 'arbitary_object_id'
 
   acts_as_customizable
+  acts_as_journalized
 
   def option_name
     nil

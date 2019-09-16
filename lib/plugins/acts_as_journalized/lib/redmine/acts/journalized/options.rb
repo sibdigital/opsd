@@ -92,7 +92,7 @@ module Redmine::Acts::Journalized
         result_options.reverse_merge!(Configuration.options)
         result_options.reverse_merge!(
           class_name: Journal.name,
-          dependent: :delete_all,
+          dependent: :destroy,
           foreign_key: :journable_id,
           as: :journable
         )

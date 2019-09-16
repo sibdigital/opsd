@@ -191,6 +191,10 @@ en:
     my_page:
       no_results_title_text: Новые данные отсутствуют.
   users:
+    monitoring: Мониторинг
+    main: Главная
+    statistic: Статистика
+    additional: Дополнительно
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   prioritiies:
@@ -383,6 +387,18 @@ en:
       comment:
         commented: Прокомментировано
       #zbd(
+      communication_meeting:
+        theme: Тема
+        kind: Вид
+        place: Место проведения
+        sposob: Способ
+        period: Периодичность
+      communication_requirement:
+        kind_info: Вид
+        period: Периодичность
+        stakeholder: Заинтересованная сторона
+      communication_meeting_member:
+        stakeholder: Заинтересованная сторона
       contract:
         name: Наименование
         contract_subject: Предмет контракта
@@ -491,6 +507,9 @@ en:
       production_calendar:
         day_type: Тип дня недели
       national_project:
+        national: Национальный проект
+        federal: Федеральный проект
+        government: Государственная программа
         parent: Национальный проект
         leader: Руководитель
         leader_position: Должность руководителя
@@ -509,6 +528,15 @@ en:
         owner: Владелец риска
         is_possibility: Является возможностью
 #        end
+      #zbd(
+      stakeholder:
+        mail_add: Эл.почта (дополнительная)
+        phone_wrk: Рабочий телефон
+        phone_wrk_add: Добавочный номер
+        phone_mobile: Мобильный телефон
+        address: Адрес
+        cabinet: Кабинет
+      #)
       user:
         admin: Администратор
         auth_source: Способ аутентификации
@@ -860,6 +888,7 @@ en:
 #    last_due_date: Текущая дата окончания
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
+    time: Время
     #)
     issue: Пакет работ
     lastname: Фамилия
@@ -1394,6 +1423,7 @@ en:
     work_package_closed: Пакет работ закрыт
     work_package_edit: Пакет работ отредактирован
     work_package_note: Примечание к пакету работ добавлено
+    document: Прикреплен документ
   export:
     format:
       atom: Atom
@@ -1872,6 +1902,7 @@ en:
   label_project_hierarchy: Иерархия проектов
   label_project_new: Инициировать проект
   label_project_new_from_template: Инициировать проект из шаблона
+  label_project_new_template: Создать шаблон
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
   label_project_templates: Шаблоны проектов
@@ -1976,6 +2007,8 @@ en:
   label_start_to_end: от начала до конца
   label_start_to_start: Пуск, чтобы начать
   label_statistics: Статистика
+  label_statistics_main: Основная
+  label_statistics_additional: Дополнительная
   label_status: Состояние
   label_status_updated: Состояние  пакета работ обновлено
   label_stay_logged_in: Запомнить
@@ -2016,9 +2049,18 @@ en:
   label_contracts_new: Новый гос.контракт
   label_contracts_value: Значение гос.контракта
   label_stakeholder_plural: Заинтересованные стороны
+  label_stakeholders: Заинтересованные стороны
+  label_stakeholder_outer_new: Новая внешняя заинтересованная сторона
+  label_stakeholder_outer: Внешняя заинтересованная сторона
+  label_communication_meetings_plural: План коммуникаций
+  label_communication_meetings: Встречи и участники
+  label_communication_meetings_new: Новая встреча
+  label_communication_requirements: Список информационных потребностей
+  label_communication_requirements_new: Новая информационная потребность
+  label_communication_meeting_members: Участники встречи
   #)
   label_ui: Интерфейс пользователя
-  label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
+  label_update_work_package_done_ratios: Обновить пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
@@ -2312,6 +2354,7 @@ en:
     %{container_type} «%{container_name}».
 '
   notice_add_target_values: "Введите значения показателя с разбивкой по годам или квараталам."
+  notice_add_member_values: "Выберите участников встречи"
 
   number:
     format:
@@ -2409,6 +2452,10 @@ en:
   #knm(
   setting_days_text: Дни недели
   button_refresh: Обновить
+  label_filter: Фильтр
+  label_by_date: По дате
+  label_by_type: По типу
+  label_by_action: По действию
   label_production_calendar: Производственный календарь
   label_production_calendars: Производственные календари
   label_work_calendar: Производственный календарь
@@ -2865,6 +2912,100 @@ en:
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_latest_note: 'Последний комментарий: %{note}'
+#  knm +
+#  Типы действий для проектов
+  text_project_created_project: 'Создан проект'
+  text_project_updated_project: 'Изменен проект'
+  text_project_updated_status: 'Изменен статус проекта'
+  text_project_deleted_project: 'Удален проект'
+  text_project_role_accepted: 'Назначен %{value}'
+  text_project_role_changed: '%{value} сменен'
+  text_project_created_member: 'Добавлен участник'
+  text_project_updated_member: 'Участник изменен'
+  text_project_deleted_member: 'Удален участник'
+  text_project_created_workpackage: 'Создан пакет работ'
+  text_project_deleted_workpackage: 'Удален пакет работ'
+  text_project_updated_workpackage: 'Обновлен пакет работ'
+  text_project_overdue_wp: 'Пакет работ просрочен %{count}'
+  text_project_trouble_wp: 'Пакет работ с рисками'
+  text_project_done_wp: 'Пакет работ выполнен'
+  text_project_done_in_time_wp: 'Пакет работ выполнен до %{count}'
+  text_project_in_work_wp: 'Пакет работ выполняется'
+  text_project_changed_status: 'Сменен статус проекта'
+  text_project_created_document: 'Добавлен документ'
+  text_project_updated_document: 'Обновлен документ'
+  text_project_deleted_document: 'Удален документ'
+  text_project_created_message: 'Оставлено сообщение'
+  text_project_updated_message: 'Отредактировано сообщение'
+  text_project_deleted_message: 'Удалено сообщение'
+  text_project_created_news: 'Написана новость'
+  text_project_updated_news: 'Изменена новость'
+  text_project_deleted_news: 'Удалена новость'
+  text_project_created_meeting: 'Создано совещание'
+  text_project_updated_meeting: 'Обновлено совещание'
+  text_project_deleted_meeting: 'Удалено совещание'
+  text_project_created_meetingcontent: 'Создана тема совещания'
+  text_project_updated_meetingcontent: 'Обновлена тема совещания'
+  text_project_deleted_meetingcontent: 'Удалена тема совещания'
+  text_project_created_board: 'Создана дискуссия'
+  text_project_updated_board: 'Обновлена дискуссия'
+  text_project_deleted_board: 'Удалена дискуссия'
+  text_project_created_costobject: 'Создан бюджет'
+  text_project_updated_costobject: 'Обновлен бюджет'
+  text_project_deleted_costobject: 'Удален бюджет'
+#  Типы действий для юзера
+  text_user_created_project: 'Создал проект'
+  text_user_updated_project: 'Обновил проект'
+  text_user_deleted_project: 'Удалил проект'
+  text_user_created_meeting: 'Создал совещание'
+  text_user_updated_meeting: 'Обновил совещение'
+  text_user_deleted_meeting: 'Удалил совещание'
+  text_user_created_meetingcontent: 'Создал тему совещания'
+  text_user_updated_meetingcontent: 'Обновил тему совещания'
+  text_user_deleted_meetingcontent: 'Удалил тему совещания'
+  text_user_created_news: 'Создал новость'
+  text_user_updated_news: 'Обновил новость'
+  text_user_deleted_news: 'Удалил новость'
+  text_user_created_board: 'Создал дискуссию'
+  text_user_updated_board: 'Обновил дискуссию'
+  text_user_deleted_board: 'Удалил дискуссию'
+  text_user_created_member: 'Добавил участника'
+  text_user_updated_member: 'Обновил участника'
+  text_user_deleted_member: 'Удалил участника'
+  text_user_created_costobject: 'Создал бюджет'
+  text_user_updated_costobject: 'Обновил бюджет'
+  text_user_deleted_costobject: 'Удалил бюджет'
+  text_user_doer_accepted: 'Назначен исполнителем'
+  text_user_head_accepted: 'Назначен руководителем'
+  text_user_created_workpackage: 'Создал пакет работ'
+  text_user_deleted_workpackage: 'Удалил пакет работ'
+  text_user_updated_workpackage: 'Обновил пакет работ'
+  text_user_overdue_wp: 'Просрочил пакет работ'
+  text_user_done_wp: 'Выполнил пакет работ'
+  text_user_created_document: 'Добавил документ'
+  text_user_updated_document: 'Обновил документ'
+  text_user_deleted_document: 'Удалил документ'
+  text_user_created_message: 'Оставил сообщение'
+  text_user_updated_message: 'Отредактировал сообщение'
+  text_user_deleted_message: 'Отредактировал сообщение'
+  text_user_updated_nationalproject: 'Изменил каталог'
+  text_user_created_nationalproject: 'Создал каталог'
+  text_user_deleted_nationalproject: 'Создал каталог'
+#  Статистика с подсчетом
+  statistics_accept_appointment: 'Принятие полномочий исполнителя/руководителя: %{count}'
+  statistics_action_with_wp: 'Действия с объектами: %{count}'
+  statistics_wps_created: 'Создано объектов: %{count}'
+  statistics_wps_deleted: 'Удалено объектов: %{count}'
+  statistics_wps_done: 'Выполнено объектов: %{count}'
+  statistics_wps_overdue: 'Просрочено объектов: %{count}'
+  statistics_docs_added: 'Добавлено документов: %{count}'
+  statistics_docs_updated: 'Обновлено документов: %{count}'
+  statistics_docs_deleted: 'Удалено документов: %{count}'
+  statistics_boards_messaged: 'Оставлено сообщений: %{count}'
+  statistics_boards_messages_updated: 'Отредактировано сообщений: %{count}'
+  statistics_nationalproject_created: 'Создано национальных проектов: %{count}'
+  statistics_nationalproject_updated: 'Изменено национальных проектов: %{count}'
+#  -
   text_length_between: Количество символов между %{min} и %{max} .
   text_line_separated: Допускается  несколько значений (одна строка для каждого значения).
   text_load_default_configuration: Загрузить конфигурацию по умолчанию

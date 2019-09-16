@@ -348,17 +348,19 @@ class MembersController < ApplicationController
         s.cabinet = user.cabinet
       end
 
-      org = Organization.find(user.organization_id)
-      if org.present?
-        so = StakeholderOrganization.where(organization_id: org.id, project_id: @project).first_or_create do |s|
-          s.organization_id = org.id
-          s.name = org.name
-          s.phone_wrk = org.phone_wrk
-          s.phone_wrk_add = org.phone_wrk_add
-          s.phone_mobile = org.phone_mobile
-          s.mail_add = org.mail_add
-          s.address = org.address
-          s.cabinet = org.cabinet
+      if user.organization_id.present?
+        org = Organization.find(user.organization_id)
+        if org.present?
+          so = StakeholderOrganization.where(organization_id: org.id, project_id: @project).first_or_create do |s|
+            s.organization_id = org.id
+            s.name = org.name
+            s.phone_wrk = org.phone_wrk
+            s.phone_wrk_add = org.phone_wrk_add
+            s.phone_mobile = org.phone_mobile
+            s.mail_add = org.mail_add
+            s.address = org.address
+            s.cabinet = org.cabinet
+          end
         end
       end
     end

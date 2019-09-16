@@ -116,6 +116,7 @@ class User < Principal
   end
 
   acts_as_customizable
+  # acts_as_journalized
 
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
@@ -139,7 +140,7 @@ class User < Principal
   validates_format_of :phone_wrk, with: /\A((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{6,10}\z/i, allow_blank: true
   validates_format_of :phone_wrk_add, with: /\A[0-9]{1,4}\z/i, allow_blank: true
   validates_format_of :phone_mobile, with: /\A^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}\z/i, allow_blank: true
-  validates_length_of :address, maximum: 160
+  validates_length_of :address, maximum: 255
   validates_length_of :cabinet, maximum: 6
   #)
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true

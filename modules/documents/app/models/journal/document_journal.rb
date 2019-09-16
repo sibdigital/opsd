@@ -33,3 +33,5 @@
 class Journal::DocumentJournal < Journal::BaseJournal
   self.table_name = "document_journals"
 end
+
+::DocumentJournal = Journal::DocumentJournal

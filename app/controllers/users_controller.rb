@@ -58,6 +58,7 @@ class UsersController < ApplicationController
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
+  helper :sort
   include SortHelper
   include CustomFieldsHelper
   include PaginationHelper
@@ -75,13 +76,54 @@ class UsersController < ApplicationController
   end
 
   def show
+    if params[:commit] == "Применить"
+      @tab = "statistic"
+      params[:tab] = "statistic"
+      params[:filter_date].blank? ? @filter_date = "" : @filter_date = params[:filter_date]
+      params[:filter_action].blank? ? @filter_action = "" : @filter_action = params[:filter_action]
+      params[:filter_type].blank? ? @filter_type = "" : @filter_type = params[:filter_type]
+    elsif params[:tab].blank?
+      @tab = "main"
+      params[:tab] = "main"
+    # elsif params[:tab] == "edit"
+    #   @auth_sources = AuthSource.all
+    #   @membership ||= Member.new
+    #   render :edit and return
+    else
+      @tab = params[:tab]
+    end
     # show projects based on current user visibility
     @memberships = @user.memberships
                         .visible(current_user)
+    # @statistics = Journal.where(user_id: User.current.id).order('created_at asc') # - user changes
 
+    # @statistics = Journal.where(user_id: User.current.id).select(:journable_type, :journable_id).distinct #- user changes distinct
+    sort_columns = {'journable_type' => "#{Journal.table_name}.journable_type", 'journable_id' => "#{Journal.table_name}.journable_id"}
+    sort_init 'id', 'asc'
+    sort_update sort_columns
+    @statistics =  Journal.where("(journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?
+                                                    OR journable_type = ?) AND user_id = ?",
+                                                  "WorkPackage", "NationalProject", "Document", "Message","Board","Meeting","MeetingContent","News","Project", "CostObject",@user.id).order(sort_clause)
+                     .page(page_param)
+                     .per_page(per_page_param)
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
-
+    project_roles = Journal.where("journable_type = ? AND user_id = ?","MemberRole",@user.id)
+    roles_entries = Journal::MemberRoleJournal.where(journal_id: project_roles.map(&:id)).where("role_id =? OR role_id = ?",Role.find_by(name: I18n.t(:default_role_project_head)).id, Role.find_by(name: I18n.t(:default_role_ispolnitel)).id)
+    @changeroles = roles_entries.order(sort_clause)
+                     .page(page_param)
+                     .per_page(per_page_param)
+    @wpstats = WorkPackageIspolnStat.where(assigned_to_id: @user.id).order(sort_clause)
+                 .page(page_param)
+                 .per_page(per_page_param)
     unless User.current.admin?
       if !(@user.active? ||
          @user.registered?) ||

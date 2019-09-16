@@ -521,10 +521,8 @@ class PermittedParams
 
   # zbd (
   def contract
-    permitted_params = params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps)
-
+    permitted_params = params.require(:contract).permit(:contract_date, :contract_num, :contract_subject, :price, :executor, :is_approve, :eis_href, :name, :sposob, :gos_zakaz, :date_begin, :date_end, :etaps, :project_id)
     permitted_params = permitted_params.merge(custom_field_values(:contract))
-    permitted_params
   end
 
   def plan_uploader_setting
@@ -533,6 +531,22 @@ class PermittedParams
 
   def typed_target
     params.require(:typed_target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type)
+  end
+
+  def stakeholder_outer
+    params.require(:stakeholder_outer).permit(:name, :project_id, :organization_id, :user_id, :description, :type, :phone_wrk, :phone_wrk_add, :phone_mobile, :mail_add, :address, :cabinet)
+  end
+
+  def communication_meeting
+    params.require(:communication_meeting).permit(:name, :project_id, :user_id, :kind, :theme, :place, :sposob, :period)
+  end
+
+  def communication_meeting_member
+    params.require(:communication_meeting_member).permit(:project_id, :stakeholder_id, :communication_meeting_id)
+  end
+
+  def communication_requirement
+    params.require(:communication_requirement).permit(:name, :project_id, :stakeholder_id, :kind_info, :period)
   end
   # )
 

@@ -1,0 +1,36 @@
+<div class="grid-block medium-up-2">
+  <div class="grid-content">
+    <%= call_hook :view_account_left_top, user: @user %>
+    <ul>
+      <% unless @user.pref.hide_mail %>
+        <li><%= User.human_attribute_name(:mail) %>: <%= mail_to(h(escape_javascript(@user.mail)), nil, encode: 'javascript') %></li>
+      <% end %>
+      <% @user.visible_custom_field_values.each do |custom_value| %>
+        <% if !custom_value.value.blank? %>
+          <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+        <% end %>
+      <% end %>
+    </ul>
+
+    <%= call_hook :view_account_left_middle, user: @user %>
+
+    <% unless @memberships.empty? %>
+      <h3><%=l(:label_project_plural)%></h3>
+      <ul>
+        <% for membership in @memberships %>
+          <li>
+            <%= link_to_project(membership.project) %>
+            (<%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    <%= call_hook :view_account_left_bottom, user: @user %>
+    <p>
+      <%=l(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
+    </p>
+  </div>
+</div>
+
+
+

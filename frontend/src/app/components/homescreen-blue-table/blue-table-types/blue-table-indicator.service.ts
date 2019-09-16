@@ -25,8 +25,8 @@ export class BlueTableIndicatorService extends BlueTableService {
           .toPromise()
           .then((targets:HalResource) => {
             targets.source.map((el:HalResource) => {
-              this.data_local[el.national_id] = this.data_local[el.national_id] || [];
-              this.data_local[el.national_id].push(el);
+              this.data_local[el.federal_id] = this.data_local[el.federal_id] || [];
+              this.data_local[el.federal_id].push(el);
             });
             resources.elements.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
@@ -51,7 +51,7 @@ export class BlueTableIndicatorService extends BlueTableService {
       this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
       if (this.data_local[0]) {
         this.data_local[0].map((row:HalResource) => {
-          this.data.push({_type: row._type, name: row.name});
+          this.data.push({_type: row._type, name: row.name, identifier: row.identifier});
           row.targets.map((target:HalResource) => {
             this.data.push(target);
           });
@@ -67,7 +67,7 @@ export class BlueTableIndicatorService extends BlueTableService {
               this.data.push(el);
               if (this.data_local[el.id]) {
                 this.data_local[el.id].map((row:HalResource) => {
-                  this.data.push({_type: row._type, name: row.name});
+                  this.data.push({_type: row._type, name: row.name, identifier: row.identifier});
                   row.targets.map((target:HalResource) => {
                     this.data.push(target);
                   });
@@ -83,7 +83,7 @@ export class BlueTableIndicatorService extends BlueTableService {
     return this.columns;
   }
   public getPages():number {
-    return this.national_project_titles.length - 2;
+    return this.national_project_titles.length;
   }
 
   public getData():any[] {

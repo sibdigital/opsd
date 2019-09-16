@@ -2,10 +2,10 @@
 # 22.06.2019
 
 class ContractsController < ApplicationController
-  layout 'admin'
-
   before_action :require_project_admin
   before_action :find_contracts, only: [:edit, :update, :destroy]
+  before_action :find_project
+  before_action :find_project_id, only: [:new, :create, :edit, :update]
 
   helper :sort
   include SortHelper
@@ -41,7 +41,6 @@ class ContractsController < ApplicationController
 
   def create
    @contract = Contract.new(permitted_params.contract)
-
     if @contract.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to action: 'index'
@@ -53,7 +52,7 @@ class ContractsController < ApplicationController
   def update
     if @contract.update_attributes(permitted_params.contract)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to contracts_path
+      redirect_to project_contracts_path
     else
       render action: 'edit'
     end
@@ -71,7 +70,7 @@ class ContractsController < ApplicationController
     if action_name == 'index'
       t(:label_contracts)
     else
-      ActionController::Base.helpers.link_to(t(:label_contracts), contracts_path)
+      ActionController::Base.helpers.link_to(t(:label_contracts), project_contracts_path)
     end
   end
 
@@ -81,6 +80,15 @@ class ContractsController < ApplicationController
 
   def find_contracts
     @contract = Contract.find(params[:id])
+  end
+
+  def find_project
+    @project = Project.find(params[:project_id])
+  end
+
+  def find_project_id
+    data = Project.where(:identifier => params[:project_id]).pluck(:id)
+    @project_id = data[0]
   end
 
 end

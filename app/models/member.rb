@@ -34,6 +34,8 @@ class Member < ActiveRecord::Base
   has_many :roles, through: :member_roles
   belongs_to :project
 
+  acts_as_journalized
+
   validates_presence_of :project
   validates_uniqueness_of :user_id, scope: :project_id
 
