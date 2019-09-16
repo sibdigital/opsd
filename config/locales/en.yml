@@ -397,6 +397,8 @@ en:
         kind_info: Вид
         period: Периодичность
         stakeholder: Заинтересованная сторона
+      communication_meeting_member:
+        stakeholder: Заинтересованная сторона
       contract:
         name: Наименование
         contract_subject: Предмет контракта
