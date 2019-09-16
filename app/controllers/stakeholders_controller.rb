@@ -12,7 +12,7 @@ class StakeholdersController < ApplicationController
     if action_name == 'index'
       t(:label_stakeholders)
     else
-      #ActionController::Base.helpers.link_to(t(:label_stakeholders), stakeholders_path)
+      ActionController::Base.helpers.link_to(t(:label_stakeholders), project_stakeholders_path)
     end
   end
 

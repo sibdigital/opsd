@@ -387,6 +387,18 @@ en:
       comment:
         commented: Прокомментировано
       #zbd(
+      communication_meeting:
+        theme: Тема
+        kind: Вид
+        place: Место проведения
+        sposob: Способ
+        period: Периодичность
+      communication_requirement:
+        kind_info: Вид
+        period: Периодичность
+        stakeholder: Заинтересованная сторона
+      communication_meeting_member:
+        stakeholder: Заинтересованная сторона
       contract:
         name: Наименование
         contract_subject: Предмет контракта
@@ -1890,6 +1902,7 @@ en:
   label_project_hierarchy: Иерархия проектов
   label_project_new: Инициировать проект
   label_project_new_from_template: Инициировать проект из шаблона
+  label_project_new_template: Создать шаблон
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
   label_project_templates: Шаблоны проектов
@@ -2040,9 +2053,14 @@ en:
   label_stakeholder_outer_new: Новая внешняя заинтересованная сторона
   label_stakeholder_outer: Внешняя заинтересованная сторона
   label_communication_meetings_plural: План коммуникаций
+  label_communication_meetings: Встречи и участники
+  label_communication_meetings_new: Новая встреча
+  label_communication_requirements: Список информационных потребностей
+  label_communication_requirements_new: Новая информационная потребность
+  label_communication_meeting_members: Участники встречи
   #)
   label_ui: Интерфейс пользователя
-  label_update_work_package_done_ratios: Обновить  пакет работ созданными коэффициентами
+  label_update_work_package_done_ratios: Обновить пакет работ созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
@@ -2336,6 +2354,7 @@ en:
     %{container_type} «%{container_name}».
 '
   notice_add_target_values: "Введите значения показателя с разбивкой по годам или квараталам."
+  notice_add_member_values: "Выберите участников встречи"
 
   number:
     format:

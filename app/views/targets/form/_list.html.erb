@@ -11,6 +11,7 @@ This file written by BBM
         <thead>
         <tr>
           <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <th></th>
           <%= sort_header_tag("name", :caption => Target.human_attribute_name(:name)) %>
           <%= sort_header_tag("status", :caption => Target.human_attribute_name(:target_status)) %>
           <%= sort_header_tag("type", :caption => Target.human_attribute_name(:target_type)) %>
@@ -80,7 +81,7 @@ This file written by BBM
                 <%= content_tag(:td, target.measure_unit) %>
                 <%= content_tag(:td, target.basic_value) %>
                 <%= content_tag(:td, target.plan_value) %>
-                <%= content_tag(:td, check_box_tag('is_approve', target.is_approve, target.is_approve, readonly:true)) %>
+                <%= content_tag(:td, target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" ) %>
                 <%= content_tag(:td, link_to(
                     op_icon('icon icon-delete'),
                     project_target_path(id: target.id),
