@@ -180,7 +180,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
   private getMeetingEvents() {
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.meetings.toString()).toPromise().then(
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.meetings.toString(), {project_identifier: this.projectIdentifier}).toPromise().then(
 
       (resources: CollectionResource<HalResource>) => {
 
