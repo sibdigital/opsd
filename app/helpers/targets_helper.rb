@@ -39,7 +39,7 @@ module TargetsHelper
         html = html + content_tag(:td, target.measure_unit)
         html = html + content_tag(:td, target.basic_value)
         html = html + content_tag(:td, target.plan_value)
-        html = html + content_tag(:td, check_box_tag('is_approve', target.is_approve, target.is_approve, readonly:true))
+        html = html + content_tag(:td, target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" )
         if User.current.allowed_to?(:manage_work_package_target_plan_values, @project)
           html = html + content_tag(:td,
                     link_to(op_icon('icon icon-add'),

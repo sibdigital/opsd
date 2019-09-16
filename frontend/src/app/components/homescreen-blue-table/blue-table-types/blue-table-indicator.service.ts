@@ -51,7 +51,7 @@ export class BlueTableIndicatorService extends BlueTableService {
       this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
       if (this.data_local[0]) {
         this.data_local[0].map((row:HalResource) => {
-          this.data.push({_type: row._type, name: row.name});
+          this.data.push({_type: row._type, name: row.name, identifier: row.identifier});
           row.targets.map((target:HalResource) => {
             this.data.push(target);
           });
@@ -67,7 +67,7 @@ export class BlueTableIndicatorService extends BlueTableService {
               this.data.push(el);
               if (this.data_local[el.id]) {
                 this.data_local[el.id].map((row:HalResource) => {
-                  this.data.push({_type: row._type, name: row.name});
+                  this.data.push({_type: row._type, name: row.name, identifier: row.identifier});
                   row.targets.map((target:HalResource) => {
                     this.data.push(target);
                   });

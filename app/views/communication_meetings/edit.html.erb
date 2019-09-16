@@ -1,6 +1,9 @@
-<% html_title l(:label_administration), l(:label_communication_meetings) %>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{l(:label_communication_meetings)}" %>
 <% local_assigns[:additional_breadcrumb] = @com_meeting.name %>
+<% breadcrumb_paths(default_breadcrumb, @com_meeting.name) %>
+
 <%= breadcrumb_toolbar l(:label_edit) +': ' + @com_meeting.name %>
+
 
 <div style="position: relative; display: block;">
 
