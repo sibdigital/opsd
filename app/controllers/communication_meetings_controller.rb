@@ -84,6 +84,18 @@ class CommunicationMeetingsController < ApplicationController
 
 private
 
+  def default_breadcrumb
+    if action_name == 'index'
+      l(:label_communication_meetings_plural)
+    else
+      ActionController::Base.helpers.link_to(l(:label_communication_meetings), project_communication_meetings_path)
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
   def find_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
