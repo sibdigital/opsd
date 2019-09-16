@@ -2,8 +2,6 @@
 # 22.06.2019
 
 class ContractsController < ApplicationController
-  layout 'admin'
-
   before_action :require_project_admin
   before_action :find_contracts, only: [:edit, :update, :destroy]
   before_action :find_project
