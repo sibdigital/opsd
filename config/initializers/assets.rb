@@ -26,8 +26,10 @@ OpenProject::Application.configure do
     notify.js
     notifyme.js
     interactive_map.js
+    project_interactive_map.js
     network.js
     strategic_map.js
+    project_strategic_map.js
     plan_uploader_settings.js
   )
 end

@@ -316,6 +316,15 @@ OpenProject::Application.routes.draw do
 
       resources :work_package_targets
     end
+    #knm +
+    resources :project_interactive_map do
+      get :get_wps, on: :collection
+    end
+
+    resources :project_strategic_map do
+      get :get_project, on: :collection
+    end
+    # -
 
     #bbm(
     resources :project_risks do

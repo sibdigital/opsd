@@ -96,10 +96,10 @@ module API
                 stroka = Hash.new
                 stroka['_type'] = 'Project'
                 stroka['project_id'] = arr['id']
-                project = Project.find(arr['id'])
+                project = Project.visible(current_user).find(arr['id'])
                 stroka['name'] = project.name
                 stroka['identifier'] = project.identifier
-                stroka['national_id'] = project.national_project_id || 0
+                stroka['federal_id'] = project.federal_project_id || 0
                 stroka['kurator'] = project.curator.empty? ? '' : project.curator['fio']
                 stroka['kurator_id'] = project.curator.empty? ? '' : project.curator['id']
                 stroka['rukovoditel'] = project.rukovoditel.empty? ? '' : project.rukovoditel['fio']
@@ -143,10 +143,10 @@ module API
                 hash = Hash.new
                 hash['_type'] = 'Project'
                 hash['project_id'] = project
-                p = Project.find(project)
+                p = Project.visible(current_user).find(project)
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
-                hash['national_id'] = p.national_project_id || 0
+                hash['federal_id'] = p.federal_project_id || 0
                 hash['problems'] = []
                 arr.each do |row|
                   stroka = Hash.new
@@ -193,10 +193,10 @@ module API
                 hash = Hash.new
                 hash['_type'] = 'Project'
                 hash['project_id'] = project
-                p = Project.find(project)
+                p = Project.visible(current_user).find(project)
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
-                hash['national_id'] = p.national_project_id || 0
+                hash['federal_id'] = p.federal_project_id || 0
                 hash['curator'] = p.curator['fio']
                 hash['curator_id'] = p.curator['id']
                 hash['rukovoditel'] = p.rukovoditel['fio']
@@ -276,10 +276,10 @@ module API
                 hash = Hash.new
                 hash['_type'] = 'Project'
                 hash['project_id'] = project
-                p = Project.find(project)
+                p = Project.visible(current_user).find(project)
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
-                hash['national_id'] = p.national_project_id || 0
+                hash['federal_id'] = p.federal_project_id || 0
                 hash['work_packages'] = []
                 arr.each do |row|
                   stroka = Hash.new
@@ -287,8 +287,8 @@ module API
                   stroka['work_package_id'] = row.id
                   stroka['project_id'] = project
                   stroka['subject'] = row.subject
-                  stroka['otvetstvenniy'] = row.assigned_to.fio
-                  stroka['otvetstvenniy_id'] = row.assigned_to.id
+                  stroka['otvetstvenniy'] = row.assigned_to ? row.assigned_to.fio : ''
+                  stroka['otvetstvenniy_id'] = row.assigned_to ? row.assigned_to.id : ''
                   stroka['due_date'] = row.due_date
                   stroka['status_name'] = row.status_name
                   stroka['created_problem_count'] = row.created_problem_count
@@ -316,10 +316,10 @@ module API
                 hash = Hash.new
                 hash['_type'] = 'Project'
                 hash['project_id'] = project
-                p = Project.find(project)
+                p = Project.visible(current_user).find(project)
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
-                hash['national_id'] = p.national_project_id || 0
+                hash['federal_id'] = p.federal_project_id || 0
                 hash['targets'] = []
                 arr.each do |row|
                   stroka = Hash.new
