@@ -2,9 +2,70 @@
 <% local_assigns[:additional_breadcrumb] = @com_meeting.name %>
 <%= breadcrumb_toolbar l(:label_edit) +': ' + @com_meeting.name %>
 
-<%= labelled_tabular_form_for [@project, @com_meeting] do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<% end %>
+<div style="position: relative; display: block;">
 
+  <section style="display: block; width: 45%; float: left; margin-right: 30px;">
+    <h3>Свойства</h3>
+
+      <%= labelled_tabular_form_for [@project, @com_meeting] do |f| %>
+        <%= render partial: 'form', locals: { f: f } %>
+        <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+        <%= link_to 'Закрыть', project_communication_meetings_path(tab: :meet), class: '-with-icon icon-checkmark button' %>
+  <% end %>
+  </section>
+
+  <section style="display: block; width: 50%; float: left;">
+    <h3><%= l(:label_communication_meeting_members) %></h3>
+
+    <div style="margin-bottom: 10px;">
+      <table>
+        <% @com_meeting_members.each do |member| %>
+          <tr>
+            <td>
+              -
+            </td>
+            <td>
+              <%= Stakeholder.find(member.stakeholder_id).name %>
+            </td>
+            <td>
+              <%=link_to(
+                    op_icon('icon icon-delete'),
+                    project_communication_meeting_member_path(communication_meeting_id: member.communication_meeting_id, id: member.id),
+                    method: :delete,
+                    data: {confirm: I18n.t(:text_are_you_sure)},
+                    title: t(:button_delete))
+              %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div>
+      <%# if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
+        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить участника</span></div>
+      <%# end %>
+    </div>
+    <div id="target-val-form" style="display: none; margin-top: 10px; background: #fafafa; padding: 20px;">
+      <section>
+        <% @com_meeting_member = CommunicationMeetingMember.new %>
+        <%#= @com_meeting_member = CommunicationMeetingMember.new(project_id: @project.id, communication_meeting_id: @com_meeting.id) %>
+        <h5>Выберите участника:</h5>
+
+        <%= error_messages_for @com_meeting_member %>
+        <%= labelled_tabular_form_for @com_meeting_member, url: project_communication_meeting_members_path(communication_meeting_id: @com_meeting.id ) do |f| %>
+          <section class="form--section">
+            <%= f.hidden_field :communication_meeting_id, value: @com_meeting.id %>
+            <%= f.hidden_field :project_id, value: @project.id %>
+            <%= f.select 'stakeholder_id',
+                         options_for_select(Stakeholder.where(project_id: @project.id).all.map {|s| [s.name, s.id]}, 0),
+                         include_blank: true,
+                         container_class: '-middle' %>
+          </section>
+          <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
+          <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-checkmark button', id: 'target-val-cancel' %>
+        <% end %>
+      </section>
+    </div>
+  </section>
+</div>
 

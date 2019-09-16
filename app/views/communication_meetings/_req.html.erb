@@ -1,0 +1,59 @@
+<%= form_tag({}) do -%>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="req_items">
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%= sort_header_tag("name", :caption => CommunicationRequirement.human_attribute_name(:name)) %>
+          <%= sort_header_tag("stakeholder", :caption => CommunicationRequirement.human_attribute_name(:stakeholder)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <%= CommunicationRequirement.human_attribute_name(:kind_info) %>
+              </div>
+            </div>
+          </th>
+          <%= sort_header_tag("period", :caption => CommunicationRequirement.human_attribute_name(:period)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <% @com_req.each do |req| %>
+          <tr id="com_req-<%= req.id %>">
+            <td><%= link_to req.id, edit_project_communication_requirement_path(id: req.id) %></td>
+            <%= content_tag(:td, link_to(h(req.name), edit_project_communication_requirement_path(id: req.id))) %>
+            <%= content_tag(:td, Stakeholder.find(req.stakeholder_id).name) %>
+            <%= content_tag(:td, req.kind_info) %>
+            <%= content_tag(:td, req.period) %>
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-delete'),
+                project_communication_requirement_path(id: req.id),
+                method: :delete,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                title: t(:button_delete))) %>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+    <%= pagination_links_full @com_req %>
+    <div class="wp-inline-create-button">
+      <%= link_to new_project_communication_requirement_path(),
+                  aria: {label: t(:label_communication_requirements_new)},
+                  class: 'wp-inline-create--add-link',
+                  title: t(:label_communication_requirements_new) do
+        op_icon('icon icon-add')
+      end %>
+    </div>
+  </div>
+
+<% end -%>

@@ -1,14 +1,22 @@
-<%= 'План коммуникаций - ' + @tab %>
+<% html_title l(:label_communication_meetings) %>
+<% local_assigns[:additional_breadcrumb] =  l(:label_communication_meetings_plural)%>
+<% case @tab %>
+  <% when 'req' %>
+    <%= breadcrumb_toolbar l(:label_communication_meetings_plural) + ' - ' + l(:label_communication_requirements) %>
+  <% when 'meet' %>
+    <%= breadcrumb_toolbar l(:label_communication_meetings_plural) + ' - ' + l(:label_communication_meetings) %>
+<% end %>
+
 
 <div class="tabs">
   <ul>
     <li>
-      <%= link_to 'Информационные потребности',
+      <%= link_to l(:label_communication_requirements), #'Информационные потребности',
                   project_communication_meetings_path(project_id: @project.id, tab: :req),
                   class: "#{'selected' if @tab == "req" }"  %>
     </li>
     <li>
-      <%= link_to 'Встречи и участники',
+      <%= link_to l(:label_communication_meetings), #'Встречи и участники',
                   project_communication_meetings_path(project_id: @project.id, tab: :meet),
                   class: "#{'selected' if @tab == 'meet' }"  %>
     </li>
@@ -16,5 +24,3 @@
 </div>
 
 <%= render partial: "communication_meetings/#{@tab}"%>
-
-

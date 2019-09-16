@@ -231,6 +231,7 @@ OpenProject::Application.routes.draw do
     resources :stakeholder_outers, controller: 'stakeholder_outers', except: %i[show]
 
     resources :communication_meetings, controller: 'communication_meetings'
+    resources :communication_meeting_members, controller: 'communication_meeting_members'
     resources :communication_requirements, controller: 'communication_requirements'
     # )
 

@@ -16,12 +16,9 @@ class CommunicationMeetingsController < ApplicationController
     case @tab
     when 'req'
       sort_columns = {'id' => "#{CommunicationRequirement.table_name}.id",
-                      'name' => "#{CommunicationRequirement.table_name}.contract_date" #,
-      #                 'contract_num' => "#{Contract.table_name}.contract_num",
-      #                 'contract_subject' => "#{Contract.table_name}.contract_subject",
-      #                 'eis_href' => "#{Contract.table_name}.eis_href",
-      #                 'price' => "#{Contract.table_name}.price",
-      #                 'executor' => "#{Contract.table_name}.executor"
+                      'name' => "#{CommunicationRequirement.table_name}.name",
+                       'stakeholder' => "#{Contract.table_name}.stakeholder",
+                       'period' => "#{Contract.table_name}.period"
       }
       sort_init 'id', 'asc'
       sort_update sort_columns
@@ -33,12 +30,12 @@ class CommunicationMeetingsController < ApplicationController
 
     when 'meet'
       sort_columns = {'id' => "#{CommunicationMeeting.table_name}.id",
-                      'name' => "#{CommunicationMeeting.table_name}.contract_date" #,
-                      #                 'contract_num' => "#{Contract.table_name}.contract_num",
-                      #                 'contract_subject' => "#{Contract.table_name}.contract_subject",
-                      #                 'eis_href' => "#{Contract.table_name}.eis_href",
-                      #                 'price' => "#{Contract.table_name}.price",
-                      #                 'executor' => "#{Contract.table_name}.executor"
+                      'name' => "#{CommunicationMeeting.table_name}.name",
+                      'theme' => "#{CommunicationMeeting.table_name}.theme",
+                      'kind' => "#{CommunicationMeeting.table_name}.kind",
+                      'sposob' => "#{CommunicationMeeting.table_name}.sposob",
+                      'period' => "#{CommunicationMeeting.table_name}.period",
+                      'user_id' => "#{CommunicationMeeting.table_name}.user_id"
       }
       sort_init 'id', 'asc'
       sort_update sort_columns
@@ -59,21 +56,21 @@ class CommunicationMeetingsController < ApplicationController
     @com_meeting = CommunicationMeeting.create(permitted_params.communication_meeting)
 
     if @com_meeting.save!
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to #
+      flash[:notice] = l(:notice_add_member_values)
+      redirect_to edit_project_communication_meeting_path(project_id: @project.id, id: @com_meeting.id, tab: :meet)
     else
       render action: 'new'
     end
   end
 
   def edit
-
+    @com_meeting_members = CommunicationMeetingMember.where(project_id: @project.id, communication_meeting_id: params[:id]).all
   end
 
   def update
     if @com_meeting.update_attributes(permitted_params.communication_meeting)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to #project_stakeholders_path #(project_id: @project.identifier)
+      redirect_to project_communication_meetings_path(project_id: @project.id, tab: :meet)
     else
       render action: 'edit'
     end
@@ -81,7 +78,7 @@ class CommunicationMeetingsController < ApplicationController
 
   def destroy
     @com_meeting.destroy
-    redirect_to #project_stakeholders_path
+    redirect_to project_communication_meetings_path(project_id: @project.id, tab: :meet)
     nil
   end
 

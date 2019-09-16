@@ -12,7 +12,7 @@ class CommunicationRequirementsController < ApplicationController
 
     if @com_req.save!
       flash[:notice] = l(:notice_successful_create)
-      redirect_to #
+      redirect_to project_communication_meetings_path(project_id: @project.id, tab: :req)
     else
       render action: 'new'
     end
@@ -25,7 +25,7 @@ class CommunicationRequirementsController < ApplicationController
   def update
     if @com_req.update_attributes(permitted_params.communication_requirement)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to #project_stakeholders_path #(project_id: @project.identifier)
+      redirect_to project_communication_meetings_path(project_id: @project.id, tab: :req)
     else
       render action: 'edit'
     end
@@ -33,7 +33,7 @@ class CommunicationRequirementsController < ApplicationController
 
   def destroy
     @com_req.destroy
-    redirect_to #project_stakeholders_path
+    redirect_to project_communication_meetings_path(project_id: @project.id, tab: :req)
     nil
   end
 

@@ -543,6 +543,10 @@ class PermittedParams
     params.require(:communication_meeting).permit(:name, :project_id, :user_id, :kind, :theme, :place, :sposob, :period)
   end
 
+  def communication_meeting_member
+    params.require(:communication_meeting_member).permit(:project_id, :stakeholder_id, :communication_meeting_id)
+  end
+
   def communication_requirement
     params.require(:communication_requirement).permit(:name, :project_id, :stakeholder_id, :kind_info, :period)
   end
