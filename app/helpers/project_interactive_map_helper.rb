@@ -1,0 +1,2 @@
+module ProjectInteractiveMapHelper
+end
