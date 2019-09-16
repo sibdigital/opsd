@@ -30,8 +30,8 @@ export class BlueTableKtService extends BlueTableService {
           .toPromise()
           .then((resource:CollectionResource<HalResource>) => {
             resource.elements.map((el:HalResource) => {
-              this.data_local[el.national_id] = this.data_local[el.national_id] || [];
-              this.data_local[el.national_id].push(el);
+              this.data_local[el.federal_id] = this.data_local[el.federal_id] || [];
+              this.data_local[el.federal_id].push(el);
             });
             resources.elements.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
@@ -56,7 +56,7 @@ export class BlueTableKtService extends BlueTableService {
 
   public getPages():number {
     if (!this.project || this.project === '0') {
-      return this.national_project_titles.length - 2;
+      return this.national_project_titles.length;
     } else {
       return this.pages;
     }
@@ -66,13 +66,7 @@ export class BlueTableKtService extends BlueTableService {
     if (!this.project || this.project === '0') {
       return this.national_project_titles[i].name;
     } else {
-      if ( i === 0) {
-        return '<<';
-      }
-      if (i > this.getPages()) {
-        return '>>';
-      }
-      return String(i);
+      return String(i + 1);
     }
   }
 
@@ -101,8 +95,8 @@ export class BlueTableKtService extends BlueTableService {
             .toPromise()
             .then((resource:CollectionResource<HalResource>) => {
               resource.elements.map((el:HalResource) => {
-                this.data_local[el.national_id] = this.data_local[el.national_id] || [];
-                this.data_local[el.national_id].push(el);
+                this.data_local[el.federal_id] = this.data_local[el.federal_id] || [];
+                this.data_local[el.federal_id].push(el);
               });
               resources.elements.map((el:HalResource) => {
                 if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
@@ -154,11 +148,11 @@ export class BlueTableKtService extends BlueTableService {
             .toPromise()
             .then((resource:CollectionResource<HalResource>) => {
               resource.elements.map((el:HalResource) => {
-                this.data_local[el.national_id] = [el];
+                this.data_local[el.federal_id] = [el];
               });
               resource.elements.map((project:HalResource) => {
                 resources.elements.map((el:HalResource) => {
-                  if ((el.id === project.national_id) || (el.parentId && el.parentId === project.national_id)) {
+                  if ((el.id === project.federal_id) || (el.parentId && el.parentId === project.federal_id)) {
                     this.data.push(el);
                     if (this.data_local[el.id]) {
                       this.data_local[el.id].map((row:HalResource) => {
@@ -170,7 +164,7 @@ export class BlueTableKtService extends BlueTableService {
                     }
                   }
                 });
-                if (project.national_id === 0) {
+                if (project.federal_id === 0) {
                   this.data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
                   if (this.data_local[0]) {
                     this.data_local[0].map((row:HalResource) => {
@@ -283,8 +277,8 @@ export class BlueTableKtService extends BlueTableService {
             .toPromise()
             .then((resource:CollectionResource<HalResource>) => {
               resource.elements.map((el:HalResource) => {
-                this.data_local[el.national_id] = this.data_local[el.national_id] || [];
-                this.data_local[el.national_id].push(el);
+                this.data_local[el.federal_id] = this.data_local[el.federal_id] || [];
+                this.data_local[el.federal_id].push(el);
               });
               if (this.national_project_titles[this.page].id === 0) {
                 this.data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
@@ -332,11 +326,11 @@ export class BlueTableKtService extends BlueTableService {
                 this.pages++;
               }
               resource.elements.map((el:HalResource) => {
-                this.data_local[el.national_id] = [el];
+                this.data_local[el.federal_id] = [el];
               });
               resource.elements.map((project:HalResource) => {
                 resources.elements.map((el:HalResource) => {
-                  if ((el.id === project.national_id) || (el.parentId && el.parentId === project.national_id)) {
+                  if ((el.id === project.federal_id) || (el.parentId && el.parentId === project.federal_id)) {
                     this.data.push(el);
                     if (this.data_local[el.id]) {
                       this.data_local[el.id].map((row:HalResource) => {
@@ -348,7 +342,7 @@ export class BlueTableKtService extends BlueTableService {
                     }
                   }
                 });
-                if (project.national_id === 0) {
+                if (project.federal_id === 0) {
                   this.data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
                   if (this.data_local[0]) {
                     this.data_local[0].map((row:HalResource) => {

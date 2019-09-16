@@ -44,12 +44,6 @@ export abstract class BlueTableService {
   }
 
   public pagesToText(i:number):string {
-    if ( i === 0) {
-      return '<<';
-    }
-    if (i > this.getPages()) {
-      return '>>';
-    }
-    return String(i);
+    return String(i + 1);
   }
 }

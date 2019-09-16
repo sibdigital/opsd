@@ -231,6 +231,8 @@ OpenProject::Application.routes.draw do
     resources :stakeholder_outers, controller: 'stakeholder_outers', except: %i[show]
 
     resources :communication_meetings, controller: 'communication_meetings'
+    resources :communication_meeting_members, controller: 'communication_meeting_members'
+    resources :communication_requirements, controller: 'communication_requirements'
     # )
 
     # +tan 2019.07.07
@@ -314,6 +316,15 @@ OpenProject::Application.routes.draw do
 
       resources :work_package_targets
     end
+    #knm +
+    resources :project_interactive_map do
+      get :get_wps, on: :collection
+    end
+
+    resources :project_strategic_map do
+      get :get_project, on: :collection
+    end
+    # -
 
     #bbm(
     resources :project_risks do

@@ -536,6 +536,18 @@ class PermittedParams
   def stakeholder_outer
     params.require(:stakeholder_outer).permit(:name, :project_id, :organization_id, :user_id, :description, :type, :phone_wrk, :phone_wrk_add, :phone_mobile, :mail_add, :address, :cabinet)
   end
+
+  def communication_meeting
+    params.require(:communication_meeting).permit(:name, :project_id, :user_id, :kind, :theme, :place, :sposob, :period)
+  end
+
+  def communication_meeting_member
+    params.require(:communication_meeting_member).permit(:project_id, :stakeholder_id, :communication_meeting_id)
+  end
+
+  def communication_requirement
+    params.require(:communication_requirement).permit(:name, :project_id, :stakeholder_id, :kind_info, :period)
+  end
   # )
 
   def watcher

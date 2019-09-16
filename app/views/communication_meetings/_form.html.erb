@@ -1,0 +1,11 @@
+<%= error_messages_for :communication_meetings %>
+<section class="form--section">
+  <%= f.hidden_field 'project_id' %>
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :theme, required: false, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :user_id, options_for_select(User.all.map { |u| [u.name, u.id] }, @com_meeting.user_id), container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :kind, options_for_select([['', ''], ['Встреча', 'Meet'], ['Совещание', 'Conference']], @com_meeting.kind), container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :sposob, options_for_select([['', ''], ['Очное', 'Fulltime'], ['Дистанционное', 'Remote'], ['В виде обсуждения в Системе', 'System']], @com_meeting.sposob), container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :period, options_for_select([['', ''], ['Ежедневно', 'Daily'], ['Еженедельно', 'Weekly'], ['Ежеквартально', 'Quarterly'], ['Ежегодно', 'Yearly']], @com_meeting.period), container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :place, required: false, container_class: '-middle' %></div>
+</section>

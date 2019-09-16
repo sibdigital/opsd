@@ -80,10 +80,8 @@ export class HomescreenDiagramComponent implements OnInit {
       .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, /*{organization: organization}*/)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
-        this.barChartData[0].data = resource.data;
-        this.barChartData[0].label = resource.label;
         if (resource.label === 'visible') {
-          //this.element.nativeElement.parentElement.removeAttribute('style');
+          this.element.nativeElement.parentElement.removeAttribute('style');
           this.element.nativeElement.parentElement.style.visibility = 'visible';
           this.element.nativeElement.parentElement.style.width = '350px';
         }
@@ -91,6 +89,8 @@ export class HomescreenDiagramComponent implements OnInit {
           this.element.nativeElement.parentElement.removeAttribute('style');
           this.element.nativeElement.parentElement.style.display = 'none';
         }
+        this.barChartData[0].data = resource.data;
+        this.barChartData[0].label = resource.label;
       });
     this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d']; //default color set
   }
