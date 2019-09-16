@@ -197,10 +197,10 @@ module API
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
                 hash['federal_id'] = p.federal_project_id || 0
-                hash['curator'] = p.curator['fio']
-                hash['curator_id'] = p.curator['id']
-                hash['rukovoditel'] = p.rukovoditel['fio']
-                hash['rukovoditel_id'] = p.rukovoditel['id']
+                hash['curator'] = p.curator.empty? ? '' : p.curator['fio']
+                hash['curator_id'] = p.curator.empty? ? '' : p.curator['id']
+                hash['rukovoditel'] = p.rukovoditel.empty? ? '' : p.rukovoditel['fio']
+                hash['rukovoditel_id'] = p.rukovoditel.empty? ? '' : p.rukovoditel['id']
                 hash['targets'] = []
                 arr.group_by(&:target_id).each do |target, subarr|
                   stroka = Hash.new
