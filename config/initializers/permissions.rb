@@ -52,7 +52,8 @@ Redmine::AccessControl.map do |map|
                    communication_meetings: %i[index edit new create update destroy],
                    #)
                    #zbd(
-                   raions: [:show]
+                   raions: [:show],
+                   contracts: %i[index new create edit update destroy]
                    #)
                    },
                  public: true

@@ -321,6 +321,13 @@ OpenProject::Application.routes.draw do
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
     # )
+
+    #tmd
+    resources :contracts do
+      post '/new' => 'contracts#create', on: :collection, as: 'create'
+      patch '/edit' => 'contracts#update', on: :member, as: 'update'
+    end
+
     #xcc(
     resources :targets do
      get '/edit' => 'targets#edit', on: :member, as: 'edit'
@@ -505,9 +512,6 @@ OpenProject::Application.routes.draw do
     end
     resources :departs
     # -tan 2019.04.25
-
-    #zbd(
-    resources :contracts
 
     resources :plan_uploader_settings do
       #tmd
