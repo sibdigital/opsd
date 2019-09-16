@@ -19,9 +19,9 @@ export class BlueTableBudgetService extends BlueTableService {
           .then((response:HalResource) => {
             response.source.map((budget:HalResource) => {
               budget['_type'] = 'Budget';
-              if (budget.project.national_project_id) {
-                this.data_local[budget.project.national_project_id] = this.data_local[budget.project.national_project_id] || [];
-                this.data_local[budget.project.national_project_id].push(budget);
+              if (budget.project.federal_project_id) {
+                this.data_local[budget.project.federal_project_id] = this.data_local[budget.project.federal_project_id] || [];
+                this.data_local[budget.project.federal_project_id].push(budget);
               } else {
                 this.data_local[0] = this.data_local[0] || [];
                 this.data_local[0].push(budget);

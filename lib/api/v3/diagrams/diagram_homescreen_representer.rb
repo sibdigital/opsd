@@ -91,7 +91,7 @@ where yearly.year = date_part('year', current_date)
 group by yearly.project_id, yearly.target_id
           SQL
           @plan_facts.map do |plan|
-            project = Project.find(plan.project_id)
+            project = Project.visible(current_user).find(plan.project_id)
             exist = which_role(project, @current_user, @global_role)
             if exist
               chislitel = plan.final_fact_year_value || 0;
@@ -117,7 +117,7 @@ group by yearly.project_id, yearly.target_id
           riski = 0
           kt = Type.find_by name: I18n.t(:default_type_milestone)
           ProjectIspolnStat.where(type_id: kt.id).map do |ispoln|
-            project = Project.find(ispoln.project_id)
+            project = Project.visible(current_user).find(ispoln.project_id)
             exist = which_role(project, @current_user, @global_role)
             if exist
               ispolneno += ispoln.ispolneno
@@ -141,7 +141,7 @@ group by yearly.project_id, yearly.target_id
           spent = BigDecimal("0")
 
           cost_objects.each do |cost_object|
-            project = Project.find(cost_object.project_id)
+            project = Project.visible(current_user).find(cost_object.project_id)
             exist = which_role(project, @current_user, @global_role)
             if exist
               total_budget += cost_object.budget
@@ -171,7 +171,7 @@ where type in ('created_risk', 'no_risk_problem')
 group by type, project_id, importance_id
           SQL
           @risks.map do |risk|
-            project = Project.find(risk.project_id)
+            project = Project.visible(current_user).find(risk.project_id)
             exist = which_role(project, @current_user, @global_role)
             if exist
               net_riskov += risk.count if risk.type=='no_risk_problem'

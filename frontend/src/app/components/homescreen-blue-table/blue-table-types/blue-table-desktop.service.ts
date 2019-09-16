@@ -25,8 +25,8 @@ export class BlueTableDesktopService extends BlueTableService {
           .toPromise()
           .then((resource:HalResource) => {
             resource.source.map((el:HalResource) => {
-              this.data_local[el.national_id] = this.data_local[el.national_id] || [];
-              this.data_local[el.national_id].push(el);
+              this.data_local[el.federal_id] = this.data_local[el.federal_id] || [];
+              this.data_local[el.federal_id].push(el);
             });
             resources.elements.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[0].id) || (el.parentId && el.parentId === this.national_project_titles[0].id)) {
@@ -74,7 +74,7 @@ export class BlueTableDesktopService extends BlueTableService {
     return this.columns;
   }
   public getPages():number {
-    return this.national_project_titles.length - 2;
+    return this.national_project_titles.length;
   }
 
   public getData():any[] {
