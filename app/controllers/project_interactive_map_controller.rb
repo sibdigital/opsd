@@ -1,14 +1,14 @@
-class InteractiveMapController < ApplicationController
-  layout 'admin'
-  #before_action :require_coordinator
-  before_action :authorize_global, only: [:index]
+class ProjectInteractiveMapController < ApplicationController
+  menu_item :project_interactive_map
+  before_action :find_project
   def index
 
   end
-  def get_dues
-    jarr = WorkPackageIspolnStat.where(project_id: params["project_id"], plan_type: :execution).where("raion_id > 0")
-      .map { |f| [f.subject, f.id, f.raion_id] }
-      .each do |u|
+
+  def get_wps
+    jarr = WorkPackageIspolnStat.where(project_id: @project.id, plan_type: :execution).where("raion_id > 0")
+             .map { |f| [f.subject, f.id, f.raion_id] }
+             .each do |u|
       user = User.find_by_id(WorkPackageIspolnStat.find_by_id(u[1]).assigned_to_id).name.split(" ", 5)
       user[0]=user[0][0]
       u << user.join(". ")
@@ -26,4 +26,11 @@ class InteractiveMapController < ApplicationController
     # jarr <<
     render json: jarr
   end
+
+  def find_project
+    @project = Project.find(params[:project_id])
+  rescue ActiveRecord::RecordNotFound
+    render plain: "Could not find project ##{params[:id]}.", status: 404
+  end
+
 end
