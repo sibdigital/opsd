@@ -104,7 +104,7 @@
 
 <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
   <div class="wp-inline-create-button">
-    <%= link_to new_project_target_path(:parent_id => params[:parent_id]),
+    <%= link_to new_project_target_path(:parent_id => params[:parent_id], :type_id => @type_id),
                 aria: {label: t(:label_target_new)},
                 class: 'wp-inline-create--add-link',
                 style: 'margin-top: 5px;',
