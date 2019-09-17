@@ -1,6 +1,9 @@
-<% html_title l(:label_administration), l(:label_communication_meetings) %>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{l(:label_communication_meetings)}" %>
 <% local_assigns[:additional_breadcrumb] = @com_meeting.name %>
+<% breadcrumb_paths(default_breadcrumb, @com_meeting.name) %>
+
 <%= breadcrumb_toolbar l(:label_edit) +': ' + @com_meeting.name %>
+
 
 <div style="position: relative; display: block;">
 
@@ -10,7 +13,7 @@
       <%= labelled_tabular_form_for [@project, @com_meeting] do |f| %>
         <%= render partial: 'form', locals: { f: f } %>
         <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-        <%= link_to 'Закрыть', project_communication_meetings_path(tab: :meet), class: '-with-icon icon-checkmark button' %>
+        <%= link_to 'Закрыть', project_communication_meetings_path(tab: :meet), class: '-with-icon icon-close button' %>
   <% end %>
   </section>
 
@@ -22,10 +25,10 @@
         <% @com_meeting_members.each do |member| %>
           <tr>
             <td>
-              -
+
             </td>
             <td>
-              <%= Stakeholder.find(member.stakeholder_id).name %>
+              <li><%= Stakeholder.find(member.stakeholder_id).name %></li>
             </td>
             <td>
               <%=link_to(
@@ -45,11 +48,12 @@
         <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить участника</span></div>
       <%# end %>
     </div>
-    <div id="target-val-form" style="display: none; margin-top: 10px; background: #fafafa; padding: 20px;">
+<!--    <div id="target-val-form" style="display: none; margin-top: 10px; background: #fafafa; padding: 5px;">-->
+    <div id="target-val-form" style="display: none; margin-left: 20px;">
       <section>
         <% @com_meeting_member = CommunicationMeetingMember.new %>
         <%#= @com_meeting_member = CommunicationMeetingMember.new(project_id: @project.id, communication_meeting_id: @com_meeting.id) %>
-        <h5>Выберите участника:</h5>
+<!--        <h5>Выберите участника:</h5>-->
 
         <%= error_messages_for @com_meeting_member %>
         <%= labelled_tabular_form_for @com_meeting_member, url: project_communication_meeting_members_path(communication_meeting_id: @com_meeting.id ) do |f| %>
@@ -62,7 +66,7 @@
                          container_class: '-middle' %>
           </section>
           <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
-          <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-checkmark button', id: 'target-val-cancel' %>
+          <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-val-cancel' %>
         <% end %>
       </section>
     </div>

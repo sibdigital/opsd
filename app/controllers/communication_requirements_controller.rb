@@ -51,4 +51,16 @@ private
     @com_req = CommunicationRequirement.find(params[:id])
   end
 
+  def default_breadcrumb
+    if action_name == 'index'
+      l(:label_communication_requirements)
+    else
+      ActionController::Base.helpers.link_to(l(:label_communication_requirements), project_communication_requirements_path)
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
 end

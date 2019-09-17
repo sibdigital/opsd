@@ -171,16 +171,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :user_info,
             if: Proc.new { User.current.admin?}
 
-  ##zbd(
-  menu.push :contracts,
-            { controller: '/contracts' },
-            icon: 'icon2 icon-enumerations',
-            #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator?||User.current.detect_project_administrator? }
-            parent: :dictionaries,
-            if: Proc.new {
-              User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:manage_contracts))
-            }
-  # )
   menu.push :system_catalogs,
             {},
             caption: :label_system_catalogs,
@@ -434,6 +424,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/projects', action: 'show' },
             icon: 'icon2 icon-info1',
             if: Proc.new { |p| p.type == Project::TYPE_PROJECT }
+
+
   #xcc(
   menu.push :targets,
             { controller: '/targets', state: nil, action: 'index' },
@@ -699,6 +691,16 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_member_plural,
             icon: 'icon2 icon-group',
             parent: :resources
+
+  ##zbd(
+  menu.push :contracts,
+            { controller: '/contracts', action: 'index' },
+            param: :project_id,
+            caption: :label_contracts,
+            parent: :resources,
+            icon: 'icon2 icon-enumerations'
+  # )
+
 
   #zbd (
   menu.push :stakeholders,

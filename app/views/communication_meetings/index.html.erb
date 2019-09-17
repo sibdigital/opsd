@@ -2,9 +2,9 @@
 <% local_assigns[:additional_breadcrumb] =  l(:label_communication_meetings_plural)%>
 <% case @tab %>
   <% when 'req' %>
-    <%= breadcrumb_toolbar l(:label_communication_meetings_plural) + ' - ' + l(:label_communication_requirements) %>
+    <%= breadcrumb_toolbar l(:label_communication_requirements) %>
   <% when 'meet' %>
-    <%= breadcrumb_toolbar l(:label_communication_meetings_plural) + ' - ' + l(:label_communication_meetings) %>
+    <%= breadcrumb_toolbar l(:label_communication_meetings) %>
 <% end %>
 
 

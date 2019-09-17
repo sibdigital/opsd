@@ -1,5 +1,7 @@
 <% html_title l(:label_communication_requirements) %>
 <% local_assigns[:additional_breadcrumb] = @com_req.name %>
+<% breadcrumb_paths(default_breadcrumb, @com_req.name) %>
+
 <%= breadcrumb_toolbar l(:label_edit) +': ' + @com_req.name %>
 
 <%= labelled_tabular_form_for [@project, @com_req] do |f| %>
