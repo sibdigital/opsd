@@ -114,6 +114,10 @@ en:
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
+  costs:
+    federal_cost_type: Федеральный бюджет
+    regional_cost_type: Региональный бюджет
+    vnebugt_cost_type: Внебюджетные средства
   concatenation:
     single: или
   deprecations:
