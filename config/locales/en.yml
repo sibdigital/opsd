@@ -1070,6 +1070,19 @@ en:
     text:
       failed: Не удалось создать проект «%{target_project_name}» из шаблона «%{source_project_name}».
       succeeded: Созданный проект «%{target_project_name}» из шаблона «%{source_project_name}».
+  #zbd(
+  copy_template:
+    started: Создание шаблона «%{target_project_name}» из проекта «%{source_project_name}»
+      началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
+      будет доступен.
+    failed: Не удается скопировать проект %{source_project_name}
+    succeeded: Созданный шаблон %{target_project_name}
+    errors: Ошибка
+    project_custom_fields: Настраиваемые поля шаблона
+    text:
+      failed: Не удалось создать шаблон «%{target_project_name}» из проекта «%{source_project_name}».
+      succeeded: Созданный шаблон «%{target_project_name}» из проекта «%{source_project_name}».
+  #)
   create_new_page: Wiki-страница
   date:
     abbr_day_names:
@@ -2510,6 +2523,7 @@ en:
   project_module_wiki: Управление знаниями
   project_module_head_performance_indicator_values: Оценка высшего должностного лица
   project_module_interactive_map: Карта районов
+  project_module_strategic_map: Стратегическая карта
   project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

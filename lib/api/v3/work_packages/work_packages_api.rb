@@ -89,29 +89,31 @@ module API
               #bbm(
               if request_body['days']
                 start_date = @work_package.start_date
-                #due = start_date + request_body['days'].to_i
-                days = request_body['days'].to_i
-                pcalendar = ProductionCalendar.where('date >= ?',start_date)
-                working_days = []
-                Setting.where(name: 'work_days').map do |i|
-                  working_days = i.value.digits.to_a
-                end
-                i = 1
-                current = start_date
-                while i <= days
-                  current += 1
-                  cal = pcalendar.find_by(date: current) rescue nil
-                  if cal
-                    if cal.day_type == 0
-                      i += 1
-                    end
-                  else
-                    if working_days.include? current.wday
-                      i += 1
+                if start_date
+                  #due = start_date + request_body['days'].to_i
+                  days = request_body['days'].to_i
+                  pcalendar = ProductionCalendar.where('date >= ?',start_date)
+                  working_days = []
+                  Setting.where(name: 'work_days').map do |i|
+                    working_days = i.value.digits.to_a
+                  end
+                  i = 1
+                  current = start_date
+                  while i <= days
+                    current += 1
+                    cal = pcalendar.find_by(date: current) rescue nil
+                    if cal
+                      if cal.day_type == 0
+                        i += 1
+                      end
+                    else
+                      if working_days.include? current.wday
+                        i += 1
+                      end
                     end
                   end
+                  request_body['dueDate'] = current.to_s
                 end
-                request_body['dueDate'] = current.to_s
                 request_body.delete('days')
               end
               # )
