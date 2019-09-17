@@ -105,7 +105,7 @@ Redmine::AccessControl.map do |map|
                  require: :member
 
   map.permission :copy_projects,
-                 { copy_projects: %i[copy copy_project],
+                 { copy_projects: %i[copy copy_project copy_t copy_template],
                    members: [:paginate_users] },
                  require: :member
 

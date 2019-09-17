@@ -28,21 +28,21 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= error_messages_for 'copy_project' %>
+<%= toolbar title: l(:label_project_new_template) + ' сохранить как шаблон'%>
 
-<%= toolbar title: l(:label_copy_project_from_template) %>
-
-<%= labelled_tabular_form_for @copy_project, url: { action: 'copy', coming_from: 'admin' } do |f| %>
-  <%= hidden_field_tag :coming_from, 'admin' %>
+<%= labelled_tabular_form_for @copy_project, url: { action: 'copy_t', coming_from: 'settings' } do |f| %>
+  <%= hidden_field_tag :coming_from, 'settings' %>
 
   <%= render partial: 'projects/form', locals: { f: f,
                                                  project: @copy_project,
                                                  render_advanced: true,
                                                  render_types: false,
                                                  render_modules: false,
-                                                 render_custom_fields: false
+                                                 render_custom_fields: false,
+                                                 no_error_messages: true
                                                } %>
 
   <%= render partial: "copy_projects/copy_settings/copy_associations", locals: { project: @project } %>
 
-  <%= submit_tag l(:label_copy_project_from_template), class: 'button -highlight' %>
+  <%= submit_tag l(:label_project_new_template), class: 'button -highlight' %>
 <% end %>
