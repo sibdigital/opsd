@@ -36,10 +36,12 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 <hr class="form--separator" />
 
-<h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-<%= render partial: 'customizable/form', locals: { form: f,
-                                                   all_fields: true,
-                                                   only_required: false,
-                                                   obj: @board,
-                                                   from: 'boards' } %>
+<% unless f.object.custom_field_values.empty? %>
+  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+  <%= render partial: 'customizable/form', locals: { form: f,
+                                                     all_fields: true,
+                                                     only_required: false,
+                                                     obj: @board,
+                                                     from: 'boards' } %>
+<% end %>
 <!--[eoform:board]-->

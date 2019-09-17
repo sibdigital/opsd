@@ -425,14 +425,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-info1',
             if: Proc.new { |p| p.type == Project::TYPE_PROJECT }
 
-  ##zbd(
-  menu.push :contracts,
-            { controller: '/contracts', action: 'index' },
-            param: :project_id,
-            caption: :label_contracts,
-            icon: 'icon2 icon-enumerations'
-  # )
-  
+
   #xcc(
   menu.push :targets,
             { controller: '/targets', state: nil, action: 'index' },
@@ -698,6 +691,16 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_member_plural,
             icon: 'icon2 icon-group',
             parent: :resources
+
+  ##zbd(
+  menu.push :contracts,
+            { controller: '/contracts', action: 'index' },
+            param: :project_id,
+            caption: :label_contracts,
+            parent: :resources,
+            icon: 'icon2 icon-enumerations'
+  # )
+
 
   #zbd (
   menu.push :stakeholders,
