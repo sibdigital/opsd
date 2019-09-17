@@ -11,7 +11,6 @@ This file written by BBM
         <thead>
         <tr>
           <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
-          <th></th>
           <%= sort_header_tag("name", :caption => Target.human_attribute_name(:name)) %>
           <%= sort_header_tag("status", :caption => Target.human_attribute_name(:target_status)) %>
           <%= sort_header_tag("type", :caption => Target.human_attribute_name(:target_type)) %>
