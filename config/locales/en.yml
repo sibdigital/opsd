@@ -1070,6 +1070,19 @@ en:
     text:
       failed: Не удалось создать проект «%{target_project_name}» из шаблона «%{source_project_name}».
       succeeded: Созданный проект «%{target_project_name}» из шаблона «%{source_project_name}».
+  #zbd(
+  copy_template:
+    started: Создание шаблона «%{target_project_name}» из проекта «%{source_project_name}»
+      началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
+      будет доступен.
+    failed: Не удается скопировать проект %{source_project_name}
+    succeeded: Созданный шаблон %{target_project_name}
+    errors: Ошибка
+    project_custom_fields: Настраиваемые поля шаблона
+    text:
+      failed: Не удалось создать шаблон «%{target_project_name}» из проекта «%{source_project_name}».
+      succeeded: Созданный шаблон «%{target_project_name}» из проекта «%{source_project_name}».
+  #)
   create_new_page: Wiki-страница
   date:
     abbr_day_names:

@@ -473,51 +473,50 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/versions', action: 'index' },
             param: :project_id,
             caption: :label_stages,
-            if: Proc.new { |p| p.module_enabled?('stages') }, # p.shared_versions.any? },
+            if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT }, # p.shared_versions.any? },
             icon: 'icon2 icon-etap'
-
   # )
   # knm(
   menu.push :stages_init,
             {controller: '/stages', action: 'init'},
             param: :project_id,
             caption: :label_stage_init,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-etap',
             parent: :stages
   menu.push :stages_analysis,
             {controller: '/stages', action: 'analysis'},
             param: :project_id,
             caption: :label_stage_analysis,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-etap',
             parent: :stages
   menu.push :stages_planning,
             {controller: '/stages', action: 'planning'},
             param: :project_id,
             caption: :label_stage_planning,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-etap',
             parent: :stages
   menu.push :stages_execution,
             {controller: '/stages', action: 'execution'},
             param: :project_id,
             caption: :label_stage_execution,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-etap',
             parent: :stages
   menu.push :stages_control,
             {controller: '/stages', action: 'control'},
             param: :project_id,
             caption: :label_stage_control,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-etap',
             parent: :stages
   menu.push :stages_completion,
             {controller: '/stages', action: 'completion'},
             param: :project_id,
             caption: :label_stage_completion,
-            if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-etap',
             parent: :stages
   menu.push :project_strategic_map,
@@ -547,6 +546,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             {},
             caption: :label_stage_analysis,
             #if: Proc.new { |p| p.module_enabled?('stages') },
+            if: Proc.new { |p| p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-analyze'
   menu.push :communications,
             {},

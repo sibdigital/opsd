@@ -105,7 +105,7 @@ Redmine::AccessControl.map do |map|
                  require: :member
 
   map.permission :copy_projects,
-                 { copy_projects: %i[copy copy_project],
+                 { copy_projects: %i[copy copy_project copy_t copy_template],
                    members: [:paginate_users] },
                  require: :member
 
@@ -370,12 +370,12 @@ Redmine::AccessControl.map do |map|
   #knm(
   map.project_module :interactive_map do |i_map|
     i_map.permission :view_interactive_map,
-                     { project_interactive_map: :index },
+                     { project_interactive_map: %i[ index get_wps] },
                      require: :member
     end
   map.project_module :strategic_map do |i_map|
     i_map.permission :view_strategic_map,
-                     { project_strategic_map: :index },
+                     { project_strategic_map: %i[ index get_project] },
                      require: :member
   end
   # )
