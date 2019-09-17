@@ -2510,6 +2510,7 @@ en:
   project_module_wiki: Управление знаниями
   project_module_head_performance_indicator_values: Оценка высшего должностного лица
   project_module_interactive_map: Карта районов
+  project_module_strategic_map: Стратегическая карта
   project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

@@ -370,9 +370,13 @@ Redmine::AccessControl.map do |map|
   #knm(
   map.project_module :interactive_map do |i_map|
     i_map.permission :view_interactive_map,
-                     { interactive_map: :index },
-                     require: :member,
-                     public: true
+                     { project_interactive_map: :index },
+                     require: :member
+    end
+  map.project_module :strategic_map do |i_map|
+    i_map.permission :view_strategic_map,
+                     { project_strategic_map: :index },
+                     require: :member
   end
   # )
   #bbm(

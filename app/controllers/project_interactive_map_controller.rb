@@ -1,6 +1,6 @@
 class ProjectInteractiveMapController < ApplicationController
   menu_item :project_interactive_map
-  before_action :find_project
+  before_action :find_project, :authorize
   def index
 
   end
