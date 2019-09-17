@@ -60,6 +60,36 @@ class CopyProjectsController < ApplicationController
     redirect_to :back
   end
 
+  #zbd(
+  def copy_t
+    @copy_project = template_copy
+
+    if @copy_project.valid?
+      enqueue_copy_job
+
+      flash[:notice] = I18n.t('copy_project.started',
+                              source_project_name: @project.name,
+                              target_project_name: permitted_params.project[:name])
+      redirect_to origin
+    else
+      render action: copy_template_action
+    end
+  end
+
+  def copy_template
+    @copy_project = Project.copy_attributes(@project)
+    if @copy_project
+      @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
+
+      render action: copy_template_action
+    else
+      redirect_to :back
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to :back
+  end
+  # )
+
   private
 
   def copy_action
@@ -73,9 +103,7 @@ class CopyProjectsController < ApplicationController
     copy_project.attributes = permitted_params.project
 
     #zbd(
-    copy_project.type = Project::TYPE_TEMPLATE
-    copy_project.project_status_id = ProjectStatus.find_by(name: 'не начат').id
-    copy_project.project_approve_status_id = ProjectApproveStatus.find_by(name: 'инициирован').id
+    copy_project.type = Project::TYPE_PROJECT
     # )
 
     # cannot use set_allowed_parent! as it requires a persisted project
@@ -85,6 +113,30 @@ class CopyProjectsController < ApplicationController
 
     copy_project
   end
+
+  #zbd(
+  def copy_template_action
+    from = (%w(admin settings).include?(params[:coming_from]) ? params[:coming_from] : 'settings')
+
+    "copy_template_from_#{from}"
+  end
+
+  def template_copy
+    copy_project = Project.new
+    copy_project.attributes = permitted_params.project
+
+    copy_project.type = Project::TYPE_TEMPLATE
+    copy_project.project_status_id = ProjectStatus.find_by(name: 'не начат').id
+    copy_project.project_approve_status_id = ProjectApproveStatus.find_by(name: 'инициирован').id
+
+    # cannot use set_allowed_parent! as it requires a persisted project
+    if copy_project.allowed_parent?(params['project']['parent_id'])
+      copy_project.parent_id = params['project']['parent_id']
+    end
+
+    copy_project
+  end
+  #)
 
   def origin
     params[:coming_from] == 'admin' ? projects_path : settings_project_path(@project.id)

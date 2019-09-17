@@ -1,6 +1,6 @@
 class ProjectStrategicMapController < ApplicationController
   menu_item :project_strategic_map
-  before_action :find_project
+  before_action :find_project, :authorize
   def index
 
   end
