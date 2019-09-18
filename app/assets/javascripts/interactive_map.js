@@ -9,7 +9,7 @@ function setMilestones()
 {
   description_info=new Array(22);
   for (var i = 0; i < 22; i++) {
-    description_info[i]="<table style='display: inline-block'>"+
+    description_info[i]="<table style='width: 400px'>"+
                         "<thead>"+
                         "<tr>"+
                         "<th>Название</th>"+
@@ -17,7 +17,7 @@ function setMilestones()
                         "<th>Статус</th>"+
                         "</tr>"+
                         "</thead>"+
-                        "<tbody>";
+                        "<tbody style='text-align: left'>";
   }
   var inc = 0;
   var today=new Date();
