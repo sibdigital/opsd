@@ -24,6 +24,7 @@ module DemoData
       default_role_project_head = role_by_name (I18n.t(:default_role_project_head))
       default_role_project_office_admin = role_by_name (I18n.t(:default_role_project_office_admin))
       default_role_member = role_by_name (I18n.t(:default_role_member))
+      default_role_glava_regiona = role_by_name (I18n.t(:default_role_glava_regiona))
 
       cultura = project_by_name "«Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии"
       umts = project_by_name "Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района."
@@ -33,30 +34,37 @@ module DemoData
 
       #global
       tas = user_by_login 'tas'
-      set_project_member umts, tas, default_role_project_activity_coordinator
-      set_project_member cultura, tas, default_role_project_activity_coordinator
+      set_project_member umts, tas, default_role_glava_regiona
+      set_project_member cultura, tas, default_role_glava_regiona
+      set_project_member gorod, tas, default_role_glava_regiona
 
       zii = user_by_login 'zii'
       set_project_member umts, zii, default_role_project_activity_coordinator
       set_project_member cultura, zii, default_role_project_activity_coordinator
+      set_project_member gorod, zii, default_role_project_activity_coordinator
 
       siv = user_by_login 'siv'
       set_project_member umts, siv, default_role_project_office_manager
       set_project_member cultura, siv, default_role_project_office_manager
+      set_project_member gorod, siv, default_role_project_office_manager
 
       puts 'umts= ' + umts.to_s
       #umts
       lev = user_by_login 'lev'
       set_project_member umts, lev, default_role_project_curator
+      set_project_member gorod, lev, default_role_project_curator
 
       rnu = user_by_login 'rnu'
       set_project_member umts, rnu, default_role_project_head
+      set_project_member gorod, rnu, default_role_project_head
 
       doa = user_by_login 'doa'
       set_project_member umts, doa, default_role_project_office_coordinator
+      set_project_member gorod, doa, default_role_project_office_coordinator
 
       ggo = user_by_login 'ggo'
       set_project_member umts, ggo, default_role_events_responsible
+      set_project_member gorod, ggo, default_role_events_responsible
 
       ttv = user_by_login 'ttv'
       set_project_member umts, ttv, default_role_events_responsible
