@@ -317,7 +317,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :additional_settings,
             {},
             caption: :label_additional_settings,
-            icon: 'icon22 icon-settings2',
+            icon: 'icon2 icon-settings2',
             if: Proc.new { User.current.admin?}
 
   menu.push :ldap_authentication,
@@ -476,6 +476,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT }, # p.shared_versions.any? },
             icon: 'icon2 icon-etap'
   # )
+  menu.push :resources,
+              {},
+              param: :project_id,
+              caption: :label_resources,
+              #after: :communication,
+              #if: Proc.new { |p| p.module_enabled?('stages') },
+              icon: 'icon2 icon-resource'
   # knm(
   menu.push :stages_init,
             {controller: '/stages', action: 'init'},
@@ -524,7 +531,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-organization',
             caption: :label_strategic_map,
             param: :project_id,
-            parent: :project_office,
+            parent: :resources,
             if: Proc.new { |p| p.module_enabled?('strategic_map') }
   menu.push :project_interactive_map,
             {controller: '/project_interactive_map', action: 'index'},
@@ -532,7 +539,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             icon: 'icon2 icon-map',
             if: Proc.new { |p| p.module_enabled?('interactive_map') },
-            parent: :project_office
+            parent: :resources
             #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   # )
   # +tan 2019.07.16
@@ -554,13 +561,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_communications,
             #if: Proc.new { |p| p.module_enabled?('stages') },
             icon: 'icon2 icon-communication'
-  menu.push :resources,
-            {},
-            param: :project_id,
-            caption: :label_resources,
-            #after: :communication,
-            #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-resource'
   menu.push :control,
             {},
             param: :project_id,
@@ -740,6 +740,27 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-info1',
             parent: :reports
 
+  #+ knm tan
+  menu.push :project_strategic_map,
+            {controller: '/project_strategic_map', action: 'index'},
+            icon: 'icon2 icon-organization',
+            caption: :label_strategic_map,
+            param: :project_id,
+            if: Proc.new { |p| p.module_enabled?('strategic_map') },
+            parent: :reports# ,
+  # if: Proc.new { User.current.admin? || User.current.detect_project_office_coordinator? }
+  menu.push :project_interactive_map,
+            {controller: '/project_interactive_map', action: 'index'},
+            caption: :label_interactive_map,
+            param: :project_id,
+            icon: 'icon2 icon-map',
+            if: Proc.new { |p| p.module_enabled?('interactive_map') },
+            parent: :reports# ,
+  #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  # if: Proc.new {
+  #   User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:view_interactive_map))
+  # }
+  # -
 
   menu.push :additional,
             {},

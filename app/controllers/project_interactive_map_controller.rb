@@ -9,9 +9,10 @@ class ProjectInteractiveMapController < ApplicationController
     jarr = WorkPackageIspolnStat.where(project_id: @project.id, plan_type: :execution).where("raion_id > 0")
              .map { |f| [f.subject, f.id, f.raion_id] }
              .each do |u|
-      user = User.find_by_id(WorkPackageIspolnStat.find_by_id(u[1]).assigned_to_id).name.split(" ", 5)
-      user[0]=user[0][0]
-      u << user.join(". ")
+
+      user = User.find_by_id(WorkPackageIspolnStat.find_by_id(u[1]).assigned_to_id)
+      user.nil? ? user="Отсутствует" : user=user.fio
+      u << user
       if WorkPackageIspolnStat.find_by_id(u[1]).ispolneno
         u << 1
       elsif WorkPackageIspolnStat.find_by_id(u[1]).ne_ispolneno
