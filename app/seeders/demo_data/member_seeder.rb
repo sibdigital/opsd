@@ -52,19 +52,15 @@ module DemoData
       #umts
       lev = user_by_login 'lev'
       set_project_member umts, lev, default_role_project_curator
-      set_project_member gorod, lev, default_role_project_curator
 
       rnu = user_by_login 'rnu'
       set_project_member umts, rnu, default_role_project_head
-      set_project_member gorod, rnu, default_role_project_head
 
       doa = user_by_login 'doa'
       set_project_member umts, doa, default_role_project_office_coordinator
-      set_project_member gorod, doa, default_role_project_office_coordinator
 
       ggo = user_by_login 'ggo'
       set_project_member umts, ggo, default_role_events_responsible
-      set_project_member gorod, ggo, default_role_events_responsible
 
       ttv = user_by_login 'ttv'
       set_project_member umts, ttv, default_role_events_responsible
