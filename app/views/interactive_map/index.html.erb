@@ -33,7 +33,7 @@
       <div class="form--select-container" >
         <show-section-dropdown opt-value="selected" hide-sec-with-name="notified_projects">
           <%= styled_select_tag 'choose_project_for_map',
-                                options_for_select(Project.where(status: 1).map {|u| [u.name, u.id]}),
+                                options_for_select(Project.visible.where(status: 1).map {|u| [u.name, u.id]}),
                                 container_class: '-wide' %>
 
         </show-section-dropdown>
