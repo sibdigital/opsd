@@ -45,7 +45,8 @@ class ReportPassportController < ApplicationController
 
     generate_title_sheet
     #generate_key_risk_sheet
-    #generate_targets_sheet
+    generate_target_indicators_sheet
+    generate_members_sheet
     #generate_status_execution_budgets_sheet
     #generate_status_achievement_sheet
     #generate_dynamic_achievement_kt_sheet
@@ -64,11 +65,10 @@ class ReportPassportController < ApplicationController
 
   def generate_title_sheet
 
-
     @date_today = Date.today.strftime("%d.%m.%Y")
-    curatorProject = get_Member(I18n.t(:default_role_project_curator))
-    leaderProject = get_Member(I18n.t(:default_role_project_head))
-    adminProject = get_Member(I18n.t(:default_role_project_admin))
+    @curatorProject = get_Member(I18n.t(:default_role_project_curator))
+    @leaderProject = get_Member(I18n.t(:default_role_project_head))
+    @adminProject = get_Member(I18n.t(:default_role_project_admin))
     start_date = @project.start_date
     due_date = @project.due_date
     period_project = (start_date == nil ? "": start_date.strftime("%d.%m.%Y"))+" - " + (due_date == nil ? "": due_date.strftime("%d.%m.%Y"))
@@ -78,9 +78,9 @@ class ReportPassportController < ApplicationController
     sheet[18][1].change_contents(@federal_project == nil ? "" :@federal_project.name)
     sheet[19][1].change_contents(@project.name)
     sheet[19][6].change_contents(period_project)
-    sheet[20][1].change_contents(curatorProject)
-    sheet[21][1].change_contents(leaderProject)
-    sheet[22][1].change_contents(adminProject)
+    sheet[20][1].change_contents(@curatorProject.name(:fullname))
+    sheet[21][1].change_contents(@leaderProject.name(:fullname))
+    sheet[22][1].change_contents(@adminProject.name(:fullname))
 
   # default_role_project_admin: Администратор проекта
   # default_role_project_curator: Куратор проекта
@@ -92,207 +92,165 @@ class ReportPassportController < ApplicationController
   # default_role_project_head: Руководитель проекта
   # default_role_project_office_admin: Администратор проектного офиса
 
-
   end
 
-  def generate_key_risk_sheet
-       sheet = @workbook['Ключевые риски']
-       workPackageProblems = WorkPackageProblem.where(project_id: @project.id)
 
-       data_row = 3
-       workPackageProblems.each_with_index do |workPackageProblem, i|
-       status_risk = 0
-       if workPackageProblem.risk!=nil
-         status_risk = get_v_risk_problem_stat(workPackageProblem.risk.id.to_s)
-       end
 
-       sheet.insert_cell(data_row + i, 0, i+1)
-       sheet.insert_cell(data_row + i, 1, "")
+  def generate_target_indicators_sheet
 
-       if status_risk == 1
-         sheet.sheet_data[data_row + i][1].change_fill('0ba53d')
-       elsif status_risk == 2
-         sheet.sheet_data[data_row + i][1].change_fill('ffd800')
-       elsif status_risk == 3
-         sheet.sheet_data[data_row + i][1].change_fill('ff0000')
-       else
-           sheet.sheet_data[data_row + i][1].change_fill('d7d7d7')
-       end
-       sheet.insert_cell(data_row + i, 2, workPackageProblem.work_package.subject)
-       sheet.insert_cell(data_row + i, 3, workPackageProblem.risk==nil ? "" : workPackageProblem.risk.description)
-       sheet.insert_cell(data_row + i, 4, workPackageProblem.description)
+      sheet = @workbook['Цель и показатели']
+      sheet[1][0].change_contents(get_name_target.nil? ? "": get_name_target)
 
-       sheet.sheet_data[data_row + i][0].change_border(:top, 'thin')
-       sheet.sheet_data[data_row + i][0].change_border(:bottom, 'thin')
-       sheet.sheet_data[data_row + i][0].change_border(:left, 'thin')
-       sheet.sheet_data[data_row + i][0].change_border(:right, 'thin')
+      count_year = difference_in_completed_years(@project.start_date, @project.due_date)
 
-       sheet.sheet_data[data_row + i][1].change_border(:top, 'thin')
-       sheet.sheet_data[data_row + i][1].change_border(:bottom, 'thin')
-       sheet.sheet_data[data_row + i][1].change_border(:left, 'thin')
-       sheet.sheet_data[data_row + i][1].change_border(:right, 'thin')
+      sheet.insert_cell(1,7+count_year, "")
+      sheet.merge_cells(1, 0, 1, 7+count_year)
+      sheet.sheet_data[1][7+count_year].change_border(:right, 'thin')
 
-       sheet.sheet_data[data_row + i][2].change_border(:top, 'thin')
-       sheet.sheet_data[data_row + i][2].change_border(:bottom, 'thin')
-       sheet.sheet_data[data_row + i][2].change_border(:left, 'thin')
-       sheet.sheet_data[data_row + i][2].change_border(:right, 'thin')
+      sheet.insert_cell(2,7+count_year, "")
+      sheet.merge_cells(2, 7, 2, 7+count_year)
+      sheet.sheet_data[2][7+count_year].change_border(:right, 'thin')
 
-       sheet.sheet_data[data_row + i][3].change_border(:top, 'thin')
-       sheet.sheet_data[data_row + i][3].change_border(:bottom, 'thin')
-       sheet.sheet_data[data_row + i][3].change_border(:left, 'thin')
-       sheet.sheet_data[data_row + i][3].change_border(:right, 'thin')
+      for i in 0..count_year
+        sheet.insert_cell(3, 7+i, @project.start_date.year+i)
+        sheet.insert_cell(4, 7+i, "")
+        sheet.merge_cells(3, 7+i, 4, 7+i)
 
-       sheet.sheet_data[data_row + i][4].change_border(:top, 'thin')
-       sheet.sheet_data[data_row + i][4].change_border(:bottom, 'thin')
-       sheet.sheet_data[data_row + i][4].change_border(:left, 'thin')
-       sheet.sheet_data[data_row + i][4].change_border(:right, 'thin')
+        sheet.insert_cell(1, 7+i, "")
+        sheet.sheet_data[1][7+i].change_border(:top, 'thin')
+        sheet.sheet_data[1][7+i].change_border(:left, 'thin')
+        sheet.sheet_data[1][7+i].change_border(:right, 'thin')
+        sheet.sheet_data[1][7+i].change_border(:bottom, 'thin')
 
-       end
 
-    #  0ba53d -зеленый
-    #  ff0000 -красный
-    #  ffd800 -желтый
-    #  d7d7d7 - серый
+        sheet.sheet_data[3][7+i].change_border(:top, 'thin')
+        sheet.sheet_data[3][7+i].change_border(:left, 'thin')
+        sheet.sheet_data[3][7+i].change_border(:right, 'thin')
+        sheet.sheet_data[3][7+i].change_border(:bottom, 'thin')
 
-    # установка цвета статуса для риска
-    sheet = @workbook['Титульный лист']
-    if get_v_risk_problem_stat_critic == 1
-      sheet.sheet_data[27][5].change_fill('ff0000')
-    elsif get_v_risk_problem_stat_low == 1
-      sheet.sheet_data[27][5].change_fill('ffd800')
-    else
-      sheet.sheet_data[27][5].change_fill('d7d7d7')
-    end
-
-    if get_v_risk_problem_stat_solved == 1
-      sheet.sheet_data[27][5].change_fill('0ba53d')
-    end
-  end
-
-  def generate_targets_sheet
-
-    sheet = @workbook['Сведения о значениях целей']
-    result_array_targets = get_value_targets_indicators
-    status = 0
-    data_row = 4
-    result_array_targets.each_with_index do |target, i|
-    factQuarterTargetValue = target["fact_quarter4_value"] != "0" ? target["fact_quarter4_value"] : ( target["fact_quarter3_value"]!= "0" ? target["fact_quarter3_value"] : (target["fact_quarter2_value"] != "0" ? target["fact_quarter2_value"] : (target["fact_quarter1_value"] != "0" ? target["fact_quarter1_value"] : "0")) )
-    procent = '%.2f' %(target["plan_year_value"].to_i == 0 ? 0 : (factQuarterTargetValue.to_f / target["plan_year_value"].to_f )*100)
-    measure_unit = target["measure_name"] == nil ? "" : target["measure_name"].to_s
-    devation = procent.to_f / 100
-    no_devation =  Setting.find_by(name: 'no_devation').value
-    small_devation =  Setting.find_by(name: 'small_devation').value
-
-    sheet.insert_cell(data_row + i, 0, i+1)
-    sheet.insert_cell(data_row + i, 1, "")
-    if devation < small_devation.to_f
-      sheet.sheet_data[data_row + i][1].change_fill('ff0000')
-      status = 1
-    elsif (devation >= small_devation.to_f && devation >  no_devation.to_f)
-      sheet.sheet_data[data_row + i][1].change_fill('ffd800')
-      if status != 1
-        status = 2
+        sheet.sheet_data[4][7+i].change_border(:top, 'thin')
+        sheet.sheet_data[4][7+i].change_border(:left, 'thin')
+        sheet.sheet_data[4][7+i].change_border(:right, 'thin')
+        sheet.sheet_data[4][7+i].change_border(:bottom, 'thin')
       end
-    elsif devation  == no_devation.to_f
-        sheet.sheet_data[data_row + i][1].change_fill('0ba53d')
-        if status != 1 && status != 2
-          status = 3
+
+      sheet.merge_cells(5, 0, 5, 7+count_year)
+
+      sheet.insert_cell(5, 0, "")
+      sheet.sheet_data[5][0].change_border(:left, 'thin')
+
+      sheet.insert_cell(5, 7+count_year, "")
+      sheet.sheet_data[5][7+count_year].change_border(:right, 'thin')
+
+
+      id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
+      targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
+
+      targets.each_with_index do |target, i|
+        sheet.insert_cell(6+i, 0, (i+1).to_s)
+        sheet.insert_cell(6+i, 1, target.name)
+        cell = sheet[6+i][1]
+        cell.change_text_wrap(true)
+
+        type_target = target.is_additional == true ? "дополнительный" : "основной"
+        sheet.insert_cell(6+i, 2, type_target)
+        sheet.sheet_data[6+i][2].change_horizontal_alignment('center')
+        sheet.sheet_data[6+i][2].change_vertical_alignment('center')
+
+        sheet.insert_cell(6+i, 3, target.basic_value)
+        sheet.insert_cell(6+i, 4, "")
+        sheet.merge_cells(6+i, 3, 6+i, 4)
+        sheet.sheet_data[6+i][3].change_horizontal_alignment('center')
+        sheet.sheet_data[6+i][3].change_vertical_alignment('center')
+
+        basic_date = target.basic_date.nil? ? "" : target.basic_date.strftime("%d.%m.%Y")
+        sheet.insert_cell(6+i, 5, basic_date)
+        sheet.insert_cell(6+i, 6, "")
+        sheet.merge_cells(6+i, 5, 6+i, 6)
+        sheet.sheet_data[6+i][5].change_horizontal_alignment('center')
+        sheet.sheet_data[6+i][5].change_vertical_alignment('center')
+
+        sheet.sheet_data[6+i][0].change_border(:top, 'thin')
+        sheet.sheet_data[6+i][0].change_border(:left, 'thin')
+        sheet.sheet_data[6+i][0].change_border(:right, 'thin')
+        sheet.sheet_data[6+i][0].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[6+i][1].change_border(:top, 'thin')
+        sheet.sheet_data[6+i][1].change_border(:left, 'thin')
+        sheet.sheet_data[6+i][1].change_border(:right, 'thin')
+        sheet.sheet_data[6+i][1].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[6+i][2].change_border(:top, 'thin')
+        sheet.sheet_data[6+i][2].change_border(:left, 'thin')
+        sheet.sheet_data[6+i][2].change_border(:right, 'thin')
+        sheet.sheet_data[6+i][2].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[6+i][3].change_border(:top, 'thin')
+        sheet.sheet_data[6+i][3].change_border(:left, 'thin')
+        sheet.sheet_data[6+i][3].change_border(:right, 'thin')
+        sheet.sheet_data[6+i][3].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[6+i][4].change_border(:top, 'thin')
+        sheet.sheet_data[6+i][4].change_border(:left, 'thin')
+        sheet.sheet_data[6+i][4].change_border(:right, 'thin')
+        sheet.sheet_data[6+i][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[6+i][5].change_border(:top, 'thin')
+        sheet.sheet_data[6+i][5].change_border(:left, 'thin')
+        sheet.sheet_data[6+i][5].change_border(:right, 'thin')
+        sheet.sheet_data[6+i][5].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[6+i][6].change_border(:top, 'thin')
+        sheet.sheet_data[6+i][6].change_border(:left, 'thin')
+        sheet.sheet_data[6+i][6].change_border(:right, 'thin')
+        sheet.sheet_data[6+i][6].change_border(:bottom, 'thin')
+
+        for j in 0..count_year
+          targetValue = PlanFactYearlyTargetValue.find_by(target_id: target.id, year: @project.start_date.year+j)
+          sheet.insert_cell(6+i, 7+j, targetValue.target_plan_year_value)
+          sheet.sheet_data[6+i][7+j].change_border(:top, 'thin')
+          sheet.sheet_data[6+i][7+j].change_border(:left, 'thin')
+          sheet.sheet_data[6+i][7+j].change_border(:right, 'thin')
+          sheet.sheet_data[6+i][7+j].change_border(:bottom, 'thin')
+
         end
-    else
-      sheet.sheet_data[data_row + i][1].change_fill('d7d7d7')
-    end
-
-      sheet.insert_cell(data_row + i, 2, target["name"])
-      sheet.insert_cell(data_row + i, 3, measure_unit)
-      sheet.insert_cell(data_row + i, 4, target["fact_year_value"].to_f)
-      sheet.insert_cell(data_row + i, 5, target["fact_quarter1_value"].to_f)
-      sheet.insert_cell(data_row + i, 6, target["fact_quarter2_value"].to_f)
-      sheet.insert_cell(data_row + i, 7, target["fact_quarter3_value"].to_f)
-      sheet.insert_cell(data_row + i, 8, target["fact_quarter4_value"].to_f)
-      sheet.insert_cell(data_row + i, 9, target["plan_year_value"].to_f)
-      sheet.insert_cell(data_row + i, 10, procent)
-      sheet.insert_cell(data_row + i, 11, "")
-
-      sheet.sheet_data[data_row + i][0].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][0].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][0].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][0].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][1].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][1].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][1].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][1].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][2].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][2].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][2].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][2].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][3].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][3].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][3].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][3].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][4].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][4].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][4].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][4].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][5].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][5].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][5].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][5].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][6].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][6].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][6].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][6].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][7].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][7].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][7].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][7].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][8].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][8].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][8].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][8].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][9].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][9].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][9].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][9].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][10].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][10].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][10].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][10].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i][11].change_border(:top, 'thin')
-      sheet.sheet_data[data_row + i][11].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i][11].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i][11].change_border(:right, 'thin')
-
-    end
-
-    #  0ba53d -зеленый
-    #  ff0000 -красный
-    #  ffd800 -желтый
-    #  d7d7d7 - серый
-
-    # установка цвета статуса для показателей на титульном листе
-    sheet = @workbook['Титульный лист']
-    if status == 1
-       sheet.sheet_data[27][9].change_fill('ff0000')
-    elsif status == 2
-      sheet.sheet_data[27][9].change_fill('ffd800')
-    elsif status == 3
-      sheet.sheet_data[27][9].change_fill('0ba53d')
-    else
-      sheet.sheet_data[27][9].change_fill('d7d7d7')
-    end
+      end
 
   end
+
+
+
+  def generate_members_sheet
+
+    start_date = @project.start_date
+    due_date = @project.due_date
+    period_project = (start_date == nil ? "": start_date.strftime("%d.%m.%Y"))+" - " + (due_date == nil ? "": due_date.strftime("%d.%m.%Y"))
+    sheet = @workbook['Участники']
+
+    sheet[2][1].change_contents(I18n.t(:default_role_project_curator))
+    sheet[2][2].change_contents(@curatorProject.name(:lastname_f_p))
+
+    sheet[3][1].change_contents(I18n.t(:default_role_project_head))
+    sheet[3][2].change_contents(@leaderProject.name(:lastname_f_p))
+
+
+    sheet[4][1].change_contents(I18n.t(:default_role_project_head))
+    sheet[4][2].change_contents(@leaderProject.name(:lastname_f_p))
+
+    #sheet[22][1].change_contents(@adminProject.name(:fullname))
+
+    # default_role_project_admin: Администратор проекта
+    # default_role_project_curator: Куратор проекта
+    # default_role_project_customer: Заказчик проекта
+    # default_role_project_office_manager: Руководитель проектного офиса
+    # default_role_project_activity_coordinator: Координатор проектной деятельности
+    # default_role_project_office_coordinator: Координатор от проектного офиса
+    # default_role_events_responsible: Ответственный за блок мероприятий
+    # default_role_project_head: Руководитель проекта
+    # default_role_project_office_admin: Администратор проектного офиса
+
+  end
+
 
   def generate_status_achievement_sheet
 
@@ -304,7 +262,7 @@ class ReportPassportController < ApplicationController
     data_row = 3
     incriment = 0
     status_result = 0
-    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
+    id_type_result = Enumeration.find_by(name: I18n.t(:default_indicator)).id
     targets = Target.where(project_id: @project.id, type_id: id_type_result)
     targets.each_with_index do |target, i|
 
@@ -516,66 +474,19 @@ class ReportPassportController < ApplicationController
     user = userList[0]
   end
 
-  if user.patronymic.to_s.empty?
-    patronymic = ""
-  else  patronymic = user.patronymic
-  end
-
-  if user.lastname.to_s.empty?
-    lastname = ""
-  else  lastname = user.lastname
-  end
-
-  if user.firstname.to_s.empty?
-    firstname = ""
-  else  firstname = user.firstname
-  end
-
-  if user.firstname.to_s.empty?
-    firstname = ""
-  else  firstname = user.firstname
-  end
-
-  fio = lastname + " " + firstname + " " + patronymic
+   user
 end
 
-  def get_value_targets_indicators
+  def get_name_target
 
-    sql = "with
-            prev_year_value as (
-             select  pf.target_id, pf.fact_year_value
-             from v_plan_fact_quarterly_target_values as pf
-             where pf.year = (extract(year from current_date)-1) and pf.project_id = " + @project.id.to_s + "
-            ),
-            current_year_value as (
-              select  cf.target_id, cf.fact_quarter1_value,
-                      cf.fact_quarter2_value, cf.fact_quarter3_value, cf.fact_quarter4_value,
-                      cf.plan_year_value
-              from v_plan_fact_quarterly_target_values as cf
-              where cf.year = extract(year from current_date) and cf.project_id = "+ @project.id.to_s + "
-            )
-            select t.name, m.short_name as measure_name, coalesce(p.fact_year_value, 0) as fact_year_value,
-            coalesce(c.fact_quarter1_value, 0) as fact_quarter1_value, coalesce(c.fact_quarter2_value, 0) as fact_quarter2_value,
-            coalesce(c.fact_quarter3_value, 0) as fact_quarter3_value, coalesce(c.fact_quarter4_value, 0) as fact_quarter4_value,
-            coalesce(c.plan_year_value, 0) as plan_year_value
+    sql = " select t.name
             FROM targets t
-            left join current_year_value c on c.target_id = t.id
-            left join prev_year_value p on p.target_id = t.id
-            left join measure_units m on m.id = t.measure_unit_id
             inner join enumerations e on e.id = t.type_id
-            where ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
+            where e.name = '"+I18n.t(:default_target)+"' and t.project_id = "+ @project.id.to_s
 
 
-    result = ActiveRecord::Base.connection.execute(sql)
-    index = 0
-    result_array_targets = []
-
-    result.each do |row|
-      result_array_targets[index] = row
-      index += 1
-    end
-
-    result_array_targets
+    result_sql = ActiveRecord::Base.connection.execute(sql)
+    result = result_sql[0]["name"]
   end
 
 
@@ -1051,6 +962,15 @@ end
     result_sql= ActiveRecord::Base.connection.execute(sql)
     result = rresult_sql[0]["count_risk"].to_i == 0 ? 1 : 0
     result
+  end
+
+  def difference_in_completed_years (d1, d2)
+    a = d2.year - d1.year
+    a = a - 1 if (
+    d1.month >  d2.month or
+      (d1.month >= d2.month and d1.day > d2.day)
+    )
+    a
   end
 
 

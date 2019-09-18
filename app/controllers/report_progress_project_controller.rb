@@ -328,7 +328,7 @@ class ReportProgressProjectController < ApplicationController
     incriment = 0
     status_result = 0
     id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
-    targets = Target.where(project_id: @project.id, type_id: id_type_result)
+    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
     targets.each_with_index do |target, i|
 
       result = get_value_results(target.id.to_s)
@@ -549,7 +549,7 @@ class ReportProgressProjectController < ApplicationController
             left join prev_year_value p on p.target_id = t.id
             left join measure_units m on m.id = t.measure_unit_id
             inner join enumerations e on e.id = t.type_id
-            where ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
+            where t.is_approve = true and ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
 
 
     result = ActiveRecord::Base.connection.execute(sql)
@@ -589,7 +589,7 @@ class ReportProgressProjectController < ApplicationController
             left join prev_year_value p on p.target_id = t.id
             left join measure_units m on m.id = t.measure_unit_id
             inner join enumerations e on e.id = t.type_id
-            where e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
+            where t.is_approve = true and e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
 
 
     result_sql = ActiveRecord::Base.connection.execute(sql)
