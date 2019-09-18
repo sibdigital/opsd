@@ -49,8 +49,8 @@ en:
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
   permission_create_meetings: "Создание совещания"
-  permission_edit_meetings: "Править встречи"
-  permission_delete_meetings: "Удалить встречу"
+  permission_edit_meetings: "Изменение совещания"
+  permission_delete_meetings: "Удаление совещания"
   permission_meetings_send_invite: "Отправить приглашение на совещание" #iag, ban
   permission_send_meeting_agendas_icalendar: "Отправить повестку совещания в календарь" #iag, ban
   permission_view_meetings: "Просмотреть встречи"
