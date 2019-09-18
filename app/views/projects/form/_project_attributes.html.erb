@@ -68,7 +68,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--field">
   <%= form.select :federal_project_id,
-               options_for_select(project.get_federal_projects.map {|u| [u.name, u.id]}, @selected_federal_project),
+                  children_options_for_select(project.get_federal_projects.map {|u| [u.name, u.parent_id, u.id]}),
                include_blank: true,
                container_class: '-slim' %>
 </div>
@@ -104,3 +104,6 @@ See docs/COPYRIGHT.rdoc for more details.
     jQuery('#advanced-settings > .advanced-settings-inner').show();
   <% end %>
 <% end %>
+
+<%=javascript_include_tag 'select_project' %>
+
