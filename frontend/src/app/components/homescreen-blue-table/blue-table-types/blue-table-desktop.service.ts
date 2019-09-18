@@ -8,12 +8,14 @@ export class BlueTableDesktopService extends BlueTableService {
   private columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные кт/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
   private national_project_titles:{id:number, name:string}[] = [];
   private data_local:any = {};
+  private national_projects:CollectionResource<HalResource>;
 
   public initialize():void {
     this.halResourceService
       .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
+        this.national_projects = resources;
         resources.elements.map((el:HalResource) => {
           if (!el.parentId) {
             this.national_project_titles.push({id: el.id, name: el.name});
@@ -42,33 +44,30 @@ export class BlueTableDesktopService extends BlueTableService {
         });
   }
 
-  public getDataFromPage(i:number):any[] {
-    this.data = [];
-    if (this.national_project_titles[i].id === 0) {
-      this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
-      if (this.data_local[0]) {
-        this.data_local[0].map((project:ProjectResource) => {
-          this.data.push(project);
+  public getDataFromPage(i:number):Promise<any[]> {
+    return new Promise((resolve) => {
+      this.data = [];
+      if (this.national_project_titles[i].id === 0) {
+        this.data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+        if (this.data_local[0]) {
+          this.data_local[0].map((project:ProjectResource) => {
+            this.data.push(project);
+          });
+        }
+      } else {
+        this.national_projects.elements.map((el:HalResource) => {
+          if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
+            this.data.push(el);
+            if (this.data_local[el.id]) {
+              this.data_local[el.id].map((project:ProjectResource) => {
+                this.data.push(project);
+              });
+            }
+          }
         });
       }
-    } else {
-      this.halResourceService
-        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
-        .toPromise()
-        .then((resources:CollectionResource<HalResource>) => {
-          resources.elements.map((el:HalResource) => {
-            if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-              this.data.push(el);
-              if (this.data_local[el.id]) {
-                this.data_local[el.id].map((project:ProjectResource) => {
-                  this.data.push(project);
-                });
-              }
-            }
-          });
-        });
-    }
-    return this.data;
+      resolve(this.data);
+    });
   }
   public getColumns():string[] {
     return this.columns;

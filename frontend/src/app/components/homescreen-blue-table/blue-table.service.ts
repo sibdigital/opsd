@@ -16,14 +16,11 @@ export abstract class BlueTableService {
   public initialize() {
   }
 
-  public getData():any[] {
-    return [];
+  public getDataFromPage(i:number):Promise<any[]> {
+    return new Promise((resolve) => {resolve([]); });
   }
-  public getDataFromPage(i:number):any[] {
-    return [];
-  }
-  public getDataWithFilter(param:string):any[] {
-    return [];
+  public getDataWithFilter(param:string):Promise<any[]>  {
+    return new Promise((resolve) => {resolve([]); });
   }
   public getColumns():string[] {
     return [];

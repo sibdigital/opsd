@@ -38,24 +38,26 @@ export class BlueTableDiscussService extends BlueTableService {
     return this.data;
   }
 
-  public getDataFromPage(i:number):any[] {
-    i += 1;
-    this.data = [];
-    this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.topics.toString())
-      .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        let total:number = resources.results.total; //всего ex 29
-        let remainder = total % 20;
-        this.pages = (total - remainder) / 20;
-        if (remainder !== 0) {
-          this.pages++;
-        }
-        resources.results.elements.map((el:HalResource) => {
-          this.data.push(el);
+  public getDataFromPage(i:number):Promise<any[]> {
+    return new Promise((resolve) => {
+      i += 1;
+      this.data = [];
+      this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.topics.toString())
+        .toPromise()
+        .then((resources: CollectionResource<HalResource>) => {
+          let total: number = resources.results.total; //всего ex 29
+          let remainder = total % 20;
+          this.pages = (total - remainder) / 20;
+          if (remainder !== 0) {
+            this.pages++;
+          }
+          resources.results.elements.map((el: HalResource) => {
+            this.data.push(el);
+          });
         });
-      });
-    return this.data;
+      return this.data;
+    });
   }
 
   public getTdData(row:any, i:number):string {
@@ -113,36 +115,39 @@ export class BlueTableDiscussService extends BlueTableService {
     return this.data;
   }
 
-  public getDataWithFilter(param:string):any[] {
-    let filters;
-    switch (param) {
-      case 'vrabote': {
-        filters = new ApiV3FilterBuilder();
-        filters.add('status', '=', ["2"]);
-        break;
-      }
-      case 'predstoyashie': {
-        filters = new ApiV3FilterBuilder();
-        filters.add('dueDate', '>t+', ["0"]);
-        break;
-      }
-    }
-    this.data = [];
-    this.halResourceService
-      .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), filters ? {"filters": filters.toJson()} :null)
-      .toPromise()
-      .then((resources:QueryResource) => {
-        let total:number = resources.results.total; //всего ex 29
-        let remainder = total % 20;
-        this.pages = (total - remainder) / 20;
-        if (remainder !== 0) {
-          this.pages++;
+  public getDataWithFilter(param:string):Promise<any[]> {
+    return new Promise((resolve) => {
+      let filters;
+      switch (param) {
+        case 'vrabote': {
+          filters = new ApiV3FilterBuilder();
+          filters.add('status', '=', ["2"]);
+          break;
         }
-        resources.results.elements.map((el:HalResource) => {
-          this.data.push(el);
+        case 'predstoyashie': {
+          filters = new ApiV3FilterBuilder();
+          filters.add('dueDate', '>t+', ["0"]);
+          break;
+        }
+      }
+      this.halResourceService
+        .get<QueryResource>(this.pathHelper.api.v3.withOptionalProject(this.project).queries.default.toString(), filters ? {"filters": filters.toJson()} : null)
+        .toPromise()
+        .then((resources:QueryResource) => {
+          let ldata:any[] = [];
+          let total:number = resources.results.total; //всего ex 29
+          let remainder = total % 20;
+          this.pages = (total - remainder) / 20;
+          if (remainder !== 0) {
+            this.pages++;
+          }
+          resources.results.elements.map((el:HalResource) => {
+            ldata.push(el);
+          });
+          this.data = ldata;
         });
-      });
-    return this.data;
+      resolve(this.data);
+    });
   }
 
   public format(input:string):string {
