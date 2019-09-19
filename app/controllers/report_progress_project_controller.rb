@@ -101,8 +101,6 @@ class ReportProgressProjectController < ApplicationController
     selected_target = params[:target]
     @target = Target.find(params[:selected_target_id])
     sheet[2][2].change_contents(@target.id)
-
-
   end
 
   def generate_title_sheet
