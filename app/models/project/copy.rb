@@ -38,7 +38,7 @@ module Project::Copy
     # specify the order of associations to copy
     #base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values']
     #zbd
-    base.copy_precedence ['members', 'versions', 'categories', 'arbitary_objects', 'agreements', 'targets', 'project_risks', 'work_packages', 'wiki', 'custom_values']
+    base.copy_precedence ['members', 'versions', 'categories', 'stakeholder_users', 'stakeholder_organizations', 'stakeholder_outers', 'arbitary_objects', 'agreements', 'targets', 'project_risks', 'work_packages', 'wiki', 'custom_values']
   end
 
   module CopyMethods
@@ -175,6 +175,30 @@ module Project::Copy
         new_agreement = Agreement.new
         new_agreement.send(:assign_attributes, obj.attributes.dup.except('id', 'project_id'))
         agreements << new_agreement
+      end
+    end
+
+    def copy_stakeholder_users(project, selected_copies = [])
+      project.stakeholder_users.each do |obj|
+        new_object = StakeholderUser.new
+        new_object.send(:assign_attributes, obj.attributes.dup.except('id', 'project_id'))
+        stakeholder_users << new_object
+      end
+    end
+
+    def copy_stakeholder_organizations(project, selected_copies = [])
+      project.stakeholder_organizations.each do |obj|
+        new_object = StakeholderOrganization.new
+        new_object.send(:assign_attributes, obj.attributes.dup.except('id', 'project_id'))
+        stakeholder_organizations << new_object
+      end
+    end
+
+    def copy_stakeholder_outers(project, selected_copies = [])
+      project.stakeholder_outers.each do |obj|
+        new_object = StakeholderOuter.new
+        new_object.send(:assign_attributes, obj.attributes.dup.except('id', 'project_id'))
+        stakeholder_outers << new_object
       end
     end
     # )
