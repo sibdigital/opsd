@@ -31,5 +31,6 @@ OpenProject::Application.configure do
     strategic_map.js
     project_strategic_map.js
     plan_uploader_settings.js
+    select_project.js
   )
 end

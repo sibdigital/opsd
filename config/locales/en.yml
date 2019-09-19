@@ -114,6 +114,10 @@ en:
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
+  costs:
+    federal_cost_type: Федеральный бюджет
+    regional_cost_type: Региональный бюджет
+    vnebugt_cost_type: Внебюджетные средства
   concatenation:
     single: или
   deprecations:
@@ -2516,7 +2520,7 @@ en:
   project_module_activity: Деятельность
   project_module_boards: Дискуссии
   project_module_calendar: Календарь
-  project_module_work_package_tracking: Отслеживание пакета работ
+  project_module_work_package_tracking: Управление мероприятиями и КТ
   project_module_work_package_targets: Целевые показатели мероприятий
   project_module_news: Новости
   project_module_repository: Репозиторий

@@ -184,7 +184,6 @@ OpenProject::Application.routes.draw do
       get 'stages', controller: 'stages', action: 'show' #, as: :stages
       #get 'self_redirect', controller: 'stages', action: 'self_redirect'
 
-
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 

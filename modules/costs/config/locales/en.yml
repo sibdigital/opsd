@@ -23,20 +23,20 @@ en:
         unit: "Объект/Результат проекта"
         unit_plural: "Множественное наименование объекта/результата проека"
       work_package:
-        costs_by_type: "Затраченное количество"
+        costs_by_type: "Затраченные средства"
         cost_object_subject: "Название бюджета"
         labor_costs: "Трудовые расходы"
         material_costs: "Расходы на единицу"
         overall_costs: "Общие расходы"
         spent_costs: "Понесенные расходы"
-        spent_units: "Затраченное количество"
+        spent_units: "Затрачено"
       rate:
         rate: "Тариф"
       user:
         default_rates: "Тариф по умолчанию"
       variable_cost_object:
         labor_budget: "Плановые трудозатраты"
-        material_budget: "Плановые количественные затраты "
+        material_budget: "Плановые затраты "
     models:
       cost_object: "Бюджет"
       cost_type:
@@ -83,7 +83,7 @@ en:
   caption_save_rate: "Сохранить тариф"
   caption_set_rate: "Установить текущий тариф"
   caption_show_locked: "Показывать Заблокированные типы"
-  cost_objects_title: "Бюджеты"
+  cost_objects_title: "Финансовое обеспечение"
   label_cost_type_plural: "Типы расходов"
   currency_delimiter: ","
   currency_separator: "."
@@ -153,9 +153,9 @@ en:
   permission_edit_hourly_rates: "Изщменить почасовые тарифы"
   permission_edit_own_hourly_rate: "Изменить почасовые тарифы"
   permission_edit_rates: "Изменить тарифы"
-  permission_log_costs: "Регистрировать затраты"
-  permission_log_own_costs: "Регистрировать затраты для себя"
-  permission_view_cost_entries: "Просмотр зарегистрированных затрат"
+  permission_log_costs: "Изменение исполнения бюджета"
+  permission_log_own_costs: "Изменение исполнения бюджета для себя"
+  permission_view_cost_entries: "Просмотр исполнения"
   permission_view_cost_objects: "Просмотр бюджетов"
   permission_view_cost_rates: "Просмотр тарифов по стоимости"
   permission_view_hourly_rates: "Просмотр всех почасовых тарифов"

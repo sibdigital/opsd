@@ -139,7 +139,7 @@ group by yearly.project_id, yearly.target_id
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def desktop_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           spent = BigDecimal("0")
 
@@ -194,7 +194,7 @@ group by type, project_id, importance_id
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def fed_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           spent = BigDecimal("0")
 
@@ -214,7 +214,7 @@ group by type, project_id, importance_id
         end
 
         def reg_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           labor_budget = BigDecimal("0")
           spent = BigDecimal("0")
@@ -236,7 +236,7 @@ group by type, project_id, importance_id
         end
 
         def other_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           material_budget = BigDecimal("0")
           spent = BigDecimal("0")

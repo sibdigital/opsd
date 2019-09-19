@@ -58,7 +58,7 @@ var options = {
       edgeMinimization: true,
       treeSpacing: 200,
       nodeSpacing: 250,
-      levelSeparation: 150,
+      levelSeparation: 200,
       blockShifting: true
     }
   },
