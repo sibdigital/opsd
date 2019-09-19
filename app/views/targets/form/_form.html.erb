@@ -50,8 +50,8 @@ This file written by XCC
                                           required: false,
                                           container_class: '-middle' %></div>
 
-  <div class="form--field"><%= f.text_field 'basic_value', container_class: '-middle' %></div>
-  <div class="form--field"><%= f.text_field 'plan_value', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.number_field 'basic_value', step: :any, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.number_field 'plan_value', step: :any, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'comment', container_class: '-middle' %></div>
   <div class="form--field"><%= f.select :status_id,
                                         options_for_select(TargetStatus.where(active: true).map {|u| [u.name, u.id]}, @selected_status_id),
