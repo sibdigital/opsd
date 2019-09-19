@@ -73,6 +73,15 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: "copy_projects/copy_settings/block_checkbox",
              locals: { name: "agreements", checked: true, label: l(:label_agreements),
                        count: project.agreements.count } %>
+  <%= render partial: "copy_projects/copy_settings/block_checkbox",
+             locals: { name: "stakeholder_users", checked: true, label: l(:label_stakeholder_users),
+                       count: project.stakeholder_users.count } %>
+  <%= render partial: "copy_projects/copy_settings/block_checkbox",
+             locals: { name: "stakeholder_organizations", checked: true, label: l(:label_stakeholder_organizations),
+                       count: project.stakeholder_organizations.count } %>
+  <%= render partial: "copy_projects/copy_settings/block_checkbox",
+             locals: { name: "stakeholder_outers", checked: true, label: l(:label_stakeholder_outer),
+                       count: project.stakeholder_outers.count } %>
 
 
   <%= hidden_field_tag 'only[]', '' %>
