@@ -59,7 +59,9 @@ class MembersController < ApplicationController
 
     if members.present? && members.all?(&:valid?)
       flash[:notice] = members_added_notice members
+      if member != User.current
       Alert.create_pop_up_alert(members.first, "Created", User.current, members.first.user)
+      end
       #ban(
       @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
       members.each do |added_member|

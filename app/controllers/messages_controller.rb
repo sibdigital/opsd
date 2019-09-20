@@ -90,7 +90,9 @@ class MessagesController < ApplicationController
     if @message.save
       render_attachment_warning_if_needed(@message)
       @message.participants.each do |participiant|
+        if participiant != User.current
         Alert.create_pop_up_alert(@message, "Created", User.current, participiant.user)
+          end
       end
 
       call_hook(:controller_messages_new_after_save, params: params, message: @message)
@@ -115,7 +117,9 @@ class MessagesController < ApplicationController
     #iag(
     UserMailer.reply_to_message_notify(@message.author).deliver_now
     @topic.participants.each do |participiant|
+      if participiant != User.current
       Alert.create_pop_up_alert(@topic, "Noted", User.current,participiant.user)
+        end
     end
     # )
     unless @reply.new_record?
@@ -149,7 +153,9 @@ class MessagesController < ApplicationController
       render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.participants.each do |participiant|
+        if participiant != User.current
         Alert.create_pop_up_alert(@message, "Changed", User.current,participiant.user)
+        end
         #ban(
         @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
         UserMailer.message_changed(participiant.user, @message, User.current, @timenow).deliver_now
@@ -172,7 +178,9 @@ class MessagesController < ApplicationController
     #)
     @message.destroy
     @message.participants.each do |participiant|
+      if participiant != User.current
       Alert.create_pop_up_alert(@message, "Deleted", User.current, participiant.user)
+      end
       #ban(
       @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
       UserMailer.message_deleted(participiant.user, @project_name, @board_name, @message_subject, User.current, @timenow).deliver_now
