@@ -45,22 +45,29 @@
         <tbody>
         <% @templates.each do |project, level| %>
           <tr class="basics context-menu--reveal project root leaf -no-highlighting -expanded">
-            <td class="name project--hierarchy">
+            <td class="name project--hierarchy"  style="width: 80%;">
               <i class="projects-table--hierarchy-icon"></i>
               <%= link_to_project(project, {}, {}, false) %>
             </td>
-            <td>
+            <td style="width: 10%;">
               <% if User.current.detect_project_office_coordinator? || User.current.detect_project_administrator? || User.current.admin? %>
                   <%= link_to copy_from_project_path(project, coming_from: :settings), class: 'copy', accesskey: accesskey(:copy) do %>
                     <%= op_icon('icon-copy ') %>
                     <span class="button--text"><%= t(:label_copy_project_from_template) %></span>
                   <% end %>
               <% end %>
-
+            </td>
+            <td style="width: 10%;">
+              <%= if User.current.admin
+                    link_to t(:button_delete),
+                      confirm_destroy_project_path(project),
+                      class: 'icon-context icon-delete',
+                      title: t(:button_delete)
+                  end %>
             </td>
           </tr>
           <tr class="project-description project root leaf -expanded">
-            <td colspan="2" class="project--hierarchy" style="padding-left: 40px;">
+            <td colspan="3" class="project--hierarchy" style="padding-left: 40px;">
               <div class="description-container">
                 <span class="wiki"><%= format_text(project.short_description(255), project: project) %></span>
               </div>

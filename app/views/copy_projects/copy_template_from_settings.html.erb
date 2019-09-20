@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= error_messages_for 'copy_project' %>
-<%= toolbar title: l(:label_project_new_template) + ' сохранить как шаблон'%>
+<%= toolbar title: l(:label_project_new_template)%>
 
 <%= labelled_tabular_form_for @copy_project, url: { action: 'copy_t', coming_from: 'settings' } do |f| %>
   <%= hidden_field_tag :coming_from, 'settings' %>

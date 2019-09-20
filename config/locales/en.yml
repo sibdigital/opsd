@@ -2067,6 +2067,8 @@ en:
   label_contracts_value: Значение гос.контракта
   label_stakeholder_plural: Заинтересованные стороны
   label_stakeholders: Заинтересованные стороны
+  label_stakeholder_users: Заинтересованная сторона - участники
+  label_stakeholder_organizations: Заинтересованная сторона - организации
   label_stakeholder_outer_new: Новая внешняя заинтересованная сторона
   label_stakeholder_outer: Внешняя заинтересованная сторона
   label_communication_meetings_plural: План коммуникаций
