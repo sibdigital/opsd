@@ -36,7 +36,7 @@ module API
           @projects = [0]
           Project.where(type: 'project').each do |project|
             exist = which_role(project, current_user, global_role)
-            if exist
+            if exist and project.visible? current_user
               @projects << project.id
             end
           end
