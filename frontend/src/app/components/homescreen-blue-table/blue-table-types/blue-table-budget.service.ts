@@ -1,59 +1,67 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
 export class BlueTableBudgetService extends BlueTableService {
-  private data:any[] = [];
-  private data_local:any = {};
-  private columns:string[] = ['Республика Бурятия', 'Куратор', 'РП', 'План срок завершения', 'Исполнено', 'Риски исполнения', 'Остаток', 'Риски и проблемы', 'Исполнение бюджета'];
+  protected columns:string[] = ['Республика Бурятия', 'Куратор', 'РП', 'План срок завершения', 'Исполнено', 'Риски исполнения', 'Остаток', 'Риски и проблемы', 'Исполнение бюджета'];
+  private national_project_titles:{ id:number, name:string }[];
+  private national_projects:HalResource[];
 
-  public initialize():void {
-    this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
-      .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        this.halResourceService
-          .get<HalResource>(this.pathHelper.api.v3.summary_budgets_users.toString())
-          .toPromise()
-          .then((response:HalResource) => {
-            response.source.map((budget:HalResource) => {
-              budget['_type'] = 'Budget';
-              if (budget.project.federal_project_id) {
-                this.data_local[budget.project.federal_project_id] = this.data_local[budget.project.federal_project_id] || [];
-                this.data_local[budget.project.federal_project_id].push(budget);
-              } else {
-                this.data_local[0] = this.data_local[0] || [];
-                this.data_local[0].push(budget);
-              }
-            });
-            resources.elements.map( (el:HalResource) => {
-              this.data.push(el);
-              if (this.data_local[el.id]) {
-                this.data_local[el.id].map( (budget:ProjectResource) => {
-                  this.data.push(budget);
-                });
-              }
-            });
-            this.data.push({_type: 'NationalProject', id:0, name: 'Проекты Республики Бурятия'});
-            if (this.data_local[0]) {
-              this.data_local[0].map( (budget:ProjectResource) => {
-                this.data.push(budget);
-              });
+  public initializeAndGetData():Promise<any[]> {
+    return new Promise((resolve) => {
+      let data:any[] = [];
+      let data_local:any = {};
+      this.national_project_titles = [];
+      this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
+        .toPromise()
+        .then((resources:CollectionResource<HalResource>) => {
+          this.national_projects = resources.elements;
+          this.national_projects.map((el:HalResource) => {
+            if (!el.parentId) {
+              this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-      });
-  }
-
-  public getColumns():string[] {
-    return this.columns;
-  }
-  public getPages():number {
-    return 0;
-  }
-
-  public getData():any[] {
-    return this.data;
+          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
+          this.halResourceService
+            .get<HalResource>(this.pathHelper.api.v3.summary_budgets_users.toString())
+            .toPromise()
+            .then((response:HalResource) => {
+              response.source.map((budget:HalResource) => {
+                budget['_type'] = 'Budget';
+                if (!budget.project.national_project_id) {
+                  budget.project.national_project_id = 0;
+                }
+                if (!budget.project.federal_project_id) {
+                  budget.project.federal_project_id = 0;
+                }
+                if ((budget.project.federal_project_id !== 0) || (budget.project.federal_project_id === 0 && budget.project.national_project_id === 0)) {
+                  data_local[budget.project.federal_project_id] = data_local[budget.project.federal_project_id] || [];
+                  data_local[budget.project.federal_project_id].push(budget);
+                } else {
+                  data_local[budget.project.national_project_id] = data_local[budget.project.national_project_id] || [];
+                  data_local[budget.project.national_project_id].push(budget);
+                }
+              });
+              this.national_projects.map((el:HalResource) => {
+                data.push(el);
+                if (data_local[el.id]) {
+                  data_local[el.id].map((budget:ProjectResource) => {
+                    data.push(budget);
+                  });
+                }
+              });
+              data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+              if (data_local[0]) {
+                data_local[0].map((budget:ProjectResource) => {
+                  data.push(budget);
+                });
+              }
+              resolve(data);
+            });
+        });
+    });
   }
 
   public getTdData(row:any, i:number):string {

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -41,7 +42,7 @@ module API
         element_decorator ::API::V3::NationalProjects::NationalProjectRepresenter
 
         def initialize(models,
-                       params,
+                       _params,
                        self_link,
                        current_user:,
                        global_role:)
@@ -65,15 +66,20 @@ module API
 
         def render_tree(tree, pid)
           represented.map do |el|
-            if el.parent_id == pid then
-              unless pid
+            if el.parent_id == pid
+              exist = nil
+              if pid
+                el.projects_federal.map do |project|
+                  exist ||= which_role(project, @current_user, @global_role)
+                end
+              else
                 exist = nil
                 el.projects.map do |project|
                   exist ||= which_role(project, @current_user, @global_role)
                 end
-                unless exist
-                  next
-                end
+              end
+              unless exist
+                next
               end
               @elements << element_decorator.create(el, current_user: current_user)
               render_tree(tree, el.id)

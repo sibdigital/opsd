@@ -35,7 +35,7 @@ require 'roar/json/hal'
 module API
   module V3
     module Protocols
-      class ProtocolCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+      class ProtocolCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         element_decorator ::API::V3::Protocols::ProtocolRepresenter
       end
     end

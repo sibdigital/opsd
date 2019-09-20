@@ -31,8 +31,8 @@ export class HomescreenBlueTableComponent implements OnInit {
   ngOnInit() {
     this.getBlueTable(this.template);
     if (!!this.blueTableModule) {
-      this.data = this.blueTableModule.getData();
       this.columns = this.blueTableModule.getColumns();
+      this.blueTableModule.initializeAndGetData().then((data) => {this.data = data; });
     }
   }
 
@@ -70,15 +70,15 @@ export class HomescreenBlueTableComponent implements OnInit {
   }
 
   public loadPage(i:number) {
-    this.data = this.blueTableModule.getDataFromPage(i);
+    this.blueTableModule.getDataFromPage(i).then((data:any[]) => {this.data = data; });
   }
 
   public limitDays(i:number) {
-    this.data = this.blueTableModule.getDataWithFilter('limit' + i);
+    this.blueTableModule.getDataWithFilter('limit' + i).then((data:any[]) => {this.data = data; });
   }
 
   public changeFilter(param:string) {
-    this.data = this.blueTableModule.getDataWithFilter(param);
+    this.blueTableModule.getDataWithFilter(param).then((data:any[]) => {this.data = data; });
   }
 
   public hello(i:number) {
