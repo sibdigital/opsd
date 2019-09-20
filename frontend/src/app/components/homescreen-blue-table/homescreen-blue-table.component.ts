@@ -31,8 +31,8 @@ export class HomescreenBlueTableComponent implements OnInit {
   ngOnInit() {
     this.getBlueTable(this.template);
     if (!!this.blueTableModule) {
-      this.data = this.blueTableModule.getDataFromPage(0);
       this.columns = this.blueTableModule.getColumns();
+      this.blueTableModule.initializeAndGetData().then((data) => {this.data = data; });
     }
   }
 
@@ -70,7 +70,7 @@ export class HomescreenBlueTableComponent implements OnInit {
   }
 
   public loadPage(i:number) {
-    this.data = this.blueTableModule.getDataFromPage(i);
+    this.blueTableModule.getDataFromPage(i).then((data:any[]) => {this.data = data; });
   }
 
   public limitDays(i:number) {

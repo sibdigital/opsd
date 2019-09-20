@@ -1,45 +1,45 @@
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {StateService} from "@uirouter/core";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
 
 export abstract class BlueTableService {
   protected readonly appBasePath:string;
+  protected columns:string[] = [];
+  protected pages:number = 0;
 
   constructor(
     protected halResourceService:HalResourceService,
     protected pathHelper:PathHelperService,
     readonly $state:StateService) {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
-    this.initialize();
   }
-  // tslint:disable-next-line:no-empty
-  public initialize() {
+  public initializeAndGetData():Promise<any[]> {
+    return Promise.resolve([]);
   }
-
   public getDataFromPage(i:number):Promise<any[]> {
-    return new Promise((resolve) => {resolve([]); });
+    return Promise.resolve([]);
   }
   public getDataWithFilter(param:string):Promise<any[]>  {
-    return new Promise((resolve) => {resolve([]); });
+    return Promise.resolve([]);
   }
   public getColumns():string[] {
-    return [];
+    return this.columns;
   }
   public getPages():number {
-    return 0;
+    return this.pages;
   }
   public getTdData(row:any, i:number):string {
     return '';
   }
-
   public getTdClass(row:any, i:number):string {
     return '';
   }
-
   public getBasePath():string {
     return this.appBasePath;
   }
-
   public pagesToText(i:number):string {
     return String(i + 1);
   }

@@ -54,7 +54,7 @@ adjusted (e.g for bar charts or filled areas).
             if (s.stack == null)
                 return;
 
-            var other = findMatchingSeries(s, plot.getData());
+            var other = findMatchingSeries(s, plot.initializeAndGetData());
             if (!other)
                 return;
 

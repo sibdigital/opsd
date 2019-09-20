@@ -56,7 +56,7 @@ plugin, possibly some code could be shared.
             if (s.fillBetween == null)
                 return;
 
-            var other = findBottomSeries(s, plot.getData());
+            var other = findBottomSeries(s, plot.initializeAndGetData());
             if (!other)
                 return;
 
