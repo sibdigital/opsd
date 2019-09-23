@@ -459,6 +459,15 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('targets') },
             icon: 'icon2 icon-target',
             parent: :targets
+  # knm +
+  menu.push :target_calc_procedure,
+            { controller: '/target_calc_procedures', action: 'index' },
+            param: :project_id,
+            caption: :label_target_calc_procedures,
+            if: Proc.new { |p| p.module_enabled?('targets') },
+            icon: 'icon2 icon-target',
+            parent: :targets
+  # knm -
   # )
 
   ##zbd(

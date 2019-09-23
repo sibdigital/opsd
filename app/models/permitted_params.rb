@@ -477,6 +477,9 @@ class PermittedParams
   end
 
   #knm(
+  def target_calc_procedure
+    params.require(:target_calc_procedure).permit(:name, :project_id, :target_id, :description, :base_target_id, :data_source, :user_id, :period, :add_info, :level)
+  end
   def head_performance_indicator_value
     params.require(:head_performance_indicator_value).permit(:head_performance_indicator_id, :type, :year, :quarter, :month, :value, :sort_code)
   end

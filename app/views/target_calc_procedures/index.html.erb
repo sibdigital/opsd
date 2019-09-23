@@ -1,0 +1,133 @@
+<% html_title l(:label_target_calc_procedures) %>
+<%= toolbar title: l(:label_target_calc_procedures) do %>
+  <li class="toolbar-item">
+    <%= link_to(new_project_target_calc_procedure_path(),
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_target_calc_procedure)},
+                  title: t(:label_target_calc_procedure_new)}) do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_target_calc_procedure) %></span>
+    <% end %>
+  </li>
+  <% end %>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+  <table class="generic-table" id="target-calc-procedures-items">
+    <colgroup>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+    </colgroup>
+    <thead>
+    <tr>
+
+      <th>
+        <%= sort_header_tag("name", :caption =>  TargetCalcProcedure.human_attribute_name(:name)) %>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:target_id) %>
+            </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:description) %>
+            </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:base_target_id) %>
+            </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:data_source) %>
+            </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:user_id) %>
+            </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:period) %>
+            </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:level) %>
+            </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>
+                    <%= TargetCalcProcedure.human_attribute_name(:add_info) %>
+            </span>
+          </div>
+        </div>
+      </th>
+
+    </tr>
+    </thead>
+    <tbody>
+      <% @calc_procedures.each do |calc_procedure| %>
+      <tr id="calc-procedure-<%= calc_procedure.id%>">
+        <%= content_tag(:td, link_to(h(calc_procedure.id), edit_project_target_calc_procedure_path(@project.id,calc_procedure.id))) %>
+        <%= content_tag(:td, link_to(h(calc_procedure.name), edit_project_target_calc_procedure_path(@project.id,calc_procedure.id))) %>
+        <%= content_tag(:td, calc_procedure.target) %>
+        <%= content_tag(:td, calc_procedure.description) %>
+        <%= content_tag(:td, calc_procedure.base_target) %>
+        <%= content_tag(:td, calc_procedure.data_source) %>
+        <%= content_tag(:td, calc_procedure.user) %>
+        <%= content_tag(:td, t('target_calc_procedures.'+calc_procedure.period.downcase)) %>
+        <%= content_tag(:td, calc_procedure.level) %>
+        <%= content_tag(:td, calc_procedure.add_info) %>
+        <%= content_tag(:td, link_to(
+            op_icon('icon icon-delete'),
+            project_target_calc_procedure_path(@project.id,calc_procedure),
+            method: :delete,
+            data: {confirm: I18n.t(:text_are_you_sure)},
+            title: t(:button_delete))) %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>
