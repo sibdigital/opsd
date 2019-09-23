@@ -171,7 +171,7 @@
             o.top += plotOffset.top;
             return o;
         };
-        plot.getData = function () { return series; };
+        plot.initializeAndGetData = function () { return series; };
         plot.getAxes = function () {
             var res = {}, i;
             $.each(xaxes.concat(yaxes), function (_, axis) {

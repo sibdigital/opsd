@@ -1,52 +1,86 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 export class BlueTableProtocolService extends BlueTableService {
-  private data:any[] = [];
-  private data_local:any = {};
-  private columns:string[] = ['', 'Ответственный', 'Срок', 'Исполнение'];
+  protected columns:string[] = ['', 'Ответственный', 'Срок', 'Исполнение'];
+  private national_project_titles:{ id:number, name:string }[];
+  private national_projects:HalResource[];
 
-  public initialize():void {
-    this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
-      .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        this.halResourceService
-          .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.protocols.toString())
-          .toPromise()
-          .then((response:CollectionResource<HalResource>) => {
-            response.elements.map((protocol:HalResource) => {
-              if (!protocol.project.national_project_id) {
-                protocol.project.national_project_id = 0;
-              }
-              this.data_local[protocol.project.national_project_id] = this.data_local[protocol.project.national_project_id] || [];
-              this.data_local[protocol.project.national_project_id].push(protocol);
-            });
-            resources.elements.map( (el:HalResource) => {
-              this.data.push(el);
-              if (this.data_local[el.id]) {
-                this.data_local[el.id].map((protocol:HalResource) => {
-                  this.data.push(protocol);
-                });
-              }
-            });
+  public initializeAndGetData():Promise<any[]> {
+    return new Promise((resolve) => {
+      this.national_project_titles = [];
+      this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
+        .toPromise()
+        .then((resources:CollectionResource<HalResource>) => {
+          this.national_projects = resources.elements;
+          this.national_projects.map((el:HalResource) => {
+            if (!el.parentId) {
+              this.national_project_titles.push({id: el.id, name: el.name});
+            }
           });
-      });
-  }
-  public getColumns():string[] {
-    return this.columns;
-  }
-  public getPages():number {
-    return 0;
-  }
-
-  public getData():any[] {
-    return this.data;
+          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
+          this.getDataFromPage(0).then(data => {
+            resolve(data);
+          });
+        });
+    });
   }
 
-  public getDataFromPage(i:number):any[] {
-    return this.data;
+  public getDataFromPage(i:number):Promise<any[]> {
+    return new Promise((resolve) => {
+      i += 1;
+      let data:any[] = [];
+      let data_local:any = {};
+      this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.protocols.toString(), {offset: i})
+        .toPromise()
+        .then((resources:CollectionResource<HalResource>) => {
+          let total:number = resources.total; //всего ex 29
+          let pageSize:number = resources.pageSize;
+          let remainder = total % pageSize;
+          this.pages = (total - remainder) / pageSize;
+          if (remainder !== 0) {
+            this.pages++;
+          }
+          /*resources.elements.map((el:HalResource) => {
+            data.push(el);
+          });*/
+          resources.elements.map((protocol:HalResource) => {
+            if (!protocol.project.federal_project_id) {
+              protocol.project.federal_project_id = 0;
+            }
+            if (!protocol.project.national_project_id) {
+              protocol.project.national_project_id = 0;
+            }
+
+            if ((protocol.project.federal_project_id !== 0) || (protocol.project.federal_project_id === 0 && protocol.project.national_project_id === 0)) {
+              data_local[protocol.project.federal_project_id] = data_local[protocol.project.federal_project_id] || [];
+              data_local[protocol.project.federal_project_id].push(protocol);
+            } else {
+              data_local[protocol.project.national_project_id] = data_local[protocol.project.national_project_id] || [];
+              data_local[protocol.project.national_project_id].push(protocol);
+            }
+          });
+          this.national_projects.map( (el:HalResource) => {
+            data.push(el);
+            if (data_local[el.id]) {
+              data_local[el.id].map((protocol:HalResource) => {
+                data.push(protocol);
+              });
+            }
+          });
+          data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+          if (data_local[0]) {
+            data_local[0].map((protocol:ProjectResource) => {
+              data.push(protocol);
+            });
+          }
+          resolve(data);
+        });
+    });
   }
 
   public getTdData(row:any, i:number):string {

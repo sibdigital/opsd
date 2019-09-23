@@ -550,6 +550,7 @@ en:
           name: «Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии
           identifier: cultura
           national_project: Культура
+          #federal_project: Обеспечение качественно нового уровня развития инфраструктуры культуры «Культурная среда»
           federal_project: Культурная среда
           project_status: :default_project_status_in_work
           start_date: "20190101"
