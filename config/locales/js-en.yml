@@ -444,16 +444,18 @@ en:
     relation_labels:
       parent: Родитель
       children: Дочерние элементы
-      relates: Связанно с
+      relates: Связанно
       duplicates: Дубликаты
       duplicated: Дублируется
-      blocks: Блоки
+      blocks: Блокирует
       blocked: Заблокировано
       precedes: Предшествует
       follows: Следует
+      commonstart: Одно начало
+      commonfinish: Один конец
       includes: Включает
       partof: Часть
-      requires: Требуется
+      requires: Требует
       required: Требуется
       relation_type: тип отношения
     relations_hierarchy:
