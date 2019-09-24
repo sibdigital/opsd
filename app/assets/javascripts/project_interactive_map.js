@@ -9,7 +9,7 @@ function setMilestones()
 {
   description_info=new Array(22);
   for (var i = 0; i < 22; i++) {
-    description_info[i]="<table style='width: 400px'>"+
+    description_info[i]="<table style='width: 100%'>"+
       "<thead>"+
       "<tr>"+
       "<th>Название</th>"+

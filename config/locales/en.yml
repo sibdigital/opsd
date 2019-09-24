@@ -218,6 +218,21 @@ en:
     target: "Цель"
     indicator: "Показатель"
     result: "Результат"
+  target_calc_procedures:
+    name: Наименование
+    target_id: Целевой показатель
+    description: Описание
+    base_target_id: Базовый целевой показатель
+    data_source: Источник данных
+    user_id: Назначенный
+    period: Периодичность
+    daily: Ежедневно
+    weekly: Еженедельно
+    monthly: Ежемесячно
+    quarterly: Ежеквартально
+    yearly: Ежегодно
+    level: Уровень
+    add_info: Доп. информация
   typed_risks:
     edit:
       properties: Свойства
@@ -502,6 +517,16 @@ en:
         head_performance_indicator_id: Показатель деятельности высшего должностного лица
         head_performance_indicator: Показатель деятельности высшего должностного лица
         month: Месяц
+      target_calc_procedure:
+        name: Наименование
+        target: Целевой показатель
+        description: Описание
+        base_target: Базовый целевой показатель
+        data_source: Источник данных
+        user: Назначенный
+        period: Периодичность
+        level: Уровень
+        add_info: Доп. информация
       # tmd
       plan_uploader_setting:
         text: Текст
@@ -561,6 +586,7 @@ en:
         phone_mobile: Мобильный телефон
         address: Адрес
         cabinet: Кабинет
+        direct_manager: Непосредственный руководитель
         #)
       user_preference:
         comments_sorting: Показывать комментарии
@@ -959,6 +985,7 @@ en:
     target_type: Тип
     target_parent: Родитель
     label_targets: Целевые показатели
+    label_target_calc_procedures: Методики расчета
     date_agreement: Дата
     number_agreement: Номер
     count_days: Количество рабочих дней (направление разъяснений по Соглашению)
@@ -1743,6 +1770,8 @@ en:
   label_raion: Район
   label_raions: Районы
   label_target: Цели и результаты
+  label_target_calc_procedures: Методики расчета
+  label_target_calc_procedure: Методика расчета
   label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
@@ -1948,6 +1977,7 @@ en:
   label_plan_uploader_settings: Настройка соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
+  label_target_calc_procedure_new: Новая методика расчета
   label_target_new: Добавить цель
   label_indicator_new: Добавить целевой показатель
   label_result_new: Добавить результат

@@ -323,6 +323,8 @@ OpenProject::Application.routes.draw do
       resources :work_package_targets
     end
     #knm +
+    resources :target_calc_procedures
+
     resources :project_interactive_map do
       get :get_wps, on: :collection
     end

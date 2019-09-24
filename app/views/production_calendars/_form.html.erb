@@ -1,7 +1,7 @@
 <%= error_messages_for :production_calendars %>
 
 <section class="form--section">
-  <div class="form--field"><%= f.date_field 'date', container_class: '-middle' %></div>
+  <div class="form--field"><%= f.date_field 'date',required: true, container_class: '-middle' %></div>
 
   <div class="form--field">  <%= f.select :day_type,
                                           options_for_select([["Рабочий",0],["Выходной",1]]),

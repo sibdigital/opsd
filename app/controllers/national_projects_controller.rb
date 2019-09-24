@@ -48,13 +48,8 @@ class NationalProjectsController < ApplicationController
   end
 
   def edit
-    if params[:tab].blank?
-      redirect_to tab: :properties
-    else
       @national_project = NationalProject
                       .find(params[:id])
-      @tab = params[:tab]
-    end
   end
 
   def update

@@ -1,0 +1,33 @@
+<%= error_messages_for :calc_procedure %>
+<section class="form--section">
+  <% @selected_target =  if @calc_procedure.id
+                           @calc_procedure.target_id
+                         else
+                           nil
+                         end
+  @selected_base_target =  if @calc_procedure.id
+                            @calc_procedure.base_target_id
+                          else
+                            nil
+                          end
+  @selected_period =  if @calc_procedure.id
+                                @calc_procedure.period
+                              else
+                                nil
+                              end
+  @selected_user =  if @calc_procedure.id
+                                @calc_procedure.user_id
+                              else
+                                nil
+                              end %>
+  <div class="form--field"><%= f.text_field :name, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_area :description, container_class: '-middle' %></div>
+  <%= f.hidden_field :project_id, value: @project.id %>
+  <div class="form--field"><%= f.select :target_id, options_for_select(@project.targets.map { |t| [t.name, t.id]}, @selected_target), required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :base_target_id,options_for_select(@project.targets.map { |t| [t.name, t.id]}, @selected_base_target),include_blank: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_area :data_source, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_area :level, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :period,options_for_select([['Ежедневно', 'Daily'], ['Еженедельно', 'Weekly'], ['Ежемесячно', 'Monthly'], ['Ежеквартально', 'Quarterly'], ['Ежегодно', 'Yearly']], @selected_period), container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :user_id,options_for_select(@project.users.map { |m| [m.fio,m.id]}, @selected_user), container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_area :add_info, container_class: '-middle' %></div>
+</section>

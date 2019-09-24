@@ -107,7 +107,9 @@ class BoardsController < ApplicationController
     if @board.save
       flash[:notice] = l(:notice_successful_create)
       Member.where(project_id: @board.project_id).each do |member|
-        Alert.create_pop_up_alert(@board,  "Created", User.current, member.user)
+        if member != User.current
+          Alert.create_pop_up_alert(@board,  "Created", User.current, member.user)
+        end
         #ban(
         if Setting.notified_events.include?('board_added')
           UserMailer.board_added(User.find_by(id:member.user_id), @board, User.current, @project, @timenow).deliver_later
@@ -127,7 +129,9 @@ class BoardsController < ApplicationController
     if @board.update_attributes(permitted_params.board)
       flash[:notice] = l(:notice_successful_update)
       Member.where(project_id: @board.project_id).each do |member|
-        Alert.create_pop_up_alert(@board,  "Changed", User.current, member.user)
+        if member != User.current
+          Alert.create_pop_up_alert(@board,  "Changed", User.current, member.user)
+        end
         #ban(
         if Setting.notified_events.include?('board_changed')
           UserMailer.board_changed(User.find_by(id:member.user_id), @board, User.current, @project, @timenow).deliver_later
@@ -145,7 +149,9 @@ class BoardsController < ApplicationController
     if @board.update_attributes(permitted_params.board_move)
       flash[:notice] = l(:notice_successful_update)
       Member.where(project_id: @board.project_id).each do |member|
+        if member != User.current
         Alert.create_pop_up_alert(@board, "Moved", User.current, member.user)
+        end
         #ban(
         if Setting.notified_events.include?('board_moved')
           UserMailer.board_moved(User.find_by(id:member.user_id), @board, User.current, @project, @timenow).deliver_later
@@ -167,7 +173,9 @@ class BoardsController < ApplicationController
     @board.destroy
     flash[:notice] = l(:notice_successful_delete)
     Member.where(project_id: @board.project_id).each do |member|
-      Alert.create_pop_up_alert(@board,  "Deleted", User.current, member.user)
+      if member != User.current
+        Alert.create_pop_up_alert(@board,  "Deleted", User.current, member.user)
+      end
       #ban(
       if Setting.notified_events.include?('board_deleted')
         UserMailer.board_deleted(User.find_by(id:member.user_id), @boardname, User.current, @project, @timenow).deliver_later

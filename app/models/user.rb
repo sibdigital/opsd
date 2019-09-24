@@ -95,6 +95,9 @@ class User < Principal
   # +tan tmd
   belongs_to :organization, foreign_key: 'organization_id'
   # -
+  # +tan
+  belongs_to :direct_manager, foreign_key: 'direct_manager_id', class_name: 'User'
+  # -tan
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -497,6 +500,11 @@ class User < Principal
     result
   end
   #-
+  # +tan
+  def direct_manager_users
+    User.all.to_a || []
+  end
+  # -tan
 
   # Only users that belong to more than 1 project can select projects for which they are notified
   def self.valid_notification_options(user = nil)

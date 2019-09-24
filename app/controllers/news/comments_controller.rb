@@ -40,7 +40,9 @@ class News::CommentsController < ApplicationController
       flash[:notice] = l(:label_comment_added)
 
       @news.project.members.each do |member|
+        if member != User.current
         Alert.create_pop_up_alert(@news, "Noted", User.current, member)
+          end
       end
 
     end

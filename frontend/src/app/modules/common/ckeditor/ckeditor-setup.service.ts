@@ -72,7 +72,7 @@ export class CKEditorSetupService {
         jQuery(wrapper)
           .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
           .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
-          .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData()));
+          .on('op:ckeditor:initializeAndGetData', (event:any, cb:any) => cb(editor.getData()));
 
         return editor;
       });
