@@ -134,6 +134,10 @@ class Relation < ActiveRecord::Base
    TYPE_BLOCKS,
    TYPE_PRECEDES,
    TYPE_FOLLOWS,
+   #bbm( ????
+   TYPE_COMMONSTART,
+   TYPE_COMMONFINISH,
+   # )
    TYPE_INCLUDES,
    TYPE_REQUIRES,
    TYPE_HIERARCHY].each do |type|
