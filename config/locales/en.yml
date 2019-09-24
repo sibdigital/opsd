@@ -586,6 +586,7 @@ en:
         phone_mobile: Мобильный телефон
         address: Адрес
         cabinet: Кабинет
+        direct_manager: Непосредственный руководитель
         #)
       user_preference:
         comments_sorting: Показывать комментарии

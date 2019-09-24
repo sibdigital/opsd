@@ -790,6 +790,7 @@ class PermittedParams
           phone_mobile
           address
           cabinet
+          direct_manager_id
         ),
         wiki_page: %i(
           title
