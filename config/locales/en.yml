@@ -1706,6 +1706,7 @@ en:
   label_feeds_access_key_type: RSS
   label_file_added: Файл добавлен
   label_file_plural: Файлы
+  label_file: Файл
   label_filter_add: Добавить фильтр
   label_filter_plural: Фильтры
   label_filters_toggle: Показать/скрыть фильтры

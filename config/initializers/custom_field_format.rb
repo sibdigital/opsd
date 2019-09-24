@@ -80,4 +80,9 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: :label_rtf,
                                                      order: 11,
                                                      formatter: 'CustomValue::RtfStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('file',
+                                                     label: :label_file,
+                                                     order: 12,
+                                                     formatter: 'CustomValue::FileStrategy')
 end
