@@ -12,19 +12,14 @@ class ReportProgressProjectController < ApplicationController
 
   before_action :verify_reportsProgressProject_module_activated
 
-  def index_params
-    params.require(:report_id)
-  end
+#  def index_params
+#    params.require(:report_id)
+#  end
 
   def index
 
-    #@project_targets = Target.find_by_sql("SELECT t.* FROM targets t where t.project_id=" + @project.id.to_s)
     @selected_target_id = 0
     @project = Project.find(params[:project_id])
-    @vals = {
-      project: @project,
-      selected_target_id: 0
-    }
     if @project.national_project_id
       @national_project = NationalProject.find(@project.national_project_id)
     else
@@ -77,7 +72,7 @@ class ReportProgressProjectController < ApplicationController
   end
 
   def generate_report_progress_project_pril_1_2_out
-
+    @project = Project.find(params[:project_id])
     template_path = File.absolute_path('.') +'/'+'app/reports/templates/report_progress_project_pril_1_2.xlsx'
     @workbook_pril = RubyXL::Parser.parse(template_path)
     @workbook_pril.calc_pr.full_calc_on_load = true
@@ -91,7 +86,18 @@ class ReportProgressProjectController < ApplicationController
 
     @ready_report_progress_project_pril_1_2_path = dir_path + '/report_progress_project_pril_1_2_out.xlsx'
     @workbook_pril.write(@ready_report_progress_project_pril_1_2_path)
+    #send_to_user filepath: @ready_report_progress_project_pril_1_2_path
+    send_file @ready_report_progress_project_pril_1_2_path,  :type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', :disposition => 'attachment'
+#    report_progress_project_pril_1_2_out_xlsx
+  end
 
+
+  def report_progress_project_pril_1_2_out_xlsx
+    send_file(
+      @ready_report_progress_project_pril_1_2_path,
+      filename: "yreport_progress_project_pril_1_2_out.xlsx",
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
   end
 
   def generate_pril_1_2

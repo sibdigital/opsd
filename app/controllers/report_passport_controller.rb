@@ -44,7 +44,6 @@ class ReportPassportController < ApplicationController
     @workbook.calc_pr.full_calc_on_load = true
 
     generate_title_sheet
-    #generate_key_risk_sheet
     generate_target_indicators_sheet
     generate_members_sheet
     #generate_status_execution_budgets_sheet
@@ -66,9 +65,45 @@ class ReportPassportController < ApplicationController
   def generate_title_sheet
 
     @date_today = Date.today.strftime("%d.%m.%Y")
-    @curatorProject = get_Member(I18n.t(:default_role_project_curator))
-    @leaderProject = get_Member(I18n.t(:default_role_project_head))
-    @adminProject = get_Member(I18n.t(:default_role_project_admin))
+    @curatorsProject = get_member_by_role(I18n.t(:default_role_project_curator))
+    @leadersProject = get_member_by_role(I18n.t(:default_role_project_head))
+    @adminsProject = get_member_by_role(I18n.t(:default_role_project_admin))
+
+    @str_set_curators = ""
+    index = 0
+    @curatorsProject.each do |user|
+      if index  == 0
+        @str_set_curators += user.name(:fullname)
+
+      else
+        @str_set_curators += ", "+user.name(:fullname)
+      end
+      index += 1
+    end
+
+    @str_set_leaders = ""
+    index = 0
+    @leadersProject.each do |user|
+      if index  == 0
+        @str_set_leaders += user.name(:fullname)
+      else
+        @str_set_leaders += ", "+user.name(:fullname)
+      end
+      index += 1
+    end
+
+    @str_set_admins = ""
+    index = 0
+    @adminsProject.each do |user|
+      if index  == 0
+        @str_set_admins += user.name(:fullname)
+      else
+        @str_set_admins += ", "+user.name(:fullname)
+      end
+      index += 1
+    end
+
+
     start_date = @project.start_date
     due_date = @project.due_date
     period_project = (start_date == nil ? "": start_date.strftime("%d.%m.%Y"))+" - " + (due_date == nil ? "": due_date.strftime("%d.%m.%Y"))
@@ -78,19 +113,9 @@ class ReportPassportController < ApplicationController
     sheet[18][1].change_contents(@federal_project == nil ? "" :@federal_project.name)
     sheet[19][1].change_contents(@project.name)
     sheet[19][6].change_contents(period_project)
-    sheet[20][1].change_contents(@curatorProject.name(:fullname))
-    sheet[21][1].change_contents(@leaderProject.name(:fullname))
-    sheet[22][1].change_contents(@adminProject.name(:fullname))
-
-  # default_role_project_admin: Администратор проекта
-  # default_role_project_curator: Куратор проекта
-  # default_role_project_customer: Заказчик проекта
-  # default_role_project_office_manager: Руководитель проектного офиса
-  # default_role_project_activity_coordinator: Координатор проектной деятельности
-  # default_role_project_office_coordinator: Координатор от проектного офиса
-  # default_role_events_responsible: Ответственный за блок мероприятий
-  # default_role_project_head: Руководитель проекта
-  # default_role_project_office_admin: Администратор проектного офиса
+    sheet[20][1].change_contents(@str_set_curators)
+    sheet[21][1].change_contents(@str_set_leaders)
+    sheet[22][1].change_contents(@str_set_admins)
 
   end
 
@@ -227,27 +252,288 @@ class ReportPassportController < ApplicationController
     period_project = (start_date == nil ? "": start_date.strftime("%d.%m.%Y"))+" - " + (due_date == nil ? "": due_date.strftime("%d.%m.%Y"))
     sheet = @workbook['Участники']
 
-    sheet[2][1].change_contents(I18n.t(:default_role_project_curator))
-    sheet[2][2].change_contents(@curatorProject.name(:lastname_f_p))
 
-    sheet[3][1].change_contents(I18n.t(:default_role_project_head))
-    sheet[3][2].change_contents(@leaderProject.name(:lastname_f_p))
+    str_ids = get_str_ids_result_members
 
 
-    sheet[4][1].change_contents(I18n.t(:default_role_project_head))
-    sheet[4][2].change_contents(@leaderProject.name(:lastname_f_p))
+    @curatorsProject.each_with_index do |user, i|
+      member_info = get_member_info(user)
+      sheet.insert_cell(2+i, 0, (i+1).to_s)
+      sheet.insert_cell(2+i, 1, member_info["role"])
+      sheet.insert_cell(2+i, 2, user.name(:lastname_f_p))
+      sheet.insert_cell(2+i, 3, member_info["position"])
+      sheet.insert_cell(2+i, 4, "")
+      sheet.insert_cell(2+i, 5, "")
 
-    #sheet[22][1].change_contents(@adminProject.name(:fullname))
+      str_ids += ", "+user.id.to_s
 
-    # default_role_project_admin: Администратор проекта
-    # default_role_project_curator: Куратор проекта
-    # default_role_project_customer: Заказчик проекта
-    # default_role_project_office_manager: Руководитель проектного офиса
-    # default_role_project_activity_coordinator: Координатор проектной деятельности
-    # default_role_project_office_coordinator: Координатор от проектного офиса
-    # default_role_events_responsible: Ответственный за блок мероприятий
-    # default_role_project_head: Руководитель проекта
-    # default_role_project_office_admin: Администратор проектного офиса
+      sheet.sheet_data[2+i][0].change_horizontal_alignment('center')
+      sheet.sheet_data[2+i][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[2+i][0].change_border(:top, 'thin')
+      sheet.sheet_data[2+i][0].change_border(:left, 'thin')
+      sheet.sheet_data[2+i][0].change_border(:right, 'thin')
+      sheet.sheet_data[2+i][0].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i][1].change_border(:top, 'thin')
+      sheet.sheet_data[2+i][1].change_border(:left, 'thin')
+      sheet.sheet_data[2+i][1].change_border(:right, 'thin')
+      sheet.sheet_data[2+i][1].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i][2].change_border(:top, 'thin')
+      sheet.sheet_data[2+i][2].change_border(:left, 'thin')
+      sheet.sheet_data[2+i][2].change_border(:right, 'thin')
+      sheet.sheet_data[2+i][2].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i][3].change_border(:top, 'thin')
+      sheet.sheet_data[2+i][3].change_border(:left, 'thin')
+      sheet.sheet_data[2+i][3].change_border(:right, 'thin')
+      sheet.sheet_data[2+i][3].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i][4].change_border(:top, 'thin')
+      sheet.sheet_data[2+i][4].change_border(:left, 'thin')
+      sheet.sheet_data[2+i][4].change_border(:right, 'thin')
+      sheet.sheet_data[2+i][4].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i][5].change_border(:top, 'thin')
+      sheet.sheet_data[2+i][5].change_border(:left, 'thin')
+      sheet.sheet_data[2+i][5].change_border(:right, 'thin')
+      sheet.sheet_data[2+i][5].change_border(:bottom, 'thin')
+
+    end
+    countUser = @curatorsProject.count
+    @leadersProject.each_with_index do |user, i|
+      member_info = get_member_info(user)
+      sheet.insert_cell(2+i+countUser, 0, (i+1+countUser).to_s)
+      sheet.insert_cell(2+i+countUser, 1, member_info["role"])
+      sheet.insert_cell(2+i+countUser, 2, user.name(:lastname_f_p))
+      sheet.insert_cell(2+i+countUser, 3, member_info["position"])
+      sheet.insert_cell(2+i+countUser, 4, "")
+      sheet.insert_cell(2+i+countUser, 5, "")
+
+      str_ids += ", "+user.id.to_s
+
+      sheet.sheet_data[2+i+countUser][0].change_horizontal_alignment('center')
+      sheet.sheet_data[2+i+countUser][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[2+i+countUser,][0].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser,][0].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser,][0].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser,][0].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser,][1].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser,][1].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser,][1].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser,][1].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser,][2].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser,][2].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser,][2].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser,][2].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser,][3].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser,][3].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser,][3].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser,][3].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser,][4].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser,][4].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser,][4].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser,][4].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser,][5].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser,][5].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser,][5].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser,][5].change_border(:bottom, 'thin')
+
+    end
+    countUser += @leadersProject.count
+    @adminsProject.each_with_index do |user, i|
+      member_info = get_member_info(user)
+      sheet.insert_cell(2+i+countUser, 0, (i+1+countUser).to_s)
+      sheet.insert_cell(2+i+countUser, 1, member_info["role"])
+      sheet.insert_cell(2+i+countUser, 2, user.name(:lastname_f_p))
+      sheet.insert_cell(2+i+countUser, 3, member_info["position"])
+      sheet.insert_cell(2+i+countUser, 4, "")
+      sheet.insert_cell(2+i+countUser, 5, "")
+
+      str_ids += ", "+user.id.to_s
+
+      sheet.sheet_data[2+i+countUser][0].change_horizontal_alignment('center')
+      sheet.sheet_data[2+i+countUser][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[2+i+countUser][0].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser][0].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser][0].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser][0].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser][1].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser][1].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser][1].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser][1].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser][2].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser][2].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser][2].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser][2].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser][3].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser][3].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser][3].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser][3].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser][4].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser][4].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser][4].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser][4].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2+i+countUser][5].change_border(:top, 'thin')
+      sheet.sheet_data[2+i+countUser][5].change_border(:left, 'thin')
+      sheet.sheet_data[2+i+countUser][5].change_border(:right, 'thin')
+      sheet.sheet_data[2+i+countUser][5].change_border(:bottom, 'thin')
+
+    end
+
+    start_position = countUser + 4
+    sheet.insert_cell(start_position-1, 0, "Общие организационные мероприятия по региональному проекту")
+    sheet.insert_cell(start_position-1, 1, "")
+    sheet.insert_cell(start_position-1, 2, "")
+    sheet.insert_cell(start_position-1, 3, "")
+    sheet.insert_cell(start_position-1, 4, "")
+    sheet.insert_cell(start_position-1, 5, "")
+    sheet.merge_cells(start_position-1, 0, start_position-1, 5)
+    sheet.sheet_data[start_position-1][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_position-1][5].change_border(:right, 'thin')
+
+    members = get_members(str_ids)
+    decriment = 0
+    members.each_with_index do |member, i|
+      member_info = get_member_info(member)
+      if member_info["role"] == I18n.t(:default_role_glava_regiona) ||
+         member_info["role"] == I18n.t(:default_role_project_activity_coordinator) ||
+         member_info["role"] == I18n.t(:default_role_project_office_manager)
+        decriment += 1
+      else
+        sheet.insert_cell(start_position+i-decriment, 0, (i-decriment+4).to_s)
+        sheet.insert_cell(start_position+i-decriment, 1, member_info["role"])
+        sheet.insert_cell(start_position+i-decriment, 2, member.name(:lastname_f_p))
+        sheet.insert_cell(start_position+i-decriment, 3, member_info["position"])
+        sheet.insert_cell(start_position+i-decriment, 4, "")
+        sheet.insert_cell(start_position+i-decriment, 5, "")
+
+        sheet.sheet_data[start_position+i-decriment][0].change_horizontal_alignment('center')
+        sheet.sheet_data[start_position+i-decriment][0].change_vertical_alignment('center')
+
+
+        sheet.sheet_data[start_position+i-decriment][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+i-decriment][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+i-decriment][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+i-decriment][0].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+i-decriment][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+i-decriment][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+i-decriment][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+i-decriment][1].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+i-decriment][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+i-decriment][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+i-decriment][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+i-decriment][2].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+i-decriment][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+i-decriment][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+i-decriment][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+i-decriment][3].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+i-decriment][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+i-decriment][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+i-decriment][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+i-decriment][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+i-decriment][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+i-decriment][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+i-decriment][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+i-decriment][5].change_border(:bottom, 'thin')
+
+      end
+    end
+
+    incriment = 0
+    decriment_result = 0
+    get_result_target.each do |result_target|
+      sheet.insert_cell(start_position+members.count-decriment+incriment, 0, result_target.name)
+      sheet.insert_cell(start_position+members.count-decriment+incriment, 1, "")
+      sheet.insert_cell(start_position+members.count-decriment+incriment, 2, "")
+      sheet.insert_cell(start_position+members.count-decriment+incriment, 3, "")
+      sheet.insert_cell(start_position+members.count-decriment+incriment, 4, "")
+      sheet.insert_cell(start_position+members.count-decriment+incriment, 5, "")
+      sheet.merge_cells(start_position+members.count-decriment+incriment, 0, start_position+members.count-decriment+incriment, 5)
+      result_members = get_result_member(result_target.id.to_s)
+
+      result_members.each do |result_member|
+
+        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 0, (members.count-decriment+incriment+4-decriment_result).to_s)
+        role = result_member["role"]
+
+        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 1, role)
+        user_id = result_member["user_id"]
+        member = User.find_by(id: user_id)
+        fio = member.name(:lastname_f_p)
+        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 2, fio)
+        position = result_member["position"]
+        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 3, position)
+        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 4, "")
+        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 5, "")
+
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_horizontal_alignment('center')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_vertical_alignment('center')
+
+#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 0, (i-decriment+4).to_s)
+#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 1, member_info["role"])
+#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 2, member.name(:lastname_f_p))
+#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 3, member_info["position"])
+#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 4, "")
+#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 5, "")
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_horizontal_alignment('center')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][1].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][2].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][3].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_position+1+members.count-decriment+incriment][5].change_border(:bottom, 'thin')
+
+      end
+
+      incriment += 2
+      decriment_result += 1
+    end
 
   end
 
@@ -461,24 +747,90 @@ class ReportPassportController < ApplicationController
   end
 
 
-  def get_Member(role_name)
+  def get_member_by_role(role_name)
   userList = User.find_by_sql("  SELECT u.* FROM users u
                                            INNER JOIN members  m ON m.user_id = u.id
                                            INNER JOIN member_roles mr ON  mr.member_id = m.id
                                            INNER JOIN roles r ON  mr.role_id = r.id and r.name ='" +role_name+"' "+
-                                 "INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s)
+                                          "INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s)
 
-  if userList.empty?
-    user = User.new
-  else
-    user = userList[0]
+  userList
   end
 
-   user
-end
+  def get_members(str_ids)
+    userList = User.find_by_sql("  SELECT u.* FROM users u
+                                   INNER JOIN members  m ON m.user_id = u.id
+                                   INNER JOIN projects p ON m.project_id = p.id
+                                   WHERE u.id not in ("+str_ids+") and p.id = " + @project.id.to_s)
+    userList
+  end
+
+
+  def get_str_ids_result_members
+    sql  = " SELECT u.id FROM users u
+             INNER JOIN members  m ON m.user_id = u.id
+             INNER JOIN member_roles mr ON  mr.member_id = m.id
+             INNER JOIN roles r ON  mr.role_id = r.id
+             LEFT JOIN positions ps ON ps.id = u.position_id
+             INNER JOIN work_packages w ON w.assigned_to_id = u.id
+             INNER JOIN work_package_targets wt ON wt.work_package_id = w.id
+             INNER JOIN targets t ON t.id = wt.target_id
+             INNER JOIN enumerations e ON e.id = t.type_id and e.name = '"+I18n.t(:default_result)+"'
+             INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s
+    result = ActiveRecord::Base.connection.execute(sql)
+
+    str_set_result = ""
+    index = 0
+    result.each do |row|
+      if index  == 0
+       str_set_result += row["id"].to_s
+      else
+        str_set_result += ", "+row["id"].to_s
+      end
+      index += 1
+    end
+    str_set_result
+  end
+
+
+
+  def get_result_member(target_id)
+    sql  = " SELECT u.id as user_id, r.name as role, coalesce(ps.name, '') as position FROM users u
+             INNER JOIN members  m ON m.user_id = u.id
+             INNER JOIN member_roles mr ON  mr.member_id = m.id
+             INNER JOIN roles r ON  mr.role_id = r.id
+             LEFT JOIN positions ps ON ps.id = u.position_id
+             INNER JOIN work_packages w ON w.assigned_to_id = u.id
+             INNER JOIN work_package_targets wt ON wt.work_package_id = w.id
+             INNER JOIN targets t ON t.id = wt.target_id and t.id = "+target_id +"
+             INNER JOIN enumerations e ON e.id = t.type_id and e.name = '"+I18n.t(:default_result)+"'
+             INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
+
+  def get_member_info(user)
+    sql  = " SELECT u.id as user_id, r.name as role, coalesce(ps.name, '') as position FROM users u
+             INNER JOIN members  m ON m.user_id = u.id
+             INNER JOIN member_roles mr ON  mr.member_id = m.id
+             INNER JOIN roles r ON  mr.role_id = r.id
+             LEFT JOIN positions ps ON ps.id = u.position_id
+             INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s+
+           " WHERE u.id = "+user.id.to_s
+    result_sql = ActiveRecord::Base.connection.execute(sql)
+    result = result_sql[0]
+  end
+
+
 
   def get_name_target
-
     sql = " select t.name
             FROM targets t
             inner join enumerations e on e.id = t.type_id
@@ -489,9 +841,17 @@ end
     result = result_sql[0]["name"]
   end
 
+  def get_result_target
+
+    targetList = Target.find_by_sql(" select t.*
+                                      FROM targets t
+                                      inner join enumerations e on e.id = t.type_id
+                                      where e.name = '"+I18n.t(:default_result)+"' and t.project_id = "+ @project.id.to_s)
+    targetList
+  end
+
 
   def get_value_results(target_id)
-
     sql = "with
             prev_year_value as (
              select  pf.target_id, pf.fact_year_value
@@ -516,453 +876,10 @@ end
             inner join enumerations e on e.id = t.type_id
             where e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
 
-
     result_sql = ActiveRecord::Base.connection.execute(sql)
-
     result = result_sql[0]
   end
 
-
-
-  def generate_status_execution_budgets_sheet
-
-    result_fed_budjet = fed_budget_data
-    result_reg_budjet = reg_budget_data
-    result_other_budjet = other_budget_data
-
-    sheet = @workbook['Статус исполнения бюджета']
-    sheet[3][0].change_contents(Date.today.strftime("%d.%m.%Y"))
-    sheet[4][1].change_contents('%.2f' %(result_fed_budjet[3]/1000000))
-
-    sheet[4][6].change_contents(Date.today.strftime("%d.%m.%Y"))
-    sheet[5][7].change_contents('%.2f' %(result_reg_budjet[3]/1000000))
-
-    sheet[3][11].change_contents(Date.today.strftime("%d.%m.%Y"))
-    sheet[4][12].change_contents('%.2f' %(result_other_budjet[3]/1000000))
-
-    sheetDataDiagram = @workbook['Данные для диаграмм']
-     @budjets = AllBudgetsHelper.cost_by_project @project
-
-    sheetDataDiagram[3][4].change_contents(result_fed_budjet[0])
-    sheetDataDiagram[4][4].change_contents(result_fed_budjet[1])
-    sheetDataDiagram[5][4].change_contents(result_fed_budjet[2])
-
-    sheetDataDiagram[3][9].change_contents(result_reg_budjet[0])
-    sheetDataDiagram[4][9].change_contents(result_reg_budjet[1])
-    sheetDataDiagram[5][9].change_contents(result_reg_budjet[2])
-
-    sheetDataDiagram[3][14].change_contents(result_other_budjet[0])
-    sheetDataDiagram[4][14].change_contents(result_other_budjet[1])
-    sheetDataDiagram[5][14].change_contents(result_other_budjet[2])
-
-
-    no_devation =  Setting.find_by(name: 'no_devation').value
-    small_devation =  Setting.find_by(name: 'small_devation').value
-
-    fed_devation = result_fed_budjet[0] / result_fed_budjet[3]
-    reg_devation = result_fed_budjet[0] / result_reg_budjet[3]
-    other_devation = result_fed_budjet[0] / result_other_budjet[3]
-
-    if  fed_devation < small_devation.to_f
-      status_fed = 1
-    elsif   fed_devation >= small_devation.to_f && fed_devation < no_devation.to_f
-      status_fed = 2
-    elsif   fed_devation == no_devation.to_f
-      status_fed = 3
-    else status_fed = 0
-    end
-
-    if  reg_devation < small_devation.to_f
-      status_reg = 1
-    elsif   reg_devation >= small_devation.to_f && reg_devation < no_devation.to_f
-      status_reg = 2
-    elsif   reg_devation == no_devation.to_f
-      status_reg = 3
-    else status_reg = 0
-    end
-
-    if  other_devation < small_devation.to_f
-      status_other = 1
-    elsif   other_devation >= small_devation.to_f && other_devation < no_devation.to_f
-      status_other = 2
-    elsif   other_devation == no_devation.to_f
-      status_other = 3
-    else status_other = 0
-    end
-
-    if status_fed == 3 && status_reg == 3 && status_other == 3
-      status = 3
-    elsif status_fed == 1 || status_reg == 1 || status_other == 1
-      status = 1
-    elsif status_fed == 2 || status_reg == 2 || status_other == 2
-      status = 2
-    else status  = 0
-    end
-
-    #  0ba53d -зеленый
-    #  ff0000 -красный
-    #  ffd800 -желтый
-    #  d7d7d7 - серый
-
-    # установка цвета статуса для бюджета на титульном листе
-    sheetTitle = @workbook['Титульный лист']
-    if status == 1
-      sheetTitle.sheet_data[27][13].change_fill('ff0000')
-
-    elsif status == 2
-      sheetTitle.sheet_data[27][13].change_fill('ffd800')
-    elsif status == 3
-      sheetTitle.sheet_data[27][13].change_fill('0ba53d')
-    else
-      sheetTitle.sheet_data[27][13].change_fill('d7d7d7')
-    end
-  end
-
-  def generate_dynamic_achievement_kt_sheet
-    sheet = @workbook['Динамика достижения КТ']
-
-    sheetDataDiagram = @workbook['Данные для диаграмм']
-
-    result_array = get_month_kt_values
-
-    not_time = 0
-    riski = 0
-    index = 0
-
-    result_array.each do |kt|
-        if  kt["month"].to_i == 1
-          sheetDataDiagram.insert_cell(9, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(9, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 2
-          sheetDataDiagram.insert_cell(10, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(10, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 3
-          sheetDataDiagram.insert_cell(11, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(11, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 4
-          sheetDataDiagram.insert_cell(12, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(12, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 5
-          sheetDataDiagram.insert_cell(13, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(13, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 6
-          sheetDataDiagram.insert_cell(14, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(14, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 7
-          sheetDataDiagram.insert_cell(15, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(15, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 8
-          sheetDataDiagram.insert_cell(16, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(16, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 9
-          sheetDataDiagram.insert_cell(17, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(17, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 10
-          sheetDataDiagram.insert_cell(18, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(18, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 11
-          sheetDataDiagram.insert_cell(19, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(19, 3, kt["value"].to_i)
-        elsif kt["month"].to_i == 12
-          sheetDataDiagram.insert_cell(20, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(21, 3, kt["value"].to_i)
-        end
-
-        not_time += kt["not_time"].to_i
-        riski += kt["riski"].to_i
-
-        index += 1
-    end
-
-    sheet[2][6].change_contents(not_time)
-    sheet[4][6].change_contents(riski)
-
-    #  0ba53d -зеленый
-    #  ff0000 -красный
-    #  ffd800 -желтый
-    #  d7d7d7 - серый
-
-    # установка цвета статуса для контрольных точек на титульном листе
-    sheetTitle = @workbook['Титульный лист']
-    if not_time > 0
-      sheetTitle.sheet_data[27][21].change_fill('ff0000')
-    elsif riski > 0
-      sheetTitle.sheet_data[27][21].change_fill('ffd800')
-    elsif index > 0
-      sheetTitle.sheet_data[27][21].change_fill('0ba53d')
-    else
-      sheetTitle.sheet_data[27][21].change_fill('d7d7d7')
-    end
-
-  end
-
-
-   def fed_budget_data
-    cost_objects = CostObject.where(project_id: @project.id)
-    total_budget = BigDecimal("0")
-    spent = BigDecimal("0")
-
-    cost_objects.each do |cost_object|
-      cost_object.cost_entries.each do |cost_entry|
-        if cost_entry.cost_type.name == "Федеральный бюджет"
-          total_budget += cost_object.budget
-          spent += cost_object.spent
-        end
-      end
-    end
-
-    spent
-    risk_ispoln = 0
-    ostatok = total_budget - spent
-    result = []
-
-    result << spent
-    result << risk_ispoln
-    result << ostatok
-    result << total_budget
-  end
-
-  def reg_budget_data
-    cost_objects = CostObject.where(project_id: @project.id)
-    total_budget = BigDecimal("0")
-    labor_budget = BigDecimal("0")
-    spent = BigDecimal("0")
-
-    cost_objects.each do |cost_object|
-      cost_object.cost_entries.each do |cost_entry|
-        if cost_entry.cost_type.name == "Региональный бюджет"
-          total_budget += cost_object.budget
-          labor_budget += cost_object.labor_budget
-          spent += cost_object.spent
-        end
-      end
-    end
-
-    spent
-    risk_ispoln = 0
-    ostatok = total_budget - spent
-    result = []
-
-    result << spent
-    result << risk_ispoln
-    result << ostatok
-    result << total_budget
-  end
-
-  def other_budget_data
-    cost_objects = CostObject.where(project_id: @project.id)
-    total_budget = BigDecimal("0")
-    material_budget = BigDecimal("0")
-    spent = BigDecimal("0")
-
-    cost_objects.each do |cost_object|
-      cost_object.cost_entries.each do |cost_entry|
-        if cost_entry.cost_type.name != "Региональный бюджет" && cost_entry.cost_type.name != "Федеральный бюджет"
-          total_budget += cost_object.budget
-          material_budget += cost_object.labor_budget
-          spent += cost_object.spent
-        end
-       end
-    end
-
-    spent
-    risk_ispoln = 0
-    ostatok = total_budget - spent
-    result = []
-
-    result << spent
-    result << risk_ispoln
-    result << ostatok
-    result << total_budget
-  end
-
-
-  def get_status_achievement(target_id)
-    sql = " with
-     stat as (
-       select "+ target_id+" as target_id,
-              sum(ispolneno)          as ispolneno,
-              sum(ne_ispolneno)       as ne_ispolneno,
-              sum(est_riski_critic)   as est_riski_critic,
-              sum(est_riski_necritic) as est_riski_necritic,
-              sum(v_rabote)           as v_rabote
-       from (
-              WITH RECURSIVE r AS (
-                SELECT targ.id, targ.parent_id, targ.name
-                FROM targets targ
-                WHERE targ.id = "+ target_id+"
-
-                UNION
-
-                SELECT targ.id, targ.parent_id, targ.name
-                FROM targets targ
-                       JOIN r
-                            ON targ.parent_id = r.id
-                )
-                select target_id,
-                       sum(ispolneno)          as ispolneno,
-                       sum(ne_ispolneno)       as ne_ispolneno,
-                       sum(est_riski_critic)   as est_riski_critic,
-                       sum(est_riski_necritic) as est_riski_necritic,
-                       sum(v_rabote)           as v_rabote
-                from (
-                       select tswp.target_id,
-                              case when ispolneno = true then 1 else 0 end as ispolneno,
-                              case when ne_ispolneno = true then 1 else 0 end as ne_ispolneno,
-                              case when (est_riski = true) and (r.importance = '"+I18n.t(:default_impotance_critical)+"') then 1 else 0 end  as est_riski_critic, "+
-                       "      case when (est_riski = true) and (r.importance = '"+I18n.t(:default_impotance_low)+"' or r.importance is null) then 1 else 0 end as est_riski_necritic,
-                              case when v_rabote = true then 1 else 0 end as v_rabote
-                       from v_target_status_on_work_package tswp
-                              inner join types t on tswp.type_id = t.id
-                              left join v_risk_problem_stat r on r.work_package_id = tswp.id
-
-                       where year = EXTRACT(YEAR FROM CURRENT_DATE)
-                         and t.name = '"+I18n.t(:default_type_milestone)+"'"+
-                     ") as s, r
-                where s.target_id = r.id
-                group by s.target_id
-            ) as s
-          )
-
-    select t.id, t.name,s.ispolneno,s.ne_ispolneno, s.est_riski_critic, s.est_riski_necritic,s.v_rabote
-    from targets t
-    left join stat s on s.target_id = t.id
-    where t.is_approve = true  and t.id = " + target_id+" and t.project_id = "+@project.id.to_s
-
-    result_sql = ActiveRecord::Base.connection.execute(sql)
-
-    result = result_sql[0]
-  end
-
-
-  def get_month_kt_values
-    sql = "with
-              plan_kt as (
-               select EXTRACT(MONTH FROM wp.due_date) as plan_month, count(wp.id) as plan_kt
-               from v_work_package_ispoln_stat wp
-               inner join types t on wp.type_id = t.id
-               where EXTRACT(year FROM due_date) = EXTRACT(year FROM current_date) and
-                     t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
-             "  group by EXTRACT(MONTH FROM wp.due_date)
-             ),
-              fact_kt as (
-                 select EXTRACT(MONTH FROM wp.fact_due_date) as fact_month, count(wp.id) as fact_kt
-                 from v_work_package_ispoln_stat wp
-                         inner join types t on wp.type_id = t.id
-                 where EXTRACT(year FROM fact_due_date) = EXTRACT(year FROM current_date) and
-                     t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
-              "   group by EXTRACT(MONTH FROM wp.fact_due_date)
-              ),
-              not_time_kt as (
-                 select EXTRACT(MONTH FROM wp.fact_due_date) as fact_month, count(wp.id) as fact_kt
-                 from v_work_package_ispoln_stat wp
-                         inner join types t on wp.type_id = t.id
-                 where EXTRACT(year FROM fact_due_date) = EXTRACT(year FROM current_date) and
-                       days_to_due < 0 and t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
-              "    group by EXTRACT(MONTH FROM wp.fact_due_date)
-              ),
-              riski_kt as (
-                 select EXTRACT(MONTH FROM wp.due_date) as plan_month, count(wp.id) as riski
-                 from v_work_package_ispoln_stat wp
-                         inner join types t on wp.type_id = t.id
-                 where EXTRACT(year FROM due_date) = EXTRACT(year FROM current_date) and
-                       est_riski = true and t.name = '"+I18n.t(:default_type_milestone)+"' and wp.project_id=" + @project.id.to_s +
-              "   group by EXTRACT(MONTH FROM wp.due_date)
-              )
-
-
-             select p.plan_month as month, p.plan_kt as plan_value, coalesce(f.fact_kt, 0) as value,
-                    coalesce(nt.fact_kt, 0) as not_time, coalesce(r.riski, 0) as riski
-             from plan_kt p
-             left outer join   fact_kt f on f.fact_month = p.plan_month
-             left outer join   not_time_kt nt on nt.fact_month = p.plan_month
-             left outer join   riski_kt r on r.plan_month = p.plan_month"
-
-    result = ActiveRecord::Base.connection.execute(sql)
-    index = 0
-    result_array = []
-
-    result.each do |row|
-      result_array[index] = row
-      index += 1
-    end
-
-    result_array
-  end
-
-  def get_v_risk_problem_stat(risk_id)
-    sql = " select vr.type, e.name
-            from v_risk_problem_stat vr
-            left outer join enumerations e on e.id = vr.importance_id
-            where vr.problem_id = " + risk_id
-
-    result_sql= ActiveRecord::Base.connection.execute(sql)
-    result = 0
-    if result_sql[0]["type"].to_s == "solved_risk"
-      result = 1
-    elsif result_sql[0]["type"].to_s == "created_risk" && result_sql[0]["name"].to_s == I18n.t(:default_impotance_low)
-      result = 2
-    elsif result_sql[0]["type"].to_s == "created_risk" && result_sql[0]["name"].to_s == I18n.t(:default_impotance_critical)
-      result = 3
-    end
-
-    result
-  end
-
-  def get_v_risk_problem_stat_critic
-    sql = " select count(vr.id) as count_risk
-            from v_risk_problem_stat vr
-            inner join enumerations e on e.id = vr.importance_id "+
-          " where  e.name='"+I18n.t(:default_impotance_critical)+"' and vr.project_id=" + @project.id.to_s
-
-    result_sql= ActiveRecord::Base.connection.execute(sql)
-    result = result_sql[0]["count_risk"].to_i > 0 ? 1 : 0
-    result
-  end
-
-  def get_v_risk_problem_stat_low
-    sql = " select count(vr.id)  as count_risk
-            from v_risk_problem_stat vr
-            inner join enumerations e on e.id = vr.importance_id "+
-      " where  e.name='"+I18n.t(:default_impotance_low)+"' and vr.project_id=" + @project.id.to_s
-
-    result_sql= ActiveRecord::Base.connection.execute(sql)
-    result = result_sql[0]["count_risk"].to_i > 0 ? 1 : 0
-    result
-  end
-
-
-  def get_v_risk_problem_stat_solved
-    sql = " select type
-            from v_risk_problem_stat
-            where  project_id=" + @project.id.to_s
-
-    result_sql= ActiveRecord::Base.connection.execute(sql)
-
-    result_array = []
-    is_risk = 0
-    index = 0;
-    result_sql.each do |row|
-      if row["type"].to_s != 'solved_risk'
-        is_risk = 1
-      end
-      index += 1
-    end
-
-    result = is_risk == 0 && index > 0  ? 1 : 0
-    result
-  end
-
-
-  def get_v_risk_problem_stat_is_empty
-    sql = " select count(vr.id) as count_risk
-            from v_risk_problem_stat vr
-            where  vr.project_id=" + @project.id.to_s
-
-    result_sql= ActiveRecord::Base.connection.execute(sql)
-    result = rresult_sql[0]["count_risk"].to_i == 0 ? 1 : 0
-    result
-  end
 
   def difference_in_completed_years (d1, d2)
     a = d2.year - d1.year
