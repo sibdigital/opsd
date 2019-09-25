@@ -44,6 +44,15 @@ module OpenProject::Reporting
         Redmine::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
       end
 
+      #zbd(
+      view_actions.each do |action|
+        Redmine::AccessControl.permission(:view_time_entries).actions << "target_reports/#{action}"
+        Redmine::AccessControl.permission(:view_own_time_entries).actions << "target_reports/#{action}"
+        Redmine::AccessControl.permission(:view_cost_entries).actions << "target_reports/#{action}"
+        Redmine::AccessControl.permission(:view_own_cost_entries).actions << "target_reports/#{action}"
+      end
+      # )
+
       # register additional permissions for the work package costlog controller
       Redmine::AccessControl.permission(:view_time_entries).actions << "work_package_costlog/index"
       Redmine::AccessControl.permission(:view_own_time_entries).actions << "work_package_costlog/index"

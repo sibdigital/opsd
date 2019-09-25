@@ -1,26 +1,7 @@
-#-- copyright
-# OpenProject Reporting Plugin
-#
-# Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# version 3.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#++
-
 require 'digest/md5'
 require 'date'
 
-module ReportingHelper
+module ReportingTargetHelper
   # ======================= SHARED CODE START
   include ApplicationHelper
   include WorkPackagesHelper
@@ -44,11 +25,11 @@ module ReportingHelper
       return I18n.t(field)
     end
     name = name.camelcase
-    if CostQuery::Filter.const_defined? name
-      CostQuery::Filter.const_get(name).label
+    if TargetQuery::Filter.const_defined? name
+      TargetQuery::Filter.const_get(name).label
     elsif
-      CostQuery::GroupBy.const_defined? name
-      CostQuery::GroupBy.const_get(name).label
+      TargetQuery::GroupBy.const_defined? name
+      TargetQuery::GroupBy.const_get(name).label
     else
       # note that using WorkPackage.human_attribute_name relies on the attribute
       # being an work_package attribute or a general attribute for all models whicht might not
@@ -212,7 +193,7 @@ module ReportingHelper
   ##
   # Finds the Filter-Class for as specific filter name while being careful with the filter_name parameter as it is user input.
   def filter_class(filter_name)
-    klass = CostQuery::Filter.const_get(filter_name.to_s.camelize)
+    klass = TargetQuery::Filter.const_get(filter_name.to_s.camelize)
     return klass if klass.is_a? Class
     nil
   rescue NameError
