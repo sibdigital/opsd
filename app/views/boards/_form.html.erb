@@ -41,7 +41,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: 'customizable/form', locals: { form: f,
                                                      all_fields: true,
                                                      only_required: false,
-                                                     obj: @board,
+                                                     class_name: @board.class.name,
+                                                     obj_id: @board.id,
                                                      from: 'boards' } %>
 <% end %>
 <!--[eoform:board]-->

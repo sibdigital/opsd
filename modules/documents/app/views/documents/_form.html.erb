@@ -57,6 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'customizable/form', locals: { form: f,
                                                      all_fields: true,
                                                      only_required: false,
-                                                     obj: @document,
+                                                     class_name: @document.class.name,
+                                                     obj_id: @document.id,
                                                      from: 'documents' } %>
 <% end %>

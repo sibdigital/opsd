@@ -38,7 +38,8 @@ This file written by XCC
     <%= render partial: 'customizable/form', locals: { form: f,
                                                        all_fields: true,
                                                        only_required: false,
-                                                       obj: @arbitary_object,
+                                                       obj_id: @arbitary_object.id,
+                                                       class_name: @arbitary_object.class.name,
                                                        from: 'arbitrary_objects' } %>
   <% end %>
 

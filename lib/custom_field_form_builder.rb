@@ -55,7 +55,6 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
   def custom_field_input(options = {})
     field = :value
-    obj = options[:obj]
     input_options = options.merge(no_label: true,
                                   name: custom_field_field_name,
                                   id: custom_field_field_id)
@@ -74,8 +73,12 @@ class CustomFieldFormBuilder < TabularFormBuilder
     when 'list'
       custom_field_input_list(field, input_options)
     when 'formula'
-      cf_id = input_options[:id].scan(/\d+/).first
-      field = calculate_formula(obj.id, obj.class.name, cf_id, options[:from])
+      if options[:obj_id] != nil
+        cf_id = input_options[:id].scan(/\d+/).first
+        field = calculate_formula(options[:obj_id], options[:class_name], cf_id, options[:from])
+      else
+        field = ""
+      end
     when 'rtf'
       text_area(field, input_options.merge(with_text_formatting: true))
     else
