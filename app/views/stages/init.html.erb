@@ -6,41 +6,41 @@
   <legend class="form--fieldset-legend"><%= "Данные паспорта проекта" %></legend>
   <div>
     <%= labelled_tabular_form_for @altered_project, url: project_path(@project) do |form| %>
-    <section class="form--section">
-      <h2><%= @project.name %></h2>
-      <div class="form--field">
-      <label class="form--label" title="<%= Project.human_attribute_name(:description) %>">
-      <span><%= @project.description%></span>
-      </label>
-      </div>
-      <div class="form--field">
+      <section class="form--section">
+        <h2><%= @project.name %></h2>
+        <div class="form--field">
+          <label class="form--label" title="<%= Project.human_attribute_name(:description) %>">
+            <span><%= @project.description%></span>
+          </label>
+        </div>
+        <div class="form--field">
   <span>
     Дата начала:
     <strong><%= @project.start_date%></strong>
   </span>
-      </div>
-      <div class="form--field">
+        </div>
+        <div class="form--field">
   <span>
     Дата окончания:
     <strong><%= @project.due_date %></strong>
   </span>
-    </div>
-    </section>
+        </div>
+      </section>
 
-    <section class="form--section">
-<div class="form--field">
+      <section class="form--section">
+        <div class="form--field">
   <span>
     Статус:
     <strong><%= @project.get_project_status %></strong>
   </span>
-</div>
-      <div class="form--field">
+        </div>
+        <div class="form--field">
       <span>
     Этап согласования:
     <strong><%= @project.get_project_approve_status %></strong>
   </span>
-      </div>
-  </section>
+        </div>
+      </section>
       <% if(  User.current.project_head?(@project) || User.current.project_office_manager?(@project) || User.current.project_curator?(@project)  || User.current.project_activity_coordinator?(@project)  || User.current.project_region_head?(@project)  ) && @button_visibility %>
         <div class="form--field">
           <%= link_to content_tag(:span, l(:button_approve) ), {:action => "proceed_init"}, :class=>"button -highlight -with-icon icon-checkmark" %>

@@ -81,6 +81,7 @@
           unsearchable();
           break;
         case 'rtf':
+        case 'file':
           deactivate(defaultValueFields);
           deactivate(possibleValues);
           hide(lengthField, regexpField, defaultValueFields, formulaField);

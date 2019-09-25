@@ -1,0 +1,8 @@
+<%= error_messages_for :communication_meetings %>
+<section class="form--section">
+  <%= f.hidden_field 'project_id' %>
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :kind_info, required: false, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :stakeholder_id, options_for_select(Stakeholder.where(project_id: @project.id).order(:type).map { |u| [u.name, u.id] }, @com_req.stakeholder_id), container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :period, options_for_select([['', ''], ['Ежедневно', 'Daily'], ['Еженедельно', 'Weekly'], ['Ежеквартально', 'Quarterly'], ['Ежегодно', 'Yearly']], @com_req.period), container_class: '-middle' %></div>
+</section>

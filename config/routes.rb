@@ -184,7 +184,6 @@ OpenProject::Application.routes.draw do
       get 'stages', controller: 'stages', action: 'show' #, as: :stages
       #get 'self_redirect', controller: 'stages', action: 'self_redirect'
 
-
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
@@ -192,6 +191,13 @@ OpenProject::Application.routes.draw do
             constraints: { coming_from: /(admin|settings)/ }
       match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
             constraints: { coming_from: /(admin|settings)/ }
+      #zbd(
+      match 'copy_template_from_(:coming_from)' => 'copy_projects#copy_template', via: :get, as: :copy_template_from,
+             constraints: { coming_from: /(admin|settings)/ }
+      match 'copy_t_from_(:coming_from)' => 'copy_projects#copy_t', via: :post, as: :copy_t,
+            constraints: { coming_from: /(admin|settings)/ }
+      # )
+
       put :modules
       put :custom_fields
       put :archive
@@ -226,7 +232,13 @@ OpenProject::Application.routes.draw do
       # get :planning, action: 'planning'
     end
 
-    resources :stakeholders, controller: 'stakeholders'
+    #resources :stakeholders, controller: 'stakeholders', except: %i[show]
+    get 'stakeholders' => 'stakeholders#index'
+    resources :stakeholder_outers, controller: 'stakeholder_outers', except: %i[show]
+
+    resources :communication_meetings, controller: 'communication_meetings'
+    resources :communication_meeting_members, controller: 'communication_meeting_members'
+    resources :communication_requirements, controller: 'communication_requirements'
     # )
 
     # +tan 2019.07.07
@@ -310,6 +322,17 @@ OpenProject::Application.routes.draw do
 
       resources :work_package_targets
     end
+    #knm +
+    resources :target_calc_procedures
+
+    resources :project_interactive_map do
+      get :get_wps, on: :collection
+    end
+
+    resources :project_strategic_map do
+      get :get_project, on: :collection
+    end
+    # -
 
     #bbm(
     resources :project_risks do
@@ -317,10 +340,17 @@ OpenProject::Application.routes.draw do
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
     # )
+
+    #tmd
+    resources :contracts do
+      post '/new' => 'contracts#create', on: :collection, as: 'create'
+      patch '/edit' => 'contracts#update', on: :member, as: 'update'
+    end
+
     #xcc(
     resources :targets do
-    #  get '/edit' => 'targets#edit', on: :member, as: 'edit'
-      match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
+     get '/edit' => 'targets#edit', on: :member, as: 'edit'
+     match '/choose_typed' => 'targets#choose_typed', on: :collection, via: %i[get post]
     end
 
     resources :arbitary_objects do
@@ -340,7 +370,11 @@ OpenProject::Application.routes.draw do
     #)
 
     resources :activity, :activities, only: :index, controller: 'activities'
-
+    # knm+
+    resources :statistic, :statistics, only: :index, controller: 'statistics' do
+      # match ':tab' => 'statistics#index', via: :get, as: 'tab_index'
+    end
+    #  -
     resources :boards do
       member do
         get :confirm_destroy
@@ -447,6 +481,13 @@ OpenProject::Application.routes.draw do
 
   #zbd(
   get '/project_templates' => 'project_templates#index'
+
+  # get 'stakeholders' => 'stakeholders#index'
+  # get 'stakeholder_outers' => 'stakeholders#new'
+  # get 'stakeholder_outers/:id/edit' => 'stakeholders#edit'
+  # post 'stakeholder_outers' => 'stakeholders#create'
+  # patch 'stakeholder_outers/:id' => 'stakeholders#update'
+  # delete 'stakeholder_outers/:id' => 'stakehodlers#destroy'
   # )
 
   scope 'admin' do
@@ -491,9 +532,6 @@ OpenProject::Application.routes.draw do
     end
     resources :departs
     # -tan 2019.04.25
-
-    #zbd(
-    resources :contracts
 
     resources :plan_uploader_settings do
       #tmd
@@ -625,7 +663,6 @@ OpenProject::Application.routes.draw do
 
   resources :users do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
-
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'

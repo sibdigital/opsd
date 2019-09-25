@@ -23,9 +23,9 @@ module BasicData
     def data
 
       [
-        { name: "Цель", position: 1, type: "TargetType", active: true },
-        { name: "Показатель", position: 2, type: "TargetType", active: true },
-        { name: "Результат", position: 3, type: "TargetType", active: true }
+        { name: I18n.t('targets.target'), position: 1, type: "TargetType", active: true },
+        { name: I18n.t('targets.indicator'), position: 2, type: "TargetType", active: true },
+        { name: I18n.t('targets.result'), position: 3, type: "TargetType", active: true }
       ]
 
     end

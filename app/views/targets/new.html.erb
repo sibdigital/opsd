@@ -3,10 +3,13 @@ This file written by xcc
 06/07/2019
 ++#%>
 
+
 <% html_title l(:label_target_new) %>
-<%= breadcrumb_toolbar l(:label_target_new) %>
+<% if params[:type] != nil %>
+  <%= breadcrumb_toolbar t("label_" + params[:type] + "_new") %>
+<% end %>
 <%= labelled_tabular_form_for [@project, @target], html: { id: 'target-form' } do |f| %>
-  <%= render partial: 'targets/form/form', locals: { f: f } %>
+  <%= render partial: 'targets/form/form', locals: { f: f, target_id: params[:type_id] } %>
   <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
     <%= styled_button_tag "Далее", class: '-highlight -with-icon icon-arrow-right3' %>
   <% end %>

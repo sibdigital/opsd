@@ -47,12 +47,18 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= f.select :organization_id, options_for_select(@user.organization_options.map { |obj| [obj['name'], obj['id']] }, @user.organization_id), container_class: '-slim', include_blank: true%>
   </div>
   <!--tmd-->
-  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-  <%= render partial:     'customizable/field',
-             collection:  @user.custom_field_values,
-             as:          :value,
-             locals:      { form: f } %>
-
+  <!--tan-->
+  <div class="form--field">
+    <%= f.select :direct_manager_id, options_for_select(@user.direct_manager_users.map { |obj| [obj.name, obj.id] }, @user.direct_manager_id), container_class: '-slim', include_blank: true%>
+  </div>
+  <!--tan-->
+  <% unless f.object.custom_field_values.empty? %>
+    <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+    <%= render partial:     'customizable/field',
+               collection:  @user.custom_field_values,
+               as:          :value,
+               locals:      { form: f } %>
+  <% end %>
   <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>
 

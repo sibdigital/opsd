@@ -35,15 +35,15 @@ by zbd
         <tbody>
         <% contracts.each do |contract| %>
           <tr id="contract-<%= contract.id %>">
-            <%= content_tag(:td, link_to(h(contract.id), edit_contract_path(contract.id))) %>
+            <%= content_tag(:td, link_to(h(contract.id), edit_project_contract_path(id: contract.id))) %>
             <%= content_tag(:td, contract.contract_date) %>
-            <%= content_tag(:td, link_to(h(contract.contract_num), edit_contract_path(contract.id))) %>
-            <%= content_tag(:td, link_to(h(contract.contract_subject), edit_contract_path(contract.id))) %>
+            <%= content_tag(:td, link_to(h(contract.contract_num), edit_project_contract_path(id: contract.id))) %>
+            <%= content_tag(:td, link_to(h(contract.contract_subject), edit_project_contract_path(id: contract.id))) %>
             <%= content_tag(:td, contract.price) %>
             <%= content_tag(:td, contract.executor) %>
             <%= content_tag(:td, link_to(
                 op_icon('icon icon-delete'),
-                contract_path(contract),
+                project_contract_path(id: contract.id),
                 method: :delete,
                 data: {confirm: I18n.t(:text_are_you_sure)},
                 title: t(:button_delete))) %>

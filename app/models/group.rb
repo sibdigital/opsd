@@ -34,6 +34,7 @@ class Group < Principal
                           after_remove: :user_removed
 
   acts_as_customizable
+  # acts_as_journalized
 
   before_destroy :remove_references_before_destroy
 

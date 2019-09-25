@@ -10,6 +10,7 @@ module API
     module Boards
       class BoardsAPI < ::API::OpenProjectAPI
         helpers ::API::V3::Utilities::RoleHelper
+        helpers ::API::Utilities::ParamsHelper
         
         resources :boards do
           before do
@@ -19,8 +20,10 @@ module API
 
           get do
             BoardCollectionRepresenter.new(@boards,
-                                              api_v3_paths.boards,
-                                              current_user: current_user)
+                                           api_v3_paths.boards,
+                                           page: to_i_or_nil(params[:offset]),
+                                           per_page: resolve_page_size(params[:pageSize]),
+                                           current_user: current_user)
           end
 
           route_param :id do
@@ -54,8 +57,10 @@ module API
             #     where parent_id IS NULL and locked = false" #TODO только для открытых проектов
             # )
             MessageCollectionRepresenter.new(topics,
-                                           api_v3_paths.topics,
-                                           current_user: current_user)
+                                             api_v3_paths.topics,
+                                             page: to_i_or_nil(params[:offset]),
+                                             per_page: resolve_page_size(params[:pageSize]),
+                                             current_user: current_user)
             # elements = []
             # topics.each do |topic|
             #   last_message = topic

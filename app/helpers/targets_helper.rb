@@ -27,7 +27,6 @@ module TargetsHelper
       if target.parent_id == pid
         html = html + '<tr data-work-package-id="' + target.id.to_s + '" data-class-identifier="wp-row-' + target.id.to_s + '" class="wp-table--row wp--row wp-row-' + target.id.to_s + ' wp-row-' + target.id.to_s + '-table issue __hierarchy-group-' + target.parent_id.to_s + ' __hierarchy-root-' + target.id.to_s + '">'
         html = html + content_tag(:td, link_to(target.id, edit_project_target_path(id: target.id)))
-        html = html + '<td></td>'
         tag_td = content_tag(:td) do
           # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
           ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
@@ -39,7 +38,7 @@ module TargetsHelper
         html = html + content_tag(:td, target.measure_unit)
         html = html + content_tag(:td, target.basic_value)
         html = html + content_tag(:td, target.plan_value)
-        html = html + content_tag(:td, check_box_tag('is_approve', target.is_approve, target.is_approve, readonly:true))
+        html = html + content_tag(:td, target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" )
         if User.current.allowed_to?(:manage_work_package_target_plan_values, @project)
           html = html + content_tag(:td,
                     link_to(op_icon('icon icon-add'),

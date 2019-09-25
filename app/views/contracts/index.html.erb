@@ -5,7 +5,7 @@ by zbd
 <% html_title l(:label_administration), l(:label_contracts) %>
 <%= toolbar title: l(:label_contracts) do %>
   <li class="toolbar-item">
-    <%= link_to new_contract_path,
+    <%= link_to new_project_contract_path,
                 { class: 'button -alt-highlight',
                   aria: {label: t(:label_contracts_new)},
                   title: t(:label_contracts_new)} do %>
@@ -19,8 +19,8 @@ by zbd
                 aria: { label: t(:button_add) },
                 class: 'button -alt-highlight',
                 title: t(:button_add)) do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text">Загрузка через Excel</span>
+      <%= op_icon('button--icon icon-export-xls-descr') %>
+      <span class="button--text">Загрузить</span>
     <% end %>
   </li>
 <% end %>

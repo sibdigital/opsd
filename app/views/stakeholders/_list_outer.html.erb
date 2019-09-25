@@ -1,0 +1,125 @@
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="national_projects_items">
+      <thead>
+      <tr>
+        <%#= sort_header_tag("id", :caption => '#', :default_order => 'asc') %>
+        <%#= sort_header_tag("name", :caption => Stakeholder.human_attribute_name(:name)) %>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:id) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span style="width: 200px;">
+                  <%= Stakeholder.human_attribute_name(:name) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span style="width: 200px;">
+                  <%= Stakeholder.human_attribute_name(:description) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:phone_wrk) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:phone_wrk_add) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:phone_mobile) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:mail_add) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:address) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:cabinet) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+            </div>
+          </div>
+        </th>
+
+      </tr>
+      </thead>
+      <tbody>
+
+      <%#= sort_table(data) %>
+      <% data.each do |row| %>
+        <tr>
+          <%= content_tag(:td, link_to(row.id, edit_project_stakeholder_outer_path(id: row.id))) %>
+          <%= content_tag(:td, link_to(h(row.name), edit_project_stakeholder_outer_path(id: row.id)))%>
+          <%= content_tag(:td, row.description) %>
+          <%= content_tag(:td, row.phone_wrk) %>
+          <%= content_tag(:td, row.phone_wrk_add) %>
+          <%= content_tag(:td, row.phone_mobile) %>
+          <%= content_tag(:td, row.mail_add) %>
+          <%= content_tag(:td, row.address) %>
+          <%= content_tag(:td, row.cabinet) %>
+          <%= content_tag(:td, link_to(
+                          op_icon('icon icon-delete'),
+                          project_stakeholder_outer_path(id: row.id),
+                          method: :delete,
+                          data: { confirm: I18n.t(:text_are_you_sure) },
+                          title: t(:button_delete)
+                          ))
+          %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -40,6 +40,7 @@ class Board < ActiveRecord::Base
   acts_as_list scope: :project_id
   acts_as_watchable permission: :view_messages
   acts_as_customizable
+  acts_as_journalized
 
   validates_presence_of :name, :description
   validates_length_of :name, maximum: 255

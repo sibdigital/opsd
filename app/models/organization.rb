@@ -9,6 +9,7 @@ class Organization < ActiveRecord::Base
     # )
 
     acts_as_customizable
+    acts_as_journalized
 
     validates :name, uniqueness: true
     # validates_uniqueness_of :inn, conditions: -> { where.not(is_legal_entity: 0) } # позволяет создавать сколько угодно подразделений с одинаковым инн, пока нет юридического лица с таким инн

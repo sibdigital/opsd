@@ -34,6 +34,7 @@ module API
     module Protocols
       class ProtocolsAPI < ::API::OpenProjectAPI
         helpers ::API::V3::Utilities::RoleHelper
+        helpers ::API::Utilities::ParamsHelper
 
         resources :protocols do
           get do
@@ -50,8 +51,10 @@ module API
                            .where("meetings.project_id in (" + projects.join(",")+ ")")
 
             ProtocolCollectionRepresenter.new(@protocols,
-                                                     api_v3_paths.national_projects,
-                                                     current_user: current_user)
+                                              api_v3_paths.national_projects,
+                                              page: to_i_or_nil(params[:offset]),
+                                              per_page: resolve_page_size(params[:pageSize]),
+                                              current_user: current_user)
           end
 
           params do

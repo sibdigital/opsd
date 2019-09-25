@@ -31,12 +31,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <!--[form:project]-->
 
-<section class="form--section">
-  <%= render partial: "projects/form/project_attributes",
-             locals: { project: project, form: f, render_advanced: render_advanced } %>
-
-  <%= call_hook(:view_projects_form, project: project, form: f) %>
-</section>
 
 <section class="form--section">
   <%# @selected_project_status_id = if project.new_record?
@@ -46,47 +40,19 @@ See docs/COPYRIGHT.rdoc for more details.
                                      ProjectApproveStatus.default.id
                                    else project.get_project_approve_status.id end
   %>
-     <%
-     @selected_national_project = project.national_project_id
-     @selected_federal_project = project.federal_project_id
+  <%
+    @selected_national_project = project.national_project_id
+    @selected_federal_project = project.federal_project_id
 
   %>
-  <%# if  User.current.project_admin?(project) || User.current.project_head?(project) || User.current.admin?%>
-  <div class="form--field">
-    <%# f.select :project_status_id,
-        options_for_select(project.get_allowed_project_statuses.map {|u| [u.name, u.id]}, @selected_project_status_id),
-        include_blank: true,
-        container_class: '-slim' %>
-<!--  </div>-->
-  <%# else %>
-  <span>
-    Статус: <strong><%= project.get_project_status %></strong>
-  </span>
-  <%# end %>
-  </div>
-  <div class="form--field">
-    <%# f.select :project_approve_status_id,
-                 options_for_select(project.get_allowed_project_approve_status.map {|u| [u.name, u.id]}, @selected_project_approve_status_id),
-                 include_blank: true,
-                 container_class: '-slim' %>
-    <span>
-    Этап согласования: <strong><%= project.get_project_approve_status %></strong>
-  </span>
-  </div>
+</section>
 
-  <div class="form--field">
-    <%= f.select :national_project_id,
-                 options_for_select(project.get_national_projects.map {|u| [u.name, u.id]}, @selected_national_project),
-                 include_blank: true,
-                 container_class: '-slim' %>
-  </div>
 
-  <div class="form--field">
-    <%= f.select :federal_project_id,
-                 options_for_select(project.get_federal_projects.map {|u| [u.name, u.id]}, @selected_federal_project),
-                 include_blank: true,
-                 container_class: '-slim' %>
-  </div>
+<section class="form--section">
+  <%= render partial: "projects/form/project_attributes",
+             locals: { project: project, form: f, render_advanced: render_advanced } %>
+
+  <%= call_hook(:view_projects_form, project: project, form: f) %>
 </section>
 
 <% unless project.new_record? %>

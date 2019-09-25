@@ -1,0 +1,22 @@
+<div class="tabs">
+  <ul>
+    <li>
+      <%= link_to t("label_statistics_main"),
+                  project_statistics_path(project: @project.id, tab: :main),
+                  class: "#{'selected' if @tab == "main" }"  %>
+    </li>
+    <li>
+      <%= link_to t("label_statistics_additional"),
+                  project_statistics_path(project: @project.id, tab: :additional),
+                  class: "#{'selected' if @tab == 'additional' }"  %>
+    </li>
+  </ul>
+</div>
+
+<%= render partial: "statistics/#{@tab}"%>
+
+
+<%= call_hook :view_account_left_bottom, user: @user %>
+
+
+

@@ -23,10 +23,6 @@ module Organizations
       organization.inn
     end
 
-    def custom_field_formula
-
-    end
-
     def choose
       #content_tag('span', "<input type='checkbox' name='ch#{organization.id}' value='#{organization.id}'>")
       content_tag('input', nil,{type:'checkbox', name:('ch'+ organization.id.to_s)})

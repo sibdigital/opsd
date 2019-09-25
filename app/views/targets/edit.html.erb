@@ -22,11 +22,11 @@ This file written by XCC
     <h3>Свойства</h3>
     <%= labelled_tabular_form_for @target, url: project_target_path(project_id: @project) do |f| %>
     <%#= form_with(model: @target, url: project_target_path(project_id: @project)) do |f| %>
-      <%= render partial: 'targets/form/form', locals: { f: f } %>
+      <%= render partial: 'targets/form/form', locals: { f: f, target_id: params[:type_id] } %>
       <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
         <%= styled_button_tag l(:button_save),  class: '-highlight -with-icon icon-checkmark' %>
       <% end %>
-      <%= link_to 'Закрыть', project_targets_path, class: '-with-icon icon-checkmark button' %>
+      <%= link_to 'Закрыть', project_targets_path, class: '-with-icon icon-cancel button' %>
     <% end %>
   </section>
 
@@ -39,15 +39,15 @@ This file written by XCC
         <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>
       <% end %>
     </div>
-    <div id="target-val-form" style="display: none; margin-top: 10px; background: #fafafa; padding: 20px;">
+    <div id="target-val-form" style="display: none; margin-top: 10px;">
       <section>
         <%= @target_execution_value = TargetExecutionValue.new %>
-        <h5>Введите значения (#id=<%= @target_execution_value.target_id = @target.id %>):</h5>
+<!--        <h5>Введите значения (#id=<%#= @target_execution_value.target_id = @target.id %>):</h5>-->
 
         <%= error_messages_for @target_execution_value %>
-        <%= labelled_tabular_form_for @target_execution_value, url: target_execution_values_path(target_id: @target_execution_value.target_id ) do |f| %>
+        <%= labelled_tabular_form_for @target_execution_value, url: target_execution_values_path(target_id: @target.id ) do |f| %>
           <section class="form--section">
-            <%= hidden_field_tag(:target_id, @target.id) %>
+            <%= f.hidden_field :target_id, value: @target.id %>
             <table>
               <tr>
                 <td>
@@ -65,14 +65,14 @@ This file written by XCC
                 </td>
                 <td>
                   <div class="form--field">
-                    <%= f.text_field(:value, required: true)%></div>
+                    <%= f.number_field(:value, step: :any, required: true)%></div>
                 </td>
               </tr>
             </table>
           </section>
           <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
-          <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-checkmark button', id: 'target-val-cancel' %>
-      <% end %>
+          <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-val-cancel' %>
+        <% end %>
       </section>
     </div>
 

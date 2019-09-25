@@ -86,7 +86,7 @@ events.
             thresholded.datapoints.points = threspoints;
             
             if (thresholded.datapoints.points.length > 0)
-                plot.getData().push(thresholded);
+                plot.initializeAndGetData().push(thresholded);
                 
             // FIXME: there are probably some edge cases left in bars
         }

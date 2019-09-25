@@ -330,13 +330,24 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def to_s
-    "#{type.is_standard ? '' : type.name} ##{id}: #{subject}"
+    #"#{type.is_standard ? '' : type.name} ##{id}: #{subject}"
+    if type.present?
+      "#{type.is_standard ? '' : type.name} ##{id}: #{subject}"
+    else
+      "#{id}: #{subject}"
+    end
   end
 
   # Return true if the work_package is closed, otherwise false
   def closed?
     status.nil? || status.is_closed?
   end
+
+  #+tan
+  def cancelled?
+    status.nil? || (status.is_closed? && status.is_cancelled?)
+  end
+  #-tan
 
   # Return true if the work_package's status is_readonly
   # Careful not to use +readonly?+ which is AR internals!

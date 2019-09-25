@@ -1,0 +1,256 @@
+
+<div class="grid-content medium-up-3">
+  <div class="grid-content">
+    <div class="role-changes">
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table" id="user_statistics">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.type') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.name') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.date') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.time') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if @changeroles.count == 0 %>
+              <tr>
+                <td colspan="4"><%= I18n.t :no_results_title_text %></td>
+              </tr>
+            <% else %>
+              <% @changeroles.each do |role| %>
+              <tr id="roles-changes-<%= role.id %>">
+                <td>
+                  <%= l(:text_project_role_accepted, Role.find(role.role_id).name)%>
+                </td>
+                <td>
+                  <%= User.find(Journal::MemberJournal.find(role.member_id).user_id).fio %>
+                </td>
+                <td>
+                  <%= format_activity_day(Journal.find(role.journal_id).created_at) %>
+                </td>
+                <td>
+                  <%= format_time(Journal.find(role.journal_id).created_at,false) %>
+                </td>
+              </tr>
+              <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <%= pagination_links_full @changeroles %>
+    </div>
+  </div>
+  <div class="grid-content">
+    <div class="status-changes">
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table" id="user_statistics">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.type') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.name') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.date') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.time') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if @changestatuses.count == 0 %>
+              <tr>
+                <td colspan="4"><%= I18n.t :no_results_title_text %></td>
+              </tr>
+            <% else %>
+            <% @changestatuses.each do |status| %>
+              <tr id="status-changes-<%= status.id %>">
+                <td>
+                  <%= l(:text_project_updated_status) %>
+                </td>
+                <td>
+                  <%= ProjectStatus.where(id: status.project_status_id).order(id: :asc).first.name %>
+                </td>
+                <td>
+                  <%= format_activity_day(Journal.find(status.journal_id).created_at) %>
+                </td>
+                <td>
+                  <%= format_time(Journal.find(status.journal_id).created_at,false) %>
+                </td>
+              </tr>
+            <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <%= pagination_links_full @changestatuses %>
+    </div>
+  </div>
+  <div class="grid-content">
+    <div class="wp-statuses">
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table" id="user_statistics">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+            </colgroup>
+            <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.type') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.name') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.date') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                <span>
+                  <%= l('attributes.time') %>
+                </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if @wpstats.count == 0 %>
+              <tr>
+                <td colspan="4"><%= I18n.t :no_results_title_text %></td>
+              </tr>
+            <% else %>
+            <% @wpstats.each do |stat| %>
+              <tr id="wp-statuses-<%= stat.id %>">
+                <td>
+                  <% if stat.ispolneno %>
+                    <%= l(:text_project_done_wp) %>
+                  <% elsif stat.ispolneno_v_srok %>
+                    <%= l(:text_project_done_in_time_wp, stat.due_date) %>
+                  <% elsif stat.ne_ispolneno %>
+                    <%= l(:text_project_overdue_wp, stat.due_date) %>
+                  <% elsif stat.est_riski %>
+                    <%= l(:text_project_trouble_wp) %>
+                  <% elsif stat.v_rabote %>
+                    <%= l(:text_project_in_work_wp) %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= stat.subject %>
+                </td>
+                <td>
+                  <%= format_activity_day(stat.created_at) %>
+                </td>
+                <td>
+                  <%= format_time(stat.created_at,false) %>
+                </td>
+              </tr>
+            <% end %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <%= pagination_links_full @wpstats %>
+    </div>
+  </div>
+</div>

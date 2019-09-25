@@ -28,20 +28,23 @@ module DemoData
 
     def new_user(attributes)
       User.new.tap do |user|
-        user.login  =        attributes[:login]
-        user.password  =         attributes[:password]
-        user.firstname  =   attributes[:firstname]
-        user.lastname  =   attributes[:lastname]
-        user.patronymic  = attributes[:patronymic]
-        user.mail  = attributes[:mail]
-        user.status  = attributes[:status]
-        user.type  = attributes[:type]
-        user.mail_notification  = attributes[:mail_notification]
-        user.language  = I18n.locale.to_s
+        user.login = attributes[:login]
+        user.password = attributes[:password]
+        user.firstname = attributes[:firstname]
+        user.lastname = attributes[:lastname]
+        user.patronymic = attributes[:patronymic]
+        user.mail = attributes[:mail]
+        user.status = attributes[:status]
+        user.type = attributes[:type]
+        user.mail_notification = attributes[:mail_notification]
+        user.language = I18n.locale.to_s
         user.force_password_change  = false
+        org = org_by_name(attributes[:organization])
+        if org.present?
+          user.organization_id = org.id
+        end
       end
     end
-
 
     def work_package_by_subject(subject)
       np = WorkPackage.find_by(subject: subject)
@@ -66,6 +69,13 @@ module DemoData
 
     def user_by_login(login)
       np = User.find_by(login: login)
+      if np != nil
+        np
+      end
+    end
+
+    def org_by_name(name)
+      np = Organization.find_by(name: name)
       if np != nil
         np
       end

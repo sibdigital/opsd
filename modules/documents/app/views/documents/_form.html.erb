@@ -52,9 +52,12 @@ See doc/COPYRIGHT.rdoc for more details.
                   preview_context: preview_context(f.object.project) %>
 </div>
 
-<h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-<%= render partial: 'customizable/form', locals: { form: f,
-                                                   all_fields: true,
-                                                   only_required: false,
-                                                   obj: @document,
-                                                   from: 'documents' } %>
+<% unless f.object.custom_field_values.empty? %>
+  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+  <%= render partial: 'customizable/form', locals: { form: f,
+                                                     all_fields: true,
+                                                     only_required: false,
+                                                     class_name: @document.class.name,
+                                                     obj_id: @document.id,
+                                                     from: 'documents' } %>
+<% end %>

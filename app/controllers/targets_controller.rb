@@ -23,12 +23,42 @@ class TargetsController < ApplicationController
     sort_init [['parent_id', 'asc'],['id', 'asc']]
     sort_update sort_columns
 
+    default = false
+    name = ""
+
+    @title = ""
+    case params[:target_type]
+    when "target"
+      @title = I18n.t('label_target_targets')
+      name = I18n.t('targets.target')
+    when "indicator"
+      @title = I18n.t('label_targets')
+      name = I18n.t('targets.indicator')
+    when "result"
+      @title = I18n.t('label_result_plural')
+      name = I18n.t('targets.result')
+    else
+      @title = I18n.t('label_target')
+      default = true
+    end
+
+    data = TargetType.where(:name => name).pluck(:id)
+
+    @type_id = data[0]
     @parent_id = parent_id_param
 
-    @targets = @project.targets
-                       .order(sort_clause)
-                       .page(page_param)
-                       .per_page(per_page_param)
+    if default
+      @targets = @project.targets
+                   .order(sort_clause)
+                   .page(page_param)
+                   .per_page(per_page_param)
+    else
+      @targets = @project.targets
+                   .where(:type_id => @type_id)
+                   .page(page_param)
+                   .per_page(per_page_param)
+    end
+
   end
 
   def edit
@@ -101,12 +131,23 @@ class TargetsController < ApplicationController
   end
 
   def destroy
-    @target.destroy
+    destroy_cascade(@target)
     redirect_to project_targets_path # action: 'index'
     nil
   end
 
   protected
+
+  def destroy_cascade(target)
+    target_id = target.id
+    target.destroy
+
+    descendants = Target.where(:parent_id => target_id)
+
+    descendants.each do |item|
+      destroy_cascade(item)
+    end
+  end
 
   def find_target
     @target = @project.targets.find(params[:id])
@@ -117,10 +158,10 @@ class TargetsController < ApplicationController
 
   def default_breadcrumb
     if action_name == 'index'
-      t(:label_targets)
+      t(:label_target)
     else
       #ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path(project_id: @project.identifier))
-      ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path)
+      ActionController::Base.helpers.link_to(t(:label_target), project_targets_path)
     end
   end
 

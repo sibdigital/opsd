@@ -94,6 +94,9 @@ module API
 
         property :national_project_id,
                  render_nil: true
+
+        property :federal_project_id,
+                 render_nil: true
         #)
 
         property :created_on,

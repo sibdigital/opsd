@@ -24,6 +24,7 @@ module DemoData
       default_role_project_head = role_by_name (I18n.t(:default_role_project_head))
       default_role_project_office_admin = role_by_name (I18n.t(:default_role_project_office_admin))
       default_role_member = role_by_name (I18n.t(:default_role_member))
+      default_role_glava_regiona = role_by_name (I18n.t(:default_role_glava_regiona))
 
       cultura = project_by_name "«Обеспечение качественно нового уровня развития инфраструктуры культуры» «Культурная среда» в Бурятии"
       umts = project_by_name "Переселение жителей микрорайонов «УМТС - Икибзяк» и «Механизированная колонна – 136» поселка Таксимо, Муйского района."
@@ -33,16 +34,19 @@ module DemoData
 
       #global
       tas = user_by_login 'tas'
-      set_project_member umts, tas, default_role_project_activity_coordinator
-      set_project_member cultura, tas, default_role_project_activity_coordinator
+      set_project_member umts, tas, default_role_glava_regiona
+      set_project_member cultura, tas, default_role_glava_regiona
+      set_project_member gorod, tas, default_role_glava_regiona
 
       zii = user_by_login 'zii'
       set_project_member umts, zii, default_role_project_activity_coordinator
       set_project_member cultura, zii, default_role_project_activity_coordinator
+      set_project_member gorod, zii, default_role_project_activity_coordinator
 
       siv = user_by_login 'siv'
       set_project_member umts, siv, default_role_project_office_manager
       set_project_member cultura, siv, default_role_project_office_manager
+      set_project_member gorod, siv, default_role_project_office_manager
 
       puts 'umts= ' + umts.to_s
       #umts
@@ -143,6 +147,44 @@ module DemoData
        puts 'p:' + project.to_s
        puts 'id:' + member.to_s
       # puts 'u:' + member.user.to_s
+      #
+
+      add_to_stakeholders(project, member)
+
+    end
+
+    def add_to_stakeholders(project, member)
+      user = User.find(member.user_id)
+      if user.present?
+        su = StakeholderUser.where(user_id: user.id, project_id: project.id).first_or_create do |s|
+          s.user_id = user.id
+          s.organization_id = user.organization_id
+          s.name = user.name
+          #s.description = added_member.roles.to_s
+          s.phone_wrk = user.phone_wrk
+          s.phone_wrk_add = user.phone_wrk_add
+          s.phone_mobile = user.phone_mobile
+          s.mail_add = user.mail_add
+          s.address = user.address
+          s.cabinet = user.cabinet
+        end
+
+        if user.organization_id.present?
+          org = Organization.find(user.organization_id)
+          if org.present?
+            so = StakeholderOrganization.where(organization_id: org.id, project_id: project).first_or_create do |s|
+              s.organization_id = org.id
+              s.name = org.name
+              s.phone_wrk = org.phone_wrk
+              s.phone_wrk_add = org.phone_wrk_add
+              s.phone_mobile = org.phone_mobile
+              s.mail_add = org.mail_add
+              s.address = org.address
+              s.cabinet = org.cabinet
+            end
+          end
+        end
+      end
     end
   end
 end
