@@ -343,6 +343,12 @@ class WorkPackage < ActiveRecord::Base
     status.nil? || status.is_closed?
   end
 
+  #+tan
+  def cancelled?
+    status.nil? || (status.is_closed? && status.is_cancelled?)
+  end
+  #-tan
+
   # Return true if the work_package's status is_readonly
   # Careful not to use +readonly?+ which is AR internals!
   def readonly_status?

@@ -139,11 +139,15 @@ class WorkPackages::UpdateAncestorsService
                         else
                           average_estimated_hours
                         end
-
-      done_ratio = if leaf.closed?
-                     100
+      #+-tan отмененные задачи не учитываются в общем расчете, но закрытые учитывать надо
+      done_ratio = if leaf.cancelled?
+                     0
                    else
-                     leaf.done_ratio || 0
+                     if leaf.closed?
+                       100
+                     else
+                       leaf.done_ratio || 0
+                     end
                    end
 
       estimated_hours * done_ratio

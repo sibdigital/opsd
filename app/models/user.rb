@@ -222,7 +222,7 @@ class User < Principal
   end
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password, session = nil)
+  def self.try_to_login(login, password, session = nil, request = nil)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
@@ -232,7 +232,7 @@ class User < Principal
              try_authentication_and_create_user(login, password)
     end
     unless prevent_brute_force_attack(user, login).nil?
-      user.log_successful_login if user && !user.new_record?
+      user.log_successful_login(request) if user && !user.new_record?
       return user
     end
     nil
@@ -454,8 +454,11 @@ class User < Principal
     save
   end
 
-  def log_successful_login
+  def log_successful_login (request = nil)
     update_attribute(:last_login_on, Time.now)
+    if !request.nil?
+      update_attribute(:last_ip, request.remote_ip)
+    end
   end
 
   def pref
