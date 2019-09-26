@@ -628,6 +628,7 @@ en:
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
+        no_commons_and_follows_together: Нельзя добавлять отношения последовательности и одного начала/конца одновременно.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: не может быть скопировано (полностью).
         does_not_exist: не существует.
