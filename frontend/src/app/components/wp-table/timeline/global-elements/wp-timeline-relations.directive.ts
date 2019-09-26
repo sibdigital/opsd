@@ -380,12 +380,15 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
     const height = Math.abs(idxTo - idxFrom);
     if (directionY === 'toDown') {
+      this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, targetX - lastX, 1, 'red'));
       if (directionX === 'toRight' || directionX === 'beneath') {
-        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41, 'black'));
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, targetX, 1, height * 41, 'black'));
       } else if (directionX === 'toLeft') {
         this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10, 'black'));
       }
     } else if (directionY === 'toUp') {
+      this.container.append(newSegment(vp, e.classNames, idxTo, 20, targetX, 1, 11, 'green'));
+      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, targetX - lastX, 1, 'lightsalmon'));
       this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 41) - 10, 'black'));
     }
 
@@ -393,17 +396,14 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       if (directionY === 'toDown') {
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1, 'red'));
       } else if (directionY === 'toUp') {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, 10, 'green'));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, targetX - lastX, 1, 'lightsalmon'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 20, targetX, 1, 11, 'green'));
       }
     } else if (directionX === 'toLeft') {
       if (directionY === 'toDown') {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 8, 'red'));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, lastX - targetX, 1, 'green'));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, 1, 11, 'blue'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 21, 'red'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX, lastX - targetX, 1, 'green'));
       } else if (directionY === 'toUp') {
         this.container.append(newSegment(vp, e.classNames, idxTo, 30, targetX + 1, lastX - targetX, 1, 'red'));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, 'blue'));
       }
     }
   }
