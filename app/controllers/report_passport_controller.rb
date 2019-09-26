@@ -45,10 +45,8 @@ class ReportPassportController < ApplicationController
 
     generate_title_sheet
     generate_target_indicators_sheet
-    generate_members_sheet
-    #generate_status_execution_budgets_sheet
-    #generate_status_achievement_sheet
-    #generate_dynamic_achievement_kt_sheet
+    generate_target_results_sheet
+   generate_members_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -243,26 +241,122 @@ class ReportPassportController < ApplicationController
 
   end
 
+ def generate_target_results_sheet
+   sheet = @workbook['Результаты']
 
+   get_result_target_end_date.each_with_index do |result_target, i|
+     punkt = "1. "+(i+1).to_s+"."
+     sheet.insert_cell(6+i, 0, punkt)
+     name = result_target["name"]
+     sheet.insert_cell(6+i, 1, name)
+     sheet.insert_cell(6+i, 2, "")
+     sheet.insert_cell(6+i, 3, "")
+     sheet.insert_cell(6+i, 4, "")
+     sheet.insert_cell(6+i, 5, "")
+     sheet.merge_cells(6+i, 1, 6+i, 5)
+     end_date = result_target["quarter"]+'-й квартал '+ result_target["year"]+ ' года'
+     sheet.insert_cell(6+i, 6, end_date)
+     sheet.insert_cell(6+i, 7, "")
+     sheet.merge_cells(6+i, 6, 6+i, 7)
+     cell = sheet[6+i][6]
+     cell.change_text_wrap(true)
+     sheet.insert_cell(6+i, 8, "")
+     sheet.insert_cell(6+i, 9, "")
+     sheet.insert_cell(6+i, 10, "")
+     sheet.insert_cell(6+i, 11, "")
+     sheet.insert_cell(6+i, 12, "")
+     sheet.insert_cell(6+i, 13, "")
+     sheet.merge_cells(6+i, 8, 6+i, 13)
+
+
+     sheet.sheet_data[6+i][0].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][0].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][0].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][0].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][1].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][1].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][1].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][1].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][2].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][2].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][2].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][2].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][3].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][3].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][3].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][3].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][4].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][4].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][4].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][4].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][5].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][5].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][5].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][5].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][6].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][6].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][6].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][6].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][7].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][7].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][7].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][7].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][8].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][8].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][8].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][8].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][9].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][9].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][9].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][9].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][10].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][10].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][10].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][10].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][11].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][11].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][11].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][11].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][12].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][12].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][12].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][12].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[6+i][13].change_border(:top, 'thin')
+     sheet.sheet_data[6+i][13].change_border(:left, 'thin')
+     sheet.sheet_data[6+i][13].change_border(:right, 'thin')
+     sheet.sheet_data[6+i][13].change_border(:bottom, 'thin')
+
+   end
+ end
 
   def generate_members_sheet
 
-    start_date = @project.start_date
-    due_date = @project.due_date
-    period_project = (start_date == nil ? "": start_date.strftime("%d.%m.%Y"))+" - " + (due_date == nil ? "": due_date.strftime("%d.%m.%Y"))
     sheet = @workbook['Участники']
-
 
     str_ids = get_str_ids_result_members
 
-
     @curatorsProject.each_with_index do |user, i|
       member_info = get_member_info(user)
+      direct_manager = User.find_by(id: user.direct_manager_id)
+      direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
       sheet.insert_cell(2+i, 0, (i+1).to_s)
       sheet.insert_cell(2+i, 1, member_info["role"])
       sheet.insert_cell(2+i, 2, user.name(:lastname_f_p))
       sheet.insert_cell(2+i, 3, member_info["position"])
-      sheet.insert_cell(2+i, 4, "")
+      sheet.insert_cell(2+i, 4, direct__manager_fio)
       sheet.insert_cell(2+i, 5, "")
 
       str_ids += ", "+user.id.to_s
@@ -303,12 +397,16 @@ class ReportPassportController < ApplicationController
     end
     countUser = @curatorsProject.count
     @leadersProject.each_with_index do |user, i|
+
+      direct_manager = User.find_by(id: user.direct_manager_id)
+      direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
+
       member_info = get_member_info(user)
       sheet.insert_cell(2+i+countUser, 0, (i+1+countUser).to_s)
       sheet.insert_cell(2+i+countUser, 1, member_info["role"])
       sheet.insert_cell(2+i+countUser, 2, user.name(:lastname_f_p))
       sheet.insert_cell(2+i+countUser, 3, member_info["position"])
-      sheet.insert_cell(2+i+countUser, 4, "")
+      sheet.insert_cell(2+i+countUser, 4, direct__manager_fio)
       sheet.insert_cell(2+i+countUser, 5, "")
 
       str_ids += ", "+user.id.to_s
@@ -349,12 +447,16 @@ class ReportPassportController < ApplicationController
     end
     countUser += @leadersProject.count
     @adminsProject.each_with_index do |user, i|
+
+      direct_manager = User.find_by(id: user.direct_manager_id)
+      direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
+
       member_info = get_member_info(user)
       sheet.insert_cell(2+i+countUser, 0, (i+1+countUser).to_s)
       sheet.insert_cell(2+i+countUser, 1, member_info["role"])
       sheet.insert_cell(2+i+countUser, 2, user.name(:lastname_f_p))
       sheet.insert_cell(2+i+countUser, 3, member_info["position"])
-      sheet.insert_cell(2+i+countUser, 4, "")
+      sheet.insert_cell(2+i+countUser, 4, direct_manager)
       sheet.insert_cell(2+i+countUser, 5, "")
 
       str_ids += ", "+user.id.to_s
@@ -408,6 +510,11 @@ class ReportPassportController < ApplicationController
     members = get_members(str_ids)
     decriment = 0
     members.each_with_index do |member, i|
+
+      direct_manager = User.find_by(id: member.direct_manager_id)
+      direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
+
+
       member_info = get_member_info(member)
       if member_info["role"] == I18n.t(:default_role_glava_regiona) ||
          member_info["role"] == I18n.t(:default_role_project_activity_coordinator) ||
@@ -418,7 +525,7 @@ class ReportPassportController < ApplicationController
         sheet.insert_cell(start_position+i-decriment, 1, member_info["role"])
         sheet.insert_cell(start_position+i-decriment, 2, member.name(:lastname_f_p))
         sheet.insert_cell(start_position+i-decriment, 3, member_info["position"])
-        sheet.insert_cell(start_position+i-decriment, 4, "")
+        sheet.insert_cell(start_position+i-decriment, 4, direct__manager_fio)
         sheet.insert_cell(start_position+i-decriment, 5, "")
 
         sheet.sheet_data[start_position+i-decriment][0].change_horizontal_alignment('center')
@@ -468,6 +575,9 @@ class ReportPassportController < ApplicationController
       sheet.insert_cell(start_position+members.count-decriment+incriment, 4, "")
       sheet.insert_cell(start_position+members.count-decriment+incriment, 5, "")
       sheet.merge_cells(start_position+members.count-decriment+incriment, 0, start_position+members.count-decriment+incriment, 5)
+      sheet.sheet_data[start_position+members.count-decriment+incriment][0].change_border(:left, 'thin')
+      sheet.sheet_data[start_position+members.count-decriment+incriment][5].change_border(:right, 'thin')
+
       result_members = get_result_member(result_target.id.to_s)
 
       result_members.each do |result_member|
@@ -478,23 +588,19 @@ class ReportPassportController < ApplicationController
         sheet.insert_cell(start_position+1+members.count-decriment+incriment, 1, role)
         user_id = result_member["user_id"]
         member = User.find_by(id: user_id)
+        direct_manager = User.find_by(id: member.direct_manager_id)
+        direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
+
         fio = member.name(:lastname_f_p)
         sheet.insert_cell(start_position+1+members.count-decriment+incriment, 2, fio)
         position = result_member["position"]
         sheet.insert_cell(start_position+1+members.count-decriment+incriment, 3, position)
-        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 4, "")
+        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 4, direct__manager_fio)
         sheet.insert_cell(start_position+1+members.count-decriment+incriment, 5, "")
 
 
         sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_horizontal_alignment('center')
         sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_vertical_alignment('center')
-
-#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 0, (i-decriment+4).to_s)
-#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 1, member_info["role"])
-#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 2, member.name(:lastname_f_p))
-#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 3, member_info["position"])
-#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 4, "")
-#        sheet.insert_cell(start_position+1+members.count-decriment+incriment, 5, "")
 
         sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_horizontal_alignment('center')
         sheet.sheet_data[start_position+1+members.count-decriment+incriment][0].change_vertical_alignment('center')
@@ -533,215 +639,6 @@ class ReportPassportController < ApplicationController
 
       incriment += 2
       decriment_result += 1
-    end
-
-  end
-
-
-  def generate_status_achievement_sheet
-
-    no_devation =  Setting.find_by(name: 'no_devation').value
-    small_devation =  Setting.find_by(name: 'small_devation').value
-
-    sheet = @workbook['Статус достижения результатов']
-
-    data_row = 3
-    incriment = 0
-    status_result = 0
-    id_type_result = Enumeration.find_by(name: I18n.t(:default_indicator)).id
-    targets = Target.where(project_id: @project.id, type_id: id_type_result)
-    targets.each_with_index do |target, i|
-
-      result = get_value_results(target.id.to_s)
-
-      factQuarterTargetValue = result["fact_quarter4_value"].to_i != 0 ? result["fact_quarter4_value"] : ( result["fact_quarter3_value"].to_i != 0 ? target["fact_quarter3_value"] : (target["fact_quarter2_value"].to_i != 0 ? target["fact_quarter2_value"] : (target["fact_quarter1_value"].to_i != 0 ? target["fact_quarter1_value"] : 0)) )
-      procent = '%.2f' %(result["plan_year_value"].to_i == 0 ? 0 : (factQuarterTargetValue.to_f / result["plan_year_value"].to_f )*100)
-      devation = procent.to_f / 100
-
-
-      sheet.insert_cell(data_row + i + incriment, 1, "")
-      if devation < small_devation.to_f
-        sheet.sheet_data[data_row + i+ incriment][1].change_fill('ff0000')
-        status_result = 1
-      elsif (devation >= small_devation.to_f && devation >  no_devation.to_f)
-        sheet.sheet_data[data_row + i+ incriment][1].change_fill('ffd800')
-        if status_result != 1
-          status_result = 2
-        end
-      elsif devation  == no_devation.to_f
-        sheet.sheet_data[data_row + i+ incriment][1].change_fill('0ba53d')
-        if status_result != 1 && status_result != 2
-          status_result = 3
-        end
-      else
-        sheet.sheet_data[data_row + i+ incriment][1].change_fill('d7d7d7')
-      end
-
-
-      status = get_status_achievement(target.id.to_s)
-      sheet.insert_cell(data_row + i + incriment, 0, i+1)
-
-      sheet.insert_cell(data_row + i + incriment, 2, status["name"])
-      sheet.insert_cell(data_row + i + incriment, 3, "")
-      sheet.insert_cell(data_row + i + incriment, 4, "")
-      sheet.insert_cell(data_row + i + incriment, 5, "")
-      sheet.insert_cell(data_row + i + incriment, 6, "")
-      sheet.insert_cell(data_row + i + incriment, 7, "")
-      sheet.insert_cell(data_row + i + incriment, 8, "")
-
-      incriment += 1
-
-      sheet.insert_cell(data_row + i + incriment, 0, "")
-      sheet.insert_cell(data_row + i + incriment, 1, "")
-      sheet.insert_cell(data_row + i + incriment, 2, "")
-      sheet.insert_cell(data_row + i + incriment, 3, "")
-
-      sheet.insert_cell(data_row + i + incriment, 8, "")
-
-      #  0ba53d -зеленый
-      #  ff0000 -красный
-      #  ffd800 -желтый
-      #  d7d7d7 - серый
-      #{ начало вариантов для 1 цвета
-      if  status["ispolneno"].nil?
-        sheet.insert_cell(data_row + i + incriment, 4, "0")
-        sheet.insert_cell(data_row + i + incriment, 5, "")
-        sheet.insert_cell(data_row + i + incriment, 6, "")
-        sheet.insert_cell(data_row + i + incriment, 7, "")
-
-        sheet.sheet_data[data_row + i + incriment][4].change_fill('d7d7d7')
-        sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
-
-      elsif
-        (status["ispolneno"].to_i+status["v_rabote"].to_i) > 0 && status["ne_ispolneno"].to_i == 0 && status["est_riski_critic"].to_i == 0 && status["est_riski_necritic"].to_i == 0
-        sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+status["v_rabote"].to_i)
-        sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
-        sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
-
-      elsif
-          (status["ne_ispolneno"].to_i + status["est_riski_critic"].to_i) > 0 && status["ispolneno"].to_i == 0 && status["est_riski_necritic"].to_i == 0 && status["v_rabote"].to_i == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"].to_i+ status["est_riski_critic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][4].change_fill('ff0000')
-          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
-
-      elsif
-          status["est_riski_necritic"].to_i > 0 && status["ispolneno"].to_i == 0 && status["ne_ispolneno"].to_i == 0 && status["v_rabote"].to_i == 0 && status["est_riski_critic"].to_i == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["est_riski_necritic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][4].change_fill('ffd800')
-          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 7)
-        #} конец вариантов для 1 цвета
-        # { начало вариантов для 2 цветов
-      elsif
-          (status["ispolneno"].to_i+status["v_rabote"].to_i)  > 0 && (status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i) > 0 && status["est_riski_necritic"].to_i == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+status["v_rabote"].to_i)
-          sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
-          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
-
-          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][6].change_fill('ff0000')
-          sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
-      elsif
-          (status["ispolneno"].to_i + status["v_rabote"].to_i) > 0 && status["ne_ispolneno"].to_i == 0 && status["est_riski_necritic"].to_i > 0 && status["est_riski_critic"].to_i == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+ status["v_rabote"].to_i)
-          sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
-          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
-
-          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][6].change_fill('ffd800')
-          sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
-      elsif
-          status["ispolneno"].to_i == 0 && (status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i) > 0 && status["est_riski_necritic"].to_i > 0 && status["v_rabote"].to_i == 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][4].change_fill('ff0000')
-          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
-
-          sheet.insert_cell(data_row + i + incriment, 6, status["est_riski_necritic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][6].change_fill('ffd800')
-          sheet.merge_cells(data_row + i + incriment, 6, data_row + i + incriment, 7)
-        #} конец вариантов для 2 цветов
-        # { начало вариантов для 3 цветов
-      elsif
-          (status["ispolneno"].to_i+status["v_rabote"].to_i) > 0 && (status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i) > 0 && status["est_riski_necritic"].to_i > 0
-          sheet.insert_cell(data_row + i + incriment, 4, status["ispolneno"].to_i+status["v_rabote"].to_i)
-          sheet.sheet_data[data_row + i + incriment][4].change_fill('0ba53d')
-          sheet.merge_cells(data_row + i + incriment, 4, data_row + i + incriment, 5)
-
-          sheet.insert_cell(data_row + i + incriment, 6, status["ne_ispolneno"].to_i+status["est_riski_critic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][6].change_fill('ff0000')
-          sheet.insert_cell(data_row + i + incriment, 7, status["est_riski_necritic"].to_i)
-          sheet.sheet_data[data_row + i + incriment][7].change_fill('ffd800')
-      end
-
-
-      incriment += 1
-
-      sheet.insert_cell(data_row + i + incriment, 0, "")
-      sheet.insert_cell(data_row + i + incriment, 1, "")
-      sheet.insert_cell(data_row + i + incriment, 2, "")
-      sheet.insert_cell(data_row + i + incriment, 3, "")
-      sheet.insert_cell(data_row + i + incriment, 4, "")
-      sheet.insert_cell(data_row + i + incriment, 5, "")
-      sheet.insert_cell(data_row + i + incriment, 6, "")
-      sheet.insert_cell(data_row + i + incriment, 7, "")
-      sheet.insert_cell(data_row + i + incriment, 8, "")
-
-      sheet.merge_cells(data_row + i + incriment-2, 0, data_row + i + incriment, 0)
-      sheet.merge_cells(data_row + i + incriment-2, 1, data_row + i + incriment, 1)
-      sheet.merge_cells(data_row + i + incriment-2, 2, data_row + i + incriment, 2)
-
-      #устанавливаем рамку для ячейки
-      sheet.sheet_data[data_row + i + incriment-2][0].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment-2][0].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment-1][0].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment-1][0].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment][0].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment][0].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment][0].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[data_row + i + incriment-2][1].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment-2][1].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment-1][1].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment-1][1].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment][1].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment][1].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment][1].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[data_row + i + incriment-2][2].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment-2][2].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment-1][2].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment-1][2].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment][2].change_border(:left, 'thin')
-      sheet.sheet_data[data_row + i + incriment][2].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment][2].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[data_row + i + incriment-2][8].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment-1][8].change_border(:right, 'thin')
-      sheet.sheet_data[data_row + i + incriment][8].change_border(:right, 'thin')
-
-      sheet.sheet_data[data_row + i + incriment][3].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i + incriment][4].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i + incriment][5].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i + incriment][6].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i + incriment][7].change_border(:bottom, 'thin')
-      sheet.sheet_data[data_row + i + incriment][8].change_border(:bottom, 'thin')
-    end
-
-
-    #  0ba53d -зеленый
-    #  ff0000 -красный
-    #  ffd800 -желтый
-    #  d7d7d7 - серый
-
-    # установка цвета статуса для результатов на титульном листе
-    sheet = @workbook['Титульный лист']
-    if status_result == 1
-      sheet.sheet_data[27][17].change_fill('ff0000')
-    elsif status_result == 2
-      sheet.sheet_data[27][17].change_fill('ffd800')
-    elsif status_result == 3
-      sheet.sheet_data[27][17].change_fill('0ba53d')
-    else
-      sheet.sheet_data[27][17].change_fill('d7d7d7')
     end
 
   end
@@ -802,7 +699,7 @@ class ReportPassportController < ApplicationController
              LEFT JOIN positions ps ON ps.id = u.position_id
              INNER JOIN work_packages w ON w.assigned_to_id = u.id
              INNER JOIN work_package_targets wt ON wt.work_package_id = w.id
-             INNER JOIN targets t ON t.id = wt.target_id and t.id = "+target_id +"
+             INNER JOIN targets t ON t.id = wt.target_id and t.id = "+target_id +" and t.is_approve=true
              INNER JOIN enumerations e ON e.id = t.type_id and e.name = '"+I18n.t(:default_result)+"'
              INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s
     result = ActiveRecord::Base.connection.execute(sql)
@@ -834,11 +731,25 @@ class ReportPassportController < ApplicationController
     sql = " select t.name
             FROM targets t
             inner join enumerations e on e.id = t.type_id
-            where e.name = '"+I18n.t(:default_target)+"' and t.project_id = "+ @project.id.to_s
+            where t.is_approve=true and e.name = '"+I18n.t(:default_target)+"' and t.project_id = "+ @project.id.to_s
 
 
     result_sql = ActiveRecord::Base.connection.execute(sql)
-    result = result_sql[0]["name"]
+
+    index = 0
+
+    result_name = ""
+    result_sql.each do |row|
+      if index == 0
+        result_name += row["name"]
+      else
+        result_name += ", "+row["name"]
+      end
+      index += 1
+    end
+
+    result_name
+
   end
 
   def get_result_target
@@ -846,8 +757,29 @@ class ReportPassportController < ApplicationController
     targetList = Target.find_by_sql(" select t.*
                                       FROM targets t
                                       inner join enumerations e on e.id = t.type_id
-                                      where e.name = '"+I18n.t(:default_result)+"' and t.project_id = "+ @project.id.to_s)
+                                      where t.is_approve=true and e.name = '"+I18n.t(:default_result)+"' and t.project_id = "+ @project.id.to_s)
     targetList
+  end
+
+  def get_result_target_end_date
+
+    sql  = " select s.id, s.name,  substring(max(s.union_val),1, 4) as year, substring(max(s.union_val),5, 1) as quarter from (
+               select t.id, t.name,  concat(cast(tev.year as varchar), cast(tev.quarter as varchar))as union_val
+               FROM targets t
+               inner join enumerations e on e.id = t.type_id
+               left join target_execution_values tev on tev.target_id = t.id
+               where t.is_approve=true and e.name = '"+I18n.t(:default_result)+"' and t.project_id = " + @project.id.to_s+ "
+              ) as s
+             group by s.id, s.name"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
   end
 
 
@@ -874,7 +806,7 @@ class ReportPassportController < ApplicationController
             left join prev_year_value p on p.target_id = t.id
             left join measure_units m on m.id = t.measure_unit_id
             inner join enumerations e on e.id = t.type_id
-            where e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
+            where t.is_approve=true and e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
 
     result_sql = ActiveRecord::Base.connection.execute(sql)
     result = result_sql[0]
