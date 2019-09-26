@@ -45,6 +45,10 @@ class WorkPackages::SetScheduleService
 
     if (%i(start_date due_date parent parent_id) & attributes).any?
       altered += schedule_following
+      #bbm(
+      altered += schedule_commonstart
+      altered += schedule_commonfinish
+      # )
     end
 
     result = ServiceResult.new(success: true,
@@ -85,6 +89,60 @@ class WorkPackages::SetScheduleService
 
     altered
   end
+
+  #bbm(
+  def schedule_commonstart
+    altered = []
+
+    work_packages.each do |wp|
+      commonstart = Relation.direct.of_work_package(wp).where('commonstart > 0')
+      commonstart_from = commonstart.select("from_id common_id")
+      commonstart_to = commonstart.select("to_id common_id")
+
+      sub_query = [commonstart_from, commonstart_to].map(&:to_sql).join(" UNION ")
+      WorkPackage
+        .where("id IN (SELECT common_id FROM (#{sub_query}) commonstart_relations)").each do |scheduled|
+        rescheduleSS(scheduled, wp)
+
+        altered << scheduled if scheduled.changed?
+      end
+    end
+    altered
+  end
+
+  def rescheduleSS(scheduled, dependency)
+    scheduled.start_date = dependency.start_date
+    if scheduled.due_date < scheduled.start_date
+      scheduled.due_date = scheduled.start_date
+    end
+  end
+
+  def schedule_commonfinish
+    altered = []
+
+    work_packages.each do |wp|
+      commonfinish = Relation.direct.of_work_package(wp).where('commonfinish > 0')
+      commonfinish_from = commonfinish.select("from_id common_id")
+      commonfinish_to = commonfinish.select("to_id common_id")
+
+      sub_query = [commonfinish_from, commonfinish_to].map(&:to_sql).join(" UNION ")
+      WorkPackage
+        .where("id IN (SELECT common_id FROM (#{sub_query}) commonfinish_relations)").each do |scheduled|
+        rescheduleFF(scheduled, wp)
+
+        altered << scheduled if scheduled.changed?
+      end
+    end
+    altered
+  end
+
+  def rescheduleFF(scheduled, dependency)
+    scheduled.due_date = dependency.due_date
+    if scheduled.start_date > scheduled.due_date
+      scheduled.start_date = scheduled.due_date
+    end
+  end
+  # )
 
   # Schedules work packages based on either
   #  - their descendants if they are parents
