@@ -57,7 +57,8 @@ Redmine::AccessControl.map do |map|
                    raions: [:show],
                    contracts: %i[index new create edit update destroy],
                    # knm+
-                   target_calc_procedures: [:index, :new, :edit, :destroy]
+                   target_calc_procedures: [:index, :new, :edit, :destroy],
+                   periods: [:show]
                    # knm-
                    #)
                    },

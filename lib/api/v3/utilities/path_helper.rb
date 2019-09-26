@@ -629,6 +629,13 @@ module API
             "#{raions}/#{id}"
           end
           #-tan
+          def self.periods
+            "#{root}/periods"
+          end
+
+          def self.period(id)
+            "#{periods}/#{id}"
+          end
         end
 
         def api_v3_paths

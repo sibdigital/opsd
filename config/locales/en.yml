@@ -918,6 +918,7 @@ en:
 #    last_due_date: Текущая дата окончания
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
+    period: Периодичность добавления отчетов
     time: Время
     #)
     issue: Пакет работ
@@ -1275,6 +1276,11 @@ en:
   default_status_to_be_scheduled: Планируется
   default_impotance_low: Незначительная
   default_impotance_critical: Критичная
+  default_period_daily: Ежедневно
+  default_period_weekly: Еженедельно
+  default_period_monthly: Ежемесячно
+  default_period_quarterly: Ежеквартально
+  default_period_yearly: Ежегодно
   default_possibility_very_low: Очень низкая
   default_possibility_low: Низкая
   default_possibility_normal: Средняя
@@ -1381,6 +1387,7 @@ en:
   enumeration_work_package_priorities: Приоритеты пакета работ
   enumeration_risk_importance: Степень влияния на проект
   enumeration_risk_possibilities: Вероятность наступления
+  enumeration_period: Периодичность
   enumeration_target_statuses: Статус целевого показателя
   enumeration_target_types: Тип целевого показателя
   enumeration_system_activity: Активность системы
@@ -3605,6 +3612,7 @@ en:
   label_deadline_of_project_is_approaching: Приближается срок по проекту
   label_deadline_of_project: Превышен срок по проекту
   label_message_changed: Сообщение изменено
+  label_work_package_report_notify_assignee: Необходимо сегодня предоставить отчет по выполнению задачи
   label_message_deleted: Сообщение удалено
   label_group_created: Группа создана
   label_group_deleted: Группа удалена
