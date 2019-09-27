@@ -47,7 +47,8 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= render partial: 'customizable/form', locals: { form: f,
                                                        all_fields: true,
                                                        only_required: false,
-                                                       obj: @group,
+                                                       class_name: @group.class.name,
+                                                       obj_id: @group.id,
                                                        from: 'group_users' } %>
   <% end %>
 </section>

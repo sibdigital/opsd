@@ -178,7 +178,9 @@ Project < ActiveRecord::Base
   has_many :plan_quarterly_target_values, foreign_key: 'project_id'
   has_many :plan_fact_quarterly_target_values, foreign_key: 'project_id'
   # )
-
+  # knm(
+  has_many :target_calc_procedures
+  # )
   #tan(
   def get_project_approve_status
     if project_approve_status_id == nil
@@ -464,7 +466,8 @@ Project < ActiveRecord::Base
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)
-    allowed_to(user, :view_project)
+    #zbd allowed_to(user, :view_project)
+    allowed_to(user, :view_project).where(type: TYPE_PROJECT)
   end
 
   # Returns a ActiveRecord::Relation to find all projects for which

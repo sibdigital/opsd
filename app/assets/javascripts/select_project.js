@@ -1,0 +1,20 @@
+// knm +
+var loadList = function() {
+  var selectedValue = jQuery('#project_national_project_id').val();
+  console.log(selectedValue);
+  jQuery('#project_federal_project_id').children().css('display','none');
+  jQuery('#project_federal_project_id').children('#' + selectedValue).css('display','');
+  jQuery('#project_federal_project_id').children().first().css('display','');
+  jQuery('#project_federal_project_id').val(0);
+};
+
+var reloadList = function() {
+  jQuery('#project_national_project_id').change(function () {
+    loadList();
+  });
+};
+
+jQuery(document).ready(loadList);
+jQuery(document).ready(reloadList);
+
+//-

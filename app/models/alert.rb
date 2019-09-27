@@ -146,7 +146,7 @@ class Alert < ActiveRecord::Base
 
     end
     text += "^в "
-      text += Time.current.to_formatted_s(:time)
+      text += Time::now.to_formatted_s(:time)
       Alert.create entity_id: entity.id,
                  alert_date: Date.today,
                  entity_type: class_name,

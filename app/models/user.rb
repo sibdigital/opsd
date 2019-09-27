@@ -95,6 +95,9 @@ class User < Principal
   # +tan tmd
   belongs_to :organization, foreign_key: 'organization_id'
   # -
+  # +tan
+  belongs_to :direct_manager, foreign_key: 'direct_manager_id', class_name: 'User'
+  # -tan
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -219,7 +222,7 @@ class User < Principal
   end
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password, session = nil)
+  def self.try_to_login(login, password, session = nil, request = nil)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
@@ -229,7 +232,7 @@ class User < Principal
              try_authentication_and_create_user(login, password)
     end
     unless prevent_brute_force_attack(user, login).nil?
-      user.log_successful_login if user && !user.new_record?
+      user.log_successful_login(request) if user && !user.new_record?
       return user
     end
     nil
@@ -451,8 +454,11 @@ class User < Principal
     save
   end
 
-  def log_successful_login
+  def log_successful_login (request = nil)
     update_attribute(:last_login_on, Time.now)
+    if !request.nil?
+      update_attribute(:last_ip, request.remote_ip)
+    end
   end
 
   def pref
@@ -497,6 +503,11 @@ class User < Principal
     result
   end
   #-
+  # +tan
+  def direct_manager_users
+    User.all.to_a || []
+  end
+  # -tan
 
   # Only users that belong to more than 1 project can select projects for which they are notified
   def self.valid_notification_options(user = nil)

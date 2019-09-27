@@ -26,7 +26,7 @@ class TargetsController < ApplicationController
     default = false
     name = ""
 
-    @title = nil
+    @title = ""
     case params[:target_type]
     when "target"
       @title = I18n.t('label_target_targets')
@@ -38,6 +38,7 @@ class TargetsController < ApplicationController
       @title = I18n.t('label_result_plural')
       name = I18n.t('targets.result')
     else
+      @title = I18n.t('label_target')
       default = true
     end
 
@@ -157,10 +158,10 @@ class TargetsController < ApplicationController
 
   def default_breadcrumb
     if action_name == 'index'
-      t(:label_targets)
+      t(:label_target)
     else
       #ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path(project_id: @project.identifier))
-      ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path)
+      ActionController::Base.helpers.link_to(t(:label_target), project_targets_path)
     end
   end
 

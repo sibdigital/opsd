@@ -117,13 +117,16 @@ group by yearly.project_id, yearly.target_id
           riski = 0
           kt = Type.find_by name: I18n.t(:default_type_milestone)
           ProjectIspolnStat.where(type_id: kt.id).map do |ispoln|
-            project = Project.visible(current_user).find(ispoln.project_id)
-            exist = which_role(project, @current_user, @global_role)
-            if exist
-              ispolneno += ispoln.ispolneno
-              v_rabote += ispoln.v_rabote
-              ne_ispolneno += ispoln.ne_ispolneno
-              riski += ispoln.est_riski
+            # +-tan 2019.09.17
+            if ispoln.project.visible? current_user
+              project = ispoln.project #Project.visible(current_user).find(ispoln.project_id)
+              exist = which_role(project, @current_user, @global_role)
+              if exist
+                ispolneno += ispoln.ispolneno
+                v_rabote += ispoln.v_rabote
+                ne_ispolneno += ispoln.ne_ispolneno
+                riski += ispoln.est_riski
+              end
             end
           end
           result = []
@@ -136,7 +139,7 @@ group by yearly.project_id, yearly.target_id
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def desktop_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           spent = BigDecimal("0")
 
@@ -171,12 +174,15 @@ where type in ('created_risk', 'no_risk_problem')
 group by type, project_id, importance_id
           SQL
           @risks.map do |risk|
-            project = Project.visible(current_user).find(risk.project_id)
-            exist = which_role(project, @current_user, @global_role)
-            if exist
-              net_riskov += risk.count if risk.type=='no_risk_problem'
-              neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
-              kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+            # +-tan 2019.09.17
+            if risk.project.visible? current_user
+              project = risk.project #Project.visible(current_user).find(risk.project_id)
+              exist = which_role(project, @current_user, @global_role)
+              if exist
+                net_riskov += risk.count if risk.type=='no_risk_problem'
+                neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
+                kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+              end
             end
           end
           result = []
@@ -188,7 +194,7 @@ group by type, project_id, importance_id
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def fed_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           spent = BigDecimal("0")
 
@@ -208,7 +214,7 @@ group by type, project_id, importance_id
         end
 
         def reg_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           labor_budget = BigDecimal("0")
           spent = BigDecimal("0")
@@ -230,7 +236,7 @@ group by type, project_id, importance_id
         end
 
         def other_budget_data
-          cost_objects = CostObject.all
+          cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           material_budget = BigDecimal("0")
           spent = BigDecimal("0")

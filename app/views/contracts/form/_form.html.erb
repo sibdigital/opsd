@@ -34,7 +34,8 @@ by zbd
     <%= render partial: 'customizable/form', locals: { form: f,
                                       all_fields: true,
                                       only_required: false,
-                                      obj: @contract,
+                                      class_name: @contract.class.name,
+                                      obj_id: @contract.id,
                                       from: 'contracts' } %>
   <% end %>
 

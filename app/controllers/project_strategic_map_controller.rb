@@ -1,6 +1,6 @@
 class ProjectStrategicMapController < ApplicationController
   menu_item :project_strategic_map
-  before_action :find_project
+  before_action :find_project, :authorize
   def index
 
   end
@@ -17,7 +17,13 @@ class ProjectStrategicMapController < ApplicationController
       list = list + [[@federal_project.name, @national_project.id.to_s+@national_project.type, @federal_project.id.to_s+@federal_project.type, @federal_project.type]]
       list = list + [[@project.name, @federal_project.id.to_s+@federal_project.type, @project.id.to_s+"Regional", "Regional"]]
     end
-    list = list + @project.work_packages.map {|wp| [wp.subject, wp.project_id.to_s+"Regional",wp.id.to_s+@project.identifier,@project.identifier ]}
+    @project.work_packages.each do |wp|
+      if wp.parent.nil?
+        list = list + [[wp.subject, wp.project_id.to_s+"Regional",wp.id.to_s+@project.identifier,@project.identifier ]]
+      else
+        list = list + [[wp.subject, wp.parent.id.to_s+wp.parent.project.identifier,wp.id.to_s+@project.identifier,@project.identifier ]]
+      end
+    end
     render json: list
   end
 

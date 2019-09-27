@@ -164,4 +164,22 @@ class CostObject < ActiveRecord::Base
     end
   end
   #)
+  # +tan
+  def self.by_user (user, cost_types = [])
+    projectids = []
+    user.projects.each do |p|
+      if p.type == Project::TYPE_PROJECT
+        projectids << p.id
+      end
+    end
+    #CostType.where('name in (?)', cost_types.map {|ct| ct.id}).map {|ct| ct.id}
+    # ct_ids = cost_types.map {|ct| ct.id}
+    # if ct_ids.size > 0
+    #   CostObject.where('project_id in (?) and', projectids)
+    # else
+    #   CostObject.where('project_id in (?)', projectids)
+    # end
+    CostObject.where('project_id in (?) ', projectids)
+  end
+  # -tan
 end

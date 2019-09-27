@@ -324,6 +324,8 @@ default_projects_modules:
   - work_package_targets
   - agreements
   - activity
+  - interactive_map
+  - strategic_map
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int

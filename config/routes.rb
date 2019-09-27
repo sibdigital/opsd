@@ -184,7 +184,6 @@ OpenProject::Application.routes.draw do
       get 'stages', controller: 'stages', action: 'show' #, as: :stages
       #get 'self_redirect', controller: 'stages', action: 'self_redirect'
 
-
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
@@ -192,6 +191,13 @@ OpenProject::Application.routes.draw do
             constraints: { coming_from: /(admin|settings)/ }
       match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
             constraints: { coming_from: /(admin|settings)/ }
+      #zbd(
+      match 'copy_template_from_(:coming_from)' => 'copy_projects#copy_template', via: :get, as: :copy_template_from,
+             constraints: { coming_from: /(admin|settings)/ }
+      match 'copy_t_from_(:coming_from)' => 'copy_projects#copy_t', via: :post, as: :copy_t,
+            constraints: { coming_from: /(admin|settings)/ }
+      # )
+
       put :modules
       put :custom_fields
       put :archive
@@ -317,6 +323,8 @@ OpenProject::Application.routes.draw do
       resources :work_package_targets
     end
     #knm +
+    resources :target_calc_procedures
+
     resources :project_interactive_map do
       get :get_wps, on: :collection
     end

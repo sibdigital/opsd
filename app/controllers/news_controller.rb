@@ -78,7 +78,9 @@ class NewsController < ApplicationController
     if @news.save
       flash[:notice] = l(:notice_successful_create)
       Member.where(project_id: @project.id).each do |member|
+        if member != User.current
         Alert.create_pop_up_alert(@news,  "Created", User.current, member.user)
+          end
       end
       redirect_to controller: '/news', action: 'index', project_id: @project
     else
@@ -93,7 +95,9 @@ class NewsController < ApplicationController
     if @news.save
       flash[:notice] = l(:notice_successful_update)
       Member.where(project_id: @news.project_id).each do |member|
+        if member != User.current
         Alert.create_pop_up_alert(@news,  "Changed", User.current, member.user)
+          end
       end
       #ban(
       @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
@@ -116,7 +120,9 @@ class NewsController < ApplicationController
     @news.destroy
     flash[:notice] = l(:notice_successful_delete)
     Member.where(project_id: @news.project_id).each do |member|
+      if member != User.current
       Alert.create_pop_up_alert(@news, "Deleted", User.current, member.user)
+        end
     end
     #ban(
     @timenow = Time.now.strftime("%d/%m/%Y %H:%M")

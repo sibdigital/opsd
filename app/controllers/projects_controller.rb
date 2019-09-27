@@ -100,7 +100,9 @@ class ProjectsController < ApplicationController
         format.html do
           flash[:notice] = l(:notice_successful_create)
           Member.where(project_id: @project.id).each do |member|
+            if member != User.current
             Alert.create_pop_up_alert(@project, "Created", User.current, member.user)
+              end
           end
           #ban(
           deliver_mail_to_members
@@ -157,7 +159,9 @@ class ProjectsController < ApplicationController
       end
       flash[:notice] = l(:notice_successful_update)
       Member.where(project_id: @altered_project.id).each do |member|
+        if member != User.current
         Alert.create_pop_up_alert(@altered_project, "Changed", User.current, member.user)
+          end
       end
       #ban(
       if Setting.notified_events.include?('project_changed')
@@ -244,7 +248,9 @@ class ProjectsController < ApplicationController
     if call.success?
       flash[:notice] = I18n.t('projects.delete.scheduled')
       Member.where(project_id: @project.id).each do |member|
+        if member != User.current
         Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
+          end
       end
       #ban(
       @timenow = Time.now.strftime("%d/%m/%Y %H:%M")

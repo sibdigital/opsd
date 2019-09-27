@@ -3,29 +3,21 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export class BlueTablePerformanceService extends BlueTableService {
-  private data:any[] = [];
-  private columns:string[] = ['Показатель', 'Значение'];
+  protected columns:string[] = ['Показатель', 'Значение'];
 
-  public initialize():void {
-    this.data = [];
-    this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.head_performances.toString())
-      .toPromise()
-      .then((resources:CollectionResource<HalResource>) => {
-        resources.elements.map((el:HalResource) => {
-          this.data.push(el);
+  public initializeAndGetData():Promise<any[]> {
+    return new Promise((resolve) => {
+      let data:any[] = [];
+      this.halResourceService
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.head_performances.toString())
+        .toPromise()
+        .then((resources:CollectionResource<HalResource>) => {
+          resources.elements.map((el:HalResource) => {
+            data.push(el);
+          });
+          resolve(data);
         });
-      });
-  }
-  public getColumns():string[] {
-    return this.columns;
-  }
-  public getPages():number {
-    return 0;
-  }
-
-  public getData():any[] {
-    return this.data;
+    });
   }
 
   public getTdData(row:any, i:number):string {

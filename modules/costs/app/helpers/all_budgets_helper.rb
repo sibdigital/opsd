@@ -24,11 +24,17 @@ module AllBudgetsHelper
   include ActionView::Helpers::NumberHelper
 
   def self.all_buget(user)
-    cost_objects = CostObject.all
-    total_budget = BigDecimal.new("0")
-    labor_budget = BigDecimal.new("0")
-    material_budget = BigDecimal.new("0")
-    spent = BigDecimal.new("0")
+    # projectids = []
+    # user.projects.each do |p|
+    #   if p.type == Project::TYPE_PROJECT
+    #     projectids << p.id
+    #   end
+    # end
+    cost_objects = CostObject.by_user user # where('project_id in (?)', projectids)
+    total_budget = BigDecimal("0")
+    labor_budget = BigDecimal("0")
+    material_budget = BigDecimal("0")
+    spent = BigDecimal("0")
 
     cost_objects.each do |cost_object|
       total_budget += cost_object.budget
@@ -63,6 +69,20 @@ module AllBudgetsHelper
 
   def self.user_projects_budgets (user)
     self.projects_budgets (user.projects)
+  end
+
+  def self.cost_by_user_project (user)
+
+    projects = []
+    user.projects.each do |p|
+      if p.type == Project::TYPE_PROJECT
+        projects << p
+      end
+    end
+
+    projects.map do |p|
+      AllBudgetsHelper.cost_by_project p
+    end
   end
 
   def self.cost_by_project (project)

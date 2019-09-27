@@ -180,7 +180,7 @@ More detail and specific examples can be found in the included HTML file.
 				target = $(canvas).parent();
 				options = plot.getOptions();
 			
-				plot.setData(combine(plot.getData()));
+				plot.setData(combine(plot.initializeAndGetData()));
 			}
 		}
 		
@@ -275,7 +275,7 @@ More detail and specific examples can be found in the included HTML file.
 			ctx = newCtx;
 		
 			setupPie();
-			var slices = plot.getData();
+			var slices = plot.initializeAndGetData();
 		
 			var attempts = 0;
 			while (redraw && attempts<redrawAttempts)
@@ -520,7 +520,7 @@ More detail and specific examples can be found in the included HTML file.
 		
 		function findNearbySlice(mouseX, mouseY)
 		{
-			var slices = plot.getData(),
+			var slices = plot.initializeAndGetData(),
 				options = plot.getOptions(),
 				radius = options.series.pie.radius > 1 ? options.series.pie.radius : maxRadius * options.series.pie.radius;
 			

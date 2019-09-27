@@ -114,6 +114,10 @@ en:
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
+  costs:
+    federal_cost_type: Федеральный бюджет
+    regional_cost_type: Региональный бюджет
+    vnebugt_cost_type: Внебюджетные средства
   concatenation:
     single: или
   deprecations:
@@ -214,6 +218,21 @@ en:
     target: "Цель"
     indicator: "Показатель"
     result: "Результат"
+  target_calc_procedures:
+    name: Наименование
+    target_id: Целевой показатель
+    description: Описание
+    base_target_id: Базовый целевой показатель
+    data_source: Источник данных
+    user_id: Назначенный
+    period: Периодичность
+    daily: Ежедневно
+    weekly: Еженедельно
+    monthly: Ежемесячно
+    quarterly: Ежеквартально
+    yearly: Ежегодно
+    level: Уровень
+    add_info: Доп. информация
   typed_risks:
     edit:
       properties: Свойства
@@ -498,6 +517,16 @@ en:
         head_performance_indicator_id: Показатель деятельности высшего должностного лица
         head_performance_indicator: Показатель деятельности высшего должностного лица
         month: Месяц
+      target_calc_procedure:
+        name: Наименование
+        target: Целевой показатель
+        description: Описание
+        base_target: Базовый целевой показатель
+        data_source: Источник данных
+        user: Назначенный
+        period: Периодичность
+        level: Уровень
+        add_info: Доп. информация
       # tmd
       plan_uploader_setting:
         text: Текст
@@ -557,6 +586,7 @@ en:
         phone_mobile: Мобильный телефон
         address: Адрес
         cabinet: Кабинет
+        direct_manager: Непосредственный руководитель
         #)
       user_preference:
         comments_sorting: Показывать комментарии
@@ -955,6 +985,7 @@ en:
     target_type: Тип
     target_parent: Родитель
     label_targets: Целевые показатели
+    label_target_calc_procedures: Методики расчета
     date_agreement: Дата
     number_agreement: Номер
     count_days: Количество рабочих дней (направление разъяснений по Соглашению)
@@ -1070,6 +1101,19 @@ en:
     text:
       failed: Не удалось создать проект «%{target_project_name}» из шаблона «%{source_project_name}».
       succeeded: Созданный проект «%{target_project_name}» из шаблона «%{source_project_name}».
+  #zbd(
+  copy_template:
+    started: Создание шаблона «%{target_project_name}» из проекта «%{source_project_name}»
+      началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}»
+      будет доступен.
+    failed: Не удается скопировать проект %{source_project_name}
+    succeeded: Созданный шаблон %{target_project_name}
+    errors: Ошибка
+    project_custom_fields: Настраиваемые поля шаблона
+    text:
+      failed: Не удалось создать шаблон «%{target_project_name}» из проекта «%{source_project_name}».
+      succeeded: Созданный шаблон «%{target_project_name}» из проекта «%{source_project_name}».
+  #)
   create_new_page: Wiki-страница
   date:
     abbr_day_names:
@@ -1689,6 +1733,7 @@ en:
   label_feeds_access_key_type: RSS
   label_file_added: Файл добавлен
   label_file_plural: Файлы
+  label_file: Файл
   label_filter_add: Добавить фильтр
   label_filter_plural: Фильтры
   label_filters_toggle: Показать/скрыть фильтры
@@ -1725,6 +1770,8 @@ en:
   label_raion: Район
   label_raions: Районы
   label_target: Цели и результаты
+  label_target_calc_procedures: Методики расчета
+  label_target_calc_procedure: Методика расчета
   label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
@@ -1930,6 +1977,7 @@ en:
   label_plan_uploader_settings: Настройка соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
+  label_target_calc_procedure_new: Новая методика расчета
   label_target_new: Добавить цель
   label_indicator_new: Добавить целевой показатель
   label_result_new: Добавить результат
@@ -2050,6 +2098,8 @@ en:
   label_contracts_value: Значение гос.контракта
   label_stakeholder_plural: Заинтересованные стороны
   label_stakeholders: Заинтересованные стороны
+  label_stakeholder_users: Заинтересованная сторона - участники
+  label_stakeholder_organizations: Заинтересованная сторона - организации
   label_stakeholder_outer_new: Новая внешняя заинтересованная сторона
   label_stakeholder_outer: Внешняя заинтересованная сторона
   label_communication_meetings_plural: План коммуникаций
@@ -2501,7 +2551,7 @@ en:
   project_module_activity: Деятельность
   project_module_boards: Дискуссии
   project_module_calendar: Календарь
-  project_module_work_package_tracking: Отслеживание пакета работ
+  project_module_work_package_tracking: Управление мероприятиями и КТ
   project_module_work_package_targets: Целевые показатели мероприятий
   project_module_news: Новости
   project_module_repository: Репозиторий
@@ -2510,6 +2560,7 @@ en:
   project_module_wiki: Управление знаниями
   project_module_head_performance_indicator_values: Оценка высшего должностного лица
   project_module_interactive_map: Карта районов
+  project_module_strategic_map: Стратегическая карта
   project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
     attribute_and_direction: "%{attribute} (%{direction})"

@@ -156,22 +156,22 @@ module API
                  type: 'Date',
                  required: false,
                  show_if: ->(*) { !represented.milestone? }
-          schema :first_due_date,
-                 type: 'Date',
-                 required: false,
-                 show_if: ->(*) { !represented.milestone? }
-          schema :last_due_date,
-                 type: 'Date',
-                 required: false,
-                 show_if: ->(*) { !represented.milestone? }
-          schema :first_start_date,
-                 type: 'Date',
-                 required: false,
-                 show_if: ->(*) { !represented.milestone? }
-          schema :last_start_date,
-                 type: 'Date',
-                 required: false,
-                 show_if: ->(*) { !represented.milestone? }
+          # schema :first_due_date,
+          #        type: 'Date',
+          #        required: false,
+          #        show_if: ->(*) { !represented.milestone? }
+          # schema :last_due_date,
+          #        type: 'Date',
+          #        required: false,
+          #        show_if: ->(*) { !represented.milestone? }
+          # schema :first_start_date,
+          #        type: 'Date',
+          #        required: false,
+          #        show_if: ->(*) { !represented.milestone? }
+          # schema :last_start_date,
+          #        type: 'Date',
+          #        required: false,
+          #        show_if: ->(*) { !represented.milestone? }
           # )
 
           schema :date,
