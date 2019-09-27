@@ -23,7 +23,7 @@ class TargetQuery::GroupBy < Report::GroupBy
   def self.all
     @all ||= super + Set[
       TargetQuery::GroupBy::ProjectId,
-      TargetQuery::GroupBy::SingletonValue,
+      #TargetQuery::GroupBy::SingletonValue,
       TargetQuery::GroupBy::Year,
       TargetQuery::GroupBy::Quarter,
       TargetQuery::GroupBy::Month

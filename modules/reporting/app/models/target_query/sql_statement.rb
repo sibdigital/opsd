@@ -33,7 +33,7 @@ class TargetQuery::SqlStatement < Report::SqlStatement
   # this is a hack to ensure that additional joins added by filters do not result
   # in additional columns being selected.
   def to_s
-    select(['work_package_targets.*']) #if select == ['*'] && group_by.empty? && self.entry_union
+    #select(['work_package_targets.*']) #if select == ['*'] && group_by.empty? && self.entry_union
     super
   end
 
@@ -92,7 +92,7 @@ class TargetQuery::SqlStatement < Report::SqlStatement
   #
   # @return [TargetQuery::SqlStatement] Generated statement
   def self.for_entries
-    sql = new unified_entry(WorkPackageTarget)
+    sql = new unified_entry(WorkPackageTarget).as(WorkPackageTarget)
     #sql.entry_union = true
     sql
   end

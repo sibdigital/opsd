@@ -21,7 +21,7 @@ class TargetQuery::Filter::PermissionFilter < Report::Filter::Base
   dont_display!
   not_selectable!
   db_field ''
-  singleton
+  #singleton
 
   initialize_query_with { |query| query.filter to_s.demodulize.to_sym }
 

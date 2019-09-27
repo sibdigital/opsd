@@ -20,7 +20,7 @@
 class TargetQuery::Filter::NoFilter < Report::Filter::NoFilter
   table_name 'work_package_targets'
   dont_display!
-  singleton
+  #singleton
 
   def sql_statement
     TargetQuery::SqlStatement.for_entries
