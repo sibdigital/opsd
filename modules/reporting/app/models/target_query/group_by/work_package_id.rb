@@ -17,15 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::TypeId < Report::Filter::Base
-  join_table WorkPackage
-  applies_for :label_work_package_attributes
+class TargetQuery::GroupBy::WorkPackageId < Report::GroupBy::Base
 
   def self.label
-    WorkPackage.human_attribute_name(:type)
-  end
-
-  def self.available_values(*)
-    Type.order(Arel.sql('name')).pluck(:name, :id)
+    WorkPackage.model_name.human
   end
 end

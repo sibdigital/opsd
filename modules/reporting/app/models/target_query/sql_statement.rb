@@ -19,21 +19,21 @@
 
 class TargetQuery::SqlStatement < Report::SqlStatement
   COMMON_FIELDS = %w[
-    project_id created_on updated_on type_id quarter year value
+    project_id created_on updated_on target_id quarter year month plan_value value
   ]
 
   # flag to mark a reporting query consisting of a union of cost and time entries
-  attr_accessor :entry_union
+  #attr_accessor :entry_union
 
   def initialize(table, desc = "")
     super(table, desc)
-    @entry_union = false
+    #@entry_union = false
   end
 
   # this is a hack to ensure that additional joins added by filters do not result
   # in additional columns being selected.
   def to_s
-    select(['entries.*']) if select == ['*'] && group_by.empty? && self.entry_union
+    select(['work_package_targets.*']) #if select == ['*'] && group_by.empty? && self.entry_union
     super
   end
 
@@ -81,29 +81,9 @@ class TargetQuery::SqlStatement < Report::SqlStatement
         #quarter: iso_year_quarter(:spent_on),
         #singleton_value: 1 })
       #FIXME: build this subquery from a sql_statement
-      query.from "(SELECT * FROM #{table}) AS #{table} inner join target_execution_values as v on target.id=v.target_id"
+      query.from "#{table}" #"(SELECT * FROM #{table}) AS #{table}"
       #send("unify_#{table}", query)
-
     end
-  end
-
-  ##
-  # Applies logic for mapping time entries to general entries structure.
-  #
-  # @param [TargetQuery::SqlStatement] query The statement to adjust
-  def self.unify_time_entries(query)
-    query.select :activity_id, units: :hours, cost_type_id: -1
-    query.select cost_type: quoted_label(:caption_labor)
-  end
-
-  ##
-  # Applies logic for mapping cost entries to general entries structure.
-  #
-  # @param [TargetQuery::SqlStatement] query The statement to adjust
-  def self.unify_cost_entries(query)
-    query.select :units, :cost_type_id, activity_id: -1
-    query.select cost_type: "cost_types.name"
-    query.join CostType
   end
 
   ##
@@ -112,8 +92,8 @@ class TargetQuery::SqlStatement < Report::SqlStatement
   #
   # @return [TargetQuery::SqlStatement] Generated statement
   def self.for_entries
-    sql = new unified_entry(Target)
-    sql.entry_union = true
+    sql = new unified_entry(WorkPackageTarget)
+    #sql.entry_union = true
     sql
   end
 end

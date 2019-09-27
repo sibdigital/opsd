@@ -17,16 +17,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::WorkPackageId < Report::Filter::Base
+class TargetQuery::Filter::TargetId < Report::Filter::Base
   def self.label
-    WorkPackage.model_name.human
+    Target.model_name.human
   end
 
   def self.available_values(*)
-    work_packages = WorkPackage.where(project_id: Project.allowed_to(User.current, :view_work_packages))
-                    .order(:id)
-                    .pluck(:id, :subject)
-    work_packages.map { |id, subject| [text_for_tuple(id, subject), id] }
+    targets = Target.where(project_id: Project.allowed_to(User.current, :view_work_packages))
+                      .order(:id)
+                      .pluck(:id, :name)
+    targets.map { |id, name| [text_for_tuple(id, name), id] }
   end
 
   def self.available_operators
@@ -38,8 +38,8 @@ class TargetQuery::Filter::WorkPackageId < Report::Filter::Base
   # to achieve a more performant implementation
   def self.label_for_value(value)
     return nil unless value.to_i.to_s == value.to_s # we expect an work_package-id
-    work_package = WorkPackage.find(value.to_i)
-    [text_for_work_package(work_package), work_package.id] if work_package and work_package.visible?(User.current)
+    target = Target.find(value.to_i)
+    [text_for_target(target), target.id] if target
   end
 
   def self.text_for_tuple(id, subject)
@@ -47,8 +47,9 @@ class TargetQuery::Filter::WorkPackageId < Report::Filter::Base
     str << (subject.length > 30 ? subject.first(26) + '...' : subject)
   end
 
-  def self.text_for_work_package(i)
+  def self.text_for_target(i)
     i = i.first if i.is_a? Array
-    text_for_tuple(i.id, i.subject)
+    text_for_tuple(i.id, i.name)
   end
+
 end

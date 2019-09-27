@@ -25,7 +25,7 @@ module TargetQuery::Cache
     end
 
     def reset!
-      #update_reset_on
+      update_reset_on
 
       TargetQuery::Filter.reset!
       #TargetQuery::Filter::CustomFieldEntries.reset!
@@ -67,7 +67,8 @@ module TargetQuery::Cache
     end
 
     def reset_required?
-      caching_disabled? || invalid?
+      #caching_disabled? || invalid?
+      true
     end
   end
 

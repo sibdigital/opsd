@@ -17,14 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::Tyear < Report::Filter::Base
-  use :integer_operators
+class TargetQuery::GroupBy::Month < Report::GroupBy::Base
 
   def self.label
-    I18n.t(:label_year_reporting)
-  end
-
-  def self.available_values(*)
-    1970.upto(Date.today.year).map { |i| [i.to_s, i] }.reverse
+    I18n.t(:label_month_reporting)
   end
 end

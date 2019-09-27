@@ -228,8 +228,8 @@ class TargetReportsController < ApplicationController
   # end
 
   def load_all
-    TargetQuery::Filter.all
     TargetQuery::GroupBy.all
+    TargetQuery::Filter.all
   end
 
   # @Override

@@ -24,9 +24,9 @@ class TargetQuery::Filter < Report::Filter
     @all ||= super + Set[
        #TargetQuery::Filter::CreatedOn,
        TargetQuery::Filter::ProjectId,
-       TargetQuery::Filter::StatusId,
-       TargetQuery::Filter::TypeId,
-       TargetQuery::Filter::UserId #,
+       #TargetQuery::Filter::StatusId,
+       TargetQuery::Filter::TargetId
+       #TargetQuery::Filter::UserId #,
        #TargetQuery::Filter::UpdatedOn,
        #TargetQuery::Filter::PermissionFilter
     ]

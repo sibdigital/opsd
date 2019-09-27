@@ -24,10 +24,9 @@ class TargetQuery::GroupBy < Report::GroupBy
     @all ||= super + Set[
       TargetQuery::GroupBy::ProjectId,
       TargetQuery::GroupBy::SingletonValue,
-      TargetQuery::GroupBy::TypeId,
-      TargetQuery::GroupBy::Tyear,
+      TargetQuery::GroupBy::Year,
       TargetQuery::GroupBy::Quarter,
-      TargetQuery::GroupBy::StatusId
+      TargetQuery::GroupBy::Month
     ]
   end
 end

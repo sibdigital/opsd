@@ -18,14 +18,15 @@
 #++
 
 class TargetQuery::Filter::ProjectId < Report::Filter::Base
-  db_field 'entries.project_id'
+  db_field 'project_id'
 
   def self.label
     Project.model_name.human
   end
 
   def self.available_operators
-    ['=', '!', '=_child_projects', '!_child_projects'].map(&:to_operator)
+    #['=', '!', '=_child_projects', '!_child_projects'].map(&:to_operator)
+    ['=', '!'].map(&:to_operator)
   end
 
   ##

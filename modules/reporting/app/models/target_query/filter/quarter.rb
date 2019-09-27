@@ -17,18 +17,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-# we have to require this here because the operators would not be defined otherwise
-require_dependency 'target_query/operator'
-class TargetQuery::Filter::StatusId < Report::Filter::Base
-  available_operators 'c', 'o'
-  join_table WorkPackage, Status => [WorkPackage, :status]
-  applies_for :label_work_package_attributes
+class TargetQuery::Filter::Quarter < Report::Filter::Base
+  use :integer_operators
 
   def self.label
-    WorkPackage.human_attribute_name(:status)
+    I18n.t(:label_week_reporting)
   end
 
   def self.available_values(*)
-    Status.order(Arel.sql('name')).pluck(:name, :id)
+    1.upto(53).map { |i| [i.to_s, i] }
   end
 end

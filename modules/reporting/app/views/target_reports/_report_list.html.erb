@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     data-update-url="<%= url_for(:action => :display_report_list, :report_type => report_type) %>">
   <% queries.each do |query| -%>
     <li>
-      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id) %>
+      <%= link_to(h(query.name), :controller => 'target_reports', :action => 'show', :id => query.id) %>
     </li>
   <% end -%>
 </ul>

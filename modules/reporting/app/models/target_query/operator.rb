@@ -35,27 +35,27 @@ class TargetQuery::Operator < Report::Operator
     end
   end
 
-  new "=_child_projects", validate: :integers, label:  :label_is_project_with_subprojects do
-    def modify(query, field, *values)
-      p_ids = []
-      values.each do |value|
-        p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
-      end
-      "=".to_operator.modify query, field, p_ids
-    rescue ActiveRecord::RecordNotFound
-      query
-    end
-  end
-
-  new "!_child_projects", validate: :integers, label:  :label_is_not_project_with_subprojects do
-    def modify(query, field, *values)
-      p_ids = []
-      values.each do |value|
-        p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
-      end
-      "!".to_operator.modify query, field, p_ids
-    rescue ActiveRecord::RecordNotFound
-      query
-    end
-  end
+  # new "=_child_projects", validate: :integers, label:  :label_is_project_with_subprojects do
+  #   def modify(query, field, *values)
+  #     p_ids = []
+  #     values.each do |value|
+  #       p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
+  #     end
+  #     "=".to_operator.modify query, field, p_ids
+  #   rescue ActiveRecord::RecordNotFound
+  #     query
+  #   end
+  # end
+  #
+  # new "!_child_projects", validate: :integers, label:  :label_is_not_project_with_subprojects do
+  #   def modify(query, field, *values)
+  #     p_ids = []
+  #     values.each do |value|
+  #       p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
+  #     end
+  #     "!".to_operator.modify query, field, p_ids
+  #   rescue ActiveRecord::RecordNotFound
+  #     query
+  #   end
+  # end
 end

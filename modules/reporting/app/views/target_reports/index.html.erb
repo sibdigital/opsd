@@ -31,7 +31,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <h2 id="ur_caption">
   <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
 </h2>
-<%= render_widget Widget::Settings, @query, :cost_types => nil, :selected_type_id => nil %>
+<%#= render_widget Widget::Settings, @query, :cost_types => nil, :selected_type_id => nil %>
+<%= render_widget Widget::Settings, @query %>
 
 <div id="result-table">
   <%#= render_widget Widget::Table, @query %>
@@ -40,10 +41,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= l(:text_costs_are_rounded_note) %>
   <%= "<br />#{l(:information_restricted_depending_on_permission)}".html_safe if !User.current.admin?%>
 </p>
-<%= call_hook(:view_cost_report_table_bottom) %>
+<%#= call_hook(:view_cost_report_table_bottom) %>
 
-<% content_for :sidebar do %>
-  <% [:private, :public].each do |type| %>
-    <%= render :partial => "report_category", :locals => { :report_type => type } %>
-  <% end %>
-<% end -%>
+<%# content_for :sidebar do %>
+  <%# [:private, :public].each do |type| %>
+    <%#= render :partial => "report_category", :locals => { :report_type => type } %>
+  <%# end %>
+<%# end -%>
