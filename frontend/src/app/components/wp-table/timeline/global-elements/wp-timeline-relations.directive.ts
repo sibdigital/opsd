@@ -444,8 +444,8 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       return;
     }
 
-    const startX = cell1.getMarginLeftOfLeftSide() - cell1.getPaddingLeftForIncomingRelationLines();
-    const targetX = cell2.getMarginLeftOfLeftSide() + cell2.getPaddingLeftForIncomingRelationLines();
+    const startX = cell1.getMarginLeftOfLeftSide();
+    const targetX = cell2.getMarginLeftOfLeftSide();
 
     const directionY:'toUp' | 'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
 
@@ -456,11 +456,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       return;
     }
 
-    const paddingRight = cell1.getPaddingLeftForIncomingRelationLines();
-    const startLineWith = cell2.getPaddingLeftForIncomingRelationLines()
-      + (paddingRight > 0 ? paddingRight : 0);
-    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, startX, startLineWith, 1, 'red'));
-    let lastX = startX + startLineWith;
+    let lastX = startX - 1;
 
     const height = Math.abs(idxTo - idxFrom);
     if (directionY === 'toDown') {
