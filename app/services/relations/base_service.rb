@@ -48,19 +48,11 @@ class Relations::BaseService
     result = ServiceResult.new success: success, errors: errors, result: relation
 
     #bbm(
-    if success && relation.follows?
+    if success && (relation.follows? || relation.commonstart? || relation.commonfinish?)
+    # )
       reschedule_result = reschedule(relation)
       result.merge!(reschedule_result)
     end
-    if success && relation.commonstart?
-      reschedule_result = rescheduleSS(relation)
-      result.merge!(reschedule_result)
-    end
-    if success && relation.commonfinish?
-      reschedule_result = rescheduleFF(relation)
-      result.add_dependent!(reschedule_result)
-    end
-    # )
     result
   end
 
@@ -87,21 +79,4 @@ class Relations::BaseService
 
     schedule_result
   end
-
-  #bbm(
-  def rescheduleSS(relation)
-    parameters = Hash.new
-    parameters['start_date'] = relation.from.start_date
-    ::WorkPackages::UpdateService
-      .new(user: user, work_package: relation.to)
-      .call(attributes: parameters)
-  end
-  def rescheduleFF(relation)
-    parameters = Hash.new
-    parameters['due_date'] = relation.from.due_date
-    ::WorkPackages::UpdateService
-             .new(user: user, work_package: relation.to)
-             .call(attributes: parameters)
-  end
-  # )
 end

@@ -134,7 +134,7 @@ class Relation < ActiveRecord::Base
    TYPE_BLOCKS,
    TYPE_PRECEDES,
    TYPE_FOLLOWS,
-   #bbm( ????
+   #bbm(
    TYPE_COMMONSTART,
    TYPE_COMMONFINISH,
    # )
@@ -189,6 +189,21 @@ class Relation < ActiveRecord::Base
   def self.hierarchy_or_reflexive
     with_type_columns_0(_dag_options.type_columns - %i(hierarchy))
   end
+
+  #bbm(
+  def self.direct_commonstart_of_work_package(work_package)
+    of_work_package(work_package)
+      .non_hierarchy
+      .direct
+      .with_type_columns_0(_dag_options.type_columns - %i(commonstart))
+  end
+  def self.direct_commonfinish_of_work_package(work_package)
+    of_work_package(work_package)
+      .non_hierarchy
+      .direct
+      .with_type_columns_0(_dag_options.type_columns - %i(commonfinish))
+  end
+  # )
 
   def self.non_hierarchy_of_work_package(work_package)
     of_work_package(work_package)
