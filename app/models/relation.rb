@@ -62,6 +62,10 @@ class Relation < ActiveRecord::Base
   TYPE_REQUIRED     = 'required'.freeze
   TYPE_HIERARCHY    = 'hierarchy'.freeze
   TYPE_MIXED        = 'mixed'.freeze
+  #bbm(
+  TYPE_COMMONSTART  = 'commonstart'.freeze
+  TYPE_COMMONFINISH = 'commonfinish'.freeze
+  # )
 
   TYPES = {
     TYPE_RELATES => {
@@ -89,20 +93,30 @@ class Relation < ActiveRecord::Base
       name: :label_follows, sym_name: :label_precedes, order: 7,
       sym: TYPE_PRECEDES
     },
+    #bbm(
+    TYPE_COMMONSTART => {
+      name: :label_commonstart, sym_name: :label_commonstart, order: 8,
+      sym: TYPE_COMMONSTART
+    },
+    TYPE_COMMONFINISH => {
+      name: :label_commonfinish, sym_name: :label_commonfinish, order: 9,
+      sym: TYPE_COMMONFINISH
+    },
+    # )
     TYPE_INCLUDES => {
-      name: :label_includes, sym_name: :label_part_of, order: 8,
+      name: :label_includes, sym_name: :label_part_of, order: 10,
       sym: TYPE_PARTOF
     },
     TYPE_PARTOF => {
-      name: :label_part_of, sym_name: :label_includes, order: 9,
+      name: :label_part_of, sym_name: :label_includes, order: 11,
       sym: TYPE_INCLUDES, reverse: TYPE_INCLUDES
     },
     TYPE_REQUIRES => {
-      name: :label_requires, sym_name: :label_required, order: 10,
+      name: :label_requires, sym_name: :label_required, order: 12,
       sym: TYPE_REQUIRED
     },
     TYPE_REQUIRED => {
-      name: :label_required, sym_name: :label_requires, order: 11,
+      name: :label_required, sym_name: :label_requires, order: 13,
       sym: TYPE_REQUIRES, reverse: TYPE_REQUIRES
     }
   }.freeze
@@ -120,6 +134,10 @@ class Relation < ActiveRecord::Base
    TYPE_BLOCKS,
    TYPE_PRECEDES,
    TYPE_FOLLOWS,
+   #bbm(
+   TYPE_COMMONSTART,
+   TYPE_COMMONFINISH,
+   # )
    TYPE_INCLUDES,
    TYPE_REQUIRES,
    TYPE_HIERARCHY].each do |type|
@@ -171,6 +189,21 @@ class Relation < ActiveRecord::Base
   def self.hierarchy_or_reflexive
     with_type_columns_0(_dag_options.type_columns - %i(hierarchy))
   end
+
+  #bbm(
+  def self.direct_commonstart_of_work_package(work_package)
+    of_work_package(work_package)
+      .non_hierarchy
+      .direct
+      .with_type_columns_0(_dag_options.type_columns - %i(commonstart))
+  end
+  def self.direct_commonfinish_of_work_package(work_package)
+    of_work_package(work_package)
+      .non_hierarchy
+      .direct
+      .with_type_columns_0(_dag_options.type_columns - %i(commonfinish))
+  end
+  # )
 
   def self.non_hierarchy_of_work_package(work_package)
     of_work_package(work_package)

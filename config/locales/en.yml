@@ -654,6 +654,7 @@ en:
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
+        no_commons_and_follows_together: Нельзя добавлять отношения последовательности и одного начала/конца одновременно.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: не может быть скопировано (полностью).
         does_not_exist: не существует.
@@ -1606,7 +1607,7 @@ en:
   label_api_documentation: Документация по API
   label_between: между
   label_blocked_by: заблокировано
-  label_blocks: блоки
+  label_blocks: блокирует
   label_blog: Блог
   label_board_locked: Закрыто
   label_board_new: Новая дискуссия
@@ -1748,6 +1749,8 @@ en:
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие
 
+  label_commonstart: начинается одновременно
+  label_commonfinish: заканчивается одновременно
   label_contacts: Контактная информация
 
   label_stages: Этапы
