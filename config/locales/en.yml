@@ -204,7 +204,7 @@ en:
   prioritiies:
     edit:
       priority_color_text: |
-        Щелкните, чтобы изменить цвет приоритета.
+        Щелкните, чтобы изменить цвет веса.
         Цвет используется для выделения пакетов работ в таблице.
   project_risks:
     edit:
@@ -319,7 +319,7 @@ en:
         author:
           no_results_title_text: На данный момент у этого проекта нет участников.
         priority:
-          no_results_title_text: В данный момент приоритеты не установлены.
+          no_results_title_text: В данный момент веса не установлены.
         type:
           no_results_title_text: На данный момент доступных типов нет.
         version:
@@ -617,8 +617,8 @@ en:
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
-        priority: Приоритет
-        progress: KPI (Прогресс %)
+        priority: Вес
+        progress: Прогресс %
         spent_hours: Затраченное время
         spent_time: Затраченное время
         subproject: Подпроект
@@ -946,7 +946,7 @@ en:
     password: Пароль
     #)
     possibility: Вероятность наступления
-    priority: Приоритет
+    priority: Вес
     project: Проект
     responsible: Подотчетный
     role: Роль
@@ -1378,7 +1378,7 @@ en:
           полям
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_attach_type: Тип файла
-  enumeration_work_package_priorities: Приоритеты пакета работ
+  enumeration_work_package_priorities: Веса пакета работ
   enumeration_risk_importance: Степень влияния на проект
   enumeration_risk_possibilities: Вероятность наступления
   enumeration_target_statuses: Статус целевого показателя
@@ -2173,7 +2173,7 @@ en:
   label_work_package_edit: Редактирование пакета работ %{name}
   label_work_package_plural: Мероприятия
   label_plan_stage_package_plural: Базовый план
-  label_work_package_priority_updated: Приоритет мероприятия обновлен
+  label_work_package_priority_updated: Вес мероприятия обновлен
   label_work_package_status: Состояние группы работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
@@ -2855,7 +2855,7 @@ en:
         none: Без подсветки
         status: Вся строка по статусу
         type: Вся строка по типу
-        priority: Вся строка по приоритету
+        priority: Вся строка по весу
   text_formatting:
     markdown: Markdown
     plain: Обычный текст
