@@ -666,7 +666,8 @@ class PermittedParams
           reassign_to_id
         ),
         group: [
-          :lastname
+          :lastname,
+          :direct_manager_id
         ],
         membership: [
           :project_id,

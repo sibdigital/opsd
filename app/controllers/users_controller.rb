@@ -156,6 +156,8 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
+          @group = Group.find_by(lastname: I18n.t(:label_user_all))
+          @group.users << @user
           redirect_to(params[:continue] ? new_user_path : edit_user_path(@user))
         end
       end

@@ -462,6 +462,8 @@ en:
         row_count: Количество строк
         column_count: Количество столбцов
         widgets: Виджеты
+      group:
+        direct_manager: Руководитель
       relation:
         delay: Задержка
         from: Пакет работ
@@ -1942,6 +1944,7 @@ en:
   label_professional_support: Профессиональная поддержка
   label_profile: Профиль
   label_project_all: Все проекты
+  label_user_all: Все пользователи
   label_project_count: Общее количество проектов
   label_project_copy_notifications: Уведомлять по электронной почте при копировании проекта
   label_project_latest: Последние проекты
