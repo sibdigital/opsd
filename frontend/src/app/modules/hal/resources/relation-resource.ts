@@ -46,6 +46,10 @@ export class RelationResource extends HalResource {
       'blocked',
       'precedes',
       'follows',
+      //bbm(
+      'commonstart',
+      'commonfinish',
+      //)
       'includes',
       'partof',
       'requires',

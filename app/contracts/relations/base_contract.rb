@@ -42,6 +42,9 @@ module Relations
     validate :validate_from_exists
     validate :validate_to_exists
     validate :validate_only_one_follow_direction_between_hierarchies
+    #bbm(
+    validate :validate_no_commons_and_follows_same_time
+    # )
     validate :validate_accepted_type
 
     def self.model
@@ -71,6 +74,29 @@ module Relations
         errors.add :base, I18n.t(:'activerecord.errors.messages.circular_dependency')
       end
     end
+
+    #bbm(
+    def validate_no_commons_and_follows_same_time
+      return unless [Relation::TYPE_COMMONSTART, Relation::TYPE_COMMONFINISH, Relation::TYPE_FOLLOWS].include? model.relation_type
+
+      if model.relation_type == Relation::TYPE_FOLLOWS
+        from = Relation.direct.of_work_package(model.from).where('commonstart > 0 or commonfinish > 0')
+        to = Relation.direct.of_work_package(model.to).where('commonstart > 0 or commonfinish > 0')
+
+        if from.or(to).any?
+          errors.add :base, I18n.t(:'activerecord.errors.messages.no_commons_and_follows_together')
+        end
+      end
+      if [Relation::TYPE_COMMONSTART, Relation::TYPE_COMMONFINISH].include? model.relation_type
+        from = Relation.direct.of_work_package(model.from).where('follows > 0')
+        to = Relation.direct.of_work_package(model.to).where('follows > 0')
+
+        if from.or(to).any?
+          errors.add :base, I18n.t(:'activerecord.errors.messages.no_commons_and_follows_together')
+        end
+      end
+    end
+    # )
 
     def validate_accepted_type
       return if (Relation::TYPES.keys + [Relation::TYPE_HIERARCHY]).include?(model.relation_type)

@@ -43,7 +43,7 @@ module API
                        .new(current_user)
                        .call(request_body)
                        .result
-
+          parameters['assigned_to_id'] = current_user.id
           result = create_work_package(current_user,
                                        work_package,
                                        parameters,

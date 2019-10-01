@@ -58,7 +58,8 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
   end
 
   def relation_types
-    %i(hierarchy relates duplicates blocks follows includes requires)
+    #+- bbm tan 2019.10.01
+    %i(hierarchy relates duplicates blocks follows commonstart commonfinish includes requires)
   end
 
   def add_relation_type_column

@@ -7,5 +7,10 @@ This file written by XCC
 <%= error_messages_for :target %>
 <section class="form--section">
      <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'button' %>
-
+  <h3>Графики достижения показателей. Приложение 1, 2</h3>
+  <div class="form--field">
+    <%= select_tag(:selected_target_id, options_for_select(@project.targets.map {|u| [u.name, u.id]})) %>
+  </div>
+<%#= styled_submit_tag l(:button_apply), class: '-highlight' %>
+  <%= link_to "Сформировать",  {},  class: 'pass-params-from-select button'%>
 </section>
