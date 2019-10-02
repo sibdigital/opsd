@@ -702,8 +702,8 @@ Project < ActiveRecord::Base
   def users_by_role
     members.includes(:user, :roles).inject({}) do |h, m|
       m.roles.each do |r|
-        h[r] ||= []
-        h[r] << m.user
+        h[r.position] ||= []
+        h[r.position] << m.user
       end
       h
     end
