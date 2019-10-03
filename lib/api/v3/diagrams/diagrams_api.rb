@@ -18,7 +18,11 @@ module API
 
           route_param :name do
             get do
-              DiagramHomescreenRepresenter.new(params: params, current_user: current_user, global_role: global_role)
+              if params[:name] == 'bubble'
+                BubbleDiagramRepresenter.new(params: params, current_user: current_user, global_role: global_role)
+              else
+                DiagramHomescreenRepresenter.new(params: params, current_user: current_user, global_role: global_role)
+              end
             end
           end
         end

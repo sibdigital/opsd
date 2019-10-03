@@ -1,0 +1,26 @@
+<div>
+    Проект
+    <select
+            id="diagram_project_select"
+            (change)="filterChart()"
+            [(ngModel)]="projectSelect"
+            name="project_select">
+        <option
+                *ngFor="let value of projectSelectOptions"
+                [attr.label]="value.name"
+                [ngValue]="value"
+                [textContent]="value.name">
+        </option>
+    </select>
+</div>
+<div style="display: block;">
+    <canvas baseChart
+            [datasets]="bubbleChartData"
+            [colors]="bubbleChartColors"
+            [labels]="bubbleChartLabels"
+            [options]="bubbleChartOptions"
+            [plugins]="bubbleChartPlugins"
+            [legend]="bubbleChartLegend"
+            [chartType]="bubbleChartType">
+    </canvas>
+</div>
