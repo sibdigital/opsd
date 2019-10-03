@@ -119,6 +119,10 @@ OpenProject::Application.routes.draw do
     post 'move/:id', action: 'move', on: :collection
   end
 
+  #tmd
+  resources :user_guides
+  get 'download_pdf', to: "user_guides#download_pdf"
+
   resources :statuses, except: :show do
     collection do
       post 'update_work_package_done_ratio'

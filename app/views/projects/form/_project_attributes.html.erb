@@ -28,6 +28,8 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <% all_fields = (render_advanced) ? false :  true %>
 
+<% type = [["Паспорт программы", true], ["Паспорт проекта", false]] %>
+
 <%= render partial: "projects/form/attributes/name",
            locals: { form: form } %>
 <%# if  User.current.project_admin?(project) || User.current.project_head?(project) || User.current.admin?%>
@@ -36,6 +38,29 @@ See docs/COPYRIGHT.rdoc for more details.
              locals: { form: form } %>
   <%= render partial: "projects/form/attributes/due_date",
              locals: { form: form } %>
+
+  <div class="form--field">
+    <%= form.date_field :fact_start_date, :readonly => true %>
+  </div>
+
+  <div class="form--field">
+    <%= form.date_field :fact_due_date, :readonly => true %>
+  </div>
+
+  <div class="form--field">
+    <%= form.text_field :invest_amount, container_class: '-slim' %>
+  </div>
+
+  <div class="form--field">
+    <%= form.select :is_program,
+                    options_for_select(type),
+                    container_class: '-slim' %>
+  </div>
+
+
+  <%= render partial: "addresses/form",
+               locals: { form: form } %>
+
 </div>
 <div class="form--field">
   <%# f.select :project_status_id,
@@ -58,6 +83,8 @@ See docs/COPYRIGHT.rdoc for more details.
     Этап согласования: <strong><%= project.get_project_approve_status %></strong>
   </span>
 </div>
+
+
 
 <div class="form--field">
   <%= form.select :national_project_id,
