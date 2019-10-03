@@ -319,10 +319,13 @@ class PermittedParams
                                                 :project_approve_status_id, #+-tan 2019.07.06
                                                 :project_status_id,
                                                 :type,
+                                                :invest_amount, #tmd
+                                                :is_program,
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
-                                                enabled_module_names: [])
+                                                enabled_module_names: [],
+                                                address_attributes: [:id, :address])
 
     unless params[:project][:custom_field_values].nil?
       # Permit the sub-hash for custom_field_values
@@ -459,6 +462,10 @@ class PermittedParams
     permitted_params = permitted_params.merge(custom_field_values(:position))
     permitted_params
   end
+
+  # def address
+  #   params.require(:address).permit(:address)
+  # end
 
 
   def organization

@@ -900,6 +900,11 @@ en:
     display_sums: Отображение суммы
     due_date: Дата окончания
     fact_due_date: Фактическая дата окончания
+    #tmd
+    fact_start_date: Фактическая дата начала
+    address: Адрес
+    is_program: Тип паспорта
+    ###
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
     firstname: Имя
@@ -922,6 +927,7 @@ en:
     time: Время
     #)
     issue: Пакет работ
+    invest_amount: Объем инвестиций
     lastname: Фамилия
     login: Логин
     mail: Электронная почта
