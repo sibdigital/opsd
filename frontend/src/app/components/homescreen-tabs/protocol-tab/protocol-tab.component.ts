@@ -1,13 +1,16 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
-import {ValueOption} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+
+export interface ValueOption {
+  name:string;
+  identifier:string | null;
+}
 
 @Component({
   templateUrl: './protocol-tab.html'
@@ -32,24 +35,25 @@ export class ProtocolTabComponent implements OnInit {
       .toPromise()
       .then((projects:CollectionResource<ProjectResource>) => {
         this.valueOptions = projects.elements.map((el:ProjectResource) => {
-          return {name: el.name, $href: el.id};
+          return {name: el.name, identifier: el.identifier};
         });
         this.value = this.valueOptions[0];
       });
   }
 
   public get selectedOption() {
-    const $href = this.value ? this.value.$href : null;
-    return _.find(this.valueOptions, o => o.$href === $href)!;
+    const identifier = this.value ? this.value.identifier : null;
+    return _.find(this.valueOptions, o => o.identifier === identifier)!;
   }
 
   public set selectedOption(val:ValueOption) {
-    let option = _.find(this.valueOptions, o => o.$href === val.$href);
+    let option = _.find(this.valueOptions, o => o.identifier === val.identifier);
     this.value = option;
   }
 
   public handleUserSubmit() {
     if (this.selectedOption) {
+      window.open(this.appBasePath + "/projects/" + this.selectedOption.identifier + "/meetings/new", "_blank");
     }
   }
 }

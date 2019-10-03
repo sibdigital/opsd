@@ -7,8 +7,6 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {homescreenPerformanceDiagramSelector} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
-import {homescreenDiagramSelector} from "core-components/homescreen-diagram/homescreen-diagram.component";
 
 export interface ValueOption {
   name:string;
