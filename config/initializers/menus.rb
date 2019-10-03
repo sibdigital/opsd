@@ -210,6 +210,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             html: { class: 'custom_fields' },
             parent: :system_catalogs,
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  #bbm(
+  menu.push :bubble_diagram,
+            { controller: '/homescreen', action: 'bubble'},
+            caption: :label_bubble_diagram,
+            icon: 'icon2 icon-additional',
+            parent: :project_office
+  # )
   #knm(
   menu.push :head_performance_indicator_values,
             {controller: '/head_performance_indicator_values'},

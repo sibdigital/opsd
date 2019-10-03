@@ -27,9 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class
-
-Project < ActiveRecord::Base
+class Project < ActiveRecord::Base
   extend Pagination::Model
   extend FriendlyId
 
@@ -151,6 +149,10 @@ Project < ActiveRecord::Base
   }, class_name: 'WorkPackageCustomField',
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
+
+  #tmd
+  has_one :address, dependent: :destroy
+  accepts_nested_attributes_for :address, :reject_if => :all_blank
 
   #bbm(
   has_many :project_risks
