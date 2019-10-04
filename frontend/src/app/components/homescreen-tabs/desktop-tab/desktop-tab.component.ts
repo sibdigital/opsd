@@ -93,7 +93,7 @@ export class DesktopTabComponent implements OnInit {
       {
         dueDate: {
           operator: '<t-',
-          values: ['0']
+          values: ['1']
         }
       }
     ];

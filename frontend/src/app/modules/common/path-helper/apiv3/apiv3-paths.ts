@@ -87,6 +87,8 @@ export class ApiV3Paths {
 
   public readonly organizations = new SimpleResourceCollection(this.apiV3Base, 'organizations');
 
+  public readonly raions = new SimpleResourceCollection(this.apiV3Base, 'raions');
+
   public readonly attach_types = new SimpleResourceCollection(this.apiV3Base, 'attach_types');
 
   public readonly problems = new SimpleResource(this.apiV3Base, 'problems');
