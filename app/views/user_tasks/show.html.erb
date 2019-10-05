@@ -3,19 +3,8 @@ This file written by BAN
 11/09/2019
 ++#%>
 <p>
-  <strong>Тип объекта:</strong>
-  <%= @user_task.object_type %>
-</p>
-
-<p>
   <strong>Текст:</strong>
   <%= @user_task.text %>
 </p>
-
-<p>
-  <strong>Срок:</strong>
-  <%= @user_task.due_date %>
-</p>
-
-<%= link_to 'Редактировать', edit_user_task_path(@user_task) %> |
-<%= link_to 'Вернуться к списку', user_tasks_path %>
+<%= link_to 'Редактировать', edit_user_task_path(@user_task) %>
+<p><a href="/my/page">Вернуться к моей странице</a></p>

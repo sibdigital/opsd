@@ -159,6 +159,13 @@ module API
         }
       end
       # )
+      #  ban (
+      link :user_tasks do
+        {
+          href: api_v3_paths.user_tasks
+        }
+      end
+      # )
       property :instance_name,
                getter: ->(*) { Setting.app_title }
 

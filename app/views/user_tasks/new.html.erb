@@ -9,5 +9,5 @@ This file written by BAN
   <%= render partial: "user_tasks/form", locals: { form: form } %>
   <%= form.hidden_field 'kind', value: params[:kind] %>
   <p><%= form.submit 'Создать' %></p>
-  <%= link_to 'Вернуться к списку', user_tasks_path %>
+  <p><a href="/my/page">Вернуться к моей странице</a></p>
 <% end %>

@@ -66,6 +66,9 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         //tan(
         'Raion',
         //)
+        //ban(
+        'UserTask',
+        //)
         'Priority'
       ])
       .addFieldType(ResourceDisplayField, 'resource', [
