@@ -56,6 +56,22 @@ class AddAttachmentService
     attachment
   end
 
+  #bbm(
+  def add_attachment_old(uploaded_file:, filename:)
+    attachment = Attachment.new(file: uploaded_file,
+                                #bbm(
+                                filename: filename,
+                                # )
+                                container: nil,
+                                description: nil,
+                                author: author)
+    version = Attachment.where(:container => container, :filename => filename).maximum("version").to_i
+    attachment.version = version + 1
+    save attachment
+    attachment
+  end
+  # )
+
   private
 
   def save(attachment)

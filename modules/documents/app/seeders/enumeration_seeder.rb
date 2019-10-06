@@ -43,7 +43,7 @@ module BasicData
       def category_i18n_keys
         ['sogl', 'npa', 'prikaz', 'raspor', 'letter',
          'kontrakt', 'documentation', 'report',
-         'etap_report', 'end_report', 'info','analit_zap'].map do |name|
+         'etap_report', 'end_report', 'info','analit_zap','otchet_o_hod_proekt'].map do |name|
           ['enumeration', 'document_category', name].join('.')
         end
       end

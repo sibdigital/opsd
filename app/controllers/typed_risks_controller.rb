@@ -19,7 +19,6 @@ class TypedRisksController < ApplicationController
                     'name' => "#{TypedRisk.table_name}.name",
                     'owner' => "#{TypedRisk.table_name}.owner_id",
                     'possibility' => "#{TypedRisk.table_name}.possibility_id",
-                    'possibility' => "#{TypedRisk.table_name}.possibility_id",
                     'importance' => "#{TypedRisk.table_name}.importance_id"
     }
 

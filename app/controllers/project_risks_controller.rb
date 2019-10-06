@@ -18,7 +18,6 @@ class ProjectRisksController < ApplicationController
                     'name' => "#{ProjectRisk.table_name}.name",
                     'owner' => "#{ProjectRisk.table_name}.owner_id",
                     'possibility' => "#{ProjectRisk.table_name}.possibility_id",
-                    'possibility' => "#{ProjectRisk.table_name}.possibility_id",
                     'importance' => "#{ProjectRisk.table_name}.importance_id"
     }
 
