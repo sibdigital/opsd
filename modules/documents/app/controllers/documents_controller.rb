@@ -69,6 +69,7 @@ class DocumentsController < ApplicationController
     @document = @project.documents.build
     @document.attributes = document_params
     @document.attach_files(permitted_params.attachments.to_h)
+    @document.update_attribute(:user_id, User.current.id)
 
     if @document.save
       render_attachment_warning_if_needed(@document)

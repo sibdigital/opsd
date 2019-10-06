@@ -39,6 +39,11 @@ import {WidgetWpAssignedComponent} from "core-app/modules/grids/widgets/wp-assig
 //#zbd(
 import {WidgetWpRemainingComponent} from "core-app/modules/grids/widgets/wp-remaining/wp-remaining.component.ts";
 //)
+//#ban(
+import {WidgetUtNotesComponent} from "core-app/modules/grids/widgets/ut-notes/ut-notes.component.ts";
+import {WidgetUtRequestsComponent} from "core-app/modules/grids/widgets/ut-requests/ut-requests.component.ts";
+import {WidgetUtMyRequestsComponent} from "core-app/modules/grids/widgets/ut-my-requests/ut-my-requests.component.ts";
+//)
 //#knm(
 import {WidgetNotificationsComponent} from "core-app/modules/grids/widgets/notifications/notifications.component";
 //)
@@ -85,6 +90,11 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   //zbd
                                   WidgetWpRemainingComponent,
                                   //
+                                  //ban
+                                  WidgetUtNotesComponent,
+                                  WidgetUtRequestsComponent,
+                                  WidgetUtMyRequestsComponent,
+                                  //
                                   WidgetWpAccountableComponent,
                                   WidgetWpCreatedComponent,
                                   WidgetWpWatchedComponent,
@@ -113,6 +123,11 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetWpAssignedComponent,
     //zbd
     WidgetWpRemainingComponent,
+    //
+    //ban
+    WidgetUtNotesComponent,
+    WidgetUtRequestsComponent,
+    WidgetUtMyRequestsComponent,
     //
     WidgetWpAccountableComponent,
     WidgetWpCreatedComponent,
@@ -152,6 +167,20 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'work_packages_remaining',
           component: WidgetWpRemainingComponent
+        },
+        //)
+        //ban(
+        {
+          identifier: 'user_tasks_notes',
+          component: WidgetUtNotesComponent
+        },
+        {
+          identifier: 'user_tasks_requests',
+          component: WidgetUtRequestsComponent
+        },
+        {
+          identifier: 'user_tasks_my_requests',
+          component: WidgetUtMyRequestsComponent
         },
         //)
         {
