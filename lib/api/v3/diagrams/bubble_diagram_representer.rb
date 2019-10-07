@@ -27,14 +27,22 @@ module API
                               else
                                 Project.visible(current_user).order(invest_amount: :desc).all
                               end
+                   rmax = 0
+                   xmax = 0
                    projects.each do |project|
                      exist = which_role(project, @current_user, @global_role)
                      if exist
                        x = project.parent_id || project.id
                        r = project.invest_amount.to_f
+                       rmax = r if r > rmax
+                       xmax = x if x > xmax
                        result << {x: x, y: 1, r: r}
                      end
                    end
+                   result.each {|hash|
+                     hash[:r] = (hash[:r] * 10 / rmax ).round
+                     hash[:x] = hash[:x] * 3.8 / xmax
+                   }
                    result
                  },
                  render_nil: true
@@ -47,7 +55,7 @@ module API
                    projects.each do |project|
                      exist = which_role(project, @current_user, @global_role)
                      if exist
-                       result << project.name
+                       result << project.name + ' ' + project.invest_amount.to_s
                      end
                    end
                    result

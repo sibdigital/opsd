@@ -24,8 +24,28 @@ export class BubbleDiagramComponent implements OnInit {
   public bubbleChartOptions:ChartOptions = {
     responsive: true,
     scales:{
-      yAxes: [{ ticks: { min: 0, max: 2 }}],
-      xAxes: [{ ticks: { beginAtZero: true }}]
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 2,
+          display: false
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false,
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          min: 0,
+          max: 4,
+          display: false
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false,
+        }
+      }]
     },
     legend: {
       position: 'top',
