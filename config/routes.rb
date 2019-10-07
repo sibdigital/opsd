@@ -344,6 +344,8 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
+
+    resources :biblioteka_otchetov, only: :index, controller: 'biblioteka_otchetov'
     # )
 
     #tmd

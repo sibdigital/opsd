@@ -38,6 +38,7 @@ Redmine::AccessControl.map do |map|
                    project_risk_characts: %i[new create edit update destroy],
                    project_risks: %i[index new create edit update choose_typed
                                    destroy],
+                   biblioteka_otchetov: [:index],
                    # )
                    #xcc(
                    #zbd targets: %i[index new create edit update destroy],

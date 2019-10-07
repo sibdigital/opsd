@@ -72,7 +72,7 @@ class ReportProgressProjectController < ApplicationController
     #bbm(
     @document = @project.documents.build
     @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
-    @document.title = 'Отчет от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
+    @document.title = 'отчет о ходе реализации проекта от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
     service = AddAttachmentService.new(@document, author: current_user)
     attachment = service.add_attachment_old uploaded_file: File.open(@ready_project_progress_report_path),
                                filename: 'project_progress_report_out.xlsx'

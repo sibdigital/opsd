@@ -749,6 +749,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-info1',
             parent: :reports
 
+  menu.push :biblioteka_otchetov,
+            {controller: '/biblioteka_otchetov', action: 'index' },
+            param: :project_id,
+            caption: :label_biblioteka_otchetov,
+            icon: 'icon2 icon-info1',
+            parent: :reports
+
   menu.push :report_passport,
             {controller: '/report_passport', action: 'index' },
             param: :project_id,
