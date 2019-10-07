@@ -37,8 +37,8 @@
           <li class="toolbar-item hidden-for-mobile"><zen-mode-toggle-button>
             </zen-mode-toggle-button>
           </li>
-          <li class="toolbar-item">
-            <create-board-button>
+          <li class="toolbar-item"  >
+            <create-board-button [workPackage]="workPackage" [projectIdentifier]="projectIdentifier">
             </create-board-button>
           </li>
           <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">

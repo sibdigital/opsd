@@ -61,6 +61,12 @@ class AdminController < ApplicationController
     redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
   end
 
+  #knm+
+  def create_board_from_wp
+    redirect_to new_project_board_path(@project)
+  end
+  # -
+
  # iag(
   def send_email_assignee_from_task
     raise_delivery_errors = ActionMailer::Base.raise_delivery_errors

@@ -41,13 +41,15 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 })
 export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
+  @Input('projectIdentifier') public projectIdentifier:string;
   @Input('showText') public showText:boolean = false;
   @Input('disabled') public disabled:boolean = false;
-  public buttonText:string = this.I18n.t('js.label_send_notify');
-  public buttonTitle:string = this.I18n.t('js.label_send_notify');
+  public buttonText:string = this.I18n.t('js.label_create_board');
+  public buttonTitle:string = this.I18n.t('js.label_create_board');
   public buttonClass:string;
   public buttonId:string = 'create-board-button';
   public watchIconClass:string = 'icon-forums';
+  public text:string = '';
 
   constructor(readonly I18n:I18nService,
               private readonly PathHelper:PathHelperService,
@@ -72,17 +74,17 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
   }
 
   createBoard(){
-    const url = this.PathHelper.appBasePath + '/admin/create_board_from_wp?workPackageId=' + this.workPackage.id;
+    const url = this.PathHelper.projectNewBoardPath(this.projectIdentifier)
     const promise = this.http.get(url).toPromise();
 
     promise
       .then((response) => {
-        //this.NotificationsService.addSuccess(this.text.successful_delete);
-        // this.NotificationsService.addSuccess("");
+        this.NotificationsService.addSuccess(this.buttonText);
+        this.NotificationsService.addSuccess("");
       })
       .catch((error) => {
         window.location.href = url;
-        // this.NotificationsService.addError(error);
+        this.NotificationsService.addError(error);
       });
   }
 }
