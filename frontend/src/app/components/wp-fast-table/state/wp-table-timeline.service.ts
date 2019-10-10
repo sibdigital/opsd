@@ -155,6 +155,17 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     let currentState = this.current;
     return currentState.firstOrLastHistDate;
   }
+
+  public setTrudozatraty(option:boolean) {
+    let currentState = this.current;
+    currentState.trudozatraty = option;
+    this.state.putValue(currentState);
+  }
+
+  public getTrudozatraty():boolean {
+    let currentState = this.current;
+    return currentState.trudozatraty;
+  }
   //)
 
   public isAutoZoomEnabled():boolean {
