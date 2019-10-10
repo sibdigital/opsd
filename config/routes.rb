@@ -684,6 +684,7 @@ OpenProject::Application.routes.draw do
       member do
         get :quote
         post :reply, as: 'reply_to'
+        get :like, as: 'like'
       end
     end
   end

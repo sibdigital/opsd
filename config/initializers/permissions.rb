@@ -345,7 +345,7 @@ Redmine::AccessControl.map do |map|
                      public: true
 
     board.permission :add_messages,
-                     messages: %i[new create reply quote preview]
+                     messages: %i[new create reply like quote preview]
 
     board.permission :edit_messages,
                      { messages: %i[edit update preview] },

@@ -91,6 +91,12 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= authoring message.created_on, message.author %>
       </h3>
       <div class="message-reply-menu">
+        <%#= link_to(icon_wrapper('icon-star', t(:button_like)),%>
+        <%= link_to( content_tag(:i, message.likes.count, :class => 'icon-star'),
+                    {action: 'like', id: message},
+                    title: t(:button_like),
+                    class: 'button -small',
+                    alt: t(:button_like)) if !@topic.locked? && authorize_for('messages', 'like') %>
         <%= link_to(icon_wrapper('icon-quote', t(:button_quote)),
                   { action: 'quote', id: message },
                   title: t(:button_quote),

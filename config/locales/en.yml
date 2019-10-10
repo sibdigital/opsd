@@ -930,7 +930,7 @@ en:
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций
-    lastname: Фамилия
+    lastname: Фамил
     login: Логин
     mail: Электронная почта
     #zbd(
@@ -1035,6 +1035,7 @@ en:
 #  knm(
   button_approve: Утвердить
   button_confirm: Согласовать
+  button_like: Понравилось
 #  )
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
