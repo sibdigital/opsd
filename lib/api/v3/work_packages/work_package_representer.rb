@@ -504,6 +504,8 @@ module API
 
         associated_resource :status
 
+        associated_resource :period,
+                            link_title_attribute: :name
         #bbm(
         property :is_closed,
         exec_context: :decorator,

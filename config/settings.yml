@@ -254,6 +254,7 @@ notified_events:
   - board_moved
   - board_deleted
   - deadline_of_work_package_is_approaching
+  - work_package_report_notify_assignee
   - deadline_of_work_package
   - project_created
   - project_changed

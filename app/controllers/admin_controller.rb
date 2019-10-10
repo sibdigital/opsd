@@ -60,7 +60,30 @@ class AdminController < ApplicationController
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to controller: '/settings', action: 'edit', tab: 'notifications'
   end
+  #knm +
+  # nse for http://localhost:3000/admin/send_email_assignee_report?
+  def send_email_assignee_report
+    workPackage = WorkPackage.find(params["workPackageId"])
+    unless workPackage.assigned_to_id.nil?
+      @assigneee = User.find(workPackage.assigned_to_id)
+      @term_date = workPackage.due_date #ban
+      @project_name = Project.find_by(id: workPackage.project_id).name #ban
+      UserMailer.work_package_report_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
+      #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
+      #Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)
+      @alert = Alert.new
+      @alert.entity_id = workPackage.id
+      puts workPackage.id, ' entity_id: ', @alert.entity_id
 
+      @alert.alert_date = Date.current
+      @alert.entity_type = 'WorkPackage'
+      @alert.alert_type = 'Email'
+      @alert.to_user = @assigneee.id
+      @alert.save
+      end
+    redirect_to project_work_package_path(Project.find_by(id: workPackage.project_id), workPackage)
+  end
+  #knm-
  # iag(
   def send_email_assignee_from_task
     raise_delivery_errors = ActionMailer::Base.raise_delivery_errors

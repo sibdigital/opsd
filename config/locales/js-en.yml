@@ -298,6 +298,7 @@ en:
     label_work_package_plural: Мероприятия
     label_plan_stage_package_plural: Этапы плана работ
     label_watch: Просмотреть
+    label_send_notify: Отправить напоминание
     label_watch_work_package: Наблюдать
     label_watcher_added_successfully: Наблюдатель успешно добавлен!
     label_watcher_deleted_successfully: Наблюдатель успешно удален!
