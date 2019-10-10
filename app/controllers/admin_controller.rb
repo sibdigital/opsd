@@ -84,6 +84,12 @@ class AdminController < ApplicationController
     redirect_to project_work_package_path(Project.find_by(id: workPackage.project_id), workPackage)
   end
   #knm-
+  #knm+
+  def create_board_from_wp
+    redirect_to new_project_board_path(@project)
+  end
+  # -
+
  # iag(
   def send_email_assignee_from_task
     raise_delivery_errors = ActionMailer::Base.raise_delivery_errors

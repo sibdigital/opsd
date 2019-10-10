@@ -300,6 +300,7 @@ en:
     label_watch: Просмотреть
     label_send_notify: Отправить напоминание
     label_watch_work_package: Наблюдать
+    label_create_board: Создать дискуссию
     label_watcher_added_successfully: Наблюдатель успешно добавлен!
     label_watcher_deleted_successfully: Наблюдатель успешно удален!
     label_work_package_details_you_are_here: Вы находитесь на вкладке %{tab}  %{type}  %{subject}.
