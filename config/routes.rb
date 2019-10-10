@@ -120,7 +120,6 @@ OpenProject::Application.routes.draw do
   end
 
   #tmd
-  resources :user_guides
   get 'download_pdf', to: "user_guides#download_pdf"
 
   resources :statuses, except: :show do
