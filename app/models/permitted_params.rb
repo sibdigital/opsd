@@ -325,7 +325,7 @@ class PermittedParams
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
                                                 enabled_module_names: [],
-                                                address_attributes: [:id, :address])
+                                                address_attributes: [:id, :address, :raion_id])
 
     unless params[:project][:custom_field_values].nil?
       # Permit the sub-hash for custom_field_values

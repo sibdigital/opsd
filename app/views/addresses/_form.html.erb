@@ -1,4 +1,13 @@
+<% areas = Raion.all
+   selected_area = @project.address.raion_id
+%>
+
 <%= form.fields_for :address do |f| %>
+  <div class="form--field">
+    <%= f.select :raion_id,
+                    options_for_select(areas.map {|u| [u.name, u.id]}, selected_area),
+                    container_class: '-slim' %>
+  </div>
   <div class="form--field">
     <%= f.text_field :address, container_class: '-wide' %>
   </div>
