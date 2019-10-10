@@ -79,7 +79,7 @@ module OpenProject
               label: 'homescreen.links.upgrade_enterprise_edition'
             },
             user_guides: {
-              href: '/user_guides',
+              href: '/download_pdf',
               label: 'homescreen.links.user_guides'
             },
             configuration_guide: {
