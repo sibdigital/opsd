@@ -695,6 +695,7 @@ class PermittedParams
           ]
         ],
         member: [
+          :busyness,
           role_ids: []
         ],
         new_work_package: [

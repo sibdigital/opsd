@@ -2,6 +2,7 @@ module Members
   class TableCell < ::TableCell
     options :authorize_update, :available_roles
     columns :lastname, :firstname, :patronymic, :mail, :roles, :phone_wrk
+    columns :lastname, :firstname, :patronymic, :mail, :roles, :groups, :status, :busyness
     sortable_columns :lastname, :firstname, :mail
 
     def initial_sort

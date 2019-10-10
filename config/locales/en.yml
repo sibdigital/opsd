@@ -475,6 +475,7 @@ en:
         notes: Примечания
       member:
         roles: Роли
+        busyness: Занятость
       project:
         identifier: Идентификатор
         latest_activity_at: Последняя активность
@@ -927,6 +928,7 @@ en:
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
     time: Время
+    busyness: Занятость
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций
