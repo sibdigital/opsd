@@ -40,6 +40,8 @@ class ProjectsController < ApplicationController
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
   before_action :toggle_due_date, only: [:update]
+  #tmd
+  before_action :format_number, only: [:create, :update]
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
@@ -290,6 +292,11 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  # tmd
+  def format_number
+    params[:project][:invest_amount] = params[:project][:invest_amount].gsub(',', '.').to_d.truncate(2)
+  end
 
   # tmd
   def set_project_address
