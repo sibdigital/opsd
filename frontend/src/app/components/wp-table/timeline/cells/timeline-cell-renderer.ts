@@ -542,6 +542,11 @@ export class TimelineCellRenderer {
     // Get the rendered field
     let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute, changeset);
     //bbm(
+    if (this.wpTableTimeline.getTrudozatraty()) {
+      if (attribute === 'subject') {
+        span.textContent += ' Трудовые затраты: ' + changeset.workPackage.timeEntriesSum + 'ч.';
+      }
+    }
     let [fieldFact, spanFact] = attribute === 'dueDate' ? this.fieldRenderer.renderFieldValue(changeset.workPackage, 'factDueDate', changeset) : [null, span];
     //)
 

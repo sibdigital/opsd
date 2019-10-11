@@ -104,6 +104,9 @@ class WorkPackage < ActiveRecord::Base
   # )
 
   #bbm(
+  def sum_time_entries
+    time_entries.sum(:hours)
+  end
   def count_wpp
     work_package_problems.count
   end
