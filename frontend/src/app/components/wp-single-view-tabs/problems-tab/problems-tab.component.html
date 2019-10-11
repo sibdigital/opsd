@@ -41,11 +41,11 @@
             </div>
 
             <div style="float:left; width: 100%;">
-              <label for="input_org">Организация инициатор</label>
+              <label for="input_org">Организация источник</label>
               <select name="org" id="input_org" [(ngModel)]="wpProblem.organization_source_id">
                 <option *ngFor="let org of orgs | keyvalue" value="{{ org.key }}">{{ org.value }}</option>
               </select>
-              <label for="input_user">Сотрудник инициатор</label>
+              <label for="input_user">Сотрудник источник</label>
               <select id="input_user" name="user" [(ngModel)]="wpProblem.user_source_id">
                 <option *ngFor="let user of users | keyvalue" value="{{ user.key }}">{{ user.value }}</option>
               </select>
