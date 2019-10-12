@@ -39,6 +39,7 @@ export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boo
   public labels:TimelineLabels;
   //bbm(
   public firstOrLastHistDate:number = 0;
+  public trudozatraty:boolean = false;
   //)
   constructor(query:QueryResource) {
     super();
