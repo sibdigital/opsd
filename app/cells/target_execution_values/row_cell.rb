@@ -27,20 +27,36 @@ module TargetExecutionValues
       target_execution_value.value
     end
 
+    def row_css_id
+      'row_' + target_execution_value.id.to_s
+    end
+
     def button_links
       [
+        edit_link,
         delete_link
       ]
     end
 
+    def edit_link
+      if User.current.allowed_to?(:manage_work_package_target_plan_values, project)
+        #tag("div", {class: 'target-val-edit icon icon-edit', style: "cursor: pointer;", title: t(:button_edit), data: { id: target_execution_value.id } })
+        #content_tag(:div, class: 'target-val-edit icon icon-edit', style: "cursor: pointer;", title: t(:button_edit), data: { id: target_execution_value.id } )
+        '<div class="target-val-edit icon icon-edit" style="cursor: pointer;float:left;" title="Изменить" data-id="'+target_execution_value.id.to_s+'"></div>'.html_safe
+      end
+    end
+
     def delete_link
       if User.current.allowed_to?(:manage_work_package_target_plan_values, project)
+        content_tag( :div,
         link_to(
           op_icon('icon icon-delete'),
           target_execution_value_path(id: target_execution_value, target_id: target_execution_value.target_id, project_id: project.identifier),
           method: :delete,
           data: { confirm: I18n.t(:text_are_you_sure) },
-          title: t(:button_delete)
+          title: t(:button_delete) #,
+          #remote: true
+        )
         )
       end
     end

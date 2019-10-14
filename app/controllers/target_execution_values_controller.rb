@@ -45,7 +45,7 @@ class TargetExecutionValuesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     else
-      #render action: 'edit'
+      flash[:error] = 'Обновление не выполнено'
       redirect_to edit_project_target_path(id: @target_execution_value.target_id, tab: :target_execution_values)
     end
   end
