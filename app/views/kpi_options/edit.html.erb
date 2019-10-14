@@ -1,0 +1,13 @@
+<% html_title l(:label_administration), "#{l(:label_edit)} #{KeyPerformanceIndicator.model_name.human} #{h @kpi_option.name}" %>
+
+<% local_assigns[:additional_breadcrumb] = @kpi_option %>
+<%= breadcrumb_toolbar @kpi_option %>
+
+<%= labelled_tabular_form_for @kpi_option, as: :kpi_option, url:  kpi_option_path(@kpi_option.id) do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(kpi_option_path(@kpi_option.id), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete), remote: true %>
+<% end %>

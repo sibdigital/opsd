@@ -434,6 +434,12 @@ class PermittedParams
     permitted_params
   end
 
+  def kpi_option
+    permitted_params = params.require(:kpi_option).permit(:name, :weight, :enable, :calc_method)
+
+    permitted_params = permitted_params.merge(custom_field_values(:kpi_option))
+    permitted_params
+  end
 
   def project_risk
     # +-tan

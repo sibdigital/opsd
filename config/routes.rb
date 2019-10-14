@@ -504,6 +504,11 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     #bbm(
+    resources :kpi_options, except: :show, controller: 'kpi_options'
+    scope 'kpi_options/:kpi_option_id/cases', controller: 'kpi_cases' do
+      get '/', action: 'index', as: 'kpi_cases'
+    end
+
     resources :typed_risks do
       get '/edit/:tab' => 'typed_risks#edit', on: :member, as: 'edit_tab'
     end
