@@ -441,6 +441,13 @@ class PermittedParams
     permitted_params
   end
 
+  def kpi_case
+    permitted_params = params.require(:kpi_case).permit(:role_id, :percent, :min_value, :max_value, :enable, :period)
+
+    permitted_params = permitted_params.merge(custom_field_values(:kpi_case))
+    permitted_params
+  end
+
   def project_risk
     # +-tan
     permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)

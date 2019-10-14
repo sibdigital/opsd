@@ -26,9 +26,6 @@ class KpiOptionsController < ApplicationController
   def edit
   end
 
-  def show
-  end
-
   def update
     if @kpi_option.update_attributes(permitted_params.kpi_option)
       flash[:notice] = l(:notice_successful_update)

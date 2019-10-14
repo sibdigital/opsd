@@ -1,12 +1,20 @@
-<%= error_messages_for :kpi_option %>
+<%= error_messages_for :kpi_option_case %>
 <section class="form--section">
 
   <div class="form--field -required">
-    <%= f.text_field :name, required: true, container_class: '-wide'%>
+    <%= f.select :role_id, options_for_select(Role.all.map { |u| [u.name, u.id] }, @kpi_case.role_id), include_blank: true, required: true, container_class: '-wide' %>
   </div>
 
   <div class="form--field -required">
-    <%= f.text_field :weight, size: 6, required: true, container_class: '-wide', class: '-number'%>
+    <%= f.text_field :percent, size: 2, required: true, container_class: '-wide', class: '-number'%>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :min_value, size: 6, required: true, container_class: '-wide', class: '-number'%>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :max_value, size: 6, required: true, container_class: '-wide', class: '-number'%>
   </div>
 
   <div class="form--field">
@@ -14,6 +22,11 @@
   </div>
 
   <div class="form--field -required">
-    <%= f.select :calc_method, [['включается в среднее', 'avg'], %w(суммируется sum)], required: true, container_class: '-wide' %>
+    <%= f.select :period, [%w(ежедневно Daily),
+                           %w(еженедельно Weekly),
+                           %w(ежемесячно Monthly),
+                           %w(ежеквартально Quarterly),
+                           %w(ежегодно Yearly)],
+                 required: true, container_class: '-wide' %>
   </div>
 </section>

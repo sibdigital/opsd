@@ -3,7 +3,14 @@
 <% local_assigns[:additional_breadcrumb] = l(:label_kpi_option_new) %>
 <%= breadcrumb_toolbar l(:label_kpi_option_new) %>
 
-<%= labelled_tabular_form_for @kpi_option, as: :kpi_option, url:  kpi_options_path do |f| %>
+<p><%= @kpi_option.name %></p>
+<p>Вес методики: <%= @kpi_option.weight %></p>
+<p>Включена/выключена: <%= @kpi_option.enable ? 'Да': 'Нет' %></p>
+<p>Метод агрегирования: <%= 'включается в среднее' if @kpi_option.calc_method=='avg' %><%= 'суммируется' if @kpi_option.calc_method=='sum' %></p>
+
+<br>
+
+<%= labelled_tabular_form_for @kpi_case, as: :kpi_case, url: kpi_cases_path do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

@@ -1,3 +1,61 @@
 <% html_title l(:label_administration), "#{KeyPerformanceIndicator.model_name.human} #{h @kpi_option.name}" %>
 
-<p>Hello</p>
+<p><%= @kpi_option.name %></p>
+<p>Вес методики: <%= @kpi_option.weight %></p>
+<p>Включена/выключена: <%= @kpi_option.enable ? 'Да': 'Нет' %></p>
+<p>Метод агрегирования: <%= 'включается в среднее' if @kpi_option.calc_method=='avg' %><%= 'суммируется' if @kpi_option.calc_method=='sum' %></p>
+
+<table class="generic-table">
+  <thead>
+  <tr>
+    <th><div class="generic-table--sort-header-outer">
+      <div class="generic-table--sort-header">
+        <span>для какой роли расчет</span>
+      </div></div>
+    </th>
+    <th><div class="generic-table--sort-header-outer">
+      <div class="generic-table--sort-header">
+        <span>вес критерия в процентах</span>
+      </div></div>
+    </th>
+    <th><div class="generic-table--sort-header-outer">
+      <div class="generic-table--sort-header">
+        <span>минимальное значение для данного веса</span>
+      </div></div>
+    </th>
+    <th><div class="generic-table--sort-header-outer">
+      <div class="generic-table--sort-header">
+        <span>максимальное значение для данного веса</span>
+      </div></div>
+    </th>
+    <th><div class="generic-table--sort-header-outer">
+      <div class="generic-table--sort-header">
+        <span>включен/выключен</span>
+      </div></div>
+    </th>
+    <th><div class="generic-table--sort-header-outer">
+      <div class="generic-table--sort-header">
+        <span>периодичность расчета</span>
+      </div></div>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% for kc in @kpi_cases %>
+    <tr>
+      <td><%= link_to kc.role.name, edit_kpi_case_path(kpi_option_id: @kpi_option.id, id: kc.id) %></td>
+      <td><%= link_to kc.percent, edit_kpi_case_path(kpi_option_id: @kpi_option.id, id: kc.id) %></td>
+      <td><%= link_to kc.min_value, edit_kpi_case_path(kpi_option_id: @kpi_option.id, id: kc.id) %></td>
+      <td><%= link_to kc.max_value, edit_kpi_case_path(kpi_option_id: @kpi_option.id, id: kc.id) %></td>
+      <td><%= kc.enable ? 'Да': 'Нет' %></td>
+      <td><%= link_to kc.period_humanized, edit_kpi_case_path(kpi_option_id: @kpi_option.id, id: kc.id) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to new_kpi_case_path,
+            { class: 'button -highlight',
+              title: t(:label_kpi_option_new)} do %>
+  <span class="button--text">Новая запись</span>
+<% end %>
