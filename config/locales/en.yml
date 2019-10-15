@@ -3062,10 +3062,10 @@ en:
   text_user_deleted_document: 'Удалил документ'
   text_user_created_message: 'Оставил сообщение'
   text_user_updated_message: 'Отредактировал сообщение'
-  text_user_deleted_message: 'Отредактировал сообщение'
+  text_user_deleted_message: 'Удалил сообщение'
   text_user_updated_nationalproject: 'Изменил каталог'
   text_user_created_nationalproject: 'Создал каталог'
-  text_user_deleted_nationalproject: 'Создал каталог'
+  text_user_deleted_nationalproject: 'Удалил каталог'
 #  Статистика с подсчетом
   statistics_accept_appointment: 'Принятие полномочий исполнителя/руководителя: %{count}'
   statistics_action_with_wp: 'Действия с объектами: %{count}'

@@ -99,7 +99,9 @@ class GroupsController < ApplicationController
     @group = Group.includes(:users).find(params[:id])
     @group.direct_manager_id = params["group"]["direct_manager_id"]
     @user = User.includes(:memberships).find(@group.direct_manager_id )
-    @group.users << @user
+    if !@group.users.pluck(:id).include?(@user.id)
+      @group.users << @user
+      end
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)

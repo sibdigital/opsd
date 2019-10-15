@@ -79,7 +79,8 @@ class UsersController < ApplicationController
     if params[:commit] == "Применить"
       @tab = "statistic"
       params[:tab] = "statistic"
-      params[:filter_date].blank? ? @filter_date = "" : @filter_date = params[:filter_date]
+      params[:filter_start_date].blank? ? @filter_start_date = "" : @filter_start_date = params[:filter_start_date]
+      params[:filter_end_date].blank? ? @filter_end_date = "" : @filter_end_date = params[:filter_end_date]
       params[:filter_action].blank? ? @filter_action = "" : @filter_action = params[:filter_action]
       params[:filter_type].blank? ? @filter_type = "" : @filter_type = params[:filter_type]
     elsif params[:tab].blank?
@@ -111,9 +112,29 @@ class UsersController < ApplicationController
                                                     OR journable_type = ?
                                                     OR journable_type = ?
                                                     OR journable_type = ?) AND user_id = ?",
-                                                  "WorkPackage", "NationalProject", "Document", "Message","Board","Meeting","MeetingContent","News","Project", "CostObject",@user.id).order(sort_clause)
+                                                  "WorkPackage", "NationalProject", "Document", "Message","Board","Meeting","MeetingContent","News","Project", "CostObject",@user.id)
+                     .order(sort_clause)
                      .page(page_param)
                      .per_page(per_page_param)
+    unless @filter_type.blank?
+      @statistics = @statistics.where('journable_type = ?', @filter_type)
+    end
+    unless @filter_action.blank?
+      if @filter_action == "Создание"
+        @statistics = @statistics.where('version = ?', 1)
+      elsif@filter_action == "Обновление"
+        @statistics = @statistics.where('version > ?', 1)
+      elsif @filter_action == "Удаление"
+        @statistics = @statistics.where('is_deleted = ? AND next is null', true)
+      end
+    end
+    unless @filter_end_date.blank?
+      end_of_day = (@filter_end_date.to_date + 1.days).to_s
+      @statistics = @statistics.where('created_at between ? and ?', "1000-01-01", end_of_day)
+    end
+    unless @filter_start_date.blank?
+      @statistics = @statistics.where('created_at between ? and ?', @filter_start_date, "3000-01-01")
+    end
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
     project_roles = Journal.where("journable_type = ? AND user_id = ?","MemberRole",@user.id)
