@@ -17,7 +17,7 @@ class KpiOptionsController < ApplicationController
 
     if @kpi_option.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to kpi_cases_path(@kpi_option.id)
     else
       render action: 'new'
     end
@@ -29,7 +29,7 @@ class KpiOptionsController < ApplicationController
   def update
     if @kpi_option.update_attributes(permitted_params.kpi_option)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to action: 'index'
+      redirect_to kpi_cases_path(@kpi_option.id)
     else
       render action: 'edit'
     end
