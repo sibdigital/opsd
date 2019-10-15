@@ -948,6 +948,14 @@ en:
     is_pk: Входит в первичный ключ
     name: Наименование
     #)
+    weight: Вес методики
+    enable: Включена/выключена
+    calc_method: Метод агрегирования
+    max_value: Максимальное значение для данного веса
+    min_value: Минимальное значение для данного веса
+    percent: Вес критерия в процентах
+    period: Периодичность расчета
+    role_shmole: Для какой роли расчет
     #tmd (
     column_type: Тип поля
     #)
@@ -1790,6 +1798,8 @@ en:
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
   label_biblioteka_otchetov: Библиотека отчетов
+  label_kpi_option: Настройка KPI
+  label_kpi_option_new: Новая запись
   label_raion: Район
   label_raions: Районы
   label_target: Цели и результаты
