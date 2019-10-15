@@ -61,6 +61,12 @@ class Member < ActiveRecord::Base
     principal.name
   end
 
+  #bbm(
+  def phone_wrk
+    user.phone_wrk
+  end
+  # )
+
   def to_s
     name
   end

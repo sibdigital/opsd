@@ -47,8 +47,8 @@ module API
             get do
               meropriyatie = Type.find_by name: I18n.t(:default_type_task)
               kt = Type.find_by name: I18n.t(:default_type_milestone)
-              organization_id = params[:organization]
-              if organization_id
+              raion_id = params[:raion]
+              if raion_id
                 records_array = ActiveRecord::Base.connection.execute <<~SQL
                   select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
                       (select * from projects where id in (#{@projects.join(",")}))as p
@@ -56,9 +56,9 @@ module API
                       (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(riski) as riski
                       from (
                                select wp.project_id,
-                                      case when wp.days_to_due > 0 and wp.days_to_due <= 14 and wp.organization_id = #{organization_id} and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
-                                      case when wp.days_to_due < 0 and wp.organization_id = #{organization_id} and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
-                                      case when wp.organization_id = #{organization_id} then wp.created_problem_count else 0 end as riski
+                                      case when wp.days_to_due >= 0 and wp.days_to_due <= 14 and wp.raion_id = #{raion_id} and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
+                                      case when wp.days_to_due < 0 and wp.raion_id = #{raion_id} and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
+                                      case when wp.raion_id = #{raion_id} then wp.created_problem_count else 0 end as riski
                                from v_work_package_ispoln_stat as wp
                            ) as slice
                       group by project_id) as p1
@@ -77,7 +77,7 @@ module API
                       (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(created_problem_count) as riski
                       from (
                                select wp.project_id,
-                                      case when wp.days_to_due > 0 and wp.days_to_due <= 14 and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
+                                      case when wp.days_to_due >= 0 and wp.days_to_due <= 14 and wp.type_id = #{meropriyatie.id} and wp.ispolneno = false then 1 else 0 end as preds,
                                       case when wp.days_to_due < 0 and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
                                       wp.created_problem_count
                                from v_work_package_ispoln_stat as wp

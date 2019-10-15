@@ -27,9 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class
-
-Project < ActiveRecord::Base
+class Project < ActiveRecord::Base
   extend Pagination::Model
   extend FriendlyId
 
@@ -151,6 +149,10 @@ Project < ActiveRecord::Base
   }, class_name: 'WorkPackageCustomField',
      join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
      association_foreign_key: 'custom_field_id'
+
+  #tmd
+  has_one :address, dependent: :destroy
+  accepts_nested_attributes_for :address, :reject_if => :all_blank
 
   #bbm(
   has_many :project_risks
@@ -702,8 +704,8 @@ Project < ActiveRecord::Base
   def users_by_role
     members.includes(:user, :roles).inject({}) do |h, m|
       m.roles.each do |r|
-        h[r] ||= []
-        h[r] << m.user
+        h[r.position] ||= []
+        h[r.position] << m.user
       end
       h
     end

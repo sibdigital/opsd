@@ -311,6 +311,14 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
           jQuery('#btn-capture-gantt2').trigger('click');
           return true;
         }
+      },
+      {
+        linkText: this.workPackageTableTimelineService.getTrudozatraty() === true ? this.I18n.t('js.toolbar.settings.show_off_trudozatraty') : this.I18n.t('js.toolbar.settings.show_on_trudozatraty'),
+        icon: 'icon-ordered-list',
+        onClick: ($event:JQueryEventObject) => {
+          this.workPackageTableTimelineService.setTrudozatraty(!this.workPackageTableTimelineService.getTrudozatraty());
+          return true;
+        }
       }
       //)
     ];

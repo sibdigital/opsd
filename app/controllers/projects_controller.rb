@@ -39,6 +39,9 @@ class ProjectsController < ApplicationController
   before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
+  before_action :toggle_due_date, only: [:update]
+  #tmd
+  before_action :format_number, only: [:create, :update]
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
@@ -95,6 +98,10 @@ class ProjectsController < ApplicationController
       #zbd(
       add_global_users_to_project(@project)
       #)
+
+      set_project_address
+
+      create_default_board
 
       respond_to do |format|
         format.html do
@@ -246,6 +253,8 @@ class ProjectsController < ApplicationController
     call = service.call(delayed: true)
 
     if call.success?
+      # destroy_address
+
       flash[:notice] = I18n.t('projects.delete.scheduled')
       Member.where(project_id: @project.id).each do |member|
         if member != User.current
@@ -283,6 +292,34 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  # tmd
+  def format_number
+    params[:project][:invest_amount] = params[:project][:invest_amount].gsub(',', '.').to_d.truncate(2)
+  end
+
+  # tmd
+  def set_project_address
+    newest_record = Address.last
+    @project.update_attribute(:address_id, newest_record[:id])
+  end
+
+  # tmd
+  def destroy_address
+    Address.destroy(@project.address_id)
+  end
+
+  # tmd
+  def create_default_board
+    default_board = Board.new
+    default_board.project_id = @project.id
+    default_board.name = "Основная дискуссия проекта"
+    default_board.description = "Основная дискуссия проекта"
+    default_board.position = 1
+    default_board.topics_count = 0
+    default_board.messages_count = 0
+    default_board.save
+  end
 
   def find_optional_project
     return true unless params[:id]
@@ -336,6 +373,19 @@ class ProjectsController < ApplicationController
     @query
   end
 
+  # tmd
+  def toggle_due_date
+    data_start = Enumeration.where(:type => "ProjectStatus", :name => I18n.t(:default_project_status_in_work)).pluck(:id)
+    data_due = Enumeration.where(:type => "ProjectStatus", :name => I18n.t(:default_project_status_completed)).pluck(:id)
+    if @project.project_status_id == data_start[0] && @project.fact_start_date == nil
+      @project.update_attribute(:fact_start_date, Time.now)
+    end
+
+    if @project.project_status_id == data_due[0] && @project.fact_due_date == nil
+      @project.update_attribute(:fact_due_date, Time.now)
+    end
+  end
+
   def filter_projects_by_permission(projects)
     # Cannot simply use .visible here as it would
     # filter out archived projects for everybody.
@@ -360,6 +410,7 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
+    @address = @project.build_address
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.attributes = permitted_params.project if params[:project].present?
   end

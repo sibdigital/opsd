@@ -72,6 +72,9 @@ module API
       # (iag
       mount ::API::V3::Meetings::MeetingsAPI
       # )
+      # (ban
+      mount ::API::V3::UserTasks::UserTasksAPI
+      # )
       # +tan 2019.07.30
       mount ::API::V3::Boards::BoardsAPI
       mount ::API::V3::Raions::RaionsAPI

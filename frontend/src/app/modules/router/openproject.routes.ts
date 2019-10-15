@@ -47,6 +47,7 @@ import {IndicatorTabComponent} from "core-components/homescreen-tabs/indicator/i
 import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab/protocol-tab.component";
 import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
 import {PerformanceTabComponent} from "core-components/homescreen-tabs/performance-tab/performance-tab.component";
+import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -65,6 +66,11 @@ export const OPENPROJECT_ROUTES = [
 ];
 //bbm(
 export const HOMESCREEN_ROUTES = [
+  {
+    name: 'bubble',
+    url: '/bubble',
+    component: BubbleDiagramComponent
+  },
   {
     name: 'diagram',
     url: '/vkladka2',

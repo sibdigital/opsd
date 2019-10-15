@@ -64,6 +64,17 @@ class ReportProgressProjectController < ApplicationController
 
     @ready_project_progress_report_path = dir_path + '/project_progress_report_out.xlsx'
     @workbook.write(@ready_project_progress_report_path)
+    #bbm(
+    @document = @project.documents.build
+    @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
+    @document.user_id = current_user.id
+    @document.title = 'отчет о ходе реализации проекта от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
+    service = AddAttachmentService.new(@document, author: current_user)
+    attachment = service.add_attachment_old uploaded_file: File.open(@ready_project_progress_report_path),
+                               filename: 'project_progress_report_out.xlsx'
+    @document.attach_files({'0'=> {'id'=> attachment.id}})
+    @document.save
+    # )
   end
 
   def generate_report_progress_project_pril_1_2_out

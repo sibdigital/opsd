@@ -38,6 +38,7 @@ OpenProject::Application.routes.draw do
   get '/vkladka1(/*state)' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
   # state for show view in homescreen context
   get '/vkladka2(/*state)' => 'homescreen#vkladka2', as: 'edit_tab_homescreen2'
+  get '/bubble(/*state)' => 'homescreen#bubble', as: 'edit_tab_homescreen_bubble'
   # )
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
@@ -117,6 +118,9 @@ OpenProject::Application.routes.draw do
   resources :types do
     post 'move/:id', action: 'move', on: :collection
   end
+
+  #tmd
+  get 'download_pdf', to: "user_guides#download_pdf"
 
   resources :statuses, except: :show do
     collection do
@@ -339,6 +343,8 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
+
+    resources :biblioteka_otchetov, only: :index, controller: 'biblioteka_otchetov'
     # )
 
     #tmd

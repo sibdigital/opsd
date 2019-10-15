@@ -39,8 +39,9 @@ class RebuildDag < ActiveRecord::Migration[5.0]
 
     set_count_to_1
 
+    #+- bbm tan 2019.10.01
     add_index :relations,
-              %i(from_id to_id hierarchy relates duplicates blocks follows includes requires),
+              %i(from_id to_id hierarchy relates duplicates blocks follows commonstart commonfinish includes requires),
               name: 'index_relations_on_type_columns',
               unique: true
 

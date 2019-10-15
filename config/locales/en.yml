@@ -204,7 +204,7 @@ en:
   prioritiies:
     edit:
       priority_color_text: |
-        Щелкните, чтобы изменить цвет приоритета.
+        Щелкните, чтобы изменить цвет веса.
         Цвет используется для выделения пакетов работ в таблице.
   project_risks:
     edit:
@@ -319,7 +319,7 @@ en:
         author:
           no_results_title_text: На данный момент у этого проекта нет участников.
         priority:
-          no_results_title_text: В данный момент приоритеты не установлены.
+          no_results_title_text: В данный момент веса не установлены.
         type:
           no_results_title_text: На данный момент доступных типов нет.
         version:
@@ -617,8 +617,8 @@ en:
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
-        priority: Приоритет
-        progress: KPI (Прогресс %)
+        priority: Вес
+        progress: Прогресс %
         spent_hours: Затраченное время
         spent_time: Затраченное время
         subproject: Подпроект
@@ -654,6 +654,7 @@ en:
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
+        no_commons_and_follows_together: Нельзя добавлять отношения последовательности и одного начала/конца одновременно.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: не может быть скопировано (полностью).
         does_not_exist: не существует.
@@ -899,6 +900,11 @@ en:
     display_sums: Отображение суммы
     due_date: Дата окончания
     fact_due_date: Фактическая дата окончания
+    #tmd
+    fact_start_date: Фактическая дата начала
+    address: Адрес
+    is_program: Тип паспорта
+    ###
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
     firstname: Имя
@@ -921,6 +927,7 @@ en:
     time: Время
     #)
     issue: Пакет работ
+    invest_amount: Объем инвестиций
     lastname: Фамилия
     login: Логин
     mail: Электронная почта
@@ -946,7 +953,7 @@ en:
     password: Пароль
     #)
     possibility: Вероятность наступления
-    priority: Приоритет
+    priority: Вес
     project: Проект
     responsible: Подотчетный
     role: Роль
@@ -1378,7 +1385,7 @@ en:
           полям
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_attach_type: Тип файла
-  enumeration_work_package_priorities: Приоритеты пакета работ
+  enumeration_work_package_priorities: Веса пакета работ
   enumeration_risk_importance: Степень влияния на проект
   enumeration_risk_possibilities: Вероятность наступления
   enumeration_target_statuses: Статус целевого показателя
@@ -1606,7 +1613,7 @@ en:
   label_api_documentation: Документация по API
   label_between: между
   label_blocked_by: заблокировано
-  label_blocks: блоки
+  label_blocks: блокирует
   label_blog: Блог
   label_board_locked: Закрыто
   label_board_new: Новая дискуссия
@@ -1672,6 +1679,7 @@ en:
   label_custom_field_add_no_type: Добавьте это поле в тип комплекса работ
   label_custom_field_new: Новое настраиваемое поле
   label_custom_field_plural: Настраиваемые поля
+  label_bubble_diagram: Пузырьковая диаграмма
   label_custom_field_default_type: Пустой тип
   label_custom_style: Дизайн
   label_date: Дата
@@ -1748,6 +1756,8 @@ en:
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие
 
+  label_commonstart: начинается одновременно
+  label_commonfinish: заканчивается одновременно
   label_contacts: Контактная информация
 
   label_stages: Этапы
@@ -1767,6 +1777,7 @@ en:
   label_agreement: Соглашение о реализации регионального проекта
   label_arbitary_object: Произвольный объект
   label_arbitary_objects: Произвольные объекты
+  label_biblioteka_otchetov: Библиотека отчетов
   label_raion: Район
   label_raions: Районы
   label_target: Цели и результаты
@@ -2173,7 +2184,7 @@ en:
   label_work_package_edit: Редактирование пакета работ %{name}
   label_work_package_plural: Мероприятия
   label_plan_stage_package_plural: Базовый план
-  label_work_package_priority_updated: Приоритет мероприятия обновлен
+  label_work_package_priority_updated: Вес мероприятия обновлен
   label_work_package_status: Состояние группы работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
@@ -2855,7 +2866,7 @@ en:
         none: Без подсветки
         status: Вся строка по статусу
         type: Вся строка по типу
-        priority: Вся строка по приоритету
+        priority: Вся строка по весу
   text_formatting:
     markdown: Markdown
     plain: Обычный текст

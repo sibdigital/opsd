@@ -373,7 +373,7 @@ en:
         wp_back_button: Стрелка возвращает к списку пакетов работ.
         wp_create_button: Кнопка <b>Создать</b> добавляет новый пакет работ к вашему
           проекту.
-        wp_timeline_button: Активируйте <b>Диаграмму Ганта</b> для создания
+        wp_timeline_button: Активируйте <b>Диаграмму Гантта</b> для создания
           временной шкалы вашего проекта.
         wp_timeline: Отредактируйте план вашего проекта. Создайте новые
           фазы, вехи и добавьте зависимости. План может быть изменен членами команды.
@@ -444,16 +444,18 @@ en:
     relation_labels:
       parent: Родитель
       children: Дочерние элементы
-      relates: Связанно с
+      relates: Связанно
       duplicates: Дубликаты
       duplicated: Дублируется
-      blocks: Блоки
+      blocks: Блокирует
       blocked: Заблокировано
       precedes: Предшествует
       follows: Следует
+      commonstart: Одно начало
+      commonfinish: Один конец
       includes: Включает
       partof: Часть
-      requires: Требуется
+      requires: Требует
       required: Требуется
       relation_type: тип отношения
     relations_hierarchy:
@@ -534,7 +536,7 @@ en:
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
     timelines:
       quarter_label: Q%{quarter_number}
-      gantt_chart: Диаграмма Ганта
+      gantt_chart: Диаграмма Гантта
       labels:
         title: Настройка меток
         bar: Полоса меток
@@ -542,10 +544,10 @@ en:
         right: Вправо
         farRight: Крайний справа
         showNone: "-- Не метка --"
-        description: 'Укажите атрибуты, отображаемые в диаграмме Ганта всегда.
+        description: 'Укажите атрибуты, отображаемые в диаграмме Гантта всегда.
         При наведении мыши на элемент, вместо этих атрибутов будет показаны их даты.'
-      button_activate: Показать диаграмму Ганта
-      button_deactivate: Скрыть диаграмму Ганта
+      button_activate: Показать диаграмму Гантта
+      button_deactivate: Скрыть диаграмму Гантта
       cancel: Отмена
       change: Изменения в планировании
       due_date: Дата окончания
@@ -775,7 +777,7 @@ en:
           предками. Иерархии можно разворачивать и сворачивать.
         display_sums_hint: Отображать сумму всех атрибутов в строке под
           таблицей результатов.
-        show_timeline_hint: Показать диаграмму Ганта справа от таблицы.
+        show_timeline_hint: Показать диаграмму Гантта справа от таблицы.
           Ширина диаграммы изменяется с помощью разделяющей ее и таблицу линии.
         highlighting: Подсветки
         highlighting_mode:
@@ -831,6 +833,8 @@ en:
         save_gantt_png: Экспорт в PNG
         last_hist_date: Последние изменения
         no_hist_date: Только текущий
+        show_on_trudozatraty: Показать трудозатраты
+        show_off_trudozatraty: Убрать трудозатраты
       filter: Фильтр
       unselected_title: Мероприятие
       search_query_label: Найти сохраненные представления

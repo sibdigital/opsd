@@ -53,4 +53,11 @@ This file written by BBM
       <%= f.check_box 'is_approve', container_class: '-middle', readonly: true, disabled: true %>
     </div>
   <% end %>
+  <% unless f.object.custom_field_values.empty? %>
+    <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
+    <%= render partial:     'customizable/field',
+               collection:  @project_risk.custom_field_values,
+               as:          :value,
+               locals:      { form: f } %>
+  <% end %>
 </section>

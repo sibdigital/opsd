@@ -7,8 +7,6 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {homescreenPerformanceDiagramSelector} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
-import {homescreenDiagramSelector} from "core-components/homescreen-diagram/homescreen-diagram.component";
 
 export interface ValueOption {
   name:string;
@@ -36,10 +34,10 @@ export class MunicipalityTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.organizations.toString())
+    this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.raions.toString())
       .toPromise()
-      .then((organizations:CollectionResource<HalResource>) => {
-        this.valueOptions = organizations.elements.map((el:HalResource) => {
+      .then((raions:CollectionResource<HalResource>) => {
+        this.valueOptions = raions.elements.map((el:HalResource) => {
           return {name: el.name, $href: el.id};
         });
         this.value = this.valueOptions[0];
@@ -58,8 +56,6 @@ export class MunicipalityTabComponent implements OnInit {
 
   public handleUserSubmit() {
     if (this.selectedOption) {
-      //jQuery(homescreenDiagramSelector).attr('organization-id', this.selectedOption.$href);
-      //jQuery('button.changeChart').trigger('click');
       this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.data = [];
       let from = new Date();
@@ -91,7 +87,7 @@ export class MunicipalityTabComponent implements OnInit {
           }
         },
         {
-          organization: {
+          raion: {
             operator: '=',
             values: [String(this.selectedOption.$href)]
           }
@@ -138,11 +134,11 @@ export class MunicipalityTabComponent implements OnInit {
         {
           dueDate: {
             operator: '<t-',
-            values: ['0']
+            values: ['1']
           }
         },
         {
-          organization: {
+          raion: {
             operator: '=',
             values: [String(this.selectedOption.$href)]
           }
@@ -168,7 +164,7 @@ export class MunicipalityTabComponent implements OnInit {
           });
         });
       this.halResourceService
-        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created", "organization": this.selectedOption.$href})
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created", "raion": this.selectedOption.$href})
         .toPromise()
         .then((resources:CollectionResource<HalResource>) => {
           resources.elements.map( (el, i) => {

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
@@ -38,7 +39,7 @@ module BasicData
           puts attributes[:name]
           Role.find_by!(name: attributes[:name]).update_attributes(attributes)
         end
-     end
+      end
     end
 
     def applicable?
@@ -54,340 +55,335 @@ module BasicData
       # удалена роль участника проекта и администратора проектного офиса
       # т.к. участник - это ответственный за блок мероприятий
       # администратор проектного офиса - это координатор от проектного офиса
-     [#project_admin,
-      member,
-      reader,
-      #zbd( +tan 2019.07.05
-      #project_curator, project_customer, project_office_manager, project_activity_coordinator,
-      #project_office_coordinator, project_office_admin, project_head, events_responsible
-      project_admin, project_curator, project_customer,
-      project_office_manager, project_activity_coordinator, project_office_coordinator,
-      events_responsible, project_head, #, project_office_admin
-      #zbd(
-      glava_regiona,
-      glava_regiona_global,
-      project_office_coordinator_global,
-      project_office_manager_global,
-      project_activity_coordinator_global
-      #)
-     #)
+      [ # project_admin,
+        member,
+        reader,
+        # zbd( +tan 2019.07.05
+        # project_curator, project_customer, project_office_manager, project_activity_coordinator,
+        # project_office_coordinator, project_office_admin, project_head, events_responsible
+        project_customer, events_responsible,
+        project_admin, project_office_coordinator,
+        project_office_manager, project_head,
+        project_curator, project_activity_coordinator, # , project_office_admin
+        # zbd(
+        glava_regiona,
+        glava_regiona_global,
+        project_office_coordinator_global,
+        project_office_manager_global,
+        project_activity_coordinator_global
+        # )
+        # )
       ]
     end
 
     # 2019.07.05. tan: добавлены роли по умолчанию
     def builtin_roles
-      [non_member, anonymous
+      [non_member, anonymous]
       # , project_admin, project_curator, project_customer,
       # project_office_manager, project_activity_coordinator, project_office_coordinator,
       # events_responsible, project_head, project_office_admin
-      ]
-
     end
 
     def member
-     { name: I18n.t(:default_role_ispolnitel), position: 3, permissions: [
-          :view_work_packages,
-          :export_work_packages,
-          :add_work_packages,
-          :move_work_packages,
-          :edit_work_packages,
-          :add_work_package_notes,
-          :edit_own_work_package_notes,
-          :manage_work_package_relations,
-          :manage_subtasks,
-          :manage_public_queries,
-          :save_queries,
-          :view_work_package_watchers,
-          :add_work_package_watchers,
-          :delete_work_package_watchers,
-          :view_calendar,
-          :comment_news,
-          :manage_news,
-          :log_time,
-          :view_time_entries,
-          :view_own_time_entries,
-          :edit_own_time_entries,
-          :view_timelines,
-          :edit_timelines,
-          :delete_timelines,
-          :view_reportings,
-          :edit_reportings,
-          :delete_reportings,
-          :manage_wiki,
-          :manage_wiki_menu,
-          :rename_wiki_pages,
-          :change_wiki_parent_page,
-          :delete_wiki_pages,
-          :view_wiki_pages,
-          :export_wiki_pages,
-          :view_wiki_edits,
-          :edit_wiki_pages,
-          :delete_wiki_pages_attachments,
-          :protect_wiki_pages,
-          :list_attachments,
-          :add_messages,
-          :edit_own_messages,
-          :delete_own_messages,
-          :browse_repository,
-          :view_changesets,
-          :commit_access,
-          :view_commit_author_statistics,
-          :view_members
-        ]
-      }
+      { name: I18n.t(:default_role_ispolnitel), position: 3, permissions: %i[
+        view_work_packages
+        export_work_packages
+        add_work_packages
+        move_work_packages
+        edit_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        manage_work_package_relations
+        manage_subtasks
+        manage_public_queries
+        save_queries
+        view_work_package_watchers
+        add_work_package_watchers
+        delete_work_package_watchers
+        view_calendar
+        comment_news
+        manage_news
+        log_time
+        view_time_entries
+        view_own_time_entries
+        edit_own_time_entries
+        view_timelines
+        edit_timelines
+        delete_timelines
+        view_reportings
+        edit_reportings
+        delete_reportings
+        manage_wiki
+        manage_wiki_menu
+        rename_wiki_pages
+        change_wiki_parent_page
+        delete_wiki_pages
+        view_wiki_pages
+        export_wiki_pages
+        view_wiki_edits
+        edit_wiki_pages
+        delete_wiki_pages_attachments
+        protect_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+        commit_access
+        view_commit_author_statistics
+        view_members
+      ] }
     end
 
     def reader
-      { name: I18n.t(:default_role_reader), position:4, permissions: [
-          :view_work_packages,
-          :add_work_package_notes,
-          :edit_own_work_package_notes,
-          :save_queries,
-          :view_calendar,
-          :comment_news,
-          :view_timelines,
-          :view_reportings,
-          :view_wiki_pages,
-          :export_wiki_pages,
-          :list_attachments,
-          :add_messages,
-          :edit_own_messages,
-          :delete_own_messages,
-          :browse_repository,
-          :view_changesets
-        ]
-      }
+      { name: I18n.t(:default_role_reader), position: 4, permissions: %i[
+        view_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        save_queries
+        view_calendar
+        comment_news
+        view_timelines
+        view_reportings
+        view_wiki_pages
+        export_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+      ] }
     end
 
-    def project_admin
-     { name: I18n.t(:default_role_project_admin), position: 5, permissions: Role.new.setable_permissions.map(&:name) }
-    end
-
-    #zbd(
-    def project_curator
-      { name: I18n.t(:default_role_project_curator), position: 6, permissions: [
-        :view_work_packages,
-        :export_work_packages,
-        :add_work_packages,
-        :move_work_packages,
-        :edit_work_packages,
-        :add_work_package_notes,
-        :edit_own_work_package_notes,
-        :manage_work_package_relations,
-        :manage_subtasks,
-        :manage_public_queries,
-        :save_queries,
-        :view_work_package_watchers,
-        :add_work_package_watchers,
-        :delete_work_package_watchers,
-        :view_calendar,
-        :comment_news,
-        :manage_news,
-        :log_time,
-        :view_time_entries,
-        :view_own_time_entries,
-        :edit_own_time_entries,
-        :view_timelines,
-        :edit_timelines,
-        :delete_timelines,
-        :view_reportings,
-        :edit_reportings,
-        :delete_reportings,
-        :manage_wiki,
-        :manage_wiki_menu,
-        :rename_wiki_pages,
-        :change_wiki_parent_page,
-        :delete_wiki_pages,
-        :view_wiki_pages,
-        :export_wiki_pages,
-        :view_wiki_edits,
-        :edit_wiki_pages,
-        :delete_wiki_pages_attachments,
-        :protect_wiki_pages,
-        :list_attachments,
-        :add_messages,
-        :edit_own_messages,
-        :delete_own_messages,
-        :browse_repository,
-        :view_changesets,
-        :commit_access,
-        :view_commit_author_statistics,
-        :view_members
-      ]
-      }
-    end
-
+    # zbd(
     def project_customer
-      { name: I18n.t(:default_role_project_customer), position: 7, permissions: [
-        :view_work_packages,
-        :export_work_packages,
-        :add_work_packages,
-        :move_work_packages,
-        :edit_work_packages,
-        :add_work_package_notes,
-        :edit_own_work_package_notes,
-        :manage_work_package_relations,
-        :manage_subtasks,
-        :manage_public_queries,
-        :save_queries,
-        :view_work_package_watchers,
-        :add_work_package_watchers,
-        :delete_work_package_watchers,
-        :view_calendar,
-        :comment_news,
-        :manage_news,
-        :log_time,
-        :view_time_entries,
-        :view_own_time_entries,
-        :edit_own_time_entries,
-        :view_timelines,
-        :edit_timelines,
-        :delete_timelines,
-        :view_reportings,
-        :edit_reportings,
-        :delete_reportings,
-        :manage_wiki,
-        :manage_wiki_menu,
-        :rename_wiki_pages,
-        :change_wiki_parent_page,
-        :delete_wiki_pages,
-        :view_wiki_pages,
-        :export_wiki_pages,
-        :view_wiki_edits,
-        :edit_wiki_pages,
-        :delete_wiki_pages_attachments,
-        :protect_wiki_pages,
-        :list_attachments,
-        :add_messages,
-        :edit_own_messages,
-        :delete_own_messages,
-        :browse_repository,
-        :view_changesets,
-        :commit_access,
-        :view_commit_author_statistics,
-        :view_members
-      ]
-      }
-    end
-
-    def project_office_manager
-      { name: I18n.t(:default_role_project_office_manager), position: 8, permissions: [
-        :view_work_packages,
-        :export_work_packages,
-        :add_work_packages,
-        :move_work_packages,
-        :edit_work_packages,
-        :add_work_package_notes,
-        :edit_own_work_package_notes,
-        :manage_work_package_relations,
-        :manage_subtasks,
-        :manage_public_queries,
-        :save_queries,
-        :view_work_package_watchers,
-        :add_work_package_watchers,
-        :delete_work_package_watchers,
-        :view_calendar,
-        :comment_news,
-        :manage_news,
-        :log_time,
-        :view_time_entries,
-        :view_own_time_entries,
-        :edit_own_time_entries,
-        :view_timelines,
-        :edit_timelines,
-        :delete_timelines,
-        :view_reportings,
-        :edit_reportings,
-        :delete_reportings,
-        :manage_wiki,
-        :manage_wiki_menu,
-        :rename_wiki_pages,
-        :change_wiki_parent_page,
-        :delete_wiki_pages,
-        :view_wiki_pages,
-        :export_wiki_pages,
-        :view_wiki_edits,
-        :edit_wiki_pages,
-        :delete_wiki_pages_attachments,
-        :protect_wiki_pages,
-        :list_attachments,
-        :add_messages,
-        :edit_own_messages,
-        :delete_own_messages,
-        :browse_repository,
-        :view_changesets,
-        :commit_access,
-        :view_commit_author_statistics,
-        :view_members
-      ]}
-    end
-
-    def project_activity_coordinator
-      { name: I18n.t(:default_role_project_activity_coordinator), position: 9, permissions: [
-        :view_work_packages,
-        :export_work_packages,
-        :add_work_packages,
-        :move_work_packages,
-        :edit_work_packages,
-        :add_work_package_notes,
-        :edit_own_work_package_notes,
-        :manage_work_package_relations,
-        :manage_subtasks,
-        :manage_public_queries,
-        :save_queries,
-        :view_work_package_watchers,
-        :add_work_package_watchers,
-        :delete_work_package_watchers,
-        :view_calendar,
-        :comment_news,
-        :manage_news,
-        :log_time,
-        :view_time_entries,
-        :view_own_time_entries,
-        :edit_own_time_entries,
-        :view_timelines,
-        :edit_timelines,
-        :delete_timelines,
-        :view_reportings,
-        :edit_reportings,
-        :delete_reportings,
-        :manage_wiki,
-        :manage_wiki_menu,
-        :rename_wiki_pages,
-        :change_wiki_parent_page,
-        :delete_wiki_pages,
-        :view_wiki_pages,
-        :export_wiki_pages,
-        :view_wiki_edits,
-        :edit_wiki_pages,
-        :delete_wiki_pages_attachments,
-        :protect_wiki_pages,
-        :list_attachments,
-        :add_messages,
-        :edit_own_messages,
-        :delete_own_messages,
-        :browse_repository,
-        :view_changesets,
-        :commit_access,
-        :view_commit_author_statistics,
-        :view_members
-      ]}
-    end
-
-    def project_office_coordinator
-      { name: I18n.t(:default_role_project_office_coordinator), position: 10, permissions: Role.new.setable_permissions.map(&:name) }
+      { name: I18n.t(:default_role_project_customer), position: 5, permissions: %i[
+        view_work_packages
+        export_work_packages
+        add_work_packages
+        move_work_packages
+        edit_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        manage_work_package_relations
+        manage_subtasks
+        manage_public_queries
+        save_queries
+        view_work_package_watchers
+        add_work_package_watchers
+        delete_work_package_watchers
+        view_calendar
+        comment_news
+        manage_news
+        log_time
+        view_time_entries
+        view_own_time_entries
+        edit_own_time_entries
+        view_timelines
+        edit_timelines
+        delete_timelines
+        view_reportings
+        edit_reportings
+        delete_reportings
+        manage_wiki
+        manage_wiki_menu
+        rename_wiki_pages
+        change_wiki_parent_page
+        delete_wiki_pages
+        view_wiki_pages
+        export_wiki_pages
+        view_wiki_edits
+        edit_wiki_pages
+        delete_wiki_pages_attachments
+        protect_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+        commit_access
+        view_commit_author_statistics
+        view_members
+      ] }
     end
 
     def events_responsible
-      { name: I18n.t(:default_role_events_responsible), position: 11, permissions: Role.new.setable_permissions.map(&:name) }
+      { name: I18n.t(:default_role_events_responsible), position: 6, permissions: Role.new.setable_permissions.map(&:name) }
     end
 
-    def project_head
-      { name: I18n.t(:default_role_project_head), position: 12, permissions: Role.new.setable_permissions.map(&:name) }
+    def project_admin
+      { name: I18n.t(:default_role_project_admin), position: 7, permissions: Role.new.setable_permissions.map(&:name) }
     end
 
     def project_office_admin
-      { name: I18n.t(:default_role_project_office_admin), position: 13, permissions: Role.new.setable_permissions.map(&:name) }
+      { name: I18n.t(:default_role_project_office_admin), position: 8, permissions: Role.new.setable_permissions.map(&:name) }
+    end
+
+    def project_office_coordinator
+      { name: I18n.t(:default_role_project_office_coordinator), position: 9, permissions: Role.new.setable_permissions.map(&:name) }
+    end
+
+    def project_office_manager
+      { name: I18n.t(:default_role_project_office_manager), position: 10, permissions: %i[
+        view_work_packages
+        export_work_packages
+        add_work_packages
+        move_work_packages
+        edit_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        manage_work_package_relations
+        manage_subtasks
+        manage_public_queries
+        save_queries
+        view_work_package_watchers
+        add_work_package_watchers
+        delete_work_package_watchers
+        view_calendar
+        comment_news
+        manage_news
+        log_time
+        view_time_entries
+        view_own_time_entries
+        edit_own_time_entries
+        view_timelines
+        edit_timelines
+        delete_timelines
+        view_reportings
+        edit_reportings
+        delete_reportings
+        manage_wiki
+        manage_wiki_menu
+        rename_wiki_pages
+        change_wiki_parent_page
+        delete_wiki_pages
+        view_wiki_pages
+        export_wiki_pages
+        view_wiki_edits
+        edit_wiki_pages
+        delete_wiki_pages_attachments
+        protect_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+        commit_access
+        view_commit_author_statistics
+        view_members
+      ] }
+    end
+
+    def project_head
+      { name: I18n.t(:default_role_project_head), position: 11, permissions: Role.new.setable_permissions.map(&:name) }
+    end
+
+    def project_curator
+      { name: I18n.t(:default_role_project_curator), position: 12, permissions: %i[
+        view_work_packages
+        export_work_packages
+        add_work_packages
+        move_work_packages
+        edit_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        manage_work_package_relations
+        manage_subtasks
+        manage_public_queries
+        save_queries
+        view_work_package_watchers
+        add_work_package_watchers
+        delete_work_package_watchers
+        view_calendar
+        comment_news
+        manage_news
+        log_time
+        view_time_entries
+        view_own_time_entries
+        edit_own_time_entries
+        view_timelines
+        edit_timelines
+        delete_timelines
+        view_reportings
+        edit_reportings
+        delete_reportings
+        manage_wiki
+        manage_wiki_menu
+        rename_wiki_pages
+        change_wiki_parent_page
+        delete_wiki_pages
+        view_wiki_pages
+        export_wiki_pages
+        view_wiki_edits
+        edit_wiki_pages
+        delete_wiki_pages_attachments
+        protect_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+        commit_access
+        view_commit_author_statistics
+        view_members
+      ] }
+    end
+
+    def project_activity_coordinator
+      { name: I18n.t(:default_role_project_activity_coordinator), position: 13, permissions: %i[
+        view_work_packages
+        export_work_packages
+        add_work_packages
+        move_work_packages
+        edit_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        manage_work_package_relations
+        manage_subtasks
+        manage_public_queries
+        save_queries
+        view_work_package_watchers
+        add_work_package_watchers
+        delete_work_package_watchers
+        view_calendar
+        comment_news
+        manage_news
+        log_time
+        view_time_entries
+        view_own_time_entries
+        edit_own_time_entries
+        view_timelines
+        edit_timelines
+        delete_timelines
+        view_reportings
+        edit_reportings
+        delete_reportings
+        manage_wiki
+        manage_wiki_menu
+        rename_wiki_pages
+        change_wiki_parent_page
+        delete_wiki_pages
+        view_wiki_pages
+        export_wiki_pages
+        view_wiki_edits
+        edit_wiki_pages
+        delete_wiki_pages_attachments
+        protect_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+        commit_access
+        view_commit_author_statistics
+        view_members
+      ] }
     end
 
     def glava_regiona
@@ -404,111 +400,109 @@ module BasicData
     end
 
     def project_activity_coordinator_global
-      { name: I18n.t(:default_role_project_activity_coordinator_global), position: 17, permissions: [
-        :view_work_packages,
-        :export_work_packages,
-        :add_work_packages,
-        :move_work_packages,
-        :edit_work_packages,
-        :add_work_package_notes,
-        :edit_own_work_package_notes,
-        :manage_work_package_relations,
-        :manage_subtasks,
-        :manage_public_queries,
-        :save_queries,
-        :view_work_package_watchers,
-        :add_work_package_watchers,
-        :delete_work_package_watchers,
-        :view_calendar,
-        :comment_news,
-        :manage_news,
-        :log_time,
-        :view_time_entries,
-        :view_own_time_entries,
-        :edit_own_time_entries,
-        :view_timelines,
-        :edit_timelines,
-        :delete_timelines,
-        :view_reportings,
-        :edit_reportings,
-        :delete_reportings,
-        :manage_wiki,
-        :manage_wiki_menu,
-        :rename_wiki_pages,
-        :change_wiki_parent_page,
-        :delete_wiki_pages,
-        :view_wiki_pages,
-        :export_wiki_pages,
-        :view_wiki_edits,
-        :edit_wiki_pages,
-        :delete_wiki_pages_attachments,
-        :protect_wiki_pages,
-        :list_attachments,
-        :add_messages,
-        :edit_own_messages,
-        :delete_own_messages,
-        :browse_repository,
-        :view_changesets,
-        :commit_access,
-        :view_commit_author_statistics,
-        :view_members
+      { name: I18n.t(:default_role_project_activity_coordinator_global), position: 17, permissions: %i[
+        view_work_packages
+        export_work_packages
+        add_work_packages
+        move_work_packages
+        edit_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        manage_work_package_relations
+        manage_subtasks
+        manage_public_queries
+        save_queries
+        view_work_package_watchers
+        add_work_package_watchers
+        delete_work_package_watchers
+        view_calendar
+        comment_news
+        manage_news
+        log_time
+        view_time_entries
+        view_own_time_entries
+        edit_own_time_entries
+        view_timelines
+        edit_timelines
+        delete_timelines
+        view_reportings
+        edit_reportings
+        delete_reportings
+        manage_wiki
+        manage_wiki_menu
+        rename_wiki_pages
+        change_wiki_parent_page
+        delete_wiki_pages
+        view_wiki_pages
+        export_wiki_pages
+        view_wiki_edits
+        edit_wiki_pages
+        delete_wiki_pages_attachments
+        protect_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+        commit_access
+        view_commit_author_statistics
+        view_members
       ],
-        type: 'GlobalRole'
-      }
+        type: 'GlobalRole' }
     end
 
     def project_office_manager_global
-      { name: I18n.t(:default_role_project_office_manager_global), position: 18, permissions: [
-        :view_work_packages,
-        :export_work_packages,
-        :add_work_packages,
-        :move_work_packages,
-        :edit_work_packages,
-        :add_work_package_notes,
-        :edit_own_work_package_notes,
-        :manage_work_package_relations,
-        :manage_subtasks,
-        :manage_public_queries,
-        :save_queries,
-        :view_work_package_watchers,
-        :add_work_package_watchers,
-        :delete_work_package_watchers,
-        :view_calendar,
-        :comment_news,
-        :manage_news,
-        :log_time,
-        :view_time_entries,
-        :view_own_time_entries,
-        :edit_own_time_entries,
-        :view_timelines,
-        :edit_timelines,
-        :delete_timelines,
-        :view_reportings,
-        :edit_reportings,
-        :delete_reportings,
-        :manage_wiki,
-        :manage_wiki_menu,
-        :rename_wiki_pages,
-        :change_wiki_parent_page,
-        :delete_wiki_pages,
-        :view_wiki_pages,
-        :export_wiki_pages,
-        :view_wiki_edits,
-        :edit_wiki_pages,
-        :delete_wiki_pages_attachments,
-        :protect_wiki_pages,
-        :list_attachments,
-        :add_messages,
-        :edit_own_messages,
-        :delete_own_messages,
-        :browse_repository,
-        :view_changesets,
-        :commit_access,
-        :view_commit_author_statistics,
-        :view_members
+      { name: I18n.t(:default_role_project_office_manager_global), position: 18, permissions: %i[
+        view_work_packages
+        export_work_packages
+        add_work_packages
+        move_work_packages
+        edit_work_packages
+        add_work_package_notes
+        edit_own_work_package_notes
+        manage_work_package_relations
+        manage_subtasks
+        manage_public_queries
+        save_queries
+        view_work_package_watchers
+        add_work_package_watchers
+        delete_work_package_watchers
+        view_calendar
+        comment_news
+        manage_news
+        log_time
+        view_time_entries
+        view_own_time_entries
+        edit_own_time_entries
+        view_timelines
+        edit_timelines
+        delete_timelines
+        view_reportings
+        edit_reportings
+        delete_reportings
+        manage_wiki
+        manage_wiki_menu
+        rename_wiki_pages
+        change_wiki_parent_page
+        delete_wiki_pages
+        view_wiki_pages
+        export_wiki_pages
+        view_wiki_edits
+        edit_wiki_pages
+        delete_wiki_pages_attachments
+        protect_wiki_pages
+        list_attachments
+        add_messages
+        edit_own_messages
+        delete_own_messages
+        browse_repository
+        view_changesets
+        commit_access
+        view_commit_author_statistics
+        view_members
       ],
-        type: 'GlobalRole'
-      }
+        type: 'GlobalRole' }
     end
 
     # )
@@ -521,8 +515,7 @@ module BasicData
         #:browse_repository,
         #:view_changesets,
         #:view_wiki_pages
-      ]
-      }
+      ] }
     end
 
     def anonymous
@@ -531,9 +524,7 @@ module BasicData
         #:browse_repository,
         #:view_changesets,
         #:view_wiki_pages
-      ]
-      }
+      ] }
     end
   end
 end
-

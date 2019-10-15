@@ -210,6 +210,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             html: { class: 'custom_fields' },
             parent: :system_catalogs,
             if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
+  #bbm(
+  menu.push :bubble_diagram,
+            { controller: '/homescreen', action: 'bubble'},
+            caption: :label_bubble_diagram,
+            icon: 'icon2 icon-additional',
+            parent: :project_office
+  # )
   #knm(
   menu.push :head_performance_indicator_values,
             {controller: '/head_performance_indicator_values'},
@@ -535,20 +542,20 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('stages') && p.type == Project::TYPE_PROJECT },
             icon: 'icon2 icon-etap',
             parent: :stages
-  menu.push :project_strategic_map,
-            {controller: '/project_strategic_map', action: 'index'},
-            icon: 'icon2 icon-organization',
-            caption: :label_strategic_map,
-            param: :project_id,
-            parent: :resources,
-            if: Proc.new { |p| p.module_enabled?('strategic_map') }
-  menu.push :project_interactive_map,
-            {controller: '/project_interactive_map', action: 'index'},
-            caption: :label_interactive_map,
-            param: :project_id,
-            icon: 'icon2 icon-map',
-            if: Proc.new { |p| p.module_enabled?('interactive_map') },
-            parent: :resources
+  # menu.push :project_strategic_map,
+  #           {controller: '/project_strategic_map', action: 'index'},
+  #           icon: 'icon2 icon-organization',
+  #           caption: :label_strategic_map,
+  #           param: :project_id,
+  #           parent: :resources,
+  #           if: Proc.new { |p| p.module_enabled?('strategic_map') }
+  # menu.push :project_interactive_map,
+  #           {controller: '/project_interactive_map', action: 'index'},
+  #           caption: :label_interactive_map,
+  #           param: :project_id,
+  #           icon: 'icon2 icon-map',
+  #           if: Proc.new { |p| p.module_enabled?('interactive_map') },
+  #           parent: :resources
             #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   # )
   # +tan 2019.07.16
@@ -739,6 +746,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             {controller: '/report_progress_project', action: 'index' },
             param: :project_id,
             caption: :label_report_progress_project,
+            icon: 'icon2 icon-info1',
+            parent: :reports
+
+  menu.push :biblioteka_otchetov,
+            {controller: '/biblioteka_otchetov', action: 'index' },
+            param: :project_id,
+            caption: :label_biblioteka_otchetov,
             icon: 'icon2 icon-info1',
             parent: :reports
 
