@@ -11,6 +11,5 @@ This file written by XCC
   <div class="form--field">
     <%= select_tag(:selected_target_id, options_for_select(@project.targets.map {|u| [u.name, u.id]})) %>
   </div>
-<%#= styled_submit_tag l(:button_apply), class: '-highlight' %>
   <%= link_to "Сформировать",  {report_id: "report_progress_project_pril_1_2"},  class: 'pass-params-from-select button'%>
 </section>

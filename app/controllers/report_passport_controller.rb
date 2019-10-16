@@ -46,7 +46,8 @@ class ReportPassportController < ApplicationController
     generate_title_sheet
     generate_target_indicators_sheet
     generate_target_results_sheet
-   generate_members_sheet
+    generate_members_sheet
+    generate_method_calc_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -359,7 +360,7 @@ class ReportPassportController < ApplicationController
       sheet.insert_cell(2+i, 4, direct__manager_fio)
       sheet.insert_cell(2+i, 5, "")
 
-      str_ids += ", "+user.id.to_s
+      str_ids = (str_ids =="" ? user.id.to_s : str_ids += ", "+user.id.to_s)
 
       sheet.sheet_data[2+i][0].change_horizontal_alignment('center')
       sheet.sheet_data[2+i][0].change_vertical_alignment('center')
@@ -642,6 +643,117 @@ class ReportPassportController < ApplicationController
     end
 
   end
+
+
+
+  def generate_method_calc_sheet
+    sheet = @workbook['Методика расчета']
+    sheet[3][5].change_contents(@project.name)
+
+
+
+
+    targetCalcProcedures = TargetCalcProcedure.where(project_id: @project.id).order('target_id')
+    start_index = 9
+    target_id = 0
+    index = 0
+    targetCalcProcedures.each_with_index do |targetCalcProcedure, i|
+    if targetCalcProcedure.target_id != target_id
+       sheet.insert_cell(start_index+i, 0, targetCalcProcedure.target.name)
+       sheet.insert_cell(start_index+i, 1, "")
+       sheet.insert_cell(start_index+i, 2, "")
+       sheet.insert_cell(start_index+i, 3, "")
+       sheet.insert_cell(start_index+i, 4, "")
+       sheet.insert_cell(start_index+i, 5, "")
+       sheet.insert_cell(start_index+i, 6, "")
+       sheet.insert_cell(start_index+i, 7, "")
+       sheet.merge_cells(start_index+i, 0, start_index+i, 7)
+       sheet.sheet_data[start_index+i][0].change_border(:left, 'thin')
+       sheet.sheet_data[start_index+i][7].change_border(:right, 'thin')
+
+       target_id = targetCalcProcedure.target_id
+       start_index += 1
+       index = 0
+    end
+
+    period =""
+    if targetCalcProcedure.period.downcase == "daily"
+      period = 'Ежедневно'
+    elsif targetCalcProcedure.period.downcase == "weekly"
+      period = 'Еженедельно'
+    elsif targetCalcProcedure.period.downcase == "monthly"
+      period = 'Ежемесячно'
+    elsif targetCalcProcedure.period.downcase == "quarterly"
+      period = 'Ежеквартально'
+    elsif targetCalcProcedure.period.downcase == "yearly"
+      period = 'Ежегодно'
+    end
+
+    punkt = (index+1).to_s+"."
+    sheet.insert_cell(start_index+i, 0, punkt)
+    sheet.insert_cell(start_index+i, 1, targetCalcProcedure.name)
+    sheet.insert_cell(start_index+i, 2, targetCalcProcedure.base_target.name)
+    sheet.insert_cell(start_index+i, 3, targetCalcProcedure.data_source)
+    sheet.insert_cell(start_index+i, 4, targetCalcProcedure.user.name(:lastname_f_p))
+    sheet.insert_cell(start_index+i, 5, targetCalcProcedure.level)
+    sheet.insert_cell(start_index+i, 6, period)
+    sheet.insert_cell(start_index+i, 7, targetCalcProcedure.add_info)
+
+    index = index+1
+
+    sheet[start_index+i][0].change_text_wrap(true)
+    sheet[start_index+i][1].change_text_wrap(true)
+    sheet[start_index+i][2].change_text_wrap(true)
+    sheet[start_index+i][3].change_text_wrap(true)
+    sheet[start_index+i][4].change_text_wrap(true)
+    sheet[start_index+i][5].change_text_wrap(true)
+    sheet[start_index+i][6].change_text_wrap(true)
+    sheet[start_index+i][7].change_text_wrap(true)
+
+      sheet.sheet_data[start_index+i][0].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][0].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][0].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][0].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[start_index+i][1].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][1].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][1].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][1].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[start_index+i][2].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][2].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][2].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][2].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[start_index+i][3].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][3].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][3].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][3].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[start_index+i][4].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][4].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][4].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][4].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[start_index+i][5].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][5].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][5].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][5].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[start_index+i][6].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][6].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][6].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][6].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[start_index+i][7].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+i][7].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+i][7].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+i][7].change_border(:bottom, 'thin')
+
+    end
+  end
+
+
 
 
   def get_member_by_role(role_name)
