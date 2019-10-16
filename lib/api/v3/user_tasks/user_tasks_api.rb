@@ -17,6 +17,7 @@ module API
               stroka['kind'] = arr['kind']
               stroka['user_creator_id'] = arr['user_creator_id']
               stroka['assigned_to_id'] = arr['assigned_to_id']
+              stroka['object_id'] = arr['object_id']
               stroka['object_type'] = arr['object_type']
               stroka['text'] = arr['text']
               @d = Date.parse(arr['created_at'])
@@ -37,6 +38,7 @@ module API
                 @wp_name = nil
               end
               stroka['project'] = @project_link.to_s
+              stroka['project_id'] = arr['project_id']
               stroka['object'] = @wp_link.to_s
               stroka['project_name'] = @project_name
               stroka['object_name'] = @wp_name
@@ -48,6 +50,12 @@ module API
                 @assigned_to = nil
               end
               stroka['assigned_to'] = @assigned_to
+              if arr['completed'] == true
+                stroka['completed'] = 'Да'
+              else
+                stroka['completed'] = 'Нет'
+              end
+              stroka['related_task_id'] = arr['related_task_id']
               @user_tasks << stroka
             end
             @user_tasks
