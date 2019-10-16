@@ -32,7 +32,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {takeUntil} from "rxjs/operators";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
@@ -42,6 +42,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
   @Input('projectIdentifier') public projectIdentifier:string;
+  @Input('boardIdentifier') public boardIdentifier:string;
   @Input('showText') public showText:boolean = false;
   @Input('disabled') public disabled:boolean = false;
   public buttonText:string = this.I18n.t('js.label_create_board');
@@ -73,14 +74,17 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
     // Nothing to do
   }
 
-  createBoard(){
-    const url = this.PathHelper.projectNewBoardPath(this.projectIdentifier)
-    const promise = this.http.get(url).toPromise();
+  createBoard() {
+    const url = this.PathHelper.newTopicPath(this.projectIdentifier, this.boardIdentifier,this.workPackage.id);
+    let params = new HttpParams().set("wpId", this.workPackage.id);
+    const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+    const promise = this.http.get(url, {params: params}).toPromise();
 
     promise
       .then((response) => {
         this.NotificationsService.addSuccess(this.buttonText);
         this.NotificationsService.addSuccess("");
+        // return response;
       })
       .catch((error) => {
         window.location.href = url;

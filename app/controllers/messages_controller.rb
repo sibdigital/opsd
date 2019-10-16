@@ -62,6 +62,10 @@ class MessagesController < ApplicationController
 
   # new topic
   def new
+    unless params["wpId"].blank?
+      @wp = params["wpId"]
+      @isDisabled = true
+    end
     @project = @board.project
     @message = Message.new.tap do |m|
       m.author = User.current

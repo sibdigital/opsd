@@ -71,6 +71,10 @@ export class PathHelperService {
     return this.staticBase + '/topics/' + messageIdentifier;
   }
 
+  public newTopicPath(projectIdentifier:string, boardIdentifier:string, wpId:string) {
+    return this.staticBase + 'boards/' + boardIdentifier + '/topics/new?wpId=' + wpId;
+  }
+
   public myPagePath() {
     return this.staticBase + '/my/page';
   }

@@ -64,6 +64,7 @@ export class WorkPackageViewController implements OnDestroy {
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
   public projectIdentifier:string;
+  public boardIdentifier:string;
 
   public focusAnchorLabel:string;
   public showStaticPagePath:string;
@@ -112,6 +113,7 @@ export class WorkPackageViewController implements OnDestroy {
       .require(this.workPackage.project.idFromLink)
       .then(() => {
       this.projectIdentifier = this.workPackage.project.identifier;
+      this.boardIdentifier = this.workPackage.project.defaultBoard.id;
     });
 
     // Set authorisation data
