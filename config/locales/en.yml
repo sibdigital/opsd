@@ -913,6 +913,8 @@ en:
     groupname: Имя группы
     id: ID
     importance: Степень влияния на проект
+    solution: Предлагаемые решения
+    project_section: Раздел проекта
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     is_public: Общий
@@ -1288,6 +1290,14 @@ en:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_project_section_1: Основные положения
+  default_project_section_2: Цели и показатели
+  default_project_section_3: Результаты
+  default_project_section_4: Финансовое обеспечение
+  default_project_section_5: Участники проекта
+  default_project_section_6: Дополнительная информация
+  default_project_section_7: План мероприятий
+  default_project_section_8: Методика расчета дополнительных показателей регионального проекта
   default_impotance_low: Незначительная
   default_impotance_critical: Критичная
   default_possibility_very_low: Очень низкая
@@ -1395,6 +1405,7 @@ en:
   enumeration_attach_type: Тип файла
   enumeration_work_package_priorities: Веса пакета работ
   enumeration_risk_importance: Степень влияния на проект
+  enumeration_risk_project_section_id: Раздел проекта
   enumeration_risk_possibilities: Вероятность наступления
   enumeration_target_statuses: Статус целевого показателя
   enumeration_target_types: Тип целевого показателя
