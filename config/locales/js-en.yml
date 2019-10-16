@@ -833,6 +833,8 @@ en:
         save_gantt_png: Экспорт в PNG
         last_hist_date: Последние изменения
         no_hist_date: Только текущий
+        show_on_trudozatraty: Показать трудозатраты
+        show_off_trudozatraty: Убрать трудозатраты
       filter: Фильтр
       unselected_title: Мероприятие
       search_query_label: Найти сохраненные представления

@@ -36,15 +36,15 @@ This file written by XCC
 
     <div>
       <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
-        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>
+<!--        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>-->
+        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;"></span></div>
       <% end %>
     </div>
     <div id="target-val-form" style="display: none; margin-top: 10px;">
       <section>
         <%= @target_execution_value = TargetExecutionValue.new %>
-<!--        <h5>Введите значения (#id=<%#= @target_execution_value.target_id = @target.id %>):</h5>-->
-
-        <%= error_messages_for @target_execution_value %>
+        <h5>Добавление новой записи</h5>
+        <%#= error_messages_for @target_execution_value %>
         <%= labelled_tabular_form_for @target_execution_value, url: target_execution_values_path(target_id: @target.id ) do |f| %>
           <section class="form--section">
             <%= f.hidden_field :target_id, value: @target.id %>
@@ -74,6 +74,39 @@ This file written by XCC
           <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-val-cancel' %>
         <% end %>
       </section>
+    </div>
+
+    <div id="target-val-edit-block" style="display: none; margin-top: 10px;">
+      <h5>Редактирование записи</h5>
+          <%= form_with(model: @target_execution_value, url: target_execution_value_path(id: 0, target_id: @target.id, project_id: @project.id), method: :put, id: "target-val-edit-form") do |f| %>
+            <%= f.hidden_field :target_id, value: @target.id %>
+            <table>
+              <tr>
+                <td>
+                  <div class="form--field" style="max-width: 90px;">
+                    <%= f.number_field 'year', value: Time.current.year, container_class: '-middle', id: 'val-year' %>
+                  </div>
+                </td>
+                <td>
+                  <div class="form--field">
+                    <%= f.select 'quarter',
+                                 options_for_select([['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], @target_execution_value.quarter),
+                                 include_blank: true,
+                                 container_class: '-middle',
+                                 id: 'val-quarter'
+                    %>
+                  </div>
+                </td>
+                <td>
+                  <div class="form--field">
+                    <%= f.number_field(:value, step: :any, required: true, id: 'val-value')%></div>
+                </td>
+              </tr>
+            </table>
+            <%#= f.submit %>
+            <%= button_tag 'Сохранить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
+            <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-val-edit-cancel' %>
+          <% end %>
     </div>
 
   </section>

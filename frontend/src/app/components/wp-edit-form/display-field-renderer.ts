@@ -58,7 +58,6 @@ export class DisplayFieldRenderer {
 
     const field = this.getField(workPackage, fieldSchema, schemaName, changeset);
     field.render(span, this.getText(field, placeholder));
-
     const title = field.title;
     if (title) {
       span.setAttribute('title', title);
