@@ -29,11 +29,12 @@ class ReportProgressProjectController < ApplicationController
     if  params[:report_id] == 'report_progress_project'
       generate_project_progress_report_out
       send_to_user filepath: @ready_project_progress_report_path
+      # generate_report_progress_project_pril_1_2_out
     end
 
     if  params[:report_id] == 'report_progress_project_pril_1_2'
       #index_params
-      #generate_report_progress_project_pril_1_2_out
+      generate_report_progress_project_pril_1_2_out
       send_to_user filepath: @ready_report_progress_project_pril_1_2_path
     end
 
@@ -92,10 +93,10 @@ class ReportProgressProjectController < ApplicationController
 
     @ready_report_progress_project_pril_1_2_path = dir_path + '/report_progress_project_pril_1_2_out.xlsx'
     @workbook_pril.write(@ready_report_progress_project_pril_1_2_path)
-#    send_to_user filepath: @ready_report_progress_project_pril_1_2_path
+    # send_to_user filepath: @ready_report_progress_project_pril_1_2_path
 #    send_file @ready_report_progress_project_pril_1_2_path,  :type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', :disposition => 'attachment'
-     send_data @workbook_pril.stream.string, filename: "report_progress_project_pril_1_2_out.xlsx",
-              disposition: 'attachment'
+#     send_data @workbook_pril.stream.string, filename: "report_progress_project_pril_1_2_out.xlsx",
+#              disposition: 'attachment'
   end
 
 
