@@ -56,11 +56,11 @@ module API
 
         property :start_date,
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.start_date) },
+                 getter: ->(*) { represented.start_date.nil? ? '' : datetime_formatter.format_datetime(represented.start_date) },
                  render_nil: true
         property :due_date,
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.due_date) },
+                 getter: ->(*) { represented.due_date.nil? ? '' : datetime_formatter.format_datetime(represented.due_date) },
                  render_nil: true
 
         property :description, render_nil: true
