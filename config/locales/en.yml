@@ -2789,7 +2789,7 @@ en:
   setting_bcc_recipients: Получатели скрытой копии (bcc)
   setting_brute_force_block_after_failed_logins: Блокировать пользователя после следующего
     количества неудачных попыток входа
-  setting_brute_force_block_minutes: Время блокирования пользователя за
+  setting_brute_force_block_minutes: Сброс счетчика неудачных попыток входа через
   setting_cache_formatted_text: Кэшировать форматированный текст
 
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора
