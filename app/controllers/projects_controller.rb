@@ -295,7 +295,9 @@ class ProjectsController < ApplicationController
 
   # tmd
   def format_number
-    params[:project][:invest_amount] = params[:project][:invest_amount].gsub(',', '.').to_d.truncate(2)
+    if params[:project][:invest_amount] != nil
+      params[:project][:invest_amount] = params[:project][:invest_amount].gsub(',', '.').to_d.truncate(2)
+    end
   end
 
   # tmd
