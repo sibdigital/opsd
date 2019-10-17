@@ -512,6 +512,9 @@ class PermittedParams
     params.require(:production_calendar).permit(:day_type, :date, :year)
   end
 
+  def message_like
+    params.require(:message_like).permit(:message_id, :user_id)
+  end
   # )
   #xcc(
   def target
@@ -686,7 +689,8 @@ class PermittedParams
           reassign_to_id
         ),
         group: [
-          :lastname
+          :lastname,
+          :direct_manager_id
         ],
         membership: [
           :project_id,
@@ -704,6 +708,7 @@ class PermittedParams
           ]
         ],
         member: [
+          :busyness,
           role_ids: []
         ],
         new_work_package: [

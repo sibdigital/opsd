@@ -59,6 +59,7 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::CostSeeder,
       BasicData::TypedTargetSeeder,
       # )
+      BasicData::PeriodSeeder,
       BasicData::SettingSeeder
     ]
   end

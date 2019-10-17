@@ -462,6 +462,8 @@ en:
         row_count: Количество строк
         column_count: Количество столбцов
         widgets: Виджеты
+      group:
+        direct_manager: Руководитель
       relation:
         delay: Задержка
         from: Пакет работ
@@ -473,6 +475,7 @@ en:
         notes: Примечания
       member:
         roles: Роли
+        busyness: Занятость
       project:
         identifier: Идентификатор
         latest_activity_at: Последняя активность
@@ -926,11 +929,13 @@ en:
 #    last_due_date: Текущая дата окончания
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
+    period: Периодичность добавления отчетов
     time: Время
+    busyness: Занятость
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций
-    lastname: Фамилия
+    lastname: Фамил
     login: Логин
     mail: Электронная почта
     #zbd(
@@ -1043,6 +1048,7 @@ en:
 #  knm(
   button_approve: Утвердить
   button_confirm: Согласовать
+  button_like: Понравилось
 #  )
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
@@ -1300,6 +1306,11 @@ en:
   default_project_section_8: Методика расчета дополнительных показателей регионального проекта
   default_impotance_low: Незначительная
   default_impotance_critical: Критичная
+  default_period_daily: Ежедневно
+  default_period_weekly: Еженедельно
+  default_period_monthly: Ежемесячно
+  default_period_quarterly: Ежеквартально
+  default_period_yearly: Ежегодно
   default_possibility_very_low: Очень низкая
   default_possibility_low: Низкая
   default_possibility_normal: Средняя
@@ -1407,6 +1418,7 @@ en:
   enumeration_risk_importance: Степень влияния на проект
   enumeration_risk_project_section_id: Раздел проекта
   enumeration_risk_possibilities: Вероятность наступления
+  enumeration_period: Периодичность
   enumeration_target_statuses: Статус целевого показателя
   enumeration_target_types: Тип целевого показателя
   enumeration_system_activity: Активность системы
@@ -1974,6 +1986,7 @@ en:
   label_professional_support: Профессиональная поддержка
   label_profile: Профиль
   label_project_all: Все проекты
+  label_user_all: Все пользователи
   label_project_count: Общее количество проектов
   label_project_copy_notifications: Уведомлять по электронной почте при копировании проекта
   label_project_latest: Последние проекты
@@ -2534,9 +2547,22 @@ en:
   #knm(
   setting_days_text: Дни недели
   button_refresh: Обновить
+  label_filter_type:
+    workpackage: Пакет работ
+    nationalproject: Национальный проект
+    document: Документ
+    message: Сообщение
+    board: Дискуссия
+    meeting: Совещание
+    meetingcontent: Тема совещания
+    news: Новость
+    project: Проект
+    costobject: Бюджет
   label_filter: Фильтр
-  label_by_date: По дате
+  label_by_date_from: "По дате: с"
+  label_by_date_to: "До: "
   label_by_type: По типу
+  label_by_user: По пользователю
   label_by_action: По действию
   label_production_calendar: Производственный календарь
   label_production_calendars: Производственные календари
@@ -2997,6 +3023,7 @@ en:
   text_latest_note: 'Последний комментарий: %{note}'
 #  knm +
 #  Типы действий для проектов
+  text_project_user: 'Пользователем %{value} '
   text_project_created_project: 'Создан проект'
   text_project_updated_project: 'Изменен проект'
   text_project_updated_status: 'Изменен статус проекта'
@@ -3070,10 +3097,10 @@ en:
   text_user_deleted_document: 'Удалил документ'
   text_user_created_message: 'Оставил сообщение'
   text_user_updated_message: 'Отредактировал сообщение'
-  text_user_deleted_message: 'Отредактировал сообщение'
+  text_user_deleted_message: 'Удалил сообщение'
   text_user_updated_nationalproject: 'Изменил каталог'
   text_user_created_nationalproject: 'Создал каталог'
-  text_user_deleted_nationalproject: 'Создал каталог'
+  text_user_deleted_nationalproject: 'Удалил каталог'
 #  Статистика с подсчетом
   statistics_accept_appointment: 'Принятие полномочий исполнителя/руководителя: %{count}'
   statistics_action_with_wp: 'Действия с объектами: %{count}'
@@ -3638,6 +3665,7 @@ en:
   label_deadline_of_project_is_approaching: Приближается срок по проекту
   label_deadline_of_project: Превышен срок по проекту
   label_message_changed: Сообщение изменено
+  label_work_package_report_notify_assignee: Необходимо сегодня предоставить отчет по выполнению задачи
   label_message_deleted: Сообщение удалено
   label_group_created: Группа создана
   label_group_deleted: Группа удалена
