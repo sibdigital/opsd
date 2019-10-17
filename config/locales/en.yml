@@ -2536,9 +2536,22 @@ en:
   #knm(
   setting_days_text: Дни недели
   button_refresh: Обновить
+  label_filter_type:
+    workpackage: Пакет работ
+    nationalproject: Национальный проект
+    document: Документ
+    message: Сообщение
+    board: Дискуссия
+    meeting: Совещание
+    meetingcontent: Тема совещания
+    news: Новость
+    project: Проект
+    costobject: Бюджет
   label_filter: Фильтр
-  label_by_date: По дате
+  label_by_date_from: "По дате: с"
+  label_by_date_to: "До: "
   label_by_type: По типу
+  label_by_user: По пользователю
   label_by_action: По действию
   label_production_calendar: Производственный календарь
   label_production_calendars: Производственные календари
@@ -2999,6 +3012,7 @@ en:
   text_latest_note: 'Последний комментарий: %{note}'
 #  knm +
 #  Типы действий для проектов
+  text_project_user: 'Пользователем %{value} '
   text_project_created_project: 'Создан проект'
   text_project_updated_project: 'Изменен проект'
   text_project_updated_status: 'Изменен статус проекта'

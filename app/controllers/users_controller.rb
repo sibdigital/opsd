@@ -116,6 +116,7 @@ class UsersController < ApplicationController
                      .order(sort_clause)
                      .page(page_param)
                      .per_page(per_page_param)
+    @existing_types = @statistics.select(:journable_type).distinct.map{|t| [I18n.t("label_filter_type."+t.journable_type.downcase), t.journable_type]}
     unless @filter_type.blank?
       @statistics = @statistics.where('journable_type = ?', @filter_type)
     end

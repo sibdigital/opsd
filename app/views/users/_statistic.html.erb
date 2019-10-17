@@ -4,7 +4,7 @@
     <h2><%= t(:label_filter) %></h2>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
-        <%= styled_label_tag :filter_by_date, t(:label_by_date), class: 'simple-filters--filter-name' %>
+        <%= styled_label_tag :filter_by_date, t(:label_by_date_from), class: 'simple-filters--filter-name' %>
         <div class='simple-filters--filter-value'>
           <%= styled_text_field_tag :filter_start_date, @filter_start_date, class: '-augmented-datepicker' %>
         </div>
@@ -17,7 +17,7 @@
       <li class="simple-filters--filter">
         <%= styled_label_tag :filter_by_action,  t(:label_by_type), class: 'simple-filters--filter-name' %>
         <div class="simple-filters--filter-value">
-          <%= styled_select_tag :filter_type,options_for_select(["WorkPackage", "NationalProject", "Document", "Message","Board","Meeting","MeetingContent","News","Project", "CostObject"],@filter_type), include_blank: true  %>
+          <%= styled_select_tag :filter_type,options_for_select(@existing_types,@filter_type), include_blank: true  %>
         </div>
       </li>
       <li class="simple-filters--filter">
