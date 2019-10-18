@@ -1,7 +1,12 @@
 en:
   activerecord:
     models:
-      document: "Документ"
+      document:
+        title: Название
+        description: Описание
+        category: Категория
+        user: Пользователь
+        created_on: Добавлено
   default_doc_category_tech: "Техническая документация"
   default_doc_category_user: "Документация пользователя"
   enumeration_doc_categories: "Категории документов"

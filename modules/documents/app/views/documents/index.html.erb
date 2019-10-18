@@ -40,58 +40,121 @@ See doc/COPYRIGHT.rdoc for more details.
                     aria: {label: t(:label_document_new)},
                     title: t(:label_document_new)}) do %>
         <%= op_icon('button--icon icon-add') %>
-        <span class="button--text"><%= t('activerecord.models.document') %></span>
+        <span class="button--text"><%= t(:label_document_new) %></span>
       <% end %>
     </li>
   <% end %>
 <% end %>
-
-<% if @grouped.empty? %>
-  <%= no_results_box %>
+<%= styled_form_tag(project_documents_path(project_id: @project.id), { method: :get, id: 'query_form' }) do %>
+  <fieldset id="filters" class="simple-filters--container">
+    <legend><%= t(:label_filter) %></legend>
+    <h2><%= t(:label_filter) %></h2>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_date, t(:label_by_date_from), class: 'simple-filters--filter-name' %>
+        <div class='simple-filters--filter-value'>
+          <%= styled_text_field_tag :filter_start_date, @filter_start_date, class: '-augmented-datepicker' %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_date, t(:label_by_date_to), class: 'simple-filters--filter-name' %>
+        <div class='simple-filters--filter-value'>
+          <%= styled_text_field_tag :filter_end_date, @filter_end_date, class: '-augmented-datepicker' %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_category, t(:label_by_category), class: 'simple-filters--filter-name' %>
+        <div class='simple-filters--filter-value'>
+          <%= styled_select_tag :filter_category, options_for_select(@existing_categories, @filter_category), include_blank: true %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_user,  t(:label_by_user), class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_select_tag :filter_user,options_for_select(@existing_users,@filter_user), include_blank: true  %>
+        </div>
+      </li>
+        <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
+        <%= link_to t(:button_clear), project_documents_path(project_id: @project.id), class: 'button -small -with-icon icon-undo' %>
+      </li>
+    </ul>
+  </fieldset>
 <% end %>
 
-<% @grouped.keys.sort.each do |group| %>
-  <%= augmented_collapsible_section title: group do %>
-    <div class="document-category--inner-section">
-      <div class="form--field document-category-elements">
-        <%= render :partial => 'documents/document', :collection => @grouped[group] %>
-      </div>
-    </div>
-  <% end %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <%= form_tag({}, :method => :get, class: 'sidebar--document-sort') do %>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= l(:label_group_by, '') %></legend>
-      <p>
-        <%= radio_button_tag 'group_by', 'category', (@group_by == 'category'), class: 'submit-this-form' %>
-      <label for="group_by_category">
-        <%= Document.human_attribute_name(:category) %>
-      </label><br />
-        <%= radio_button_tag 'group_by', 'date', (@group_by == 'date'), class: 'submit-this-form' %>
-      <label for="group_by_date">
-        <%= l(:label_date) %>
-      </label><br />
-        <%= radio_button_tag 'group_by', 'title', (@group_by == 'title'), class: 'submit-this-form' %>
-      <label for="group_by_title">
-        <%= Document.human_attribute_name(:title) %>
-      </label><br />
-        <%= radio_button_tag 'group_by', 'author', (@group_by == 'author'), class: 'submit-this-form' %>
-      <label for="group_by_author">
-        <%= t 'documents.label_attachment_author' %>
-      </label>
-      </p>
-    </fieldset>
-  <% end %>
-<% end %>
-
-<%= nonced_javascript_tag do %>
-  jQuery(function($) {
-    $('.submit-this-form').click(function() {
-      $(this).closest('form').submit();
-    });
-  });
-<% end %>
-
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="documents">
+      <!--        <colgroup>-->
+      <!--          <col highlight-col>-->
+      <!--          <col highlight-col>-->
+      <!--          <col highlight-col>-->
+      <!--          <col highlight-col>-->
+      <!--          <col highlight-col>-->
+      <!--          <col highlight-col>-->
+      <!--          <col highlight-col>-->
+      <!--        </colgroup>-->
+      <thead>
+      <tr>
+        <%= sort_header_tag("id", :caption => '#', :default_order => 'asc') %>
+        <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:description) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:category)%>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:user) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:created_on) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+            </div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <% @documents.each do |document|%>
+        <tr id="documents-<%= document.id %>">
+          <%= content_tag(:td, link_to( h(document.id), :controller => '/documents', :action => 'show', :id => document)) %>
+          <%= content_tag(:td,link_to( h(document.title), :controller => '/documents', :action => 'show', :id => document)) %>
+          <%= content_tag(:td, document.description) %>
+          <%= content_tag(:td, document.category) %>
+          <%= content_tag(:td, User.find(document.user_id).fio) %>
+          <%= content_tag(:td, format_activity_day(document.created_on)) %>
+          <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 <% html_title(l(:label_document_plural)) -%>

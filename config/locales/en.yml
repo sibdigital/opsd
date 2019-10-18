@@ -530,6 +530,12 @@ en:
         period: Периодичность
         level: Уровень
         add_info: Доп. информация
+      document:
+        title: Название
+        description: Описание
+        category: Категория
+        user: Пользователь
+        created_on: Добавлено
       # tmd
       plan_uploader_setting:
         text: Текст
@@ -2563,6 +2569,7 @@ en:
   label_by_date_to: "До: "
   label_by_type: По типу
   label_by_user: По пользователю
+  label_by_category: По категории
   label_by_action: По действию
   label_production_calendar: Производственный календарь
   label_production_calendars: Производственные календари
