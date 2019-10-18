@@ -39,7 +39,10 @@ class ReportProgressProjectController < ApplicationController
     end
 
 
-    @targets = @project.targets
+    id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
+    @targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
+
+#    @targets = @project.targets
     @target = @targets.first
 
   end

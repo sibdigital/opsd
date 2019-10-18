@@ -7,9 +7,17 @@ This file written by XCC
 <%= error_messages_for :target %>
 <section class="form--section">
      <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'button' %>
+
+  <%
+    id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
+    @targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
+  %>
+
   <h3>Графики достижения показателей. Приложение 1, 2</h3>
   <div class="form--field">
-    <%= select_tag(:selected_target_id, options_for_select(@project.targets.map {|u| [u.name, u.id]})) %>
+    <%= select_tag(:selected_target_id, options_for_select(@targets.map {|u| [u.name, u.id]})) %>
   </div>
   <%= link_to "Сформировать",  {report_id: "report_progress_project_pril_1_2"},  class: 'pass-params-from-select button'%>
 </section>
+
+
