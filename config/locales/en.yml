@@ -1341,6 +1341,7 @@ en:
   #default_type_epic: Эпический
   #default_type_feature: Функция
   default_type_milestone: Контрольная точка
+  default_type_work: Работа
   #default_type_result: Тип результата
   #default_type_phase: Фаза
   default_type_task: Мероприятие
@@ -3482,7 +3483,7 @@ en:
         estimated_hours: Предполагаемое количество часов не может быть задано для
           родительских пакетов.
         invalid_user_assigned_to_work_package: Выбранный пользователь не может быть
-          «%{property}» для этого пакета работ.
+          «%{property}» для этого мероприятия.
         start_date: Дата начала не может быть задана на родительских  пакетах работ.
       writing_read_only_attributes: Вы не должны перезаписывать атрибут являющийся
         только для чтения.

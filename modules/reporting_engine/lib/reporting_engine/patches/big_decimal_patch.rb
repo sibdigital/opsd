@@ -30,7 +30,7 @@ module ReportingEngine::Patches::BigDecimalPatch
 
   module String
     ::String.send :include, self
-    def to_d; ::BigDecimal.new(self) end
+    def to_d; ::BigDecimal(self) end
   end
 
   module NilClass

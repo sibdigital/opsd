@@ -73,7 +73,7 @@ module BasicData
         task:       [1, true, :default_color_blue,        true,  false],
         milestone:  [2, true, :default_color_green_light, false, false],
         #+-tan 2019.07.01
-        result:     [3, true, :default_color_orange,   false, false],
+        work:     [3, true, :default_color_orange,   false, false],
         # phase:      [3, true, :default_color_blue_dark,   false, false],
         # feature:    [4, true, :default_color_blue,        true,  false],
         # epic:       [5, true, :default_color_orange,      true,  false],
