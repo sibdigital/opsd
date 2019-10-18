@@ -147,7 +147,16 @@ class UserMailer < BaseMailer
       mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Превышен срок по проекту '+@project.name
     end
   end
-
+  # knm +
+  def work_package_report_notify_assignee(user, report_date, workPackage, project_name)
+    @report_date = report_date
+    @workPackage = workPackage
+    @project_name = project_name
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо сегодня предоставить отчет по выполнению задачи '+@workPackage.subject+' в проекте '+project_name
+    end
+  end
+  # knm -
   def cost_object_added(user, cost_object, author, timenow)
     @timenow = timenow
     @cost_object = cost_object

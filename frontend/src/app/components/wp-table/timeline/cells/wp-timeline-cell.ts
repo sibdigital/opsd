@@ -72,6 +72,7 @@ export class WorkPackageTimelineCell {
   private elementShape:string;
 
   private firstOrLastHistDate:number;
+  private trudozatraty:boolean;
 
   private timelineCell:JQuery;
   private labels:WorkPackageCellLabels;
@@ -133,11 +134,14 @@ export class WorkPackageTimelineCell {
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
     // If already rendered with correct shape, ignore
-    if (wasRendered && (this.elementShape === renderer.type) && this.firstOrLastHistDate === renderInfo.viewParams.settings.firstOrLastHistDate) {
+    if (wasRendered && (this.elementShape === renderer.type) &&
+      this.firstOrLastHistDate === renderInfo.viewParams.settings.firstOrLastHistDate &&
+      this.trudozatraty === renderInfo.viewParams.settings.trudozatraty) {
       return cell;
     }
     //bbm(
     this.firstOrLastHistDate = renderInfo.viewParams.settings.firstOrLastHistDate;
+    this.trudozatraty = renderInfo.viewParams.settings.trudozatraty;
     //)
     // Remove the element first if we're redrawing
     this.clear();

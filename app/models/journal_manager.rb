@@ -241,7 +241,12 @@ class JournalManager
 
         # FIXME: this is required for the association to be correctly saved...
         journable.journals.select(&:new_record?)
-
+        # update field next of previous journal
+        unless journal.previous.nil?
+          previous = journal.previous
+          previous.next = version
+          previous.save
+        end
         journal.save!
         journal
       end
