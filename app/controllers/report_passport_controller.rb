@@ -47,7 +47,7 @@ class ReportPassportController < ApplicationController
    # generate_target_indicators_sheet
    # generate_target_results_sheet
    # generate_members_sheet
-    generate_plan_sheet3
+    generate_plan_sheet
    # generate_method_calc_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
@@ -654,108 +654,6 @@ class ReportPassportController < ApplicationController
     sheet = @workbook['План']
     sheet[3][5].change_contents(@project.name)
 
-    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
-    id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id
-    id_type_task = Type.find_by(name: I18n.t(:default_type_task)).id
-
-    start_index = 11
-    target_id = 0
-    index = 0
-    punkt = 1
-    get_result_kt.each_with_index do |resultKt, i|
-      user = User.find(resultKt["user_id"])
-      username = user.name(:lastname_f_p)
-      start_date = resultKt["start_date"] == nil ? nil : resultKt["start_date"].to_date.strftime("%d.%m.%Y")
-      due_date = resultKt["due_date"] == nil ? nil : resultKt["due_date"].to_date.strftime("%d.%m.%Y")
-      if resultKt["target_id"] != target_id
-        punkt = (index+1).to_s+"."
-        sheet.insert_cell(start_index+i, 0, punkt)
-        sheet.insert_cell(start_index+i, 1, resultKt["name"])
-        sheet.insert_cell(start_index+i, 2, start_date)
-        sheet.insert_cell(start_index+i, 3, due_date)
-        sheet.insert_cell(start_index+i, 4, username)
-        sheet.insert_cell(start_index+i, 5, resultKt["document"])
-        sheet.insert_cell(start_index+i, 6, "")
-
-        target_id = resultKt["target_id"]
-        start_index += 1
-        index = 0
-      end
-
-      ppunkt = punkt + (index+1).to_s+"."
-      sheet.insert_cell(start_index+i, 0, ppunkt)
-      sheet.insert_cell(start_index+i, 1, resultKt["subject"])
-      sheet.insert_cell(start_index+i, 2, start_date)
-      sheet.insert_cell(start_index+i, 3, due_date)
-      sheet.insert_cell(start_index+i, 4, username)
-      sheet.insert_cell(start_index+i, 5, resultKt["document"])
-      sheet.insert_cell(start_index+i, 6, "")
-
-
-      start_index += 1
-      index = index+1
-      index1 = 0
-      work_packages_id = resultKt["work_packages_id"] == nil ? "0" : resultKt["work_packages_id"].to_s
-      ktTasks = get_kt_tasks(work_packages_id)
-      ktTasks.each_with_index do |ktTask, j|
-        user = User.find(ktTask["user_id"])
-        username = user.name(:lastname_f_p)
-        start_date = ktTask["start_date"] == nil ? nil : ktTask["start_date"].to_date.strftime("%d.%m.%Y")
-        due_date = ktTask["due_date"] == nil ? nil : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
-
-        pppunkt = ppunkt + (index1+1).to_s+"."
-        sheet.insert_cell(start_index+i+j, 0, pppunkt)
-        sheet.insert_cell(start_index+i+j, 1, ktTask["subject"])
-        sheet.insert_cell(start_index+i+j, 2, start_date)
-        sheet.insert_cell(start_index+i+j, 3, due_date)
-        sheet.insert_cell(start_index+i+j, 4, username)
-        sheet.insert_cell(start_index+i+j, 5, ktTask["document"])
-        sheet.insert_cell(start_index+i+j, 6, "")
-
-
-        index1 = index1+1
-
-
-        if ktTask["type_id"].to_i == id_type_kt
-          start_index += 1
-          index2 = 0
-          work_packages_id = ktTask["work_packages_id"] == nil ? "0" : ktTask["work_packages_id"].to_s
-          tasks = get_kt_tasks(work_packages_id)
-
-          tasks.each_with_index do |task, k|
-            user = User.find(task["user_id"])
-            username = user.name(:lastname_f_p)
-            start_date = task["start_date"] == nil ? nil : task["start_date"].to_date.strftime("%d.%m.%Y")
-            due_date = task["due_date"] == nil ? nil : task["due_date"].to_date.strftime("%d.%m.%Y")
-
-            ppppunkt = pppunkt + (index2+1).to_s+"."
-            sheet.insert_cell(start_index+i+j+k, 0, ppppunkt)
-            sheet.insert_cell(start_index+i+j+k, 1, task["subject"])
-            sheet.insert_cell(start_index+i+j+k, 2, start_date)
-            sheet.insert_cell(start_index+i+j+k, 3, due_date)
-            sheet.insert_cell(start_index+i+j+k, 4, username)
-            sheet.insert_cell(start_index+i+j+k, 5, task["document"])
-            sheet.insert_cell(start_index+i+j+k, 6, "")
-
-            index2 = index2+1
-          end
-
-          start_index +=  tasks.count
-        end
-
-      end
-
-
-    end
-  end
-
-
-
-
-  def generate_plan_sheet2
-    sheet = @workbook['План']
-    sheet[3][5].change_contents(@project.name)
-
     @id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
     @id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id
     @id_type_task = Type.find_by(name: I18n.t(:default_type_task)).id
@@ -763,86 +661,135 @@ class ReportPassportController < ApplicationController
     start_index = 11
     target_id = 0
     index = 0
-    punkt = 1
-    get_result_kt.each_with_index do |resultKt, i|
-      user = User.find(resultKt["user_id"])
-      username = user.name(:lastname_f_p)
-      start_date = resultKt["start_date"] == nil ? nil : resultKt["start_date"].to_date.strftime("%d.%m.%Y")
-      due_date = resultKt["due_date"] == nil ? nil : resultKt["due_date"].to_date.strftime("%d.%m.%Y")
-      if resultKt["target_id"] != target_id
-        punkt = (index+1).to_s+"."
-        sheet.insert_cell(start_index+i, 0, punkt)
-        sheet.insert_cell(start_index+i, 1, resultKt["name"])
-        sheet.insert_cell(start_index+i, 2, start_date)
-        sheet.insert_cell(start_index+i, 3, due_date)
-        sheet.insert_cell(start_index+i, 4, username)
-        sheet.insert_cell(start_index+i, 5, resultKt["document"])
-        sheet.insert_cell(start_index+i, 6, "")
-
-        target_id = resultKt["target_id"]
-        start_index += 1
-        index = 0
-      end
-
-      ppunkt = punkt + (index+1).to_s+"."
-      sheet.insert_cell(start_index+i, 0, ppunkt)
-      sheet.insert_cell(start_index+i, 1, resultKt["subject"])
-      sheet.insert_cell(start_index+i, 2, start_date)
-      sheet.insert_cell(start_index+i, 3, due_date)
-      sheet.insert_cell(start_index+i, 4, username)
-      sheet.insert_cell(start_index+i, 5, resultKt["document"])
-      sheet.insert_cell(start_index+i, 6, "")
-
-
-      start_index += 1
-      index = index+1
-      work_packages_id = resultKt["work_packages_id"] == nil ? "0" : resultKt["work_packages_id"].to_s
-
-      count_record = get_child_items(work_packages_id, ppunkt, start_index+i)
-      start_index += count_record
-    end
-  end
-
-
-
-  def generate_plan_sheet3
-    sheet = @workbook['План']
-    sheet[3][5].change_contents(@project.name)
-
-    @id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
-    @id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id
-    @id_type_task = Type.find_by(name: I18n.t(:default_type_task)).id
-
-    start_index = 11
-    target_id = 0
-    index = 0
-    punkt = 1
+    numberResult= 1
     k = 0
     work_packages_id = 0
-    inc1 = 0
-#    punkt_start = "1."
+    numberKT = 0
+    map = {}
     get_result.each_with_index do |result, i|
         if result["target_id"] != target_id
-          punkt = (index+1).to_s+"."
-          sheet.insert_cell(start_index+i+k, 0, punkt)
+          numberResult = (index+1).to_s+"."
+          sheet.insert_cell(start_index+i+k, 0, numberResult)
           sheet.insert_cell(start_index+i+k, 1, result["name"])
+          sheet.insert_cell(start_index+i+k, 2, "")
+          sheet.insert_cell(start_index+i+k, 3, "")
+          sheet.insert_cell(start_index+i+k, 4, "")
+          sheet.insert_cell(start_index+i+k, 5, "")
+          sheet.insert_cell(start_index+i+k, 6, "")
+
+          sheet[start_index+i+k][1].change_text_wrap(true)
+          sheet[start_index+i+k][4].change_text_wrap(true)
+
+          sheet.sheet_data[start_index+i+k][0].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][1].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][2].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][3].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][4].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][5].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][6].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:bottom, 'thin')
+
+
           target_id = result["target_id"]
           start_index += 1
           index += 1
-        else
-          if result["work_packages_id"] != work_packages_id
-            inc1 += 1
-          end
+          numberKT = 0
+          map[1] = index
+
         end
+
+        if result["work_packages_id"] != work_packages_id
+           user = User.find(result["user_id"])
+           username = user.name(:lastname_f_p)
+           start_date = result["start_date"] == nil ? nil : result["start_date"].to_date.strftime("%d.%m.%Y")
+           due_date = result["due_date"] == nil ? nil : result["due_date"].to_date.strftime("%d.%m.%Y")
+           numberKT += 1
+           numberResultKt = numberResult+numberKT.to_s+"."
+           sheet.insert_cell(start_index+i+k, 0, numberResultKt)
+           sheet.insert_cell(start_index+i+k, 1, result["subject"])
+           sheet.insert_cell(start_index+i+k, 2, start_date)
+           sheet.insert_cell(start_index+i+k, 3, due_date)
+           sheet.insert_cell(start_index+i+k, 4, username)
+           sheet.insert_cell(start_index+i+k, 5, result["document"])
+           sheet.insert_cell(start_index+i+k, 6, "")
+
+           sheet[start_index+i+k][1].change_text_wrap(true)
+           sheet[start_index+i+k][4].change_text_wrap(true)
+
+           sheet.sheet_data[start_index+i+k][0].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][0].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][0].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][0].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][1].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][1].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][1].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][1].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][2].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][2].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][2].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][2].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][3].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][3].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][3].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][3].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][4].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][4].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][4].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][4].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][5].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][5].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][5].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][5].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][6].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][6].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][6].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][6].change_border(:bottom, 'thin')
+
+
+           map[2] = numberKT
+           start_index += 1
+
+        end
+
 
         work_packages_id = result["work_packages_id"] == nil ? "0" : result["work_packages_id"].to_s
 
-        ktTasks = get_kt_tasks2(work_packages_id)
-        index2 = 0 + inc1
-        level = 1
-        punkt_start = punkt
-        ppunkt = punkt
-        inc2 = 0
+
+        ktTasks = get_kt_tasks(work_packages_id)
+        level = 2
+        index2 = 0
         ktTasks.each_with_index do |ktTask, j|
             user = User.find(ktTask["user_id"])
             username = user.name(:lastname_f_p)
@@ -850,18 +797,25 @@ class ReportPassportController < ApplicationController
             due_date = ktTask["due_date"] == nil ? nil : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
 
 
-            if ktTask["level"] != level
-              index2 = 0
-              punkt_start = punkt_start + (index2+inc2).to_s+"."
-              ppunkt = punkt_start + (index2+1).to_s+"."
+            if ktTask["level"] > level
               level = ktTask["level"]
-#              inc2 +=1
+              index2 = 1
+              map[level] = index2
+            elsif ktTask["level"] < level
+              level = ktTask["level"]
+              map[level] = map[level]+1
+              index2 = map[level]
             else
-              ppunkt = punkt_start + (index2+1).to_s+"."
-              inc2 +=1
+              index2 += 1
+              map[level] = index2
             end
 
-            sheet.insert_cell(start_index+i+j+k, 0, ppunkt)
+            punkt = map[1].to_s + "." + map[2].to_s + "."
+            for l in 3..level
+              punkt += map[l].to_s + "."
+            end
+
+            sheet.insert_cell(start_index+i+j+k, 0, punkt)
             sheet.insert_cell(start_index+i+j+k, 1, ktTask["subject"])
             sheet.insert_cell(start_index+i+j+k, 2, start_date)
             sheet.insert_cell(start_index+i+j+k, 3, due_date)
@@ -869,49 +823,49 @@ class ReportPassportController < ApplicationController
             sheet.insert_cell(start_index+i+j+k, 5, ktTask["document"])
             sheet.insert_cell(start_index+i+j+k, 6, "")
 
-            index2 += 1
+            sheet[start_index+i+j+k][1].change_text_wrap(true)
+            sheet[start_index+i+j+k][4].change_text_wrap(true)
+
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:bottom, 'thin')
 
         end
-#        punkt_start = ppunkt
         k = ktTasks.count - 1
-    end
-  end
-
-
-
-  def get_child_items(work_packages_id, punkt, start_index)
-    count_record = 0
-    ktTasks = get_kt_tasks(work_packages_id)
-    index = 0
-    ktTasks.each_with_index do |ktTask, i|
-      user = User.find(ktTask["user_id"])
-      username = user.name(:lastname_f_p)
-      start_date = ktTask["start_date"] == nil ? nil : ktTask["start_date"].to_date.strftime("%d.%m.%Y")
-      due_date = ktTask["due_date"] == nil ? nil : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
-
-      ppunkt = punkt + (index+1).to_s+"."
-      sheet.insert_cell(start_index+i, 0, ppunkt)
-      sheet.insert_cell(start_index+i, 1, ktTask["subject"])
-      sheet.insert_cell(start_index+i, 2, start_date)
-      sheet.insert_cell(start_index+i, 3, due_date)
-      sheet.insert_cell(start_index+i, 4, username)
-      sheet.insert_cell(start_index+i, 5, ktTask["document"])
-      sheet.insert_cell(start_index+i, 6, "")
-
-      index = index+1
-
-      if ktTask["type_id"].to_i == @id_type_kt
-        start_index += 1
-        work_packages_id = ktTask["work_packages_id"] == nil ? "0" : ktTask["work_packages_id"].to_s
-
-        count_record = get_child_items(work_packages_id, ppunkt, start_index+i)
-
-      end
 
     end
-    count_record += ktTasks.count
   end
-
 
   def generate_method_calc_sheet
     sheet = @workbook['Методика расчета']
@@ -1101,10 +1055,15 @@ class ReportPassportController < ApplicationController
     result = result_sql[0]
   end
 
-  def get_result_kt
+    def get_result
     id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id.to_s
-    sql  = "SELECT t.id as target_id,t.name, w.id as work_packages_id, w.subject,
-                    w.start_date, w.due_date, u.id as user_id, ed.name as document
+    sql  = "SELECT t.id as target_id,t.name, w.id as work_packages_id,
+                            w.subject,
+                            w.type_id,
+                            w.start_date,
+                            w.due_date,
+                            u.id    as user_id,
+                            ed.name as document
             FROM work_packages w
             LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
             INNER JOIN work_package_targets wt ON wt.work_package_id = w.id
@@ -1112,8 +1071,7 @@ class ReportPassportController < ApplicationController
             INNER JOIN enumerations e ON e.id = t.type_id and e.name = 'Результат'
             LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
             WHERE w.type_id = "+id_type_kt+" and w.project_id = "+ @project.id.to_s +
-            "GROUP BY t.id, t.name,  w.id, w.subject,
-                     w.start_date, w.due_date, u.id,ed.name
+          " GROUP BY t.id, t.name,  w.id, w.subject, w.type_id, w.start_date, w.due_date, u.id, ed.name
             ORDER BY t.id "
     result = ActiveRecord::Base.connection.execute(sql)
     index = 0
@@ -1126,68 +1084,22 @@ class ReportPassportController < ApplicationController
   end
 
   def get_kt_tasks(work_packages_id)
-    sql  = "SELECT distinct w.id as work_packages_id, w.subject, w.type_id,
-                   w.start_date, w.due_date, u.id as user_id, ed.name as document
-            FROM work_packages w
-                  LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
-                  LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
-            WHERE w.id in (
-              SELECT distinct r.to_id
-              FROM work_packages w
-                   INNER JOIN relations r ON r.from_id = w.id and r.hierarchy = 1
-              WHERE w.id = "+work_packages_id +
-            "    and w.project_id =" + @project.id.to_s + ")"
-
-    result = ActiveRecord::Base.connection.execute(sql)
-    index = 0
-    result_array = []
-    result.each do |row|
-      result_array[index] = row
-      index += 1
-    end
-    result_array
-  end
-
-
-  def get_result
-    id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id.to_s
-    sql  = "SELECT t.id as target_id,t.name, w.id as work_packages_id
-            FROM work_packages w
-            LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
-            INNER JOIN work_package_targets wt ON wt.work_package_id = w.id
-            INNER JOIN targets t ON t.id = wt.target_id
-            INNER JOIN enumerations e ON e.id = t.type_id and e.name = 'Результат'
-            LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
-            WHERE w.type_id = "+id_type_kt+" and w.project_id = "+ @project.id.to_s +
-      "GROUP BY t.id, t.name,  w.id
-            ORDER BY t.id "
-    result = ActiveRecord::Base.connection.execute(sql)
-    index = 0
-    result_array = []
-    result.each do |row|
-      result_array[index] = row
-      index += 1
-    end
-    result_array
-  end
-
-  def get_kt_tasks2(work_packages_id)
     sql  = "WITH
             LEVEL AS (
               WITH RECURSIVE r AS (
-                SELECT rel.to_id, 1 AS level
+                SELECT distinct rel.to_id,  CAST (rel.to_id AS VARCHAR (50)) as PATH,1 AS level
                 FROM relations rel
                 WHERE rel.to_id = " + work_packages_id + "
 
                 UNION
 
-                SELECT distinct rel.to_id, r.level +1 AS level
+                SELECT distinct rel.to_id,  CAST ( r.PATH ||'->'|| rel.to_id AS VARCHAR(50)),r.level+1 AS level
                 FROM relations rel
                        JOIN r ON rel.from_id = r.to_id
-                where rel.hierarchy = 1
+                where rel.hierarchy = 1  and follows = 0
 
                 )
-                SELECT r.to_id as work_packages_id, r.level FROM r
+                SELECT r.to_id as work_packages_id, r.path, r.level FROM r
             ),
           TASK AS (
             SELECT distinct w.id as work_packages_id,
@@ -1204,21 +1116,22 @@ class ReportPassportController < ApplicationController
               WITH RECURSIVE r AS (
                 SELECT rel.to_id
                 FROM relations rel
-                WHERE rel.from_id = " + work_packages_id + "
+                WHERE rel.to_id = " + work_packages_id + "
 
                 UNION
 
                 SELECT distinct rel.to_id
                 FROM relations rel
                        JOIN r ON rel.from_id = r.to_id
-                where rel.hierarchy = 1
+                where rel.hierarchy = 1 and follows = 0
 
                 )
                 SELECT r.to_id FROM r
             )
           )
-          SELECT t.*, l.level from LEVEL l, TASK t
-          where l.work_packages_id = t.work_packages_id"
+         SELECT t.*, l.level+1 as level, l.path from LEVEL l, TASK t
+         WHERE l.work_packages_id = t.work_packages_id and l.level <> 1
+         ORDER BY  l.path"
 
     result = ActiveRecord::Base.connection.execute(sql)
     index = 0
