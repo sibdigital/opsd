@@ -98,6 +98,9 @@ class User < Principal
   # +tan
   belongs_to :direct_manager, foreign_key: 'direct_manager_id', class_name: 'User'
   # -tan
+  # +xcc
+  belongs_to :position, foreign_key: 'position_id'
+  # -
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -503,6 +506,19 @@ class User < Principal
     result
   end
   #-
+  #+xcc
+  def position_options
+    sql = "SELECT name, id FROM positions"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    result = []
+
+    for i in 0...records_array.values.length
+      result.push(records_array[i])
+    end
+    result
+  end
+  #-
+
   # +tan
   def direct_manager_users
     User.all.to_a || []
