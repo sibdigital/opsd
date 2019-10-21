@@ -10,6 +10,8 @@ class ReportProgressProjectController < ApplicationController
 
   default_search_scope :report_progress_project
 
+  before_action :find_optional_project, :verify_reportsProgressProject_module_activated
+
 
   def index
 
@@ -1151,5 +1153,10 @@ class ReportProgressProjectController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+  def verify_reportsProgressProject_module_activated
+    render_403 if @project && !@project.module_enabled?('report_progress_project')
+  end
+
 
 end

@@ -10,7 +10,7 @@ class ReportPassportController < ApplicationController
 
   default_search_scope :report_passport
 
-  before_action :verify_reportPassport_module_activated
+  before_action :find_optional_project, :verify_reportPassport_module_activated
 
   def index_params
     params.require(:report_id)
@@ -44,11 +44,11 @@ class ReportPassportController < ApplicationController
     @workbook.calc_pr.full_calc_on_load = true
 
     generate_title_sheet
-   # generate_target_indicators_sheet
-   # generate_target_results_sheet
-   # generate_members_sheet
+    generate_target_indicators_sheet
+    generate_target_results_sheet
+    generate_members_sheet
     generate_plan_sheet
-   # generate_method_calc_sheet
+    generate_method_calc_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -237,7 +237,6 @@ class ReportPassportController < ApplicationController
           sheet.sheet_data[6+i][7+j].change_border(:left, 'thin')
           sheet.sheet_data[6+i][7+j].change_border(:right, 'thin')
           sheet.sheet_data[6+i][7+j].change_border(:bottom, 'thin')
-
         end
       end
 
@@ -1263,7 +1262,7 @@ class ReportPassportController < ApplicationController
   end
 
   def verify_reportPassport_module_activated
-    render_403 if @project && !@project.module_enabled?('reports')
+    render_403 if @project && !@project.module_enabled?('report_passport')
   end
 
 
