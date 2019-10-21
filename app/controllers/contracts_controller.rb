@@ -12,6 +12,15 @@ class ContractsController < ApplicationController
   include PaginationHelper
   include ::IconsHelper
   include ::ColorsHelper
+  include CustomFilesHelper
+
+  before_action only: [:create, :update] do
+    upload_custom_file("contract", "ContractCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Contract", @contract.id)
+  end
 
   def index
     sort_columns = {'id' => "#{Contract.table_name}.id",
