@@ -4,6 +4,13 @@ class ArbitaryObjectsController < ApplicationController
 
   before_action :find_optional_project, :verify_arbitary_objects_module_activated
   before_action :find_arbitary_object, only: [:edit, :update, :destroy]
+  before_action only: [:create, :update] do
+    upload_custom_file("arbitary_object", "ArbitaryObjectCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("ArbitaryObject", @arbitary_object.id)
+  end
 
   helper :sort
   include SortHelper

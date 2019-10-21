@@ -30,10 +30,20 @@
 class GroupsController < ApplicationController
   layout 'admin'
 
+  include CustomFilesHelper
+
   before_action :require_admin
   before_action :find_group, only: [:destroy, :autocomplete_for_user,
                                     :show, :create_memberships, :destroy_membership,
                                     :edit_membership]
+
+  before_action only: [:create, :update] do
+    upload_custom_file("group", "GroupCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Principal", @group.id)
+  end
 
   # GET /groups
   # GET /groups.xml

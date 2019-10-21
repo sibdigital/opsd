@@ -1,3 +1,3 @@
-class CatalogLoader #< ActiveRecord::Base
-  attr_accessor :name
+class CatalogLoader < ActiveRecord::Base
+  mount_uploader :name, XlsUploader
 end
