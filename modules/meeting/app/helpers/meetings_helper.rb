@@ -23,6 +23,12 @@ module MeetingsHelper
     participants.sort.map { |p| link_to_user p.user }.join('; ').html_safe
   end
 
+  #bbm(
+  def format_participant_list2(add_participants)
+    add_participants.split(/,/).map { |p| link_to_user User.find(p) }.join('; ').html_safe if add_participants
+  end
+  # )
+
   def render_meeting_journal(model, journal, options = {})
     return '' if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)

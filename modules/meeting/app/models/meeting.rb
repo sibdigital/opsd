@@ -26,6 +26,7 @@ class Meeting < ActiveRecord::Base
   belongs_to :work_package
   # )
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :chairman, class_name: 'User', foreign_key: 'chairman_id'
   has_one :agenda, dependent: :destroy, class_name: 'MeetingAgenda'
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
