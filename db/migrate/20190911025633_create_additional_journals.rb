@@ -113,6 +113,7 @@ class CreateAdditionalJournals < ActiveRecord::Migration[5.2]
     end
     add_column :journals, :project_id, :integer
     add_column :journals, :is_deleted, :boolean, default: false
+    add_column :journals, :next, :integer
     add_index :journals, :project_id
   end
 end

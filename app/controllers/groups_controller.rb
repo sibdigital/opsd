@@ -85,7 +85,9 @@ class GroupsController < ApplicationController
   # POST /groups.xml
   def create
     @group = Group.new permitted_params.group
-
+    @group.direct_manager_id = User.current.id
+    @user = User.includes(:memberships).find(@group.direct_manager_id)
+    @group.users << @user
     respond_to do |format|
       if @group.save
         flash[:notice] = l(:notice_successful_create)
@@ -105,7 +107,11 @@ class GroupsController < ApplicationController
   # PUT /groups/1.xml
   def update
     @group = Group.includes(:users).find(params[:id])
-
+    @group.direct_manager_id = params["group"]["direct_manager_id"]
+    @user = User.includes(:memberships).find(@group.direct_manager_id )
+    if !@group.users.pluck(:id).include?(@user.id)
+      @group.users << @user
+      end
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)

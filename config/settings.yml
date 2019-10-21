@@ -68,7 +68,7 @@ brute_force_block_minutes:
   default: 30
   format: int
 brute_force_block_after_failed_logins:
-  default: 20
+  default: 3
   format: int
 # Time after which users have to have consented to what ever they need to consent
 # to (depending on other settings) such as a privacy policy.
@@ -254,6 +254,7 @@ notified_events:
   - board_moved
   - board_deleted
   - deadline_of_work_package_is_approaching
+  - work_package_report_notify_assignee
   - deadline_of_work_package
   - project_created
   - project_changed

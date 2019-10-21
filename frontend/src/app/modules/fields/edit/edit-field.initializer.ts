@@ -67,6 +67,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         //ban(
         'UserTask',
         //)
+        'Period',
         'CustomOption',
         'Project'])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [

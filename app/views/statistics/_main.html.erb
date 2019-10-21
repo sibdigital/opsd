@@ -1,3 +1,45 @@
+<%= styled_form_tag(project_statistics_path(project_id: @project.id, tab: :main), { method: :get, id: 'query_form' }) do %>
+  <fieldset id="filters" class="simple-filters--container">
+    <legend><%= t(:label_filter) %></legend>
+    <h2><%= t(:label_filter) %></h2>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_date, t(:label_by_date_from), class: 'simple-filters--filter-name' %>
+        <div class='simple-filters--filter-value'>
+          <%= styled_text_field_tag :filter_start_date, @filter_start_date, class: '-augmented-datepicker' %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_user,  t(:label_by_user), class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_select_tag :filter_user,options_for_select(@existing_users,@filter_user), include_blank: true  %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_action,  t(:label_by_type), class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_select_tag :filter_type,options_for_select(@existing_types, @filter_type), include_blank: true  %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_action, t(:label_by_action),class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_select_tag :filter_action, options_for_select(["Создание", "Обновление", "Удаление"],@filter_action),include_blank: true %>
+        </div>
+      </li>
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_date, t(:label_by_date_to), class: 'simple-filters--filter-name' %>
+        <div class='simple-filters--filter-value'>
+          <%= styled_text_field_tag :filter_end_date, @filter_end_date, class: '-augmented-datepicker' %>
+        </div>
+      </li>
+      <li class="simple-filters--controls">
+        <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
+        <%= link_to t(:button_clear), project_statistics_path(project_id: @project.id, tab: :main), class: 'button -small -with-icon icon-undo' %>
+      </li>
+    </ul>
+  </fieldset>
+<% end %>
 <div class="statistics">
   <div class="generic-table--container">
     <div class="generic-table--results-container">
@@ -57,12 +99,13 @@
         <% @statistics.each do |stat| %>
           <tr id="statistics-<%= stat.id %>">
             <td>
+              <%= l(:text_project_user,stat.user.fio) %>
               <% if stat.is_deleted && stat.next.nil?%>
-                <%= t("text_project_deleted_"+stat.journable_type.to_s.downcase) %>
+                <%= t("text_project_deleted_"+stat.journable_type.to_s.downcase).downcase %>
               <% elsif stat.version == 1 %>
-                <%= t("text_project_created_"+stat.journable_type.to_s.downcase) %>
+                <%= t("text_project_created_"+stat.journable_type.to_s.downcase).downcase %>
               <%elsif stat.version > 1 %>
-                <%= t("text_project_updated_"+stat.journable_type.to_s.downcase) %>
+                <%= t("text_project_updated_"+stat.journable_type.to_s.downcase).downcase %>
               <% else %>
                 <%= stat.journable_type %>
               <% end %>

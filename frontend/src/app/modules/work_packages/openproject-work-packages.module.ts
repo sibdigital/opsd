@@ -83,6 +83,7 @@ import {WorkPackageBreadcrumbComponent} from 'core-components/work-packages/wp-b
 import {WorkPackageEditFieldGroupComponent} from 'core-components/wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/wp-details-toolbar.component';
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
+import {WorkPackageAddReportNotifyButtonComponent} from "core-components/work-packages/wp-add-report-notify-button/wp-add-report-notify-button.component";
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import {WorkPackageRelationsComponent} from 'core-components/wp-relations/wp-relations.component';
@@ -91,7 +92,7 @@ import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-r
 import {WorkPackageRelationsCreateComponent} from 'core-components/wp-relations/wp-relations-create/wp-relations-create.component';
 import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
-
+import {CreateBoardButtonComponent} from "core-components/wp-buttons/create-board-button/create-board-button.component";
 import {WpSendEmailButtonComponent} from 'core-components/wp-buttons/wp-send-email-button/wp-send-email-button.component';
 
 import {FullCalendarModule} from 'ng-fullcalendar';
@@ -371,6 +372,7 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
     //iag(
     WpSendEmailButtonComponent,
     //)
+    CreateBoardButtonComponent,
     WorkPackageFilterByTextInputComponent,
 
     // Single view
@@ -423,6 +425,7 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
     WorkPackageEditFieldGroupComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
+    WorkPackageAddReportNotifyButtonComponent,
     WorkPackageSubjectComponent,
 
     // Full view

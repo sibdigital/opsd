@@ -114,6 +114,11 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       groupable: true
     },
     # -tan
+    period: {
+      association: 'period',
+      sortable: "name",
+      groupable: true
+    },
     fixed_version: {
       association: 'fixed_version',
       sortable: ["name"],

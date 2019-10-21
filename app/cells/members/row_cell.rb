@@ -44,6 +44,17 @@ module Members
       end
     end
 
+    def busyness
+      label = member.busyness
+      span = content_tag "span", label, id: "member-#{member.id}-busyness"
+
+      if may_update?
+        span + busyness_form_cell.call
+      else
+        span
+      end
+    end
+
     def roles
       label = h member.roles.sort.collect(&:name).join(', ')
       span = content_tag "span", label, id: "member-#{member.id}-roles"
@@ -53,6 +64,16 @@ module Members
       else
         span
       end
+    end
+
+    def busyness_form_cell
+      Members::BusynessFormCell.new(
+        member,
+        row: self,
+        params: controller.params,
+        busyness: member.busyness,
+        context: { controller: controller }
+      )
     end
 
     def role_form_cell
@@ -101,6 +122,10 @@ module Members
 
     def roles_css_id
       "member-#{member.id}-roles"
+    end
+
+    def busyness_css_id
+      "member-#{member.busyness}-busyness"
     end
 
     def toggle_item_class_name
