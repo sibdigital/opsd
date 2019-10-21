@@ -41,7 +41,21 @@ See docs/COPYRIGHT.rdoc for more details.
                      required: true,
                      container_class: '-middle' %>
   </div>
-
+  <% if @group.direct_manager_id.nil? %>
+    <%= f.hidden_field :direct_manager_id, value: User.current.id %>
+<% else %>
+    <div class="form--field">
+      <% users = User
+          .not_builtin
+          .active
+          .not_in_group(@group)
+          .limit(100)  %>
+      <%= f.select :direct_manager_id,
+                   options_for_select(users.map {|u| [u.fio, u.id]}+[[User.find(@group.direct_manager_id).fio, User.find(@group.direct_manager_id).id]], @group.direct_manager_id),
+                   container_class: '-middle' ,
+                   required: true %>
+    </div>
+  <% end %>
   <% unless f.object.custom_field_values.empty? %>
     <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
     <%= render partial: 'customizable/form', locals: { form: f,

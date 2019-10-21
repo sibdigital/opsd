@@ -90,18 +90,26 @@ class WikiContent < ActiveRecord::Base
 
   def send_content_added_mail
     return unless Setting.notified_events.include?('wiki_content_added')
-
-    create_recipients.uniq.each do |user|
-      UserMailer.wiki_content_added(user, self, User.current).deliver_now
+    begin
+      create_recipients.uniq.each do |user|
+        UserMailer.wiki_content_added(user, self, User.current).deliver_now
+      end
+    rescue Exception => e
+      Rails.logger.info(e.message)
     end
+
   end
 
   def send_content_updated_mail
     return unless Setting.notified_events.include?('wiki_content_updated')
-
-    update_recipients.uniq.each do |user|
-      UserMailer.wiki_content_updated(user, self, User.current).deliver_now
+    begin
+      update_recipients.uniq.each do |user|
+        UserMailer.wiki_content_updated(user, self, User.current).deliver_now
+      end
+    rescue Exception => e
+      Rails.logger.info(e.message)
     end
+
   end
 
   def create_recipients

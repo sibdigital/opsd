@@ -44,6 +44,7 @@ export class TimelineViewParametersSettings {
   autoZoom:boolean = true;
   //bbm(
   firstOrLastHistDate:number = 0;
+  trudozatraty:boolean = false;
   //)
 }
 
@@ -137,6 +138,18 @@ export function calculatePositionValueForDayCount(viewParams:TimelineViewParamet
   const value = calculatePositionValueForDayCountingPx(viewParams, days);
   return value + 'px';
 }
+
+//bbm(
+export function calculatePositionValueForHourCount(viewParams:TimelineViewParameters, hours:number):string {
+  const value = calculatePositionValueForHourCountingPx(viewParams, hours);
+  return value + 'px';
+}
+
+export function calculatePositionValueForHourCountingPx(viewParams:TimelineViewParameters, hours:number):number {
+  const hoursInPx = Math.round(hours * viewParams.pixelPerDay / 8);
+  return hoursInPx;
+}
+//)
 
 export function getTimeSlicesForHeader(vp:TimelineViewParameters,
                                        unit:moment.unitOfTime.DurationConstructor,

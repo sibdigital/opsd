@@ -17,37 +17,57 @@ module API
               stroka['kind'] = arr['kind']
               stroka['user_creator_id'] = arr['user_creator_id']
               stroka['assigned_to_id'] = arr['assigned_to_id']
+              stroka['object_id'] = arr['object_id']
               stroka['object_type'] = arr['object_type']
               stroka['text'] = arr['text']
               @d = Date.parse(arr['created_at'])
               stroka['created_at'] = @d.strftime("%d.%m.%Y")
               stroka['due_date'] = arr['due_date']
-              if arr['project_id'] != nil
+              if !arr['project_id'].nil? and arr['project_id'] != 0
                 @project_link = project_url(Project.find_by(id: arr['project_id']))
                 @project_name = Project.find_by(id: arr['project_id']).name
               else
                 @project_link = "#"
                 @project_name = nil
               end
-              if arr['object_type'] = "WorkPackage" and arr['object_id'] != nil
-                @wp_link = work_package_url(WorkPackage.find_by(id: arr['object_id']))
-                @wp_name = WorkPackage.find_by(id: arr['object_id']).name
+              case arr['object_type']
+              when "WorkPackage"
+                if !arr['object_id'].nil? and arr['object_id'] != 0
+                  @wp_link = work_package_url(WorkPackage.find_by(id: arr['object_id']))
+                  @wp_name = WorkPackage.find_by(id: arr['object_id']).name
+                else
+                  @wp_link ="#"
+                  @wp_name = nil
+                end
+              when "Organization"
+                @wp_link = "/users"
+                @wp_name = "Организации (справочник)"
+              when "Contract"
+                @wp_link = "/users"
+                @wp_name = "Государственные контракты (справочник)"
               else
-                @wp_link = "#"
+                @wp_link ="#"
                 @wp_name = nil
               end
               stroka['project'] = @project_link.to_s
+              stroka['project_id'] = arr['project_id']
               stroka['object'] = @wp_link.to_s
               stroka['project_name'] = @project_name
               stroka['object_name'] = @wp_name
               @user_creator = User.find_by(id: arr['user_creator_id']).lastname.to_s
               stroka['user_creator'] = @user_creator
-              if arr['assigned_to_id'] != nil
-                @assigned_to = User.find_by(id: arr['assigned_to_id']).lastname.to_s
-              else
-                @assigned_to = nil
-              end
+              @assigned_to = if !arr['assigned_to_id'].nil?
+                               User.find_by(id: arr['assigned_to_id']).lastname.to_s
+                             else
+                               nil
+                             end
               stroka['assigned_to'] = @assigned_to
+              stroka['completed'] = if arr['completed']
+                                      'Да'
+                                    else
+                                      'Нет'
+                                    end
+              stroka['related_task_id'] = arr['related_task_id']
               @user_tasks << stroka
             end
             @user_tasks

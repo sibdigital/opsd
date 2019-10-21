@@ -6,5 +6,5 @@ This file written by BAN
   <strong>Текст:</strong>
   <%= @user_task.text %>
 </p>
-<%= link_to 'Редактировать', edit_user_task_path(@user_task) %>
+<%= link_to 'Редактировать', edit_user_task_path(@user_task, kind: @user_task.kind) %>
 <p><a href="/my/page">Вернуться к моей странице</a></p>

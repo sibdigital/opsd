@@ -2,17 +2,20 @@
     <span class="widget-box--header-title">Запросы мне</span>
 </h3>
 <div class="grid--widget-content">
-    <table width="100%">
-        <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Запрос от</th><th>Проект</th><th>Пакет работ</th><th>Текст</th><th>Срок</th></tr>
+    <table width="100%" cellpadding="2" style="text-align: left">
+        <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Запрос от</th><th>Проект</th><th>Пакет работ/Справочник</th><th>Текст</th><th>Срок</th><th>Выполнено</th></tr>
         <ng-container *ngFor="let user_task of entries">
             <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;">
-                <th [textContent]="user_task.user_creator"></th>
-                <th><a [href]="user_task.project" [textContent]="user_task.project_name"></a></th>
-                <th><a [href]="user_task.object" [textContent]="user_task.object_name"></a></th>
-                <th><a [href]="user_taskText(user_task)" [textContent]="user_task.text"></a></th>
-                <th [textContent]="user_task.due_date"></th>
+                <td [textContent]="user_task.user_creator"></td>
+                <td><a [href]="user_task.project" [textContent]="user_task.project_name"></a></td>
+                <td><a [href]="user_task.object" [textContent]="user_task.object_name"></a></td>
+                <td><a [href]="user_taskResponse(user_task)" [textContent]="user_task.text"></a></td>
+                <td [textContent]="user_task.due_date"></td>
+                <td [textContent]="user_task.completed"></td>
             </tr>
         </ng-container>
     </table>
 </div>
-<a href="/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage">Создать</a>
+<a href="/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage">Запрос на приемку задачи</a>
+<a href="/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочник+Организации&kind=Request&object_type=Organization">Запрос на ввод данных в справочник Организации</a>
+<a href="/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочник+Государственные+контракты&kind=Request&object_type=Contract">Запрос на ввод данных в справочник Государственные контракты</a>

@@ -113,13 +113,28 @@ class AccountController < ApplicationController
       end
 
       # create a new token for password recovery
-      token = Token::Recovery.new(user_id: user.id)
-      if token.save
-        UserMailer.password_lost(token).deliver_now
+      # bbm(
+      # token = Token::Recovery.new(user_id: user.id)
+      # if token.save
+      #  UserMailer.password_lost(token).deliver_now
+      #  flash[:notice] = l(:notice_account_lost_email_sent)
+      #  redirect_to action: 'login', back_url: home_url
+      #  return
+      # end
+      o = [('0'..'9'), ('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
+      newpass = (0...10).map { o[rand(o.length)] }.join
+      user.password = newpass
+      user.password_confirmation = newpass
+      user.force_password_change = false
+
+      if user.save
+        UserMailer.password_lost_new_password(user, newpass).deliver_now
         flash[:notice] = l(:notice_account_lost_email_sent)
-        redirect_to action: 'login', back_url: home_url
-        return
+      else
+        flash[:notice] = l(:notice_can_t_change_password)
       end
+      redirect_to action: 'login', back_url: home_url
+      # )
     end
   end
 
@@ -409,7 +424,13 @@ class AccountController < ApplicationController
         invited_account_not_activated(user)
       else
         # incorrect password
-        flash_and_log_invalid_credentials
+        flash_error_message(log_reason: 'invalid credentials') do
+          if user and user.failed_too_many_recent_login_attempts?
+            :notice_account_blocked
+          else
+            :notice_account_invalid_credentials
+          end
+        end
       end
     elsif user.new_record?
       onthefly_creation_failed(user, login: user.login, auth_source_id: user.auth_source_id)

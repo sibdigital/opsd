@@ -3,6 +3,7 @@ import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-r
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
+  calculatePositionValueForHourCount,
   RenderInfo,
   timelineElementCssClass,
   timelineMarkerSelectionStartClass
@@ -20,7 +21,7 @@ import {
   WorkPackageCellLabels
 } from './wp-timeline-cell';
 import {
-  classNameBarLabel, classNameFactBar, classNameHistBar,
+  classNameBarLabel, classNameFactBar, classNameHistBar, classNameTrudozatraty,
   classNameLeftHandle,
   classNameRightHandle
 } from './wp-timeline-cell-mouse-handler';
@@ -286,7 +287,7 @@ export class TimelineCellRenderer {
       let histDue = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? moment(renderInfo.workPackage.firstDueDate) : moment(renderInfo.workPackage.lastDueDate);
       if (!_.isNaN(histStart.valueOf()) && !_.isNaN(histDue.valueOf())) {
         let histBar = _.find(bar.childNodes, (child:any) => {
-          return child.className === 'histBar';
+          return child.classList.contains('histBar') === true;
         });
         const offsetHistStart = offsetStart === 0 ? histStart.diff(viewParams.dateDisplayStart, 'days') : histStart.diff(start, 'days');
         const histWidth = histDue.diff(histStart, 'days') + 1;
@@ -305,6 +306,28 @@ export class TimelineCellRenderer {
           } else {
             histBar.classList.add(Highlighting.borderClass('status', id));
           }
+        }
+      }
+    }
+
+    if (renderInfo.viewParams.settings.trudozatraty) {
+      //ababab
+      let trudozatraty = _.find(bar.childNodes, (child:any) => {
+        return child.classList.contains('trudozatraty') === true;
+      });
+      if (trudozatraty) {
+        let timeEntriesSum = renderInfo.workPackage.timeEntriesSum;
+        trudozatraty.style.width = calculatePositionValueForHourCount(viewParams, timeEntriesSum);
+        let status = renderInfo.workPackage.status;
+        if (!status) {
+          trudozatraty.style.backgroundColor = 'black';
+        }
+        const id = status.getId();
+        if (timeEntriesSum >= duration * 8) {
+          trudozatraty.classList.add('__hl_row_overdue');
+        } else {
+          trudozatraty.classList.add(Highlighting.rowClass('status', id));
+          trudozatraty.classList.add('__hl_border_overdue');
         }
       }
     }
@@ -386,6 +409,14 @@ export class TimelineCellRenderer {
         hist.className = classNameHistBar;
         bar.appendChild(hist);
       }
+    }
+    if (this.wpTableTimeline.getTrudozatraty() && renderInfo.workPackage.timeEntriesSum > 0) {
+        const trudozatraty = document.createElement('div');
+        trudozatraty.className = classNameTrudozatraty;
+        /*if (attribute === 'subject') {
+          span.textContent += ' Трудовые затраты: ' + changeset.workPackage.timeEntriesSum + 'ч.';
+        }*/
+        bar.appendChild(trudozatraty);
     }
     //)
     return bar;

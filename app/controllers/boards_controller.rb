@@ -33,12 +33,21 @@ class BoardsController < ApplicationController
                 :authorize
   before_action :new_board, only: [:new, :create]
   before_action :find_board_if_available, except: [:index]
+  before_action only: [:create, :update] do
+    upload_custom_file("board", "BoardCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Board", @board.id)
+  end
+
   accept_key_auth :index, :show
 
   include SortHelper
   include WatchersHelper
   include PaginationHelper
   include OpenProject::ClientPreferenceExtractor
+  include CustomFilesHelper
 
   def index
     @boards = @project.boards

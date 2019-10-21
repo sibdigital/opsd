@@ -101,9 +101,15 @@ class Journal < ActiveRecord::Base
   end
 
   def destroy
+    # TODO add creation of new entity in table with user which commit delete
     # if !self.is_deleted
       self.is_deleted = true
       self.save
+      # unless self.next.nil?
+      #   record_of_destroy = self.dup
+      #   record_of_destroy.user_id = User.current.id
+      #   record_of_destroy.save
+      # end
       # if self.next.nil?
       #   @clone = Journal.new(self.attributes)
       #   @clone.save

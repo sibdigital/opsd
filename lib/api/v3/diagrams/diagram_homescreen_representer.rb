@@ -82,16 +82,21 @@ module API
           ispolneno = 0 # Порядок важен
           ne_ispolneno = 0
           v_rabote = 0
-          @plan_facts = PlanFactYearlyTargetValue.find_by_sql <<-SQL
+          #+-tan 2019.10.16
+          # проведен рефакторинг фильтрация проектов по видимости пользователю проводится непосредственно в запросе
+          # это рациональнее и позволяет избежать ошибок связанных с проверкой видимости шаблонов
+          sql_query = <<-SQL
 select yearly.project_id, yearly.target_id, sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
 from v_plan_fact_quarterly_target_values as quarterly
 left join v_plan_fact_yearly_target_values as yearly
 on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
-where yearly.year = date_part('year', current_date)
+where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
 group by yearly.project_id, yearly.target_id
           SQL
+          arr = Project.visible(current_user).map { |p| p.id }
+          @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
           @plan_facts.map do |plan|
-            project = Project.visible(current_user).find(plan.project_id)
+            project = plan.project
             exist = which_role(project, @current_user, @global_role)
             if exist
               chislitel = plan.final_fact_year_value || 0;

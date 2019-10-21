@@ -6,6 +6,7 @@ class Risk < ActiveRecord::Base
   belongs_to :color
   belongs_to :possibility
   belongs_to :importance
+  belongs_to :project_section
 
   has_many :risk_characts, dependent: :destroy
   acts_as_journalized

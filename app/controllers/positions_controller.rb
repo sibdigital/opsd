@@ -4,8 +4,17 @@ class PositionsController < ApplicationController
 
   layout 'admin'
 
+  include CustomFilesHelper
+
   before_action :require_project_admin
   before_action :find_position, only: [:edit, :update, :destroy]
+  before_action only: [:create, :update] do
+    upload_custom_file("position", "PositionCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Position", @position.id)
+  end
 
   def index; end
 
@@ -38,7 +47,6 @@ class PositionsController < ApplicationController
   def destroy
     @position.destroy
     redirect_to controller: 'organizations', type: "positions" #:back #action: 'index'
-    return
   end
 
   protected

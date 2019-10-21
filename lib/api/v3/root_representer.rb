@@ -114,7 +114,11 @@ module API
         }
       end
       #-tan
-
+      link :periods do
+        {
+          href: api_v3_paths.periods
+        }
+      end
       #zbd(
       link :required_doc_type do
         {

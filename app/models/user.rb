@@ -112,8 +112,10 @@ class User < Principal
   end
 
   def self.blocked_condition(blocked)
-    block_duration = Setting.brute_force_block_minutes.to_i.minutes
-    blocked_if_login_since = Time.now - block_duration
+    #bbm( block_duration = Setting.brute_force_block_minutes.to_i.minutes
+    # blocked_if_login_since = Time.now - block_duration
+    blocked_if_login_since = DateTime.strptime("00:00 01.01.1900", "%H:%M %d.%m.%Y")
+    # )
     negation = blocked ? '' : 'NOT'
 
     ["#{negation} (users.failed_login_count >= ? AND users.last_failed_login_on > ?)",

@@ -428,7 +428,7 @@ class PermittedParams
   end
 
   def typed_risk
-    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
+    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility, :solution, :project_section_id)
 
     permitted_params = permitted_params.merge(custom_field_values(:typed_risk))
     permitted_params
@@ -450,7 +450,7 @@ class PermittedParams
 
   def project_risk
     # +-tan
-    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
+    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility, :solution, :project_section_id)
 
     permitted_params = permitted_params.merge(custom_field_values(:project_risk))
     permitted_params
@@ -512,6 +512,9 @@ class PermittedParams
     params.require(:production_calendar).permit(:day_type, :date, :year)
   end
 
+  def message_like
+    params.require(:message_like).permit(:message_id, :user_id)
+  end
   # )
   #xcc(
   def target
@@ -686,7 +689,8 @@ class PermittedParams
           reassign_to_id
         ),
         group: [
-          :lastname
+          :lastname,
+          :direct_manager_id
         ],
         membership: [
           :project_id,
@@ -704,6 +708,7 @@ class PermittedParams
           ]
         ],
         member: [
+          :busyness,
           role_ids: []
         ],
         new_work_package: [

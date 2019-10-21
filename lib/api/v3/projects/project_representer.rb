@@ -92,6 +92,12 @@ module API
                    get_due_date
                  }
 
+        property :default_board,
+                 render_nil: true,
+                 getter: ->(*) {
+                    get_default_board
+                  }
+
         property :national_project_id,
                  render_nil: true
 

@@ -638,6 +638,13 @@ module API
             "#{user_tasks}/#{id}"
           end
           # -ban
+          def self.periods
+            "#{root}/periods"
+          end
+
+          def self.period(id)
+            "#{periods}/#{id}"
+          end
         end
 
         def api_v3_paths

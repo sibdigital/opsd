@@ -30,7 +30,11 @@ class UserTasksController < ApplicationController
       if @user_task.kind == 'Request'
         @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
         @user = User.find_by(id: @user_task.assigned_to_id)
-        UserMailer.user_task_request_created(@user, @user_task, User.current, @timenow).deliver_now
+        begin
+          UserMailer.user_task_request_created(@user, @user_task, User.current, @timenow).deliver_now
+        rescue Exception => e
+          Rails.logger.info(e.message)
+        end
       end
     else
       render 'new'
