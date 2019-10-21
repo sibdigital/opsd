@@ -14,11 +14,19 @@ class ReportMeetingsController < ApplicationController
 
     meeting = Meeting.find(params[:id])
     @project = meeting.project
-    @date_meeting = meeting.start_date.to_s
+    #temp_date_meeting = Date.strptime(meeting.start_date.to_s, "%Y-%m-%d")
+    @date_meeting = format_date meeting.start_date
     @number_meeting = ''
-    @chairman = meeting.chairman
-    @protocols = meeting.protocols
-
+    @chairman = meeting.chairman.fio
+    @protocols = []
+    meeting.protocols.map do |protocol|
+      p = Hash.new()
+      p["text"] = protocol.text
+      p["due_date"] = format_date protocol.due_date
+      p["user"] = protocol.user.fio
+      p["org"] = protocol.user.organization
+      @protocols << p
+    end
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
       Dir.mkdir dir_path
@@ -31,5 +39,9 @@ class ReportMeetingsController < ApplicationController
       f << render_rtf(content)
       f.close
     end
+  end
+
+  def format_date(date)
+    I18n.l date.to_date, format: :long if date
   end
 end
