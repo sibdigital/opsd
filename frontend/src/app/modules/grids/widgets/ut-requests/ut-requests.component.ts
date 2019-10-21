@@ -45,7 +45,7 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
       });
   }
 
-  public user_taskText(user_task:UserTasksResource) {
-    return `${this.pathHelper.appBasePath}/user_tasks/${user_task.id}`;
+  public user_taskResponse(user_task:UserTasksResource) {
+    return `/user_tasks/new?assigned_to_id=${user_task.assigned_to_id}&head_text=Ответ на запрос на приемку задачи&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.related_task_id}`;
   }
 }

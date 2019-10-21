@@ -71,6 +71,10 @@ export class PathHelperService {
     return this.staticBase + '/topics/' + messageIdentifier;
   }
 
+  public newTopicPath(projectIdentifier:string, boardIdentifier:string, wpId:string) {
+    return this.staticBase + 'boards/' + boardIdentifier + '/topics/new?wpId=' + wpId;
+  }
+
   public myPagePath() {
     return this.staticBase + '/my/page';
   }
@@ -95,6 +99,9 @@ export class PathHelperService {
     return this.projectPath(projectIdentifier) + '/boards';
   }
 
+  public projectNewBoardPath(projectIdentifier:string){
+    return this.projectPath(projectIdentifier) + '/boards/new';
+  }
   public projectCalendarPath(projectId:string) {
     return this.projectPath(projectId) + '/work_packages/calendar';
   }

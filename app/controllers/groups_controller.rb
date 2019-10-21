@@ -30,10 +30,20 @@
 class GroupsController < ApplicationController
   layout 'admin'
 
+  include CustomFilesHelper
+
   before_action :require_admin
   before_action :find_group, only: [:destroy, :autocomplete_for_user,
                                     :show, :create_memberships, :destroy_membership,
                                     :edit_membership]
+
+  before_action only: [:create, :update] do
+    upload_custom_file("group", "GroupCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Principal", @group.id)
+  end
 
   # GET /groups
   # GET /groups.xml
@@ -75,7 +85,9 @@ class GroupsController < ApplicationController
   # POST /groups.xml
   def create
     @group = Group.new permitted_params.group
-
+    @group.direct_manager_id = User.current.id
+    @user = User.includes(:memberships).find(@group.direct_manager_id)
+    @group.users << @user
     respond_to do |format|
       if @group.save
         flash[:notice] = l(:notice_successful_create)
@@ -95,7 +107,11 @@ class GroupsController < ApplicationController
   # PUT /groups/1.xml
   def update
     @group = Group.includes(:users).find(params[:id])
-
+    @group.direct_manager_id = params["group"]["direct_manager_id"]
+    @user = User.includes(:memberships).find(@group.direct_manager_id )
+    if !@group.users.pluck(:id).include?(@user.id)
+      @group.users << @user
+      end
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)

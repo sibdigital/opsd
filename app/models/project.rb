@@ -182,6 +182,7 @@ class Project < ActiveRecord::Base
   # )
   # knm(
   has_many :target_calc_procedures
+  after_save :create_default_board
   # )
   #tan(
   def get_project_approve_status
@@ -249,6 +250,10 @@ class Project < ActiveRecord::Base
   #   records_array
   #
   # end
+  def get_default_board
+    default_board = Board.find_by( project_id: self.id, is_default: true)
+    default_board
+  end
 
   def curator
     role_name_curator = I18n.t(:default_role_project_curator)
@@ -853,6 +858,21 @@ class Project < ActiveRecord::Base
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
       allowed_permissions.include? action
+    end
+  end
+
+  # tmd
+  def create_default_board
+    if Board.find_by(project_id: self.id, is_default: true).nil?
+      default_board = Board.new
+      default_board.project_id = self.id
+      default_board.name = "Основная дискуссия проекта"
+      default_board.description = "Основная дискуссия проекта"
+      default_board.position = 1
+      default_board.is_default = true
+      default_board.topics_count = 0
+      default_board.messages_count = 0
+      default_board.save
     end
   end
 

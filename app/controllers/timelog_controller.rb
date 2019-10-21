@@ -161,6 +161,9 @@ class TimelogController < ApplicationController
            .new(user: current_user)
            .call(combined_params)
 
+    #bbm(
+    @issue.touch
+    # )
     @time_entry = call.result
 
     respond_for_saving call

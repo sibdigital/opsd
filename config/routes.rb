@@ -119,8 +119,14 @@ OpenProject::Application.routes.draw do
     post 'move/:id', action: 'move', on: :collection
   end
 
+  # tmd
+  # resources :user_guides
+
   #tmd
   get 'download_pdf', to: "user_guides#download_pdf"
+
+  #tmd
+  get 'download_file', to: "user_guides#download_file"
 
   resources :statuses, except: :show do
     collection do
@@ -446,6 +452,8 @@ OpenProject::Application.routes.draw do
       post :force_user_language
       post :test_email
       get :send_email_assignee_from_task  # iag
+      # get :create_board_from_wp #knm
+      get :send_email_assignee_report #knm
       #post :send_email_from_forum  # tan
     end
   end
@@ -504,6 +512,17 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     #bbm(
+    resources :kpi_options, except: :show, controller: 'kpi_options'
+    scope 'kpi_options/:kpi_option_id/cases', controller: 'kpi_cases' do
+      get '/', action: 'index', as: 'kpi_cases'
+      get '/new', action: 'new', as: 'new_kpi_case'
+      get '/:id/edit', action: 'edit', as: 'edit_kpi_case'
+      post '/', action: 'create'
+      patch '/:id', action: 'update', as: 'kpi_case'
+      put '/:id', action: 'update'
+      delete '/:id', action: 'destroy'
+    end
+
     resources :typed_risks do
       get '/edit/:tab' => 'typed_risks#edit', on: :member, as: 'edit_tab'
     end
@@ -683,6 +702,7 @@ OpenProject::Application.routes.draw do
       member do
         get :quote
         post :reply, as: 'reply_to'
+        get :like, as: 'like'
       end
     end
   end

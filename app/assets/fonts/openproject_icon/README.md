@@ -8,7 +8,7 @@ Minicons Free Vector Icons Pack http://www.webalys.com/minicons and
 User Interface Design framework http://www.webalys.com/design-interface-application-framework.php
 
 Creative Commons Attribution 3.0 Unported License
-This license can also be found at this permalink: http://creativecommons.org/licenses/by/3.0/
+This license can also be foundnode generate.js at this permalink: http://creativecommons.org/licenses/by/3.0/
 
 ## Structure
 

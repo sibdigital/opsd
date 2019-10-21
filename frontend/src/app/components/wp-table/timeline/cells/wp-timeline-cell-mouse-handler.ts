@@ -49,6 +49,7 @@ export const classNameRightHandle = 'rightHandle';
 //bbm(
 export const classNameFactBar = 'factBar';
 export const classNameHistBar = 'histBar';
+export const classNameTrudozatraty = 'trudozatraty';
 //)
 export const classNameBarLabel = 'bar-label';
 

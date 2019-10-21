@@ -1,5 +1,5 @@
 <% areas = Raion.all
-   selected_area = @project.address.raion_id
+   selected_area = @project.address.nil? ? nil : @project.address.raion_id
 %>
 
 <%= form.fields_for :address do |f| %>

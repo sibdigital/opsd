@@ -101,8 +101,6 @@ class ProjectsController < ApplicationController
 
       set_project_address
 
-      create_default_board
-
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_create)
@@ -295,7 +293,9 @@ class ProjectsController < ApplicationController
 
   # tmd
   def format_number
-    params[:project][:invest_amount] = params[:project][:invest_amount].gsub(',', '.').to_d.truncate(2)
+    if params[:project][:invest_amount] != nil
+      params[:project][:invest_amount] = params[:project][:invest_amount].gsub(',', '.').to_d.truncate(2)
+    end
   end
 
   # tmd
@@ -307,18 +307,6 @@ class ProjectsController < ApplicationController
   # tmd
   def destroy_address
     Address.destroy(@project.address_id)
-  end
-
-  # tmd
-  def create_default_board
-    default_board = Board.new
-    default_board.project_id = @project.id
-    default_board.name = "Основная дискуссия проекта"
-    default_board.description = "Основная дискуссия проекта"
-    default_board.position = 1
-    default_board.topics_count = 0
-    default_board.messages_count = 0
-    default_board.save
   end
 
   def find_optional_project

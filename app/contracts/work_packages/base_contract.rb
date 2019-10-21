@@ -68,6 +68,7 @@ module WorkPackages
     #+tan
     attribute :raion_id
     #-tan
+    attribute :period_id
 
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable :fixed_version_id, 'fixed_version_id'

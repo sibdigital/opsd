@@ -65,7 +65,13 @@ See doc/COPYRIGHT.md for more details.
           <tbody>
             <% @meeting.protocols.each_with_index do |meeting_protocol, i| %>
               <tr>
-                <td style="width: 80%; white-space: normal;">
+                <% if meeting_protocol.completed_at.nil? && meeting_protocol.due_date < DateTime.now-%>
+                  <td style="width: 80%; white-space: normal; background: #eebbbb;">
+                <% elsif meeting_protocol.completed == true-%>
+                  <td style="width: 80%; white-space: normal; background: #bbeebb;">
+                <% else -%>
+                  <td style="width: 80%; white-space: normal">
+                <% end -%>
                     <p><%= i+1 %>. <%= meeting_protocol.text %>
                     <p><strong><%= Meeting.human_attribute_name(:meeting_protocol_due_date) %></strong>: <%= format_date meeting_protocol.due_date %>
                        <strong><%= Meeting.human_attribute_name(:meeting_protocol_executors) %></strong>:

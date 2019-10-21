@@ -62,6 +62,10 @@ class MessagesController < ApplicationController
 
   # new topic
   def new
+    unless params["wpId"].blank?
+      @wp = params["wpId"]
+      @isDisabled = true
+    end
     @project = @board.project
     @message = Message.new.tap do |m|
       m.author = User.current
@@ -102,7 +106,12 @@ class MessagesController < ApplicationController
       render action: 'new'
     end
   end
-
+  #like message
+  def like
+    @topic = @message.root
+    @message.liked
+    redirect_to topic_path(@topic)
+  end
   # Reply to a topic
   def reply
     @topic = @message.root

@@ -214,6 +214,7 @@
 <li><span class="icon icon-sort-down"></span>sort-down</li>
 <li><span class="icon icon-sort-up"></span>sort-up</li>
 <li><span class="icon icon-square"></span>square</li>
+<li><span class="icon icon-star-empty"></span>star-empty</li>
 <li><span class="icon icon-star"></span>star</li>
 <li><span class="icon icon-status-reporting"></span>status-reporting</li>
 <li><span class="icon icon-status"></span>status</li>

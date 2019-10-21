@@ -6,12 +6,20 @@ class ProjectRisksController < ApplicationController
   menu_item :project_risks
   before_action :find_optional_project, :verify_project_risks_module_activated
   before_action :find_project_risk, only: [:edit, :update, :destroy]
+  before_action only: [:create, :update] do
+    upload_custom_file("project_risk", "ProjectRiskCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Risk", @project_risk.id)
+  end
 
   helper :sort
   include SortHelper
   include PaginationHelper
   include ::IconsHelper
   include ::ColorsHelper
+  include CustomFilesHelper
 
   def index
     sort_columns = {'id' => "#{ProjectRisk.table_name}.id",

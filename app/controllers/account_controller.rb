@@ -409,7 +409,13 @@ class AccountController < ApplicationController
         invited_account_not_activated(user)
       else
         # incorrect password
-        flash_and_log_invalid_credentials
+        flash_error_message(log_reason: 'invalid credentials') do
+          if user and user.failed_too_many_recent_login_attempts?
+            :notice_account_blocked
+          else
+            :notice_account_invalid_credentials
+          end
+        end
       end
     elsif user.new_record?
       onthefly_creation_failed(user, login: user.login, auth_source_id: user.auth_source_id)

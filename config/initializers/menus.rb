@@ -216,6 +216,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_bubble_diagram,
             icon: 'icon2 icon-additional',
             parent: :project_office
+
+  menu.push :kpi_options,
+            {controller: '/kpi_options', action: 'index' },
+            caption: :label_kpi_option,
+            icon: 'icon2 icon-control-levels',
+            parent: :project_office
   # )
   #knm(
   menu.push :head_performance_indicator_values,
