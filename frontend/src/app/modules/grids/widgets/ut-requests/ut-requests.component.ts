@@ -36,7 +36,7 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.assigned_to_id == this.currentuser.userId && obj.kind == 'Request' && obj.object_type == 'WorkPackage'){
+          if (obj.assigned_to_id == this.currentuser.userId && obj.kind == 'Request'){
             entriesarrayforuser.push(obj);
           }
         }
@@ -46,6 +46,6 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
   }
 
   public user_taskResponse(user_task:UserTasksResource) {
-    return `/user_tasks/new?assigned_to_id=${user_task.assigned_to_id}&head_text=Ответ на запрос на приемку задачи&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.related_task_id}`;
+    return `/user_tasks/new?assigned_to_id=${user_task.assigned_to_id}&head_text=Ответ+на+запрос&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.related_task_id}`;
   }
 }

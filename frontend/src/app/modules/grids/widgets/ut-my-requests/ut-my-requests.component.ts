@@ -36,7 +36,7 @@ export class WidgetUtMyRequestsComponent extends AbstractWidgetComponent impleme
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.user_creator_id == this.currentuser.userId && obj.kind == 'Request' && obj.object_type == 'WorkPackage'){
+          if (obj.user_creator_id == this.currentuser.userId && obj.kind == 'Request'){
             entriesarrayforuser.push(obj);
           }
         }
