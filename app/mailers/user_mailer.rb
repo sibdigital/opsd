@@ -479,6 +479,20 @@ class UserMailer < BaseMailer
     end
   end
 
+  #bbm(
+  def password_lost_new_password(user, newpass)
+
+    @newpass = newpass
+    @user = user
+
+    open_project_headers 'Type' => 'Account'
+
+    with_locale_for(user) do
+      subject = t(:mail_subject_lost_password, value: Setting.app_title)
+      mail to: user.mail, subject: subject
+    end
+  end
+  # )
   def password_lost(token)
     return unless token.user # token's can have no user
 
