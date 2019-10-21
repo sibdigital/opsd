@@ -124,7 +124,11 @@ class MessagesController < ApplicationController
 
     @topic.children << @reply
     #iag(
-    UserMailer.reply_to_message_notify(@message.author).deliver_now
+    begin
+      UserMailer.reply_to_message_notify(@message.author).deliver_now
+    rescue Exception => e
+      Rails.logger.info(e.message)
+    end
     @topic.participants.each do |participiant|
       if participiant != User.current
       Alert.create_pop_up_alert(@topic, "Noted", User.current,participiant.user)
