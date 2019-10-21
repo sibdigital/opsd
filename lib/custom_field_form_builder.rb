@@ -60,6 +60,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
                                   id: custom_field_field_id)
 
     field_format = OpenProject::CustomFieldFormat.find_by_name(object.custom_field.field_format)
+    formatted_id = input_options[:id].scan(/\d+/).first
 
     case field_format.try(:edit_as)
     when 'date'
@@ -74,19 +75,32 @@ class CustomFieldFormBuilder < TabularFormBuilder
       custom_field_input_list(field, input_options)
     when 'formula'
       if options[:obj_id] != nil
-        cf_id = input_options[:id].scan(/\d+/).first
-        field = calculate_formula(options[:obj_id], options[:class_name], cf_id, options[:from])
-      else
-        field = ""
+        calculate_formula(options[:obj_id], options[:class_name], formatted_id, options[:from])
       end
     when 'rtf'
       text_area(field, input_options.merge(with_text_formatting: true))
+    when 'file'
+      data = CustomValue.where(:custom_field_id => formatted_id, :customized_id => options[:obj_id]).pluck(:value)
+
+      if data.any?
+        html = ''
+        data.each do |filename|
+          html += file_field(field, input_options)
+          html += '<div class="form--field content--split">'
+          html += ActionController::Base.helpers.link_to filename, '/download_file/?filename=' + filename
+          html += '</div>'
+        end
+
+        ActiveSupport::SafeBuffer.new(html)
+      else
+        file_field(field, input_options)
+      end
     else
       text_field(field, input_options)
     end
   end
 
-  #tmd 06.08.2019
+  #tmd
   def calculate_formula(id, name, cf_id, from)
     sql = "SELECT formula FROM custom_fields WHERE type = '" + name + "CustomField' AND id = " + cf_id.to_s
     records_array = ActiveRecord::Base.connection.execute(sql).values
