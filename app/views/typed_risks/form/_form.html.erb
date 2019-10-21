@@ -66,9 +66,11 @@ This file written by BBM
   <% end %>
   <% unless f.object.custom_field_values.empty? %>
     <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-    <%= render partial:     'customizable/field',
-               collection:  @typed_risk.custom_field_values,
-               as:          :value,
-               locals:      { form: f } %>
+    <%= render partial: 'customizable/form', locals: { form: f,
+                                                       all_fields: true,
+                                                       only_required: false,
+                                                       class_name: @typed_risk.class.name,
+                                                       obj_id: @typed_risk.id,
+                                                       from: 'organizations' } %>
   <% end %>
 </section>

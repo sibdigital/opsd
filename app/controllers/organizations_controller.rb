@@ -11,10 +11,19 @@ class OrganizationsController < ApplicationController
   #include ::ColorsHelper
   #include TargetsHelper
   include OrganizationsHelper
+  include CustomFilesHelper
 
   before_action :require_project_admin
   before_action :find_organization, only: [:edit, :update, :destroy]
   before_action :find_org_type
+  before_action only: [:create, :update] do
+    upload_custom_file("organization", "OrganizationCustomField")
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Organization", @organization.id)
+  end
+
   respond_to :html, :json
 
   protect_from_forgery with: :exception
