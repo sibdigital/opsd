@@ -424,10 +424,10 @@ class UserMailer < BaseMailer
                                             assigned_to_id: @user_task.user_creator_id, related_task_id: @user_task.id)
       @begin_text = 'Вам направлен запрос на приемку задачи. В случае несогласия, вы можете написать ответ на запрос. Для этого перейдите по ссылке: '+@link_to_response
     when 'Organization'
-      @url_to_object = organizations_url
+      @url_to_object = Setting.host_name+'/users'
       @begin_text = 'Справочник, в который требуется внести изменения: Организации'
     when 'Contract'
-      @url_to_object = contracts_url
+      @url_to_object = Setting.host_name+'/users'
       @begin_text = 'Справочник, в который требуется внести изменения: Государственные контракты'
     end
 
@@ -479,6 +479,20 @@ class UserMailer < BaseMailer
     end
   end
 
+  #bbm(
+  def password_lost_new_password(user, newpass)
+
+    @newpass = newpass
+    @user = user
+
+    open_project_headers 'Type' => 'Account'
+
+    with_locale_for(user) do
+      subject = t(:mail_subject_lost_password, value: Setting.app_title)
+      mail to: user.mail, subject: subject
+    end
+  end
+  # )
   def password_lost(token)
     return unless token.user # token's can have no user
 

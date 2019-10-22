@@ -83,7 +83,12 @@ class AlertsController < ApplicationController
           @term_date = workPackage.due_date #ban
           @project_name = Project.find_by(id: workPackage.project_id).name #ban
 
-          UserMailer.work_package_report_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
+          begin
+            UserMailer.work_package_report_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
+
           #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
           #Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)
           @alert = Alert.new
@@ -121,7 +126,12 @@ class AlertsController < ApplicationController
           @term_date = workPackage.due_date #ban
           @project_name = Project.find_by(id: workPackage.project_id).name #ban
 
-          UserMailer.work_package_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
+          begin
+            UserMailer.work_package_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
+
           #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
           #Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)
           @alert = Alert.new
@@ -160,7 +170,12 @@ class AlertsController < ApplicationController
           @term_date = workPackage.due_date
           @project_name = Project.find_by(id: workPackage.project_id).name
 
-          UserMailer.work_package_deadline_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now
+          begin
+            UserMailer.work_package_deadline_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
+
           #Alert.create_new_pop_up_alert(workPackage.id, 'WorkPackagesDue', "Due", 0, workPackage.assigned_to_id)
           @alert = Alert.new
 
@@ -195,7 +210,13 @@ class AlertsController < ApplicationController
 
         project.recipients.uniq.each do |user|
           @term_date = project.due_date
-          UserMailer.deadline_of_project_is_approaching(user, @term_date, project).deliver_now
+
+          begin
+            UserMailer.deadline_of_project_is_approaching(user, @term_date, project).deliver_now
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
+
 
           #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
         end
@@ -228,7 +249,12 @@ class AlertsController < ApplicationController
 
         project.recipients.uniq.each do |user|
           @term_date = project.due_date
-          UserMailer.deadline_of_project(user, @term_date, project).deliver_now
+          begin
+            UserMailer.deadline_of_project(user, @term_date, project).deliver_now
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
+
 
           #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
         end

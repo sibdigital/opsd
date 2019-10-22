@@ -91,9 +91,12 @@ class Document < ActiveRecord::Base
 
   def notify_document_created
     return unless Setting.notified_events.include?('document_added')
-
-    recipients.each do |user|
-      DocumentsMailer.document_added(user, self).deliver_now
+    begin
+      recipients.each do |user|
+        DocumentsMailer.document_added(user, self).deliver_now
+      end
+    rescue Exception => e
+      Rails.logger.info(e.message)
     end
   end
 end

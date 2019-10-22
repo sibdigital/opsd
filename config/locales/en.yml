@@ -596,6 +596,7 @@ en:
         address: Адрес
         cabinet: Кабинет
         direct_manager: Непосредственный руководитель
+        position: Должность
         #)
       user_preference:
         comments_sorting: Показывать комментарии
@@ -1176,27 +1177,27 @@ en:
       - Пятница
       - Суббота
     formats:
-      default: "%m/%d/%Y"
-      long: "%B %d, %Y"
-      short: "%b %d"
+      default: "%d.%m.%Y"
+      long: "%d %B %Y"
+      short: "%d %b"
     month_names:
       -
-      - Январь
-      - Февраль
-      - Март
-      - Апрель
-      - Май
-      - Июнь
-      - Июль
-      - Август
-      - Сентябрь
-      - Октябрь
-      - Ноябрь
-      - Декабрь
+      - января
+      - февраля
+      - марта
+      - апреля
+      - мая
+      - июня
+      - июля
+      - августа
+      - сентября
+      - октября
+      - ноября
+      - декабря
     order:
-      - ":год"
-      - ":месяц"
-      - ":день"
+      - :day
+      - :month
+      - :year
   datetime:
     distance_in_words:
       about_x_hours:
@@ -1368,6 +1369,7 @@ en:
   #default_type_epic: Эпический
   #default_type_feature: Функция
   default_type_milestone: Контрольная точка
+  default_type_work: Работа
   #default_type_result: Тип результата
   #default_type_phase: Фаза
   default_type_task: Мероприятие
@@ -2336,6 +2338,7 @@ en:
   mail_body_account_information_external: Вы можете использовать учетную запись %{value}
     для входа.
   mail_body_lost_password: 'Чтобы изменить пароль, щёлкните по следующей ссылке:'
+  mail_body_new_password: 'Ваш новый пароль:'
   mail_body_register: 'Для активации учетной записи щёлкните по следующей ссылке:'
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть
     представлены в следующие  %{days}:"
@@ -2374,7 +2377,7 @@ en:
   notice_account_invalid_credentials_or_blocked: Неправильное имя пользователя/пароль
     или учетная запись была заблокирована из-за многочисленных неуспешных попыток
     входа. Учетная запись будет разблокирована автоматически через некоторое время.
-  notice_account_lost_email_sent: Письмо с инструкциями, как установить новый пароль,
+  notice_account_lost_email_sent: Письмо с новым паролем,
     было отправлено на Ваш электронный адрес.
   notice_account_new_password_forced: Требуется новый пароль.
   notice_account_password_expired: Ваш пароль истекает через %{days} дней. Пожалуйста,
@@ -3532,7 +3535,7 @@ en:
         estimated_hours: Предполагаемое количество часов не может быть задано для
           родительских пакетов.
         invalid_user_assigned_to_work_package: Выбранный пользователь не может быть
-          «%{property}» для этого пакета работ.
+          «%{property}» для этого мероприятия.
         start_date: Дата начала не может быть задана на родительских  пакетах работ.
       writing_read_only_attributes: Вы не должны перезаписывать атрибут являющийся
         только для чтения.

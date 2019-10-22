@@ -124,7 +124,11 @@ class MessagesController < ApplicationController
 
     @topic.children << @reply
     #iag(
-    UserMailer.reply_to_message_notify(@message.author).deliver_now
+    begin
+      UserMailer.reply_to_message_notify(@message.author).deliver_now
+    rescue Exception => e
+      Rails.logger.info(e.message)
+    end
     @topic.participants.each do |participiant|
       if participiant != User.current
       Alert.create_pop_up_alert(@topic, "Noted", User.current,participiant.user)
@@ -167,7 +171,12 @@ class MessagesController < ApplicationController
         end
         #ban(
         @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-        UserMailer.message_changed(participiant.user, @message, User.current, @timenow).deliver_now
+        begin
+          UserMailer.message_changed(participiant.user, @message, User.current, @timenow).deliver_now
+        rescue Exception => e
+          Rails.logger.info(e.message)
+        end
+
         #)
       end
       @message.reload
@@ -192,7 +201,12 @@ class MessagesController < ApplicationController
       end
       #ban(
       @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-      UserMailer.message_deleted(participiant.user, @project_name, @board_name, @message_subject, User.current, @timenow).deliver_now
+      begin
+        UserMailer.message_deleted(participiant.user, @project_name, @board_name, @message_subject, User.current, @timenow).deliver_now
+      rescue Exception => e
+        Rails.logger.info(e.message)
+      end
+
       # )
     end
     flash[:notice] = l(:notice_successful_delete)

@@ -242,7 +242,11 @@ class UsersController < ApplicationController
         end
 
         if @user.active? && send_information
-          UserMailer.account_information(@user, @user.password).deliver_now
+          begin
+            UserMailer.account_information(@user, @user.password).deliver_now
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
         end
       end
 
