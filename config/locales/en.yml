@@ -1897,6 +1897,7 @@ en:
   label_message: Сообщение
   label_message_last: Последнее сообщение
   label_message_new: Новое сообщение
+  label_message_filter: Фильтр
   label_message_plural: Сообщения
   label_message_posted: Сообщение добавлено
   label_min_max_length: Минимальная - Максимальная длина
@@ -2566,10 +2567,12 @@ en:
     news: Новость
     project: Проект
     costobject: Бюджет
+    member: Пользователь
   label_filter: Фильтр
   label_by_date_from: "По дате: с"
   label_by_date_to: "До: "
   label_by_type: По типу
+  label_by_status: По статусу
   label_by_user: По пользователю
   label_by_category: По категории
   label_by_action: По действию

@@ -287,7 +287,7 @@ export class TimelineCellRenderer {
       let histDue = renderInfo.viewParams.settings.firstOrLastHistDate === 1 ? moment(renderInfo.workPackage.firstDueDate) : moment(renderInfo.workPackage.lastDueDate);
       if (!_.isNaN(histStart.valueOf()) && !_.isNaN(histDue.valueOf())) {
         let histBar = _.find(bar.childNodes, (child:any) => {
-          return child.classList.contains('histBar');
+          return child.classList.contains('histBar') === true;
         });
         const offsetHistStart = offsetStart === 0 ? histStart.diff(viewParams.dateDisplayStart, 'days') : histStart.diff(start, 'days');
         const histWidth = histDue.diff(histStart, 'days') + 1;
@@ -313,7 +313,7 @@ export class TimelineCellRenderer {
     if (renderInfo.viewParams.settings.trudozatraty) {
       //ababab
       let trudozatraty = _.find(bar.childNodes, (child:any) => {
-        return child.classList.contains('trudozatraty');
+        return child.classList.contains('trudozatraty') === true;
       });
       if (trudozatraty) {
         let timeEntriesSum = renderInfo.workPackage.timeEntriesSum;

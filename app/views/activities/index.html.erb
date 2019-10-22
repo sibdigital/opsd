@@ -43,10 +43,16 @@ See docs/COPYRIGHT.rdoc for more details.
           <br />
         <% end %>
         <% if  !@project.nil? %>
+          <%= styled_label_tag :filter_by_user,  t(:label_by_user), class: 'simple-filters--filter-name' %>
         <%=  styled_select_tag('user_id',
                                options_from_collection_for_select(@project.members, :user_id, :name),
                                include_blank: true,
                                container_class: '-slim') %>
+          <%= styled_label_tag :filter_by_date, t(:label_by_date_from), class: 'simple-filters--filter-name' %>
+          <div class="form--field">
+            <%= styled_text_field_tag :filter_start_date, @filter_start_date, class: '-augmented-datepicker', container_class: '-xslim' %>
+            <%= styled_text_field_tag :filter_end_date, @filter_end_date, class: '-augmented-datepicker', container_class: '-xslim' %>
+          </div>
           <% end %>
       </p>
       <% if @project && @project.descendants.active.any? %>

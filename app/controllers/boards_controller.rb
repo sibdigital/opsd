@@ -50,6 +50,9 @@ class BoardsController < ApplicationController
   include CustomFilesHelper
 
   def index
+    if params[:commit] == "Применить"
+      params[:filter_status].blank? ? @filter_status = nil : params[:filter_status] == "true" ? @filter_status = true : @filter_status = false
+    end
     @boards = @project.boards
     render_404 if @boards.empty?
     # show the board if there is only one
@@ -107,6 +110,15 @@ class BoardsController < ApplicationController
                .includes(:author, last_reply: :author)
                .page(page_param)
                .per_page(per_page_param)
+    # @existing_statuses = @topics.select(:locked).distinct.map { |s| [s.locked ? "Открыто" : "Закрыто", s.locked] }
+    @existing_statuses = Message.find_by_sql("SELECT DISTINCT messages.locked FROM messages WHERE messages.board_id = '#{@board.id}' AND messages.parent_id IS NULL").map { |s| [s.locked ? "Открыто" : "Закрыто", s.locked] }
+    unless @filter_status.nil?
+      if !@filter_status
+        @topics = @topics.where(locked: true)
+      else
+        @topics = @topics.where(locked: false)
+      end
+    end
   end
 
   def new; end
