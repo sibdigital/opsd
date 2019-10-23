@@ -13,7 +13,8 @@ class ReportMeetingsController < ApplicationController
     puts "Reported"
 
     meeting = Meeting.find(params[:id])
-    @project = meeting.project
+    @title = meeting.title
+    @location = meeting.location
     #temp_date_meeting = Date.strptime(meeting.start_date.to_s, "%Y-%m-%d")
     @date_meeting = format_date meeting.start_date
     @number_meeting = ''
