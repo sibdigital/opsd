@@ -24,6 +24,9 @@ class CostObject < ActiveRecord::Base
   belongs_to :project, -> { where type: Project::TYPE_PROJECT }
   has_many :work_packages, dependent: :nullify
 
+  #bbm(
+  belongs_to :target
+  # )
   has_many :cost_entries, through: :work_packages
   has_many :time_entries, through: :work_packages
 

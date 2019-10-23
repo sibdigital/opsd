@@ -150,9 +150,6 @@ class MeetingsController < ApplicationController
     @converted_params = meeting_params.to_h
 
     @converted_params[:duration] = @converted_params[:duration].to_hours
-    #bbm(
-    @converted_params[:location] = Raion.find(@converted_params[:location])
-    # )
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }

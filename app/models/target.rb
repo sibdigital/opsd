@@ -3,7 +3,9 @@ class Target < ActiveRecord::Base
   # single table inheritance т.е наследования сущностей, хранящихся в одной таблице
 
   TYPED_TARGET  = 'TypedTarget'
-
+  #bbm(
+  has_many :cost_objects
+  # )
   belongs_to :project
   belongs_to :target_status, foreign_key: 'status_id'
   belongs_to :target_type, foreign_key: 'type_id'
