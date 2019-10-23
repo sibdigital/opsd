@@ -10,15 +10,16 @@ class ReportMeetingsController < ApplicationController
   end
 
   def generate_some_report
-    puts "Reported"
-
     meeting = Meeting.find(params[:id])
     @title = meeting.title
     @location = meeting.location
-    #temp_date_meeting = Date.strptime(meeting.start_date.to_s, "%Y-%m-%d")
     @date_meeting = format_date meeting.start_date
     @number_meeting = ''
+    @uchastniki = format_participant_list(meeting.participants).push(format_participant_list2(meeting.add_participants)).join(', ')
+    @govorili = format_participant_list2(meeting.speakers).join(', ')
+    puts @uchastniki
     @chairman = meeting.chairman.fio
+    @dolzhnost = meeting.chairman.roles_for_project(meeting.project).sort_by{|r| r.position}.last
     @protocols = []
     meeting.protocols.map do |protocol|
       p = Hash.new()
@@ -44,5 +45,19 @@ class ReportMeetingsController < ApplicationController
 
   def format_date(date)
     I18n.l date.to_date, format: :long if date
+  end
+
+  private
+
+  def format_participant_list(participants)
+    participants.sort.map { |p| p.user.fio }
+  end
+
+  def format_participant_list2(add_participants)
+    if add_participants
+      add_participants.split(/,/).map { |p| User.find(p).fio }
+    else
+      []
+    end
   end
 end
