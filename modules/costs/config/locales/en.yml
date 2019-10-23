@@ -53,6 +53,8 @@ en:
           nullify_is_not_valid_for_cost_entries: "Записи о стоимостях не могут быть присвоены проекту."
   attributes:
     budget: "Запланированные расходы"
+    passport_units: "Сумма предусмотренная паспортом проекта"
+    consolidate_units: "Сводная бюджетная роспись"
     comment: "Комментарий"
     cost_object: "Бюджет"
     cost_type: "Тип расходов"
