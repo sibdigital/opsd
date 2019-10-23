@@ -816,6 +816,7 @@ class PermittedParams
           address
           cabinet
           direct_manager_id
+          position_id
         ),
         wiki_page: %i(
           title

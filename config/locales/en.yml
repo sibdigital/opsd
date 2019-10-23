@@ -590,6 +590,7 @@ en:
         address: Адрес
         cabinet: Кабинет
         direct_manager: Непосредственный руководитель
+        position: Должность
         #)
       user_preference:
         comments_sorting: Показывать комментарии

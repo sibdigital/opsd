@@ -47,6 +47,12 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= f.select :organization_id, options_for_select(@user.organization_options.map { |obj| [obj['name'], obj['id']] }, @user.organization_id), container_class: '-slim', include_blank: true%>
   </div>
   <!--tmd-->
+  <!--xcc-->
+  <div class="form--field">
+    <%= f.select :position_id, options_for_select(@user.position_options.map { |obj| [obj['name'], obj['id']] }, @user.position_id), container_class: '-slim', include_blank: true%>
+  </div>
+  <!--xcc-->
+
   <!--tan-->
   <div class="form--field">
     <%= f.select :direct_manager_id, options_for_select(@user.direct_manager_users.map { |obj| [obj.name, obj.id] }, @user.direct_manager_id), container_class: '-slim', include_blank: true%>
