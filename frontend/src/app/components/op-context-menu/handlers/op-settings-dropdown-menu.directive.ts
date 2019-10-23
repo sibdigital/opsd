@@ -279,6 +279,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
+        hidden: !this.workPackageTableTimelineService.isVisible,
         disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 1,
         linkText: this.I18n.t('js.toolbar.settings.first_hist_date'),
         icon: 'icon-ordered-list',
@@ -288,6 +289,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
+        hidden: !this.workPackageTableTimelineService.isVisible,
         disabled: this.workPackageTableTimelineService.getFirstOrLasHistDate() === 2,
         linkText: this.I18n.t('js.toolbar.settings.last_hist_date'),
         icon: 'icon-ordered-list',
@@ -297,6 +299,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
+        hidden: !this.workPackageTableTimelineService.isVisible,
         linkText: this.I18n.t('js.toolbar.settings.save_gantt_pdf'),
         icon: 'icon-export-pdf',
         onClick: ($event:JQueryEventObject) => {
@@ -305,6 +308,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
+        hidden: !this.workPackageTableTimelineService.isVisible,
         linkText: this.I18n.t('js.toolbar.settings.save_gantt_png'),
         icon: 'icon-image1',
         onClick: ($event:JQueryEventObject) => {
@@ -313,6 +317,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements OnD
         }
       },
       {
+        hidden: !this.workPackageTableTimelineService.isVisible,
         linkText: this.workPackageTableTimelineService.getTrudozatraty() === true ? this.I18n.t('js.toolbar.settings.show_off_trudozatraty') : this.I18n.t('js.toolbar.settings.show_on_trudozatraty'),
         icon: 'icon-ordered-list',
         onClick: ($event:JQueryEventObject) => {
