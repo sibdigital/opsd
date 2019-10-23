@@ -3,7 +3,7 @@
 </h3>
 <div class="grid--widget-content">
     <table width="100%" cellpadding="2" style="text-align: left">
-        <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Кому</th><th>Проект</th><th>Пакет работ</th><th>Текст</th><th>Срок</th><th>Выполнено</th></tr>
+        <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Кому</th><th>Проект</th><th>Пакет работ/Справочник</th><th>Текст</th><th>Срок</th><th>Выполнено</th></tr>
         <ng-container *ngFor="let user_task of entries">
             <tr style="border-bottom: 1px solid #E7E7E7; height: 40px">
                 <td [textContent]="user_task.assigned_to"></td>
@@ -16,4 +16,6 @@
         </ng-container>
     </table>
 </div>
-<a href="/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage">Создать</a>
+<a href="/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage">Запрос на приемку задачи</a>
+<a href="/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочник+Организации&kind=Request&object_type=Organization">Запрос на ввод данных в справочник Организации</a>
+<a href="/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочник+Государственные+контракты&kind=Request&object_type=Contract">Запрос на ввод данных в справочник Государственные контракты</a>
