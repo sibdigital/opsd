@@ -145,6 +145,12 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   //bbm(
+  public toggleCriticalWay() {
+    let currentState = this.current;
+    currentState.criticalWay = !currentState.criticalWay;
+    this.state.putValue(currentState);
+
+  }
   public setFirstOrLasHistDate(option:number) {
     let currentState = this.current;
     currentState.firstOrLastHistDate = option;
