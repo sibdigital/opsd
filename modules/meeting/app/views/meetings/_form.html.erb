@@ -31,7 +31,7 @@ See doc/COPYRIGHT.md for more details.
   </wp-meeting-autocomplete-upgraded>
 
   <div class="form--field">
-    <%= f.select :location, options_for_select(Raion.all.map {|r| [r.name, r.id]}), container_class: '-wide' %>
+    <%= f.select :location, Raion.all.collect {|r| [r.name, r.id]}, container_class: '-wide' %>
   </div>
 
   <div class="form--field">

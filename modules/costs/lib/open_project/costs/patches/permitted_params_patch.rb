@@ -27,11 +27,13 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
       params.require(:cost_entry).permit(:comments,
                                          :units,
                                          :overridden_costs,
+                                         :recorded_liability,
                                          :spent_on)
     end
 
     def cost_object
       params.require(:cost_object).permit(:subject,
+                                          :target_id,
                                           :description,
                                           :fixed_date,
                                           { new_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget] },

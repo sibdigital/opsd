@@ -26,6 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= f.text_field :subject, required: true, autofocus: true, container_class: '-wide' %>
 </div>
 <div class="form--field">
+  <%= f.select :target_id, Target.all.collect { |t| [t.name, t.id]}, required: true, autofocus: true, container_class: '-wide' %>
+</div>
+<div class="form--field">
   <%= f.text_area :description,
                   container_class: '-xxwide',
                   with_text_formatting: true,
