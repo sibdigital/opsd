@@ -136,6 +136,13 @@ See doc/COPYRIGHT.rdoc for more details.
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
+              <%= Document.human_attribute_name(:attachment) %>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
             </div>
           </div>
         </th>
@@ -150,6 +157,18 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= content_tag(:td, document.category) %>
           <%= content_tag(:td, User.find(document.user_id).fio) %>
           <%= content_tag(:td, format_activity_day(document.created_on)) %>
+          <td>
+            <ul style="list-style-type: none; margin: 0;">
+              <% document.attachments.each do |attachment| %>
+                <li>
+                  <%= link_to(h(attachment.filename), attachment_path(attachment.id,attachment.filename),{class: '', title: l(:added_by,attachment.author.fio)}) %>
+                </li>
+              <% end %>
+              <li>
+                <%= link_to( op_icon('icon-add' ), :controller => '/documents', :action => 'show', :id => document) %>
+              </li>
+            </ul>
+          </td>
           <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
         </tr>
         <% end %>
