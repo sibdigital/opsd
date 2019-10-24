@@ -174,7 +174,11 @@ class Message < ActiveRecord::Base
                 root.watcher_recipients +
                 board.watcher_recipients
       to_mail.uniq.each do |user|
-        UserMailer.message_posted(user, self, User.current).deliver_now
+        begin
+          UserMailer.message_posted(user, self, User.current).deliver_now
+        rescue Exception => e
+          Rails.logger.info "Failed to sent mail to user ##{current_user} message: #{e}"
+        end
       end
     rescue Exception => e
       Rails.logger.info "Failed to sent mail to user ##{current_user} message: #{e}"
