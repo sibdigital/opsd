@@ -119,7 +119,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           </cost-unit-subform>
         </span>
       </div>
-
+      <!--<div class="form--field">
+        <label for="cost_entry_recorded_liabilities_edit" class="form--label"><%= CostEntry.human_attribute_name(:recorded_liability) %></label>
+        <span class="form--field-container">
+          <cost-unit-subform obj-id="cost_entry_recorded_liabilities" obj-name="cost_entry[recorded_liability]">
+            <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
+              <a href="#" id="cost_entry_recorded_liabilities" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+                <%= number_to_currency(@cost_entry.recorded_liability) %>
+              </a>
+            <% else %>
+              <span id="cost_entry_recorded_liabilities_editor" class="form--text-field-container">
+                <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.recorded_liability, unit: "").strip if @cost_entry.recorded_liability %>" size="7" name="cost_entry[recorded_liability]" id="cost_entry_recorded_liabilities_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
+              </span>
+              <br /><em><%= t(:help_override_rate) %></em>
+            <% end %>
+          </cost-unit-subform>
+        </span>
+      </div>-->
+      <div class="form--field">
+        <%= f.text_field :recorded_liability,
+                         size: 10,
+                         required: true,
+                         autofocus: true,
+                         container_class: '-xslim' %>
+      </div>
       <div class="form--field">
         <%= f.text_field :comments, size: 100, container_class: '-wide' %>
       </div>

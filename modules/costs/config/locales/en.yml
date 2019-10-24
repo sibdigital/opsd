@@ -3,6 +3,7 @@ en:
     attributes:
       cost_entry:
         work_package: "Мероприятие/КТ"
+        recorded_liability: "Учтенные бюджетные обязательства"
         overridden_costs: "Переопределенные расходы"
         spent: "Потрачено"
         spent_on: "Дата"
