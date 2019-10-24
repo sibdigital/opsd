@@ -1,0 +1,9 @@
+<% html_title l(:label_administration), l(:label_kpi_option_new) %>
+
+<% local_assigns[:additional_breadcrumb] = l(:label_kpi_option_new) %>
+<%= breadcrumb_toolbar l(:label_kpi_option_new) %>
+
+<%= labelled_tabular_form_for @kpi_option, as: :kpi_option, url:  kpi_options_path do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

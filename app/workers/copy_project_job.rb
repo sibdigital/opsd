@@ -55,13 +55,18 @@ class CopyProjectJob < ApplicationJob
                           send_mails)
     }
 
-    if target_project
-      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
-    else
-      target_project_name = target_project_params['name']
+    begin
+      if target_project
+        ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
+      else
+        target_project_name = target_project_params['name']
 
-      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+        ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+      end
+    rescue Exception => e
+      Rails.logger.info(e.message)
     end
+
   end
 
   private

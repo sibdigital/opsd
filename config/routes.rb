@@ -38,6 +38,7 @@ OpenProject::Application.routes.draw do
   get '/vkladka1(/*state)' => 'homescreen#vkladka1', as: 'edit_tab_homescreen1'
   # state for show view in homescreen context
   get '/vkladka2(/*state)' => 'homescreen#vkladka2', as: 'edit_tab_homescreen2'
+  get '/bubble(/*state)' => 'homescreen#bubble', as: 'edit_tab_homescreen_bubble'
   # )
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
@@ -117,6 +118,15 @@ OpenProject::Application.routes.draw do
   resources :types do
     post 'move/:id', action: 'move', on: :collection
   end
+
+  # tmd
+  # resources :user_guides
+
+  #tmd
+  get 'download_pdf', to: "user_guides#download_pdf"
+
+  #tmd
+  get 'download_file', to: "user_guides#download_file"
 
   resources :statuses, except: :show do
     collection do
@@ -339,6 +349,8 @@ OpenProject::Application.routes.draw do
       get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
       match '/choose_typed' => 'project_risks#choose_typed', on: :collection, via: %i[get post]
     end
+
+    resources :biblioteka_otchetov, only: :index, controller: 'biblioteka_otchetov'
     # )
 
     #tmd
@@ -361,6 +373,7 @@ OpenProject::Application.routes.draw do
     end
 
     resources :report_progress_project do
+      get :generate_report_progress_project_pril_1_2_out, on: :collection
     end
 
     resources :report_passport do
@@ -439,6 +452,8 @@ OpenProject::Application.routes.draw do
       post :force_user_language
       post :test_email
       get :send_email_assignee_from_task  # iag
+      # get :create_board_from_wp #knm
+      get :send_email_assignee_report #knm
       #post :send_email_from_forum  # tan
     end
   end
@@ -497,6 +512,17 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     #bbm(
+    resources :kpi_options, except: :show, controller: 'kpi_options'
+    scope 'kpi_options/:kpi_option_id/cases', controller: 'kpi_cases' do
+      get '/', action: 'index', as: 'kpi_cases'
+      get '/new', action: 'new', as: 'new_kpi_case'
+      get '/:id/edit', action: 'edit', as: 'edit_kpi_case'
+      post '/', action: 'create'
+      patch '/:id', action: 'update', as: 'kpi_case'
+      put '/:id', action: 'update'
+      delete '/:id', action: 'destroy'
+    end
+
     resources :typed_risks do
       get '/edit/:tab' => 'typed_risks#edit', on: :member, as: 'edit_tab'
     end
@@ -676,6 +702,7 @@ OpenProject::Application.routes.draw do
       member do
         get :quote
         post :reply, as: 'reply_to'
+        get :like, as: 'like'
       end
     end
   end

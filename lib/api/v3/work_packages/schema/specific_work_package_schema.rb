@@ -78,7 +78,8 @@ module API
             when :raion
               Raion.all
             # )
-
+            when :period
+              Period.all
             end
           end
 

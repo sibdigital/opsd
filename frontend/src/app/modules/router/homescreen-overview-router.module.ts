@@ -65,6 +65,7 @@ import {PerformanceTabComponent} from "core-components/homescreen-tabs/performan
 import {BlueTablePerformanceService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-performance.service";
 import {HomescreenPerformanceDiagramComponent} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
 import {ActivatedRoute, RouterModule} from "@angular/router";
+import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
 
 @NgModule({
   imports: [
@@ -93,6 +94,7 @@ import {ActivatedRoute, RouterModule} from "@angular/router";
     HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     HomescreenPerformanceDiagramComponent,
+    BubbleDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
     OverviewDiagramQueriesTabComponent,
@@ -113,6 +115,7 @@ import {ActivatedRoute, RouterModule} from "@angular/router";
     HomescreenProgressBarComponent,
     HomescreenDiagramComponent,
     HomescreenPerformanceDiagramComponent,
+    BubbleDiagramComponent,
     OverviewDiagramComponent,
     OverviewDiagramTabComponent,
     OverviewDiagramQueriesTabComponent,

@@ -629,6 +629,22 @@ module API
             "#{raions}/#{id}"
           end
           #-tan
+          # +ban
+          def self.user_tasks
+            "#{root}/user_tasks"
+          end
+
+          def self.user_task(id)
+            "#{user_tasks}/#{id}"
+          end
+          # -ban
+          def self.periods
+            "#{root}/periods"
+          end
+
+          def self.period(id)
+            "#{periods}/#{id}"
+          end
         end
 
         def api_v3_paths

@@ -174,13 +174,22 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       const relationsList = _.values(relations);
       relationsList.forEach(relation => {
 
-        if (!(relation.type === 'precedes'
-          || relation.type === 'follows')) {
-          return;
+        //bbm(
+        if (relation.type === 'precedes'
+          || relation.type === 'follows') {
+          const elem = new TimelineRelationElement(relation.ids.from, relation);
+          this.renderElement(this.workPackageTimelineTableController.viewParameters, elem);
+        }
+        if (relation.type === 'commonstart') {
+          const elem = new TimelineRelationElement(relation.ids.from, relation);
+          this.renderElementSS(this.workPackageTimelineTableController.viewParameters, elem);
+        }
+        if (relation.type === 'commonfinish') {
+          const elem = new TimelineRelationElement(relation.ids.from, relation);
+          this.renderElementFF(this.workPackageTimelineTableController.viewParameters, elem);
         }
 
-        const elem = new TimelineRelationElement(relation.ids.from, relation);
-        this.renderElement(this.workPackageTimelineTableController.viewParameters, elem);
+        //)
       });
 
     });
@@ -309,7 +318,174 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, 'blue'));
       }
     }
+  }
 
+  /**
+   * bbm versions of SS FF rel
+   */
+  private renderElementFF(vp:TimelineViewParameters, e:TimelineRelationElement) {
+    const involved = e.relation.ids;
+
+    const cells1 = this.workPackageTimelineTableController.workPackageCells(involved.to);
+    const cells2 = this.workPackageTimelineTableController.workPackageCells(involved.from);
+
+    if (cells1.length === 0 || cells2.length === 0) {
+      return;
+    }
+
+    cells1.forEach((cell1) => {
+      const idxFrom = this.workPackageTimelineTableController.workPackageIndex(cell1.classIdentifier);
+      cells2.forEach((cell2) => {
+        const idxTo = this.workPackageTimelineTableController.workPackageIndex(cell2.classIdentifier);
+        this.renderRelationFF(vp, e, idxFrom, idxTo, cell1, cell2);
+      });
+    });
+  }
+
+  private renderRelationFF(vp:TimelineViewParameters,
+                         e:TimelineRelationElement,
+                         idxFrom:number,
+                         idxTo:number,
+                         cell1:WorkPackageTimelineCell,
+                         cell2:WorkPackageTimelineCell) {
+
+    const rowFrom = this.workPackageIdOrder[idxFrom];
+    const rowTo = this.workPackageIdOrder[idxTo];
+
+    if (!(rowFrom && rowTo) || (rowFrom.hidden || rowTo.hidden)) {
+      return;
+    }
+
+    if (!cell1.canConnectRelations() || !cell2.canConnectRelations()) {
+      return;
+    }
+
+    const startX = cell1.getMarginLeftOfRightSide() - cell1.getPaddingRightForOutgoingRelationLines();
+    const targetX = cell2.getMarginLeftOfRightSide() + cell2.getPaddingRightForOutgoingRelationLines();
+
+    const directionY:'toUp' | 'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
+
+    const directionX:'toLeft' | 'beneath' | 'toRight' =
+      targetX > startX ? 'toRight' : targetX < startX ? 'toLeft' : 'beneath';
+
+    if (!cell1) {
+      return;
+    }
+
+    const paddingRight = cell1.getPaddingRightForOutgoingRelationLines();
+    const startLineWith = cell2.getPaddingRightForOutgoingRelationLines()
+      + (paddingRight > 0 ? paddingRight : 0);
+    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, startX, startLineWith, 1, 'red'));
+    let lastX = startX + startLineWith;
+
+    const height = Math.abs(idxTo - idxFrom);
+    if (directionY === 'toDown') {
+      this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, targetX - lastX, 1, 'red'));
+      if (directionX === 'toRight' || directionX === 'beneath') {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, targetX, 1, height * 41, 'black'));
+      } else if (directionX === 'toLeft') {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10, 'black'));
+      }
+    } else if (directionY === 'toUp') {
+      this.container.append(newSegment(vp, e.classNames, idxTo, 20, targetX, 1, 11, 'green'));
+      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, targetX - lastX, 1, 'lightsalmon'));
+      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 41) - 10, 'black'));
+    }
+
+    if (directionX === 'toRight') {
+      if (directionY === 'toDown') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1, 'red'));
+      } else if (directionY === 'toUp') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 20, targetX, 1, 11, 'green'));
+      }
+    } else if (directionX === 'toLeft') {
+      if (directionY === 'toDown') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 21, 'red'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX, lastX - targetX, 1, 'green'));
+      } else if (directionY === 'toUp') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 30, targetX + 1, lastX - targetX, 1, 'red'));
+      }
+    }
+  }
+  private renderElementSS(vp:TimelineViewParameters, e:TimelineRelationElement) {
+    const involved = e.relation.ids;
+
+    const cells1 = this.workPackageTimelineTableController.workPackageCells(involved.to);
+    const cells2 = this.workPackageTimelineTableController.workPackageCells(involved.from);
+
+    if (cells1.length === 0 || cells2.length === 0) {
+      return;
+    }
+
+    cells1.forEach((cell1) => {
+      const idxFrom = this.workPackageTimelineTableController.workPackageIndex(cell1.classIdentifier);
+      cells2.forEach((cell2) => {
+        const idxTo = this.workPackageTimelineTableController.workPackageIndex(cell2.classIdentifier);
+        this.renderRelationSS(vp, e, idxFrom, idxTo, cell1, cell2);
+      });
+    });
+  }
+
+  private renderRelationSS(vp:TimelineViewParameters,
+                         e:TimelineRelationElement,
+                         idxFrom:number,
+                         idxTo:number,
+                         cell1:WorkPackageTimelineCell,
+                         cell2:WorkPackageTimelineCell) {
+
+    const rowFrom = this.workPackageIdOrder[idxFrom];
+    const rowTo = this.workPackageIdOrder[idxTo];
+
+    if (!(rowFrom && rowTo) || (rowFrom.hidden || rowTo.hidden)) {
+      return;
+    }
+
+    if (!cell1.canConnectRelations() || !cell2.canConnectRelations()) {
+      return;
+    }
+
+    const startX = cell1.getMarginLeftOfLeftSide();
+    const targetX = cell2.getMarginLeftOfLeftSide();
+
+    const directionY:'toUp' | 'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
+
+    const directionX:'toLeft' | 'beneath' | 'toRight' =
+      targetX > startX ? 'toRight' : targetX < startX ? 'toLeft' : 'beneath';
+
+    if (!cell1) {
+      return;
+    }
+
+    let lastX = startX - 1;
+
+    const height = Math.abs(idxTo - idxFrom);
+    if (directionY === 'toDown') {
+      if (directionX === 'toRight' || directionX === 'beneath') {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41, 'black'));
+      } else if (directionX === 'toLeft') {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10, 'black'));
+      }
+    } else if (directionY === 'toUp') {
+      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 41) - 10, 'black'));
+    }
+
+    if (directionX === 'toRight') {
+      if (directionY === 'toDown') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1, 'red'));
+      } else if (directionY === 'toUp') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, 10, 'green'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, targetX - lastX, 1, 'lightsalmon'));
+      }
+    } else if (directionX === 'toLeft') {
+      if (directionY === 'toDown') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 8, 'red'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, lastX - targetX, 1, 'green'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, 1, 11, 'blue'));
+      } else if (directionY === 'toUp') {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 30, targetX + 1, lastX - targetX, 1, 'red'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, 'blue'));
+      }
+    }
   }
 }
 

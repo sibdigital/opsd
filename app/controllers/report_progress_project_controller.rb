@@ -12,19 +12,14 @@ class ReportProgressProjectController < ApplicationController
 
   before_action :verify_reportsProgressProject_module_activated
 
-  def index_params
-    params.require(:report_id)
-  end
+#  def index_params
+#    params.require(:report_id)
+#  end
 
   def index
 
-    #@project_targets = Target.find_by_sql("SELECT t.* FROM targets t where t.project_id=" + @project.id.to_s)
     @selected_target_id = 0
     @project = Project.find(params[:project_id])
-    @vals = {
-      project: @project,
-      selected_target_id: 0
-    }
     if @project.national_project_id
       @national_project = NationalProject.find(@project.national_project_id)
     else
@@ -43,7 +38,7 @@ class ReportProgressProjectController < ApplicationController
 
     if  params[:report_id] == 'report_progress_project_pril_1_2'
       #index_params
-      generate_report_progress_project_pril_1_2_out
+      #generate_report_progress_project_pril_1_2_out
       send_to_user filepath: @ready_report_progress_project_pril_1_2_path
     end
 
@@ -74,10 +69,21 @@ class ReportProgressProjectController < ApplicationController
 
     @ready_project_progress_report_path = dir_path + '/project_progress_report_out.xlsx'
     @workbook.write(@ready_project_progress_report_path)
+    #bbm(
+    @document = @project.documents.build
+    @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
+    @document.user_id = current_user.id
+    @document.title = 'отчет о ходе реализации проекта от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
+    service = AddAttachmentService.new(@document, author: current_user)
+    attachment = service.add_attachment_old uploaded_file: File.open(@ready_project_progress_report_path),
+                               filename: 'project_progress_report_out.xlsx'
+    @document.attach_files({'0'=> {'id'=> attachment.id}})
+    @document.save
+    # )
   end
 
   def generate_report_progress_project_pril_1_2_out
-
+    @project = Project.find(params[:project_id])
     template_path = File.absolute_path('.') +'/'+'app/reports/templates/report_progress_project_pril_1_2.xlsx'
     @workbook_pril = RubyXL::Parser.parse(template_path)
     @workbook_pril.calc_pr.full_calc_on_load = true
@@ -91,17 +97,49 @@ class ReportProgressProjectController < ApplicationController
 
     @ready_report_progress_project_pril_1_2_path = dir_path + '/report_progress_project_pril_1_2_out.xlsx'
     @workbook_pril.write(@ready_report_progress_project_pril_1_2_path)
-
+#    send_to_user filepath: @ready_report_progress_project_pril_1_2_path
+#    send_file @ready_report_progress_project_pril_1_2_path,  :type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', :disposition => 'attachment'
+     send_data @workbook_pril.stream.string, filename: "report_progress_project_pril_1_2_out.xlsx",
+              disposition: 'attachment'
   end
+
 
   def generate_pril_1_2
     #puts @target.id
     #puts params[:target_id]
     sheet = @workbook_pril['Данные для диаграмм']
     selected_target = params[:target]
-    @target = Target.find(params[:selected_target_id])
-    sheet[2][2].change_contents(@target.id)
 
+    target_id = params[:selected_target_id] == nil ? 0 : params[:selected_target_id]
+    values = get_target_graph_values(target_id.to_s)
+
+    sheet[2][3].change_contents(values["target_quarter1_value"] == nil ? 0 : values["target_quarter1_value"].to_i)
+    sheet[2][4].change_contents(values["target_quarter1_value"] == nil ? 0 : values["target_quarter1_value"].to_i)
+    sheet[2][5].change_contents(values["fact_quarter1_value"] == nil ? 0 : values["fact_quarter1_value"].to_i)
+
+    sheet[3][2].change_contents(values["basic_value"] == nil ? 0 : values["basic_value"].to_i)
+    sheet[3][3].change_contents(values["target_quarter2_value"] == nil ? 0 : values["target_quarter2_value"].to_i)
+    sheet[3][4].change_contents(values["target_quarter2_value"] == nil ? 0 : values["target_quarter2_value"].to_i)
+
+    sheet[3][5].change_contents(values["fact_quarter2_value"] == nil ? 0 : values["fact_quarter2_value"].to_i)
+
+    sheet[4][2].change_contents(values["basic_value"]== nil ? 0 : values["basic_value"].to_i)
+    sheet[4][3].change_contents(values["target_quarter3_value"] == nil ? 0 : values["target_quarter3_value"].to_i)
+    sheet[4][4].change_contents(values["target_quarter3_value"] == nil ? 0 : values["target_quarter3_value"].to_i)
+    sheet[4][5].change_contents(values["fact_quarter3_value"] == nil ? 0 : values["fact_quarter3_value"].to_i)
+
+    sheet[5][2].change_contents(values["basic_value"]== nil ? 0 : values["basic_value"].to_i)
+    sheet[5][3].change_contents(values["target_quarter4_value"] == nil ? 0 : values["target_quarter4_value"].to_i)
+    sheet[5][4].change_contents(values["target_quarter4_value"] == nil ? 0 : values["target_quarter4_value"].to_i)
+    sheet[5][5].change_contents(values["fact_quarter4_value"] == nil ? 0 : values["fact_quarter4_value"].to_i)
+
+    sheet = @workbook_pril['Приложение 1']
+    sheet[1][3].change_contents("График достижения показателя: ")
+    sheet.insert_cell(2,3, values["name"])
+
+    sheet = @workbook_pril['Приложение 2']
+    sheet[1][3].change_contents("График достижения показателя: ")
+    sheet.insert_cell(2,3, values["name"])
 
   end
 
@@ -328,7 +366,7 @@ class ReportProgressProjectController < ApplicationController
     incriment = 0
     status_result = 0
     id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
-    targets = Target.where(project_id: @project.id, type_id: id_type_result)
+    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
     targets.each_with_index do |target, i|
 
       result = get_value_results(target.id.to_s)
@@ -549,7 +587,7 @@ class ReportProgressProjectController < ApplicationController
             left join prev_year_value p on p.target_id = t.id
             left join measure_units m on m.id = t.measure_unit_id
             inner join enumerations e on e.id = t.type_id
-            where ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
+            where t.is_approve = true and ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
 
 
     result = ActiveRecord::Base.connection.execute(sql)
@@ -589,7 +627,7 @@ class ReportProgressProjectController < ApplicationController
             left join prev_year_value p on p.target_id = t.id
             left join measure_units m on m.id = t.measure_unit_id
             inner join enumerations e on e.id = t.type_id
-            where e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
+            where t.is_approve = true and e.name = '"+I18n.t(:default_result)+"' and t.id = "+target_id +" and t.project_id = "+ @project.id.to_s
 
 
     result_sql = ActiveRecord::Base.connection.execute(sql)
@@ -1037,6 +1075,22 @@ class ReportProgressProjectController < ApplicationController
     result_sql= ActiveRecord::Base.connection.execute(sql)
     result = rresult_sql[0]["count_risk"].to_i == 0 ? 1 : 0
     result
+  end
+
+
+
+  def get_target_graph_values(target_id)
+    sql = " select t.id, t.name, t.basic_value,
+            v.target_quarter1_value,v.target_quarter2_value,
+            v.target_quarter3_value,v.target_quarter3_value,
+            v.fact_quarter1_value,v.fact_quarter2_value,
+            v.fact_quarter3_value,v.fact_quarter3_value
+            FROM targets t
+            inner join v_plan_fact_quarterly_target_values v  on v.target_id=t.id
+            where v.year = EXTRACT(year FROM current_date) and t.id = "+target_id
+
+    result_sql = ActiveRecord::Base.connection.execute(sql)
+    result = result_sql[0]
   end
 
 

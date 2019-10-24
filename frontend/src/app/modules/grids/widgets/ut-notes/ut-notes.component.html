@@ -1,0 +1,15 @@
+<h3 class="widget-box--header" cdkDragHandle>
+    <span class="widget-box--header-title">Мои заметки</span>
+</h3>
+<div class="grid--widget-content">
+    <table width="100%" cellpadding="2" style="text-align: left">
+        <ng-container *ngFor="let user_task of entries">
+            <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><td><a [href]="user_taskText(user_task)"
+                                                                               [textContent]="user_task.text">
+            </a></td>
+                <td [textContent]="user_task.created_at"></td>
+            </tr>
+        </ng-container>
+    </table>
+</div>
+<a href="/user_tasks/new?head_text=Новая+заметка&kind=Note">Создать</a>

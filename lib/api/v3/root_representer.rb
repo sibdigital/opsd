@@ -114,7 +114,11 @@ module API
         }
       end
       #-tan
-
+      link :periods do
+        {
+          href: api_v3_paths.periods
+        }
+      end
       #zbd(
       link :required_doc_type do
         {
@@ -156,6 +160,13 @@ module API
       link :meetings do
         {
           href: api_v3_paths.meetings
+        }
+      end
+      # )
+      #  ban (
+      link :user_tasks do
+        {
+          href: api_v3_paths.user_tasks
         }
       end
       # )

@@ -47,11 +47,12 @@ class Relations::BaseService
 
     result = ServiceResult.new success: success, errors: errors, result: relation
 
-    if success && relation.follows?
+    #bbm(
+    if success && (relation.follows? || relation.commonstart? || relation.commonfinish?)
+    # )
       reschedule_result = reschedule(relation)
       result.merge!(reschedule_result)
     end
-
     result
   end
 

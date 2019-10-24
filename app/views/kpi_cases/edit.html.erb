@@ -1,0 +1,20 @@
+<% html_title l(:label_administration), "#{l(:label_edit)} #{KeyPerformanceIndicatorCase.model_name.human} #{h @kpi_case}" %>
+
+<% local_assigns[:additional_breadcrumb] = @kpi_case %>
+<%= breadcrumb_toolbar @kpi_case %>
+
+<p><%= @kpi_option.name %></p>
+<p>Вес методики: <%= @kpi_option.weight %></p>
+<p>Включена/выключена: <%= @kpi_option.enable ? 'Да': 'Нет' %></p>
+<p>Метод агрегирования: <%= 'включается в среднее' if @kpi_option.calc_method=='avg' %><%= 'суммируется' if @kpi_option.calc_method=='sum' %></p>
+
+<br>
+
+<%= labelled_tabular_form_for @kpi_case, as: :kpi_case, url: kpi_case_path(kpi_option_id: @kpi_option.id, id: @kpi_case.id) do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<%= styled_form_tag(kpi_case_path(kpi_option_id: @kpi_option.id, id: @kpi_case.id), method: :delete) do %>
+  <%= styled_submit_tag l(:button_delete), remote: true %>
+<% end %>

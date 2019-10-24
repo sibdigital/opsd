@@ -333,8 +333,11 @@ module API
                  render_nil: true
 
         #bbm(
-        property :plan_type,
-                 render_nil: true
+        property :time_entries_sum,
+                 render_nil: true,
+                 getter: ->(*) {
+                   sum_time_entries
+                 }
 
         property :sed_href,
                  render_nil: true
@@ -504,6 +507,8 @@ module API
 
         associated_resource :status
 
+        associated_resource :period,
+                            link_title_attribute: :name
         #bbm(
         property :is_closed,
         exec_context: :decorator,

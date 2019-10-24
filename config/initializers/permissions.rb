@@ -38,6 +38,7 @@ Redmine::AccessControl.map do |map|
                    project_risk_characts: %i[new create edit update destroy],
                    project_risks: %i[index new create edit update choose_typed
                                    destroy],
+                   biblioteka_otchetov: [:index],
                    # )
                    #xcc(
                    #zbd targets: %i[index new create edit update destroy],
@@ -57,7 +58,8 @@ Redmine::AccessControl.map do |map|
                    raions: [:show],
                    contracts: %i[index new create edit update destroy],
                    # knm+
-                   target_calc_procedures: [:index, :new, :edit, :destroy]
+                   target_calc_procedures: [:index, :new, :edit, :destroy],
+                   periods: [:show]
                    # knm-
                    #)
                    },
@@ -344,7 +346,7 @@ Redmine::AccessControl.map do |map|
                      public: true
 
     board.permission :add_messages,
-                     messages: %i[new create reply quote preview]
+                     messages: %i[new create reply like quote preview]
 
     board.permission :edit_messages,
                      { messages: %i[edit update preview] },

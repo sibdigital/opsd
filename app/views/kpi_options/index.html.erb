@@ -1,0 +1,41 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-control-levels') %>
+  <span class="widget-box--header-title"><%= l(:label_kpi_option) %></span>
+</h3>
+
+<table class="generic-table">
+  <thead>
+    <tr>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span>Наименование</span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <span></span>
+          </div>
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for ko in @kpi_options %>
+      <tr>
+        <td><%= link_to ko.name, kpi_cases_path(ko.id) %></td>
+        <td class="buttons">
+          <a title="Редактировать" href="<%= edit_kpi_option_path(ko.id) %>"><i class="icon icon-edit" aria-hidden="true"></i></a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<%= link_to new_kpi_option_path,
+            { class: 'button -highlight',
+              title: t(:label_kpi_option_new)} do %>
+  <span class="button--text">Новая запись</span>
+<% end %>

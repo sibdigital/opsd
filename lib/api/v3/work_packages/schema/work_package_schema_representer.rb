@@ -340,6 +340,17 @@ module API
                                          },
                                          required: false
           #-tan
+          # knm+
+          schema_with_allowed_collection :period,
+                                         value_representer: Periods::PeriodRepresenter,
+                                         link_factory: ->(period) {
+                                           {
+                                             href: api_v3_paths.period(period.id),
+                                             title: period.name
+                                           }
+                                         },
+                                         required: false
+          # knm-
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
                                          link_factory: ->(priority) {

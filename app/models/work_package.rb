@@ -77,6 +77,7 @@ class WorkPackage < ActiveRecord::Base
   has_many :work_package_problems, foreign_key: 'work_package_id'
   has_many :work_package_targets, foreign_key: 'work_package_id'
   belongs_to :raion, class_name: 'Raion', foreign_key: 'raion_id'
+  belongs_to :period, foreign_key: 'period_id'
   has_many :work_package_quarterly_targets, foreign_key: 'work_package_id'
   # )
 
@@ -104,6 +105,9 @@ class WorkPackage < ActiveRecord::Base
   # )
 
   #bbm(
+  def sum_time_entries
+    time_entries.sum(:hours)
+  end
   def count_wpp
     work_package_problems.count
   end

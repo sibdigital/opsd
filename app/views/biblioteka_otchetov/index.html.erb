@@ -1,0 +1,10 @@
+<% html_title l(:label_reports) %>
+<%= breadcrumb_toolbar l(:label_biblioteka_otchetov) %>
+<table>
+  <% for doc in @documents %>
+    <tr>
+      <td><%= doc.title %></td>
+      <td><%= link_to doc.attachments.first.filename, '/attachments/download/' + doc.attachments.first.id.to_s %></td>
+    </tr>
+  <% end %>
+</table>

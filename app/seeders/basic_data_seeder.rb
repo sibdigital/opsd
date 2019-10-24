@@ -40,6 +40,8 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::PossibilitySeeder,
       BasicData::ImportanceSeeder,
       BasicData::AttachTypeSeeder,
+      BasicData::ProjectSectionSeeder,
+      # BasicData::RisksCustomFieldsSeeder,
       # )
       # #xcc(
       BasicData::ArbitaryObjectTypeSeeder,
@@ -57,6 +59,7 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::CostSeeder,
       BasicData::TypedTargetSeeder,
       # )
+      BasicData::PeriodSeeder,
       BasicData::SettingSeeder
     ]
   end

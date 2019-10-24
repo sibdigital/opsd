@@ -1,3 +1,12 @@
-<h2>Электронный протокол</h2>
-
 <homescreen-blue-table [template]="'protocol'"></homescreen-blue-table>
+<select [(ngModel)]="selectedOption"
+        [compareWith]="compareByHref"
+        (change)="handleUserSubmit()">
+    <option
+            *ngFor="let value of valueOptions"
+            [attr.selected]="compareByHref(selectedOption, value) || undefined"
+            [attr.label]="value.name"
+            [ngValue]="value"
+            [textContent]="value.name">
+    </option>
+</select>

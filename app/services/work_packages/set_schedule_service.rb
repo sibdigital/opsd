@@ -43,10 +43,18 @@ class WorkPackages::SetScheduleService
                 []
               end
 
+    #bbm(
+    if (%i(start_date due_date) & attributes).any?
+      tmp = []
+      tmp += schedule_commonstart
+      tmp += schedule_commonfinish
+      altered += tmp
+      self.work_packages += tmp
+    end
+    # )
     if (%i(start_date due_date parent parent_id) & attributes).any?
       altered += schedule_following
     end
-
     result = ServiceResult.new(success: true,
                                result: work_packages.first)
 
@@ -85,6 +93,41 @@ class WorkPackages::SetScheduleService
 
     altered
   end
+
+  #bbm(
+  def schedule_commonstart
+    altered = []
+    work_packages.each do |dependency|
+      direct_commonstart = Relation.direct_commonstart_of_work_package(dependency)
+      wps = direct_commonstart.where.not(from_id: dependency).map(&:from)
+      wps += direct_commonstart.where.not(to_id: dependency).map(&:to)
+      wps.each do |scheduled|
+        scheduled.start_date = dependency.start_date
+        if scheduled.due_date < scheduled.start_date
+          scheduled.due_date = scheduled.start_date
+        end
+        altered << scheduled if scheduled.changed?
+      end
+    end
+    altered
+  end
+  def schedule_commonfinish
+    altered = []
+    work_packages.each do |dependency|
+      direct_commonfinish = Relation.direct_commonfinish_of_work_package(dependency)
+      wps = direct_commonfinish.where.not(from_id: dependency).map(&:from)
+      wps += direct_commonfinish.where.not(to_id: dependency).map(&:to)
+      wps.each do |scheduled|
+        scheduled.due_date = dependency.due_date
+        if scheduled.start_date > scheduled.due_date
+          scheduled.start_date = scheduled.due_date
+        end
+        altered << scheduled if scheduled.changed?
+      end
+    end
+    altered
+  end
+  # )
 
   # Schedules work packages based on either
   #  - their descendants if they are parents

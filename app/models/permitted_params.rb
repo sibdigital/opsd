@@ -319,10 +319,13 @@ class PermittedParams
                                                 :project_approve_status_id, #+-tan 2019.07.06
                                                 :project_status_id,
                                                 :type,
+                                                :invest_amount, #tmd
+                                                :is_program,
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
-                                                enabled_module_names: [])
+                                                enabled_module_names: [],
+                                                address_attributes: [:id, :address, :raion_id])
 
     unless params[:project][:custom_field_values].nil?
       # Permit the sub-hash for custom_field_values
@@ -425,16 +428,29 @@ class PermittedParams
   end
 
   def typed_risk
-    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
+    permitted_params = params.require(:typed_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility, :solution, :project_section_id)
 
     permitted_params = permitted_params.merge(custom_field_values(:typed_risk))
     permitted_params
   end
 
+  def kpi_option
+    permitted_params = params.require(:kpi_option).permit(:name, :weight, :enable, :calc_method)
+
+    permitted_params = permitted_params.merge(custom_field_values(:kpi_option))
+    permitted_params
+  end
+
+  def kpi_case
+    permitted_params = params.require(:kpi_case).permit(:role_id, :percent, :min_value, :max_value, :enable, :period)
+
+    permitted_params = permitted_params.merge(custom_field_values(:kpi_case))
+    permitted_params
+  end
 
   def project_risk
     # +-tan
-    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility)
+    permitted_params = params.require(:project_risk).permit(:description, :possibility_id, :importance_id, :name, :color_id, :is_approve, :owner_id, :is_possibility, :solution, :project_section_id)
 
     permitted_params = permitted_params.merge(custom_field_values(:project_risk))
     permitted_params
@@ -459,6 +475,10 @@ class PermittedParams
     permitted_params = permitted_params.merge(custom_field_values(:position))
     permitted_params
   end
+
+  # def address
+  #   params.require(:address).permit(:address)
+  # end
 
 
   def organization
@@ -492,6 +512,9 @@ class PermittedParams
     params.require(:production_calendar).permit(:day_type, :date, :year)
   end
 
+  def message_like
+    params.require(:message_like).permit(:message_id, :user_id)
+  end
   # )
   #xcc(
   def target
@@ -666,7 +689,8 @@ class PermittedParams
           reassign_to_id
         ),
         group: [
-          :lastname
+          :lastname,
+          :direct_manager_id
         ],
         membership: [
           :project_id,
@@ -684,6 +708,7 @@ class PermittedParams
           ]
         ],
         member: [
+          :busyness,
           role_ids: []
         ],
         new_work_package: [
@@ -791,6 +816,7 @@ class PermittedParams
           address
           cabinet
           direct_manager_id
+          position_id
         ),
         wiki_page: %i(
           title

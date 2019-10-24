@@ -33,6 +33,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <h4 class="document-category-elements--header"><%= link_to h(document.title), :controller => '/documents', :action => 'show', :id => document %></h4>
 <p class="document-category-elements--date"><em><%= format_time(document.updated_on) %></em></p>
 
+<p>
+	<%= User.find(document.user_id).name(:lastname_f_p) %>
+</p>
+
 <div class="wiki">
 	<%= format_text(truncate_lines(document.description)) %>
 </div>

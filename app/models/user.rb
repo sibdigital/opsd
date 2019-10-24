@@ -98,6 +98,9 @@ class User < Principal
   # +tan
   belongs_to :direct_manager, foreign_key: 'direct_manager_id', class_name: 'User'
   # -tan
+  # +xcc
+  belongs_to :position, foreign_key: 'position_id'
+  # -
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -109,8 +112,10 @@ class User < Principal
   end
 
   def self.blocked_condition(blocked)
-    block_duration = Setting.brute_force_block_minutes.to_i.minutes
-    blocked_if_login_since = Time.now - block_duration
+    #bbm( block_duration = Setting.brute_force_block_minutes.to_i.minutes
+    # blocked_if_login_since = Time.now - block_duration
+    blocked_if_login_since = DateTime.strptime("00:00 01.01.1900", "%H:%M %d.%m.%Y")
+    # )
     negation = blocked ? '' : 'NOT'
 
     ["#{negation} (users.failed_login_count >= ? AND users.last_failed_login_on > ?)",
@@ -140,7 +145,7 @@ class User < Principal
   validates_length_of :patronymic, maximum: 30
   validates_format_of :mail_add, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
   validates_length_of :mail_add, maximum: 60, allow_nil: true
-  validates_format_of :phone_wrk, with: /\A((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{6,10}\z/i, allow_blank: true
+  validates_format_of :phone_wrk, with: /\A((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{3,10}\z/i, allow_blank: true
   validates_format_of :phone_wrk_add, with: /\A[0-9]{1,4}\z/i, allow_blank: true
   validates_format_of :phone_mobile, with: /\A^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}\z/i, allow_blank: true
   validates_length_of :address, maximum: 255
@@ -503,6 +508,19 @@ class User < Principal
     result
   end
   #-
+  #+xcc
+  def position_options
+    sql = "SELECT name, id FROM positions"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    result = []
+
+    for i in 0...records_array.values.length
+      result.push(records_array[i])
+    end
+    result
+  end
+  #-
+
   # +tan
   def direct_manager_users
     User.all.to_a || []

@@ -44,6 +44,11 @@ class HomescreenController < ApplicationController
     render :index
   end
 
+  def bubble
+    @tab = :bubble
+    render :index
+  end
+
   def index
     if @tab.blank?
       redirect_to edit_tab_homescreen1_path

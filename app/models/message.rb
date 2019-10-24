@@ -37,6 +37,7 @@ class Message < ActiveRecord::Base
   has_one :project, through: :board
   #iag(
   has_many :participants, class_name: 'MessageParticipant' #, foreign_key: 'meeting_contents_id'
+  has_many :likes, class_name: 'MessageLike'
   accepts_nested_attributes_for :participants, allow_destroy: true
   # )
 
@@ -132,6 +133,16 @@ class Message < ActiveRecord::Base
     usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (author == usr && usr.allowed_to?(:delete_own_messages, project)))
   end
 
+  def liked
+    like = MessageLike.find_by(message_id: self.id, user_id: User.current.id)
+    if like.nil?
+      @like = MessageLike.new(message_id: self.id, user_id: User.current.id)
+      @like.save
+    else
+      MessageLike.destroy(like.id)
+    end
+  end
+
   private
 
   def update_ancestors
@@ -153,15 +164,20 @@ class Message < ActiveRecord::Base
     watcher_users.reload
   end
 
+
+
   def send_message_posted_mail
-    return unless Setting.notified_events.include?('message_posted')
-
-    to_mail = recipients +
-              root.watcher_recipients +
-              board.watcher_recipients
-
-    to_mail.uniq.each do |user|
-      UserMailer.message_posted(user, self, User.current).deliver_now
+    #+-tan add exception handling
+    begin
+      return unless Setting.notified_events.include?('message_posted')
+      to_mail = recipients +
+                root.watcher_recipients +
+                board.watcher_recipients
+      to_mail.uniq.each do |user|
+        UserMailer.message_posted(user, self, User.current).deliver_now
+      end
+    rescue Exception => e
+      Rails.logger.error "Failed to sent mail to user ##{current_user} message: #{e}"
     end
   end
 end
