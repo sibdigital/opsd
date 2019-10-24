@@ -467,6 +467,8 @@ export class TimelineCellRenderer {
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
     const diff = this.timezoneService.daysFromToday(wp.dueDate);
+    /*if (wp.onCriticalWay) {
+    }*/
     if (diff <= -1) {
       element.classList.add('__hl_row_overdue');
     } else {

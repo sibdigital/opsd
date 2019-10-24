@@ -36,6 +36,7 @@ export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
   zoomIn:string;
   zoomAuto:string;
+  criticalWay:string;
 }
 
 @Component({
@@ -65,6 +66,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.text.zoomIn = I18n.t('js.timelines.zoom.in');
     this.text.zoomOut = I18n.t('js.timelines.zoom.out');
     this.text.zoomAuto = I18n.t('js.timelines.zoom.auto');
+    this.text.criticalWay = I18n.t('js.timelines.critical_way');
   }
 
   public get label():string {
@@ -109,5 +111,9 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   public getAutoZoomToggleClass():string {
     return this.isAutoZoomEnabled() ? '-disabled' : '';
+  }
+
+  public toggleCriticalWay() {
+    this.wpTableTimeline.toggleCriticalWay();
   }
 }

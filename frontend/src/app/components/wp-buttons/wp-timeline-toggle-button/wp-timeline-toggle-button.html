@@ -42,4 +42,13 @@
     </button>
   </li>
 
+  <li *ngIf="isActive()">
+    <button id="work-packages-timeline-critical-way-button"
+            class="button timeline-toolbar--button toolbar-icon"
+            [attr.title]="text.criticalWay"
+            (click)="toggleCriticalWay()">
+      <op-icon icon-classes="icon-attention button--icon"></op-icon>
+    </button>
+  </li>
+
 </ul>
