@@ -177,7 +177,7 @@ class Message < ActiveRecord::Base
         UserMailer.message_posted(user, self, User.current).deliver_now
       end
     rescue Exception => e
-      Rails.logger.error "Failed to sent mail to user ##{current_user} message: #{e}"
+      Rails.logger.info "Failed to sent mail to user ##{current_user} message: #{e}"
     end
   end
 end
