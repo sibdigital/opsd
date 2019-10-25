@@ -2,9 +2,30 @@
 This file written by BAN
 11/09/2019
 ++#%>
+<%= form_with model: @user_task, local: true do |form| %>
+<%= case @user_task.kind
+    when 'Note'
+      render partial: "user_tasks/show_note", locals: { form: form }
+    when 'Request'
+      if @user_task.object_type == 'WorkPackage'
+        render partial: "user_tasks/show_request_wp", locals: { form: form }
+      else
+        render partial: "user_tasks/show_request", locals: { form: form }
+      end
+    when 'Task'
+      render partial: "user_tasks/show_task", locals: { form: form }
+    when 'Response'
+      if @user_task.object_type == 'WorkPackage'
+        render partial: "user_tasks/show_response_wp", locals: { form: form }
+      else
+        render partial: "user_tasks/show_response", locals: { form: form }
+      end
+    end
+%>
 <p>
   <strong>Текст:</strong>
   <%= @user_task.text %>
 </p>
 <%= link_to 'Редактировать', edit_user_task_path(@user_task) %>
 <p><a href="/my/page">Вернуться к моей странице</a></p>
+<% end %>
