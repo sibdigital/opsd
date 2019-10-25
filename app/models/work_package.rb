@@ -111,9 +111,6 @@ class WorkPackage < ActiveRecord::Base
   def count_wpp
     work_package_problems.count
   end
-  def is_on_critical_way
-    true
-  end
 
   def search_journal_date
     current_journal

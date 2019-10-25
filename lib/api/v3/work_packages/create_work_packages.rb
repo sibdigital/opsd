@@ -44,6 +44,9 @@ module API
                        .call(request_body)
                        .result
           parameters['assigned_to_id'] = current_user.id
+          #bbm(
+          parameters['plan_type'] = request_body['planType']
+          # )
           result = create_work_package(current_user,
                                        work_package,
                                        parameters,
