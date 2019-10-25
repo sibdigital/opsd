@@ -149,7 +149,10 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     let currentState = this.current;
     currentState.criticalWay = !currentState.criticalWay;
     this.state.putValue(currentState);
-
+  }
+  public getCriticalWay() {
+    let currentState = this.current;
+    return currentState.criticalWay;
   }
   public setFirstOrLasHistDate(option:number) {
     let currentState = this.current;

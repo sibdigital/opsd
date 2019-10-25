@@ -466,18 +466,21 @@ export class TimelineCellRenderer {
   }
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
-    const diff = this.timezoneService.daysFromToday(wp.dueDate);
-    /*if (wp.onCriticalWay) {
-    }*/
-    if (diff <= -1) {
-      element.classList.add('__hl_row_overdue');
+    if (wp.onCriticalWay && this.wpTableTimeline.getCriticalWay()) {
+      element.style.setProperty('background-color', 'red', 'important');
     } else {
-      let status = wp.status;
-      if (!status) {
-        element.style.backgroundColor = this.fallbackColor;
+      element.style.backgroundColor = null;
+      const diff = this.timezoneService.daysFromToday(wp.dueDate);
+      if (diff <= -1) {
+        element.classList.add('__hl_row_overdue');
+      } else {
+        let status = wp.status;
+        if (!status) {
+          element.style.backgroundColor = this.fallbackColor;
+        }
+        const id = status.getId();
+        element.classList.add(Highlighting.rowClass('status', id));
       }
-      const id = status.getId();
-      element.classList.add(Highlighting.rowClass('status', id));
     }
     //bbm( Старый вариант по типу мероприятия
     /*if (renderInfo.viewParams.settings.firstOrLastHistDate) {
@@ -523,6 +526,13 @@ export class TimelineCellRenderer {
       bar.style.borderStyle = 'solid';
       bar.style.borderWidth = '2px';
       bar.style.borderBottom = 'none';
+      //bbm(
+      if (wp.onCriticalWay && this.wpTableTimeline.getCriticalWay()) {
+        bar.style.borderColor = 'red';
+      } else {
+        bar.style.borderColor = null;
+      }
+      //)
       bar.style.background = 'none';
     } else {
       // Apply the background color
