@@ -1,6 +1,9 @@
 <div style="width:50%">
 
-  <%= form.hidden_field 'object_type', value: params[:object_type] %>
+  <p>
+    <%= form.label 'Справочник' %>
+    <%= form.collection_select(:object_type, Enumeration.where(type: 'UserTaskDirectory'), :name.to_s, :name.to_s) %>
+  </p>
 
   <p>
     <%= form.label :assigned_to_id %>

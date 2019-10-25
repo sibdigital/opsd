@@ -12,12 +12,10 @@ class UserTasksController < ApplicationController
   def new
     @kind_new = params[:kind]
     @user_task = UserTask.new
-    @object_types = object_types
   end
 
   def edit
     @user_task = UserTask.find(params[:id])
-    @object_types = object_types
   end
 
   def create
@@ -54,22 +52,6 @@ class UserTasksController < ApplicationController
     @user_task = UserTask.find(params[:id])
     @user_task.destroy
     redirect_to user_tasks_path
-  end
-
-  def object_types
-    object_types = []
-    object_types << 'WorkPackage'
-    object_types << 'Organization'
-    object_types
-  end
-
-  def kinds
-    kinds = []
-    kinds << 'Task'
-    kinds << 'Note'
-    kinds << 'Request'
-    kinds << 'Response'
-    kinds
   end
 
   private
