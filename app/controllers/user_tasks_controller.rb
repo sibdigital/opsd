@@ -33,6 +33,10 @@ class UserTasksController < ApplicationController
         rescue Exception => e
           Rails.logger.info(e.message)
         end
+      else
+        if @user_task.kind == 'Response'
+          @user_task.related_task_id = params[:related_task_id]
+        end
       end
     else
       render 'new'

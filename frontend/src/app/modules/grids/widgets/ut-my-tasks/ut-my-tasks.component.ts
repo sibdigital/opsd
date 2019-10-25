@@ -10,10 +10,10 @@ import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CurrentUserService} from "core-components/user/current-user.service";
 
 @Component({
-  templateUrl: './ut-responses.component.html',
+  templateUrl: './ut-my-tasks.component.html',
 })
 
-export class WidgetUtResponsesComponent extends AbstractWidgetComponent implements OnInit {
+export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements OnInit {
   public entries:UserTasksResource[] = [];
   private entriesLoaded = false;
 
@@ -36,7 +36,7 @@ export class WidgetUtResponsesComponent extends AbstractWidgetComponent implemen
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.user_creator_id == this.currentuser.userId && obj.kind == 'Response'){
+          if (obj.assigned_to_id == this.currentuser.userId && obj.kind == 'Task'){
             entriesarrayforuser.push(obj);
           }
         }
@@ -45,11 +45,7 @@ export class WidgetUtResponsesComponent extends AbstractWidgetComponent implemen
       });
   }
 
-  public user_taskTextLink(user_task:UserTasksResource) {
-    return `${this.pathHelper.appBasePath}/user_tasks/${user_task.id}`;
-  }
-
-  public user_taskRelatedLink(user_task:UserTasksResource) {
-    return `${this.pathHelper.appBasePath}/user_tasks/${user_task.related_task_id}`;
+  public user_taskResponse(user_task:UserTasksResource) {
+    return `/user_tasks/new?assigned_to_id=${user_task.assigned_to_id}&head_text=Ответ+по+задаче&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.id}`;
   }
 }

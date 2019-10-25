@@ -1,19 +1,21 @@
 <h3 class="widget-box--header" cdkDragHandle>
-    <span class="widget-box--header-title">Мои ответы</span>
+    <span class="widget-box--header-title">Задачи от меня</span>
 </h3>
 <div class="grid--widget-content">
     <table width="100%" cellpadding="2" style="text-align: left">
-        <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Ответ на:</th><th>Кому:</th><th>Проект</th><th>Пакет работ/Справочник</th><th>Текст</th><th>Срок</th><th>Выполнено</th></tr>
+        <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Исполнитель</th><th>Проект</th><th>Связанный объект</th><th>Текст</th><th>Срок</th><th>Выполнено</th></tr>
         <ng-container *ngFor="let user_task of entries">
             <tr style="border-bottom: 1px solid #E7E7E7; height: 40px">
-                <td><a [href]="user_taskRelatedLink(user_task)"><op-icon icon-classes="icon icon-move" style="font-size: 11px;"></op-icon></a></td>
                 <td [textContent]="user_task.assigned_to"></td>
                 <td><a [href]="user_task.project" [textContent]="user_task.project_name"></a></td>
                 <td><a [href]="user_task.object" [textContent]="user_task.object_name"></a></td>
-                <td><a [href]="user_taskTextLink(user_task)" [textContent]="user_task.text"></a></td>
+                <td><a [href]="user_taskText(user_task)" [textContent]="user_task.text"></a></td>
                 <td [textContent]="user_task.due_date"></td>
                 <td [textContent]="user_task.completed"></td>
             </tr>
         </ng-container>
     </table>
+</div>
+<div>
+    <a href="/user_tasks/new?head_text=Новая+задача&kind=Task"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Новая задача</a>
 </div>
