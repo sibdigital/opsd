@@ -23,6 +23,11 @@ See doc/COPYRIGHT.md for more details.
 <%= toolbar title: l(:label_meeting),
             link_to: link_to(@meeting),
             html: { class: 'meeting--main-toolbar' } do %>
+  <li class="toolbar-item">
+    <div class="button">
+      <%= link_to "Печатная форма", report_meeting_path(@meeting.id)%>
+    </div>
+  </li>
   <% unless User.current.anonymous? %>
     <li class="toolbar-item">
       <div class="button">
@@ -66,13 +71,22 @@ See doc/COPYRIGHT.md for more details.
       <p><strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @meeting.start_time %> <%= format_time @meeting.start_time, false %> - <%= format_time @meeting.end_time, false %> <%= Time.zone %></p>
     </div>
     <div class="grid-content small-6">
-      <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h @meeting.location %></p>
+      <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h @meeting.raion %></p>
     </div>
     <div class="grid-content small-12">
       <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong>: <%= format_participant_list @meeting.participants.invited %></p>
     </div>
     <div class="grid-content small-12">
       <p><strong><%= Meeting.human_attribute_name(:participants_attended) %></strong>: <%= format_participant_list @meeting.participants.attended %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:chairman) %></strong>: <%= link_to_user @meeting.chairman %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:add_participants) %></strong>: <%= format_participant_list2 @meeting.add_participants %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:speakers) %></strong>: <%= format_participant_list2 @meeting.speakers %></p>
     </div>
   </div>
 </div>

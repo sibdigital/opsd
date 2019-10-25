@@ -27,6 +27,9 @@ OpenProject::Application.routes.draw do
   #iag(
   resources :meeting_protocols
   #)
+  #bbm(
+  resources :report_meetings, only: [:show]
+  #)
 
   resources :meetings, except: [:new, :create, :index] do
 

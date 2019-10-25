@@ -3,6 +3,7 @@ en:
     attributes:
       cost_entry:
         work_package: "Мероприятие/КТ"
+        recorded_liability: "Учтенные бюджетные обязательства"
         overridden_costs: "Переопределенные расходы"
         spent: "Потрачено"
         spent_on: "Дата"
@@ -43,7 +44,7 @@ en:
         one: "Тип затрат"
         few: "Несколько"
         many: "Много"
-        other: "Типы расходов"
+        other: "Источники финансирования"
       material_budget_item: "Единица"
       rate: "Тариф"
     errors:
@@ -53,9 +54,11 @@ en:
           nullify_is_not_valid_for_cost_entries: "Записи о стоимостях не могут быть присвоены проекту."
   attributes:
     budget: "Запланированные расходы"
+    passport_units: "Сумма предусмотренная паспортом проекта"
+    consolidate_units: "Сводная бюджетная роспись"
     comment: "Комментарий"
     cost_object: "Бюджет"
-    cost_type: "Тип расходов"
+    cost_type: "Источник фиансирования"
     costs: "Расходы"
     current_rate: "Текущий тариф"
     hours: "Часы"
@@ -63,7 +66,7 @@ en:
     valid_from: "Действует с"
   button_add_budget_item: "Добавить плановые расходы"
   button_add_cost_object: "Добавить бюджет"
-  button_add_cost_type: "Добавить тип расходов"
+  button_add_cost_type: "Добавить источник финансирования"
   button_add_rate: "Добавить тариф"
   button_cancel_edit_budget: "Отменить правку бюджета"
   button_cancel_edit_costs: "Отменить правку расходов"
@@ -84,7 +87,7 @@ en:
   caption_set_rate: "Установить текущий тариф"
   caption_show_locked: "Показывать Заблокированные типы"
   cost_objects_title: "Финансовое обеспечение"
-  label_cost_type_plural: "Типы расходов"
+  label_cost_type_plural: "Источники финансирования"
   currency_delimiter: ","
   currency_separator: "."
   description_date_for_new_rate: "Дата для нового тарифа"

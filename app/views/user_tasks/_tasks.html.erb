@@ -125,8 +125,5 @@ This file written by BAN
 <%= link_to 'Новая заметка', new_user_task_path(kind: 'Note', head_text: 'Новая заметка') %><br>
 <%= link_to 'Запрос на приемку задачи', new_user_task_path(kind: 'Request',
   object_type: 'WorkPackage', head_text: 'Запрос на приемку задачи') %><br>
-<%= link_to 'Запрос на ввод данных в справочник Организации', new_user_task_path(kind: 'Request',
-  object_type: 'Organization', head_text: 'Запрос на ввод данных в справочник Организации') %><br>
-<%= link_to 'Запрос на ввод данных в справочник Государственные контракты', new_user_task_path(kind: 'Request',
-  object_type: 'Contract', head_text: 'Запрос на ввод данных в справочник Государственные контракты') %><br>
+<%= link_to 'Запрос на ввод данных в справочники', new_user_task_path(kind: 'Request', head_text: 'Запрос на ввод данных в справочники') %><br>
 <%= link_to 'Новая задача', new_user_task_path(kind: 'Task', head_text: 'Новая задача') %>

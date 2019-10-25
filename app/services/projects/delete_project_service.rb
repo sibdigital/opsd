@@ -65,13 +65,18 @@ module Projects
     def delete_project!
       OpenProject::Notifications.send('project_deletion_imminent', project: @project_to_destroy)
 
-      if project.destroy
-        ProjectMailer.delete_project_completed(project, user: user).deliver_now
-        true
-      else
-        ProjectMailer.delete_project_failed(project, user: user).deliver_now
-        false
+      begin
+        if project.destroy
+          ProjectMailer.delete_project_completed(project, user: user).deliver_now
+          true
+        else
+          ProjectMailer.delete_project_failed(project, user: user).deliver_now
+          false
+        end
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
+
     end
   end
 end

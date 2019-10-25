@@ -59,6 +59,9 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::CostSeeder,
       BasicData::TypedTargetSeeder,
       # )
+      # ban(
+      BasicData::UserTaskDirectorySeeder,
+      # )
       BasicData::PeriodSeeder,
       BasicData::SettingSeeder
     ]

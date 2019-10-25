@@ -223,7 +223,7 @@ class PlanUploadersController < ApplicationController
 
             #добавить юзера в участника проекта
             #project_members_path(project_id: @project_for_load, action: 'create')
-            if Member.where(user_id: user.id, project_id: @project_for_load.id).count < 1
+            if Member.where(user_id: params['assigned_to_id'], project_id: @project_for_load.id).count < 1
               @project_for_load.add_member!(user, Role.where(name: "Участник").first)
             end
 
