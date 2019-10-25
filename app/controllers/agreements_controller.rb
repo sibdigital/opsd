@@ -131,7 +131,7 @@ class AgreementsController < ApplicationController
     @workbook.calc_pr.full_calc_on_load = true
 
     generate_pril1_sheet
-#    generate_pril2_sheet
+    generate_pril2_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -146,16 +146,21 @@ class AgreementsController < ApplicationController
   def generate_pril1_sheet
     region_name = Setting.find_by(name: 'region_name').nil? ? "" : Setting.find_by(name: 'region_name').value
 
-    if @federal_project.nil?
+    if @agreement.federal_project_id
+      federal_project = NationalProject.find(@agreement.federal_project_id)
+    else
+      federal_project = nil
+    end
+    if federal_project.nil?
       federal_project_name = ""
     else
-      federal_project_name = @federal_project.name
+      federal_project_name = federal_project.name
     end
 
-    if @federal_project.nil? || @federal_project.leader_position.nil?
+    if federal_project.nil? || federal_project.leader_position.nil?
       leader_position_federal_project = ""
     else
-      leader_position_federal_project = @federal_project.leader_position
+      leader_position_federal_project = federal_project.leader_position
     end
 
     userList = User.find_by_sql("  SELECT u.* FROM users u
@@ -294,7 +299,8 @@ class AgreementsController < ApplicationController
 
       for j in 0..count_year
         targetValue = PlanFactYearlyTargetValue.find_by(target_id: target.id, year: @project.start_date.year+j)
-        sheet.insert_cell(17+i, 10+j, targetValue.target_plan_year_value)
+        target_plan_year_value = targetValue.nil? ? "" : targetValue.target_plan_year_value
+        sheet.insert_cell(17+i, 10+j, target_plan_year_value)
         sheet.sheet_data[17+i][10+j].change_border(:top, 'thin')
         sheet.sheet_data[17+i][10+j].change_border(:left, 'thin')
         sheet.sheet_data[17+i][10+j].change_border(:right, 'thin')
@@ -332,10 +338,206 @@ class AgreementsController < ApplicationController
       sheet.sheet_data[17+i][9].change_vertical_alignment('center')
 
     end
-
-
   end
 
+  def generate_pril2_sheet
+
+    region_name = Setting.find_by(name: 'region_name').nil? ? "" : Setting.find_by(name: 'region_name').value
+
+    if @agreement.federal_project_id
+      federal_project = NationalProject.find(@agreement.federal_project_id)
+    else
+      federal_project = nil
+    end
+
+    if federal_project.nil?
+      federal_project_name = ""
+    else
+      federal_project_name = federal_project.name
+    end
+
+    if federal_project.nil? || federal_project.leader_position.nil?
+      leader_position_federal_project = ""
+    else
+      leader_position_federal_project = federal_project.leader_position
+    end
+
+    userList = User.find_by_sql("  SELECT u.* FROM users u
+                                           INNER JOIN members  m ON m.user_id = u.id
+                                           INNER JOIN member_roles mr ON  mr.member_id = m.id
+                                           INNER JOIN roles r ON  mr.role_id = r.id and r.name ='" +I18n.t(:default_role_project_head)+"' "+
+                                  "INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s)
+    if userList.empty?
+      user = User.new
+    else
+      user = userList[0]
+    end
+
+    position =  Position.find_by(id: user.position_id).present? ? Position.find_by(id: user.position_id).name : ""
+
+
+    sheet = @workbook['Приложение 2']
+    sheet[9][5].change_contents(region_name)
+    sheet[10][5].change_contents(federal_project_name)
+    sheet[11][5].change_contents(@project.name)
+    sheet[10][5].change_text_wrap(true)
+    sheet[11][5].change_text_wrap(true)
+
+    sheet[21][2].change_contents(leader_position_federal_project)
+    sheet[21][2].change_text_wrap(true)
+
+    sheet[21][9].change_contents(position)
+    sheet[21][9].change_text_wrap(true)
+
+    get_result_target_end_date.each_with_index do |result_target, i|
+      punkt = (i+1).to_s+"."
+      sheet.insert_cell(17+i, 0, punkt)
+      name = result_target["name"]
+      sheet.insert_cell(17+i, 1, "")
+      sheet.insert_cell(17+i, 2, name)
+      cell = sheet[17+i][2]
+      cell.change_text_wrap(true)
+      sheet.insert_cell(17+i, 3, "")
+      sheet.insert_cell(17+i, 4, "")
+      sheet.merge_cells(17+i, 2, 17+i, 4)
+      sheet.insert_cell(17+i, 5, "")
+      sheet.insert_cell(17+i, 6, "")
+      sheet.insert_cell(17+i, 7, "")
+      sheet.merge_cells(17+i, 5, 17+i, 7)
+      sheet.insert_cell(17+i, 8, result_target["name_measure_unit"])
+      cell = sheet[17+i][8]
+      cell.change_text_wrap(true)
+      sheet.insert_cell(17+i, 9, result_target["okei_code"])
+      sheet.insert_cell(17+i, 10, "")
+      sheet.merge_cells(17+i, 9, 17+i, 10)
+      sheet.insert_cell(17+i, 11, result_target["value"])
+      sheet.insert_cell(17+i, 12, "")
+      sheet.insert_cell(17+i, 13, "")
+      sheet.insert_cell(17+i, 14, "")
+      sheet.merge_cells(17+i, 11, 17+i, 14)
+      date_end_result=""
+      if result_target["quarter"] == "" && result_target["year"] == ""
+        date_end_result = ""
+      elsif result_target["quarter"] == ""
+        date_end_result = "31.12."+result_target["year"]
+      elsif result_target["quarter"] == "1"
+        date_end_result = "31.03."+result_target["year"]
+      elsif result_target["quarter"] == "2"
+        date_end_result = "30.06."+result_target["year"]
+      elsif result_target["quarter"] == "3"
+        date_end_result = "30.09."+result_target["year"]
+      elsif result_target["quarter"] == "4"
+        date_end_result = "31.12."+result_target["year"]
+      end
+      sheet.insert_cell(17+i, 15,  date_end_result)
+      sheet.insert_cell(17+i, 16, "")
+      sheet.merge_cells(17+i, 15, 17+i, 16)
+
+
+      sheet.sheet_data[17+i][0].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][0].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][0].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][0].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][1].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][1].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][1].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][1].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][2].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][2].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][2].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][2].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][3].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][3].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][3].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][3].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][4].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][4].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][4].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][4].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][5].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][5].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][5].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][5].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][6].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][6].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][6].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][6].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][7].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][7].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][7].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][7].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][8].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][8].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][8].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][8].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][9].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][9].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][9].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][9].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][10].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][10].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][10].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][10].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][11].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][11].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][11].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][11].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][12].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][12].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][12].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][12].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][13].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][13].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][13].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][13].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][14].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][14].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][14].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][14].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][15].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][15].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][15].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][15].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][16].change_border(:top, 'thin')
+      sheet.sheet_data[17+i][16].change_border(:left, 'thin')
+      sheet.sheet_data[17+i][16].change_border(:right, 'thin')
+      sheet.sheet_data[17+i][16].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[17+i][0].change_horizontal_alignment('center')
+      sheet.sheet_data[17+i][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[17+i][2].change_vertical_alignment('center')
+
+      sheet.sheet_data[17+i][1].change_horizontal_alignment('center')
+      sheet.sheet_data[17+i][1].change_vertical_alignment('center')
+
+      sheet.sheet_data[17+i][9].change_horizontal_alignment('center')
+      sheet.sheet_data[17+i][9].change_vertical_alignment('center')
+
+      sheet.sheet_data[17+i][11].change_horizontal_alignment('center')
+      sheet.sheet_data[17+i][11].change_vertical_alignment('center')
+
+      sheet.sheet_data[17+i][15].change_horizontal_alignment('center')
+      sheet.sheet_data[17+i][15].change_vertical_alignment('center')
+
+    end
+  end
 
   def index
     @agreement = Agreement.find_by(project_id: @project.id)
@@ -369,6 +571,49 @@ class AgreementsController < ApplicationController
     end
 
   end
+
+
+  def get_result_target_end_date
+    sql  = "   with
+               result_end as (
+                select s.id, s.name,  s.name_measure_unit, s.okei_code, substring(max(s.union_val), 1, 4) as year, substring(max(s.union_val), 5, 1) as quarter, max(s.union_val) as union_val
+                from (
+                        select t.id, t.name, m.name as name_measure_unit, m.okei_code, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
+                        FROM targets t
+                                inner join enumerations e on e.id = t.type_id
+                                left join target_execution_values tev on tev.target_id = t.id
+                                left join measure_units m on t.measure_unit_id = m.id
+                        where t.is_approve = true
+                          and e.name = '"+I18n.t(:default_result)+"'
+                          and t.project_id =  " + @project.id.to_s+ "
+                     ) as s
+                group by s.id, s.name,  s.name_measure_unit, s.okei_code
+               ),
+
+               result_end_value as (
+                        select t.id, tev.value, cast(tev.year as varchar) as year, cast(tev.quarter as varchar) as quarter, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
+                        FROM targets t
+                                inner join enumerations e on e.id = t.type_id
+                                left join target_execution_values tev on tev.target_id = t.id
+                        where t.is_approve = true
+                          and e.name = '"+I18n.t(:default_result)+"'
+                          and t.project_id = "+ @project.id.to_s+ "
+                )
+
+              select re.*, rev.value from result_end re
+              left join result_end_value rev on rev.id=re.id and re.union_val = rev.union_val"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
+
 
   def difference_in_completed_years (d1, d2)
     a = d2.year - d1.year

@@ -232,7 +232,8 @@ class ReportPassportController < ApplicationController
 
         for j in 0..count_year
           targetValue = PlanFactYearlyTargetValue.find_by(target_id: target.id, year: @project.start_date.year+j)
-          sheet.insert_cell(6+i, 7+j, targetValue.target_plan_year_value)
+          target_plan_year_value = targetValue.nil? ? "" : targetValue.target_plan_year_value
+          sheet.insert_cell(6+i, 7+j, target_plan_year_value)
           sheet.sheet_data[6+i][7+j].change_border(:top, 'thin')
           sheet.sheet_data[6+i][7+j].change_border(:left, 'thin')
           sheet.sheet_data[6+i][7+j].change_border(:right, 'thin')
@@ -250,13 +251,17 @@ class ReportPassportController < ApplicationController
      sheet.insert_cell(6+i, 0, punkt)
      name = result_target["name"]
      sheet.insert_cell(6+i, 1, name)
+     cell = sheet[6+i][1]
+     cell.change_text_wrap(true)
      sheet.insert_cell(6+i, 2, "")
      sheet.insert_cell(6+i, 3, "")
      sheet.insert_cell(6+i, 4, "")
      sheet.insert_cell(6+i, 5, "")
      sheet.merge_cells(6+i, 1, 6+i, 5)
-     if result_target["quarter"] == ""
+     if result_target["quarter"] == "" && result_target["year"] != ""
        end_date = "31.12." + result_target["year"]+ ' г.'
+     elsif
+      end_date = ""
      else
        end_date = result_target["quarter"]+'-й квартал '+ result_target["year"]+ ' года'
      end
