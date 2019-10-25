@@ -100,6 +100,11 @@ class Meeting < ActiveRecord::Base
     attribute_will_change! :start_time_hour
     @start_time_hour = value
   end
+  #bbm(
+  def selected_vals
+    [13]
+  end
+  # )
 
   ##
   # Return the computed start_time when changed
