@@ -214,12 +214,32 @@ class WorkPackages::SetScheduleService
         where project_id = #{project.id}
       SQL
       #Step1
-      minStep1 = project.work_packages.minimum(:start_date)
-      ways = project.work_packages.where(start_date: minStep1)
-      ways.map do |wp|
+      @way = []
+      @max = 0
+      timeline = Time.strptime("00:0001.01.1900", "%H:%M%d.%m.%Y")
+      dfs(project, timeline, [], 0)
+      @way.map do |wp|
         wp.on_critical_way = true
         wp.save
       end
+    end
+  end
+
+  def dfs(project, timeline, stack, length)
+    new_timeline = project.work_packages.where("start_date > ?", timeline).minimum(:start_date)
+    if new_timeline
+      ways = project.work_packages.where(start_date: new_timeline)
+      ways.map do |wp|
+        stack << wp
+        durat = wp.due_date - wp.start_date
+        dfs(project, new_timeline, stack, length + durat)
+        stack.pop
+      end
+    elsif length > @max
+      @max = length
+      @way = stack
+    elsif length == @max
+      @way << stack
     end
   end
 end
