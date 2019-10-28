@@ -55,6 +55,9 @@ class WorkPackages::SetScheduleService
     if (%i(start_date due_date parent parent_id) & attributes).any?
       altered += schedule_following
     end
+    # bbm(
+    altered = reCalculateCriticalWay altered
+    # )
     result = ServiceResult.new(success: true,
                                result: work_packages.first)
 
@@ -62,9 +65,6 @@ class WorkPackages::SetScheduleService
       result.add_dependent!(ServiceResult.new(success: true,
                                               result: wp))
     end
-
-    reCalculateCriticalWay altered + work_packages
-
     result
   end
 
@@ -201,18 +201,39 @@ class WorkPackages::SetScheduleService
     scheduled.due_date += required_delta
   end
 
-  def reCalculateCriticalWay(wps)
+  def reCalculateCriticalWay(altered)
     projects = []
+    wps = altered + work_packages
     wps.map do |wp|
       projects << wp.project
     end
     projects.to_set.map do |project|
       #Очищаем признак
-      ActiveRecord::Base.connection.execute <<~SQL
-        update work_packages set
-        on_critical_way = false
-        where project_id = #{project.id}
-      SQL
+      project.work_packages.map do |wp|
+        exist = false
+        new_altered = []
+        altered.map do |wpa|
+          if wp == wpa
+            exist = true
+            wpa.on_critical_way = false
+          end
+          new_altered << wpa
+        end
+        altered.replace(new_altered)
+        new_work_packages = []
+        work_packages.each do |wp2|
+          if wp == wp2
+            exist = true
+            wp2.on_critical_way = false
+          end
+          new_work_packages << wp2
+        end
+        work_packages.replace(new_work_packages)
+        if exist == false
+          wp.on_critical_way = false
+          wp.save
+        end
+      end
       #Step1
       @way = []
       @max = 0
@@ -222,24 +243,51 @@ class WorkPackages::SetScheduleService
         wp.on_critical_way = true
         wp.save
       end
+      @way.to_set.map do |wp|
+        exist = false
+        new_altered = []
+        altered.map do |wpa|
+          if wp == wpa
+            exist = true
+            wpa.on_critical_way = true
+          end
+          new_altered << wpa
+        end
+        altered.replace(new_altered)
+        new_work_packages = []
+        work_packages.each do |wp2|
+          if wp == wp2
+            exist = true
+            wp2.on_critical_way = true
+          end
+          new_work_packages << wp2
+        end
+        work_packages.replace(new_work_packages)
+        if exist == false
+          wp.on_critical_way = true
+          wp.save
+        end
+      end
     end
+    altered
   end
 
   def dfs(project, timeline, stack, length)
     new_timeline = project.work_packages.where("start_date > ?", timeline).minimum(:start_date)
     if new_timeline
-      ways = project.work_packages.where(start_date: new_timeline)
+      max_date = project.work_packages.where(start_date: new_timeline).maximum(:due_date)
+      ways = project.work_packages.where(start_date: new_timeline, due_date: max_date)
       ways.map do |wp|
         stack << wp
         durat = wp.due_date - wp.start_date
-        dfs(project, new_timeline, stack, length + durat)
+        step2(project, wp.due_date, stack, length + durat)
         stack.pop
-      end
+        end
+    elsif length == @max
+      @way += stack
     elsif length > @max
       @max = length
-      @way = stack
-    elsif length == @max
-      @way << stack
+      @way.replace(stack)
     end
   end
 end
