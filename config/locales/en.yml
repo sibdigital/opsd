@@ -1297,6 +1297,14 @@ en:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_kpi_count_opened_project: "Количество открываемых проектов"
+  default_kpi_count_support_project: "Количество сопровождаемых проектов"
+  default_kpi_count_opened_meeting: "Количество организованных совещаний, мероприятий"
+  default_kpi_no_red_kt: "Отсутствие красных контрольных точек"
+  default_kpi_monitoring: "Осуществление мониторинга региональных проектов в срок"
+  default_kpi_closed_project: "Количество завершенных проектов"
+  default_kpi_saved_risks: "Количество внесенных в реестр рисков"
+  default_kpi_minimize_risks: "Количество проведенных мероприятий, направленных на минимизацию рисков"
   default_project_section_1: Основные положения
   default_project_section_2: Цели и показатели
   default_project_section_3: Результаты
