@@ -10,10 +10,10 @@ import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CurrentUserService} from "core-components/user/current-user.service";
 
 @Component({
-  templateUrl: './ut-responses.component.html',
+  templateUrl: './ut-tasks.component.html',
 })
 
-export class WidgetUtResponsesComponent extends AbstractWidgetComponent implements OnInit {
+export class WidgetUtTasksComponent extends AbstractWidgetComponent implements OnInit {
   public entries:UserTasksResource[] = [];
   private entriesLoaded = false;
 
@@ -36,7 +36,7 @@ export class WidgetUtResponsesComponent extends AbstractWidgetComponent implemen
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.user_creator_id == this.currentuser.userId && obj.kind == 'Response'){
+          if (obj.user_creator_id == this.currentuser.userId && obj.kind == 'Task'){
             entriesarrayforuser.push(obj);
           }
         }
@@ -45,11 +45,7 @@ export class WidgetUtResponsesComponent extends AbstractWidgetComponent implemen
       });
   }
 
-  public user_taskTextLink(user_task:UserTasksResource) {
+  public user_taskText(user_task:UserTasksResource) {
     return `${this.pathHelper.appBasePath}/user_tasks/${user_task.id}`;
-  }
-
-  public user_taskRelatedLink(user_task:UserTasksResource) {
-    return `${this.pathHelper.appBasePath}/user_tasks/${user_task.related_task_id}`;
   }
 }

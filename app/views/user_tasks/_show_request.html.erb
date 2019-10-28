@@ -1,0 +1,37 @@
+<p>
+  <strong>Запрос</strong>
+</p>
+<p>
+  <strong>Запрос от:</strong>
+  <%= User.find_by(id: @user_task.user_creator_id).to_s %>
+</p>
+<p>
+  <strong>Кому:</strong>
+  <%= User.find_by(id: @user_task.assigned_to_id).to_s %>
+</p>
+<p>
+  <strong>Справочник:</strong>
+  <%= @user_task.object_type %>
+</p>
+<p>
+  <strong>Требуемая дата ввода:</strong>
+  <%= @user_task.due_date.to_s %>
+</p>
+<p>
+  <strong>Выполнено:</strong>
+  <%=
+    if @user_task.completed
+      'Да'
+      else
+      'Нет'
+      end
+  %>
+</p>
+<p>
+  <strong>Дата создания:</strong>
+  <%= @user_task.created_at.to_s %>
+</p>
+<p>
+  <strong>Дата обновления:</strong>
+  <%= @user_task.updated_at.to_s %>
+</p>

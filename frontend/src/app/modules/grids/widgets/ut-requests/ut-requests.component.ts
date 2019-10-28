@@ -46,6 +46,6 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
   }
 
   public user_taskResponse(user_task:UserTasksResource) {
-    return `/user_tasks/new?assigned_to_id=${user_task.assigned_to_id}&head_text=Ответ+на+запрос&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.related_task_id}`;
+    return `/user_tasks/new?assigned_to_id=${user_task.user_creator_id}&head_text=Ответ+на+запрос&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.id}`;
   }
 }

@@ -4,9 +4,9 @@ This file written by BAN
 ++#%>
 <%= form_with model: @user_task, local: true do |form| %>
 
-  <h1>Редактирование задачи/запроса</h1>
+  <h1>Редактирование</h1>
 
-  <%= render partial: "user_tasks/form", locals: { form: form } %>
+  <%= render partial: "user_tasks/form_edit", locals: { form: form } %>
   <p><%= form.submit 'Сохранить' %></p>
   <p><a href="/my/page">Вернуться к моей странице</a></p>
 <% end %>
