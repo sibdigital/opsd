@@ -1,7 +1,7 @@
 <div style="display: block;">
   <ul class="widget-box--arrow-links">
     <li style="margin: 10px;">
-      <%= link_to 'Мероприятия и КТ', project_work_packages_path(@project)  %>
+      <%= link_to 'Мероприятия и КТ', project_work_packages_path(@project, plan_type: 'execution')  %>
     </li>
     <li style="margin: 10px;">
       <%= link_to 'Календарь', project_work_packages_calendar_index_path(@project)  %>

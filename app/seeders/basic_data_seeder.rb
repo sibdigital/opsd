@@ -58,6 +58,7 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::NationalProjectSeeder,
       BasicData::CostSeeder,
       BasicData::TypedTargetSeeder,
+      BasicData::KeyPerformanceIndicatorSeeder,
       # )
       # ban(
       BasicData::UserTaskDirectorySeeder,
