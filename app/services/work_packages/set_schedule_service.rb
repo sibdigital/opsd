@@ -43,7 +43,7 @@ class WorkPackages::SetScheduleService
                 []
               end
 
-    #bbm(
+    # bbm(
     if (%i(start_date due_date) & attributes).any?
       tmp = []
       tmp += schedule_commonstart
@@ -62,6 +62,8 @@ class WorkPackages::SetScheduleService
       result.add_dependent!(ServiceResult.new(success: true,
                                               result: wp))
     end
+
+    reCalculateCriticalWay altered + work_packages
 
     result
   end
@@ -94,7 +96,7 @@ class WorkPackages::SetScheduleService
     altered
   end
 
-  #bbm(
+  # bbm(
   def schedule_commonstart
     altered = []
     work_packages.each do |dependency|
@@ -111,6 +113,7 @@ class WorkPackages::SetScheduleService
     end
     altered
   end
+
   def schedule_commonfinish
     altered = []
     work_packages.each do |dependency|
@@ -196,5 +199,27 @@ class WorkPackages::SetScheduleService
 
     scheduled.start_date += required_delta
     scheduled.due_date += required_delta
+  end
+
+  def reCalculateCriticalWay(wps)
+    projects = []
+    wps.map do |wp|
+      projects << wp.project
+    end
+    projects.to_set.map do |project|
+      #Очищаем признак
+      ActiveRecord::Base.connection.execute <<~SQL
+        update work_packages set
+        on_critical_way = false
+        where project_id = #{project.id}
+      SQL
+      #Step1
+      minStep1 = project.work_packages.minimum(:start_date)
+      ways = project.work_packages.where(start_date: minStep1)
+      ways.map do |wp|
+        wp.on_critical_way = true
+        wp.save
+      end
+    end
   end
 end
