@@ -1715,6 +1715,7 @@ en:
   label_copy_project_to_template: Сохранить как шаблон
   label_copy_project_from_template: Создать проект из шаблона
   label_core_version: Основной этап
+  label_counter: Счетчик
   label_current_status: Текущий статус
   label_current_version: Текущий этап
   label_custom_field_add_no_type: Добавьте это поле в тип комплекса работ

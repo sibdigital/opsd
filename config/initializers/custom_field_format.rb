@@ -85,4 +85,10 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: :label_file,
                                                      order: 12,
                                                      formatter: 'CustomValue::FileStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('counter',
+                                                     label: :label_counter,
+                                                     order: 13,
+                                                     formatter: 'CustomValue::CounterStrategy')
+
 end

@@ -91,7 +91,7 @@ class PermittedParams
   end
 
   def custom_field
-    params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
+    params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field], counter_setting_attributes: [:id, :template, :length, :period])
   end
 
   def custom_action

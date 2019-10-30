@@ -35,6 +35,7 @@ class CustomFieldsController < ApplicationController
   before_action :find_custom_field, only: %i(edit update destroy move delete_option)
   before_action :prepare_custom_option_position, only: %i(update create)
   before_action :find_custom_option, only: :delete_option
+  before_action :hatch_template, only: [:create, :update]
 
   def index
     # loading wp cfs exclicity to allow for eager loading
@@ -46,6 +47,7 @@ class CustomFieldsController < ApplicationController
 
   def new
     @custom_field = careful_new_custom_field permitted_params.custom_field_type
+    @counter_setting = @custom_field.build_counter_setting
   end
 
   def create
@@ -98,6 +100,14 @@ class CustomFieldsController < ApplicationController
   end
 
   private
+
+  def hatch_template
+    length = params[:custom_field][:counter_setting_attributes][:length]
+    if length != ""
+      params[:custom_field][:counter_setting_attributes][:template] = params[:custom_field][:counter_setting_attributes][:template][0...length.to_i]
+    end
+
+  end
 
   def get_custom_field_params
     custom_field_params = permitted_params.custom_field

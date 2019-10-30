@@ -55,6 +55,8 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= f.text_field(:formula, container_class: '-wide') %>
   </div>
 
+  <%= render partial: "counter_settings/form",
+             locals: { form: f } %>
 
   <div class="form--field">
     <%= f.text_field :regexp,
