@@ -13,11 +13,7 @@ module BasicData
 
       KeyPerformanceIndicatorCase.transaction do
         cases_data.each do |attributes|
-          attributes[:key_performance_indicator_id] = kpi_by_name(attributes[:name])
-          attributes[:role_id] = kpi_by_name(attributes[:role])
-          attributes.delete!(:role)
-          attributes.delete!(:name)
-          KeyPerformanceIndicatorCase.create!(attributes)
+          KeyPerformanceIndicatorCase.create!(convert(attributes))
         end
       end
     end
@@ -58,6 +54,18 @@ module BasicData
 
     end
 
+    def convert(attr)
+      {
+        percent:  attr[:percent],
+        min_value: attr[:min_value],
+        max_value: attr[:max_value],
+        enable: attr[:enable],
+        period: attr[:period],
+        key_performance_indicator_id: kpi_by_name(attr[:name]),
+        role_id:  role_by_name(attr[:role])
+      }
+    end
+
     def cases_data
       I18n.t(:default_status_not_start)
       [
@@ -67,14 +75,14 @@ module BasicData
         # 1.	Количество открываемых проектов:
         # 1-3 проектов в квартал – 10%
         # 3-5 проектов в квартал – 30%
-        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_curator), percent: 30, min_value: 4, max_value: 5,enable: true, period: "Quarter" },
+        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_curator), percent: 30, min_value: 4, max_value: 5,enable: true, period: "Quarterly" },
 
-        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_head), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_head), percent: 30, min_value: 4, max_value: 5,enable: true, period: "Quarter" },
+        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_head), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_head), percent: 30, min_value: 4, max_value: 5,enable: true, period: "Quarterly" },
 
-        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_admin), percent: 30, min_value: 4, max_value: 5,enable: true, period: "Quarter" },
+        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_count_opened_project), role: I18n.t(:default_role_project_admin), percent: 30, min_value: 4, max_value: 5,enable: true, period: "Quarterly" },
 
         #2.	Количество сопровождаемых проектов.
         #Учитывать текущее количество проектов, в которых пользователь имеет оду из следующих ролей:
@@ -103,9 +111,9 @@ module BasicData
         # 1-10 в квартал – 15%
         # 10 – 20 – 30%
         # 20 и выше – 40%
-        { name: I18n.t(:default_kpi_count_opened_meeting), role: nil, percent: 15, min_value: 1, max_value: 10,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_count_opened_meeting), role: nil, percent: 30, min_value: 11, max_value: 20,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_count_opened_meeting), role: nil, percent: 40, min_value: 20, max_value: 9999,enable: true, period: "Quarter" },
+        { name: I18n.t(:default_kpi_count_opened_meeting), role: nil, percent: 15, min_value: 1, max_value: 10,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_count_opened_meeting), role: nil, percent: 30, min_value: 11, max_value: 20,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_count_opened_meeting), role: nil, percent: 40, min_value: 20, max_value: 9999,enable: true, period: "Quarterly" },
 
         #   4.	Отсутствие красных контрольных точек
         # Учитывать сроки исполнения мероприятий за месяц, квартал и год для
@@ -116,29 +124,29 @@ module BasicData
         # в 1 отчетный месяц – 10%
         # в отчетный квартал – 15%
         # в год – 30%
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_curator), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_curator), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_curator), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_curator), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_head), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_head), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_head), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_head), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_head), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_head), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_admin), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_admin), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_admin), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_admin), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_office_coordinator), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_office_coordinator), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_office_coordinator), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_office_coordinator), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_office_coordinator), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_project_office_coordinator), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_events_responsible), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_events_responsible), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_events_responsible), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_events_responsible), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_events_responsible), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_events_responsible), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_ispolnitel), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_ispolnitel), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarter" },
-        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_ispolnitel), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_ispolnitel), percent: 10, min_value: 0, max_value: 0,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_ispolnitel), percent: 15, min_value: 0, max_value: 0,enable: true, period: "Quarterly" },
+        { name: I18n.t(:default_kpi_no_red_kt), role: I18n.t(:default_role_ispolnitel), percent: 30, min_value: 0, max_value: 0,enable: true, period: "Yearly" },
 
         #   5.	Осуществление мониторинга региональных проектов в срок
         # Учитывать для роли координатор от Проектного офиса путем отсутствия мероприятий в статусе «На проверке»
@@ -152,17 +160,17 @@ module BasicData
         # куратор проекта, руководитель проекта, администратор проекта, координатор от Проектного офиса
         # 1-5 в год – 10%
         # 5-10 в гол – 15%
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Year" },
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_curator), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Yearly" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_curator), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_head), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Year" },
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_head), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_head), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Yearly" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_head), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_office_coordinator), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Year" },
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_office_coordinator), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_office_coordinator), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Yearly" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_office_coordinator), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Yearly" },
 
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Year" },
-        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_admin), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Year" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 1, max_value: 5,enable: true, period: "Yearly" },
+        { name: I18n.t(:default_kpi_closed_project), role: I18n.t(:default_role_project_admin), percent: 15, min_value: 6, max_value: 10,enable: true, period: "Yearly" },
 
         # 7.	Количество внесенных в реестр рисков
         # Учитывать количество рисков в реестре рисков для ролей: куратор проекта, руководитель проекта, администратор проекта,
@@ -191,29 +199,29 @@ module BasicData
         # 1-3 в месяц – 10%
         # 3-7 в месяц – 15 %
         # 7 и более – 25%
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_curator), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_curator), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Month" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_curator), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_curator), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Monthly" },
 
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_head), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_head), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_head), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Month" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_head), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_head), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_head), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Monthly" },
 
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_admin), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_admin), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Month" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_admin), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_admin), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_admin), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Monthly" },
 
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_office_coordinator), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_office_coordinator), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_office_coordinator), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Month" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_office_coordinator), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_office_coordinator), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_project_office_coordinator), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Monthly" },
 
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_events_responsible), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_events_responsible), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_events_responsible), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Month" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_events_responsible), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_events_responsible), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_events_responsible), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Monthly" },
 
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Month" },
-        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Month" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Monthly" },
+        { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Monthly" },
 
       ]
 

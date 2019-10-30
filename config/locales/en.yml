@@ -1715,6 +1715,7 @@ en:
   label_copy_project_to_template: Сохранить как шаблон
   label_copy_project_from_template: Создать проект из шаблона
   label_core_version: Основной этап
+  label_counter: Счетчик
   label_current_status: Текущий статус
   label_current_version: Текущий этап
   label_custom_field_add_no_type: Добавьте это поле в тип комплекса работ
@@ -3536,6 +3537,7 @@ en:
           родительских пакетов.
         invalid_user_assigned_to_work_package: Выбранный пользователь не может быть
           «%{property}» для этого мероприятия.
+        invalid_user_permission_to_project: Вы не являетесь участником проекта и не имеете прав на изменение.
         start_date: Дата начала не может быть задана на родительских  пакетах работ.
       writing_read_only_attributes: Вы не должны перезаписывать атрибут являющийся
         только для чтения.

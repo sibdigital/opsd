@@ -83,11 +83,14 @@ module API
 
             #bbm(
             patch do
-              if(params[:attach_type_id]) then
+              if params[:attach_type_id]
                 new_attach_type = AttachType.find(params[:attach_type_id])
                 @attachment.attach_type = new_attach_type
               else
                 @attachment.attach_type = nil
+              end
+              if params[:someHref]
+                @attachment.some_href = params[:someHref]
               end
               save_attachment(@attachment)
             end

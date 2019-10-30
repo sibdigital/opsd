@@ -1,5 +1,5 @@
 
-class CustomValue::FormulaStrategy < CustomValue::FormatStrategy
+class CustomValue::CounterStrategy < CustomValue::FormatStrategy
 
   def typed_value
 
@@ -10,3 +10,4 @@ class CustomValue::FormulaStrategy < CustomValue::FormatStrategy
   end
 
 end
+

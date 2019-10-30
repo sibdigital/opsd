@@ -4,9 +4,6 @@ class CustomValue::RtfStrategy < CustomValue::FormatStrategy
 
   end
 
-  def formatted_value
-
-  end
 
   def validate_type_of_value
 

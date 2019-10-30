@@ -5,6 +5,7 @@ class PositionsController < ApplicationController
   layout 'admin'
 
   include CustomFilesHelper
+  include CounterHelper
 
   before_action :require_project_admin
   before_action :find_position, only: [:edit, :update, :destroy]
@@ -12,8 +13,13 @@ class PositionsController < ApplicationController
     upload_custom_file("position", "PositionCustomField")
   end
 
+  before_action only: [:destroy] do
+    destroy_counter_value("Position", @position.id)
+  end
+
   after_action only: [:create, :update] do
     assign_custom_file_name("Position", @position.id)
+    init_counter_value("Position", @position.class.name, @position.id)
   end
 
   def index; end

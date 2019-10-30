@@ -5,10 +5,6 @@ class CustomValue::FileStrategy < CustomValue::FormatStrategy
 
   end
 
-  def formatted_value
-
-  end
-
   def validate_type_of_value
 
   end
