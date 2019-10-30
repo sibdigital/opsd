@@ -45,6 +45,13 @@ module API
                             representer: ::API::V3::Users::UserRepresenter
         #bbm(
         associated_resource :attach_type
+        associated_resource :user_locked,
+                            v3_path: :user,
+                            representer: ::API::V3::Users::UserRepresenter
+        property :locked,
+                 render_nil: true
+        property :some_href,
+                 render_nil: true
         # )
         cached_representer key_parts: %i[author container]
 

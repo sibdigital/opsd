@@ -240,8 +240,10 @@ class WorkPackages::SetScheduleService
       @max = 0
       @way = []
       ways.map do |wp|
-        durat = wp.due_date - wp.start_date
-        step2(project, wp.due_date, [wp], durat)
+        if wp.due_date and wp.start_date
+          durat = wp.due_date - wp.start_date
+          step2(project, wp.due_date, [wp], durat)
+        end
       end
       @way.to_set.map do |wp|
         exist = false

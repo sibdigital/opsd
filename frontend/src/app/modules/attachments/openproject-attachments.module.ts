@@ -46,7 +46,7 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
     AttachmentsComponent,
     AttachmentListComponent,
     AttachmentListItemComponent,
-    AttachmentsUploadComponent,
+    AttachmentsUploadComponent
   ],
   entryComponents: [
     AttachmentsComponent,

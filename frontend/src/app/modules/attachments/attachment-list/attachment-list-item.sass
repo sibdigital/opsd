@@ -1,6 +1,41 @@
-.attach-edit--field
+.form--selected-value--selecter
   width: 200px
   position: absolute
   right: 32px
   display: inline
-  height: 32px
+  height: 100%
+  visibility: hidden
+
+.form--selected-value--container
+  &:hover,
+  &:focus,
+  &.-focus
+    .form--selected-value--selecter
+      visibility: visible
+.form--selected-value--href
+  width: 200px
+  position: absolute
+  right: 232px
+  display: inline
+  height: 100%
+  visibility: hidden
+  background-color: #fff
+  text-align: right
+
+.form--selected-value--container
+  &:hover,
+  &:focus,
+  &.-focus
+    .form--selected-value--href
+      visibility: visible
+
+.form--selected-value--input
+  height: 100%
+
+.form--selected-value--input-save
+  position: absolute
+  right: 0
+  padding: 6px
+  height: 100%
+  text-decoration: none
+  color: #333333
