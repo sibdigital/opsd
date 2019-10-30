@@ -266,7 +266,7 @@ module WorkPackages
 
       unless principal_visible?(id, list)
         errors.add attribute,
-                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
+                   I18n.t('api_v3.errors.validation.invalid_user_permission_to_project',
                           property: I18n.t("attributes.#{attribute}"))
       end
     end
