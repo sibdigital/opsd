@@ -13,13 +13,19 @@ class ContractsController < ApplicationController
   include ::IconsHelper
   include ::ColorsHelper
   include CustomFilesHelper
+  include CounterHelper
 
   before_action only: [:create, :update] do
     upload_custom_file("contract", "ContractCustomField")
   end
 
+  before_action only: [:destroy] do
+    destroy_counter_value("Contract", @contract.id)
+  end
+
   after_action only: [:create, :update] do
     assign_custom_file_name("Contract", @contract.id)
+    init_counter_value("Contract", @contract.class.name, @contract.id)
   end
 
   def index

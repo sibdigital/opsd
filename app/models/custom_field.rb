@@ -41,6 +41,11 @@ class CustomField < ActiveRecord::Base
            -> { order(position: :asc) },
            dependent: :delete_all,
            inverse_of: 'custom_field'
+
+  #tmd
+  has_one :counter_setting, dependent: :destroy
+  accepts_nested_attributes_for :counter_setting
+
   accepts_nested_attributes_for :custom_options
 
   acts_as_list scope: 'type = \'#{self.class}\''
