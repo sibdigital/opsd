@@ -46,6 +46,7 @@ class ReportPassportController < ApplicationController
     generate_title_sheet
     generate_target_indicators_sheet
     generate_target_results_sheet
+    generate_budget_sheet
     generate_members_sheet
     generate_plan_sheet
     generate_method_calc_sheet
@@ -351,6 +352,218 @@ class ReportPassportController < ApplicationController
 
    end
  end
+
+  def generate_budget_sheet
+    sheet = @workbook['Финансовое обеспечение']
+    count_year = difference_in_completed_years(@project.start_date, @project.due_date)
+    sheet.merge_cells(1, 2, 1, 2+count_year)
+
+    # вывод в шапке таблицы наименование годов
+    for i in 0..count_year
+      sheet.insert_cell(0, 2+i,"")
+      sheet.insert_cell(1, 2+i, "Объем финансового обеспечения по годам реализации (млн. рублей)")
+      cell = sheet[1][2+i]
+      cell.change_text_wrap(true)
+      sheet.sheet_data[1][2+i].change_horizontal_alignment('center')
+      sheet.sheet_data[1][2+i].change_vertical_alignment('center')
+
+      sheet.insert_cell(2, 2+i, @project.start_date.year+i)
+      sheet.sheet_data[2][2+i].change_horizontal_alignment('center')
+      sheet.sheet_data[2][2+i].change_vertical_alignment('center')
+
+      sheet.sheet_data[1][2+i].change_border(:top, 'thin')
+      sheet.sheet_data[1][2+i].change_border(:left, 'thin')
+      sheet.sheet_data[1][2+i].change_border(:right, 'thin')
+      sheet.sheet_data[1][2+i].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2][2+i].change_border(:top, 'thin')
+      sheet.sheet_data[2][2+i].change_border(:left, 'thin')
+      sheet.sheet_data[2][2+i].change_border(:right, 'thin')
+      sheet.sheet_data[2][2+i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(3, 2+i, "")
+
+    end
+    sheet.insert_cell(0, 3+count_year, "")
+    sheet.merge_cells(0, 0, 0, 3+count_year)
+    sheet.sheet_data[0][ 0].change_horizontal_alignment('center')
+    sheet.sheet_data[0][ 0].change_vertical_alignment('center')
+
+    sheet.insert_cell(1, 3+count_year, "Всего (млн. рублей)")
+    cell = sheet[1][3+count_year]
+    cell.change_text_wrap(true)
+
+    sheet.insert_cell(2, 3+count_year, "")
+    sheet.merge_cells(1, 3+count_year, 2, 3+count_year)
+
+    sheet.insert_cell(3, 3+count_year, "")
+    sheet.sheet_data[3][3+count_year].change_border(:right, 'thin')
+    sheet.merge_cells(3, 1, 3, 3+count_year)
+
+
+    sheet.sheet_data[1][ 3+count_year].change_horizontal_alignment('center')
+    sheet.sheet_data[1][ 3+count_year].change_vertical_alignment('center')
+
+    sheet.sheet_data[1][3+count_year].change_border(:top, 'thin')
+    sheet.sheet_data[1][3+count_year].change_border(:left, 'thin')
+    sheet.sheet_data[1][3+count_year].change_border(:right, 'thin')
+    sheet.sheet_data[1][3+count_year].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[2][3+count_year].change_border(:top, 'thin')
+    sheet.sheet_data[2][3+count_year].change_border(:left, 'thin')
+    sheet.sheet_data[2][3+count_year].change_border(:right, 'thin')
+    sheet.sheet_data[2][3+count_year].change_border(:bottom, 'thin')
+
+    budget_array = get_budjet_by_cost_type_and_year
+
+    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
+    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
+
+
+    if budget_array.count > 0
+        sheet[3][1].change_contents(budget_array[0]["national_project_result"])
+
+        cell = sheet[3][1]
+        cell.change_text_wrap(true)
+        sheet.sheet_data[3][1].change_horizontal_alignment('center')
+        sheet.sheet_data[3][1].change_vertical_alignment('center')
+    end
+
+    cost_types = CostType.all
+    id_target = 0
+    count_target= 0
+    m = 0
+    mapYearTargetAll = {}
+    mapCostTypeTargetAll = {}
+
+    targets.each_with_index do |target, i|
+      if id_target != target["id"].to_i
+        count_target += 1
+      end
+      count_cost_type = 1
+      mapYearTarget = {}
+      mapCostTypeTarget = {}
+      cost_types.each_with_index do |cost_type, j|
+        punkt = "1." + count_target.to_s + "." + count_cost_type.to_s + "."
+
+        sheet.insert_cell(5+j, 0, punkt)
+        sheet.sheet_data[5+j][0].change_horizontal_alignment('center')
+        sheet.sheet_data[5+j][0].change_vertical_alignment('center')
+
+        sheet.sheet_data[5+j][0].change_border(:top, 'thin')
+        sheet.sheet_data[5+j][0].change_border(:left, 'thin')
+        sheet.sheet_data[5+j][0].change_border(:right, 'thin')
+        sheet.sheet_data[5+j][0].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(5+j, 1, cost_type.name)
+
+        sheet.sheet_data[5+j][1].change_vertical_alignment('center')
+
+        sheet.sheet_data[5+j][1].change_border(:top, 'thin')
+        sheet.sheet_data[5+j][1].change_border(:left, 'thin')
+        sheet.sheet_data[5+j][1].change_border(:right, 'thin')
+        sheet.sheet_data[5+j][1].change_border(:bottom, 'thin')
+        cell = sheet[5+j][1]
+        cell.change_text_wrap(true)
+
+
+        for k in 0..count_year
+          value = 0
+          budget_array.each_with_index do |budget_year, l|
+
+             if (budget_year["plan_year"].to_i == @project.start_date.year+k) &&
+                (budget_year["cost_type_id"].to_i == cost_type.id) &&
+                (budget_year["id"].to_i == target.id)
+                  value = budget_year["units"]
+                  break
+             end
+          end
+          old_value_year = mapYearTarget[@project.start_date.year+k] == nil ? 0 : mapYearTarget[@project.start_date.year+k]
+          mapYearTarget[@project.start_date.year+k] = value+old_value_year
+
+          old_value_type_cost = mapCostTypeTarget[cost_type.id] == nil ? 0 : mapCostTypeTarget[cost_type.id]
+          mapCostTypeTarget[cost_type.id] = value+old_value_type_cost
+
+          sheet.insert_cell(5+j, 2+k, '%.2f' %(value/1000000))
+          sheet.sheet_data[5+j][2+k].change_horizontal_alignment('center')
+          sheet.sheet_data[5+j][2+k].change_vertical_alignment('center')
+
+          sheet.sheet_data[5+j][2+k].change_border(:top, 'thin')
+          sheet.sheet_data[5+j][2+k].change_border(:left, 'thin')
+          sheet.sheet_data[5+j][2+k].change_border(:right, 'thin')
+          sheet.sheet_data[5+j][2+k].change_border(:bottom, 'thin')
+
+        end
+
+        sum_value_type_cost = mapCostTypeTarget[cost_type.id] == nil ? 0 : mapCostTypeTarget[cost_type.id]
+        sheet.insert_cell(5+j, count_year+3, '%.2f' %(sum_value_type_cost/1000000))
+        sheet.sheet_data[5+j][count_year+3].change_horizontal_alignment('center')
+        sheet.sheet_data[5+j][count_year+3].change_vertical_alignment('center')
+
+        sheet.sheet_data[5+j][count_year+3].change_border(:top, 'thin')
+        sheet.sheet_data[5+j][count_year+3].change_border(:left, 'thin')
+        sheet.sheet_data[5+j][count_year+3].change_border(:right, 'thin')
+        sheet.sheet_data[5+j][count_year+3].change_border(:bottom, 'thin')
+
+
+        count_cost_type += 1
+      end
+
+      punkt = "1." + count_target.to_s + "."
+      sheet.insert_cell(4+m, 0, punkt)
+      sheet.sheet_data[4+m][0].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][0].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:bottom, 'thin')
+
+
+      sheet.insert_cell(4+m, 1, target.name)
+      sheet.sheet_data[4+m][1].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][1].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][1].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][1].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][1].change_border(:bottom, 'thin')
+      cell = sheet[4+m][1]
+      cell.change_text_wrap(true)
+
+
+      sum_value_target = 0
+      for n in 0..count_year
+         value_target =  mapYearTarget[@project.start_date.year+n] == nil ? 0 : mapYearTarget[@project.start_date.year+n]
+         sheet.insert_cell(4+m, n+2, '%.2f' %(value_target/1000000))
+
+         sheet.sheet_data[4+m][n+2].change_horizontal_alignment('center')
+         sheet.sheet_data[4+m][n+2].change_vertical_alignment('center')
+
+         sheet.sheet_data[4+m][n+2].change_border(:top, 'thin')
+         sheet.sheet_data[4+m][n+2].change_border(:left, 'thin')
+         sheet.sheet_data[4+m][n+2].change_border(:right, 'thin')
+         sheet.sheet_data[4+m][n+2].change_border(:bottom, 'thin')
+
+
+         sum_value_target += value_target
+      end
+      sheet.insert_cell(4+m, count_year+3, '%.2f' %(sum_value_target/1000000))
+
+      sheet.sheet_data[4+m][count_year+3].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][count_year+3].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][count_year+3].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][count_year+3].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][count_year+3].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][count_year+3].change_border(:bottom, 'thin')
+
+      m += count_cost_type
+
+
+    end
+
+  end
+
 
   def generate_members_sheet
 
@@ -977,6 +1190,26 @@ class ReportPassportController < ApplicationController
 
 
 
+
+  def get_budjet_by_cost_type_and_year
+    sql  = "  select t.id, t.name,t.national_project_result, m.units,m.plan_year, m.cost_type_id, ct.name as cost_type_name
+              FROM targets t
+              left join cost_objects co on co.target_id = t.id
+              left join material_budget_items m on m.cost_object_id = co.id
+              left join work_packages wp on wp.cost_object_id = co.id
+              left join cost_types ct on ct.id = m.cost_type_id
+              inner join enumerations e on e.id = t.type_id
+              where t.project_id = " + @project.id.to_s+" and e.name = '"+I18n.t(:default_result)+"'
+              order by t.id, ct.id"
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
 
   def get_member_by_role(role_name)
   userList = User.find_by_sql("  SELECT u.* FROM users u
