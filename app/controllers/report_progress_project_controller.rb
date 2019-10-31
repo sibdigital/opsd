@@ -10,11 +10,8 @@ class ReportProgressProjectController < ApplicationController
 
   default_search_scope :report_progress_project
 
-  before_action :verify_reportsProgressProject_module_activated
+  before_action :find_optional_project, :verify_reportsProgressProject_module_activated
 
-#  def index_params
-#    params.require(:report_id)
-#  end
 
   def index
 
@@ -34,16 +31,20 @@ class ReportProgressProjectController < ApplicationController
     if  params[:report_id] == 'report_progress_project'
       generate_project_progress_report_out
       send_to_user filepath: @ready_project_progress_report_path
+      # generate_report_progress_project_pril_1_2_out
     end
 
     if  params[:report_id] == 'report_progress_project_pril_1_2'
       #index_params
-      #generate_report_progress_project_pril_1_2_out
+      generate_report_progress_project_pril_1_2_out
       send_to_user filepath: @ready_report_progress_project_pril_1_2_path
     end
 
 
-    @targets = @project.targets
+    id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
+    @targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
+
+#    @targets = @project.targets
     @target = @targets.first
 
   end
@@ -97,10 +98,10 @@ class ReportProgressProjectController < ApplicationController
 
     @ready_report_progress_project_pril_1_2_path = dir_path + '/report_progress_project_pril_1_2_out.xlsx'
     @workbook_pril.write(@ready_report_progress_project_pril_1_2_path)
-#    send_to_user filepath: @ready_report_progress_project_pril_1_2_path
+    # send_to_user filepath: @ready_report_progress_project_pril_1_2_path
 #    send_file @ready_report_progress_project_pril_1_2_path,  :type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', :disposition => 'attachment'
-     send_data @workbook_pril.stream.string, filename: "report_progress_project_pril_1_2_out.xlsx",
-              disposition: 'attachment'
+#     send_data @workbook_pril.stream.string, filename: "report_progress_project_pril_1_2_out.xlsx",
+#              disposition: 'attachment'
   end
 
 
@@ -113,25 +114,25 @@ class ReportProgressProjectController < ApplicationController
     target_id = params[:selected_target_id] == nil ? 0 : params[:selected_target_id]
     values = get_target_graph_values(target_id.to_s)
 
-    sheet[2][3].change_contents(values["target_quarter1_value"] == nil ? 0 : values["target_quarter1_value"].to_i)
-    sheet[2][4].change_contents(values["target_quarter1_value"] == nil ? 0 : values["target_quarter1_value"].to_i)
-    sheet[2][5].change_contents(values["fact_quarter1_value"] == nil ? 0 : values["fact_quarter1_value"].to_i)
+    sheet[2][3].raw_value = values["target_quarter1_value"] == nil ? 0 : values["target_quarter1_value"].to_f
+    sheet[2][4].raw_value = values["target_quarter1_value"] == nil ? 0 : values["target_quarter1_value"].to_f
+    sheet[2][5].raw_value = values["fact_quarter1_value"] == nil ? 0 : values["fact_quarter1_value"].to_f
 
-    sheet[3][2].change_contents(values["basic_value"] == nil ? 0 : values["basic_value"].to_i)
-    sheet[3][3].change_contents(values["target_quarter2_value"] == nil ? 0 : values["target_quarter2_value"].to_i)
-    sheet[3][4].change_contents(values["target_quarter2_value"] == nil ? 0 : values["target_quarter2_value"].to_i)
+    sheet[3][2].raw_value = values["basic_value"] == nil ? 0 : values["basic_value"].to_f
+    sheet[3][3].raw_value = values["target_quarter2_value"] == nil ? 0 : values["target_quarter2_value"].to_f
+    sheet[3][4].raw_value = values["target_quarter2_value"] == nil ? 0 : values["target_quarter2_value"].to_f
 
-    sheet[3][5].change_contents(values["fact_quarter2_value"] == nil ? 0 : values["fact_quarter2_value"].to_i)
+    sheet[3][5].raw_value = values["fact_quarter2_value"] == nil ? 0 : values["fact_quarter2_value"].to_f
 
-    sheet[4][2].change_contents(values["basic_value"]== nil ? 0 : values["basic_value"].to_i)
-    sheet[4][3].change_contents(values["target_quarter3_value"] == nil ? 0 : values["target_quarter3_value"].to_i)
-    sheet[4][4].change_contents(values["target_quarter3_value"] == nil ? 0 : values["target_quarter3_value"].to_i)
-    sheet[4][5].change_contents(values["fact_quarter3_value"] == nil ? 0 : values["fact_quarter3_value"].to_i)
+    sheet[4][2].raw_value = values["basic_value"]== nil ? 0 : values["basic_value"].to_f
+    sheet[4][3].raw_value = values["target_quarter3_value"] == nil ? 0 : values["target_quarter3_value"].to_f
+    sheet[4][4].raw_value = values["target_quarter3_value"] == nil ? 0 : values["target_quarter3_value"].to_f
+    sheet[4][5].raw_value = values["fact_quarter3_value"] == nil ? 0 : values["fact_quarter3_value"].to_f
 
-    sheet[5][2].change_contents(values["basic_value"]== nil ? 0 : values["basic_value"].to_i)
-    sheet[5][3].change_contents(values["target_quarter4_value"] == nil ? 0 : values["target_quarter4_value"].to_i)
-    sheet[5][4].change_contents(values["target_quarter4_value"] == nil ? 0 : values["target_quarter4_value"].to_i)
-    sheet[5][5].change_contents(values["fact_quarter4_value"] == nil ? 0 : values["fact_quarter4_value"].to_i)
+    sheet[5][2].raw_value = values["basic_value"]== nil ? 0 : values["basic_value"].to_f
+    sheet[5][3].raw_value = values["target_quarter4_value"] == nil ? 0 : values["target_quarter4_value"].to_f
+    sheet[5][4].raw_value = values["target_quarter4_value"] == nil ? 0 : values["target_quarter4_value"].to_f
+    sheet[5][5].raw_value = values["fact_quarter4_value"] == nil ? 0 : values["fact_quarter4_value"].to_f
 
     sheet = @workbook_pril['Приложение 1']
     sheet[1][3].change_contents("График достижения показателя: ")
@@ -656,17 +657,29 @@ class ReportProgressProjectController < ApplicationController
     sheetDataDiagram = @workbook['Данные для диаграмм']
      @budjets = AllBudgetsHelper.cost_by_project @project
 
-    sheetDataDiagram[3][4].change_contents(result_fed_budjet[0])
-    sheetDataDiagram[4][4].change_contents(result_fed_budjet[1])
-    sheetDataDiagram[5][4].change_contents(result_fed_budjet[2])
+    sheetDataDiagram[3][4].raw_value = result_fed_budjet[0].to_f
+    sheetDataDiagram[4][4].raw_value = result_fed_budjet[1].to_f
+    sheetDataDiagram[5][4].raw_value = result_fed_budjet[2].to_f
 
-    sheetDataDiagram[3][9].change_contents(result_reg_budjet[0])
-    sheetDataDiagram[4][9].change_contents(result_reg_budjet[1])
-    sheetDataDiagram[5][9].change_contents(result_reg_budjet[2])
+    sheetDataDiagram[3][9].raw_value = result_reg_budjet[0].to_f
+    sheetDataDiagram[4][9].raw_value = result_reg_budjet[1].to_f
+    sheetDataDiagram[5][9].raw_value = result_reg_budjet[2].to_f
 
-    sheetDataDiagram[3][14].change_contents(result_other_budjet[0])
-    sheetDataDiagram[4][14].change_contents(result_other_budjet[1])
-    sheetDataDiagram[5][14].change_contents(result_other_budjet[2])
+    sheetDataDiagram[3][14].raw_value = result_other_budjet[0].to_f
+    sheetDataDiagram[4][14].raw_value = result_other_budjet[1].to_f
+    sheetDataDiagram[5][14].raw_value = result_other_budjet[2].to_f
+
+#    sheetDataDiagram[3][4].change_contents(result_fed_budjet[0])
+#    sheetDataDiagram[4][4].change_contents(result_fed_budjet[1])
+#    sheetDataDiagram[5][4].change_contents(result_fed_budjet[2])
+
+#    sheetDataDiagram[3][9].change_contents(result_reg_budjet[0])
+#    sheetDataDiagram[4][9].change_contents(result_reg_budjet[1])
+#    sheetDataDiagram[5][9].change_contents(result_reg_budjet[2])
+
+#    sheetDataDiagram[3][14].change_contents(result_other_budjet[0])
+#    sheetDataDiagram[4][14].change_contents(result_other_budjet[1])
+#    sheetDataDiagram[5][14].change_contents(result_other_budjet[2])
 
 
     no_devation =  Setting.find_by(name: 'no_devation').value
@@ -746,39 +759,65 @@ class ReportProgressProjectController < ApplicationController
         if  kt["month"].to_i == 1
           sheetDataDiagram.insert_cell(9, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(9, 3, kt["value"].to_i)
+          sheetDataDiagram[9][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[9][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 2
           sheetDataDiagram.insert_cell(10, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(10, 3, kt["value"].to_i)
+          sheetDataDiagram[10][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[10][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 3
           sheetDataDiagram.insert_cell(11, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(11, 3, kt["value"].to_i)
+          sheetDataDiagram[11][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[11][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 4
           sheetDataDiagram.insert_cell(12, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(12, 3, kt["value"].to_i)
+          sheetDataDiagram[12][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[12][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 5
           sheetDataDiagram.insert_cell(13, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(13, 3, kt["value"].to_i)
+          sheetDataDiagram[13][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[13][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 6
           sheetDataDiagram.insert_cell(14, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(14, 3, kt["value"].to_i)
+          sheetDataDiagram[14][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[14][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 7
           sheetDataDiagram.insert_cell(15, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(15, 3, kt["value"].to_i)
+          sheetDataDiagram[15][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[15][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 8
           sheetDataDiagram.insert_cell(16, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(16, 3, kt["value"].to_i)
+          sheetDataDiagram[16][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[16][3].raw_value = kt["value"].to_f
+
         elsif kt["month"].to_i == 9
           sheetDataDiagram.insert_cell(17, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(17, 3, kt["value"].to_i)
+          sheetDataDiagram[17][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[17][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 10
           sheetDataDiagram.insert_cell(18, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(18, 3, kt["value"].to_i)
+          sheetDataDiagram[18][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[18][3].raw_value = kt["value"].to_f
+
         elsif kt["month"].to_i == 11
           sheetDataDiagram.insert_cell(19, 2, kt["plan_value"].to_i)
           sheetDataDiagram.insert_cell(19, 3, kt["value"].to_i)
+          sheetDataDiagram[19][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[19][3].raw_value = kt["value"].to_f
         elsif kt["month"].to_i == 12
           sheetDataDiagram.insert_cell(20, 2, kt["plan_value"].to_i)
-          sheetDataDiagram.insert_cell(21, 3, kt["value"].to_i)
+          sheetDataDiagram.insert_cell(20, 3, kt["value"].to_i)
+          sheetDataDiagram[20][2].raw_value = kt["plan_value"].to_f
+          sheetDataDiagram[20][3].raw_value = kt["value"].to_f
         end
 
         not_time += kt["not_time"].to_i
@@ -1116,7 +1155,7 @@ class ReportProgressProjectController < ApplicationController
   end
 
   def verify_reportsProgressProject_module_activated
-    render_403 if @project && !@project.module_enabled?('reports')
+    render_403 if @project && !@project.module_enabled?('report_progress_project')
   end
 
 

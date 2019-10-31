@@ -10,7 +10,7 @@ class ReportPassportController < ApplicationController
 
   default_search_scope :report_passport
 
-  before_action :verify_reportPassport_module_activated
+  before_action :find_optional_project, :verify_reportPassport_module_activated
 
   def index_params
     params.require(:report_id)
@@ -46,7 +46,10 @@ class ReportPassportController < ApplicationController
     generate_title_sheet
     generate_target_indicators_sheet
     generate_target_results_sheet
-   generate_members_sheet
+    generate_budget_sheet
+    generate_members_sheet
+    generate_plan_sheet
+    generate_method_calc_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -230,12 +233,12 @@ class ReportPassportController < ApplicationController
 
         for j in 0..count_year
           targetValue = PlanFactYearlyTargetValue.find_by(target_id: target.id, year: @project.start_date.year+j)
-          sheet.insert_cell(6+i, 7+j, targetValue.target_plan_year_value)
+          target_plan_year_value = targetValue.nil? ? "" : targetValue.target_plan_year_value
+          sheet.insert_cell(6+i, 7+j, target_plan_year_value)
           sheet.sheet_data[6+i][7+j].change_border(:top, 'thin')
           sheet.sheet_data[6+i][7+j].change_border(:left, 'thin')
           sheet.sheet_data[6+i][7+j].change_border(:right, 'thin')
           sheet.sheet_data[6+i][7+j].change_border(:bottom, 'thin')
-
         end
       end
 
@@ -249,12 +252,20 @@ class ReportPassportController < ApplicationController
      sheet.insert_cell(6+i, 0, punkt)
      name = result_target["name"]
      sheet.insert_cell(6+i, 1, name)
+     cell = sheet[6+i][1]
+     cell.change_text_wrap(true)
      sheet.insert_cell(6+i, 2, "")
      sheet.insert_cell(6+i, 3, "")
      sheet.insert_cell(6+i, 4, "")
      sheet.insert_cell(6+i, 5, "")
      sheet.merge_cells(6+i, 1, 6+i, 5)
-     end_date = result_target["quarter"]+'-й квартал '+ result_target["year"]+ ' года'
+     if result_target["quarter"] == "" && result_target["year"] != ""
+       end_date = "31.12." + result_target["year"]+ ' г.'
+     elsif
+      end_date = ""
+     else
+       end_date = result_target["quarter"]+'-й квартал '+ result_target["year"]+ ' года'
+     end
      sheet.insert_cell(6+i, 6, end_date)
      sheet.insert_cell(6+i, 7, "")
      sheet.merge_cells(6+i, 6, 6+i, 7)
@@ -342,6 +353,218 @@ class ReportPassportController < ApplicationController
    end
  end
 
+  def generate_budget_sheet
+    sheet = @workbook['Финансовое обеспечение']
+    count_year = difference_in_completed_years(@project.start_date, @project.due_date)
+    sheet.merge_cells(1, 2, 1, 2+count_year)
+
+    # вывод в шапке таблицы наименование годов
+    for i in 0..count_year
+      sheet.insert_cell(0, 2+i,"")
+      sheet.insert_cell(1, 2+i, "Объем финансового обеспечения по годам реализации (млн. рублей)")
+      cell = sheet[1][2+i]
+      cell.change_text_wrap(true)
+      sheet.sheet_data[1][2+i].change_horizontal_alignment('center')
+      sheet.sheet_data[1][2+i].change_vertical_alignment('center')
+
+      sheet.insert_cell(2, 2+i, @project.start_date.year+i)
+      sheet.sheet_data[2][2+i].change_horizontal_alignment('center')
+      sheet.sheet_data[2][2+i].change_vertical_alignment('center')
+
+      sheet.sheet_data[1][2+i].change_border(:top, 'thin')
+      sheet.sheet_data[1][2+i].change_border(:left, 'thin')
+      sheet.sheet_data[1][2+i].change_border(:right, 'thin')
+      sheet.sheet_data[1][2+i].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[2][2+i].change_border(:top, 'thin')
+      sheet.sheet_data[2][2+i].change_border(:left, 'thin')
+      sheet.sheet_data[2][2+i].change_border(:right, 'thin')
+      sheet.sheet_data[2][2+i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(3, 2+i, "")
+
+    end
+    sheet.insert_cell(0, 3+count_year, "")
+    sheet.merge_cells(0, 0, 0, 3+count_year)
+    sheet.sheet_data[0][ 0].change_horizontal_alignment('center')
+    sheet.sheet_data[0][ 0].change_vertical_alignment('center')
+
+    sheet.insert_cell(1, 3+count_year, "Всего (млн. рублей)")
+    cell = sheet[1][3+count_year]
+    cell.change_text_wrap(true)
+
+    sheet.insert_cell(2, 3+count_year, "")
+    sheet.merge_cells(1, 3+count_year, 2, 3+count_year)
+
+    sheet.insert_cell(3, 3+count_year, "")
+    sheet.sheet_data[3][3+count_year].change_border(:right, 'thin')
+    sheet.merge_cells(3, 1, 3, 3+count_year)
+
+
+    sheet.sheet_data[1][ 3+count_year].change_horizontal_alignment('center')
+    sheet.sheet_data[1][ 3+count_year].change_vertical_alignment('center')
+
+    sheet.sheet_data[1][3+count_year].change_border(:top, 'thin')
+    sheet.sheet_data[1][3+count_year].change_border(:left, 'thin')
+    sheet.sheet_data[1][3+count_year].change_border(:right, 'thin')
+    sheet.sheet_data[1][3+count_year].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[2][3+count_year].change_border(:top, 'thin')
+    sheet.sheet_data[2][3+count_year].change_border(:left, 'thin')
+    sheet.sheet_data[2][3+count_year].change_border(:right, 'thin')
+    sheet.sheet_data[2][3+count_year].change_border(:bottom, 'thin')
+
+    budget_array = get_budjet_by_cost_type_and_year
+
+    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
+    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
+
+
+    if budget_array.count > 0
+        sheet[3][1].change_contents(budget_array[0]["national_project_result"])
+
+        cell = sheet[3][1]
+        cell.change_text_wrap(true)
+        sheet.sheet_data[3][1].change_horizontal_alignment('center')
+        sheet.sheet_data[3][1].change_vertical_alignment('center')
+    end
+
+    cost_types = CostType.all
+    id_target = 0
+    count_target= 0
+    m = 0
+    mapYearTargetAll = {}
+    mapCostTypeTargetAll = {}
+
+    targets.each_with_index do |target, i|
+      if id_target != target["id"].to_i
+        count_target += 1
+      end
+      count_cost_type = 1
+      mapYearTarget = {}
+      mapCostTypeTarget = {}
+      cost_types.each_with_index do |cost_type, j|
+        punkt = "1." + count_target.to_s + "." + count_cost_type.to_s + "."
+
+        sheet.insert_cell(5+j, 0, punkt)
+        sheet.sheet_data[5+j][0].change_horizontal_alignment('center')
+        sheet.sheet_data[5+j][0].change_vertical_alignment('center')
+
+        sheet.sheet_data[5+j][0].change_border(:top, 'thin')
+        sheet.sheet_data[5+j][0].change_border(:left, 'thin')
+        sheet.sheet_data[5+j][0].change_border(:right, 'thin')
+        sheet.sheet_data[5+j][0].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(5+j, 1, cost_type.name)
+
+        sheet.sheet_data[5+j][1].change_vertical_alignment('center')
+
+        sheet.sheet_data[5+j][1].change_border(:top, 'thin')
+        sheet.sheet_data[5+j][1].change_border(:left, 'thin')
+        sheet.sheet_data[5+j][1].change_border(:right, 'thin')
+        sheet.sheet_data[5+j][1].change_border(:bottom, 'thin')
+        cell = sheet[5+j][1]
+        cell.change_text_wrap(true)
+
+
+        for k in 0..count_year
+          value = 0
+          budget_array.each_with_index do |budget_year, l|
+
+             if (budget_year["plan_year"].to_i == @project.start_date.year+k) &&
+                (budget_year["cost_type_id"].to_i == cost_type.id) &&
+                (budget_year["id"].to_i == target.id)
+                  value = budget_year["units"]
+                  break
+             end
+          end
+          old_value_year = mapYearTarget[@project.start_date.year+k] == nil ? 0 : mapYearTarget[@project.start_date.year+k]
+          mapYearTarget[@project.start_date.year+k] = value+old_value_year
+
+          old_value_type_cost = mapCostTypeTarget[cost_type.id] == nil ? 0 : mapCostTypeTarget[cost_type.id]
+          mapCostTypeTarget[cost_type.id] = value+old_value_type_cost
+
+          sheet.insert_cell(5+j, 2+k, '%.2f' %(value/1000000))
+          sheet.sheet_data[5+j][2+k].change_horizontal_alignment('center')
+          sheet.sheet_data[5+j][2+k].change_vertical_alignment('center')
+
+          sheet.sheet_data[5+j][2+k].change_border(:top, 'thin')
+          sheet.sheet_data[5+j][2+k].change_border(:left, 'thin')
+          sheet.sheet_data[5+j][2+k].change_border(:right, 'thin')
+          sheet.sheet_data[5+j][2+k].change_border(:bottom, 'thin')
+
+        end
+
+        sum_value_type_cost = mapCostTypeTarget[cost_type.id] == nil ? 0 : mapCostTypeTarget[cost_type.id]
+        sheet.insert_cell(5+j, count_year+3, '%.2f' %(sum_value_type_cost/1000000))
+        sheet.sheet_data[5+j][count_year+3].change_horizontal_alignment('center')
+        sheet.sheet_data[5+j][count_year+3].change_vertical_alignment('center')
+
+        sheet.sheet_data[5+j][count_year+3].change_border(:top, 'thin')
+        sheet.sheet_data[5+j][count_year+3].change_border(:left, 'thin')
+        sheet.sheet_data[5+j][count_year+3].change_border(:right, 'thin')
+        sheet.sheet_data[5+j][count_year+3].change_border(:bottom, 'thin')
+
+
+        count_cost_type += 1
+      end
+
+      punkt = "1." + count_target.to_s + "."
+      sheet.insert_cell(4+m, 0, punkt)
+      sheet.sheet_data[4+m][0].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][0].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:bottom, 'thin')
+
+
+      sheet.insert_cell(4+m, 1, target.name)
+      sheet.sheet_data[4+m][1].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][1].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][1].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][1].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][1].change_border(:bottom, 'thin')
+      cell = sheet[4+m][1]
+      cell.change_text_wrap(true)
+
+
+      sum_value_target = 0
+      for n in 0..count_year
+         value_target =  mapYearTarget[@project.start_date.year+n] == nil ? 0 : mapYearTarget[@project.start_date.year+n]
+         sheet.insert_cell(4+m, n+2, '%.2f' %(value_target/1000000))
+
+         sheet.sheet_data[4+m][n+2].change_horizontal_alignment('center')
+         sheet.sheet_data[4+m][n+2].change_vertical_alignment('center')
+
+         sheet.sheet_data[4+m][n+2].change_border(:top, 'thin')
+         sheet.sheet_data[4+m][n+2].change_border(:left, 'thin')
+         sheet.sheet_data[4+m][n+2].change_border(:right, 'thin')
+         sheet.sheet_data[4+m][n+2].change_border(:bottom, 'thin')
+
+
+         sum_value_target += value_target
+      end
+      sheet.insert_cell(4+m, count_year+3, '%.2f' %(sum_value_target/1000000))
+
+      sheet.sheet_data[4+m][count_year+3].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][count_year+3].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][count_year+3].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][count_year+3].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][count_year+3].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][count_year+3].change_border(:bottom, 'thin')
+
+      m += count_cost_type
+
+
+    end
+
+  end
+
+
   def generate_members_sheet
 
     sheet = @workbook['Участники']
@@ -359,7 +582,7 @@ class ReportPassportController < ApplicationController
       sheet.insert_cell(2+i, 4, direct__manager_fio)
       sheet.insert_cell(2+i, 5, "")
 
-      str_ids += ", "+user.id.to_s
+      str_ids = (str_ids =="" ? user.id.to_s : str_ids += ", "+user.id.to_s)
 
       sheet.sheet_data[2+i][0].change_horizontal_alignment('center')
       sheet.sheet_data[2+i][0].change_vertical_alignment('center')
@@ -644,6 +867,350 @@ class ReportPassportController < ApplicationController
   end
 
 
+  def generate_plan_sheet
+    sheet = @workbook['План']
+    sheet[3][5].change_contents(@project.name)
+
+    @id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
+    @id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id
+    @id_type_task = Type.find_by(name: I18n.t(:default_type_task)).id
+
+    start_index = 11
+    target_id = 0
+    index = 0
+    numberResult= 1
+    k = 0
+    work_packages_id = 0
+    numberKT = 0
+    map = {}
+    get_result.each_with_index do |result, i|
+        if result["target_id"] != target_id
+          numberResult = (index+1).to_s+"."
+          sheet.insert_cell(start_index+i+k, 0, numberResult)
+          sheet.insert_cell(start_index+i+k, 1, result["name"])
+          sheet.insert_cell(start_index+i+k, 2, "")
+          sheet.insert_cell(start_index+i+k, 3, "")
+          sheet.insert_cell(start_index+i+k, 4, "")
+          sheet.insert_cell(start_index+i+k, 5, "")
+          sheet.insert_cell(start_index+i+k, 6, "")
+
+          sheet[start_index+i+k][1].change_text_wrap(true)
+          sheet[start_index+i+k][4].change_text_wrap(true)
+
+          sheet.sheet_data[start_index+i+k][0].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][1].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][2].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][3].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][4].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][5].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][6].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:bottom, 'thin')
+
+
+          target_id = result["target_id"]
+          start_index += 1
+          index += 1
+          numberKT = 0
+          map[1] = index
+
+        end
+
+        if result["work_packages_id"] != work_packages_id
+           user = User.find(result["user_id"])
+           username = user.name(:lastname_f_p)
+           start_date = result["start_date"] == nil ? nil : result["start_date"].to_date.strftime("%d.%m.%Y")
+           due_date = result["due_date"] == nil ? nil : result["due_date"].to_date.strftime("%d.%m.%Y")
+           numberKT += 1
+           numberResultKt = numberResult+numberKT.to_s+"."
+           sheet.insert_cell(start_index+i+k, 0, numberResultKt)
+           sheet.insert_cell(start_index+i+k, 1, result["subject"])
+           sheet.insert_cell(start_index+i+k, 2, start_date)
+           sheet.insert_cell(start_index+i+k, 3, due_date)
+           sheet.insert_cell(start_index+i+k, 4, username)
+           sheet.insert_cell(start_index+i+k, 5, result["document"])
+           sheet.insert_cell(start_index+i+k, 6, "")
+
+           sheet[start_index+i+k][1].change_text_wrap(true)
+           sheet[start_index+i+k][4].change_text_wrap(true)
+
+           sheet.sheet_data[start_index+i+k][0].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][0].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][0].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][0].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][1].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][1].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][1].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][1].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][2].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][2].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][2].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][2].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][3].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][3].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][3].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][3].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][4].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][4].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][4].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][4].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][5].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][5].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][5].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][5].change_border(:bottom, 'thin')
+
+           sheet.sheet_data[start_index+i+k][6].change_border(:top, 'thin')
+           sheet.sheet_data[start_index+i+k][6].change_border(:left, 'thin')
+           sheet.sheet_data[start_index+i+k][6].change_border(:right, 'thin')
+           sheet.sheet_data[start_index+i+k][6].change_border(:bottom, 'thin')
+
+
+           map[2] = numberKT
+           start_index += 1
+
+        end
+
+
+        work_packages_id = result["work_packages_id"] == nil ? "0" : result["work_packages_id"].to_s
+
+
+        ktTasks = get_kt_tasks(work_packages_id)
+        level = 2
+        index2 = 0
+        ktTasks.each_with_index do |ktTask, j|
+            user = User.find(ktTask["user_id"])
+            username = user.name(:lastname_f_p)
+            start_date = ktTask["start_date"] == nil ? nil : ktTask["start_date"].to_date.strftime("%d.%m.%Y")
+            due_date = ktTask["due_date"] == nil ? nil : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
+
+
+            if ktTask["level"] > level
+              level = ktTask["level"]
+              index2 = 1
+              map[level] = index2
+            elsif ktTask["level"] < level
+              level = ktTask["level"]
+              map[level] = map[level]+1
+              index2 = map[level]
+            else
+              index2 += 1
+              map[level] = index2
+            end
+
+            punkt = map[1].to_s + "." + map[2].to_s + "."
+            for l in 3..level
+              punkt += map[l].to_s + "."
+            end
+
+            sheet.insert_cell(start_index+i+j+k, 0, punkt)
+            sheet.insert_cell(start_index+i+j+k, 1, ktTask["subject"])
+            sheet.insert_cell(start_index+i+j+k, 2, start_date)
+            sheet.insert_cell(start_index+i+j+k, 3, due_date)
+            sheet.insert_cell(start_index+i+j+k, 4, username)
+            sheet.insert_cell(start_index+i+j+k, 5, ktTask["document"])
+            sheet.insert_cell(start_index+i+j+k, 6, "")
+
+            sheet[start_index+i+j+k][1].change_text_wrap(true)
+            sheet[start_index+i+j+k][4].change_text_wrap(true)
+
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][0].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][1].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][2].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][3].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][4].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][5].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:top, 'thin')
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:left, 'thin')
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:right, 'thin')
+            sheet.sheet_data[start_index+i+j+k][6].change_border(:bottom, 'thin')
+
+        end
+        k = ktTasks.count - 1
+
+    end
+  end
+
+  def generate_method_calc_sheet
+    sheet = @workbook['Методика расчета']
+    sheet[3][5].change_contents(@project.name)
+
+    targetCalcProcedures = TargetCalcProcedure.where(project_id: @project.id).order('target_id')
+    start_index = 9
+    target_id = 0
+    index = 0
+    targetCalcProcedures.each_with_index do |targetCalcProcedure, i|
+    if targetCalcProcedure.target_id != target_id
+       sheet.insert_cell(start_index+i, 0, targetCalcProcedure.target.name)
+       sheet.insert_cell(start_index+i, 1, "")
+       sheet.insert_cell(start_index+i, 2, "")
+       sheet.insert_cell(start_index+i, 3, "")
+       sheet.insert_cell(start_index+i, 4, "")
+       sheet.insert_cell(start_index+i, 5, "")
+       sheet.insert_cell(start_index+i, 6, "")
+       sheet.insert_cell(start_index+i, 7, "")
+       sheet.merge_cells(start_index+i, 0, start_index+i, 7)
+       sheet.sheet_data[start_index+i][0].change_border(:left, 'thin')
+       sheet.sheet_data[start_index+i][7].change_border(:right, 'thin')
+
+       target_id = targetCalcProcedure.target_id
+       start_index += 1
+       index = 0
+    end
+
+    period =""
+    if targetCalcProcedure.period.downcase == "daily"
+      period = 'Ежедневно'
+    elsif targetCalcProcedure.period.downcase == "weekly"
+      period = 'Еженедельно'
+    elsif targetCalcProcedure.period.downcase == "monthly"
+      period = 'Ежемесячно'
+    elsif targetCalcProcedure.period.downcase == "quarterly"
+      period = 'Ежеквартально'
+    elsif targetCalcProcedure.period.downcase == "yearly"
+      period = 'Ежегодно'
+    end
+
+    punkt = (index+1).to_s+"."
+    sheet.insert_cell(start_index+i, 0, punkt)
+    sheet.insert_cell(start_index+i, 1, targetCalcProcedure.name)
+    sheet.insert_cell(start_index+i, 2, targetCalcProcedure.base_target.name)
+    sheet.insert_cell(start_index+i, 3, targetCalcProcedure.data_source)
+    sheet.insert_cell(start_index+i, 4, targetCalcProcedure.user.name(:lastname_f_p))
+    sheet.insert_cell(start_index+i, 5, targetCalcProcedure.level)
+    sheet.insert_cell(start_index+i, 6, period)
+    sheet.insert_cell(start_index+i, 7, targetCalcProcedure.add_info)
+
+    index = index+1
+
+    sheet[start_index+i][0].change_text_wrap(true)
+    sheet[start_index+i][1].change_text_wrap(true)
+    sheet[start_index+i][2].change_text_wrap(true)
+    sheet[start_index+i][3].change_text_wrap(true)
+    sheet[start_index+i][4].change_text_wrap(true)
+    sheet[start_index+i][5].change_text_wrap(true)
+    sheet[start_index+i][6].change_text_wrap(true)
+    sheet[start_index+i][7].change_text_wrap(true)
+
+    sheet.sheet_data[start_index+i][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+i][1].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][1].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][1].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][1].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+i][2].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][2].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][2].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][2].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+i][3].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][3].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][3].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][3].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+i][4].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][4].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][4].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][4].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+i][5].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][5].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][5].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][5].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+i][6].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][6].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][6].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][6].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+i][7].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+i][7].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+i][7].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+i][7].change_border(:bottom, 'thin')
+
+    end
+  end
+
+
+
+
+  def get_budjet_by_cost_type_and_year
+    sql  = "  select t.id, t.name,t.national_project_result, m.units,m.plan_year, m.cost_type_id, ct.name as cost_type_name
+              FROM targets t
+              left join cost_objects co on co.target_id = t.id
+              left join material_budget_items m on m.cost_object_id = co.id
+              left join work_packages wp on wp.cost_object_id = co.id
+              left join cost_types ct on ct.id = m.cost_type_id
+              inner join enumerations e on e.id = t.type_id
+              where t.project_id = " + @project.id.to_s+" and e.name = '"+I18n.t(:default_result)+"'
+              order by t.id, ct.id"
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
   def get_member_by_role(role_name)
   userList = User.find_by_sql("  SELECT u.* FROM users u
                                            INNER JOIN members  m ON m.user_id = u.id
@@ -723,6 +1290,94 @@ class ReportPassportController < ApplicationController
            " WHERE u.id = "+user.id.to_s
     result_sql = ActiveRecord::Base.connection.execute(sql)
     result = result_sql[0]
+  end
+
+    def get_result
+    id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id.to_s
+    sql  = "SELECT t.id as target_id,t.name, w.id as work_packages_id,
+                            w.subject,
+                            w.type_id,
+                            w.start_date,
+                            w.due_date,
+                            u.id    as user_id,
+                            ed.name as document
+            FROM work_packages w
+            LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
+            INNER JOIN work_package_targets wt ON wt.work_package_id = w.id
+            INNER JOIN targets t ON t.id = wt.target_id
+            INNER JOIN enumerations e ON e.id = t.type_id and e.name = 'Результат'
+            LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
+            WHERE w.type_id = "+id_type_kt+" and w.project_id = "+ @project.id.to_s +
+          " GROUP BY t.id, t.name,  w.id, w.subject, w.type_id, w.start_date, w.due_date, u.id, ed.name
+            ORDER BY t.id "
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
+  def get_kt_tasks(work_packages_id)
+    sql  = "WITH
+            LEVEL AS (
+              WITH RECURSIVE r AS (
+                SELECT distinct rel.to_id,  CAST (rel.to_id AS VARCHAR (50)) as PATH,1 AS level
+                FROM relations rel
+                WHERE rel.to_id = " + work_packages_id + "
+
+                UNION
+
+                SELECT distinct rel.to_id,  CAST ( r.PATH ||'->'|| rel.to_id AS VARCHAR(50)),r.level+1 AS level
+                FROM relations rel
+                       JOIN r ON rel.from_id = r.to_id
+                where rel.hierarchy = 1  and follows = 0
+
+                )
+                SELECT r.to_id as work_packages_id, r.path, r.level FROM r
+            ),
+          TASK AS (
+            SELECT distinct w.id as work_packages_id,
+                            w.subject,
+                            w.type_id,
+                            w.start_date,
+                            w.due_date,
+                            u.id    as user_id,
+                            ed.name as document
+            FROM work_packages w
+                   LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
+                   LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
+            WHERE w.id in (
+              WITH RECURSIVE r AS (
+                SELECT rel.to_id
+                FROM relations rel
+                WHERE rel.to_id = " + work_packages_id + "
+
+                UNION
+
+                SELECT distinct rel.to_id
+                FROM relations rel
+                       JOIN r ON rel.from_id = r.to_id
+                where rel.hierarchy = 1 and follows = 0
+
+                )
+                SELECT r.to_id FROM r
+            )
+          )
+         SELECT t.*, l.level+1 as level, l.path from LEVEL l, TASK t
+         WHERE l.work_packages_id = t.work_packages_id and l.level <> 1
+         ORDER BY  l.path"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
   end
 
 
@@ -845,7 +1500,7 @@ class ReportPassportController < ApplicationController
   end
 
   def verify_reportPassport_module_activated
-    render_403 if @project && !@project.module_enabled?('reports')
+    render_403 if @project && !@project.module_enabled?('report_passport')
   end
 
 

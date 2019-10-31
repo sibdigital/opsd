@@ -387,6 +387,18 @@ Redmine::AccessControl.map do |map|
   #bbm(
   map.project_module :project_risks
   # )
+  map.project_module :report_progress_project do |r|
+    r.permission :view_report_progress_project_page,
+    { report_progress_project: %i[ index ] },
+      require: :member
+  end
+
+  map.project_module :report_passport do |r|
+    r.permission :view_report_passport_page,
+                 { report_passport: %i[ index ] },
+                 require: :member
+  end
+
   #knm(
 
   # map.project_module :head_performance_indicator_values do |hpi|

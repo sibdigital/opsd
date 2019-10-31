@@ -42,11 +42,11 @@ module CounterHelper
         counter_value.save
 
         # Если используется альтернативный вариант (см. custom_field_form_builder.rb), закомментировать данный блок кода
-        template = counter_setting.template
-        template.gsub! '{i}', counter_value.value.to_s
-        template.gsub! '{d}', counter_value.created_at.to_s
-
-        custom_value.update_attribute(:value, template)
+        # template = counter_setting.template
+        # template.gsub! '{i}', counter_value.value.to_s
+        # template.gsub! '{d}', counter_value.created_at.to_s
+        #
+        # custom_value.update_attribute(:value, template)
         ###
       end
     end

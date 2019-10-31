@@ -75,18 +75,20 @@ class CustomFieldFormBuilder < TabularFormBuilder
       custom_field_input_list(field, input_options)
     when 'counter'
       if options[:action] == 'edit'
-        # Альтернативный вариант - не удалять!
-        #
-        # custom_value_id = CustomValue.where(:custom_field_id => formatted_id, :customized_id => options[:obj_id]).pluck(:id)
-        # template = CounterSetting.where(:custom_field_id => formatted_id).pluck(:template).first
-        # counter_data = CounterValue.where(:custom_value_id => custom_value_id[0]).pluck(:value, :created_at)
-        #
-        # template.gsub! '{i}', counter_data[0][0].to_s
-        # template.gsub! '{d}', counter_data[0][1].to_s
-        # template
 
-        custom_value = CustomValue.where(:customized_id => options[:obj_id], :custom_field_id => formatted_id).first
-        custom_value == nil ? "" : custom_value.value
+        custom_value = CustomValue.where(:custom_field_id => formatted_id, :customized_id => options[:obj_id]).first
+        template = CounterSetting.where(:custom_field_id => formatted_id).pluck(:template)
+        counter_data = CounterValue.where(:custom_value_id => custom_value.id).pluck(:value, :created_at)
+
+        template[0].gsub! '{i}', counter_data[0][0].to_s
+        template[0].gsub! '{d}', counter_data[0][1].to_s
+
+        custom_value.update_attribute(:value, template[0])
+        custom_value.value
+
+        # Альтернативный вариант - не удалять!
+        # custom_value = CustomValue.where(:customized_id => options[:obj_id], :custom_field_id => formatted_id).first
+        # custom_value == nil ? "" : custom_value.value
       end
 
     when 'formula'
