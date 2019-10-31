@@ -18,14 +18,14 @@ class ReportMeetingsController < ApplicationController
     @uchastniki = format_participant_list(meeting.participants).push(format_participant_list2(meeting.add_participants)).join(', ')
     @govorili = format_participant_list2(meeting.speakers).join(', ')
     puts @uchastniki
-    @chairman = meeting.chairman.fio
-    @dolzhnost = meeting.chairman.roles_for_project(meeting.project).sort_by{|r| r.position}.last
+    @chairman = meeting.chairman ? meeting.chairman.fio : ''
+    @dolzhnost = meeting.chairman ? meeting.chairman.roles_for_project(meeting.project).sort_by{|r| r.position}.last : ''
     @protocols = []
     meeting.protocols.map do |protocol|
       p = Hash.new()
       p["text"] = protocol.text
       p["due_date"] = format_date protocol.due_date
-      p["user"] = protocol.user.fio
+      p["user"] = protocol.user ? protocol.user.fio : ''
       p["org"] = protocol.user.organization
       @protocols << p
     end
