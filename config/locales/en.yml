@@ -2618,6 +2618,8 @@ en:
   project_module_targets: Целевые показатели
   project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
+  project_module_report_progress_project: Отчет о ходе реализации проекта
+  project_module_report_passport: Паспорт регионального проекта
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность

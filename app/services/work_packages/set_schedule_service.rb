@@ -56,7 +56,12 @@ class WorkPackages::SetScheduleService
       altered += schedule_following
     end
     # bbm(
-    altered = reCalculateCriticalWay altered
+    begin #+- tan ошибки не влияющие на необходимость сохранения. обернуто в исключение
+      #TEMPORARY HOT FIX
+    #altered = reCalculateCriticalWay altered
+    rescue StandardError => e
+      Rails.logger.error "Cannot recalculate critical way: #{e}"
+    end
     # )
     result = ServiceResult.new(success: true,
                                result: work_packages.first)
