@@ -621,7 +621,7 @@ en:
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
-        priority: Вес
+        priority: Приоритет
         progress: Прогресс %
         spent_hours: Затраченное время
         spent_time: Затраченное время
@@ -969,7 +969,7 @@ en:
     password: Пароль
     #)
     possibility: Вероятность наступления
-    priority: Вес
+    priority: Приоритет
     project: Проект
     responsible: Подотчетный
     role: Роль
@@ -2229,7 +2229,7 @@ en:
   label_work_package_edit: Редактирование пакета работ %{name}
   label_work_package_plural: Мероприятия
   label_plan_stage_package_plural: Базовый план
-  label_work_package_priority_updated: Вес мероприятия обновлен
+  label_work_package_priority_updated: Приоритет мероприятия обновлен
   label_work_package_status: Состояние группы работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
