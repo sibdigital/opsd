@@ -13,10 +13,6 @@ class PositionsController < ApplicationController
     upload_custom_file("position", "PositionCustomField")
   end
 
-  before_action only: [:destroy] do
-    destroy_counter_value("Position", @position.id)
-  end
-
   after_action only: [:create, :update] do
     assign_custom_file_name("Position", @position.id)
     init_counter_value("Position", @position.class.name, @position.id)

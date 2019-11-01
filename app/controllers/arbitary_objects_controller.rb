@@ -8,10 +8,6 @@ class ArbitaryObjectsController < ApplicationController
     upload_custom_file("arbitary_object", "ArbitaryObjectCustomField")
   end
 
-  before_action only: [:destroy] do
-    destroy_counter_value("ArbitaryObject", @arbitary_object.id)
-  end
-
   after_action only: [:create, :update] do
     assign_custom_file_name("ArbitaryObject", @arbitary_object.id)
     init_counter_value("ArbitaryObject", @arbitary_object.class.name, @arbitary_object.id)

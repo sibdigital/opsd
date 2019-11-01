@@ -10,10 +10,6 @@ class ProjectRisksController < ApplicationController
     upload_custom_file("project_risk", "ProjectRiskCustomField")
   end
 
-  before_action only: [:destroy] do
-    destroy_counter_value("Risk", @position.id)
-  end
-
   after_action only: [:create, :update] do
     assign_custom_file_name("Risk", @project_risk.id)
     init_counter_value("Risk", @group.class.name, @group.id)
