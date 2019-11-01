@@ -321,6 +321,8 @@ en:
     label_formattable_attachment_hint: Прикрепите и связать файлы, перетащив их на
       это поле, или вставив из буфера обмена.
     label_remove_file: Удаление %{fileName}
+    label_lock_file: Блокировка %{fileName}
+    label_unlock_file: Разблокировка %{fileName}
     label_remove_watcher: Удалить наблюдателя %{name}
     label_remove_all_files: Удалить все файлы
     label_add_description: Добавить описание для %{file}

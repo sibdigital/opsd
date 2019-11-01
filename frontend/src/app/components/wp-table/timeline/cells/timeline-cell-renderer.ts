@@ -467,7 +467,7 @@ export class TimelineCellRenderer {
 
   protected applyTypeColor(wp:WorkPackageResource, element:HTMLElement):void {
     if (wp.onCriticalWay && this.wpTableTimeline.getCriticalWay()) {
-      element.style.setProperty('background-color', 'red', 'important');
+      element.style.setProperty('background-color', 'yellow', 'important');
     } else {
       element.style.backgroundColor = null;
       const diff = this.timezoneService.daysFromToday(wp.dueDate);
@@ -528,7 +528,7 @@ export class TimelineCellRenderer {
       bar.style.borderBottom = 'none';
       //bbm(
       if (wp.onCriticalWay && this.wpTableTimeline.getCriticalWay()) {
-        bar.style.borderColor = 'red';
+        bar.style.borderColor = 'yellow';
       } else {
         bar.style.borderColor = null;
       }

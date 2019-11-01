@@ -29,20 +29,31 @@
 #++
 
 class WorkPackages::SetScheduleService
-  attr_accessor :user, :work_packages
+  attr_accessor :user, :work_packages, :cwproject
 
   def initialize(user:, work_package:)
     self.user = user
     self.work_packages = Array(work_package)
+    #bbm(
+    self.cwproject = work_package.project
+    # )
   end
 
   def call(attributes = %i(start_date due_date))
+    #bbm(Очищаем признак
+    (cwproject.work_packages - work_packages).map do |wp|
+      wp.on_critical_way = false
+      wp.save(:validate => false)
+    end
+    work_packages.map do |wp|
+      wp.on_critical_way = false
+    end
+    #)
     altered = if (%i(parent parent_id) & attributes).any?
                 schedule_by_parent
               else
                 []
               end
-
     # bbm(
     if (%i(start_date due_date) & attributes).any?
       tmp = []
@@ -58,7 +69,7 @@ class WorkPackages::SetScheduleService
     # bbm(
     begin #+- tan ошибки не влияющие на необходимость сохранения. обернуто в исключение
       #TEMPORARY HOT FIX
-    #altered = reCalculateCriticalWay altered
+    altered = reCalculateCriticalWay altered
     rescue StandardError => e
       Rails.logger.error "Cannot recalculate critical way: #{e}"
     end
@@ -207,74 +218,28 @@ class WorkPackages::SetScheduleService
   end
 
   def reCalculateCriticalWay(altered)
-    projects = []
-    wps = altered + work_packages
-    wps.map do |wp|
-      projects << wp.project
+    #Step1
+    minStep1 = cwproject.work_packages.minimum(:start_date)
+    ways = cwproject.work_packages.where(start_date: minStep1)
+    @max = 0
+    @way = []
+    ways.map do |wp|
+      if wp.due_date and wp.start_date
+        durat = wp.due_date - wp.start_date
+        step2(cwproject, wp.due_date, [wp], durat)
+      end
     end
-    projects.to_set.map do |project|
-      #Очищаем признак
-      project.work_packages.map do |wp|
-        exist = false
-        new_altered = []
-        altered.map do |wpa|
-          if wp == wpa
-            exist = true
-            wpa.on_critical_way = false
-          end
-          new_altered << wpa
-        end
-        altered.replace(new_altered)
-        new_work_packages = []
-        work_packages.each do |wp2|
-          if wp == wp2
-            exist = true
-            wp2.on_critical_way = false
-          end
-          new_work_packages << wp2
-        end
-        work_packages.replace(new_work_packages)
-        if exist == false
-          wp.on_critical_way = false
-          wp.save
-        end
-      end
-      #Step1
-      minStep1 = project.work_packages.minimum(:start_date)
-      ways = project.work_packages.where(start_date: minStep1)
-      @max = 0
-      @way = []
-      ways.map do |wp|
-        if wp.due_date and wp.start_date
-          durat = wp.due_date - wp.start_date
-          step2(project, wp.due_date, [wp], durat)
-        end
-      end
-      @way.to_set.map do |wp|
-        exist = false
-        new_altered = []
-        altered.map do |wpa|
-          if wp == wpa
-            exist = true
-            wpa.on_critical_way = true
-          end
-          new_altered << wpa
-        end
-        altered.replace(new_altered)
-        new_work_packages = []
-        work_packages.each do |wp2|
-          if wp == wp2
-            exist = true
-            wp2.on_critical_way = true
-          end
-          new_work_packages << wp2
-        end
-        work_packages.replace(new_work_packages)
-        if exist == false
-          wp.on_critical_way = true
-          wp.save
-        end
-      end
+    @way = @way.uniq
+
+    (@way - altered - work_packages).map do |wp|
+      wp.on_critical_way = true
+      wp.save(:validate => false)
+    end
+    (altered & @way).map do |wp|
+      wp.on_critical_way = true
+    end
+    (work_packages & @way).map do |wp|
+      wp.on_critical_way = true
     end
     altered
   end

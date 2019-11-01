@@ -148,8 +148,7 @@ class MeetingsController < ApplicationController
     # We do some preprocessing of `meeting_params` that we will store in this
     # instance variable.
     @converted_params = meeting_params.to_h
-    @converted_params[:speakers] = params[:speakers].join(',') if params[:speakers]
-    @converted_params[:add_participants] = params[:add_participants].join(',') if params[:add_participants]
+    @converted_params[:chairman_id] = params[:chairman]
     @converted_params[:duration] = @converted_params[:duration].to_hours
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
@@ -157,7 +156,7 @@ class MeetingsController < ApplicationController
   end
 private
   def meeting_params
-    params.require(:meeting).permit(:title, :work_package_id, :location, :start_time, :duration, :start_date, :start_time_hour,
+    params.require(:meeting).permit(:title, :work_package_id, :location, :start_time, :duration, :start_date, :start_time_hour, :speakers, :add_participants,
       participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting, :id])
   end
 end
