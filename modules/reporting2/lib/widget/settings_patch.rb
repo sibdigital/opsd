@@ -17,31 +17,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
+#explicitly require what will be patched to be loaded from the ReportingEngine
+require_dependency 'widget/settings'
+class Widget::Settings < Widget::Base
+  @@settings_to_render.insert -2, :cost_types
 
-require_dependency 'open_project/configuration'
+  # def render_cost_types_settings
+  #   render_widget Widget::Settings::Fieldset, @subject, { type: "units" } do
+  #     render_widget Widget::CostTypes,
+  #                   @cost_types,
+  #                   selected_type_id: @selected_type_id
+  #   end
+  # end
 
-module OpenProject::Reporting::Patches
-  module OpenProject::ConfigurationPatch
-    def self.included(base)
-      base.class_eval do
-        extend ModuleMethods
+  def render_with_options(options, &block)
+    @cost_types = options.delete(:cost_types)
+    @selected_type_id = options.delete(:selected_type_id)
 
-        @defaults['cost_reporting_cache_filter_classes'] = false
-
-        if config_loaded_before_patch?
-          @config['cost_reporting_cache_filter_classes'] = false
-        end
-      end
-    end
-
-    module ModuleMethods
-      def config_loaded_before_patch?
-        @config.present? && !@config.has_key?('cost_reporting_cache_filter_classes')
-      end
-
-      def cost_reporting_cache_filter_classes
-        @config['cost_reporting_cache_filter_classes']
-      end
-    end
+    super(options, &block)
   end
 end

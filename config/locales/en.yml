@@ -2077,6 +2077,7 @@ en:
   label_communication_requirements: Список информационных потребностей
   label_communication_requirements_new: Новая информационная потребность
   label_communication_meeting_members: Участники встречи
+  label_quarter: Квартал
   #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить пакет работ созданными коэффициентами

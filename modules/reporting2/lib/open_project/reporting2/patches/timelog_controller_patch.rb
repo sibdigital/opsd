@@ -19,7 +19,7 @@
 
 require_dependency 'timelog_controller'
 
-module OpenProject::Reporting::Patches
+module OpenProject::Reporting2::Patches
   module TimelogControllerPatch
     def self.included(base) # :nodoc:
       base.prepend InstanceMethods
@@ -30,20 +30,16 @@ module OpenProject::Reporting::Patches
       # @Override
       # This is for cost reporting
       def redirect_to(*args, &block)
-        if args.first == :back and args.size == 1 and request.referer =~ /cost_reports/
-          super(controller: '/cost_reports', action: :index)
-        else
           if args.first == :back and args.size == 1 and request.referer =~ /target_reports/
                super(controller: '/target_reports', action: :index)
           else
             super(*args, &block)
           end
-        end
       end
 
       def index
         # we handle single project reporting currently
-        if @project.nil? || !@project.module_enabled?(:reporting_module)
+        if @project.nil? || !@project.module_enabled?(:reporting_module2)
           return super
         end
         filters = {operators: {}, values: {}}
@@ -64,10 +60,9 @@ module OpenProject::Reporting::Patches
 
         respond_to do |format|
           format.html {
-            session[::CostQuery.name.underscore.to_sym] = { filters: filters, groups: {rows: [], columns: []} }
             session[::TargetQuery.name.underscore.to_sym] = { filters: filters, groups: {rows: [], columns: []} }
 
-            redirect_to controller: "/cost_reports", action: "index", project_id: @project, unit: -1
+            redirect_to controller: "/target_reports", action: "index", project_id: @project, unit: -1
           }
           format.all {
             super

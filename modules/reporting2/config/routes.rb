@@ -17,31 +17,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
+OpenProject::Application.routes.draw do
+  scope 'projects/:project_id' do
+    #zbd(
+    resources :target_reports, except: :create do
+      collection do
+        match :index, via: [:get, :post]
+      end
 
-require_dependency 'open_project/configuration'
-
-module OpenProject::Reporting::Patches
-  module OpenProject::ConfigurationPatch
-    def self.included(base)
-      base.class_eval do
-        extend ModuleMethods
-
-        @defaults['cost_reporting_cache_filter_classes'] = false
-
-        if config_loaded_before_patch?
-          @config['cost_reporting_cache_filter_classes'] = false
-        end
+      member do
+        post :update
+        post :rename
       end
     end
+    # )
+  end
 
-    module ModuleMethods
-      def config_loaded_before_patch?
-        @config.present? && !@config.has_key?('cost_reporting_cache_filter_classes')
-      end
+  #zbd(
+  resources :target_reports, except: :create do
+    collection do
+      match :index, via: [:get, :post]
+      post :save_as, action: :create
+      get :drill_down
+      match :available_values, via: [:get, :post]
+      get :display_report_list
+    end
 
-      def cost_reporting_cache_filter_classes
-        @config['cost_reporting_cache_filter_classes']
-      end
+    member do
+      post :update
+      post :rename
     end
   end
+  # )
 end

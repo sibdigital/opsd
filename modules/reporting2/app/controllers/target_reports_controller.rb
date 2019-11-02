@@ -17,7 +17,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class CostReportsController < ApplicationController
+require 'target_query'
+require 'target_query/group_by'
+require 'target_query/filter'
+
+class TargetReportsController < ApplicationController
   module QueryPreperation
     ##
     # Make sure to add cost type filter after the
@@ -26,14 +30,14 @@ class CostReportsController < ApplicationController
     def prepare_query
       query = super
 
-      set_cost_type if @unit_id.present?
+      #set_cost_type if @unit_id.present?
 
       query
     end
   end
 
   rescue_from Exception do |exception|
-    session.delete(CostQuery.name.underscore.to_sym)
+    session.delete(TargetQuery.name.underscore.to_sym)
     raise exception
   end
 
@@ -52,24 +56,24 @@ class CostReportsController < ApplicationController
   include Concerns::Layout
   prepend QueryPreperation
 
-  before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
+  #before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
 
   verify method: :delete, only: %w[destroy]
   verify method: :post, only: %w[create, update, rename]
 
-  helper_method :cost_types
-  helper_method :cost_type
-  helper_method :unit_id
+  #helper_method :cost_types
+  #helper_method :cost_type
+  #helper_method :unit_id
   helper_method :public_queries
   helper_method :private_queries
 
-  attr_accessor :cost_types, :unit_id, :cost_type
+  #attr_accessor :cost_types, :unit_id, :cost_type
 
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.
   # Called once per request.
   def check_cache
-    CostQuery::Cache.check
+    TargetQuery::Cache.check
   end
 
   ##
@@ -90,7 +94,7 @@ class CostReportsController < ApplicationController
   end
 
   def menu_item_to_highlight_on_index
-    @project ? :cost_reports : :cost_reports_global
+    @project ? :target_reports : :target_reports
   end
 
   def drill_down
@@ -114,16 +118,16 @@ class CostReportsController < ApplicationController
   # Set a default query to cut down initial load time
   def default_filter_parameters
     {
-      operators: { spent_on: '>d' },
-      values: { spent_on: [30.days.ago.strftime('%Y-%m-%d')] }
+      operators: {}, #{ spent_on: '>d' },
+      values: {} #{ spent_on: [30.days.ago.strftime('%Y-%m-%d')] }
     }.tap do |hash|
       if @project
         set_project_filter(hash, @project.id)
       end
 
-      if current_user.logged?
-        set_me_filter(hash)
-      end
+#      if current_user.logged?
+#        set_me_filter(hash)
+#      end
     end
   end
 
@@ -165,72 +169,73 @@ class CostReportsController < ApplicationController
     filters[:values].merge! project_id: [project_id]
   end
 
-  def set_me_filter(filters)
-    filters[:operators].merge! user_id: '='
-    filters[:values].merge! user_id: [CostQuery::Filter::UserId.me_value]
-  end
+  # def set_me_filter(filters)
+  #   filters[:operators].merge! user_id: '='
+  #   filters[:values].merge! user_id: [TargetQuery::Filter::UserId.me_value]
+  # end
 
   ##
   # Set a default query to cut down initial load time
   def default_group_parameters
-    { columns: [:week], rows: [] }.tap do |h|
-      if @project
-        h[:rows] << :work_package_id
-      else
-        h[:rows] << :project_id
-      end
+    { columns: [:year], rows: [] }.tap do |h|
+       if @project
+         #h[:rows] << :work_package_id
+         h[:rows] << :project_id
+       else
+         h[:rows] << :project_id
+       end
     end
   end
 
   ##
   # Determine active cost types, the currently selected unit and corresponding cost type
-  def set_cost_types
-    set_active_cost_types
-    set_unit
-    set_cost_type
-  end
+  # def set_cost_types
+  #   set_active_cost_types
+  #   set_unit
+  #   set_cost_type
+  # end
 
   # Determine the currently active unit from the parameters or session
   #   sets the @unit_id -> this is used in the index for determining the active unit tab
-  def set_unit
-    @unit_id = if set_unit?
-                 params[:unit].to_i
-               elsif @query.present?
-                 cost_type_filter =  @query.filters.detect { |f| f.is_a?(CostQuery::Filter::CostTypeId) }
-
-                 cost_type_filter.values.first.to_i if cost_type_filter
-    end
-
-    @unit_id = -1 unless @cost_types.include? @unit_id
-  end
+  # def set_unit
+  #   @unit_id = if set_unit?
+  #                params[:unit].to_i
+  #              elsif @query.present?
+  #                cost_type_filter =  @query.filters.detect { |f| f.is_a?(TargetQuery::Filter::CostTypeId) }
+  #
+  #                cost_type_filter.values.first.to_i if cost_type_filter
+  #   end
+  #
+  #   @unit_id = -1 unless @cost_types.include? @unit_id
+  # end
 
   # Determine the active cost type, if it is not labor or money, and add a hidden filter to the query
   #   sets the @cost_type -> this is used to select the proper units for display
-  def set_cost_type
-    return unless @query
-
-    @query.filter :cost_type_id, operator: '=', value: @unit_id.to_s, display: false
-    @cost_type = CostType.find(@unit_id) if @unit_id > 0
-  end
+  # def set_cost_type
+  #   return unless @query
+  #
+  #   @query.filter :cost_type_id, operator: '=', value: @unit_id.to_s, display: false
+  #   @cost_type = CostType.find(@unit_id) if @unit_id > 0
+  # end
 
   #   set the @cost_types -> this is used to determine which tabs to display
-  def set_active_cost_types
-    unless session[:report] && (@cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i))
-      relevant_cost_types = CostType.select(:id).order(Arel.sql('id ASC')).select do |t|
-        t.cost_entries.count > 0
-      end.collect(&:id)
-      @cost_types = [-1, 0, *relevant_cost_types]
-    end
-  end
+  # def set_active_cost_types
+  #   unless session[:report] && (@cost_types = session[:report][:filters][:values][:cost_type_id].try(:collect, &:to_i))
+  #     relevant_cost_types = CostType.select(:id).order(Arel.sql('id ASC')).select do |t|
+  #       t.cost_entries.count > 0
+  #     end.collect(&:id)
+  #     @cost_types = [-1, 0, *relevant_cost_types]
+  #   end
+  # end
 
   def load_all
-    CostQuery::Filter.all
-    CostQuery::GroupBy.all
+    TargetQuery::GroupBy.all
+    TargetQuery::Filter.all
   end
 
   # @Override
   def determine_engine
-    @report_engine = CostQuery
+    @report_engine = TargetQuery
     @title = "label_#{@report_engine.name.underscore}"
   end
 
@@ -278,23 +283,23 @@ class CostReportsController < ApplicationController
 
   def public_queries
     if @project
-      CostQuery.where(['is_public = ? AND (project_id IS NULL OR project_id = ?)', true, @project])
+      TargetQuery.where(['is_public = ? AND (project_id IS NULL OR project_id = ?)', true, @project])
                .order(Arel.sql('name ASC'))
     else
-      CostQuery.where(['is_public = ? AND project_id IS NULL', true])
+      TargetQuery.where(['is_public = ? AND project_id IS NULL', true])
                .order(Arel.sql('name ASC'))
     end
   end
 
   def private_queries
     if @project
-      CostQuery.where(['user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)',
+      TargetQuery.where(['user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)',
                        current_user,
                        false,
                        @project])
                .order(Arel.sql('name ASC'))
     else
-      CostQuery.where(['user_id = ? AND is_public = ? AND project_id IS NULL', current_user, false])
+      TargetQuery.where(['user_id = ? AND is_public = ? AND project_id IS NULL', current_user, false])
                .order(Arel.sql('name ASC'))
     end
   end
@@ -311,6 +316,6 @@ class CostReportsController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:cost_reports_title)
+    l(:target_reports_title)
   end
 end

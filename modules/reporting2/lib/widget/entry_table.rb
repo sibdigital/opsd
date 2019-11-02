@@ -18,8 +18,8 @@
 #++
 
 class ::Widget::Table::EntryTable < ::Widget::Table
-  FIELDS = [:spent_on, :user_id, :activity_id, :work_package_id, :comments, :project_id]
-  #FIELDS = [:user_id, :activity_id, :work_package_id, :comments, :project_id]
+  #FIELDS = [:spent_on, :user_id, :activity_id, :work_package_id, :comments, :project_id]
+  FIELDS = [:work_package_id, :comments, :project_id]
 
   detailed_table self
 
@@ -65,14 +65,15 @@ class ::Widget::Table::EntryTable < ::Widget::Table
         concat content_tag(:th) {
           content_tag(:div, class: 'generic-table--sort-header-outer') do
             content_tag(:div, class: 'generic-table--sort-header') do
-              content_tag(:span, cost_type.try(:unit_plural) || l(:units))
+              #content_tag(:span, cost_type.try(:unit_plural) || l(:units))
+              content_tag(:span, l(:units))
             end
           end
         }
         concat content_tag(:th) {
           content_tag(:div, class: 'generic-table--sort-header-outer') do
             content_tag(:div, class: 'generic-table--sort-header') do
-              content_tag(:span, CostEntry.human_attribute_name(:costs))
+              content_tag(:span, "-")
             end
           end
         }
@@ -93,11 +94,11 @@ class ::Widget::Table::EntryTable < ::Widget::Table
   def foot
     content_tag :tfoot do
       content_tag :tr do
-        if show_result(@subject, 0) != show_result(@subject)
+        if show_result(@subject, 0) != show_result(@subject,0)
           concat content_tag(:td, '', colspan: FIELDS.size)
           concat content_tag(:td) {
-            concat content_tag(:div,
-                               show_result(@subject),
+          concat content_tag(:div,
+                               show_result(@subject,0),
                                class: 'inner generic-table--footer-outer')
           }
           concat content_tag(:td) {
@@ -108,8 +109,8 @@ class ::Widget::Table::EntryTable < ::Widget::Table
         else
           concat content_tag(:td, '', colspan: FIELDS.size + 1)
           concat content_tag(:td) {
-            concat content_tag(:div,
-                               show_result(@subject),
+          concat content_tag(:div,
+                               show_result(@subject,0),
                                class: 'result generic-table--footer-outer')
           }
         end
@@ -129,7 +130,8 @@ class ::Widget::Table::EntryTable < ::Widget::Table
                                :'raw-data' => raw_field(field, result.fields[field.to_s]),
                                class: 'left')
           end
-          concat content_tag :td, show_result(result, result.fields['cost_type_id'].to_i).html_safe,
+          concat content_tag :td, show_result(result, 0).html_safe,
+          # concat content_tag :td, show_result(result, result.fields['cost_type_id'].to_i).html_safe,
                              class: 'units right',
                              :'raw-data' => result.units
           concat content_tag :td,

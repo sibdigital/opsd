@@ -17,31 +17,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
+require "set"
 
-require_dependency 'open_project/configuration'
-
-module OpenProject::Reporting::Patches
-  module OpenProject::ConfigurationPatch
-    def self.included(base)
-      base.class_eval do
-        extend ModuleMethods
-
-        @defaults['cost_reporting_cache_filter_classes'] = false
-
-        if config_loaded_before_patch?
-          @config['cost_reporting_cache_filter_classes'] = false
-        end
-      end
-    end
-
-    module ModuleMethods
-      def config_loaded_before_patch?
-        @config.present? && !@config.has_key?('cost_reporting_cache_filter_classes')
-      end
-
-      def cost_reporting_cache_filter_classes
-        @config['cost_reporting_cache_filter_classes']
-      end
-    end
+class TargetQuery::GroupBy < Report::GroupBy
+  def self.all
+    @all ||= super + Set[
+      TargetQuery::GroupBy::ProjectId,
+      TargetQuery::GroupBy::SingletonValue,
+      TargetQuery::GroupBy::Year,
+      TargetQuery::GroupBy::Quarter,
+      TargetQuery::GroupBy::Month
+    ]
   end
 end

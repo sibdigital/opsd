@@ -30,18 +30,6 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    #zbd(
-    resources :target_reports, except: :create do
-      collection do
-        match :index, via: [:get, :post]
-      end
-
-      member do
-        post :update
-        post :rename
-      end
-    end
-    # )
   end
 
   scope 'work_packages/:work_package_id', as: 'work_packages' do
@@ -62,21 +50,4 @@ OpenProject::Application.routes.draw do
       post :rename
     end
   end
-
-  #zbd(
-  resources :target_reports, except: :create do
-    collection do
-      match :index, via: [:get, :post]
-      post :save_as, action: :create
-      get :drill_down
-      match :available_values, via: [:get, :post]
-      get :display_report_list
-    end
-
-    member do
-      post :update
-      post :rename
-    end
-  end
-  # )
 end
