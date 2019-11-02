@@ -936,9 +936,9 @@ en:
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций
-    lastname: Фамил
+    lastname: Фамилия
     login: Логин
-    mail: Электронная почта
+    mail: Эл. почта
     #zbd(
     contract: Гос.контракт
     target: Целевой показатель
@@ -1872,7 +1872,7 @@ en:
   label_last_activity: Последняя активность
   label_last_change_on: Последнее изменение
   label_last_changes: последние %{count} изменений
-  label_last_login: Последний вход в систему
+  label_last_login: Последний вход
   label_last_month: Последний месяц
   label_last_n_days: последние %{count} дней
   label_last_week: На прошлой неделе
