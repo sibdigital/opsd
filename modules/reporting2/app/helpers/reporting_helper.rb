@@ -106,6 +106,7 @@ module ReportingHelper
     when :month                                 then month_name(value.to_i)
     when :year                                  then h(value.to_s)
     when :quarter                               then "#{l(:label_quarter)} ##{h value}"
+    when :target_id                             then h(Target.find(value.to_i).name)
     #)
     when :priority_id                           then h(IssuePriority.find(value.to_i).name)
     when :fixed_version_id                      then h(Version.find(value.to_i).name)

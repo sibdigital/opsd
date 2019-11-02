@@ -102,10 +102,6 @@ module ReportingHelper
     when :spent_on                              then format_date(value.to_date)
     when :type_id                               then h(Type.find(value.to_i).name)
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
-    #zbd(
-    when :tquarter                              then "#{l(:label_week)} ##{h value}"
-    when :quarter                               then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
-    #)
     when :priority_id                           then h(IssuePriority.find(value.to_i).name)
     when :fixed_version_id                      then h(Version.find(value.to_i).name)
     when :singleton_value                       then ''
@@ -117,7 +113,7 @@ module ReportingHelper
   def field_sort_map(key, value)
     return '' if value.blank?
     case key.to_sym
-    when :work_package_id, :tquarter, :tweek, :tmonth, :week  then value.to_i
+    when :work_package_id, :tweek, :tmonth, :week  then value.to_i
     when :spent_on                                 then value.to_date.mjd
     else h(field_representation_map(key, value).gsub(/<\/?[^>]*>/, ''))
     end

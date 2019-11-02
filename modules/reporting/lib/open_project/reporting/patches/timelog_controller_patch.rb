@@ -33,11 +33,7 @@ module OpenProject::Reporting::Patches
         if args.first == :back and args.size == 1 and request.referer =~ /cost_reports/
           super(controller: '/cost_reports', action: :index)
         else
-          if args.first == :back and args.size == 1 and request.referer =~ /target_reports/
-               super(controller: '/target_reports', action: :index)
-          else
-            super(*args, &block)
-          end
+          super(*args, &block)
         end
       end
 
@@ -65,7 +61,6 @@ module OpenProject::Reporting::Patches
         respond_to do |format|
           format.html {
             session[::CostQuery.name.underscore.to_sym] = { filters: filters, groups: {rows: [], columns: []} }
-            session[::TargetQuery.name.underscore.to_sym] = { filters: filters, groups: {rows: [], columns: []} }
 
             redirect_to controller: "/cost_reports", action: "index", project_id: @project, unit: -1
           }

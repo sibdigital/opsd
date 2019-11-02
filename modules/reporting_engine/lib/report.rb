@@ -192,7 +192,15 @@ class Report < ActiveRecord::Base
   end
 
   def minimal_chain!
-    @chain = self.class::Filter::NoFilter.new
+    if self.class.engine.to_s == "TargetQuery"
+      @chain = TargetQuery::Filter::NoFilter.new
+    else
+      if self.class.engine.to_s == "CostQuery"
+        @chain = CostQuery::Filter::NoFilter.new
+      else
+        @chain = self.class::Filter::NoFilter.new
+      end
+    end
   end
 
   def public!

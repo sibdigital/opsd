@@ -66,7 +66,7 @@ module OpenProject::Reporting
       menu :project_menu, :cost_reports,
            { controller: '/cost_reports', action: 'index' },
            param: :project_id,
-           #after: :time_entries, #+-tan
+           #after: :time_entries,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:reporting_module) },
            icon: 'icon2 icon-cost-reports',
@@ -103,6 +103,7 @@ module OpenProject::Reporting
       require_dependency 'widget/entry_table'
       require_dependency 'widget/settings_patch'
       require_dependency 'cost_query/group_by'
+      require_dependency 'cost_query/filter'
     end
 
     assets %w(reporting/reporting.css

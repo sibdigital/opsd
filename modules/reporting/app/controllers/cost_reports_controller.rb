@@ -224,8 +224,8 @@ class CostReportsController < ApplicationController
   end
 
   def load_all
-    CostQuery::Filter.all
     CostQuery::GroupBy.all
+    CostQuery::Filter.all
   end
 
   # @Override

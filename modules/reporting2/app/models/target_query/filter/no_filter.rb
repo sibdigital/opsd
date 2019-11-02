@@ -18,6 +18,7 @@
 #++
 
 class TargetQuery::Filter::NoFilter < Report::Filter::NoFilter
+  #table_name 'entries'
   table_name 'work_package_targets'
   dont_display!
   singleton

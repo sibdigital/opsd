@@ -17,18 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-require "set"
+class TargetQuery::GroupBy::TargetId < Report::GroupBy::Base
 
-class TargetQuery::GroupBy < Report::GroupBy
-  def self.all
-    @all ||= super + Set[
-      TargetQuery::GroupBy::ProjectId,
-      TargetQuery::GroupBy::SingletonValue,
-      TargetQuery::GroupBy::Year,
-      TargetQuery::GroupBy::Quarter,
-      TargetQuery::GroupBy::Month,
-      TargetQuery::GroupBy::TargetId,
-      TargetQuery::GroupBy::WorkPackageId
-    ]
+  def self.label
+    Target.model_name.human
   end
 end

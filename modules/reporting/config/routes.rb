@@ -29,7 +29,6 @@ OpenProject::Application.routes.draw do
         post :rename
       end
     end
-
   end
 
   scope 'work_packages/:work_package_id', as: 'work_packages' do
