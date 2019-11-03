@@ -22,10 +22,6 @@ class OrganizationsController < ApplicationController
     upload_custom_file("organization", "OrganizationCustomField")
   end
 
-  before_action only: [:destroy] do
-    destroy_counter_value("Organization", @organization.id)
-  end
-
   after_action only: [:create, :update] do
     assign_custom_file_name("Organization", @organization.id)
     init_counter_value("Organization", @organization.class.name, @organization.id)

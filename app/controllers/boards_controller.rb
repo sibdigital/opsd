@@ -37,10 +37,6 @@ class BoardsController < ApplicationController
     upload_custom_file("board", "BoardCustomField")
   end
 
-  before_action only: [:destroy] do
-    destroy_counter_value("Board", @board.id)
-  end
-
   after_action only: [:create, :update] do
     assign_custom_file_name("Board", @board.id)
     init_counter_value("Board", @board.class.name, @board.id)
