@@ -1873,6 +1873,7 @@ en:
   label_last_change_on: Последнее изменение
   label_last_changes: последние %{count} изменений
   label_last_login: Последний вход
+  last_ip: IP-адрес
   label_last_month: Последний месяц
   label_last_n_days: последние %{count} дней
   label_last_week: На прошлой неделе
