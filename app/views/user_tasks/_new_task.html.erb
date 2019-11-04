@@ -2,15 +2,27 @@
 
   <%= form.hidden_field 'object_type', value: 'WorkPackage' %>
 
-  <p>
-    <%= form.label :project_id %>
-    <%= form.collection_select(:project_id, Project.where(type: Project::TYPE_PROJECT).all, :id, :name) %>
-  </p>
+  <%
+    @selected_project = @user_task.project_id
+    @selected_wp = @user_task.object_id
 
-  <p>
-    <%= form.label 'Пакеты работ' %>
-    <%= form.collection_select(:object_id, WorkPackage.all, :id, :subject) %>
-  </p>
+  %>
+
+  <%= form.label :project_id %>
+  <div class="form--field">
+    <%= form.select :project_id,
+                    options_for_select(Project.where(type: Project::TYPE_PROJECT).all.map {|u| [u.name, u.id]}, @selected_project),
+                    include_blank: true,
+                    container_class: '-slim' %>
+  </div>
+
+  <%= form.label 'Пакеты работ' %>
+  <div class="form--field">
+    <%= form.select :object_id,
+                    children_options_for_select_wp(WorkPackage.all.map {|u| [u.subject, u.project_id, u.id]}),
+                    include_blank: true,
+                    container_class: '-slim' %>
+  </div>
 
   <p>
     <%= form.label :assigned_to_id %>
@@ -28,3 +40,5 @@
   </p>
 
 </div>
+
+<%=javascript_include_tag 'select_wp_from_project' %>
