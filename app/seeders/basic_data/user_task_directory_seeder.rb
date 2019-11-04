@@ -1,6 +1,6 @@
 #-- encoding: UTF-8
 # This file written by BAN
-# 08/07/2019
+# 25/10/2019
 
 module BasicData
   class UserTaskDirectorySeeder < Seeder
