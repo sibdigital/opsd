@@ -892,6 +892,9 @@ en:
     code: Код
     comment: Комментарий
     comments: Комментарий
+    #ban(
+    completed: Завершено
+    #)
     content: Содержание
     color: Цвет
     created_at: Создано
@@ -922,6 +925,10 @@ en:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     is_public: Общий
+    #ban(
+    object: Связанный объект
+    object_type: Тип связанного объекта
+    #)
     project_status: Статус
     project_approve_status: Этап согласования
     is_approve: Утверждено
