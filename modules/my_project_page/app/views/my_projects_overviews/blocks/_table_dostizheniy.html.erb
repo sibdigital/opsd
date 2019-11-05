@@ -24,9 +24,78 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <h3 class="widget-box--header">
-  <span class="widget-box--header-title"><%=l(:label_table_dostizheniy)%></span>
+  <span class="widget-box--header-title"><%= l(:label_table_dostizheniy) %></span>
 </h3>
 
 <div class="overview">
   <p>Pizdets</p>
+
+  <table class="generic-table target-dostizheniy">
+    <colgroup>
+      <col highlight-col>
+      <col highlight-col>
+      <col highlight-col>
+    </colgroup>
+    <thead>
+    <tr>
+      <th>
+        <div class="generic-table--header-outer">
+          <div class="generic-table--header">
+                  <span>
+                    <%= l(:label_target_result) %>
+                  </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--header-outer">
+          <div class="generic-table--header">
+                  <span>
+                    <%= l(:label_target_plan) %>
+                  </span>
+          </div>
+        </div>
+      </th>
+      <th>
+        <div class="generic-table--header-outer">
+          <div class="generic-table--header">
+                  <span>
+                    <%= l(:label_target_fact) %>
+                  </span>
+          </div>
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% qwptwqg = WorkPackageQuarterlyTarget.where("year = date_part('year', CURRENT_DATE) and project_id = ?", @project.id) %>
+    <% qwptwqg.map do |q| %>
+      <tr>
+        <td><strong><%= q.target %></strong></td>
+        <td>
+          <% case DateTime.now.month
+             when 1, 2, 3
+               q.quarter1_plan_value
+             when 4, 5, 6
+               q.quarter2_plan_value
+             when 7, 8, 9
+               q.quarter3_plan_value
+             when 10, 11, 12
+               q.quarter4_plan_value
+             end %></td>
+        <td>
+          <% case DateTime.now.month
+             when 1, 2, 3
+               q.quarter1_value
+             when 4, 5, 6
+               q.quarter2_value
+             when 7, 8, 9
+               q.quarter3_value
+             when 10, 11, 12
+               q.quarter4_value
+             end %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 </div>
