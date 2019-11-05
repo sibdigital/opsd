@@ -33,7 +33,8 @@ class Widget::Table::ReportTable < Widget::Table
     @walker.for_final_row do |row, cells|
       html = "<th scope='row' class='normal inner left -break-word'>#{show_row row}#{debug_fields(row)}</th>"
       html << cells.join
-      html << "<td class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
+      #html << "<td class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
+      html << "<td class='normal inner right'>#{show_result(row, 0)}#{debug_fields(row)}</th>"
       html.html_safe
     end
 
@@ -43,7 +44,7 @@ class Widget::Table::ReportTable < Widget::Table
         subrows[0] = %{
             <th class='top left -break-word' rowspan='#{subrows.size}'>#{show_row row}#{debug_fields(row)}</th>
               #{subrows[0].gsub("class='normal", "class='top")}
-            <th class='top right' rowspan='#{subrows.size}'>#{show_result(row)}#{debug_fields(row)}</th>
+            <th class='top right' rowspan='#{subrows.size}'>#{show_result(row, 0)} #{debug_fields(row)}</th>
           }.html_safe
       end
       subrows.last.gsub!("class='normal", "class='bottom")
@@ -55,7 +56,7 @@ class Widget::Table::ReportTable < Widget::Table
 
     @walker.for_cell do |result|
       write(' '.html_safe) # XXX: This keeps the Apache from timing out on us. Keep-Alive byte!
-      "<td class='normal right'>#{show_result result}#{debug_fields(result)}</td>".html_safe
+      "<td class='normal right'>#{show_result result, -1} #{debug_fields(result)}</td>".html_safe
     end
   end
 
@@ -135,7 +136,8 @@ class Widget::Table::ReportTable < Widget::Table
         opts = { colspan: column.final_number(:column) }
         opts.merge!(class: 'inner') if first
         write(content_tag(:th, opts) do
-          show_result(column) # {debug_fields(column)}
+          show_result(column, 0) # {debug_fields(column)}
+          #debug_fields(column)
         end)
       end
       if last_in_col
@@ -144,7 +146,7 @@ class Widget::Table::ReportTable < Widget::Table
                             rowspan: @subject.depth_of(:column),
                             colspan: @subject.depth_of(:row),
                             class: 'top result') do
-                  show_result @subject
+                  show_result(@subject, 0)
                 end)
         end
         write '</tr>'

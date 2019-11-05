@@ -26,10 +26,10 @@ module OpenProject::Reporting::Patches
       base.class_eval do
         extend ModuleMethods
 
-        @defaults['cost_reporting_cache_filter_classes'] = true
+        @defaults['cost_reporting_cache_filter_classes'] = false
 
         if config_loaded_before_patch?
-          @config['cost_reporting_cache_filter_classes'] = true
+          @config['cost_reporting_cache_filter_classes'] = false
         end
       end
     end

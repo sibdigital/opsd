@@ -26,7 +26,7 @@ class Widget::Table < Widget::Base
   attr_accessor :mapping
 
   def initialize(query)
-    raise ArgumentError, 'Tables only work on Reports!' unless query.is_a? Report
+    raise ArgumentError, 'Tables only work on Reports!' unless (query.kind_of? Report) #|| (query.is_a? TargetQuery)
     super
   end
 

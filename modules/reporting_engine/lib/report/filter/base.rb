@@ -174,11 +174,11 @@ class Report::Filter
 
     def sql_statement
       super.tap do |query|
-        arity   = operator.arity
-        query_values  = [*transformed_values].compact
+        arity = operator.arity
+        query_values = [*transformed_values].compact
         # if there is just the nil it might be actually intendet to be there
         query_values.unshift nil if Array(self.values).size == 1 && Array(self.values).first.nil?
-        query_values  = query_values[0, arity] if query_values and arity >= 0 and arity != query_values.size
+        query_values = query_values[0, arity] if query_values and arity >= 0 and arity != query_values.size
         operator.modify(query, field, *query_values) unless field.empty?
       end
     end
