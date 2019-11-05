@@ -1,0 +1,41 @@
+<p>
+  <strong>Задача</strong>
+</p>
+<p>
+  <strong>Создатель задачи:</strong>
+  <%= User.find_by(id: @user_task.user_creator_id).to_s %>
+</p>
+<p>
+  <strong>Кому:</strong>
+  <%= User.find_by(id: @user_task.assigned_to_id).to_s %>
+</p>
+<p>
+  <strong>Проект:</strong>
+  <a href="<%= project_url(Project.find_by(id: @user_task.project_id)) %>"><%= Project.find_by(id: @user_task.project_id).name %></a>
+</p>
+<p>
+  <strong>Пакет работ:</strong>
+  <a href="<%= work_package_url(WorkPackage.find_by(id: @user_task.object_id)) %>"><%= WorkPackage.find_by(id: @user_task.object_id).name %></a>
+</p>
+<p>
+  <strong>Срок:</strong>
+  <%= @user_task.due_date.to_s %>
+</p>
+<p>
+  <strong>Выполнено:</strong>
+  <%=
+    if @user_task.completed
+      'Да'
+    else
+      'Нет'
+    end
+  %>
+</p>
+<p>
+  <strong>Дата создания:</strong>
+  <%= @user_task.created_at.to_s %>
+</p>
+<p>
+  <strong>Дата обновления:</strong>
+  <%= @user_task.updated_at.to_s %>
+</p>

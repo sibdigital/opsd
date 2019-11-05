@@ -423,12 +423,33 @@ class UserMailer < BaseMailer
                                             project_id: @user_task.project_id, object_id: @user_task.object_id,
                                             assigned_to_id: @user_task.user_creator_id, related_task_id: @user_task.id)
       @begin_text = 'Вам направлен запрос на приемку задачи. В случае несогласия, вы можете написать ответ на запрос. Для этого перейдите по ссылке: '+@link_to_response
-    when 'Organization'
-      @url_to_object = Setting.host_name+'/users'
-      @begin_text = 'Справочник, в который требуется внести изменения: Организации'
-    when 'Contract'
-      @url_to_object = Setting.host_name+'/users'
-      @begin_text = 'Справочник, в который требуется внести изменения: Государственные контракты'
+    when 'Производственные календари'
+      @url_to_object = Setting.host_name+'/production_calendars'
+      @begin_text = 'Справочник, в который требуется внести изменения: Производственные календари'
+    when 'Типовые риски'
+      @url_to_object = Setting.host_name+'/admin/typed_risks'
+      @begin_text = 'Справочник, в который требуется внести изменения: Типовые риски'
+    when 'Типовые результаты'
+      @url_to_object = Setting.host_name+'/admin/typed_targets'
+      @begin_text = 'Справочник, в который требуется внести изменения: Типовые результаты'
+    when 'Уровни контроля'
+      @url_to_object = Setting.host_name+'/admin/control_levels'
+      @begin_text = 'Справочник, в который требуется внести изменения: Уровни контроля'
+    when 'Перечисления'
+      @url_to_object = Setting.host_name+'/admin/enumerations'
+      @begin_text = 'Справочник, в который требуется внести изменения: Перечисления'
+    when 'Типы расходов'
+      @url_to_object = Setting.host_name+'/admin/cost_types'
+      @begin_text = 'Справочник, в который требуется внести изменения: Типы расходов'
+    when 'Национальные проекты'
+      @url_to_object = Setting.host_name+'/national_projects'
+      @begin_text = 'Справочник, в который требуется внести изменения: Национальные проекты'
+    when 'Государственные программы'
+      @url_to_object = Setting.host_name+'/national_projects/government_programs'
+      @begin_text = 'Справочник, в который требуется внести изменения: Государственные программы'
+    else
+      @url_to_object = '#'
+      @begin_text = ''
     end
 
     with_locale_for(user) do

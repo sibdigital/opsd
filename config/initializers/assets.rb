@@ -32,5 +32,6 @@ OpenProject::Application.configure do
     project_strategic_map.js
     plan_uploader_settings.js
     select_project.js
+    select_wp_from_project.js
   )
 end

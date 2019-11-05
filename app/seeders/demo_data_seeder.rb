@@ -28,7 +28,7 @@
 class DemoDataSeeder < CompositeSeeder
   def data_seeder_classes
     [ DemoData::OrganizationSeeder, DemoData::UserSeeder, DemoData::GroupSeeder, DemoData::ProjectSeeder, DemoData::MemberSeeder, DemoData::CostSeeder,
-      DemoData::MeetingSeeder, DemoData::PlanUploaderSettingSeeder, DemoData::PrincipalRolesSeeder]
+      DemoData::MeetingSeeder, DemoData::PlanUploaderSettingSeeder, DemoData::PrincipalRolesSeeder, DemoData::UserTaskSeeder]
   end
 
   def namespace

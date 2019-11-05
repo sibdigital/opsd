@@ -631,7 +631,7 @@ en:
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
-        priority: Вес
+        priority: Приоритет
         progress: Прогресс %
         spent_hours: Затраченное время
         spent_time: Затраченное время
@@ -902,6 +902,9 @@ en:
     code: Код
     comment: Комментарий
     comments: Комментарий
+    #ban(
+    completed: Завершено
+    #)
     content: Содержание
     color: Цвет
     created_at: Создано
@@ -932,6 +935,10 @@ en:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     is_public: Общий
+    #ban(
+    object: Связанный объект
+    object_type: Тип связанного объекта
+    #)
     project_status: Статус
     project_approve_status: Этап согласования
     is_approve: Утверждено
@@ -954,7 +961,7 @@ en:
     invest_amount: Объем инвестиций
     lastname: Фамилия
     login: Логин
-    mail: Электронная почта
+    mail: Эл. почта
     #zbd(
     contract: Гос.контракт
     target: Целевой показатель
@@ -985,7 +992,7 @@ en:
     password: Пароль
     #)
     possibility: Вероятность наступления
-    priority: Вес
+    priority: Приоритет
     project: Проект
     responsible: Подотчетный
     role: Роль
@@ -1316,6 +1323,14 @@ en:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_kpi_count_opened_project: "Количество открываемых проектов"
+  default_kpi_count_support_project: "Количество сопровождаемых проектов"
+  default_kpi_count_opened_meeting: "Количество организованных совещаний, мероприятий"
+  default_kpi_no_red_kt: "Отсутствие красных контрольных точек"
+  default_kpi_monitoring: "Осуществление мониторинга региональных проектов в срок"
+  default_kpi_closed_project: "Количество завершенных проектов"
+  default_kpi_saved_risks: "Количество внесенных в реестр рисков"
+  default_kpi_minimize_risks: "Количество проведенных мероприятий, направленных на минимизацию рисков"
   default_project_section_1: Основные положения
   default_project_section_2: Цели и показатели
   default_project_section_3: Результаты
@@ -1726,6 +1741,7 @@ en:
   label_copy_project_to_template: Сохранить как шаблон
   label_copy_project_from_template: Создать проект из шаблона
   label_core_version: Основной этап
+  label_counter: Счетчик
   label_current_status: Текущий статус
   label_current_version: Текущий этап
   label_custom_field_add_no_type: Добавьте это поле в тип комплекса работ
@@ -1882,7 +1898,8 @@ en:
   label_last_activity: Последняя активность
   label_last_change_on: Последнее изменение
   label_last_changes: последние %{count} изменений
-  label_last_login: Последний вход в систему
+  label_last_login: Последний вход
+  last_ip: IP-адрес
   label_last_month: Последний месяц
   label_last_n_days: последние %{count} дней
   label_last_week: На прошлой неделе
@@ -2240,7 +2257,7 @@ en:
   label_work_package_edit: Редактирование пакета работ %{name}
   label_work_package_plural: Мероприятия
   label_plan_stage_package_plural: Базовый план
-  label_work_package_priority_updated: Вес мероприятия обновлен
+  label_work_package_priority_updated: Приоритет мероприятия обновлен
   label_work_package_status: Состояние группы работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
@@ -2647,6 +2664,8 @@ en:
   project_module_targets: Целевые показатели
   project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
+  project_module_report_progress_project: Отчет о ходе реализации проекта
+  project_module_report_passport: Паспорт регионального проекта
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность
@@ -3564,6 +3583,7 @@ en:
           родительских пакетов.
         invalid_user_assigned_to_work_package: Выбранный пользователь не может быть
           «%{property}» для этого мероприятия.
+        invalid_user_permission_to_project: Вы не являетесь участником проекта и не имеете прав на изменение.
         start_date: Дата начала не может быть задана на родительских  пакетах работ.
       writing_read_only_attributes: Вы не должны перезаписывать атрибут являющийся
         только для чтения.

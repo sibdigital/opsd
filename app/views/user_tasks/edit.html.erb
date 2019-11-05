@@ -2,11 +2,18 @@
 This file written by BAN
 11/09/2019
 ++#%>
-<%= form_with model: @user_task, local: true do |form| %>
+<%= labelled_tabular_form_for @user_task do |form| %>
 
-  <h1>Редактирование задачи/запроса</h1>
+  <h1>Редактирование</h1>
 
-  <%= render partial: "user_tasks/form", locals: { form: form } %>
-  <p><%= form.submit 'Сохранить' %></p>
+  <%= render partial: "user_tasks/form_edit", locals: { form: form } %>
+  <p><%= form.submit 'Сохранить' %>
+  <%= content_tag(:td, link_to(
+      op_icon('icon icon-delete'),
+      user_task_path(id: @user_task.id),
+      method: :delete,
+      data: {confirm: I18n.t(:text_are_you_sure)},
+      title: t(:button_delete))) %></p>
+
   <p><a href="/my/page">Вернуться к моей странице</a></p>
 <% end %>

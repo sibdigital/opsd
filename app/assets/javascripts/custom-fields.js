@@ -44,6 +44,9 @@
         multiSelect           = $('#custom_field_multi_select'),
         possibleValues        = $('#custom_field_possible_values_attributes'),
         defaultValueFields    = $('#custom_field_default_value_attributes'),
+        settingTemplateField  = $('#counter_setting_template'),
+        settingPeriodList     = $('#counter_setting_period'),
+        settingLengthField    = $('#counter_setting_length'),
         spanDefaultText       = $('#default_value_text'),
         spanDefaultBool       = $('#default_value_bool');
 
@@ -77,19 +80,29 @@
           deactivate(defaultValueFields);
           deactivate(possibleValues);
           show(formulaField);
-          hide(lengthField, regexpField, defaultValueFields);
+          hide(lengthField, regexpField, defaultValueFields,
+            settingTemplateField, settingPeriodList, settingLengthField);
+          unsearchable();
+          break;
+        case 'counter':
+          deactivate(defaultValueFields);
+          deactivate(possibleValues);
+          hide(lengthField, regexpField, defaultValueFields, formulaField);
+          show(settingTemplateField, settingPeriodList, settingLengthField);
           unsearchable();
           break;
         case 'rtf':
         case 'file':
           deactivate(defaultValueFields);
           deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
+          hide(lengthField, regexpField, defaultValueFields, formulaField,
+            settingTemplateField, settingPeriodList, settingLengthField);
           unsearchable();
           break;
         case 'list':
           deactivate(defaultValueFields);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
+          hide(lengthField, regexpField, defaultValueFields, formulaField,
+            settingTemplateField, settingPeriodList, settingLengthField);
           show(searchable, multiSelect);
           activate(multiSelect);
           activate(possibleValues);
@@ -98,37 +111,40 @@
           activate(spanDefaultBool);
           deactivate(spanDefaultText);
           deactivate(possibleValues);
-          hide(lengthField, regexpField, searchable, formulaField);
+          hide(lengthField, regexpField, searchable, formulaField,
+            settingTemplateField, settingPeriodList, settingLengthField);
           unsearchable();
           break;
         case 'date':
           deactivate(defaultValueFields);
           deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
+          hide(lengthField, regexpField, defaultValueFields, formulaField,
+            settingTemplateField, settingPeriodList, settingLengthField);
           unsearchable();
           break;
         case 'float':
         case 'int':
           deactivate(possibleValues);
-          hide(formulaField);
+          hide(formulaField,  settingTemplateField, settingPeriodList, settingLengthField);
           show(lengthField, regexpField);
           unsearchable();
           break;
         case 'user':
           show(multiSelect);
-          hide(formulaField);
+          hide(formulaField,  settingTemplateField, settingPeriodList, settingLengthField);
           activate(multiSelect);
           break;
         case 'version':
           deactivate(defaultValueFields);
           deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
+          hide(lengthField, regexpField, defaultValueFields, formulaField,
+            settingTemplateField, settingPeriodList, settingLengthField);
           unsearchable();
           break;
         default:
           show(lengthField, regexpField, searchable);
           deactivate(possibleValues);
-          hide(formulaField);
+          hide(formulaField, settingTemplateField, settingPeriodList, settingLengthField);
           break;
       }
     };

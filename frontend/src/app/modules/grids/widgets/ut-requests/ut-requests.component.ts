@@ -36,7 +36,7 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.assigned_to_id == this.currentuser.userId && obj.kind == 'Request'){
+          if (obj.assigned_to_id == this.currentuser.userId && (obj.kind == 'Request' || obj.kind =='Response')){
             entriesarrayforuser.push(obj);
           }
         }
@@ -45,7 +45,29 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
       });
   }
 
-  public user_taskResponse(user_task:UserTasksResource) {
-    return `/user_tasks/new?assigned_to_id=${user_task.assigned_to_id}&head_text=Ответ+на+запрос&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.related_task_id}`;
+  public link_to_response_or_request(user_task:UserTasksResource) {
+    let link = ``;
+    if (user_task.kind == 'Request') {
+      link = `/user_tasks/new?assigned_to_id=${user_task.user_creator_id}&head_text=Ответ+на+запрос&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.id}`;
+    }
+    else {
+      link = `/user_tasks/${user_task.id}`;
+    }
+    return link;
+  }
+
+  public response_or_request(user_task:UserTasksResource) {
+    let text = ``;
+    if (user_task.kind == 'Response') {
+      text = `Ответ от:`;
+    }
+    else {
+      text = `Запрос от:`;
+    }
+    return text;
+  }
+
+  public user_taskCreator(user_task:UserTasksResource) {
+    return `${this.pathHelper.appBasePath}/users/${user_task.user_creator_id}`;
   }
 }

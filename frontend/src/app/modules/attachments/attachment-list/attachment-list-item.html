@@ -29,9 +29,38 @@
              [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
   </a>
   <!--bbm(-->
+  <div [ngClass]="['form--selected-value--href',
+      active && '-active' || '']">
+
+    <div [hidden]="!active"
+         style="display: flex"
+         #editContainer>
+      <input type="text"
+             class="form--selected-value--input"
+             (keydown)="handleUserKeydown($event)"
+             [(ngModel)]="hrefValue"/>
+      <a href=""
+         class="form--selected-value--input-save"
+         (click)="submitHref()">
+        <i aria-hidden="true" class="icon-save" ng-reflect-ng-class="icon-save" title="Сохранить ссылку"></i>
+      </a>
+    </div>
+
+    <div (accessibleClick)="activate($event)"
+         [accessibleClickStopEvent]="false"
+         [hidden]="active"
+         tabindex="-1"
+         style="margin: 4px"
+         #displayContainer>
+      <a [href]="someHref" target="_blank"
+         [textContent]="someHref"></a>
+      <i class="button--icon icon-edit" style="padding-left: 5px;"></i>
+    </div>
+  </div>
+
   <select [(ngModel)]="selectedOption"
           [compareWith]="compareByHref"
-          class="attach-edit--field"
+          class="form--selected-value--selecter attach-edit--field"
           (change)="handleUserSubmit()"
           role="listbox">
     <option

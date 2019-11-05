@@ -1,0 +1,22 @@
+<% periods = Enumeration.where(:type => 'Period', :name => [I18n.t(:default_period_monthly), I18n.t(:default_period_yearly)])
+   selected_period = @custom_field.counter_setting.nil? ? nil : @custom_field.counter_setting.period
+%>
+
+
+<%= form.fields_for :counter_setting do |f| %>
+  <div class="form--field" id="counter_setting_template">
+    <%= f.text_field :template, container_class: '-wide' %>
+  </div>
+
+  <div class="form--field" id="counter_setting_length">
+    <%= f.number_field :length, container_class: '-slim' %>
+  </div>
+
+  <div class="form--field" id="counter_setting_period">
+    <%= f.select :period,
+                 options_for_select(periods.map {|u| [u.name, u.id]}, selected_period),
+                 include_blank: true,
+                 container_class: '-slim' %>
+  </div>
+
+<% end %>

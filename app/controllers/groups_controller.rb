@@ -31,6 +31,7 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   include CustomFilesHelper
+  include CounterHelper
 
   before_action :require_admin
   before_action :find_group, only: [:destroy, :autocomplete_for_user,
@@ -43,6 +44,7 @@ class GroupsController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Principal", @group.id)
+    init_counter_value("Principal", @group.class.name, @group.id)
   end
 
   # GET /groups

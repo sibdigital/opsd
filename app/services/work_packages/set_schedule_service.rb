@@ -43,7 +43,7 @@ class WorkPackages::SetScheduleService
                 []
               end
 
-    #bbm(
+    # bbm(
     if (%i(start_date due_date) & attributes).any?
       tmp = []
       tmp += schedule_commonstart
@@ -55,6 +55,14 @@ class WorkPackages::SetScheduleService
     if (%i(start_date due_date parent parent_id) & attributes).any?
       altered += schedule_following
     end
+    # bbm(
+    begin #+- tan ошибки не влияющие на необходимость сохранения. обернуто в исключение
+      #TEMPORARY HOT FIX
+    #altered = reCalculateCriticalWay altered
+    rescue StandardError => e
+      Rails.logger.error "Cannot recalculate critical way: #{e}"
+    end
+    # )
     result = ServiceResult.new(success: true,
                                result: work_packages.first)
 
@@ -62,7 +70,6 @@ class WorkPackages::SetScheduleService
       result.add_dependent!(ServiceResult.new(success: true,
                                               result: wp))
     end
-
     result
   end
 
@@ -94,7 +101,7 @@ class WorkPackages::SetScheduleService
     altered
   end
 
-  #bbm(
+  # bbm(
   def schedule_commonstart
     altered = []
     work_packages.each do |dependency|
@@ -111,6 +118,7 @@ class WorkPackages::SetScheduleService
     end
     altered
   end
+
   def schedule_commonfinish
     altered = []
     work_packages.each do |dependency|
@@ -196,5 +204,97 @@ class WorkPackages::SetScheduleService
 
     scheduled.start_date += required_delta
     scheduled.due_date += required_delta
+  end
+
+  def reCalculateCriticalWay(altered)
+    projects = []
+    wps = altered + work_packages
+    wps.map do |wp|
+      projects << wp.project
+    end
+    projects.to_set.map do |project|
+      #Очищаем признак
+      project.work_packages.map do |wp|
+        exist = false
+        new_altered = []
+        altered.map do |wpa|
+          if wp == wpa
+            exist = true
+            wpa.on_critical_way = false
+          end
+          new_altered << wpa
+        end
+        altered.replace(new_altered)
+        new_work_packages = []
+        work_packages.each do |wp2|
+          if wp == wp2
+            exist = true
+            wp2.on_critical_way = false
+          end
+          new_work_packages << wp2
+        end
+        work_packages.replace(new_work_packages)
+        if exist == false
+          wp.on_critical_way = false
+          wp.save
+        end
+      end
+      #Step1
+      minStep1 = project.work_packages.minimum(:start_date)
+      ways = project.work_packages.where(start_date: minStep1)
+      @max = 0
+      @way = []
+      ways.map do |wp|
+        if wp.due_date and wp.start_date
+          durat = wp.due_date - wp.start_date
+          step2(project, wp.due_date, [wp], durat)
+        end
+      end
+      @way.to_set.map do |wp|
+        exist = false
+        new_altered = []
+        altered.map do |wpa|
+          if wp == wpa
+            exist = true
+            wpa.on_critical_way = true
+          end
+          new_altered << wpa
+        end
+        altered.replace(new_altered)
+        new_work_packages = []
+        work_packages.each do |wp2|
+          if wp == wp2
+            exist = true
+            wp2.on_critical_way = true
+          end
+          new_work_packages << wp2
+        end
+        work_packages.replace(new_work_packages)
+        if exist == false
+          wp.on_critical_way = true
+          wp.save
+        end
+      end
+    end
+    altered
+  end
+
+  def step2(project, timeline, stack, length)
+    new_timeline = project.work_packages.where("start_date > ?", timeline).minimum(:start_date)
+    if new_timeline
+      max_date = project.work_packages.where(start_date: new_timeline).maximum(:due_date)
+      ways = project.work_packages.where(start_date: new_timeline, due_date: max_date)
+      ways.map do |wp|
+        stack << wp
+        durat = wp.due_date - wp.start_date
+        step2(project, wp.due_date, stack, length + durat)
+        stack.pop
+        end
+    elsif length == @max
+      @way += stack
+    elsif length > @max
+      @max = length
+      @way.replace(stack)
+    end
   end
 end

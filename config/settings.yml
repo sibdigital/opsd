@@ -327,6 +327,8 @@ default_projects_modules:
   - activity
   - interactive_map
   - strategic_map
+  - report_progress_project
+  - report_passport
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
   format: int

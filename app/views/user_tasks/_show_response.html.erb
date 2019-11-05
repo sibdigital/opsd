@@ -1,0 +1,27 @@
+<p>
+  <strong>Ответ</strong>
+</p>
+<p>
+  <strong>Ответ на:</strong>
+  <a href="/user_tasks/<%= @user_task.related_task_id %>" ><span class="icon icon-move" style="cursor: pointer;"></span></a>
+</p>
+<p>
+  <strong>Кому:</strong>
+  <%= User.find_by(id: @user_task.assigned_to_id).to_s %>
+</p>
+<p>
+  <strong>От:</strong>
+  <%= User.find_by(id: @user_task.user_creator_id).to_s %>
+</p>
+<p>
+<strong>Справочник:</strong>
+<%= @user_task.object_type %>
+</p>
+<p>
+  <strong>Дата ответа:</strong>
+  <%= @user_task.due_date.to_s %>
+</p>
+<p>
+  <strong>Дата обновления:</strong>
+  <%= @user_task.updated_at.to_s %>
+</p>

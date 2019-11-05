@@ -180,6 +180,18 @@ en:
           title: Мероприятия и КТ, просмотренные мной
         work_packages_calendar:
           title: Календарь
+        user_tasks_my_requests:
+          title: Запросы от меня
+        user_tasks_my_tasks:
+          title: Задачи мне
+        user_tasks_notes:
+          title: Мои заметки
+        user_tasks_requests:
+          title: Запросы мне
+        user_tasks_responses:
+          title: Мои ответы
+        user_tasks_tasks:
+          title: Задачи от меня
     label_activate: Активировать
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий

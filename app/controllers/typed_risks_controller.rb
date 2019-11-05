@@ -13,6 +13,7 @@ class TypedRisksController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Risk", @typed_risk.id)
+    init_counter_value("Risk", @typed_risk.class.name, @typed_risk.id)
   end
 
 
@@ -22,6 +23,7 @@ class TypedRisksController < ApplicationController
   include ::IconsHelper
   include ::ColorsHelper
   include CustomFilesHelper
+  include CounterHelper
 
   def index
     sort_columns = {'id' => "#{TypedRisk.table_name}.id",

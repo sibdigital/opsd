@@ -342,6 +342,9 @@ module API
         property :sed_href,
                  render_nil: true
 
+        property :on_critical_way,
+                 render_nil: true
+
         property :days,
                  render_nil: false,
                  getter: ->(*) {

@@ -12,6 +12,8 @@ class OrganizationsController < ApplicationController
   #include TargetsHelper
   include OrganizationsHelper
   include CustomFilesHelper
+  include CounterHelper
+
 
   before_action :require_project_admin
   before_action :find_organization, only: [:edit, :update, :destroy]
@@ -22,6 +24,7 @@ class OrganizationsController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Organization", @organization.id)
+    init_counter_value("Organization", @organization.class.name, @organization.id)
   end
 
   respond_to :html, :json

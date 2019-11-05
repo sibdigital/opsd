@@ -32,6 +32,7 @@
 
 class DocumentsController < ApplicationController
   include CustomFilesHelper
+  include CounterHelper
   default_search_scope :documents
   model_object Document
   before_action :find_project_by_project_id, only: [:index, :new, :create]
@@ -49,6 +50,7 @@ class DocumentsController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Document", @document.id)
+    init_counter_value("Document", @document.class.name, @document.id)
   end
 
 

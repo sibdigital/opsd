@@ -760,6 +760,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_report_progress_project,
             icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.module_enabled?('report_progress_project') },
             parent: :reports
 
   menu.push :biblioteka_otchetov,
@@ -774,6 +775,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_report_passport,
             icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.module_enabled?('report_passport') },
             parent: :reports
 
   #+ knm tan

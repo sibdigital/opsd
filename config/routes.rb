@@ -373,7 +373,6 @@ OpenProject::Application.routes.draw do
     end
 
     resources :report_progress_project do
-      get :generate_report_progress_project_pril_1_2_out, on: :collection
     end
 
     resources :report_passport do

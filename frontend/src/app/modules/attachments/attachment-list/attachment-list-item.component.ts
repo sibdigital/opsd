@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
@@ -36,6 +36,10 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
+import {SelectionHelpers} from "core-app/helpers/selection-helpers";
+import {debugLog} from "core-app/helpers/debug_output";
+import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 
 export interface ValueOption {
   name:string;
@@ -57,6 +61,11 @@ export class AttachmentListItemComponent implements OnInit {
   private value:{ [attribute:string]:any } = {};
   public valueOptions:ValueOption[];
   public compareByHref = AngularTrackingHelpers.compareByHref;
+  public active = false;
+  @ViewChild('displayContainer') readonly displayContainer:ElementRef;
+  @ViewChild('editContainer') readonly editContainer:ElementRef;
+  public hrefValue:string;
+  public someHref:string;
   //)
 
   static imageFileExtensions:string[] = ['jpeg', 'jpg', 'gif', 'bmp', 'png'];
@@ -78,6 +87,7 @@ export class AttachmentListItemComponent implements OnInit {
               //bbm(
               readonly notificationsService:NotificationsService,
               public halResourceService:HalResourceService,
+              protected opContextMenu:OPContextMenuService,
               //)
               readonly pathHelper:PathHelperService) {
     this.initialize();
@@ -92,6 +102,23 @@ export class AttachmentListItemComponent implements OnInit {
     } else {
       this.value = {name: "-", $href: ""};
     }
+    this.someHref = this.attachment.someHref;
+    //this.displayContainer.nativeElement.innerHTML = '';
+    //this.render(this.displayContainer.nativeElement, this.someHref);
+  }
+
+  public submitHref() {
+    this.attachment.updateImmediately({someHref: this.hrefValue})
+      .then(() => {
+        this.notificationsService.addSuccess(this.text.successful);
+        this.someHref = this.hrefValue;
+        //this.displayContainer.nativeElement.innerHtml = '';
+        //this.render(this.displayContainer.nativeElement, this.someHref);
+        this.deactivate();
+      })
+      .catch((error:any) => {
+        this.notificationsService.addError(error);
+      });
   }
 
   protected initialize() {
@@ -229,5 +256,61 @@ export class AttachmentListItemComponent implements OnInit {
     }
 
     return false;
+  }
+
+  //bbm(
+  /*public render(element:HTMLElement, displayText:string):void {
+    let a = document.createElement('a');
+    a.innerHTML = this.someHref;
+    a.href = this.someHref;
+    a.target = '_blank';
+    let i = document.createElement('i');
+    i.className = 'button--icon icon-edit';
+    i.setAttribute('style', 'padding-left: 5px;');
+    element.appendChild(a);
+    element.appendChild(i);
+  }*/
+
+  public activate(event:JQueryEventObject) {
+    // Ignore selections
+    if (SelectionHelpers.hasSelectionWithin(event.target)) {
+      debugLog(`Not activating someHref because of active selection within`);
+      return true;
+    }
+
+    // Skip activation if the user clicked on a link or within a macro
+    const target = jQuery(event.target);
+    if (target.closest('a,macro', this.displayContainer.nativeElement).length > 0) {
+      return true;
+    }
+
+    this.active = true;
+    this.hrefValue = this.someHref;
+
+    this.opContextMenu.close();
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    return false;
+  }
+
+  public deactivate() {
+    this.editContainer.nativeElement.hidden = true;
+    this.active = false;
+  }
+
+  public handleUserKeydown(event:JQueryEventObject) {
+    // Only handle submission in edit mode
+    if (event.which === keyCodes.ENTER) {
+      this.submitHref();
+      return false;
+    }
+
+    // Escape editing when not in edit mode
+    if (event.which === keyCodes.ESCAPE) {
+      this.deactivate();
+      //return false;
+    }
+    return true;
   }
 }

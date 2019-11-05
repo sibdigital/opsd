@@ -1,0 +1,14 @@
+<div style="width:50%">
+
+  <%= form.hidden_field 'object_type', value: @user_task.object_type %>
+  <%= form.hidden_field 'due_date', value: @user_task.due_date %>
+  <%= form.hidden_field 'project_id', value: @user_task.project_id %>
+  <%= form.hidden_field 'object_id', value: @user_task.object_id %>
+  <%= form.hidden_field 'assigned_to_id', value: @user_task.assigned_to_id %>
+  <%= form.hidden_field 'related_task_id', value: @user_task.related_task_id %>
+
+  <p>
+    <%= form.text_area :text %>
+  </p>
+
+</div>
