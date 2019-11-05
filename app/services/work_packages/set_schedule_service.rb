@@ -220,8 +220,8 @@ class WorkPackages::SetScheduleService
   def reCalculateCriticalWay(altered)
     #Step1
     cwwps = cwproject.work_packages
-    min_step1 = cwwps.select { |wp| !wp.parent }.min_by { |wp| wp.start_date }
-    ways = cwwps.select { |wp| !wp.parent && wp.start_date == min_step1.start_date }
+    min_step1 = cwwps.select { |wp| !wp.parent && wp.start_date}.min_by { |wp| wp.start_date }
+    ways = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date == min_step1.start_date }
     @max = 0
     @way = []
     ways.map do |wp|
@@ -246,10 +246,10 @@ class WorkPackages::SetScheduleService
   end
 
   def step2(cwwps, timeline, stack, length)
-    min_step2 = cwwps.select { |wp| !wp.parent && wp.start_date >= timeline}.min_by { |wp| wp.start_date }
+    min_step2 = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date >= timeline}.min_by { |wp| wp.start_date }
     if min_step2
-      max_step2 = cwwps.select { |wp| !wp.parent && wp.start_date == min_step2.start_date}.max_by { |wp| wp.due_date }
-      ways = cwwps.select { |wp| !wp.parent && wp.start_date == min_step2.start_date && wp.due_date == max_step2.due_date }
+      max_step2 = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date == min_step2.start_date && wp.due_date}.max_by { |wp| wp.due_date }
+      ways = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date == min_step2.start_date && wp.due_date && wp.due_date == max_step2.due_date }
       ways.map do |wp|
         stack << wp
         durat = wp.due_date - wp.start_date
