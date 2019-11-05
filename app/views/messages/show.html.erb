@@ -148,8 +148,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= list_attachments(resource) %>
     </div>
   <% end %>
+  <% if current_participiant %>
   <% current_participiant.viewed_at = DateTime.now %>
   <% current_participiant.save %>
+  <%end %>
   <%= pagination_links_full @replies, per_page_links: false %>
 <% end %>
 
