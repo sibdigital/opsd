@@ -45,7 +45,7 @@ en:
   load_query_question: "Отчет включает %{size} ячеек, потребуется время для его отображения. Отобразить его?"
   permission_save_cost_reports: "Сохранить отчет?"
   permission_save_private_cost_reports: "Сохранить отчет?"
-  project_module_reporting2_module: "OLAP - отчеты о целевых показателях"
+  project_module_reporting_module2: "OLAP - отчеты по целевым показателям"
   text_costs_are_rounded_note: "При отображении значения округляются. В расчетах используются неокругляемые значения."
   toggle_multiselect: "Активировать/деактивировать множественный выбор"
   units: "Модули"
