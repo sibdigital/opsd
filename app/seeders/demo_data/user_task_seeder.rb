@@ -26,7 +26,7 @@ module DemoData
         { user_creator_id: user_by_login('admin').id, assigned_to_id: user_by_login('admin').id, object_type: "Типовые риски", kind: "Request", text: "Текст запроса на редактирование справочника Типовые риски", due_date: "2020-01-01"},
         { user_creator_id: user_by_login('admin').id, kind: "Note", text: "Текст заметки"},
         { project_id: Project.find_by(identifier: 'cultura').id, user_creator_id: user_by_login('admin').id, assigned_to_id: user_by_login('admin').id, object_id: wp_by_subject.id, object_type: "WorkPackage", kind: "Task", text: "Текст задачи", due_date: "2020-01-01"},
-        { project_id: Project.find_by(identifier: 'cultura').id, user_creator_id: user_by_login('admin').id, assigned_to_id: user_by_login('admin').id, object_id: wp_by_subject.id, object_type: "WorkPackage", kind: "Response", text: "Текст ответа по задаче", due_date: "2020-01-01", related_task_id: 4},
+        #{ project_id: Project.find_by(identifier: 'cultura').id, user_creator_id: user_by_login('admin').id, assigned_to_id: user_by_login('admin').id, object_id: wp_by_subject.id, object_type: "WorkPackage", kind: "Response", text: "Текст ответа по задаче", due_date: "2020-01-01", related_task_id: 4},
         { project_id: Project.find_by(identifier: 'cultura').id, user_creator_id: user_by_login('admin').id, assigned_to_id: user_by_login('admin').id, object_id: wp_by_subject.id, object_type: "WorkPackage", kind: "Response", text: "Текст ответа на запрос", due_date: "2020-01-01", related_task_id: 1}
       ]
     end

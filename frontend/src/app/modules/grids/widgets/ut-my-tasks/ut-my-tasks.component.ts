@@ -48,4 +48,8 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
   public user_taskResponse(user_task:UserTasksResource) {
     return `/user_tasks/new?assigned_to_id=${user_task.assigned_to_id}&head_text=Ответ+по+задаче&kind=Response&object_id=${user_task.object_id}&object_type=${user_task.object_type}&project_id=${user_task.project_id}&related_task_id=${user_task.id}`;
   }
+
+  public user_taskCreator(user_task:UserTasksResource) {
+    return `${this.pathHelper.appBasePath}/users/${user_task.user_creator_id}`;
+  }
 }

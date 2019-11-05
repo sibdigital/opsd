@@ -6,7 +6,7 @@
         <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Кому</th><th>Проект</th><th>Пакет работ/Справочник</th><th>Текст</th><th>Срок</th><th>Выполнено</th></tr>
         <ng-container *ngFor="let user_task of entries">
             <tr style="border-bottom: 1px solid #E7E7E7; height: 40px">
-                <td [textContent]="user_task.assigned_to"></td>
+                <td><a [href]="user_taskAssigned(user_task)" [textContent]="user_task.assigned_to"></a></td>
                 <td><a [href]="user_task.project" [textContent]="user_task.project_name"></a></td>
                 <td><a [href]="user_task.object" [textContent]="user_task.object_name"></a></td>
                 <td><a [href]="user_taskText(user_task)" [textContent]="user_task.text"></a></td>
