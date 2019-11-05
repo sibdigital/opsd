@@ -18,4 +18,8 @@
     <%= form.date_field :due_date %>
   </p>
 
+  <p>
+    <%= form.collection_select(:period_id, Enumeration.where(type: 'Period'), :id, :name.to_s) %>
+  </p>
+
 </div>
