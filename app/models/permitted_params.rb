@@ -435,7 +435,7 @@ class PermittedParams
   end
 
   def kpi_option
-    permitted_params = params.require(:kpi_option).permit(:name, :weight, :enable, :calc_method)
+    permitted_params = params.require(:kpi_option).permit(:name, :weight, :enable, :calc_method, :method_id, :object_id)
 
     permitted_params = permitted_params.merge(custom_field_values(:kpi_option))
     permitted_params

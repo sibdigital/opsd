@@ -3,6 +3,8 @@
 <p><%= @kpi_option.name %></p>
 <p>Вес методики: <%= @kpi_option.weight %></p>
 <p>Включена/выключена: <%= @kpi_option.enable ? 'Да': 'Нет' %></p>
+<p>Метод расчета: <%= @kpi_option.kpi_calc_method %></p>
+<p>Объект расчета: <%= @kpi_option.kpi_object %></p>
 <p>Метод агрегирования: <%= 'включается в среднее' if @kpi_option.calc_method=='avg' %><%= 'суммируется' if @kpi_option.calc_method=='sum' %></p>
 
 <table class="generic-table">

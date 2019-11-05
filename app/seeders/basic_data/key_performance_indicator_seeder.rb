@@ -5,6 +5,19 @@
 module BasicData
   class KeyPerformanceIndicatorSeeder < Seeder
     def seed_data!
+
+      KpiCalcMethod.transaction do
+        kpi_method_data.each do |attributes|
+          KpiCalcMethod.create!(attributes)
+        end
+      end
+
+      KpiObject.transaction do
+        kpi_objects_data.each do |attributes|
+          KpiObject.create!(attributes)
+        end
+      end
+
       KeyPerformanceIndicator.transaction do
         data.each do |attributes|
           KeyPerformanceIndicator.create!(attributes)
@@ -16,6 +29,7 @@ module BasicData
           KeyPerformanceIndicatorCase.create!(convert(attributes))
         end
       end
+
     end
 
     def applicable?
@@ -40,16 +54,57 @@ module BasicData
       end
     end
 
+    def kpi_method_by_name(name)
+      np = KpiCalcMethod.find_by(name: name)
+      if np != nil
+        np.id
+      end
+    end
+
+    def kpi_objects_by_name(name)
+      np = KpiObject.find_by(name: name)
+      if np != nil
+        np.id
+      end
+    end
+
+    def kpi_method_data
+      [
+        { name: I18n.t(:default_kpi_method_olap), position: 1, is_default: false, type: "KpiCalcMethod", active: true },
+        { name: I18n.t(:default_kpi_method_count), position: 2, is_default: false, type: "KpiCalcMethod", active: true },
+        { name: I18n.t(:default_kpi_method_hand), position: 3, is_default: false, type: "KpiCalcMethod", active: true },
+      ]
+    end
+
+    def kpi_objects_data
+      [
+        { name: I18n.t(:default_kpi_object_project), position: 1, is_default: false, type: "KpiObject", active: true },
+        { name: I18n.t(:default_kpi_object_work_package), position: 2, is_default: false, type: "KpiObject", active: true },
+        { name: I18n.t(:default_kpi_object_risk), position: 3, is_default: false, type: "KpiObject", active: true },
+        { name: I18n.t(:default_kpi_object_meeting), position: 3, is_default: false, type: "KpiObject", active: true },
+      ]
+    end
+
     def data
       [
-        { name: I18n.t(:default_kpi_count_opened_project), weight: 1, calc_method: "sum", enable: true },
-        { name: I18n.t(:default_kpi_count_support_project), weight: 1, calc_method: "sum", enable: true },
-        { name: I18n.t(:default_kpi_count_opened_meeting), weight: 1, calc_method: "sum", enable: true },
-        { name: I18n.t(:default_kpi_no_red_kt), weight: 1, calc_method: "sum", enable: true },
-        { name: I18n.t(:default_kpi_monitoring), weight: 1, calc_method: "sum", enable: true },
-        { name: I18n.t(:default_kpi_closed_project), weight: 1, calc_method: "sum", enable: true },
-        { name: I18n.t(:default_kpi_saved_risks), weight: 1, calc_method: "sum", enable: true },
-        { name: I18n.t(:default_kpi_minimize_risks), weight: 1, calc_method: "sum", enable: true }
+        { name: I18n.t(:default_kpi_count_opened_project), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_count)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_project))},
+        { name: I18n.t(:default_kpi_count_support_project), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_count)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_project))},
+        { name: I18n.t(:default_kpi_count_opened_meeting), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_count)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_meeting))},
+        { name: I18n.t(:default_kpi_no_red_kt), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_count)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_work_package))},
+        { name: I18n.t(:default_kpi_monitoring), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_count)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_work_package))},
+        { name: I18n.t(:default_kpi_closed_project), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_count)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_project))},
+        { name: I18n.t(:default_kpi_saved_risks), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_hand)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_risk))},
+        { name: I18n.t(:default_kpi_minimize_risks), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_count)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_risk))},
+        { name: I18n.t(:default_kpi_target), weight: 1, calc_method: "sum", enable: true,
+          method_id: kpi_method_by_name(I18n.t(:default_kpi_method_olap)), object_id: kpi_objects_by_name(I18n.t(:default_kpi_object_work_package))},
       ]
 
     end
@@ -222,6 +277,20 @@ module BasicData
         { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 10, min_value: 1, max_value: 3,enable: true, period: "Monthly" },
         { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 15, min_value: 4, max_value: 7,enable: true, period: "Monthly" },
         { name: I18n.t(:default_kpi_minimize_risks), role: I18n.t(:default_role_ispolnitel), percent: 25, min_value: 8, max_value: 9999,enable: true, period: "Monthly" },
+
+        # 8.	Достижение показатели проекта
+        # Учитывать те показатели, фактическое значение которых, соответствует плановому
+        # Руководитель проекта, куратор проекта
+        # 0 - 1 - 10%
+        # 2 - 3 – 15%
+        # 4 - более – 20%
+        { name: I18n.t(:default_kpi_target), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 0, max_value: 1,enable: true, period: "" },
+        { name: I18n.t(:default_kpi_target), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 2, max_value: 3,enable: true, period: "" },
+        { name: I18n.t(:default_kpi_target), role: I18n.t(:default_role_project_curator), percent: 10, min_value: 4, max_value: 9999,enable: true, period: "" },
+
+        { name: I18n.t(:default_kpi_target), role: I18n.t(:default_role_project_head), percent: 10, min_value: 0, max_value: 1,enable: true, period: "" },
+        { name: I18n.t(:default_kpi_target), role: I18n.t(:default_role_project_head), percent: 10, min_value: 2, max_value: 3,enable: true, period: "" },
+        { name: I18n.t(:default_kpi_target), role: I18n.t(:default_role_project_head), percent: 10, min_value: 4, max_value: 9999,enable: true, period: "" },
 
       ]
 
