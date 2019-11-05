@@ -1,6 +1,6 @@
 //created by knm
 //= require notify
-var requestdelay = 6000000;
+var requestdelay = 60000;
 var notifyMe=function(){
   jQuery('button.btn').click(function()
   {

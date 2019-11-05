@@ -350,7 +350,7 @@ module API
                                            }
                                          },
                                          required: false
-          schema_with_allowed_collection :control_level,
+          schema_with_allowed_collection :control_level_id,
                                          value_representer: ControlLevels::ControlLevelRepresenter,
                                          link_factory: ->(control_level) {
                                            {
