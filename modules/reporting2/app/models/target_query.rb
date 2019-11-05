@@ -18,7 +18,7 @@
 #++
 
 class TargetQuery < Report
-  def_delegators :result, :real_costs
+  def_delegators :result #, :real_costs
 
   User.before_destroy do |user|
     TargetQuery.where(user_id: user.id, is_public: false).delete_all

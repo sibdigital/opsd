@@ -24,6 +24,6 @@ class TargetQuery::Filter::NoFilter < Report::Filter::NoFilter
   singleton
 
   def sql_statement
-    TargetQuery::SqlStatement.for_entries
+    TargetQuery::SqlStatement.for_targets
   end
 end

@@ -139,14 +139,10 @@ module ReportingHelper
     when "TargetQuery" then
       case unit_id
       when -1 then
-        "plan: " + row['plan_value'] +
-        ", fact: " + row['value']
+        t(:target_plan_value) + ': ' + row['plan_value'] + "<br>" +
+        t(:target_value) + ': ' + row['value']
       when 0 then
-#        if row.plan row.plan_values.present?
-#          row.plan_values
-#        else
-          row
-#        end
+        row
       else
         row
       end

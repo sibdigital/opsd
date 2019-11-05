@@ -19,7 +19,7 @@
 
 class TargetQuery::SqlStatement < Report::SqlStatement
   COMMON_FIELDS = %w[
-    project_id target_id quarter year month plan_value value
+    project_id target_id work_package_id quarter year month plan_value value
   ].freeze
 
   # flag to mark a reporting query consisting of a union of cost and time entries
@@ -62,7 +62,7 @@ class TargetQuery::SqlStatement < Report::SqlStatement
     end
   end
 
-  def self.for_entries
+  def self.for_targets
     sql = new unified_entry(WorkPackageTarget).as(WorkPackageTarget)
     sql
   end
