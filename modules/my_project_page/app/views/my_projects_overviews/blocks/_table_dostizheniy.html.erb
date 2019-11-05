@@ -24,18 +24,9 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <h3 class="widget-box--header">
-  <span class="widget-box--header-title"><%=l(:label_project_description)%></span>
+  <span class="widget-box--header-title"><%=l(:label_table_dostizheniy)%></span>
 </h3>
 
 <div class="overview">
-  <%= format_text @project.description %>
-  Дата начала: <%= format_text @project.start_date.strftime("%d/%m/%Y") %>
-  Дата окончания: <%= format_text @project.due_date.strftime("%d/%m/%Y") %>
+  <p>Pizdets</p>
 </div>
-
-<% if current_user.allowed_to?(:edit_project, project) %>
-  <%= link_to settings_project_path(project), class: 'button -highlight' do %>
-    <%= op_icon('button--icon icon-edit') %>
-    <span class="button--text"><%= l(:button_edit) %></span>
-  <% end %>
-<% end %>
