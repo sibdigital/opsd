@@ -43,6 +43,14 @@ See doc/COPYRIGHT.rdoc for more details.
         <span class="button--text"><%= t(:label_document_new) %></span>
       <% end %>
     </li>
+    <li class="toolbar-item">
+      <%= link_to({:controller => '/documents', :action => 'index', :project_id => @project, :selected_view => @selected_view == "table" ? "explorer" : "table" },
+                  { class: 'button ',
+                    aria: {label: @selected_view == "table" ? t("label_document_view_explorer") : t("label_document_view_table")},
+                    title: @selected_view == "table" ? t("label_document_view_explorer") : t("label_document_view_table")}) do %>
+        <%= @selected_view == "table" ? op_icon('button--icon icon-organization') : op_icon('button--icon icon-enumerations') %>
+      <% end %>
+    </li>
   <% end %>
 <% end %>
 <%= styled_form_tag(project_documents_path(project_id: @project.id), { method: :get, id: 'query_form' }) do %>
@@ -80,19 +88,19 @@ See doc/COPYRIGHT.rdoc for more details.
     </ul>
   </fieldset>
 <% end %>
-
+<% if @selected_view == "table" %>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
     <table class="generic-table" id="documents">
-      <!--        <colgroup>-->
-      <!--          <col highlight-col>-->
-      <!--          <col highlight-col>-->
-      <!--          <col highlight-col>-->
-      <!--          <col highlight-col>-->
-      <!--          <col highlight-col>-->
-      <!--          <col highlight-col>-->
-      <!--          <col highlight-col>-->
-      <!--        </colgroup>-->
+              <colgroup>
+                <col highlight-col>
+                <col highlight-col>
+                <col highlight-col>
+                <col highlight-col>
+                <col highlight-col>
+                <col highlight-col>
+                <col highlight-col>
+              </colgroup>
       <thead>
       <tr>
         <%= sort_header_tag("id", :caption => '#', :default_order => 'asc') %>
@@ -136,13 +144,17 @@ See doc/COPYRIGHT.rdoc for more details.
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
-              <%= Document.human_attribute_name(:attachment) %>
+                <span>
+                  <%= Document.human_attribute_name(:attachments) %>
+                </span>
             </div>
           </div>
         </th>
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
+                <span>
+                </span>
             </div>
           </div>
         </th>
@@ -176,4 +188,87 @@ See doc/COPYRIGHT.rdoc for more details.
     </table>
   </div>
 </div>
+<% elsif @selected_view == "explorer" %>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="documents">
+      <thead>
+      <tr>
+        <%= sort_header_tag("id", :caption => '#', :default_order => 'asc') %>
+        <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:description) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:category)%>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:user) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Document.human_attribute_name(:created_on) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+            </div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @documents.each do |document|%>
+      <tr id="documents-<%= document.id %>">
+        <%= content_tag(:td, op_icon('button--icon icon-folder')) %>
+        <%= content_tag(:td,link_to( h(document.title), :controller => '/documents', :action => 'show', :id => document)) %>
+        <%= content_tag(:td, document.description) %>
+        <%= content_tag(:td, document.category) %>
+        <%= content_tag(:td, User.find(document.user_id).fio) %>
+        <%= content_tag(:td, format_activity_day(document.created_on)) %>
+        <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'icon-2', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
+        <%document.attachments.each do |attachment| %>
+          </tr>
+          <tr id="documents-attachment<%= attachment.id %>">
+            <td>
+            <%= op_icon('button--icon icon-hierarchy') %>
+            <%= op_icon('button--icon icon-ticket-down') %>
+            </td>
+            <%= content_tag(:td,link_to(h(attachment.filename), attachment_path(attachment.id,attachment.filename)))  %>
+            <%= content_tag(:td, attachment.description) %>
+            <%= content_tag(:td, attachment.attach_type) %>
+            <%= content_tag(:td, attachment.author.fio) %>
+            <%= content_tag(:td, format_activity_day(attachment.created_at)) %>
+            <%#=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
+        <% end %>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<% end %>
 <% html_title(l(:label_document_plural)) -%>

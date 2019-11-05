@@ -350,6 +350,15 @@ module API
                                            }
                                          },
                                          required: false
+          schema_with_allowed_collection :control_level,
+                                         value_representer: ControlLevels::ControlLevelRepresenter,
+                                         link_factory: ->(control_level) {
+                                           {
+                                             href: api_v3_paths.control_level(control_level.id),
+                                             title: control_level.name
+                                           }
+                                         },
+                                         required: false
           # knm-
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,

@@ -48,9 +48,11 @@ See docs/COPYRIGHT.rdoc for more details.
                                options_from_collection_for_select(@project.members, :user_id, :name),
                                include_blank: true,
                                container_class: '-slim') %>
-          <%= styled_label_tag :filter_by_date, t(:label_by_date_from), class: 'simple-filters--filter-name' %>
+          <%= styled_label_tag :filter_by_date, t(:label_by_date), class: 'simple-filters--filter-name' %>
           <div class="form--field">
+            C:
             <%= styled_text_field_tag :filter_start_date, @filter_start_date, class: '-augmented-datepicker', container_class: '-xslim' %>
+            По:
             <%= styled_text_field_tag :filter_end_date, @filter_end_date, class: '-augmented-datepicker', container_class: '-xslim' %>
           </div>
           <% end %>

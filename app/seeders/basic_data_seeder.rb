@@ -60,6 +60,7 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::TypedTargetSeeder,
       # )
       BasicData::PeriodSeeder,
+      BasicData::ControlLevelSeeder,
       BasicData::SettingSeeder
     ]
   end

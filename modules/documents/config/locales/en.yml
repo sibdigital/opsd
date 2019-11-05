@@ -30,6 +30,8 @@ en:
       otchet_o_hod_proekt: "Отчет о ходе реализации проекта"
   label_document_added: "Документ добавлен"
   label_document_new: "Новый документ"
+  label_document_view_table: "В виде таблицы"
+  label_document_view_explorer: "В виде проводника"
   label_document_plural: "Документы"
   label_documents: "Документы"
   added_by: "Добавил %{value}"

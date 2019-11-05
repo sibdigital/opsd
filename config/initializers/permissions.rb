@@ -373,6 +373,36 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   #knm(
+  map.permission :desktop,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :milestones,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :risks,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :indicators,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :costs,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :kpi,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :protocol,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :discussions,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :rating,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :municipality,
+                 {homescreen: %i[ vkladka1 index ]}
+
   map.project_module :interactive_map do |i_map|
     i_map.permission :view_interactive_map,
                      { project_interactive_map: %i[ index get_wps] },

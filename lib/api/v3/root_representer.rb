@@ -119,6 +119,11 @@ module API
           href: api_v3_paths.periods
         }
       end
+      link :control_levels do
+        {
+          href: api_v3_paths.control_levels
+        }
+      end
       #zbd(
       link :required_doc_type do
         {

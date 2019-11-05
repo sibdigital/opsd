@@ -712,12 +712,18 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-group',
             parent: :resources
 
+  menu.push :additional,
+            {},
+            param: :project_id,
+            caption: :label_admin_dictionaries,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-additional'
   ##zbd(
   menu.push :contracts,
             { controller: '/contracts', action: 'index' },
             param: :project_id,
             caption: :label_contracts,
-            parent: :resources,
+            parent: :additional,
             icon: 'icon2 icon-enumerations'
   # )
 
@@ -736,8 +742,9 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/project_risks', action: 'index' },
             param: :project_id,
             if: Proc.new { |p| p.module_enabled?('project_risks') },
-            icon: 'icon2 icon-risks',
-            parent: :analyze
+            parent: :additional,
+            icon: 'icon2 icon-risks'
+
   # )
   #
   # + tan 2019/07/16
@@ -791,12 +798,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   # }
   # -
 
-  menu.push :additional,
-            {},
-            param: :project_id,
-            caption: :ladel_additional,
-            #if: Proc.new { |p| p.module_enabled?('stages') },
-            icon: 'icon2 icon-additional'
   #-tan
 
   #xcc(
@@ -813,7 +814,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             caption: :label_agreements,
             if: Proc.new { |p| p.module_enabled?('agreements') },
-            parent: :control,
+            parent: :additional,
             icon: 'icon2 icon-info1'
   # )
 
@@ -828,41 +829,51 @@ Redmine::MenuManager.map :dashboard_menu do |menu|
   menu.push :rabocii_stol,
             '',
             caption: 'Рабочий стол',
-            icon: 'icon2 icon-info1'
+            icon: 'icon2 icon-info1',
+            if: Proc.new { User.current.allowed_to?(:desktop, nil, global: true)  }
   menu.push :kontrolnie_tochki,
             '',
             caption: 'Контрольные точки',
-            icon: 'icon2 icon-roadmap'
+            icon: 'icon2 icon-roadmap',
+            if: Proc.new { User.current.allowed_to?(:milestones, nil, global: true) }
   menu.push :riski_i_problemy,
             '',
             caption: 'Риски и проблемы',
-            icon: 'icon2 icon-risks'
+            icon: 'icon2 icon-risks',
+            if: Proc.new { User.current.allowed_to?(:risks, nil, global: true) }
   menu.push :ispolnenie_pokazatelei,
             '',
             caption: 'Исполнение показателей',
-            icon: 'icon2 icon-report'
+            icon: 'icon2 icon-report',
+            if: Proc.new { User.current.allowed_to?(:indicators, nil, global: true) }
   menu.push :ispolnenie_budzheta,
             '',
             caption: 'Исполнение бюджета',
-            icon: 'icon2 icon-cost-reports'
+            icon: 'icon2 icon-cost-reports',
+            if: Proc.new { User.current.allowed_to?(:costs, nil, global: true) }
   menu.push :kpi,
             '',
             caption: 'KPI',
-            icon: 'icon2 icon-control-levels'
+            icon: 'icon2 icon-control-levels',
+            if: Proc.new { User.current.allowed_to?(:kpi, nil, global: true) }
   menu.push :elektronnyi_protokol,
             '',
             caption: 'Электронный протокол',
-            icon: 'icon2 icon-enumerations'
+            icon: 'icon2 icon-enumerations',
+            if: Proc.new { User.current.allowed_to?(:protocol, nil, global: true) }
   menu.push :obsuzhdeniya,
             '',
             caption: 'Обсуждения',
-            icon: 'icon2 icon-ticket-note'
+            icon: 'icon2 icon-ticket-note',
+            if: Proc.new { User.current.allowed_to?(:discussions, nil, global: true) }
   menu.push :ocenka_deyatelnosti,
             '',
             caption: 'Оценка деятельности',
-            icon: 'icon2 icon-enumerations'
+            icon: 'icon2 icon-enumerations',
+            if: Proc.new { User.current.allowed_to?(:rating, nil, global: true) }
   menu.push :municipalitet,
             '',
             caption: 'Муниципалитет',
-            icon: 'icon2 icon-organization'
+            icon: 'icon2 icon-organization',
+            if: Proc.new { User.current.allowed_to?(:municipality, nil, global: true) }
 end

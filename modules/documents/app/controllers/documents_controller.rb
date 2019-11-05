@@ -59,6 +59,11 @@ class DocumentsController < ApplicationController
       params[:filter_user].blank? ? @filter_user = "" : @filter_user = params[:filter_user]
       params[:filter_category].blank? ? @filter_category = "" : @filter_category = params[:filter_category]
     end
+    if params[:selected_view].blank?
+      @selected_view="table"
+    else
+      @selected_view = params[:selected_view]
+    end
     sort_columns = {'id' => "#{Document.table_name}.id", 'title' => "#{Document.table_name}.title", 'user_id' => "#{Document.table_name}.user", 'created_on' => "#{Document.table_name}.created_on"}
     sort_init 'id', 'asc'
     sort_update sort_columns

@@ -5,7 +5,7 @@ module LdapGroups
     before_action :find_group, only: %i(show destroy_info destroy)
 
     layout 'admin'
-    menu_item :plugin_ldap_groups
+    # menu_item :plugin_ldap_groups
 
     def index
       @groups = SynchronizedGroup.includes(:auth_source, :group)
