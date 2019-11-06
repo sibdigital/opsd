@@ -28,7 +28,11 @@ module MeetingsHelper
     add_participants.split(/,/).map { |p| link_to_user User.find(p) }.join('; ').html_safe if add_participants
   end
   # )
-
+  # knm+
+  def form_participant_list_of_board(participants)
+    participants.sort.map { |p| link_to(p.user.fio, user_path(p.user.id), {class: '', title: p.viewed_at.nil? ? "Не заходил" : "Заходил "+format_activity_day(p.viewed_at)+" в "+format_time(p.viewed_at,false) })}.join('; ').html_safe
+  end
+  # -
   def render_meeting_journal(model, journal, options = {})
     return '' if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)

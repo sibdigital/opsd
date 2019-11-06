@@ -64,6 +64,7 @@ class BasicDataSeeder < CompositeSeeder
       BasicData::UserTaskDirectorySeeder,
       # )
       BasicData::PeriodSeeder,
+      BasicData::ControlLevelSeeder,
       BasicData::SettingSeeder
     ]
   end

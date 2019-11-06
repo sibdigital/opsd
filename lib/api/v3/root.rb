@@ -80,6 +80,7 @@ module API
       mount ::API::V3::Raions::RaionsAPI
       # - tan
       mount ::API::V3::Periods::PeriodsAPI
+      mount ::API::V3::ControlLevels::ControlLevelsAPI
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI
       mount ::API::V3::Render::RenderAPI

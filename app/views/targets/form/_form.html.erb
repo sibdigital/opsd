@@ -22,6 +22,9 @@ This file written by XCC
                          elsif TargetType.default
                            TargetType.default.id
                          end
+     @selected_member_id =  if @target.id
+                              @target.result_assigned
+                            end
   %>
 
   <div class="form--field">
@@ -52,11 +55,27 @@ This file written by XCC
 
   <div class="form--field"><%= f.number_field 'basic_value', step: :any, container_class: '-middle' %></div>
   <div class="form--field"><%= f.number_field 'plan_value', step: :any, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :result_assigned,
+                                        options_for_select(@project.members.map {|u| [u.name, u.id]}, @selected_member_id),
+                                        include_blank: true,
+                                        container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'comment', container_class: '-middle' %></div>
   <div class="form--field"><%= f.select :status_id,
                                         options_for_select(TargetStatus.where(active: true).map {|u| [u.name, u.id]}, @selected_status_id),
                                         include_blank: true,
                                         container_class: '-middle' %></div>
+
+  <% unless @project.national_project.nil? || @project.federal_project.nil? %>
+    <fieldset class="form--fieldset -collapsible collapsed">
+      <legend class="form--fieldset-legend"><%= l(:label_additional_settings) %></legend>
+      <div class="-columns-2">
+        <div class="form--field"><%= f.text_area 'national_project_goal', container_class: '-middle' %></div>
+        <div class="form--field"><%= f.text_area 'national_project_result', container_class: '-middle' %></div>
+        <div class="form--field"><%= f.text_area 'national_project_charact', container_class: '-middle' %></div>
+        <div class="form--field"><%= f.date_field 'result_due_date', container_class: '-middle' %></div>
+      </div>
+    </fieldset>
+  <% end %>
   <% if User.current.admin?%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>

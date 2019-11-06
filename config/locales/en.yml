@@ -373,6 +373,7 @@ en:
 '
     login_with_auth_provider: или войдите своей учетной записью
     signup_with_auth_provider: Или зарегистрируйтесь с помощью
+    signup_with_auth_provider: Или зарегистрируйтесь с помощью
     auth_source_login: Пожалуйста, авторизируйтесь как <em>%{login}</em> для активации
       вашей учетной записи.
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
@@ -484,6 +485,9 @@ en:
         types: Типы
         versions: Этапы
         work_packages: Задачи
+        national_project_target: Цель национального проекта
+        government_program: Государственная программа РБ
+        mission_of_head: Поручение главы РБ
       query:
         column_names: Столбцы
         relations_to_type_column: Отношения к %{type}
@@ -530,6 +534,12 @@ en:
         period: Периодичность
         level: Уровень
         add_info: Доп. информация
+      document:
+        title: Название
+        description: Описание
+        category: Категория
+        user: Пользователь
+        created_on: Добавлено
       # tmd
       plan_uploader_setting:
         text: Текст
@@ -937,7 +947,13 @@ en:
 #    last_due_date: Текущая дата окончания
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
-    period: Периодичность добавления отчетов
+#    period: Периодичность добавления отчетов
+    control_level: Уровень контроля
+    result_assigned: Назначенный
+    national_project_goal: Задача национального проекта
+    national_project_result: Результат федерального проекта
+    national_project_charact: Характеристика результата федерального проекта
+    result_due_date: Срок достижения результата федерального проекта
     time: Время
     busyness: Занятость
     #)
@@ -1025,6 +1041,9 @@ en:
     other_liabilities_2281: Иные обязательства п.п. 2.2.8.1
     other_liabilities_2282: Иные обязательства п.п. 2.2.8.2
     national_project: Национальный проект
+    national_project_target: Цель национального проекта
+    government_program: Государственная программа РБ
+    mission_of_head: Поручение главы РБ
     federal_project: Федеральный проект
     date_end: Действует до
   #)
@@ -1910,6 +1929,7 @@ en:
   label_message: Сообщение
   label_message_last: Последнее сообщение
   label_message_new: Новое сообщение
+  label_message_filter: Фильтр
   label_message_plural: Сообщения
   label_message_posted: Сообщение добавлено
   label_min_max_length: Минимальная - Максимальная длина
@@ -2172,6 +2192,7 @@ en:
   label_communication_requirements: Список информационных потребностей
   label_communication_requirements_new: Новая информационная потребность
   label_communication_meeting_members: Участники встречи
+  label_quarter: Квартал
   #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить пакет работ созданными коэффициентами
@@ -2567,6 +2588,16 @@ en:
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
   #knm(
+  permission_desktop: Рабочий стол
+  permission_milestones: Контрольный точки
+  permission_risks: Риски и проблемы
+  permission_indicators: Исполнение показателей
+  permission_costs: Исполнение бюджета
+  permission_kpi: KPI
+  permission_protocol: Электронный протокол
+  permission_discussions: Обсуждения
+  permission_rating: Оценка деятельности
+  permission_municipalities: Муниципалитет
   setting_days_text: Дни недели
   button_refresh: Обновить
   label_filter_type:
@@ -2580,11 +2611,19 @@ en:
     news: Новость
     project: Проект
     costobject: Бюджет
+    member: Пользователь
   label_filter: Фильтр
+  label_general_meeting_plural: Совещания по общим вопросам
+  label_general_meeting: Общее совещание
+  label_general_meeting_new: Новое общее совещание
+  label_not_readed: Не прочитано
   label_by_date_from: "По дате: с"
+  label_by_date: "По дате:"
   label_by_date_to: "До: "
   label_by_type: По типу
+  label_by_status: По статусу
   label_by_user: По пользователю
+  label_by_category: По категории
   label_by_action: По действию
   label_production_calendar: Производственный календарь
   label_production_calendars: Производственные календари

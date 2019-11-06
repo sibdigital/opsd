@@ -29,7 +29,6 @@
 
 class HomescreenController < ApplicationController
   skip_before_action :check_if_login_required, only: [:robots]
-
   before_action :set_current_user, :require_login
 
   include DateAndTime::Calculations
@@ -46,7 +45,7 @@ class HomescreenController < ApplicationController
 
   def bubble
     @tab = :bubble
-    render :index
+    render :index, locals: { menu_name: :admin_menu }
   end
 
   def index

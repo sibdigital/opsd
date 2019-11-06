@@ -476,6 +476,8 @@ OpenProject::Application.routes.draw do
     get :get_dues, on: :collection
   end
 
+  resources :general_meetings
+
   resources :head_performance_indicator_values
 
   resources :national_projects do

@@ -285,4 +285,9 @@ class Report::SqlStatement
   def gsub(*args, &block)
     to_s.gsub(*args, &block)
   end
+
+  def as(model)
+    tablename = table_name_for model
+    return "(#{to_s}) as #{tablename}"
+  end
 end

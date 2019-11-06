@@ -23,7 +23,8 @@ class Report::GroupBy
   include Report::QueryUtils
 
   def self.all
-    Set[engine::GroupBy::SingletonValue]
+    #Set[engine::GroupBy::SingletonValue]
+    Set[]
   end
 
   def self.reset!

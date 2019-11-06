@@ -37,6 +37,7 @@ export class ProtocolTabComponent implements OnInit {
         this.valueOptions = projects.elements.map((el:ProjectResource) => {
           return {name: el.name, identifier: el.identifier};
         });
+        this.valueOptions.push({ identifier: "default_general_route", name: "Совещания по общим вопросам"});
         this.value = this.valueOptions[0];
       });
   }
@@ -53,7 +54,12 @@ export class ProtocolTabComponent implements OnInit {
 
   public handleUserSubmit() {
     if (this.selectedOption) {
-      window.open(this.appBasePath + "/projects/" + this.selectedOption.identifier + "/meetings/new", "_blank");
+      if (this.selectedOption.identifier === "default_general_route") {
+        window.open(this.appBasePath + "/general_meetings");
+      }
+      else {
+        window.open(this.appBasePath + "/projects/" + this.selectedOption.identifier + "/meetings/new", "_blank");
+      }
     }
   }
 }

@@ -1,5 +1,13 @@
 en:
   activerecord:
+    attributes:
+      document:
+        title: Название
+        description: Описание
+        category: Категория
+        user: Пользователь
+        created_on: Добавлено
+        attachment: Вложения
     models:
       document: "Документ"
   default_doc_category_tech: "Техническая документация"
@@ -22,8 +30,12 @@ en:
       otchet_o_hod_proekt: "Отчет о ходе реализации проекта"
   label_document_added: "Документ добавлен"
   label_document_new: "Новый документ"
+  label_document_view_table: "В виде таблицы"
+  label_document_view_explorer: "В виде проводника"
   label_document_plural: "Документы"
   label_documents: "Документы"
+  added_by: "Добавил %{value}"
+  add_attachment: "Добавить вложение"
   permission_manage_documents: "Управление документами"
   permission_view_documents: "Просмотр документов"
   project_module_documents: "Документы"

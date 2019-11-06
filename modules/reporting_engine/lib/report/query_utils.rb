@@ -321,6 +321,12 @@ module Report::QueryUtils
       "EXTRACT(week from #{field} - \n\t\t" \
       "(EXTRACT(dow FROM #{field})::int+6)%7))"
     end
+
+    #zbd(
+    def iso_year_quarter(field)
+      "EXTRACT(quarter from #{field})"
+    end
+    #)
   end
 
   include MySql if mysql?
