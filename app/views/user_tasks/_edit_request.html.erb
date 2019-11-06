@@ -23,6 +23,10 @@
   </p>
 
   <p>
+    <%= form.collection_select(:period_id, Enumeration.where(type: 'Period'), :id, :name.to_s) %>
+  </p>
+
+  <p>
     <%= form.check_box :completed %>
   </p>
 

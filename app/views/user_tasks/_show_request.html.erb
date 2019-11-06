@@ -35,3 +35,10 @@
   <strong>Дата обновления:</strong>
   <%= @user_task.updated_at.to_s %>
 </p>
+<p>
+  <strong>Периодичность:</strong>
+  <%= if @user_task.period_id != nil
+        Enumeration.find_by(id: @user_task.period_id).name
+      end
+  %>
+</p>

@@ -122,7 +122,7 @@ class AlertsController < ApplicationController
       @WorkPackages.each do |workPackage|
 
         unless workPackage.assigned_to_id.nil?
-          @assigneee = User.find(workPackage.assigned_to_id);
+          @assigneee = User.find(workPackage.assigned_to_id)
           @term_date = workPackage.due_date #ban
           @project_name = Project.find_by(id: workPackage.project_id).name #ban
 
@@ -166,7 +166,7 @@ class AlertsController < ApplicationController
       @WorkPackagesDeadline.each do |workPackage|
 
         unless workPackage.assigned_to_id.nil?
-          @assigneee = User.find(workPackage.assigned_to_id);
+          @assigneee = User.find(workPackage.assigned_to_id)
           @term_date = workPackage.due_date
           @project_name = Project.find_by(id: workPackage.project_id).name
 
@@ -270,6 +270,42 @@ class AlertsController < ApplicationController
         @alert.save
       end
     end
+
+    #ban: обязательная отправка напоминаний о вводе данных в справочники (
+    @user_tasks = UserTask.find_by_sql("SELECT User_tasks.* FROM User_tasks LEFT JOIN
+    (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'UserTask' AND alerts.alert_type = 'Email') as al ON User_tasks.id = al.entity_id where
+    (
+    al.entity_id IS NULL
+    and (SELECT
+                 CASE WHEN name='#{I18n.t("default_period_daily")}' THEN cast(date_trunc('day', current_date) as date)
+                      WHEN name='#{I18n.t("default_period_weekly")}' THEN cast(date_trunc('week', current_date) as date)
+                      WHEN name='#{I18n.t("default_period_monthly")}' THEN cast(date_trunc('month', current_date) as date)
+                      WHEN name='#{I18n.t("default_period_quarterly")}' THEN cast(date_trunc('quarter', current_date) as date)
+                      WHEN name='#{I18n.t("default_period_yearly")}' THEN cast(date_trunc('year', current_date) as date)
+                      ELSE cast(date_trunc('month', current_date) as date)
+                     END
+             FROM enumerations as enum WHERE enum.id = User_tasks.period_id) = CURRENT_DATE and User_tasks.due_date > CURRENT_DATE
+    )")
+    @user_tasks.each do |user_task|
+      unless user_task.assigned_to_id.nil?
+        @ut_assignee = User.find_by(id: user_task.assigned_to_id)
+        #@ut_term_date = user_task.due_date
+        begin
+          UserMailer.user_task_period(@ut_assignee, user_task).deliver_now
+        rescue Exception => e
+          Rails.logger.info(e.message)
+        end
+        @alert = Alert.new
+        @alert.entity_id = user_task.id
+        puts user_task.id, ' entity_id: ', @alert.entity_id
+        @alert.alert_date = Date.current
+        @alert.entity_type = 'UserTask'
+        @alert.alert_type = 'Email'
+        @alert.to_user = @ut_assignee.id
+        @alert.save
+      end
+    end
+    # )
 
     #add method for delete unassigned records
 
