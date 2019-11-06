@@ -4,7 +4,7 @@
   <% for doc in @documents %>
     <tr>
       <td><%= doc.title %></td>
-      <td><%= link_to doc.attachments.first.filename, '/attachments/download/' + doc.attachments.first.id.to_s %></td>
+      <td><%= doc.attachments.first.nil? ? '' : (link_to doc.attachments.first.filename, '/attachments/download/' + doc.attachments.first.id.to_s) %></td>
     </tr>
   <% end %>
 </table>
