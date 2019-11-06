@@ -28,8 +28,6 @@ See doc/COPYRIGHT.md for more details.
 </h3>
 
 <div class="overview">
-  <p>Pizdets</p>
-
   <table class="generic-table target-dostizheniy">
     <colgroup>
       <col highlight-col>
@@ -68,32 +66,37 @@ See doc/COPYRIGHT.md for more details.
     </tr>
     </thead>
     <tbody>
-    <% qwptwqg = WorkPackageQuarterlyTarget.where("year = date_part('year', CURRENT_DATE) and project_id = ?", @project.id) %>
-    <% qwptwqg.map do |q| %>
+    <% pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id = ?", @project.id) %>
+    <% pfqtv.map do |q| %>
       <tr>
         <td><strong><%= q.target %></strong></td>
         <td>
-          <% case DateTime.now.month
+          <%= case DateTime.now.month
              when 1, 2, 3
-               q.quarter1_plan_value
+               q.plan_quarter1_value
              when 4, 5, 6
-               q.quarter2_plan_value
+               q.plan_quarter2_value
              when 7, 8, 9
-               q.quarter3_plan_value
+               q.plan_quarter3_value
              when 10, 11, 12
-               q.quarter4_plan_value
+               q.plan_quarter4_value
              end %></td>
         <td>
-          <% case DateTime.now.month
+          <%= case DateTime.now.month
              when 1, 2, 3
-               q.quarter1_value
+               q.fact_quarter1_value
              when 4, 5, 6
-               q.quarter2_value
+               q.fact_quarter2_value
              when 7, 8, 9
-               q.quarter3_value
+               q.fact_quarter3_value
              when 10, 11, 12
-               q.quarter4_value
+               q.fact_quarter4_value
              end %></td>
+      </tr>
+    <% end %>
+    <% if pfqtv.empty? %>
+      <tr>
+        <td colspan="3"><span>Нет данных</span></td>
       </tr>
     <% end %>
     </tbody>
