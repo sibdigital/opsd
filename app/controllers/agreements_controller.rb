@@ -187,8 +187,8 @@ class AgreementsController < ApplicationController
     sheet[21][1].change_contents(leader_position_federal_project)
     sheet[21][1].change_text_wrap(true)
 
-#    sheet.insert_cell(21, 11, position)
-    sheet[21][11].change_contents(position)
+    sheet.insert_cell(21, 11, position)
+#    sheet[21][11].change_contents(position)
     sheet[21][11].change_text_wrap(true)
 
     count_year = difference_in_completed_years(@project.start_date, @project.due_date)
@@ -338,6 +338,28 @@ class AgreementsController < ApplicationController
       sheet.sheet_data[17+i][9].change_vertical_alignment('center')
 
     end
+
+    count = targets.count
+
+    sheet.insert_cell(18+count, 0, "Подписи сторон:")
+    sheet.insert_cell(20+count, 0, "Руководитель")
+    sheet.insert_cell(21+count, 0, "федерального")
+    sheet.insert_cell(22+count, 0, "проекта")
+
+    sheet.insert_cell(23+count, 1, "(должность)")
+    sheet.insert_cell(23+count, 3, "(инициалы, фамилия)")
+    sheet.insert_cell(23+count, 6, "(подпись)")
+
+
+    sheet.insert_cell(20+count, 9, "Руководитель")
+    sheet.insert_cell(21+count, 9, "регионального")
+    sheet.insert_cell(22+count, 9, "проекта")
+
+    sheet.insert_cell(23+count, 11, "(должность)")
+    sheet.insert_cell(23+count, 13, "(инициалы, фамилия)")
+    sheet.insert_cell(23+count, 16, "(подпись)")
+
+
   end
 
   def generate_pril2_sheet
@@ -383,11 +405,13 @@ class AgreementsController < ApplicationController
     sheet[10][5].change_text_wrap(true)
     sheet[11][5].change_text_wrap(true)
 
-    sheet[21][2].change_contents(leader_position_federal_project)
-    sheet[21][2].change_text_wrap(true)
+#    sheet.insert_cell(21, 2, leader_position_federal_project)
+#    sheet[21][2].change_contents(leader_position_federal_project)
+#    sheet[21][2].change_text_wrap(true)
 
-    sheet[21][9].change_contents(position)
-    sheet[21][9].change_text_wrap(true)
+#    sheet.insert_cell(21, 9, position)
+#    sheet[21][9].change_contents(position)
+#    sheet[21][9].change_text_wrap(true)
 
     get_result_target_end_date.each_with_index do |result_target, i|
       punkt = (i+1).to_s+"."
@@ -527,6 +551,9 @@ class AgreementsController < ApplicationController
       sheet.sheet_data[17+i][1].change_horizontal_alignment('center')
       sheet.sheet_data[17+i][1].change_vertical_alignment('center')
 
+      sheet.sheet_data[17+i][8].change_horizontal_alignment('center')
+      sheet.sheet_data[17+i][8].change_vertical_alignment('center')
+
       sheet.sheet_data[17+i][9].change_horizontal_alignment('center')
       sheet.sheet_data[17+i][9].change_vertical_alignment('center')
 
@@ -535,8 +562,29 @@ class AgreementsController < ApplicationController
 
       sheet.sheet_data[17+i][15].change_horizontal_alignment('center')
       sheet.sheet_data[17+i][15].change_vertical_alignment('center')
-
     end
+
+      count = get_result_target_end_date.count
+
+      sheet.insert_cell(18+count, 0, "Подписи сторон:")
+      sheet.insert_cell(20+count, 0, "Руководитель")
+      sheet.insert_cell(21+count, 0, "федерального")
+      sheet.insert_cell(22+count, 0, "проекта")
+
+      sheet.insert_cell(23+count, 2, "(должность)")
+      sheet.insert_cell(23+count, 4, "(инициалы, фамилия)")
+      sheet.insert_cell(23+count, 6, "(подпись)")
+
+
+      sheet.insert_cell(20+count, 8, "Руководитель")
+      sheet.insert_cell(21+count, 8, "регионального")
+      sheet.insert_cell(22+count, 8, "проекта")
+
+      sheet.insert_cell(23+count, 9, "(должность)")
+      sheet.insert_cell(23+count, 12, "(инициалы, фамилия)")
+      sheet.insert_cell(23+count, 15, "(подпись)")
+
+
   end
 
   def index

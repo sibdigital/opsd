@@ -52,4 +52,8 @@ export class WidgetUtResponsesComponent extends AbstractWidgetComponent implemen
   public user_taskRelatedLink(user_task:UserTasksResource) {
     return `${this.pathHelper.appBasePath}/user_tasks/${user_task.related_task_id}`;
   }
+
+  public user_taskAssigned(user_task:UserTasksResource) {
+    return `${this.pathHelper.appBasePath}/users/${user_task.assigned_to_id}`;
+  }
 }

@@ -7,7 +7,7 @@
         <ng-container *ngFor="let user_task of entries">
             <tr style="border-bottom: 1px solid #E7E7E7; height: 40px">
                 <td><a [href]="user_taskRelatedLink(user_task)"><op-icon icon-classes="icon icon-move" style="font-size: 11px;"></op-icon></a></td>
-                <td [textContent]="user_task.assigned_to"></td>
+                <td><a [href]="user_taskAssigned(user_task)" [textContent]="user_task.assigned_to"></a></td>
                 <td><a [href]="user_task.project" [textContent]="user_task.project_name"></a></td>
                 <td><a [href]="user_task.object" [textContent]="user_task.object_name"></a></td>
                 <td><a [href]="user_taskTextLink(user_task)" [textContent]="user_task.text"></a></td>

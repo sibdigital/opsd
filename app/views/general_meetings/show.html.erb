@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject Meeting Plugin
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.md for more details.
+
+++#%>
+
+<% html_title "#{l(:label_general_meeting)}: #{@general_meeting.title}" %>
+<%= toolbar title: l(:label_general_meeting),
+            link_to: link_to(@general_meeting),
+            html: { class: 'meeting--main-toolbar' } do %>
+  <li class="toolbar-item">
+    <div class="button">
+      <%= link_to "Печатная форма", report_meeting_path(@general_meeting.id)%>
+    </div>
+  </li>
+  <%# unless User.current.anonymous? %>
+<!--    <li class="toolbar-item">-->
+<!--      <div class="button">-->
+        <%#= watcher_link @general_meeting, User.current %>
+<!--      </div>-->
+<!--    </li>-->
+  <%# end %>
+    <li class="toolbar-item">
+      <%= link_to({:controller => '/general_meetings', :action => 'edit', :id => @general_meeting}, class: 'button',:accesskey => accesskey(:edit)) do%>
+        <%= op_icon('button--icon icon-edit') %> <%= l(:button_edit) %>
+      <% end %>
+    </li>
+<!--    <li class="toolbar-item">-->
+      <%#= link_to({:controller => '/general_meetings', :action => 'copy', :id => @general_meeting}, class: 'button') do %>
+        <%#= op_icon('button--icon icon-copy') %> <%#= l(:button_copy) %>
+      <%# end %>
+<!--    </li>-->
+    <li class="toolbar-item">
+      <%= link_to({controller: '/general_meetings', action: 'destroy', id: @general_meeting},
+                  class: 'button',
+                  method: :delete,
+                  confirm: l(:text_are_you_sure)) do %>
+        <%= op_icon('button--icon icon-delete') %> <%= l(:button_delete) %>
+      <% end %>
+    </li>
+<% end %>
+
+<div class="meeting details box">
+  <div class="grid-block wrap">
+    <div class="grid-content small-12 block--author">
+      <%= avatar(@general_meeting.author) %>
+      <p class="author"><%= authoring @general_meeting.created_at, @general_meeting.author %></p>
+    </div>
+    <div class="grid-content small-6">
+      <p><strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @general_meeting.start_time %> <%= format_time @general_meeting.start_time, false %> - <%= format_time @general_meeting.end_time, false %> <%= Time.zone %></p>
+    </div>
+    <div class="grid-content small-6">
+      <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h @general_meeting.raion %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong>: <%= format_participant_list @general_meeting.participants.invited %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:participants_attended) %></strong>: <%= format_participant_list @general_meeting.participants.attended %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:chairman) %></strong>: <%= link_to_user @general_meeting.chairman %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:add_participants) %></strong>: <%= format_participant_list2 @general_meeting.add_participants %></p>
+    </div>
+    <div class="grid-content small-12">
+      <p><strong><%= Meeting.human_attribute_name(:speakers) %></strong>: <%= format_participant_list2 @general_meeting.speakers %></p>
+    </div>
+  </div>
+</div>
+
+<%= render_tabs [{:name => 'agenda', :action => :create_meeting_agendas, :partial => 'meeting_contents/show', :label => :label_meeting_agenda, :content => @general_meeting.agenda || @general_meeting.build_agenda, :content_type => "meeting_agenda"},
+                 {:name => 'minutes', :action => :create_meeting_minutes, :partial => 'meeting_contents/show', :label => :label_meeting_minutes, :content => @general_meeting.minutes || @general_meeting.build_minutes, :content_type => "meeting_minutes"}] %>
+
+<% if @general_meeting.journals.changing.present? %>
+  <div id="history">
+    <h3><%=l(:label_history)%></h3>
+    <% @general_meeting.journals.each do |journal| %>
+      <%= render_meeting_journal @general_meeting, journal %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render :partial => 'shared/meeting_header' %>

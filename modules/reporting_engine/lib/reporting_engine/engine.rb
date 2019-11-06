@@ -58,6 +58,7 @@ module ReportingEngine
       # We have to require this here because Ruby will otherwise find Date
       # as Object::Date and Rails wont autoload Widget::Filters::Date
       require_dependency 'widget/filters/date'
+
     end
   end
 end

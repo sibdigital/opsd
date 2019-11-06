@@ -48,4 +48,8 @@ export class WidgetUtTasksComponent extends AbstractWidgetComponent implements O
   public user_taskText(user_task:UserTasksResource) {
     return `${this.pathHelper.appBasePath}/user_tasks/${user_task.id}`;
   }
+
+  public user_taskAssigned(user_task:UserTasksResource) {
+    return `${this.pathHelper.appBasePath}/users/${user_task.assigned_to_id}`;
+  }
 }

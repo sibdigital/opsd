@@ -182,6 +182,13 @@ PATH
       prawn (~> 2.2)
 
 PATH
+  remote: modules/reporting2
+  specs:
+    openproject-reporting2 (8.3.1)
+      jquery-tablesorter (~> 1.25.5)
+      reporting_engine (>= 1.1.0)
+
+PATH
   remote: modules/reporting_engine
   specs:
     reporting_engine (8.3.1)
@@ -962,6 +969,7 @@ DEPENDENCIES
   openproject-openid_connect!
   openproject-pdf_export!
   openproject-reporting!
+  openproject-reporting2!
   openproject-token (~> 1.0.1)
   openproject-translations!
   openproject-webhooks!

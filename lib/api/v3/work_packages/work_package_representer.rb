@@ -512,6 +512,9 @@ module API
 
         associated_resource :period,
                             link_title_attribute: :name
+
+        associated_resource :control_level,
+                            link_title_attribute: :name
         #bbm(
         property :is_closed,
         exec_context: :decorator,
