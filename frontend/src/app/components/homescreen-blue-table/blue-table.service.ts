@@ -37,6 +37,9 @@ export abstract class BlueTableService {
   public getTdClass(row:any, i:number):string {
     return '';
   }
+  public getTrClass(row:any):string {
+    return '';
+  }
   public getBasePath():string {
     return this.appBasePath;
   }
