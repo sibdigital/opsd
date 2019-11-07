@@ -217,9 +217,9 @@ export class BlueTableKtService extends BlueTableService {
     if (row._type === 'WorkPackageIspolnStat') {
       if (row.ispolneno) {
         return 'colored-row-green';
-      } else if (row.days_to_due < 0) {
+      } else if (row.days_to_due < 0 || row.days_to_due == null) {
         return 'colored-row-red';
-      }  else if ((row.v_rabote || row.est_riski) && row.days_to_due <= 14) {
+      }  else if ((row.v_rabote || row.est_riski) && row.days_to_due != null && row.days_to_due >= 0 && row.days_to_due <= 14) {
         return 'colored-row-yellow';
       } else if (row.v_rabote || row.est_riski) {
         return 'colored-row';
