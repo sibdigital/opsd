@@ -9,7 +9,7 @@ module API
           get do
             authorize(:view_work_packages, global: true)
             projects = []
-            Project.visible_by(current_user).each do |project|
+            Project.where(type: 'project').visible_by(current_user).each do |project|
               exist = which_role(project, current_user, global_role)
               if exist
                 projects << project.id.to_s

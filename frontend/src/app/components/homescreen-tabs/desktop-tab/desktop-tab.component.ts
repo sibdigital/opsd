@@ -166,6 +166,7 @@ export class DesktopTabComponent implements OnInit {
         this.valueOptions = projects.elements.map((el:HalResource) => {
           return {name: el.name, $href: el.id};
         });
+        this.valueOptions.unshift({name: 'Все проекты', $href: "0"});
         this.value = this.valueOptions[0];
       });
   }
@@ -187,7 +188,7 @@ export class DesktopTabComponent implements OnInit {
       let from = new Date();
       let to = new Date();
       to.setDate(to.getDate() + 14);
-      const filtersGreen = [
+      let filtersGreen = [
         {
           status: {
             operator: 'o',
@@ -219,6 +220,9 @@ export class DesktopTabComponent implements OnInit {
           }
         }
       ];
+      if (this.selectedOption.$href === "0") {
+        filtersGreen.pop();
+      }
       this.halResourceService
         .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
         .toPromise()
@@ -238,7 +242,7 @@ export class DesktopTabComponent implements OnInit {
             this.data[i] = row;
           });
         });
-      const filtersRed = [
+      let filtersRed = [
         {
           status: {
             operator: 'o',
@@ -270,6 +274,9 @@ export class DesktopTabComponent implements OnInit {
           }
         }
       ];
+      if (this.selectedOption.$href === "0") {
+        filtersRed.pop();
+      }
       this.halResourceService
         .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
         .toPromise()
@@ -289,8 +296,12 @@ export class DesktopTabComponent implements OnInit {
             this.data[i] = row;
           });
         });
+      let params:any = {"status": "created"};
+      if (this.selectedOption.$href !== "0") {
+        params = {"status": "created", "project": this.selectedOption.$href};
+      }
       this.halResourceService
-        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created", "project": this.selectedOption.$href})
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), params)
         .toPromise()
         .then((resources:CollectionResource<HalResource>) => {
           resources.elements.map( (el, i) => {
