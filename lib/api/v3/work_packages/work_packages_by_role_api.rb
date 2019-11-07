@@ -9,17 +9,17 @@ module API
           get do
             authorize(:view_work_packages, global: true)
             projects = []
-            Project.all.each do |project|
+            Project.visible_by(current_user).each do |project|
               exist = which_role(project, current_user, global_role)
               if exist
-                projects << project.id.to_s
+                projects << '"' + project.id.to_s + '"'
               end
             end
             filters = params[:filters]
             filters = if filters
-                        filters.chop + ',{"project":{"operator":"=","values":' + projects.to_s + '}}]'
+                        filters.chop + ',{"project":{"operator":"=","values":[' + projects.join(',') + ']}}]'
                       else
-                        '[{"project":{"operator":"=","values":' + projects.to_s + '}}]'
+                        '[{"project":{"operator":"=","values":[' + projects.join(',') + ']}}]'
                       end
             service = if projects.empty?
                         WorkPackageCollectionFromQueryParamsService
