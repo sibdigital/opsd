@@ -26,9 +26,11 @@
             </div>
         </div>
     </div>
+    <span>Проект: </span>
     <select [(ngModel)]="selectedOption"
             [compareWith]="compareByHref"
-            (change)="handleUserSubmit()">
+            (change)="handleUserSubmit()"
+            style="width: 200px">
         <option
                 *ngFor="let value of valueOptions"
                 [attr.selected]="compareByHref(selectedOption, value) || undefined"
