@@ -297,6 +297,12 @@ module API
                   stroka['status_name'] = row.status_name
                   stroka['created_problem_count'] = row.created_problem_count
                   stroka['fakt_ispoln'] = row.fact_due_date
+                  stroka['ispolneno'] = row.ispolneno
+                  stroka['ispolneno_v_srok'] = row.ispolneno_v_srok
+                  stroka['ne_ispolneno'] = row.ne_ispolneno
+                  stroka['est_riski'] = row.est_riski
+                  stroka['v_rabote'] = row.v_rabote
+                  stroka['days_to_due'] = row.days_to_due
                   hash['work_packages'] << stroka
                 end
                 collection << hash
