@@ -12,7 +12,7 @@ module API
             Project.visible_by(current_user).each do |project|
               exist = which_role(project, current_user, global_role)
               if exist
-                projects << '"' + project.id.to_s + '"'
+                projects << project.id.to_s
               end
             end
             filters = params[:filters]
@@ -21,14 +21,20 @@ module API
                       else
                         '[{"project":{"operator":"=","values":[' + projects.join(',') + ']}}]'
                       end
+
+            project = JSON.parse(params[:filters]).select{|e| e["project"]}
             service = if projects.empty?
                         WorkPackageCollectionFromQueryParamsService
                           .new(current_user)
-                          .call(params.merge(pageSize: 0)) #as unlimited: 500 - max
+                          .call(params.merge(pageSize: 0)) # nothing
+                      elsif project.empty?
+                        WorkPackageCollectionFromQueryParamsService
+                          .new(current_user)
+                          .call(params.merge(pageSize: 500, filters: filters)) # as unlimited: 500 - max
                       else
                         WorkPackageCollectionFromQueryParamsService
-                        .new(current_user)
-                        .call(params.merge(pageSize: 500, filters: filters)) #as unlimited: 500 - max
+                          .new(current_user)
+                          .call(params.merge(pageSize: 500)) # as unlimited: 500 - max
                       end
             if service.success?
               service.result

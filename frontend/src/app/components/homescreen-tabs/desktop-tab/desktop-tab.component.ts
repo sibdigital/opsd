@@ -183,7 +183,7 @@ export class DesktopTabComponent implements OnInit {
   public handleUserSubmit() {
     if (this.selectedOption) {
       this.blueChild.changeFilter(String(this.selectedOption.$href));
-
+      this.data = [];
       let from = new Date();
       let to = new Date();
       to.setDate(to.getDate() + 14);

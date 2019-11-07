@@ -107,7 +107,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 5: {
-          return row.all_wps === 0 ? '0' : Number((row.ispolneno / row.all_wps).toFixed(1)).toString();
+          return row.all_wps === 0 ? '0' : Number(row.ispolneno / row.all_wps).toFixed(1).toString();
           break;
         }
         case 6: {
@@ -115,7 +115,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 100: {
-          return row.budget_fraction.toFixed(1).toString();
+          return Number(row.budget_fraction).toFixed(1).toString();
           break;
         }
       }
