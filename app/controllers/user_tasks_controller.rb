@@ -61,6 +61,6 @@ class UserTasksController < ApplicationController
   private
   def user_task_params
     params.require(:user_task).permit(:project_id, :user_creator_id, :assigned_to_id, :object_id, :object_type, :kind,
-                                      :text, :due_date, :completed, :related_task_id)
+                                      :text, :due_date, :completed, :related_task_id, :period_id)
   end
 end

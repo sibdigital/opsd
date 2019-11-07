@@ -457,6 +457,14 @@ class UserMailer < BaseMailer
       mail_for_author author, to: user.mail, subject: subject
     end
   end
+
+  def user_task_period(user, user_task)
+    @user_task = user_task
+
+    with_locale_for(user) do
+      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Вам направлен запрос'
+    end
+  end
 #)
 
   def work_package_notify_assignee1(user, work_package , author = User.current)

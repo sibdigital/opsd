@@ -213,7 +213,22 @@ export class BlueTableKtService extends BlueTableService {
     }
     return '';
   }
-
+  public getTrClass(row:any):string {
+    if (row._type === 'WorkPackageIspolnStat') {
+      if (row.ispolneno) {
+        return 'colored-row-green';
+      } else if (row.days_to_due < 0) {
+        return 'colored-row-red';
+      }  else if ((row.v_rabote || row.est_riski) && row.days_to_due <= 14) {
+        return 'colored-row-yellow';
+      } else if (row.v_rabote || row.est_riski) {
+        return 'colored-row';
+      }
+    return '';
+    } else {
+  return 'colored-row';
+    }
+  }
   public getDataWithFilter(param:string):Promise<any[]> {
     return new Promise((resolve) => {
       let data:any[] = [];

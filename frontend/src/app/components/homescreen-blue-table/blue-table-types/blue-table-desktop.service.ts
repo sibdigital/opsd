@@ -115,7 +115,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 100: {
-          return row.budget_fraction;
+          return row.budget_fraction.toFixed(1).toString();
           break;
         }
       }
