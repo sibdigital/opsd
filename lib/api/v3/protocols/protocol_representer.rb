@@ -44,6 +44,13 @@ module API
         property :text, render_nil: true
         property :user, render_nil: true
         property :due_date, render_nil: true
+        property :days_to_due,
+                 exec_context: :decorator,
+                 getter: ->(*){
+                   days_count = represented.due_date - Date.current
+                   days_count.to_i
+                 },
+                 render_nil: true
         property :completed, render_nil: true
 
         property :project,
