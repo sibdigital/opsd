@@ -5,7 +5,8 @@ module API
   module V3
     module UserTasks
       class UserTasksAPI < ::API::OpenProjectAPI
-        resources :user_tasks do
+=begin
+        resources :user_tasks2 do
           get do
             records_array = ActiveRecord::Base.connection.execute <<~SQL
               select * from user_tasks
@@ -91,6 +92,25 @@ module API
             @user_tasks
           end
         end
+=end
+        resources :user_tasks do
+
+          get do
+            UserTasksHelper::user_task_collection()
+          end
+
+          route_param :user_type do
+            route_param :id do
+              before do
+                @user = User.find(params[:id])
+              end
+              get do
+                UserTasksHelper::user_task_collection(@user.nil? ? nil : @user.id, params[:user_type])
+              end
+            end
+          end
+        end
+
       end
     end
   end
