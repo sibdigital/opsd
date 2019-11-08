@@ -373,7 +373,6 @@ en:
 '
     login_with_auth_provider: или войдите своей учетной записью
     signup_with_auth_provider: Или зарегистрируйтесь с помощью
-    signup_with_auth_provider: Или зарегистрируйтесь с помощью
     auth_source_login: Пожалуйста, авторизируйтесь как <em>%{login}</em> для активации
       вашей учетной записи.
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
@@ -485,9 +484,6 @@ en:
         types: Типы
         versions: Этапы
         work_packages: Задачи
-        national_project_target: Цель национального проекта
-        government_program: Государственная программа РБ
-        mission_of_head: Поручение главы РБ
       query:
         column_names: Столбцы
         relations_to_type_column: Отношения к %{type}
@@ -534,12 +530,6 @@ en:
         period: Периодичность
         level: Уровень
         add_info: Доп. информация
-      document:
-        title: Название
-        description: Описание
-        category: Категория
-        user: Пользователь
-        created_on: Добавлено
       # tmd
       plan_uploader_setting:
         text: Текст
@@ -579,6 +569,13 @@ en:
         address: Адрес
         cabinet: Кабинет
       #)
+      #+tan
+      key_performance_indicator:
+        method_id: Метод расчета
+        object_id: Объект расчета
+        method: Метод расчета
+        object: Объект расчета
+      #-tan
       user:
         admin: Администратор
         auth_source: Способ аутентификации
@@ -586,6 +583,7 @@ en:
         force_password_change: Принудительное изменение пароля при следующем входе
         language: Язык
         last_login_on: Последний вход в систему
+        last_ip: IP-адрес
         mail_notification: Уведомления по электронной почте
         pop_up_notification: Всплывающие уведомления
         new_password: Новый пароль
@@ -624,7 +622,7 @@ en:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
         children: Вложенные элементы
-        done_ratio: KPI (Прогресс %)
+        done_ratio: Прогресс %
         end_insertion: Завершение вставки
         end_deletion: Завершение удаления
         fixed_version: Этап
@@ -852,6 +850,7 @@ en:
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
+      key_performance_indicator: KPI
       board: Дискуссия
       comment: Комментарий
       custom_action: Пользовательское действие
@@ -902,9 +901,6 @@ en:
     code: Код
     comment: Комментарий
     comments: Комментарий
-    #ban(
-    completed: Завершено
-    #)
     content: Содержание
     color: Цвет
     created_at: Создано
@@ -935,10 +931,6 @@ en:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     is_public: Общий
-    #ban(
-    object: Связанный объект
-    object_type: Тип связанного объекта
-    #)
     project_status: Статус
     project_approve_status: Этап согласования
     is_approve: Утверждено
@@ -948,12 +940,6 @@ en:
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
 #    period: Периодичность добавления отчетов
-    control_level: Уровень контроля
-    result_assigned: Назначенный
-    national_project_goal: Задача национального проекта
-    national_project_result: Результат федерального проекта
-    national_project_charact: Характеристика результата федерального проекта
-    result_due_date: Срок достижения результата федерального проекта
     time: Время
     busyness: Занятость
     #)
@@ -1041,9 +1027,6 @@ en:
     other_liabilities_2281: Иные обязательства п.п. 2.2.8.1
     other_liabilities_2282: Иные обязательства п.п. 2.2.8.2
     national_project: Национальный проект
-    national_project_target: Цель национального проекта
-    government_program: Государственная программа РБ
-    mission_of_head: Поручение главы РБ
     federal_project: Федеральный проект
     date_end: Действует до
   #)
@@ -1328,9 +1311,17 @@ en:
   default_kpi_count_opened_meeting: "Количество организованных совещаний, мероприятий"
   default_kpi_no_red_kt: "Отсутствие красных контрольных точек"
   default_kpi_monitoring: "Осуществление мониторинга региональных проектов в срок"
+  default_kpi_target: "Исполнение показателей"
   default_kpi_closed_project: "Количество завершенных проектов"
   default_kpi_saved_risks: "Количество внесенных в реестр рисков"
   default_kpi_minimize_risks: "Количество проведенных мероприятий, направленных на минимизацию рисков"
+  default_kpi_method_olap: "Показатель OLAP куба"
+  default_kpi_method_count: "Число значений выборки"
+  default_kpi_method_hand: "Ручной ввод"
+  default_kpi_object_project: "Проект"
+  default_kpi_object_work_package: "Мероприятие"
+  default_kpi_object_risk: "Риск"
+  default_kpi_object_meeting: "Совещание"
   default_project_section_1: Основные положения
   default_project_section_2: Цели и показатели
   default_project_section_3: Результаты
@@ -1450,7 +1441,9 @@ en:
           полям
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_attach_type: Тип файла
-  enumeration_work_package_priorities: Веса пакета работ
+  enumeration_work_package_priorities: Приоритеты пакета работ
+  enumeration_kpi_calc_methods: Способ вычисления KPI
+  enumeration_kpi_objects: Объект подсчета
   enumeration_risk_importance: Степень влияния на проект
   enumeration_risk_project_section_id: Раздел проекта
   enumeration_risk_possibilities: Вероятность наступления
@@ -1929,7 +1922,6 @@ en:
   label_message: Сообщение
   label_message_last: Последнее сообщение
   label_message_new: Новое сообщение
-  label_message_filter: Фильтр
   label_message_plural: Сообщения
   label_message_posted: Сообщение добавлено
   label_min_max_length: Минимальная - Максимальная длина
@@ -2037,8 +2029,10 @@ en:
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
   label_project_templates: Шаблоны проектов
-  label_done_ratio_project: Процент исполнения (KPI)
+  label_done_ratio_project: Процент исполнения
   label_project_risks: Риски и возможности
+  label_key_performance_indicator: Настройка KPI
+
   label_project_risk_new: Добавить риск
   label_head_performance_indicator_values: Оценки деятельности высшего должностного лица
   label_head_performance_indicator_value: Оценка деятельности высшего должностного лица
@@ -2192,7 +2186,6 @@ en:
   label_communication_requirements: Список информационных потребностей
   label_communication_requirements_new: Новая информационная потребность
   label_communication_meeting_members: Участники встречи
-  label_quarter: Квартал
   #)
   label_ui: Интерфейс пользователя
   label_update_work_package_done_ratios: Обновить пакет работ созданными коэффициентами
@@ -2588,16 +2581,6 @@ en:
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
   #knm(
-  permission_desktop: Рабочий стол
-  permission_milestones: Контрольный точки
-  permission_risks: Риски и проблемы
-  permission_indicators: Исполнение показателей
-  permission_costs: Исполнение бюджета
-  permission_kpi: KPI
-  permission_protocol: Электронный протокол
-  permission_discussions: Обсуждения
-  permission_rating: Оценка деятельности
-  permission_municipalities: Муниципалитет
   setting_days_text: Дни недели
   button_refresh: Обновить
   label_filter_type:
@@ -2611,19 +2594,11 @@ en:
     news: Новость
     project: Проект
     costobject: Бюджет
-    member: Пользователь
   label_filter: Фильтр
-  label_general_meeting_plural: Совещания по общим вопросам
-  label_general_meeting: Общее совещание
-  label_general_meeting_new: Новое общее совещание
-  label_not_readed: Не прочитано
   label_by_date_from: "По дате: с"
-  label_by_date: "По дате:"
   label_by_date_to: "До: "
   label_by_type: По типу
-  label_by_status: По статусу
   label_by_user: По пользователю
-  label_by_category: По категории
   label_by_action: По действию
   label_production_calendar: Производственный календарь
   label_production_calendars: Производственные календари
@@ -2891,7 +2866,7 @@ en:
     коэфицентами
   setting_work_package_done_ratio_field: Использовать поле пакета работ
   setting_work_package_done_ratio_status: Использовать статус пакета работ
-  setting_work_package_done_ratio_disabled: Cкрыть KPI (прогресс)
+  setting_work_package_done_ratio_disabled: Cкрыть прогресс
   setting_work_package_list_default_columns: Отображать по умолчанию
   setting_work_package_list_summable_columns: Суммируемое
   setting_work_package_properties: Свойства пакета работ
@@ -3446,7 +3421,7 @@ en:
     additional_resources: Дополнительные ресурсы
     getting_started: Приступая к работе
     help_and_support: Помощь и поддержка
-  total_progress: Общий прогресс (KPI)
+  total_progress: Общий прогресс
   user:
     all: все
     active: Активно
@@ -3755,3 +3730,4 @@ en:
 
   label_my_tasks: Мои запросы/задачи
   label_user_tasks: Запросы/задачи
+  user_task_directory: Объекты запросов/задач

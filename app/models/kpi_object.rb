@@ -27,42 +27,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+class KpiObject < Enumeration
 
-module API
-  module V3
-    module Protocols
-      class ProtocolRepresenter < ::API::Decorators::Single
-        #include ::API::Caching::CachedRepresenter
+  OptionName = :enumeration_kpi_objects
 
-        self_link path: :protocol,
-                  title_getter: ->(*) { represented.text }
-
-        property :id, render_nil: true
-
-        property :text, render_nil: true
-        property :user, render_nil: true
-        property :due_date, render_nil: true
-        property :days_to_due,
-                 exec_context: :decorator,
-                 getter: ->(*){
-                   days_count = represented.due_date - Date.current
-                   days_count.to_i
-                 },
-                 render_nil: true
-        property :completed, render_nil: true
-
-        property :project,
-                 exec_context: :decorator,
-                 getter: ->(*) { represented.meeting.project },
-                 #getter: ->(*) { 'Неизвестно' },
-                 render_nil: true
-
-        def _type
-          'Protocol'
-        end
-      end
-    end
+  def self.colored?
+    true
   end
+
+  def color_label
+    I18n.t('prioritiies.edit.priority_color_text')
+  end
+
+  def option_name
+    OptionName
+  end
+
 end

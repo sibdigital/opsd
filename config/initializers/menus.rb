@@ -77,6 +77,11 @@ Redmine::MenuManager.map :top_menu do |menu|
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
+  #tan(
+  menu.push :main,
+            'vkladka1/desktop',
+            caption: 'Главная'
+  #)
   menu.push :my_page,
             { controller: '/my', action: 'page' },
             if: Proc.new { User.current.logged? }

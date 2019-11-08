@@ -8,7 +8,7 @@ module API
         def which_role(project, current_user, global_role)
           @see_all_roles ||= see_all_roles
           @see_all_roles[global_role] || current_user.roles_for_project(project).find do |e|
-            e.id.to_s == global_role or (e.name == I18n.t(:default_role_project_curator) or e.name == I18n.t(:default_role_project_head) or e.name == I18n.t(:default_role_project_office_coordinator))
+            e.id.to_s == global_role or (e.name == I18n.t(:default_role_project_curator) or e.name == I18n.t(:default_role_project_head) or e.name == I18n.t(:default_role_project_office_coordinator) or e.name == I18n.t(:default_role_project_admin))
           end
         end
 
@@ -19,6 +19,7 @@ module API
             roles[role.id.to_s] = role if role.name == I18n.t(:default_role_glava_regiona)
             roles[role.id.to_s] = role if role.name == I18n.t(:default_role_project_activity_coordinator)
             roles[role.id.to_s] = role if role.name == I18n.t(:default_role_project_office_manager)
+            roles[role.id.to_s] = role if role.name == I18n.t(:default_role_project_office_coordinator)
           end
           roles
         end

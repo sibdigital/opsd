@@ -7,6 +7,8 @@ class CreateKpi < ActiveRecord::Migration[5.2]
       t.string :calc_method             # метод агрегирования:
                         # avg - включается в среднее т.е с другими таким же КПИ берется как среднее значение
                         # sum - суммируется т.е с другими такими же КПИ складывается
+      t.integer :method_id                        # МЕТОД - KpiCalcMethod
+      t.integer :object_id                        # KpiObject
 
       t.timestamps
     end
