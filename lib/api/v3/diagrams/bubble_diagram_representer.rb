@@ -29,19 +29,24 @@ module API
                               end
                    rmax = 0
                    xmax = 0
+                   ymax = 0
                    projects.each do |project|
                      exist = which_role(project, @current_user, @global_role)
                      if exist
-                       x = project.parent_id || project.id
-                       r = project.invest_amount.to_f
+                       id = project.parent_id || project.id
+                       x = id % 10
+                       y = (id / 10).round + 1
+                       r = project.invest_amount ? project.invest_amount.to_f : 0
                        rmax = r if r > rmax
                        xmax = x if x > xmax
-                       result << {x: x, y: 1, r: r}
+                       ymax = y if y > ymax
+                       result << {x: x, y: y, r: r, id: id}
                      end
                    end
                    result.each {|hash|
-                     hash[:r] = (hash[:r] * 10 / rmax ).round
-                     hash[:x] = hash[:x] * 3.8 / xmax
+                     hash[:r] = rmax == 0 ? 0 : (hash[:r] * 100 / rmax ).round
+                     hash[:x] = hash[:x] * 3.5 / xmax
+                     hash[:y] = hash[:y] * 1.5 / ymax
                    }
                    result
                  },
@@ -51,7 +56,13 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) {
                    result = []
-                   projects = Project.visible(current_user).all
+                   projects = if @project and @project != '0'
+                                Project.visible(current_user).where(id: @project)
+                                  .or(Project.visible(current_user).where(parent_id: @project))
+                                  .order(invest_amount: :desc).all
+                              else
+                                Project.visible(current_user).order(invest_amount: :desc).all
+                              end
                    projects.each do |project|
                      exist = which_role(project, @current_user, @global_role)
                      if exist

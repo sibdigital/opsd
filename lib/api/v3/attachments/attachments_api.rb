@@ -70,6 +70,7 @@ module API
             end
 
             delete do
+              raise ::API::Errors::AttachmentLocked.new(@attachment.user_locked ? @attachment.user_locked.fio : 'Неизвестный') if @attachment.locked
               raise API::Errors::Unauthorized unless @attachment.deletable?(current_user)
 
               if @attachment.container
@@ -83,14 +84,27 @@ module API
 
             #bbm(
             patch do
-              if params[:attach_type_id]
-                new_attach_type = AttachType.find(params[:attach_type_id])
-                @attachment.attach_type = new_attach_type
+              if @attachment.locked
+                if @attachment.user_locked == current_user and params[:locked]
+                  @attachment.locked = false
+                  @attachment.user_locked = nil
+                else
+                  raise ::API::Errors::AttachmentLocked.new(@attachment.user_locked ? @attachment.user_locked.fio : 'Неизвестный')
+                end
               else
-                @attachment.attach_type = nil
-              end
-              if params[:someHref]
-                @attachment.some_href = params[:someHref]
+                if params[:attach_type_id]
+                  new_attach_type = AttachType.find(params[:attach_type_id])
+                  @attachment.attach_type = new_attach_type
+                else
+                  @attachment.attach_type = nil
+                end
+                if params[:someHref]
+                  @attachment.some_href = params[:someHref]
+                end
+                if params[:locked]
+                  @attachment.locked = true
+                  @attachment.user_locked = current_user
+                end
               end
               save_attachment(@attachment)
             end

@@ -96,8 +96,7 @@ module API
           }
         end
         #bbm(
-        link :updateImmediately,
-             cache_if: -> { represented.deletable?(current_user) } do
+        link :updateImmediately do
           {
             href: api_v3_paths.attachment(represented.id),
             method: :patch
