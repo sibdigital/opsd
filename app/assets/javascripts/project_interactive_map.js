@@ -9,7 +9,7 @@ function setMilestones()
 {
   description_info=new Array(22);
   for (var i = 0; i < 22; i++) {
-    description_info[i]="<table style='width: 100%'>"+
+    description_info[i]="<table class='generic-table' style='width: 100%'>"+
       "<thead>"+
       "<tr>"+
       "<th>Название</th>"+
@@ -45,11 +45,11 @@ function setMilestones()
           //   object[inc][0]=object[inc][0].substring(0,44);
           //   object[inc][0]+="...";
           // }
-          var name = object[inc][0].split(" ", 5);
+          var name = object[inc][0];
           description_info[object[inc][2]-1]+="<tr>"+
             "<td>" +
             "<a href='/work_packages/details/" + object[inc][1] + "/overview?plan_type=execution'>" +
-            name.join(" ")+ "..." +
+            name +
             "</a>" +
             "</td>"+
             "<td>"+object[inc][3]+"</td>";
@@ -94,22 +94,26 @@ function setMilestones()
           if (matrix[parseInt(this.id)-1][0] > 0)
           {
             this.style.fill='#c00000';
-
+            jQuery('#' + this.id + '.project-avatar').show();
           }
           else if(matrix[parseInt(this.id)-1][1] > 0)
           {
             this.style.fill='#ffc000';
+            jQuery('#' + this.id + '.project-avatar').show();
           }
           else if(matrix[parseInt(this.id)-1][2] > 0)
           {
             this.style.fill='#1f497d';
+            jQuery('#' + this.id + '.project-avatar').show();
           }
           else if(matrix[parseInt(this.id)-1][3] > 0)
           {
             this.style.fill='#00b050';
+            jQuery('#' + this.id + '.project-avatar').show();
           }
           else {
             this.style.fill='grey';
+            jQuery('#' + this.id + '.project-avatar').hide();
           }
 
         });
