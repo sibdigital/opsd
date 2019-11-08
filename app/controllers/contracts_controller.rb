@@ -17,7 +17,7 @@ class ContractsController < ApplicationController
   include ClassifierHelper
 
   before_action only: [:create, :update] do
-    upload_custom_file("contract", "ContractCustomField")
+    upload_custom_file("contract", @contract.class.name)
   end
 
   after_action only: [:create, :update] do

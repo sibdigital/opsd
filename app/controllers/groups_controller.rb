@@ -40,7 +40,7 @@ class GroupsController < ApplicationController
                                     :edit_membership]
 
   before_action only: [:create, :update] do
-    upload_custom_file("group", "GroupCustomField")
+    upload_custom_file("group", @group.class.name)
   end
 
   after_action only: [:create, :update] do

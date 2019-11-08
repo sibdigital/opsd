@@ -20,7 +20,7 @@ class OrganizationsController < ApplicationController
   before_action :find_organization, only: [:edit, :update, :destroy]
   before_action :find_org_type
   before_action only: [:create, :update] do
-    upload_custom_file("organization", "OrganizationCustomField")
+    upload_custom_file("organization", @organization.class.name)
   end
 
   after_action only: [:create, :update] do

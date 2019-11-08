@@ -55,6 +55,16 @@ class UsersController < ApplicationController
   include Concerns::UserLimits
   before_action :enforce_user_limit, only: [:create]
   before_action -> { enforce_user_limit flash_now: true }, only: [:new]
+  before_action only: [:create, :update] do
+    upload_custom_file("user", @user.class.name)
+  end
+
+  after_action only: [:create, :update] do
+    assign_custom_file_name("Principal", @user.id)
+    parse_classifier_value("Principal", @user.class.name, @user.id)
+    init_counter_value("Principal", @user.class.name, @user.id)
+  end
+
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
@@ -62,6 +72,9 @@ class UsersController < ApplicationController
   include SortHelper
   include CustomFieldsHelper
   include PaginationHelper
+  include CustomFilesHelper
+  include CounterHelper
+  include ClassifierHelper
 
   def index
     @groups = Group.all.sort

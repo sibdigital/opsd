@@ -11,7 +11,7 @@ class PositionsController < ApplicationController
   before_action :require_project_admin
   before_action :find_position, only: [:edit, :update, :destroy]
   before_action only: [:create, :update] do
-    upload_custom_file("position", "PositionCustomField")
+    upload_custom_file("position", @position.class.name)
   end
 
   after_action only: [:create, :update] do

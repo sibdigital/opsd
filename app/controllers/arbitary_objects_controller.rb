@@ -5,7 +5,7 @@ class ArbitaryObjectsController < ApplicationController
   before_action :find_optional_project, :verify_arbitary_objects_module_activated
   before_action :find_arbitary_object, only: [:edit, :update, :destroy]
   before_action only: [:create, :update] do
-    upload_custom_file("arbitary_object", "ArbitaryObjectCustomField")
+    upload_custom_file("arbitary_object", @arbitary_object.class.name)
   end
 
   after_action only: [:create, :update] do
@@ -47,9 +47,6 @@ class ArbitaryObjectsController < ApplicationController
   def new
     @arbitary_object = ArbitaryObject.new
   end
-
-
-
 
   def create
     @arbitary_object = @project.arbitary_objects.create(permitted_params.arbitary_object)

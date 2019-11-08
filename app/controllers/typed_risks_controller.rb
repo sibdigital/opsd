@@ -8,7 +8,7 @@ class TypedRisksController < ApplicationController
   before_action :require_coordinator
   before_action :find_typed_risk, only: [:edit, :update, :destroy]
   before_action only: [:create, :update] do
-    upload_custom_file("typed_risk", "TypedRiskCustomField")
+    upload_custom_file("typed_risk", @typed_risk.class.name)
   end
 
   after_action only: [:create, :update] do

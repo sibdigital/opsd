@@ -46,7 +46,7 @@ class DocumentsController < ApplicationController
   include PaginationHelper
 
   before_action only: [:create, :update] do
-    upload_custom_file("document", "DocumentCustomField")
+    upload_custom_file("document", @document.class.name)
   end
 
   after_action only: [:create, :update] do
