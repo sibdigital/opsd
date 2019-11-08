@@ -187,7 +187,7 @@ en:
         user_tasks_notes:
           title: Мои заметки
         user_tasks_requests:
-          title: Запросы мне
+          title: Запросы (ответы) мне
         user_tasks_responses:
           title: Мои ответы
         user_tasks_tasks:

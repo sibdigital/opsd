@@ -27,7 +27,7 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
 
   ngOnInit() {
 
-    let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks`;
+    let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks/assigned/${this.currentuser.userId}`;
 
     this.halResource
       .get<CollectionResource>(url)
@@ -36,7 +36,7 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.assigned_to_id == this.currentuser.userId && (obj.kind == 'Request' || obj.kind =='Response')){
+          if (obj.kind == 'Request' || obj.kind =='Response'){
             entriesarrayforuser.push(obj);
           }
         }
