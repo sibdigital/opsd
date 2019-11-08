@@ -41,13 +41,13 @@ class WorkPackages::SetScheduleService
 
   def call(attributes = %i(start_date due_date))
     #bbm(Очищаем признак
-    (cwproject.work_packages - work_packages).map do |wp|
-      wp.on_critical_way = false
-      wp.save(:validate => false)
-    end
-    work_packages.map do |wp|
-      wp.on_critical_way = false
-    end
+    #(cwproject.work_packages - work_packages).map do |wp|
+    #  wp.on_critical_way = false
+    #  wp.save(:validate => false)
+    #end
+    #work_packages.map do |wp|
+    #  wp.on_critical_way = false
+    #end
     #)
     altered = if (%i(parent parent_id) & attributes).any?
                 schedule_by_parent
@@ -67,12 +67,12 @@ class WorkPackages::SetScheduleService
       altered += schedule_following
     end
     # bbm(
-    begin #+- tan ошибки не влияющие на необходимость сохранения. обернуто в исключение
+    #begin #+- tan ошибки не влияющие на необходимость сохранения. обернуто в исключение
       #TEMPORARY HOT FIX
-    altered = reCalculateCriticalWay altered
-    rescue StandardError => e
-      Rails.logger.error "Cannot recalculate critical way: #{e}"
-    end
+    #altered = reCalculateCriticalWay altered
+    #rescue StandardError => e
+    #  Rails.logger.error "Cannot recalculate critical way: #{e}"
+    #end
     # )
     result = ServiceResult.new(success: true,
                                result: work_packages.first)
