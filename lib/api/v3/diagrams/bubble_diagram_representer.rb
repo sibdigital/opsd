@@ -36,7 +36,7 @@ module API
                        r = project.invest_amount.to_f
                        rmax = r if r > rmax
                        xmax = x if x > xmax
-                       result << {x: x, y: 1, r: r}
+                       result << {x: x, y: 1, r: r, id: project.id}
                      end
                    end
                    result.each {|hash|
@@ -51,7 +51,13 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) {
                    result = []
-                   projects = Project.visible(current_user).all
+                   projects = if @project and @project != '0'
+                                Project.visible(current_user).where(id: @project)
+                                  .or(Project.visible(current_user).where(parent_id: @project))
+                                  .order(invest_amount: :desc).all
+                              else
+                                Project.visible(current_user).order(invest_amount: :desc).all
+                              end
                    projects.each do |project|
                      exist = which_role(project, @current_user, @global_role)
                      if exist
