@@ -12,7 +12,8 @@ class ProjectRisksController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Risk", @project_risk.id)
-    init_counter_value("Risk", @group.class.name, @group.id)
+    parse_classifier_value("Risk", @project_risk.class.name, @project_risk.id)
+    init_counter_value("Risk", @project_risk.class.name, @project_risk.id)
   end
 
   helper :sort
@@ -22,6 +23,7 @@ class ProjectRisksController < ApplicationController
   include ::ColorsHelper
   include CustomFilesHelper
   include CounterHelper
+  include ClassifierHelper
 
   def index
     sort_columns = {'id' => "#{ProjectRisk.table_name}.id",

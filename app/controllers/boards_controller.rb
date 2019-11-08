@@ -39,6 +39,7 @@ class BoardsController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Board", @board.id)
+    parse_classifier_value("Board", @board.class.name, @board.id)
     init_counter_value("Board", @board.class.name, @board.id)
   end
 
@@ -50,6 +51,7 @@ class BoardsController < ApplicationController
   include OpenProject::ClientPreferenceExtractor
   include CustomFilesHelper
   include CounterHelper
+  include ClassifierHelper
 
   def index
     if params[:commit] == "Применить"

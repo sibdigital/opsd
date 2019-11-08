@@ -29,6 +29,13 @@
              [icon-title]="text.removeFile({fileName: attachment.fileName})"></op-icon>
   </a>
   <!--bbm(-->
+  <a
+          href=""
+          class="form--selected-value--locker work-package--atachments--lock-button"
+          (click)="submitLock()">
+    <op-icon icon-classes="icon-not-supported"
+             [icon-title]="text.lockFile({fileName: attachment.fileName})"></op-icon>
+  </a>
   <div [ngClass]="['form--selected-value--href',
       active && '-active' || '']">
 
