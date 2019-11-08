@@ -13,6 +13,7 @@ class OrganizationsController < ApplicationController
   include OrganizationsHelper
   include CustomFilesHelper
   include CounterHelper
+  include ClassifierHelper
 
 
   before_action :require_project_admin
@@ -24,6 +25,7 @@ class OrganizationsController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Organization", @organization.id)
+    parse_classifier_value("Organization", @organization.class.name, @organization.id)
     init_counter_value("Organization", @organization.class.name, @organization.id)
   end
 

@@ -10,6 +10,7 @@ class ArbitaryObjectsController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("ArbitaryObject", @arbitary_object.id)
+    parse_classifier_value("ArbitaryObject", @arbitary_object.class.name, @arbitary.id)
     init_counter_value("ArbitaryObject", @arbitary_object.class.name, @arbitary_object.id)
   end
 
@@ -18,6 +19,7 @@ class ArbitaryObjectsController < ApplicationController
   include PaginationHelper
   include CustomFilesHelper
   include CounterHelper
+  include ClassifierHelper
   include ::IconsHelper
   include ::ColorsHelper
 

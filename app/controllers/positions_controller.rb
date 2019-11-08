@@ -6,6 +6,7 @@ class PositionsController < ApplicationController
 
   include CustomFilesHelper
   include CounterHelper
+  include ClassifierHelper
 
   before_action :require_project_admin
   before_action :find_position, only: [:edit, :update, :destroy]
@@ -15,6 +16,7 @@ class PositionsController < ApplicationController
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Position", @position.id)
+    parse_classifier_value("Position", @position.class.name, @position.id)
     init_counter_value("Position", @position.class.name, @position.id)
   end
 
