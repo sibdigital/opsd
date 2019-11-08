@@ -71,6 +71,7 @@ class ReportProgressProjectController < ApplicationController
     @ready_project_progress_report_path = dir_path + '/project_progress_report_out.xlsx'
     @workbook.write(@ready_project_progress_report_path)
     #bbm(
+    pid = spawn('cd ' + File.absolute_path('.') + '/unoconv && unoconv -f pdf ' + @ready_project_progress_report_path)
     @document = @project.documents.build
     @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
     @document.user_id = current_user.id

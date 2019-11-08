@@ -83,10 +83,10 @@ See doc/COPYRIGHT.md for more details.
       <p><strong><%= Meeting.human_attribute_name(:chairman) %></strong>: <%= link_to_user @meeting.chairman %></p>
     </div>
     <div class="grid-content small-12">
-      <p><strong><%= Meeting.human_attribute_name(:add_participants) %></strong>: <%= format_participant_list2 @meeting.add_participants %></p>
+      <p><strong><%= Meeting.human_attribute_name(:add_participants) %></strong>: <%= @meeting.add_participants %></p>
     </div>
     <div class="grid-content small-12">
-      <p><strong><%= Meeting.human_attribute_name(:speakers) %></strong>: <%= format_participant_list2 @meeting.speakers %></p>
+      <p><strong><%= Meeting.human_attribute_name(:speakers) %></strong>: <%= @meeting.speakers %></p>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 .form--selected-value--selecter
   width: 200px
   position: absolute
-  right: 32px
+  right: 64px
   display: inline
   height: 100%
   visibility: hidden
@@ -13,9 +13,8 @@
     .form--selected-value--selecter
       visibility: visible
 .form--selected-value--href
-  width: 200px
   position: absolute
-  right: 232px
+  right: 264px
   display: inline
   height: 100%
   visibility: hidden
@@ -39,3 +38,25 @@
   height: 100%
   text-decoration: none
   color: #333333
+
+.form--selected-value--locker
+  position: absolute
+  height: 100%
+  right: 32px
+  text-align: center
+  width: 32px
+  background: #F8F8F8
+  border-left: 1px solid #ddd
+  color: #333333
+  visibility: hidden
+  line-height: 2rem
+
+.form--selected-value--container
+  &:hover,
+  &:focus,
+  &.-focus
+    .form--selected-value--locker
+      visibility: visible
+    a.form--selected-value--locker
+      text-decoration: none
+      color: #333333

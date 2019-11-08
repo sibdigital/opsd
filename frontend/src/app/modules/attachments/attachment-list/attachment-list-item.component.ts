@@ -78,7 +78,14 @@ export class AttachmentListItemComponent implements OnInit {
     //)
     dragHint: this.I18n.t('js.attachments.draggable_hint'),
     destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
-    removeFile: (arg:any) => this.I18n.t('js.label_remove_file', arg)
+    removeFile: (arg:any) => this.I18n.t('js.label_remove_file', arg),
+    lockFile: (arg:any) => {
+      if (this.attachment.locked) {
+        return this.I18n.t('js.label_unlock_file', arg);
+      } else {
+        return this.I18n.t('js.label_lock_file', arg);
+      }
+    }
   };
 
   constructor(protected wpNotificationsService:WorkPackageNotificationService,
@@ -115,6 +122,16 @@ export class AttachmentListItemComponent implements OnInit {
         //this.displayContainer.nativeElement.innerHtml = '';
         //this.render(this.displayContainer.nativeElement, this.someHref);
         this.deactivate();
+      })
+      .catch((error:any) => {
+        this.notificationsService.addError(error);
+      });
+  }
+
+  public submitLock() {
+    this.attachment.updateImmediately({locked: true})
+      .then(() => {
+        this.notificationsService.addSuccess(this.text.successful);
       })
       .catch((error:any) => {
         this.notificationsService.addError(error);

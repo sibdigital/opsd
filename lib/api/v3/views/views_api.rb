@@ -34,10 +34,14 @@ module API
 
         before do
           @projects = [0]
-          Project.where(type: 'project').each do |project|
-            exist = which_role(project, current_user, global_role)
-            if exist and project.visible? current_user
-              @projects << project.id
+          if params[:project].present?
+            @projects << params[:project]
+          else
+            Project.where(type: 'project').visible_by(current_user).each do |project|
+              exist = which_role(project, current_user, global_role)
+              if exist and project.visible? current_user
+                @projects << project.id
+              end
             end
           end
         end
@@ -122,15 +126,8 @@ module API
             get do
               rps = RiskProblemStat
                 .joins(:project)
-                .all
-              rps = if params[:project].present?
-                      rps.where(project_id: params[:project])
-                    else
-                      rps.where("project_id in (" + @projects.join(",")+ ")")
-                    end
-              if params[:national].present?
-                rps = params[:national] == '0' ? rps.where("projects.national_project_id is null") : rps.where(projects:{national_project_id: params[:national]})
-              end
+                .where("project_id in (" + @projects.join(",")+ ")")
+              rps = params[:national] == '0' ? rps.where("projects.national_project_id is null") : rps.where(projects:{national_project_id: params[:national]}) if params[:national].present?
               rps = rps.where(type: params[:filter]) if params[:filter].present? and params[:filter] != 'all'
               result = Hash.new
               result['_type'] = 'Collection'
@@ -173,16 +170,8 @@ module API
 
           resources :quartered_work_package_targets_with_quarter_groups_view do
             get do
-              qwptwqg = WorkPackageQuarterlyTarget.where("year = date_part('year', CURRENT_DATE)")
-              qwptwqg = if params[:project].present?
-                          qwptwqg.where(project_id: params[:project])
-                        else
-                          qwptwqg.where("project_id in (" + @projects.join(",")+ ")")
-                        end
-              if params[:national].present?
-                qwptwqg = params[:national] == '0' ? qwptwqg.where("national_project_id is null") : qwptwqg.where(national_project_id: params[:national])
-              end
-
+              qwptwqg = WorkPackageQuarterlyTarget.where("year = date_part('year', CURRENT_DATE) and project_id in (" + @projects.join(",")+ ")")
+              qwptwqg = params[:national] == '0' ? qwptwqg.where("national_project_id is null") : qwptwqg.where(national_project_id: params[:national]) if params[:national].present?
               result = Hash.new
               result['_type'] = 'Collection'
               result['total'] = qwptwqg.count
@@ -247,15 +236,8 @@ module API
 
           resources :work_package_ispoln_stat_view do
             get do
-              wpis = WorkPackageIspolnStat.all
-              wpis = if params[:project].present?
-                       wpis.where(project_id: params[:project])
-                     else
-                       wpis.where("project_id in (" + @projects.join(",")+ ")")
-                     end
-              if params[:national].present?
-                wpis = params[:national] == '0' ? wpis.where("national_project_id is null") : wpis.where(national_project_id: params[:national])
-              end
+              wpis = WorkPackageIspolnStat.where("project_id in (" + @projects.join(",")+ ")")
+              wpis = params[:national] == '0' ? wpis.where("national_project_id is null") : wpis.where(national_project_id: params[:national]) if params[:national].present?
               wpis = wpis.where("days_to_due > 0 and days_to_due < ?", params[:limit]) if params[:limit].present?
               case params[:filter]
               when 'vsrok'
@@ -314,13 +296,8 @@ module API
 
           resources :plan_fact_quarterly_target_values_view do
             get do
-              pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE)")
-              pfqtv = if params[:project].present?
-                        pfqtv.where(project_id: params[:project])
-                      else
-                        pfqtv.where("project_id in (" + @projects.join(",")+ ")")
-                      end
-            pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
+              pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id in (" + @projects.join(",")+ ")")
+              pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
               result = []
               pfqtv.group_by(&:project_id).each do |project, arr|
                 hash = Hash.new

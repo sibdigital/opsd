@@ -5,6 +5,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 
 export class BlueTableDesktopService extends BlueTableService {
   protected columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные кт/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
+  private project:string;
   private data_local:any;
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
@@ -35,7 +36,11 @@ export class BlueTableDesktopService extends BlueTableService {
     });
   }
   public getPages():number {
-    return this.national_project_titles.length;
+    if (!this.project || this.project === '0') {
+      return this.national_project_titles.length;
+    } else {
+      return this.pages;
+    }
   }
   public initializeAndGetData():Promise<any[]> {
     return new Promise((resolve) => {
@@ -107,7 +112,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 5: {
-          return row.all_wps === 0 ? '0' : Number((row.ispolneno / row.all_wps).toFixed(1)).toString();
+          return row.all_wps === 0 ? '0' : Number(row.ispolneno / row.all_wps).toFixed(1).toString();
           break;
         }
         case 6: {
@@ -115,7 +120,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 100: {
-          return row.budget_fraction.toFixed(1).toString();
+          return Number(row.budget_fraction).toFixed(1).toString();
           break;
         }
       }
@@ -158,5 +163,62 @@ export class BlueTableDesktopService extends BlueTableService {
 
   public pagesToText(i:number):string {
     return this.national_project_titles[i].name;
+  }
+
+
+  public getDataWithFilter(param:string):Promise<any[]> {
+    return new Promise((resolve) => {
+      let data:any[] = [];
+      let data_local:any = {};
+      this.project = param;
+      if (!this.project || this.project === '0') {
+        this.halResourceService
+          .get<HalResource>(this.pathHelper.api.v3.work_package_stat_by_proj_view.toString())
+          .toPromise()
+          .then((resource:HalResource) => {
+            resource.source.map((el:HalResource) => {
+              if ((el.federal_id !== 0) || (el.federal_id === 0 && el.national_id === 0)) {
+                data_local[el.federal_id] = data_local[el.federal_id] || [];
+                data_local[el.federal_id].push(el);
+              } else {
+                data_local[el.national_id] = data_local[el.national_id] || [];
+                data_local[el.national_id].push(el);
+              }
+            });
+            this.data_local = data_local;
+            this.getDataFromPage(0).then(data => {
+              resolve(data);
+            });
+          });
+      } else {
+        this.halResourceService
+          .get<HalResource>(this.pathHelper.api.v3.work_package_stat_by_proj_view.toString(), {"project": this.project})
+          .toPromise()
+          .then((resource: HalResource) => {
+            resource.source.map((el: HalResource) => {
+              if ((el.federal_id !== 0) || (el.federal_id === 0 && el.national_id === 0)) {
+                data_local[el.federal_id] = data_local[el.federal_id] || [];
+                data_local[el.federal_id].push(el);
+              } else {
+                data_local[el.national_id] = data_local[el.national_id] || [];
+                data_local[el.national_id].push(el);
+              }
+            });
+            this.national_projects.map((el: HalResource) => {
+              if (data_local[el.id] && data_local[el.id].length > 0) {
+                if (el.parentId) {
+                  data.push(_.find(this.national_projects, e => e.id === el.parentId));
+                }
+                data.push(el);
+                data_local[el.id].map((project: ProjectResource) => {
+                  data.push(project);
+                });
+              }
+            });
+            this.data_local = data_local;
+            resolve(data);
+          });
+      }
+    });
   }
 }
