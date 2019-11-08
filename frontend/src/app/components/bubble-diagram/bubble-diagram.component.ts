@@ -111,12 +111,11 @@ export class BubbleDiagramComponent implements OnInit {
         let colors:string[] = [];
         resource.data.map((array:any) => {
           smalldata.push({x: array.x, y: array.y, r: array.r});
-          colors.push("#" + (array.id * 123456).toString(16).slice(-6));
+          colors.push("#" + ((array.id % 10) * 123456 + ((100000 - array.id) % 10) * 654321).toString(16).slice(-6));
         });
         this.bubbleChartLabels = labels;
         this.bubbleChartData[0].data = smalldata;
         this.bubbleChartColors[0].backgroundColor = colors;
-        console.log(colors);
       });
   }
 
@@ -133,13 +132,11 @@ export class BubbleDiagramComponent implements OnInit {
         let colors:string[] = [];
         resource.data.map((array:any) => {
           smalldata.push({x: array.x, y: array.y, r: array.r});
-          colors.push("#" + ((array.id % 10) * 123456 + ((array.id / 10) % 10) * 54321).toString(16).slice(-6));
-          console.log((array.id % 10) * 123456 + ((array.id / 10) % 10) * 54321);
+          colors.push("#" + ((array.id % 10) * 123456 + ((100000 - array.id) % 10) * 654321).toString(16).slice(-6));
         });
         this.bubbleChartLabels = labels;
         this.bubbleChartData[0].data = smalldata;
         this.bubbleChartColors[0].backgroundColor = colors;
-        console.log(colors);
       });
   }
 
