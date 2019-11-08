@@ -278,7 +278,7 @@ module API
                   stroka['due_date'] = row.due_date
                   stroka['status_name'] = row.status_name
                   stroka['created_problem_count'] = row.created_problem_count
-                  stroka['fakt_ispoln'] = row.fact_due_date
+                  stroka['fakt_ispoln'] = row.fact_due_date ? row.fact_due_date.to_s : nil
                   stroka['ispolneno'] = row.ispolneno
                   stroka['ispolneno_v_srok'] = row.ispolneno_v_srok
                   stroka['ne_ispolneno'] = row.ne_ispolneno
