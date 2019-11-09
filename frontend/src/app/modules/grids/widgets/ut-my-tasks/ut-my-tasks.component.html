@@ -16,3 +16,29 @@
         </ng-container>
     </table>
 </div>
+<div>
+    <input type="checkbox"
+           id="diagram_date_check"
+           (change)="filterChart()"
+           [(ngModel)]="dateCheck"
+           name="date_check" />
+    Дата
+    <op-date-picker (onChange)="dateBegin = parser($event); filterChart()">
+        <input [ngModel]="formatter(dateBegin)"
+               (ngModelChange)="dateBegin = parser($event); filterChart()"
+               id="diagram_date_begin"
+               name="date_begin_dp"
+               class="advanced-filters--date-field"
+               size="10"
+               type="text"/>
+    </op-date-picker>
+    <op-date-picker (onChange)="dateEnd = parser($event); filterChart()">
+        <input [ngModel]="formatter(dateEnd)"
+               (ngModelChange)="dateEnd = parser($event); filterChart()"
+               id="diagram_date_end"
+               name="date_end_dp"
+               class="advanced-filters--date-field"
+               size="10"
+               type="text"/>
+    </op-date-picker>
+</div>
