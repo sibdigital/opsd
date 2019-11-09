@@ -3,13 +3,11 @@ import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-w
 import {Component, OnInit, SecurityContext} from '@angular/core';
 import {DocumentResource} from "../../../../../../../modules/documents/frontend/module/hal/resources/document-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {CurrentUserService} from "core-components/user/current-user.service";
-import {ChartOptions, ChartType, ChartDataSets} from 'chart.js';
 
 @Component({
   templateUrl: './ut-my-tasks.component.html',
@@ -19,7 +17,8 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
   public entries:UserTasksResource[] = [];
   public dateBegin:string;
   public dateEnd:string;
-  public dateCheck:boolean = false;
+  public ut_filter:boolean = false;
+  public ut_completed_filter:boolean = false;
   private entriesLoaded = false;
 
   constructor(readonly i18n:I18nService,
@@ -51,17 +50,18 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
   public filterChart() {
     let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks/assigned/${this.currentuser.userId}`;
     this.halResourceService
-      .get<HalResource>(url, this.getParams())
+      .get<HalResource>(url)
       .toPromise()
       .then((resource:HalResource) => {
-        this.dateBegin = this.parser(resource.dateBegin);
-        this.dateEnd =  this.parser(resource.dateEnd);
-        this.dateCheck = (resource.dateCheck);
         let entriesarray = resource.source as DocumentResource[];
         let entriesarrayforuser = [];
-        if (resource.dateCheck ==true) {
+        let obj_completed = false;
+        if (this.ut_filter ==true) {
           for (var obj of entriesarray) {
-            if (obj.kind == 'Task' && Date.parse(obj.due_date) >= Date.parse(resource.dateBegin) && Date.parse(obj.due_date) <= Date.parse(resource.dateEnd)) {
+            if (obj.completed == 'Да') {
+              obj_completed = true;
+            }
+            if (obj.kind == 'Task' && Date.parse(obj.due_date) >= Date.parse(this.dateBegin) && Date.parse(obj.due_date) <= Date.parse(this.dateEnd) && obj_completed == this.ut_completed_filter) {
               entriesarrayforuser.push(obj);
             }
           }
@@ -101,13 +101,5 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
     } else {
       return null;
     }
-  }
-
-  private getParams():any {
-    let params:any = {};
-    params['dateCheck'] = this.dateCheck;
-    params['dateBegin'] = this.dateBegin;
-    params['dateEnd'] = this.dateEnd;
-    return params;
   }
 }
