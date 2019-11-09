@@ -7,8 +7,11 @@
       <span class="form--field-container" style="width: 200px;">
         <span class="form--text-field-container -middle">
           <%#= select_tag 'plan_type', options_for_select([['План 1 (План мероприятий по реализации регионального проекта)', 1], ['План 2 (Контрольные точки)', 2]]) %>
-          <%= select_tag 'plan_type', options_for_select(@settings_types) %>
+          <%= select_tag 'plan_type', options_for_select(@settings_types), id: "upload-plan-type" %>
         </span>
+      </span>
+      <span id="upload-plan-type6-notify" style="display: none;">
+        Внимание! Необходимым условием является наличие и расположение в исходном файле колонок "Ид.", "Предшественники", "Последователи", соответственно, в 1, 2 и 3-й колонках таблицы.
       </span>
     </div>
     <div class="form--field">

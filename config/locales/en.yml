@@ -2052,7 +2052,7 @@ en:
   label_project_view_all: Реестр проектов
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
-  label_plan_uploader_settings: Настройка соответствия полей
+  label_plan_uploader_settings: Настройки соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
   label_target_calc_procedure_new: Новая методика расчета
@@ -3731,3 +3731,11 @@ en:
   label_my_tasks: Мои запросы/задачи
   label_user_tasks: Запросы/задачи
   user_task_directory: Объекты запросов/задач
+
+  UploadPlanType1: План мероприятий по реализации регионального проекта
+  UploadPlanType2: План мероприятий по контрольным точкам
+  UploadPlanType3: Справочник "Гос.контракты"
+  UploadPlanType4: Справочник "Организаций"
+  UploadPlanType5: Справочник "Пользователи"
+  UploadPlanType6: План мероприятий из MS Project
+

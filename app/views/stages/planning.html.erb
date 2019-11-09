@@ -1,22 +1,22 @@
 <div style="display: block;">
   <ul class="widget-box--arrow-links">
     <li style="margin: 10px;">
-      <%= link_to 'Мероприятия и КТ', project_work_packages_path(@project, plan_type: 'execution')  %>
+      <%= link_to t(:label_work_package_plural), project_work_packages_path(@project, plan_type: 'execution')  %>
     </li>
     <li style="margin: 10px;">
-      <%= link_to 'Календарь', project_work_packages_calendar_index_path(@project)  %>
+      <%= link_to t(:label_calendar), project_work_packages_calendar_index_path(@project)  %>
     </li>
     <li style="margin: 10px;">
-      <%= link_to 'Стратегическая карта', project_activity_index_path(@project)  %>
+      <%= link_to t(:label_strategic_map), project_project_strategic_map_index_path(@project)  %>
     </li>
     <li style="margin: 10px;">
       Загрузка плана мероприятий (XLS)
       <ul style="clear: both;">
         <li style="clear: both;">
-          <%= link_to 'Загрузить', new_project_plan_uploader_path(@project)  %>
+          <%= link_to t(:button_upload), new_project_plan_uploader_path(@project)  %>
         </li>
         <li style="clear: both;">
-          <%= link_to 'Настройки полей', plan_uploader_settings_path %>
+          <%= link_to t(:label_plan_uploader_settings), plan_uploader_settings_path %>
         </li>
       </ul>
     </li>
