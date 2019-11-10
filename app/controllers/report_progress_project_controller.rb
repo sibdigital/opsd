@@ -361,6 +361,9 @@ class ReportProgressProjectController < ApplicationController
   def generate_budgets_execution_details_sheet
     sheet = @workbook['Сведения об исполнении бюджета']
 
+    no_devation =  Setting.find_by(name: 'no_devation').value
+    small_devation =  Setting.find_by(name: 'small_devation').value
+
     budget_array = get_budjet_by_cost_type
 
 
@@ -495,7 +498,7 @@ class ReportProgressProjectController < ApplicationController
         value_recorded_liability = 0
         value_kassa = 0
         value_procent = 0
-
+        value_devation = 0
         budget_array.each_with_index do |budget, l|
         if  (budget["cost_type_id"].to_i == cost_type.id) &&
             (budget["id"].to_i == target.id)
@@ -505,6 +508,8 @@ class ReportProgressProjectController < ApplicationController
             value_recorded_liability = budget["recorded_liability"] == nil  ? 0 : budget["recorded_liability"]
             value_kassa = budget["kassa"] == nil  ? 0 : budget["kassa"]
             value_procent = value_consolidate_units == 0 ? 0 : ((value_kassa / value_consolidate_units) * 100).to_i
+            value_devation = value_consolidate_units == 0 ? 0 : ((value_kassa / value_consolidate_units)).to_f
+
             break
           end
         end
@@ -523,8 +528,7 @@ class ReportProgressProjectController < ApplicationController
         old_value = mapSumTarget["kassa"] == nil  ? 0 : mapSumTarget["kassa"]
         mapSumTarget["kassa"] = value_kassa+old_value
 
-        old_value = mapSumTarget["procent"] == nil  ? 0 : mapSumTarget["procent"]
-        mapSumTarget["procent"] = value_procent+old_value
+        mapSumTarget["procent"] = value_procent
 
         old_value_array = array[j][0] == nil ? 0 : array[j][0]
         array[j][0] = value_passport_units+old_value_array
@@ -606,6 +610,27 @@ class ReportProgressProjectController < ApplicationController
         sheet.sheet_data[start_index+j+m][9].change_border(:right, 'thin')
         sheet.sheet_data[start_index+j+m][9].change_border(:bottom, 'thin')
 
+
+        # вычисление статуса
+        if  value_devation < small_devation.to_f
+          status = 1
+        elsif   value_devation >= small_devation.to_f && value_devation < no_devation.to_f
+          status = 2
+        elsif   value_devation == no_devation.to_f
+          status = 3
+        else status = 0
+        end
+
+        if status == 1
+           sheet.sheet_data[start_index+j+m][1].change_fill('ff0000')
+        elsif status == 2
+          sheet.sheet_data[start_index+j+m][1].change_fill('ffd800')
+        elsif status == 3
+          sheet.sheet_data[start_index+j+m][1].change_fill('0ba53d')
+        else
+          sheet.sheet_data[start_index+j+m][1].change_fill('d7d7d7')
+        end
+
         count_cost_type += 1
       end
 
@@ -651,8 +676,8 @@ class ReportProgressProjectController < ApplicationController
       sheet.sheet_data[start_index-1+m][3].change_border(:bottom, 'thin')
 
 
-      value_target =  mapSumTarget["consolidate_units"] == nil ? 0 : mapSumTarget["consolidate_units"]
-      sheet.insert_cell(start_index-1+m, 4, '%.2f' %(value_target/1000000))
+      value_consolidate_units =  mapSumTarget["consolidate_units"] == nil ? 0 : mapSumTarget["consolidate_units"]
+      sheet.insert_cell(start_index-1+m, 4, '%.2f' %(value_consolidate_units/1000000))
 
       sheet.sheet_data[start_index-1+m][4].change_horizontal_alignment('center')
       sheet.sheet_data[start_index-1+m][4].change_vertical_alignment('center')
@@ -685,8 +710,8 @@ class ReportProgressProjectController < ApplicationController
       sheet.sheet_data[start_index-1+m][6].change_border(:bottom, 'thin')
 
 
-      value_target =  mapSumTarget["kassa"] == nil ? 0 : mapSumTarget["kassa"]
-      sheet.insert_cell(start_index-1+m, 7, '%.2f' %(value_target/1000000))
+      value_kassa =  mapSumTarget["kassa"] == nil ? 0 : mapSumTarget["kassa"]
+      sheet.insert_cell(start_index-1+m, 7, '%.2f' %(value_kassa/1000000))
 
       sheet.sheet_data[start_index-1+m][7].change_horizontal_alignment('center')
       sheet.sheet_data[start_index-1+m][7].change_vertical_alignment('center')
@@ -714,6 +739,28 @@ class ReportProgressProjectController < ApplicationController
       sheet.sheet_data[start_index-1+m][9].change_border(:left, 'thin')
       sheet.sheet_data[start_index-1+m][9].change_border(:right, 'thin')
       sheet.sheet_data[start_index-1+m][9].change_border(:bottom, 'thin')
+
+      value_devation = value_consolidate_units == 0 ? 0 : ((value_kassa / value_consolidate_units)).to_f
+
+      # вычисление статуса
+      if  value_devation < small_devation.to_f
+        status = 1
+      elsif   value_devation >= small_devation.to_f && value_devation < no_devation.to_f
+        status = 2
+      elsif   value_devation == no_devation.to_f
+        status = 3
+      else status = 0
+      end
+
+      if status == 1
+        sheet.sheet_data[start_index-1+m][1].change_fill('ff0000')
+      elsif status == 2
+        sheet.sheet_data[start_index-1+m][1].change_fill('ffd800')
+      elsif status == 3
+        sheet.sheet_data[start_index-1+m][1].change_fill('0ba53d')
+      else
+        sheet.sheet_data[start_index-1+m][1].change_fill('d7d7d7')
+      end
 
 
       m += count_cost_type
@@ -781,6 +828,29 @@ class ReportProgressProjectController < ApplicationController
       sheet.sheet_data[start_index+j+m][9].change_border(:right, 'thin')
       sheet.sheet_data[start_index+j+m][9].change_border(:bottom, 'thin')
 
+      value_consolidate_units = array[j][1] == nil ? 0 : array[j][1]
+      value_kassa = array[j][4] == nil ? 0 : array[j][4]
+      value_devation = value_consolidate_units == 0 ? 0 : ((value_kassa / value_consolidate_units)).to_f
+
+      # вычисление статуса
+      if  value_devation < small_devation.to_f
+        status = 1
+      elsif   value_devation >= small_devation.to_f && value_devation < no_devation.to_f
+        status = 2
+      elsif   value_devation == no_devation.to_f
+        status = 3
+      else status = 0
+      end
+
+      if status == 1
+        sheet.sheet_data[start_index+j+m][1].change_fill('ff0000')
+      elsif status == 2
+        sheet.sheet_data[start_index+j+m][1].change_fill('ffd800')
+      elsif status == 3
+        sheet.sheet_data[start_index+j+m][1].change_fill('0ba53d')
+      else
+        sheet.sheet_data[start_index+j+m][1].change_fill('d7d7d7')
+      end
 
     end
 
@@ -837,7 +907,6 @@ class ReportProgressProjectController < ApplicationController
     sheet.sheet_data[start_index-1+m][9].change_border(:left, 'thin')
     sheet.sheet_data[start_index-1+m][9].change_border(:right, 'thin')
     sheet.sheet_data[start_index-1+m][9].change_border(:bottom, 'thin')
-
 
 
   end
