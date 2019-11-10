@@ -18,8 +18,15 @@
     <%= form.date_field :due_date %>
   </p>
 
-  <p>
-    <%= form.collection_select(:period_id, Enumeration.where(type: 'Period'), :id, :name.to_s) %>
-  </p>
+  <%
+    @selected_period = @user_task.period_id
+  %>
+
+  <div class="form--field">
+    <%= form.select :period_id,
+                    options_for_select(Enumeration.where(type: 'Period').all.map {|u| [u.name, u.id]}, @selected_period),
+                    include_blank: true,
+                    container_class: '-slim' %>
+  </div>
 
 </div>
