@@ -429,6 +429,13 @@ Redmine::AccessControl.map do |map|
                  require: :member
   end
 
+  map.project_module :report_change_request do |r|
+    r.permission :view_report_change_request_page,
+                 { report_change_request: %i[ index ] },
+                 require: :member
+  end
+
+
   #knm(
 
   # map.project_module :head_performance_indicator_values do |hpi|
