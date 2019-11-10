@@ -2168,6 +2168,8 @@ en:
   label_typed_risks: Типовые риски
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
+  label_by_status: Статус
+  label_message_filter: Фильтр
   #zbd(
   label_typed_targets: Типовые результаты
   label_typed_target_new: Новый типовой результат
