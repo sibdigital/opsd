@@ -247,12 +247,16 @@ class ReportPassportController < ApplicationController
 
  def generate_target_results_sheet
    sheet = @workbook['Результаты']
-   result_str = sheet[2][0].value
+   result_str = sheet[3][1].value
    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
+   national_project_goal = ""
    targets.each do |target|
+     if  target.national_project_goal == nil
+       next
+     end
      national_project_goal = target.national_project_goal == nil ? " " : target.national_project_goal
-     sheet[2][0].change_contents(national_project_goal)
+
      national_project_result = target.national_project_result == nil ? " " : target.national_project_result
      national_project_charact = target.national_project_charact == nil ? " " : target.national_project_charact
      result_due_date = target.result_due_date == nil ? " " : target.result_due_date.strftime("%d.%m.%Y")
@@ -262,6 +266,7 @@ class ReportPassportController < ApplicationController
      sheet[3][1].change_contents(result_str)
      break
    end
+   sheet[2][0].change_contents(national_project_goal)
 
    get_result_target_end_date.each_with_index do |result_target, i|
      punkt = "1."+(i+1).to_s+"."
@@ -289,13 +294,18 @@ class ReportPassportController < ApplicationController
        date_end_result = "31.12."+result_target["year"]
      end
 
-     sheet.insert_cell(6+i, 2, date_end_result)
+     if result_target["result_due_date"] == ""
+      sheet.insert_cell(6+i, 2, date_end_result)
+     else
+      sheet.insert_cell(6+i, 2, result_target["result_due_date"].to_date.strftime("%d.%m.%Y"))
+     end
+
      cell = sheet[6+i][2]
      cell.change_text_wrap(true)
      sheet.sheet_data[6+i][2].change_horizontal_alignment('center')
      sheet.sheet_data[6+i][2].change_vertical_alignment('center')
 
-     sheet.insert_cell(6+i, 3, "")
+     sheet.insert_cell(6+i, 3, result_target["national_project_charact"])
 
      sheet.sheet_data[6+i][0].change_border(:top, 'thin')
      sheet.sheet_data[6+i][0].change_border(:left, 'thin')
@@ -1614,7 +1624,7 @@ class ReportPassportController < ApplicationController
 
    result_end_value as (
 
-            select t.id, tev.value, cast(tev.year as varchar) as year, cast(tev.quarter as varchar) as quarter, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
+            select t.id,t.national_project_charact, t.result_due_date, tev.value, cast(tev.year as varchar) as year, cast(tev.quarter as varchar) as quarter, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
             FROM targets t
                     inner join enumerations e on e.id = t.type_id
                     left join target_execution_values tev on tev.target_id = t.id
@@ -1623,7 +1633,7 @@ class ReportPassportController < ApplicationController
               and t.project_id = " + @project.id.to_s + "
     )
 
-  select re.*, rev.value from result_end re
+  select re.*, rev.national_project_charact, rev.result_due_date, rev.value from result_end re
   left join result_end_value rev on rev.id=re.id and re.union_val = rev.union_val"
 
     result = ActiveRecord::Base.connection.execute(sql)
