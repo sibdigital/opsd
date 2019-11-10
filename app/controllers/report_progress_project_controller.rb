@@ -58,6 +58,7 @@ class ReportProgressProjectController < ApplicationController
     generate_key_risk_sheet
     generate_targets_sheet
     generate_status_execution_budgets_sheet
+    generate_budgets_execution_details_sheet
     generate_status_achievement_sheet
     generate_dynamic_achievement_kt_sheet
 
@@ -355,6 +356,492 @@ class ReportProgressProjectController < ApplicationController
     end
 
   end
+
+
+  def generate_budgets_execution_details_sheet
+    sheet = @workbook['Сведения об исполнении бюджета']
+
+    budget_array = get_budjet_by_cost_type
+
+
+    sheet.insert_cell(5, 0," 1.")
+    cell = sheet[5][0]
+    cell.change_text_wrap(true)
+    sheet.sheet_data[5][0].change_horizontal_alignment('center')
+    sheet.sheet_data[5][0].change_vertical_alignment('center')
+
+    sheet.sheet_data[5][0].change_border(:top, 'thin')
+    sheet.sheet_data[5][0].change_border(:left, 'thin')
+    sheet.sheet_data[5][0].change_border(:right, 'thin')
+    sheet.sheet_data[5][0].change_border(:bottom, 'thin')
+
+    sheet.insert_cell(5, 1,"")
+    sheet.sheet_data[5][1].change_border(:top, 'thin')
+    sheet.sheet_data[5][1].change_border(:left, 'thin')
+    sheet.sheet_data[5][1].change_border(:right, 'thin')
+    sheet.sheet_data[5][1].change_border(:bottom, 'thin')
+
+
+    sheet.insert_cell(5, 2, "")
+    if budget_array.count > 0
+      sheet[5][2].change_contents(budget_array[0]["national_project_goal"])
+
+      cell = sheet[5][2]
+      cell.change_text_wrap(true)
+      sheet.sheet_data[5][2].change_horizontal_alignment('center')
+      sheet.sheet_data[5][2].change_vertical_alignment('center')
+    end
+    sheet.sheet_data[5][2].change_border(:top, 'thin')
+    sheet.sheet_data[5][2].change_border(:left, 'thin')
+    sheet.sheet_data[5][2].change_border(:right, 'thin')
+    sheet.sheet_data[5][2].change_border(:bottom, 'thin')
+
+    sheet.insert_cell(5, 3, "")
+    sheet.insert_cell(5, 4, "")
+    sheet.insert_cell(5, 5, "")
+    sheet.insert_cell(5, 6, "")
+    sheet.insert_cell(5, 7, "")
+    sheet.insert_cell(5, 8, "")
+    sheet.insert_cell(5, 9, "")
+
+    sheet.sheet_data[5][3].change_border(:top, 'thin')
+    sheet.sheet_data[5][3].change_border(:left, 'thin')
+    sheet.sheet_data[5][3].change_border(:right, 'thin')
+    sheet.sheet_data[5][3].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[5][4].change_border(:top, 'thin')
+    sheet.sheet_data[5][4].change_border(:left, 'thin')
+    sheet.sheet_data[5][4].change_border(:right, 'thin')
+    sheet.sheet_data[5][4].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[5][5].change_border(:top, 'thin')
+    sheet.sheet_data[5][5].change_border(:left, 'thin')
+    sheet.sheet_data[5][5].change_border(:right, 'thin')
+    sheet.sheet_data[5][5].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[5][6].change_border(:top, 'thin')
+    sheet.sheet_data[5][6].change_border(:left, 'thin')
+    sheet.sheet_data[5][6].change_border(:right, 'thin')
+    sheet.sheet_data[5][6].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[5][7].change_border(:top, 'thin')
+    sheet.sheet_data[5][7].change_border(:left, 'thin')
+    sheet.sheet_data[5][7].change_border(:right, 'thin')
+    sheet.sheet_data[5][7].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[5][8].change_border(:top, 'thin')
+    sheet.sheet_data[5][8].change_border(:left, 'thin')
+    sheet.sheet_data[5][8].change_border(:right, 'thin')
+    sheet.sheet_data[5][8].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[5][9].change_border(:top, 'thin')
+    sheet.sheet_data[5][9].change_border(:left, 'thin')
+    sheet.sheet_data[5][9].change_border(:right, 'thin')
+    sheet.sheet_data[5][9].change_border(:bottom, 'thin')
+
+    sheet.merge_cells(5, 2, 5, 9)
+
+    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
+    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
+
+    cost_types = CostType.all
+    id_target = 0
+    count_target= 0
+    m = 0
+    start_index = 7
+    array = Array.new(cost_types.count) {Array.new (6)}
+    targets.each_with_index do |target, i|
+      if id_target != target["id"].to_i
+        count_target += 1
+      end
+      count_cost_type = 1
+      mapSumTarget = {}
+      mapCostTypeTarget = {}
+      cost_types.each_with_index do |cost_type, j|
+        punkt = "1." + count_target.to_s + "." + count_cost_type.to_s + "."
+
+        sheet.insert_cell(start_index+j+m, 0, punkt)
+        sheet.sheet_data[start_index+j+m][0].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][0].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][0].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 1, "")
+#        sheet.sheet_data[start_index+j+m][1].change_fill('d7d7d7')
+
+        sheet.sheet_data[start_index+j+m][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][1].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 2, cost_type.name)
+
+        sheet.sheet_data[start_index+j+m][2].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][2].change_border(:bottom, 'thin')
+        cell = sheet[start_index+j+m][2]
+        cell.change_text_wrap(true)
+
+
+        value_passport_units = 0
+        value_consolidate_units = 0
+        value_limit_units = 0
+        value_recorded_liability = 0
+        value_kassa = 0
+        value_procent = 0
+
+        budget_array.each_with_index do |budget, l|
+        if  (budget["cost_type_id"].to_i == cost_type.id) &&
+            (budget["id"].to_i == target.id)
+            value_passport_units = budget["passport_units"] == nil  ? 0 : budget["passport_units"]
+            value_consolidate_units = budget["consolidate_units"] == nil  ? 0 : budget["consolidate_units"]
+            value_limit_units = budget["limit_units"] == nil  ? 0 : budget["limit_units"]
+            value_recorded_liability = budget["recorded_liability"] == nil  ? 0 : budget["recorded_liability"]
+            value_kassa = budget["kassa"] == nil  ? 0 : budget["kassa"]
+            value_procent = value_consolidate_units == 0 ? 0 : ((value_kassa / value_consolidate_units) * 100).to_i
+            break
+          end
+        end
+        old_value = mapSumTarget["passport_units"] == nil  ? 0 : mapSumTarget["passport_units"]
+        mapSumTarget["passport_units"] = value_passport_units+old_value
+
+        old_value = mapSumTarget["consolidate_units"] == nil  ? 0 : mapSumTarget["consolidate_units"]
+        mapSumTarget["consolidate_units"] = value_consolidate_units+old_value
+
+        old_value = mapSumTarget["limit_units"] == nil  ? 0 : mapSumTarget["limit_units"]
+        mapSumTarget["limit_units"] = value_limit_units+old_value
+
+        old_value = mapSumTarget["recorded_liability"] == nil  ? 0 : mapSumTarget["recorded_liability"]
+        mapSumTarget["recorded_liability"] = value_recorded_liability+old_value
+
+        old_value = mapSumTarget["kassa"] == nil  ? 0 : mapSumTarget["kassa"]
+        mapSumTarget["kassa"] = value_kassa+old_value
+
+        old_value = mapSumTarget["procent"] == nil  ? 0 : mapSumTarget["procent"]
+        mapSumTarget["procent"] = value_procent+old_value
+
+        old_value_array = array[j][0] == nil ? 0 : array[j][0]
+        array[j][0] = value_passport_units+old_value_array
+
+        old_value_array = array[j][1] == nil ? 0 : array[j][1]
+        array[j][1] = value_consolidate_units+old_value_array
+
+        old_value_array = array[j][2] == nil ? 0 : array[j][2]
+        array[j][2] = value_limit_units+old_value_array
+
+        old_value_array = array[j][3] == nil ? 0 : array[j][3]
+        array[j][3] = value_recorded_liability+old_value_array
+
+        old_value_array = array[j][4] == nil ? 0 : array[j][4]
+        array[j][4] = value_kassa+old_value_array
+
+        old_value_array = array[j][5] == nil ? 0 : array[j][5]
+        array[j][5] = value_procent+old_value_array
+
+
+        sheet.insert_cell(start_index+j+m, 3, '%.2f' %(value_passport_units/1000000))
+        sheet.sheet_data[start_index+j+m][3].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][3].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][3].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 4, '%.2f' %(value_consolidate_units/1000000))
+        sheet.sheet_data[start_index+j+m][4].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][4].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][4].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 5, '%.2f' %(value_limit_units/1000000))
+        sheet.sheet_data[start_index+j+m][5].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][5].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][5].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 6, '%.2f' %(value_recorded_liability/1000000))
+        sheet.sheet_data[start_index+j+m][6].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][6].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][6].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][6].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][6].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][6].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 7, '%.2f' %(value_kassa/1000000))
+        sheet.sheet_data[start_index+j+m][7].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][7].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][7].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][7].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][7].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][7].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 8, value_procent)
+        sheet.sheet_data[start_index+j+m][8].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][8].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][8].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][8].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][8].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][8].change_border(:bottom, 'thin')
+
+        sheet.insert_cell(start_index+j+m, 9, "")
+
+        sheet.sheet_data[start_index+j+m][9].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][9].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][9].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][9].change_border(:bottom, 'thin')
+
+        count_cost_type += 1
+      end
+
+      punkt = "1." + count_target.to_s + "."
+      sheet.insert_cell(start_index-1+m, 0, punkt)
+      sheet.sheet_data[start_index-1+m][0].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][0].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][0].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][0].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][0].change_border(:bottom, 'thin')
+
+
+      sheet.insert_cell(start_index-1+m, 1, "")
+#      sheet.sheet_data[start_index-1+m][1].change_fill('d7d7d7')
+      sheet.sheet_data[start_index-1+m][1].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][1].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][1].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][1].change_border(:bottom, 'thin')
+
+
+      sheet.insert_cell(start_index-1+m, 2, target.name)
+      sheet.sheet_data[start_index-1+m][2].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][2].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][2].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][2].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][2].change_border(:bottom, 'thin')
+      cell = sheet[start_index-1+m][2]
+      cell.change_text_wrap(true)
+
+
+      value_target =  mapSumTarget["passport_units"] == nil ? 0 : mapSumTarget["passport_units"]
+      sheet.insert_cell(start_index-1+m, 3, '%.2f' %(value_target/1000000))
+
+      sheet.sheet_data[start_index-1+m][3].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][3].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][3].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][3].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][3].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][3].change_border(:bottom, 'thin')
+
+
+      value_target =  mapSumTarget["consolidate_units"] == nil ? 0 : mapSumTarget["consolidate_units"]
+      sheet.insert_cell(start_index-1+m, 4, '%.2f' %(value_target/1000000))
+
+      sheet.sheet_data[start_index-1+m][4].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][4].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][4].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][4].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][4].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][4].change_border(:bottom, 'thin')
+
+      value_target =  mapSumTarget["limit_units"] == nil ? 0 : mapSumTarget["limit_units"]
+      sheet.insert_cell(start_index-1+m, 5, '%.2f' %(value_target/1000000))
+
+      sheet.sheet_data[start_index-1+m][5].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][5].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][5].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][5].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][5].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][5].change_border(:bottom, 'thin')
+
+      value_target =  mapSumTarget["recorded_liability"] == nil ? 0 : mapSumTarget["recorded_liability"]
+      sheet.insert_cell(start_index-1+m, 6, '%.2f' %(value_target/1000000))
+
+      sheet.sheet_data[start_index-1+m][6].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][6].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][6].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][6].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][6].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][6].change_border(:bottom, 'thin')
+
+
+      value_target =  mapSumTarget["kassa"] == nil ? 0 : mapSumTarget["kassa"]
+      sheet.insert_cell(start_index-1+m, 7, '%.2f' %(value_target/1000000))
+
+      sheet.sheet_data[start_index-1+m][7].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][7].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][7].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][7].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][7].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][7].change_border(:bottom, 'thin')
+
+      value_target =  mapSumTarget["procent"] == nil ? 0 : mapSumTarget["procent"]
+      sheet.insert_cell(start_index-1+m, 8, value_target)
+
+      sheet.sheet_data[start_index-1+m][8].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][8].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][8].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][8].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][8].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][8].change_border(:bottom, 'thin')
+
+
+      sheet.insert_cell(start_index-1+m, 9, "")
+
+      sheet.sheet_data[start_index-1+m][9].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][9].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][9].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][9].change_border(:bottom, 'thin')
+
+
+      m += count_cost_type
+    end
+
+
+    mapBudget = {}
+    cost_types.each_with_index do |cost_type, j|
+
+      sheet.insert_cell(start_index+j+m, 0, cost_type.name)
+      sheet.sheet_data[start_index+j+m][0].change_vertical_alignment('center')
+      sheet.sheet_data[start_index+j+m][0].change_horizontal_alignment('left')
+      sheet.insert_cell(start_index+j+m, 1, "")
+
+      sheet.sheet_data[start_index+j+m][0].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j+m][0].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j+m][0].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j+m][0].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+j+m, 1, "")
+#      sheet.sheet_data[start_index+j+m][1].change_fill('d7d7d7')
+      sheet.sheet_data[start_index+j+m][1].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j+m][1].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j+m][1].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j+m][1].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+j+m, 2, "")
+      sheet.sheet_data[start_index+j+m][2].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j+m][2].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j+m][2].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j+m][2].change_border(:bottom, 'thin')
+
+      sheet.merge_cells(start_index+j+m, 0, start_index+j+m, 2)
+
+      cell = sheet[start_index+j+m][0]
+      cell.change_text_wrap(true)
+
+
+      sum_budget = 0
+      for k in 0..5
+        sum = array[j][k] == nil ? 0 : array[j][k]
+        sum_budget += sum
+
+        old_value_budget = mapBudget[k] == nil ? 0 : mapBudget[k]
+        mapBudget[k] = sum+old_value_budget
+
+        if k == 5
+          sheet.insert_cell(start_index+j+m, k+3, 0)
+        else
+          sheet.insert_cell(start_index+j+m, k+3, '%.2f' %(sum/1000000))
+        end
+
+        sheet.sheet_data[start_index+j+m][k+3].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j+m][k+3].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j+m][k+3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j+m][k+3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j+m][k+3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j+m][k+3].change_border(:bottom, 'thin')
+      end
+      sheet.insert_cell(start_index+j+m, 9, "")
+
+      sheet.sheet_data[start_index+j+m][9].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j+m][9].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j+m][9].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j+m][9].change_border(:bottom, 'thin')
+
+
+    end
+
+
+    sheet.insert_cell(start_index-1+m, 0, "Всего по региональному проекту, в том числе:")
+    sheet.sheet_data[start_index-1+m][0].change_vertical_alignment('center')
+    sheet.sheet_data[start_index-1+m][0].change_horizontal_alignment('left')
+    sheet.insert_cell(start_index-1+m, 1, "")
+    sheet.insert_cell(start_index-1+m, 2, "")
+    sheet.merge_cells(start_index-1+m, 0, start_index-1+m, 2)
+
+    sheet.sheet_data[start_index-1+m][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1+m][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1+m][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1+m][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index-1+m][1].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1+m][1].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1+m][1].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1+m][1].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index-1+m][2].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1+m][2].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1+m][2].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1+m][2].change_border(:bottom, 'thin')
+
+    cell = sheet[start_index-1+m][0]
+    cell.change_text_wrap(true)
+
+
+    sum_value = 0
+    for n in 0..5
+      value =  mapBudget[n] == nil ? 0 : mapBudget[n]
+      if n == 5
+        sheet.insert_cell(start_index-1+m, n+3, value)
+      else
+        sheet.insert_cell(start_index-1+m, n+3, '%.2f' %(value/1000000))
+      end
+
+      sheet.sheet_data[start_index-1+m][n+3].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1+m][n+3].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1+m][n+3].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1+m][n+3].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1+m][n+3].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1+m][n+3].change_border(:bottom, 'thin')
+
+      sum_value += value
+    end
+
+    sheet.insert_cell(start_index-1+m, 9, "")
+
+    sheet.sheet_data[start_index-1+m][9].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1+m][9].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1+m][9].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1+m][9].change_border(:bottom, 'thin')
+
+
+
+  end
+
 
   def generate_status_achievement_sheet
 
@@ -1130,6 +1617,35 @@ class ReportProgressProjectController < ApplicationController
 
     result_sql = ActiveRecord::Base.connection.execute(sql)
     result = result_sql[0]
+  end
+
+
+
+
+  def get_budjet_by_cost_type
+    sql = "select t.id, t.name,t.national_project_goal, m.cost_type_id, sum(m.passport_units) as passport_units,
+                   sum(m.consolidate_units) as consolidate_units, sum(m.budget) as limit_units,
+                   sum(ce.recorded_liability) as recorded_liability,sum(ce.units) as kassa
+           FROM targets t
+           left join cost_objects co on co.target_id = t.id
+           left join material_budget_items m on m.cost_object_id = co.id
+           left join work_packages wp on wp.cost_object_id = co.id
+           left join cost_entries ce on wp.id = ce.work_package_id
+           left join cost_types ct on ct.id = m.cost_type_id
+           inner join enumerations e on e.id = t.type_id
+           where t.project_id = " + @project.id.to_s+" and e.name = '"+I18n.t(:default_result)+"'
+           group by t.id, t.name,t.national_project_goal, m.cost_type_id
+           order by t.id, m.cost_type_id"
+
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
   end
 
 

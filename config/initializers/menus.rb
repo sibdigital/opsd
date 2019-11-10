@@ -771,6 +771,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('report_passport') },
             parent: :reports
 
+  menu.push :report_change_request,
+            {controller: '/report_change_request', action: 'index' },
+            param: :project_id,
+            caption: :label_report_change_request,
+            icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.module_enabled?('report_change_request') },
+            parent: :reports
+
   #+ knm tan
   menu.push :project_strategic_map,
             {controller: '/project_strategic_map', action: 'index'},

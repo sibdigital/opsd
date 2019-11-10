@@ -4,13 +4,13 @@ require 'rubyXL/convenience_methods/color'
 require 'rubyXL/convenience_methods/font'
 require 'rubyXL/convenience_methods/workbook'
 require 'rubyXL/convenience_methods/worksheet'
-class ReportPassportController < ApplicationController
+class ReportChangeRequestController < ApplicationController
 
   include Downloadable
 
-  default_search_scope :report_passport
+  default_search_scope :report_change_request
 
-  before_action :find_optional_project, :verify_reportPassport_module_activated
+  before_action :find_optional_project, :verify_reportChangeRequest_module_activated
 
   def index_params
     params.require(:report_id)
@@ -30,27 +30,20 @@ class ReportPassportController < ApplicationController
       @federal_project = nil
     end
 
-    if  params[:report_id] == 'report_passport'
-      generate_passport_report_out
-      send_to_user filepath: @ready_passport_report_path
+    if  params[:report_id] == 'report_change_request'
+      generate_change_request_report_out
+      send_to_user filepath: @ready_change_request_report_path
     end
 
 
   end
 
-  def generate_passport_report_out
-    template_path = File.absolute_path('.') +'/'+'app/reports/templates/passport.xlsx'
+  def generate_change_request_report_out
+    template_path = File.absolute_path('.') +'/'+'app/reports/templates/change_request.xlsx'
     @workbook = RubyXL::Parser.parse(template_path)
     @workbook.calc_pr.full_calc_on_load = true
 
-    generate_title_sheet
-    generate_target_indicators_sheet
-    generate_target_results_sheet
-    generate_budget_sheet
-    generate_members_sheet
-    generate_additonal_info
-    generate_plan_sheet
-    generate_method_calc_sheet
+    #generate_title_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -58,8 +51,8 @@ class ReportPassportController < ApplicationController
     end
 
 
-    @ready_passport_report_path = dir_path + '/passport_out.xlsx'
-    @workbook.write(@ready_passport_report_path)
+    @ready_change_request_report_path = dir_path + '/change_request_out.xlsx'
+    @workbook.write(@ready_change_request_report_path)
   end
 
 
@@ -160,14 +153,6 @@ class ReportPassportController < ApplicationController
         sheet.sheet_data[4][7+i].change_border(:right, 'thin')
         sheet.sheet_data[4][7+i].change_border(:bottom, 'thin')
       end
-
-#      sheet.merge_cells(5, 0, 5, 7+count_year)
-
-#      sheet.insert_cell(5, 0, "")
-#      sheet.sheet_data[5][0].change_border(:left, 'thin')
-
-#      sheet.insert_cell(5, 7+count_year, "")
-#      sheet.sheet_data[5][7+count_year].change_border(:right, 'thin')
 
 
       id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
@@ -1698,8 +1683,8 @@ class ReportPassportController < ApplicationController
     render_404
   end
 
-  def verify_reportPassport_module_activated
-    render_403 if @project && !@project.module_enabled?('report_passport')
+  def verify_reportChangeRequest_module_activated
+    render_403 if @project && !@project.module_enabled?('report_change_request')
   end
 
 
