@@ -1964,6 +1964,7 @@ en:
   label_reports: Отчеты
   label_report_progress_project: Отчет о ходе реализации проекта
   label_report_passport: Паспорт регионального проекта
+  label_report_change_request: Запрос на изменение паспорта
   label_resources: Ресурсы
   label_control: Контроль
   label_nobody: никто
@@ -2644,6 +2645,7 @@ en:
   project_module_arbitary_objects: Произвольные объекты
   project_module_report_progress_project: Отчет о ходе реализации проекта
   project_module_report_passport: Паспорт регионального проекта
+  project_module_report_change_request: Запрос на изменение паспорта регионального проекта
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность

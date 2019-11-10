@@ -36,7 +36,8 @@ class UserTasksController < ApplicationController
           url_to_object = work_package_url(WorkPackage.find_by(id: @user_task.object_id))
           link_to_response = new_user_task_url(kind: 'Response', object_type: 'WorkPackage', head_text: 'Ответ на запрос на приемку задачи', project_id: @user_task.project_id, object_id: @user_task.object_id, assigned_to_id: @user_task.user_creator_id, related_task_id: @user_task.id)
           #@link_to_response = Setting.host_name+'/user_tasks/new?assigned_to_id='+@user_task.user_creator_id+'&head_text=Ответ+на+запрос&kind=Response&object_id='+@user_task.object_id+'&object_type='+@user_task.object_type+'&project_id='+ut_project_id+'&related_task_id='+@user_task.id;
-          begin_text = 'Вам направлен запрос на приемку задачи. В случае несогласия, вы можете написать ответ на запрос. Для этого перейдите по ссылке: '+link_to_response
+          link_to_update = Setting.host_name+'/api/v3/work_packages/'+@user_task.object_id.to_s+'/'+@user_task.assigned_to_id.to_s
+          begin_text = 'Вам направлен запрос на приемку задачи. В случае согласия, перейдите по ссылке для обновления данных о пакете работ: '+link_to_update+'. В случае несогласия, вы можете написать ответ на запрос. Для этого перейдите по ссылке: '+link_to_response
         when 'Производственные календари'
           url_to_object = Setting.host_name+'/production_calendars'
           begin_text = 'Справочник, в который требуется внести изменения: Производственные календари'

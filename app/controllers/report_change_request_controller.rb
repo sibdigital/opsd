@@ -4,13 +4,13 @@ require 'rubyXL/convenience_methods/color'
 require 'rubyXL/convenience_methods/font'
 require 'rubyXL/convenience_methods/workbook'
 require 'rubyXL/convenience_methods/worksheet'
-class ReportPassportController < ApplicationController
+class ReportChangeRequestController < ApplicationController
 
   include Downloadable
 
-  default_search_scope :report_passport
+  default_search_scope :report_change_request
 
-  before_action :find_optional_project, :verify_reportPassport_module_activated
+  before_action :find_optional_project, :verify_reportChangeRequest_module_activated
 
   def index_params
     params.require(:report_id)
@@ -30,27 +30,20 @@ class ReportPassportController < ApplicationController
       @federal_project = nil
     end
 
-    if  params[:report_id] == 'report_passport'
-      generate_passport_report_out
-      send_to_user filepath: @ready_passport_report_path
+    if  params[:report_id] == 'report_change_request'
+      generate_change_request_report_out
+      send_to_user filepath: @ready_change_request_report_path
     end
 
 
   end
 
-  def generate_passport_report_out
-    template_path = File.absolute_path('.') +'/'+'app/reports/templates/passport.xlsx'
+  def generate_change_request_report_out
+    template_path = File.absolute_path('.') +'/'+'app/reports/templates/change_request.xlsx'
     @workbook = RubyXL::Parser.parse(template_path)
     @workbook.calc_pr.full_calc_on_load = true
 
-    generate_title_sheet
-    generate_target_indicators_sheet
-    generate_target_results_sheet
-    generate_budget_sheet
-    generate_members_sheet
-    generate_additonal_info
-    generate_plan_sheet
-    generate_method_calc_sheet
+    #generate_title_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -58,8 +51,8 @@ class ReportPassportController < ApplicationController
     end
 
 
-    @ready_passport_report_path = dir_path + '/passport_out.xlsx'
-    @workbook.write(@ready_passport_report_path)
+    @ready_change_request_report_path = dir_path + '/change_request_out.xlsx'
+    @workbook.write(@ready_change_request_report_path)
   end
 
 
@@ -161,14 +154,6 @@ class ReportPassportController < ApplicationController
         sheet.sheet_data[4][7+i].change_border(:bottom, 'thin')
       end
 
-#      sheet.merge_cells(5, 0, 5, 7+count_year)
-
-#      sheet.insert_cell(5, 0, "")
-#      sheet.sheet_data[5][0].change_border(:left, 'thin')
-
-#      sheet.insert_cell(5, 7+count_year, "")
-#      sheet.sheet_data[5][7+count_year].change_border(:right, 'thin')
-
 
       id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
       targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
@@ -247,16 +232,12 @@ class ReportPassportController < ApplicationController
 
  def generate_target_results_sheet
    sheet = @workbook['Результаты']
-   result_str = sheet[3][1].value
+   result_str = sheet[2][0].value
    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
-   national_project_goal = ""
    targets.each do |target|
-     if  target.national_project_goal == nil
-       next
-     end
      national_project_goal = target.national_project_goal == nil ? " " : target.national_project_goal
-
+     sheet[2][0].change_contents(national_project_goal)
      national_project_result = target.national_project_result == nil ? " " : target.national_project_result
      national_project_charact = target.national_project_charact == nil ? " " : target.national_project_charact
      result_due_date = target.result_due_date == nil ? " " : target.result_due_date.strftime("%d.%m.%Y")
@@ -266,7 +247,6 @@ class ReportPassportController < ApplicationController
      sheet[3][1].change_contents(result_str)
      break
    end
-   sheet[2][0].change_contents(national_project_goal)
 
    get_result_target_end_date.each_with_index do |result_target, i|
      punkt = "1."+(i+1).to_s+"."
@@ -294,18 +274,13 @@ class ReportPassportController < ApplicationController
        date_end_result = "31.12."+result_target["year"]
      end
 
-     if result_target["result_due_date"] == ""
-      sheet.insert_cell(6+i, 2, date_end_result)
-     else
-      sheet.insert_cell(6+i, 2, result_target["result_due_date"].to_date.strftime("%d.%m.%Y"))
-     end
-
+     sheet.insert_cell(6+i, 2, date_end_result)
      cell = sheet[6+i][2]
      cell.change_text_wrap(true)
      sheet.sheet_data[6+i][2].change_horizontal_alignment('center')
      sheet.sheet_data[6+i][2].change_vertical_alignment('center')
 
-     sheet.insert_cell(6+i, 3, result_target["national_project_charact"])
+     sheet.insert_cell(6+i, 3, "")
 
      sheet.sheet_data[6+i][0].change_border(:top, 'thin')
      sheet.sheet_data[6+i][0].change_border(:left, 'thin')
@@ -1624,7 +1599,7 @@ class ReportPassportController < ApplicationController
 
    result_end_value as (
 
-            select t.id,t.national_project_charact, t.result_due_date, tev.value, cast(tev.year as varchar) as year, cast(tev.quarter as varchar) as quarter, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
+            select t.id, tev.value, cast(tev.year as varchar) as year, cast(tev.quarter as varchar) as quarter, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
             FROM targets t
                     inner join enumerations e on e.id = t.type_id
                     left join target_execution_values tev on tev.target_id = t.id
@@ -1633,7 +1608,7 @@ class ReportPassportController < ApplicationController
               and t.project_id = " + @project.id.to_s + "
     )
 
-  select re.*, rev.national_project_charact, rev.result_due_date, rev.value from result_end re
+  select re.*, rev.value from result_end re
   left join result_end_value rev on rev.id=re.id and re.union_val = rev.union_val"
 
     result = ActiveRecord::Base.connection.execute(sql)
@@ -1708,8 +1683,8 @@ class ReportPassportController < ApplicationController
     render_404
   end
 
-  def verify_reportPassport_module_activated
-    render_403 if @project && !@project.module_enabled?('report_passport')
+  def verify_reportChangeRequest_module_activated
+    render_403 if @project && !@project.module_enabled?('report_change_request')
   end
 
 
