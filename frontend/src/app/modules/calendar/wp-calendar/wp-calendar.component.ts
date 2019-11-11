@@ -311,12 +311,11 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month, workMonth, basicWeek, workWeek, agendaDay, pastAndFutureView'
+        right: 'month247, workMonth, week247, workWeek, agendaDayFull'
       },
-
       views: {
-        month: {
-          //fixedWeekCount: false,
+        month247: {
+          type: 'month',
           buttonText: 'Месяц 24/7'
         },
         workMonth: {
@@ -324,7 +323,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
           weekends: false,
           buttonText: 'Месяц 24/5'
         },
-        basicWeek:{
+        week247:{
+          type: 'basicWeek',
           buttonText: 'Неделя'
         },
         workWeek:{
@@ -332,7 +332,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
           weekends: false,
           buttonText: 'Рабочая неделя'
         },
-        agendaDay:{
+        agendaDayFull:{
+          type: 'agendaDay',
           buttonText: 'День'
         }
       }
