@@ -1,0 +1,36 @@
+<div style="width:50%">
+
+  <%= form.hidden_field 'related_task_id', value: @user_task.related_task_id %>
+
+  <p>
+    <%= form.collection_select(:object_type, Enumeration.where(type: 'UserTaskDirectory'), :name.to_s, :name.to_s) %>
+  </p>
+
+  <p>
+    <%= form.collection_select(:assigned_to_id, User.all, :id, :lastname) %>
+  </p>
+
+  <p>
+    <%= form.text_area :text %>
+  </p>
+
+  <p>
+    <%= form.date_field :due_date %>
+  </p>
+
+  <%
+    @selected_period = @user_task.period_id
+  %>
+
+  <div class="form--field">
+    <%= form.select :period_id,
+                    options_for_select(Enumeration.where(type: 'Period').all.map {|u| [u.name, u.id]}, @selected_period),
+                    include_blank: true,
+                    container_class: '-slim' %>
+  </div>
+
+  <p>
+    <%= form.check_box :completed %>
+  </p>
+
+</div>

@@ -91,7 +91,7 @@ class PermittedParams
   end
 
   def custom_field
-    params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
+    params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field], counter_setting_attributes: [:id, :template, :length, :period])
   end
 
   def custom_action
@@ -314,6 +314,9 @@ class PermittedParams
                                                 :responsible_id,
                                                 :identifier,
                                                 :national_project_id,
+                                                :national_project_target,#knm
+                                                :government_program,#knm
+                                                :mission_of_head, #knm
                                                 :federal_project_id,
                                                 :project_type_id,
                                                 :project_approve_status_id, #+-tan 2019.07.06
@@ -420,11 +423,11 @@ class PermittedParams
 
   #bbm(
   def control_level
-    params.require(:control_level).permit(:code, :name, :color_id)
+    params.require(:control_level_id).permit(:code, :name, :color_id)
   end
 
   def control_level_roles
-    params.require(:control_level).permit(roles: [])
+    params.require(:control_level_id).permit(roles: [])
   end
 
   def typed_risk
@@ -435,7 +438,7 @@ class PermittedParams
   end
 
   def kpi_option
-    permitted_params = params.require(:kpi_option).permit(:name, :weight, :enable, :calc_method)
+    permitted_params = params.require(:kpi_option).permit(:name, :weight, :enable, :calc_method, :method_id, :object_id)
 
     permitted_params = permitted_params.merge(custom_field_values(:kpi_option))
     permitted_params
@@ -500,6 +503,11 @@ class PermittedParams
   def target_calc_procedure
     params.require(:target_calc_procedure).permit(:name, :project_id, :target_id, :description, :base_target_id, :data_source, :user_id, :period, :add_info, :level)
   end
+
+  def general_meeting
+    params.require(:general_meeting).permit(:title, :work_package_id, :location, :start_time, :duration, :start_date, :start_time_hour, participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting, :id])
+  end
+
   def head_performance_indicator_value
     params.require(:head_performance_indicator_value).permit(:head_performance_indicator_id, :type, :year, :quarter, :month, :value, :sort_code)
   end

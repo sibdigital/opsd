@@ -27,7 +27,7 @@ export class WidgetUtNotesComponent extends AbstractWidgetComponent implements O
 
   ngOnInit() {
 
-    let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks`;
+    let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks/creator/${this.currentuser.userId}`;
 
     this.halResource
       .get<CollectionResource>(url)
@@ -36,7 +36,7 @@ export class WidgetUtNotesComponent extends AbstractWidgetComponent implements O
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.user_creator_id == this.currentuser.userId && obj.kind == 'Note'){
+          if (obj.kind == 'Note'){
             entriesarrayforuser.push(obj);
           }
         }

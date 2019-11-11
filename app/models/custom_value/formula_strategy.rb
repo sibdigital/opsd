@@ -1,12 +1,7 @@
 
-
 class CustomValue::FormulaStrategy < CustomValue::FormatStrategy
 
   def typed_value
-
-  end
-
-  def formatted_value
 
   end
 

@@ -180,6 +180,18 @@ en:
           title: Мероприятия и КТ, просмотренные мной
         work_packages_calendar:
           title: Календарь
+        user_tasks_my_requests:
+          title: Запросы от меня
+        user_tasks_my_tasks:
+          title: Задачи мне
+        user_tasks_notes:
+          title: Мои заметки
+        user_tasks_requests:
+          title: Запросы (ответы) мне
+        user_tasks_responses:
+          title: Мои ответы
+        user_tasks_tasks:
+          title: Задачи от меня
     label_activate: Активировать
     label_activity_no: Деятельность номер %{activityNo}
     label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
@@ -321,6 +333,8 @@ en:
     label_formattable_attachment_hint: Прикрепите и связать файлы, перетащив их на
       это поле, или вставив из буфера обмена.
     label_remove_file: Удаление %{fileName}
+    label_lock_file: Блокировка %{fileName}
+    label_unlock_file: Разблокировка %{fileName}
     label_remove_watcher: Удалить наблюдателя %{name}
     label_remove_all_files: Удалить все файлы
     label_add_description: Добавить описание для %{file}
@@ -600,6 +614,7 @@ en:
         description: 'Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
 
 '
+      critical_way: Показать критический путь
     tl_toolbar:
       zooms: Степень масштабирования
       outlines: Уровень иерархии

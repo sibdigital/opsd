@@ -342,6 +342,9 @@ module API
         property :sed_href,
                  render_nil: true
 
+        property :on_critical_way,
+                 render_nil: true
+
         property :days,
                  render_nil: false,
                  getter: ->(*) {
@@ -508,6 +511,9 @@ module API
         associated_resource :status
 
         associated_resource :period,
+                            link_title_attribute: :name
+
+        associated_resource :control_level,
                             link_title_attribute: :name
         #bbm(
         property :is_closed,

@@ -12,20 +12,20 @@ class ReportMeetingsController < ApplicationController
   def generate_some_report
     meeting = Meeting.find(params[:id])
     @title = meeting.title
-    @location = meeting.location
+    @location = meeting.raion
     @date_meeting = format_date meeting.start_date
     @number_meeting = ''
-    @uchastniki = format_participant_list(meeting.participants).push(format_participant_list2(meeting.add_participants)).join(', ')
-    @govorili = format_participant_list2(meeting.speakers).join(', ')
+    @uchastniki = format_participant_list(meeting.participants).join(', ') + meeting.add_participants
+    @govorili = meeting.speakers
     puts @uchastniki
-    @chairman = meeting.chairman.fio
-    @dolzhnost = meeting.chairman.roles_for_project(meeting.project).sort_by{|r| r.position}.last
+    @chairman = meeting.chairman ? meeting.chairman.fio : ''
+    @dolzhnost = meeting.chairman ? meeting.chairman.roles_for_project(meeting.project).sort_by{|r| r.position}.last : ''
     @protocols = []
     meeting.protocols.map do |protocol|
       p = Hash.new()
       p["text"] = protocol.text
       p["due_date"] = format_date protocol.due_date
-      p["user"] = protocol.user.fio
+      p["user"] = protocol.user ? protocol.user.fio : ''
       p["org"] = protocol.user.organization
       @protocols << p
     end

@@ -26,7 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<style>
+  .not-readed{
+    background-color: #8dcaff;
+  }
+  .not-readed:hover{
+    transition: background-color .3s ease;
+    background-color: white;
+  }
 
+</style>
 <% breadcrumb_paths(
   link_to(t(:label_board_plural), project_boards_path(@project)),
   link_to(h(@board.name), project_board_path(@project, @board)))
@@ -66,7 +75,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
 
   <div class="grid-content small-12">
-    <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong>: <%= format_participant_list @message.participants %></p>
+    <p><strong><%= Meeting.human_attribute_name(:participants_invited) %></strong>: <%= form_participant_list_of_board @message.participants %></p>
   </div>
 
   <div class="wiki">
@@ -80,8 +89,24 @@ See docs/COPYRIGHT.rdoc for more details.
 <br />
 <% unless @replies.empty? %>
   <h3 class="icon-context icon-quote"><%= t(:label_reply_plural) %> (<%= @replies.count %>)</h3>
+  <% current_participiant = @message.participants.find_by(user_id: User.current.id) %>
+
   <% @replies.each do |message| %>
-    <div class="message reply" id="<%= "message-#{message.id}" %>">
+    <% not_readed = false %>
+    <% unless current_participiant.nil? %>
+      <% if current_participiant.viewed_at.nil? %>
+        <%#=  I18n.t(:label_not_readed) %>
+        <% not_readed = true%>
+      <% else %>
+        <% if current_participiant.viewed_at <= message.created_on %>
+          <% not_readed = true %>
+          <% %>
+        <% end %>
+      <% end %>
+
+    <% end %>
+
+    <div class="message reply <%= not_readed ? "not-readed" : "readed" %>" id="<%= "message-#{message.id}" %>" title=<%=not_readed ? true : false %> >
       <h3>
         <%= avatar(message.author) %>
         <%= link_to h(message.subject), topic_path(@topic,
@@ -89,9 +114,10 @@ See docs/COPYRIGHT.rdoc for more details.
                                                  anchor: "message-#{message.id}") %>
         -
         <%= authoring message.created_on, message.author %>
+
       </h3>
       <div class="message-reply-menu">
-        <%#= link_to(icon_wrapper('icon-star', t(:button_like)),%>
+        <%#=  %>
         <%= link_to( content_tag(:i, message.likes.count, :class => MessageLike.find_by(message_id: message.id, user_id: User.current.id).nil? ? 'icon-star-empty' : 'icon-star'),
                     {action: 'like', id: message},
                     title: t(:button_like),
@@ -122,6 +148,10 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= list_attachments(resource) %>
     </div>
   <% end %>
+  <% if current_participiant %>
+  <% current_participiant.viewed_at = DateTime.now %>
+  <% current_participiant.save %>
+  <%end %>
   <%= pagination_links_full @replies, per_page_links: false %>
 <% end %>
 

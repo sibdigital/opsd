@@ -103,14 +103,19 @@ export class BubbleDiagramComponent implements OnInit {
       .get<HalResource>(this.pathHelper.api.v3.diagrams.toString() + '/bubble')
       .toPromise()
       .then((resource:HalResource) => {
+        let labels:Label[] = [];
         resource.label.map((label:string) => {
-          this.bubbleChartLabels.push(label);
+          labels.push(label);
         });
         let smalldata:ChartPoint[] = [];
+        let colors:string[] = [];
         resource.data.map((array:any) => {
-          smalldata.push({x: array.x, y: array.y, r: array.r, t: array.t});
+          smalldata.push({x: array.x, y: array.y, r: array.r});
+          colors.push("#" + ((array.id % 10) * 123456 + ((100000 - array.id) % 10) * 654321).toString(16).slice(-6));
         });
+        this.bubbleChartLabels = labels;
         this.bubbleChartData[0].data = smalldata;
+        this.bubbleChartColors[0].backgroundColor = colors;
       });
   }
 
@@ -119,14 +124,19 @@ export class BubbleDiagramComponent implements OnInit {
       .get<HalResource>(this.pathHelper.api.v3.diagrams.toString() + '/bubble', {project: this.projectSelect ? this.projectSelect.id : 0 })
       .toPromise()
       .then((resource:HalResource) => {
+        let labels:Label[] = [];
         resource.label.map((label:string) => {
-          this.bubbleChartLabels.push(label);
+          labels.push(label);
         });
         let smalldata:ChartPoint[] = [];
+        let colors:string[] = [];
         resource.data.map((array:any) => {
-          smalldata.push({x: array.x, y: array.y, r: array.r, t: array.t});
+          smalldata.push({x: array.x, y: array.y, r: array.r});
+          colors.push("#" + ((array.id % 10) * 123456 + ((100000 - array.id) % 10) * 654321).toString(16).slice(-6));
         });
+        this.bubbleChartLabels = labels;
         this.bubbleChartData[0].data = smalldata;
+        this.bubbleChartColors[0].backgroundColor = colors;
       });
   }
 

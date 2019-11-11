@@ -27,6 +27,7 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
       params.require(:cost_entry).permit(:comments,
                                          :units,
                                          :overridden_costs,
+                                         :recorded_liability,
                                          :spent_on)
     end
 

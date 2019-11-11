@@ -127,13 +127,13 @@ export class BlueTableProtocolService extends BlueTableService {
 
   public getTdClass(row:any, i:number):string {
     let prefix:string = '';
-    if (row._type === 'Protocol') {
-      if (row.completed) {
-        prefix = 'gr';
-      } else {
-        prefix = 'or';
-      }
-    }
+    // if (row._type === 'Protocol') {
+    //   if (row.completed) {
+    //     prefix = 'gr';
+    //   } else {
+    //     prefix = 'or';
+    //   }
+    // }
     switch (i) {
       case 0: {
         if (row._type === 'Protocol') {
@@ -145,7 +145,20 @@ export class BlueTableProtocolService extends BlueTableService {
     }
     return prefix;
   }
-
+  public getTrClass(row:any):string {
+    if (row._type === 'Protocol') {
+      if (row.completed) {
+        return 'colored-row-green';
+      } else if (row.daysToDue < 0) {
+        return 'colored-row-red';
+      } else if (row.daysToDue >= 0) {
+        return 'colored-row';
+      }
+      return '';
+    } else {
+      return 'colored-row';
+    }
+  }
   public format(input:string):string {
     return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
   }

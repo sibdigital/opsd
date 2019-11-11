@@ -373,10 +373,12 @@ OpenProject::Application.routes.draw do
     end
 
     resources :report_progress_project do
-      get :generate_report_progress_project_pril_1_2_out, on: :collection
     end
 
     resources :report_passport do
+    end
+
+    resources :report_change_request do
     end
 
     #)
@@ -476,6 +478,8 @@ OpenProject::Application.routes.draw do
   resources :interactive_map do
     get :get_dues, on: :collection
   end
+
+  resources :general_meetings
 
   resources :head_performance_indicator_values
 

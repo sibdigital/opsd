@@ -569,6 +569,13 @@ en:
         address: Адрес
         cabinet: Кабинет
       #)
+      #+tan
+      key_performance_indicator:
+        method_id: Метод расчета
+        object_id: Объект расчета
+        method: Метод расчета
+        object: Объект расчета
+      #-tan
       user:
         admin: Администратор
         auth_source: Способ аутентификации
@@ -576,6 +583,7 @@ en:
         force_password_change: Принудительное изменение пароля при следующем входе
         language: Язык
         last_login_on: Последний вход в систему
+        last_ip: IP-адрес
         mail_notification: Уведомления по электронной почте
         pop_up_notification: Всплывающие уведомления
         new_password: Новый пароль
@@ -614,14 +622,14 @@ en:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
         children: Вложенные элементы
-        done_ratio: KPI (Прогресс %)
+        done_ratio: Прогресс %
         end_insertion: Завершение вставки
         end_deletion: Завершение удаления
         fixed_version: Этап
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
-        priority: Вес
+        priority: Приоритет
         progress: Прогресс %
         spent_hours: Затраченное время
         spent_time: Затраченное время
@@ -842,6 +850,7 @@ en:
     models:
       attachment: Файл
       attribute_help_text: Атрибут текста справки
+      key_performance_indicator: KPI
       board: Дискуссия
       comment: Комментарий
       custom_action: Пользовательское действие
@@ -930,15 +939,15 @@ en:
 #    last_due_date: Текущая дата окончания
 #    first_start_date: Изначальная дата начала
 #    last_start_date: Текущая дата начала
-    period: Периодичность добавления отчетов
+#    period: Периодичность добавления отчетов
     time: Время
     busyness: Занятость
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций
-    lastname: Фамил
+    lastname: Фамилия
     login: Логин
-    mail: Электронная почта
+    mail: Эл. почта
     #zbd(
     contract: Гос.контракт
     target: Целевой показатель
@@ -969,7 +978,7 @@ en:
     password: Пароль
     #)
     possibility: Вероятность наступления
-    priority: Вес
+    priority: Приоритет
     project: Проект
     responsible: Подотчетный
     role: Роль
@@ -1297,6 +1306,22 @@ en:
   default_status_tested: Протестирован
   default_status_test_failed: Тест не пройден
   default_status_to_be_scheduled: Планируется
+  default_kpi_count_opened_project: "Количество открываемых проектов"
+  default_kpi_count_support_project: "Количество сопровождаемых проектов"
+  default_kpi_count_opened_meeting: "Количество организованных совещаний, мероприятий"
+  default_kpi_no_red_kt: "Отсутствие красных контрольных точек"
+  default_kpi_monitoring: "Осуществление мониторинга региональных проектов в срок"
+  default_kpi_target: "Исполнение показателей"
+  default_kpi_closed_project: "Количество завершенных проектов"
+  default_kpi_saved_risks: "Количество внесенных в реестр рисков"
+  default_kpi_minimize_risks: "Количество проведенных мероприятий, направленных на минимизацию рисков"
+  default_kpi_method_olap: "Показатель OLAP куба"
+  default_kpi_method_count: "Число значений выборки"
+  default_kpi_method_hand: "Ручной ввод"
+  default_kpi_object_project: "Проект"
+  default_kpi_object_work_package: "Мероприятие"
+  default_kpi_object_risk: "Риск"
+  default_kpi_object_meeting: "Совещание"
   default_project_section_1: Основные положения
   default_project_section_2: Цели и показатели
   default_project_section_3: Результаты
@@ -1416,7 +1441,9 @@ en:
           полям
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_attach_type: Тип файла
-  enumeration_work_package_priorities: Веса пакета работ
+  enumeration_work_package_priorities: Приоритеты пакета работ
+  enumeration_kpi_calc_methods: Способ вычисления KPI
+  enumeration_kpi_objects: Объект подсчета
   enumeration_risk_importance: Степень влияния на проект
   enumeration_risk_project_section_id: Раздел проекта
   enumeration_risk_possibilities: Вероятность наступления
@@ -1707,6 +1734,7 @@ en:
   label_copy_project_to_template: Сохранить как шаблон
   label_copy_project_from_template: Создать проект из шаблона
   label_core_version: Основной этап
+  label_counter: Счетчик
   label_current_status: Текущий статус
   label_current_version: Текущий этап
   label_custom_field_add_no_type: Добавьте это поле в тип комплекса работ
@@ -1863,7 +1891,8 @@ en:
   label_last_activity: Последняя активность
   label_last_change_on: Последнее изменение
   label_last_changes: последние %{count} изменений
-  label_last_login: Последний вход в систему
+  label_last_login: Последний вход
+  last_ip: IP-адрес
   label_last_month: Последний месяц
   label_last_n_days: последние %{count} дней
   label_last_week: На прошлой неделе
@@ -1935,6 +1964,7 @@ en:
   label_reports: Отчеты
   label_report_progress_project: Отчет о ходе реализации проекта
   label_report_passport: Паспорт регионального проекта
+  label_report_change_request: Запрос на изменение паспорта
   label_resources: Ресурсы
   label_control: Контроль
   label_nobody: никто
@@ -2000,8 +2030,10 @@ en:
   label_project_plural: Проекты
   label_project_reestr: Реестр проектов
   label_project_templates: Шаблоны проектов
-  label_done_ratio_project: Процент исполнения (KPI)
+  label_done_ratio_project: Процент исполнения
   label_project_risks: Риски и возможности
+  label_key_performance_indicator: Настройка KPI
+
   label_project_risk_new: Добавить риск
   label_head_performance_indicator_values: Оценки деятельности высшего должностного лица
   label_head_performance_indicator_value: Оценка деятельности высшего должностного лица
@@ -2137,6 +2169,8 @@ en:
   label_typed_risks: Типовые риски
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
+  label_by_status: Статус
+  label_message_filter: Фильтр
   #zbd(
   label_typed_targets: Типовые результаты
   label_typed_target_new: Новый типовой результат
@@ -2220,7 +2254,7 @@ en:
   label_work_package_edit: Редактирование пакета работ %{name}
   label_work_package_plural: Мероприятия
   label_plan_stage_package_plural: Базовый план
-  label_work_package_priority_updated: Вес мероприятия обновлен
+  label_work_package_priority_updated: Приоритет мероприятия обновлен
   label_work_package_status: Состояние группы работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
@@ -2609,6 +2643,9 @@ en:
   project_module_targets: Целевые показатели
   project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
+  project_module_report_progress_project: Отчет о ходе реализации проекта
+  project_module_report_passport: Паспорт регионального проекта
+  project_module_report_change_request: Запрос на изменение паспорта регионального проекта
   project_module_stages: Этапы
   project_module_project_risks: Риски и возможности
   project_module_activity: Деятельность
@@ -2833,7 +2870,7 @@ en:
     коэфицентами
   setting_work_package_done_ratio_field: Использовать поле пакета работ
   setting_work_package_done_ratio_status: Использовать статус пакета работ
-  setting_work_package_done_ratio_disabled: Cкрыть KPI (прогресс)
+  setting_work_package_done_ratio_disabled: Cкрыть прогресс
   setting_work_package_list_default_columns: Отображать по умолчанию
   setting_work_package_list_summable_columns: Суммируемое
   setting_work_package_properties: Свойства пакета работ
@@ -3388,7 +3425,7 @@ en:
     additional_resources: Дополнительные ресурсы
     getting_started: Приступая к работе
     help_and_support: Помощь и поддержка
-  total_progress: Общий прогресс (KPI)
+  total_progress: Общий прогресс
   user:
     all: все
     active: Активно
@@ -3491,6 +3528,7 @@ en:
       code_401: Вам нужно пройти проверку подлинности для доступа к этому ресурсу.
       code_401_wrong_credentials: Вы не ввели правильные учетные данные.
       code_403: Вы не авторизованы для доступа к этому ресурсу.
+      code_403_attachment: Данные заблокированы пользователем
       code_404: Не удалось найти запрошенный ресурс.
       code_409: Не удалось обновить ресурс из-за конфликтующих изменений.
       code_500: Произошла внутренняя ошибка.
@@ -3526,6 +3564,7 @@ en:
           родительских пакетов.
         invalid_user_assigned_to_work_package: Выбранный пользователь не может быть
           «%{property}» для этого мероприятия.
+        invalid_user_permission_to_project: Вы не являетесь участником проекта и не имеете прав на изменение.
         start_date: Дата начала не может быть задана на родительских  пакетах работ.
       writing_read_only_attributes: Вы не должны перезаписывать атрибут являющийся
         только для чтения.
@@ -3695,3 +3734,4 @@ en:
 
   label_my_tasks: Мои запросы/задачи
   label_user_tasks: Запросы/задачи
+  user_task_directory: Объекты запросов/задач

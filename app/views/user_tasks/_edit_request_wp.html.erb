@@ -1,0 +1,43 @@
+<div style="width:50%">
+
+  <%= form.hidden_field 'object_type', value: @user_task.object_type %>
+  <%= form.hidden_field 'related_task_id', value: @user_task.related_task_id %>
+
+  <%
+    @selected_project = @user_task.project_id
+    @selected_wp = @user_task.object_id
+
+  %>
+
+  <div class="form--field">
+    <%= form.select :project_id,
+                    options_for_select(Project.where(type: Project::TYPE_PROJECT).all.map {|u| [u.name, u.id]}, @selected_project),
+                    include_blank: true,
+                    container_class: '-slim' %>
+  </div>
+
+  <div class="form--field">
+    <%= form.select :object_id,
+                    children_options_for_select_wp(WorkPackage.all.map {|u| [u.subject, u.project_id, u.id]}),
+                    include_blank: true,
+                    container_class: '-slim' %>
+  </div>
+
+  <p>
+    <%= form.collection_select(:assigned_to_id, User.all, :id, :lastname) %>
+  </p>
+
+  <p>
+    <%= form.text_area :text %>
+  </p>
+
+  <p>
+    <%= form.date_field :due_date %>
+  </p>
+
+  <p>
+    <%= form.check_box :completed %>
+  </p>
+
+</div>
+<%=javascript_include_tag 'select_wp_from_project' %>

@@ -7,11 +7,13 @@ class ProjectRisksController < ApplicationController
   before_action :find_optional_project, :verify_project_risks_module_activated
   before_action :find_project_risk, only: [:edit, :update, :destroy]
   before_action only: [:create, :update] do
-    upload_custom_file("project_risk", "ProjectRiskCustomField")
+    upload_custom_file("project_risk", @project_risk.class.name)
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Risk", @project_risk.id)
+    parse_classifier_value("Risk", @project_risk.class.name, @project_risk.id)
+    init_counter_value("Risk", @project_risk.class.name, @project_risk.id)
   end
 
   helper :sort
@@ -20,6 +22,8 @@ class ProjectRisksController < ApplicationController
   include ::IconsHelper
   include ::ColorsHelper
   include CustomFilesHelper
+  include CounterHelper
+  include ClassifierHelper
 
   def index
     sort_columns = {'id' => "#{ProjectRisk.table_name}.id",

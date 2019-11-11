@@ -10,14 +10,14 @@ module OpenProject::LdapGroups
                default: {
                  group_base: nil
                }
-             } do
-      menu :admin_menu,
-           :plugin_ldap_groups,
-           { controller: '/ldap_groups/synchronized_groups', action: :index },
-           icon: 'icon2 icon-flag',
-           parent: :additional_settings,
-           caption: ->(*) { I18n.t('ldap_groups.label_menu_item') }
-    end
+             } # do
+    #   menu :admin_menu,
+    #        :plugin_ldap_groups,
+    #        { controller: '/ldap_groups/synchronized_groups', action: :index },
+    #        icon: 'icon2 icon-flag',
+    #        parent: :additional_settings,
+    #        caption: ->(*) { I18n.t('ldap_groups.label_menu_item') }
+    # end
 
     patches %i[AuthSource Group]
   end

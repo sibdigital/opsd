@@ -1,5 +1,7 @@
 class Period < Enumeration
 
+  OptionName = :period
+
   has_many :work_packages, foreign_key: 'period_id', dependent: :nullify#, class_name: 'Project', foreign_key: 'project_status_id'
 
   def option_name

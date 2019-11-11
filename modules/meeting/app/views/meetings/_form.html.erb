@@ -132,6 +132,22 @@ See doc/COPYRIGHT.md for more details.
       </table>
     </div>
   </div>
+  <div class="form--field">
+    <label class="form--label"><%=Meeting.human_attribute_name(:chairman) %></label>
+    <div class="form--field-container">
+      <%= select_tag "chairman", options_for_select(User.where.not(login: '').map { |u| [u.fio, u.id] }, @meeting.chairman),
+                     multiple: false,
+                     style: 'height: auto',
+                     no_label: true%>
+    </div>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :add_participants, container_class: '-wide' %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :speakers, container_class: '-wide' %>
+  </div>
+
   <%= hidden_field_tag "copied_from_meeting_id", params[:copied_from_meeting_id] if params[:copied_from_meeting_id].present? %>
   <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>
 </section>

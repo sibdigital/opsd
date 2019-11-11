@@ -27,7 +27,7 @@ export class WidgetUtMyRequestsComponent extends AbstractWidgetComponent impleme
 
   ngOnInit() {
 
-    let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks`;
+    let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks/creator/${this.currentuser.userId}`;
 
     this.halResource
       .get<CollectionResource>(url)
@@ -36,7 +36,7 @@ export class WidgetUtMyRequestsComponent extends AbstractWidgetComponent impleme
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
         for (var obj of entriesarray) {
-          if (obj.user_creator_id == this.currentuser.userId && obj.kind == 'Request'){
+          if (obj.kind == 'Request'){
             entriesarrayforuser.push(obj);
           }
         }
@@ -47,5 +47,9 @@ export class WidgetUtMyRequestsComponent extends AbstractWidgetComponent impleme
 
   public user_taskText(user_task:UserTasksResource) {
     return `${this.pathHelper.appBasePath}/user_tasks/${user_task.id}`;
+  }
+
+  public user_taskAssigned(user_task:UserTasksResource) {
+    return `${this.pathHelper.appBasePath}/users/${user_task.assigned_to_id}`;
   }
 }

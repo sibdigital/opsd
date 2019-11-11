@@ -13,6 +13,15 @@
     <%= f.check_box :enable %>
   </div>
 
+  <div class="form--field">  <%= f.select :method_id,
+                                          options_for_select(KpiCalcMethod.where(active: true).map {|u| [u.name, u.id]}, @selected_method_id),
+                                          include_blank: false,
+                                          container_class: '-middle' %></div>
+  <div class="form--field">  <%= f.select :object_id,
+                                          options_for_select(KpiObject.where(active: true).map {|u| [u.name, u.id]}, @selected_object_id),
+                                          include_blank: false,
+                                          container_class: '-middle' %></div>
+
   <div class="form--field -required">
     <%= f.select :calc_method, [['включается в среднее', 'avg'], %w(суммируется sum)], required: true, container_class: '-wide' %>
   </div>

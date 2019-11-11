@@ -67,9 +67,29 @@ See docs/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= watcher_link(@board, User.current) %>
     </li>
+    <li class="toolbar-item">
+      <%= link_to t(:label_message_filter), project_boards_path(@project, filter: 'locked'), class: 'button -small -with-icon icon-filter' %>
+    </li>
   <% end %>
 <% end %>
-
+<%= styled_form_tag(project_boards_path(@project), { method: :get, id: 'query_form' }) do %>
+  <fieldset id="filters" class="simple-filters--container">
+    <legend><%= t(:label_filter) %></legend>
+    <h2><%= t(:label_filter) %></h2>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+        <%= styled_label_tag :filter_by_action,  t(:label_by_status), class: 'simple-filters--filter-name' %>
+        <div class="simple-filters--filter-value">
+          <%= styled_select_tag :filter_status,options_for_select(@existing_statuses, @filter_status), include_blank: true  %>
+        </div>
+      </li>
+      <li class="simple-filters--controls">
+        <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
+        <%= link_to t(:button_clear), project_boards_path(@project), class: 'button -small -with-icon icon-undo' %>
+      </li>
+    </ul>
+  </fieldset>
+<% end %>
 <% if @topics.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">

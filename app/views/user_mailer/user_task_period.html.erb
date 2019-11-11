@@ -1,0 +1,4 @@
+<p>Пользователь, направивший запрос: <%= User.find_by(id: @user_task.user_creator_id).lastname.to_s %></p>
+<p>Справочник, в который требуется внести изменения: <%= @user_task.object_type %></p>
+<p>Срок: <%= @user_task.due_date %></p>
+<p>Текст запроса: <%= @user_task.text %></p>

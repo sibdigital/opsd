@@ -31,6 +31,8 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   include CustomFilesHelper
+  include CounterHelper
+  include ClassifierHelper
 
   before_action :require_admin
   before_action :find_group, only: [:destroy, :autocomplete_for_user,
@@ -38,11 +40,13 @@ class GroupsController < ApplicationController
                                     :edit_membership]
 
   before_action only: [:create, :update] do
-    upload_custom_file("group", "GroupCustomField")
+    upload_custom_file("group", @group.class.name)
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Principal", @group.id)
+    parse_classifier_value("Principal", @group.class.name, @group.id)
+    init_counter_value("Principal", @group.class.name, @group.id)
   end
 
   # GET /groups
@@ -52,7 +56,9 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  do render xml: @groups end
+      format.xml do
+        render xml: @groups
+      end
     end
   end
 
@@ -61,7 +67,9 @@ class GroupsController < ApplicationController
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  do render xml: @group end
+      format.xml do
+        render xml: @group
+      end
     end
   end
 
@@ -72,7 +80,9 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  do render xml: @group end
+      format.xml do
+        render xml: @group
+      end
     end
   end
 
@@ -91,14 +101,22 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         flash[:notice] = l(:notice_successful_create)
-        format.html do redirect_to(groups_path) end
-        format.xml  do render xml: @group, status: :created, location: @group end
+        format.html do
+          redirect_to(groups_path)
+        end
+        format.xml do
+          render xml: @group, status: :created, location: @group
+        end
         #ban(
         deliver_mail_to_project_office_members
         #)
       else
-        format.html do render action: 'new' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
+        format.html do
+          render action: 'new'
+        end
+        format.xml do
+          render xml: @group.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -108,18 +126,26 @@ class GroupsController < ApplicationController
   def update
     @group = Group.includes(:users).find(params[:id])
     @group.direct_manager_id = params["group"]["direct_manager_id"]
-    @user = User.includes(:memberships).find(@group.direct_manager_id )
+    @user = User.includes(:memberships).find(@group.direct_manager_id)
     if !@group.users.pluck(:id).include?(@user.id)
       @group.users << @user
-      end
+    end
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)
-        format.html do redirect_to(groups_path) end
-        format.xml  do head :ok end
+        format.html do
+          redirect_to(groups_path)
+        end
+        format.xml do
+          head :ok
+        end
       else
-        format.html do render action: 'edit' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
+        format.html do
+          render action: 'edit'
+        end
+        format.xml do
+          render xml: @group.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -137,8 +163,12 @@ class GroupsController < ApplicationController
     #)
     respond_to do |format|
       flash[:notice] = l(:notice_successful_delete)
-      format.html do redirect_to(groups_url) end
-      format.xml  do head :ok end
+      format.html do
+        redirect_to(groups_url)
+      end
+      format.xml do
+        head :ok
+      end
     end
   end
 
@@ -222,7 +252,7 @@ class GroupsController < ApplicationController
     Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
                                I18n.t(:default_role_project_office_coordinator),
                                I18n.t(:default_role_project_office_admin)])
-      .each { |r| roles.push(r)}
+      .each {|r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
       if Setting.notified_events.include?('group_created')
@@ -240,7 +270,7 @@ class GroupsController < ApplicationController
     Role.where('name in (?)', [I18n.t(:default_role_project_office_manager),
                                I18n.t(:default_role_project_office_coordinator),
                                I18n.t(:default_role_project_office_admin)])
-      .each { |r| roles.push(r)}
+      .each {|r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
       if Setting.notified_events.include?('group_deleted')

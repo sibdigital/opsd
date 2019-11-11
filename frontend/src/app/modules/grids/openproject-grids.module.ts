@@ -44,6 +44,8 @@ import {WidgetUtNotesComponent} from "core-app/modules/grids/widgets/ut-notes/ut
 import {WidgetUtRequestsComponent} from "core-app/modules/grids/widgets/ut-requests/ut-requests.component.ts";
 import {WidgetUtMyRequestsComponent} from "core-app/modules/grids/widgets/ut-my-requests/ut-my-requests.component.ts";
 import {WidgetUtResponsesComponent} from "core-app/modules/grids/widgets/ut-responses/ut-responses.component.ts";
+import {WidgetUtTasksComponent} from "core-app/modules/grids/widgets/ut-tasks/ut-tasks.component.ts";
+import {WidgetUtMyTasksComponent} from "core-app/modules/grids/widgets/ut-my-tasks/ut-my-tasks.component.ts";
 //)
 //#knm(
 import {WidgetNotificationsComponent} from "core-app/modules/grids/widgets/notifications/notifications.component";
@@ -96,6 +98,8 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetUtRequestsComponent,
                                   WidgetUtMyRequestsComponent,
                                   WidgetUtResponsesComponent,
+                                  WidgetUtTasksComponent,
+                                  WidgetUtMyTasksComponent,
                                   //
                                   WidgetWpAccountableComponent,
                                   WidgetWpCreatedComponent,
@@ -131,6 +135,8 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetUtRequestsComponent,
     WidgetUtMyRequestsComponent,
     WidgetUtResponsesComponent,
+    WidgetUtTasksComponent,
+    WidgetUtMyTasksComponent,
     //
     WidgetWpAccountableComponent,
     WidgetWpCreatedComponent,
@@ -188,6 +194,14 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'user_tasks_responses',
           component: WidgetUtResponsesComponent
+        },
+        {
+          identifier: 'user_tasks_tasks',
+          component: WidgetUtTasksComponent
+        },
+        {
+          identifier: 'user_tasks_my_tasks',
+          component: WidgetUtMyTasksComponent
         },
         //)
         {

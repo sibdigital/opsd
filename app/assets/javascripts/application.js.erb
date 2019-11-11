@@ -480,13 +480,6 @@ jQuery(document).ready(function(){
 });
 jQuery(document).ready(function(){
     jQuery('.pass-params-from-select').click(function(){
-        jQuery.ajax({
-            type: 'GET',
-            url: document.location.pathname+'/generate_report_progress_project_pril_1_2_out',
-            async: true,
-            data: {selected_target_id: jQuery('#selected_target_id').val(),
-                   report_id: 'report_progress_project_pril_1_2'}
-        });
+        this.href= this.href+'&selected_target_id='+jQuery('#selected_target_id').val();
     });
 });
-//-

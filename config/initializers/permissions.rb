@@ -373,6 +373,36 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   #knm(
+  map.permission :desktop,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :milestones,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :risks,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :indicators,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :costs,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :kpi,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :protocol,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :discussions,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :rating,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.permission :municipality,
+                 {homescreen: %i[ vkladka1 index ]}
+
   map.project_module :interactive_map do |i_map|
     i_map.permission :view_interactive_map,
                      { project_interactive_map: %i[ index get_wps] },
@@ -387,6 +417,25 @@ Redmine::AccessControl.map do |map|
   #bbm(
   map.project_module :project_risks
   # )
+  map.project_module :report_progress_project do |r|
+    r.permission :view_report_progress_project_page,
+    { report_progress_project: %i[ index ] },
+      require: :member
+  end
+
+  map.project_module :report_passport do |r|
+    r.permission :view_report_passport_page,
+                 { report_passport: %i[ index ] },
+                 require: :member
+  end
+
+  map.project_module :report_change_request do |r|
+    r.permission :view_report_change_request_page,
+                 { report_change_request: %i[ index ] },
+                 require: :member
+  end
+
+
   #knm(
 
   # map.project_module :head_performance_indicator_values do |hpi|

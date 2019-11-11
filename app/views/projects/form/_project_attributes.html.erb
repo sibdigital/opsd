@@ -99,6 +99,16 @@ See docs/COPYRIGHT.rdoc for more details.
                include_blank: true,
                container_class: '-slim' %>
 </div>
+
+<div class="form--field">
+  <%= form.text_field :national_project_target, container_class: '-wide'%>
+</div>
+<div class="form--field">
+  <%= form.text_field :government_program, container_class: '-wide'%>
+</div>
+<div class="form--field">
+  <%= form.text_field :mission_of_head, container_class: '-wide'%>
+</div>
 <%= render partial: "customizable/form",
            locals: { form: form, all_fields: all_fields, only_required: render_advanced } %>
 <% if render_advanced %>

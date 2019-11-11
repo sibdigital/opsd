@@ -32,38 +32,61 @@
 
 class DocumentsController < ApplicationController
   include CustomFilesHelper
+  include CounterHelper
+  include ClassifierHelper
   default_search_scope :documents
   model_object Document
   before_action :find_project_by_project_id, only: [:index, :new, :create]
   before_action :find_model_object, except: [:index, :new, :create]
   before_action :find_project_from_association, except: [:index, :new, :create]
   before_action :authorize
+  helper :sort
+  include SortHelper
+  include CustomFieldsHelper
+  include PaginationHelper
 
   before_action only: [:create, :update] do
-    upload_custom_file("document", "DocumentCustomField")
+    upload_custom_file("document", @document.class.name)
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Document", @document.id)
+    parse_classifier_value("Document", @document.class.name, @document.id)
+    init_counter_value("Document", @document.class.name, @document.id)
   end
 
 
   def index
-    @group_by = %w(category date title author).include?(params[:group_by]) ? params[:group_by] : 'category'
-    documents = @project.documents
-    @grouped =
-      case @group_by
-      when 'date'
-        documents.group_by {|d| d.updated_on.to_date }
-      when 'title'
-        documents.group_by {|d| d.title.first.upcase}
-      when 'author'
-        documents.with_attachments.group_by {|d| d.attachments.last.author}
-      else
-        documents.includes(:category).group_by(&:category)
-      end
-
-    render layout: false if request.xhr?
+    if params[:commit] == "Применить"
+      params[:filter_start_date].blank? ? @filter_start_date = "" : @filter_start_date = params[:filter_start_date]
+      params[:filter_end_date].blank? ? @filter_end_date = "" : @filter_end_date = params[:filter_end_date]
+      params[:filter_user].blank? ? @filter_user = "" : @filter_user = params[:filter_user]
+      params[:filter_category].blank? ? @filter_category = "" : @filter_category = params[:filter_category]
+    end
+    if params[:selected_view].blank?
+      @selected_view="table"
+    else
+      @selected_view = params[:selected_view]
+    end
+    sort_columns = {'id' => "#{Document.table_name}.id", 'title' => "#{Document.table_name}.title", 'user_id' => "#{Document.table_name}.user", 'created_on' => "#{Document.table_name}.created_on"}
+    sort_init 'id', 'asc'
+    sort_update sort_columns
+    @documents = Document.where("project_id = ?", @project.id)
+    @existing_users = @documents.select(:user_id).distinct.map{|u| [User.find(u.user_id).fio, u.user_id]}
+    @existing_categories = @documents.select(:category_id).distinct.map{|c | [c.category.name, c.category_id]}
+    unless @filter_end_date.blank?
+      end_of_day = (@filter_end_date.to_date + 1.days).to_s
+      @documents = @documents.where('created_on between ? and ?', "1000-01-01", end_of_day)
+    end
+    unless @filter_start_date.blank?
+      @documents = @documents.where('created_on between ? and ?', @filter_start_date, "3000-01-01")
+    end
+    unless @filter_user.blank?
+      @documents = @documents.where('user_id = ?',@filter_user)
+    end
+    unless @filter_category.blank?
+      @documents = @documents.where('category_id = ?',@filter_category)
+    end
   end
 
   def show

@@ -85,4 +85,25 @@ OpenProject::CustomFieldFormat.map do |fields|
                                                      label: :label_file,
                                                      order: 12,
                                                      formatter: 'CustomValue::FileStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('counter',
+                                                     label: :label_counter,
+                                                     order: 13,
+                                                     formatter: 'CustomValue::CounterStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('work_package',
+                                                     label: :default_type_task,
+                                                     order: 14,
+                                                     formatter: 'CustomValue::WorkPackageStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('document',
+                                                     label: 'label_filter_type.document',
+                                                     order: 15,
+                                                     formatter: 'CustomValue::DocumentStrategy')
+
+  fields.register OpenProject::CustomFieldFormat.new('message',
+                                                     label: 'label_filter_type.board',
+                                                     order: 16,
+                                                     formatter: 'CustomValue::MessageStrategy')
+
 end

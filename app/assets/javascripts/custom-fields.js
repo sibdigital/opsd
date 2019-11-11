@@ -25,11 +25,11 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-(function(window, $) {
+(function (window, $) {
   /*
    * @see /app/views/custom_fields/_form.html.erb
    */
-  $(function() {
+  $(function () {
     var customFieldForm = $('#custom_field_form');
 
     if (customFieldForm.length === 0) {
@@ -37,117 +37,142 @@
     }
 
     // collect the nodes involved
-    var format                = $('#custom_field_field_format'),
-        lengthField           = $('#custom_field_length'),
-        regexpField           = $('#custom_field_regexp'),
-        formulaField          = $('#custom_field_formula'),
-        multiSelect           = $('#custom_field_multi_select'),
-        possibleValues        = $('#custom_field_possible_values_attributes'),
-        defaultValueFields    = $('#custom_field_default_value_attributes'),
-        spanDefaultText       = $('#default_value_text'),
-        spanDefaultBool       = $('#default_value_bool');
+    var format = $('#custom_field_field_format'),
+      lengthField = $('#custom_field_length'),
+      regexpField = $('#custom_field_regexp'),
+      formulaField = $('#custom_field_formula'),
+      multiSelect = $('#custom_field_multi_select'),
+      possibleValues = $('#custom_field_possible_values_attributes'),
+      defaultValueFields = $('#custom_field_default_value_attributes'),
+      settingTemplateField = $('#counter_setting_template'),
+      settingPeriodList = $('#counter_setting_period'),
+      settingLengthField = $('#counter_setting_length'),
+      spanDefaultText = $('#default_value_text'),
+      spanDefaultBool = $('#default_value_bool');
 
-    var deactivate = function(element) {
-      element.hide().find('input, textarea').not('.destroy_flag,.-cf-ignore-disabled').attr('disabled', true);
-    },
-    activate = function(element) {
-      element.show().find('input, textarea').not('.destroy_flag,.-cf-ignore-disabled').removeAttr('disabled');
-    },
-    toggleVisibility = function(method, args) {
-      var fields = Array.prototype.slice.call(args);
-      $.each(fields, function(idx, field) {
-        field.closest('.form--field, .form--grouping')[method]();
-      });
-    },
-    hide = function() { toggleVisibility('hide', arguments); },
-    show = function() { toggleVisibility('show', arguments); },
-    toggleFormat = function() {
-      var searchable   = $('#searchable_container'),
-          unsearchable = function() { searchable.attr('checked', false).hide(); };
+    var deactivate = function (element) {
+        element.hide().find('input, textarea').not('.destroy_flag,.-cf-ignore-disabled').attr('disabled', true);
+      },
+      activate = function (element) {
+        element.show().find('input, textarea').not('.destroy_flag,.-cf-ignore-disabled').removeAttr('disabled');
+      },
+      toggleVisibility = function (method, args) {
+        var fields = Array.prototype.slice.call(args);
+        $.each(fields, function (idx, field) {
+          field.closest('.form--field, .form--grouping')[method]();
+        });
+      },
+      hide = function () {
+        toggleVisibility('hide', arguments);
+      },
+      show = function () {
+        toggleVisibility('show', arguments);
+      },
+      toggleFormat = function () {
+        var searchable = $('#searchable_container'),
+          unsearchable = function () {
+            searchable.attr('checked', false).hide();
+          };
 
-      // defaults (reset these fields before doing anything else)
-      $.each([spanDefaultBool, spanDefaultText, multiSelect], function(idx, element) {
-        deactivate(element);
-      });
-      show(defaultValueFields);
-      activate(spanDefaultText);
+        // defaults (reset these fields before doing anything else)
+        $.each([spanDefaultBool, spanDefaultText, multiSelect], function (idx, element) {
+          deactivate(element);
+        });
+        show(defaultValueFields);
+        activate(spanDefaultText);
 
-      switch (format.val()) {
-        case 'formula':
-          deactivate(defaultValueFields);
-          deactivate(possibleValues);
-          show(formulaField);
-          hide(lengthField, regexpField, defaultValueFields);
-          unsearchable();
-          break;
-        case 'rtf':
-        case 'file':
-          deactivate(defaultValueFields);
-          deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
-          unsearchable();
-          break;
-        case 'list':
-          deactivate(defaultValueFields);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
-          show(searchable, multiSelect);
-          activate(multiSelect);
-          activate(possibleValues);
-          break;
-        case 'bool':
-          activate(spanDefaultBool);
-          deactivate(spanDefaultText);
-          deactivate(possibleValues);
-          hide(lengthField, regexpField, searchable, formulaField);
-          unsearchable();
-          break;
-        case 'date':
-          deactivate(defaultValueFields);
-          deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
-          unsearchable();
-          break;
-        case 'float':
-        case 'int':
-          deactivate(possibleValues);
-          hide(formulaField);
-          show(lengthField, regexpField);
-          unsearchable();
-          break;
-        case 'user':
-          show(multiSelect);
-          hide(formulaField);
-          activate(multiSelect);
-          break;
-        case 'version':
-          deactivate(defaultValueFields);
-          deactivate(possibleValues);
-          hide(lengthField, regexpField, defaultValueFields, formulaField);
-          unsearchable();
-          break;
-        default:
-          show(lengthField, regexpField, searchable);
-          deactivate(possibleValues);
-          hide(formulaField);
-          break;
-      }
-    };
+        switch (format.val()) {
+          case 'formula':
+            deactivate(defaultValueFields);
+            deactivate(possibleValues);
+            show(formulaField);
+            hide(lengthField, regexpField, defaultValueFields,
+              settingTemplateField, settingPeriodList, settingLengthField);
+            unsearchable();
+            break;
+          case 'counter':
+            deactivate(defaultValueFields);
+            deactivate(possibleValues);
+            hide(lengthField, regexpField, defaultValueFields, formulaField);
+            show(settingTemplateField, settingPeriodList, settingLengthField);
+            unsearchable();
+            break;
+          case 'work_package':
+          case 'document':
+          case 'message':
+          case 'rtf':
+          case 'file':
+            deactivate(defaultValueFields);
+            deactivate(possibleValues);
+            hide(lengthField, regexpField, defaultValueFields, formulaField,
+              settingTemplateField, settingPeriodList, settingLengthField);
+            unsearchable();
+            break;
+          case 'list':
+            deactivate(defaultValueFields);
+            hide(lengthField, regexpField, defaultValueFields, formulaField,
+              settingTemplateField, settingPeriodList, settingLengthField);
+            show(searchable, multiSelect);
+            activate(multiSelect);
+            activate(possibleValues);
+            break;
+          case 'bool':
+            activate(spanDefaultBool);
+            deactivate(spanDefaultText);
+            deactivate(possibleValues);
+            hide(lengthField, regexpField, searchable, formulaField,
+              settingTemplateField, settingPeriodList, settingLengthField);
+            unsearchable();
+            break;
+          case 'date':
+            deactivate(defaultValueFields);
+            deactivate(possibleValues);
+            hide(lengthField, regexpField, defaultValueFields, formulaField,
+              settingTemplateField, settingPeriodList, settingLengthField);
+            unsearchable();
+            break;
+          case 'float':
+          case 'int':
+            deactivate(possibleValues);
+            hide(formulaField, settingTemplateField, settingPeriodList, settingLengthField);
+            show(lengthField, regexpField);
+            unsearchable();
+            break;
+          case 'user':
+            show(multiSelect);
+            hide(formulaField, settingTemplateField, settingPeriodList, settingLengthField);
+            activate(multiSelect);
+            break;
+          case 'version':
+            deactivate(defaultValueFields);
+            deactivate(possibleValues);
+            hide(lengthField, regexpField, defaultValueFields, formulaField,
+              settingTemplateField, settingPeriodList, settingLengthField);
+            unsearchable();
+            break;
+          default:
+            show(lengthField, regexpField, searchable);
+            deactivate(possibleValues);
+            hide(formulaField, settingTemplateField, settingPeriodList, settingLengthField);
+            break;
+        }
+      };
 
     // assign the switch format function to the select field
     format.on('change', toggleFormat).trigger('change');
   });
 
-  $(function() {
+  $(function () {
     var localeSelectors = $('.locale_selector');
 
     localeSelectors.change(function () {
       var lang = $(this).val(),
-          span = $(this).closest('.translation');
+        span = $(this).closest('.translation');
       span.attr('lang', lang);
     }).trigger('change');
   });
 
-  var moveUpRow = function() {
+  var moveUpRow = function () {
     var row = $(this).closest("tr");
     var above = row.prev("tr");
 
@@ -156,7 +181,7 @@
     return false;
   };
 
-  var moveDownRow = function() {
+  var moveDownRow = function () {
     var row = $(this).closest("tr");
     var after = row.next("tr");
 
@@ -165,7 +190,7 @@
     return false;
   };
 
-  var moveRowToTheTop = function() {
+  var moveRowToTheTop = function () {
     var row = $(this).closest("tr");
     var first = jQuery(row.siblings()[0]);
 
@@ -174,7 +199,7 @@
     return false;
   };
 
-  var moveRowToTheBottom = function() {
+  var moveRowToTheBottom = function () {
     var row = $(this).closest("tr");
     var last = jQuery(row.siblings().last()[0]);
 
@@ -183,7 +208,7 @@
     return false;
   };
 
-  var removeOption = function() {
+  var removeOption = function () {
     var self = $(this);
     if (self.attr("href") === "#" || self.attr("href").endsWith("/0")) {
       var row = self.closest("tr");
@@ -198,7 +223,7 @@
     }
   };
 
-  var duplicateRow = function() {
+  var duplicateRow = function () {
     var count = $("#custom-options-table tr.custom-option-row").length;
     var row = $("#custom-options-table tr.custom-option-row:last");
     var dup = row.clone();
@@ -232,14 +257,14 @@
     return false;
   };
 
-  var uncheckOtherDefaults = function() {
+  var uncheckOtherDefaults = function () {
     var cb = $(this);
 
     if (cb.prop("checked")) {
       var multi = $('#custom_field_multi_value');
 
       if (!multi.prop("checked")) {
-        $(".custom-option-default-value").each(function(i, other) {
+        $(".custom-option-default-value").each(function (i, other) {
           $(other).prop("checked", false);
         });
 
@@ -248,17 +273,17 @@
     }
   };
 
-  var checkOnlyOne = function() {
+  var checkOnlyOne = function () {
     var cb = $(this);
 
     if (!cb.prop("checked")) {
-      $(".custom-option-default-value:checked").slice(1).each(function(i, other) {
+      $(".custom-option-default-value:checked").slice(1).each(function (i, other) {
         $(other).prop("checked", false);
       });
     }
   };
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     $("#add-custom-option").click(duplicateRow);
     $(".delete-custom-option").click(removeOption);
 

@@ -26,6 +26,21 @@
             </div>
         </div>
     </div>
+    <div class="grid-block">
+        <p>Проект: </p>
+        <select [(ngModel)]="selectedOption"
+                [compareWith]="compareByHref"
+                (change)="handleUserSubmit()"
+                style="width: 200px">
+            <option
+                    *ngFor="let value of valueOptions"
+                    [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                    [attr.label]="value.name"
+                    [ngValue]="value"
+                    [textContent]="value.name">
+            </option>
+        </select>
+    </div>
     <homescreen-blue-table [template]="'desktop'"></homescreen-blue-table>
     <div style="display: inline-flex;border: 1px solid #1A67A3;width: 100%;">
         <table border="0" class="coloredTable">

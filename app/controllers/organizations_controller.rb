@@ -12,16 +12,21 @@ class OrganizationsController < ApplicationController
   #include TargetsHelper
   include OrganizationsHelper
   include CustomFilesHelper
+  include CounterHelper
+  include ClassifierHelper
+
 
   before_action :require_project_admin
   before_action :find_organization, only: [:edit, :update, :destroy]
   before_action :find_org_type
   before_action only: [:create, :update] do
-    upload_custom_file("organization", "OrganizationCustomField")
+    upload_custom_file("organization", @organization.class.name)
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Organization", @organization.id)
+    parse_classifier_value("Organization", @organization.class.name, @organization.id)
+    init_counter_value("Organization", @organization.class.name, @organization.id)
   end
 
   respond_to :html, :json

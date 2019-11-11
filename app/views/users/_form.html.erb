@@ -63,7 +63,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= render partial:     'customizable/field',
                collection:  @user.custom_field_values,
                as:          :value,
-               locals:      { form: f } %>
+               locals:      { form: f, class_name: @user.class.name, obj_id: @user.id, from: 'users' } %>
   <% end %>
   <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>

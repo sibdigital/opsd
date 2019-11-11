@@ -38,6 +38,7 @@ class Attachment < ActiveRecord::Base
 
   #bbm(
   belongs_to :attach_type
+  belongs_to :user_locked, class_name: 'User', foreign_key: 'user_locked_id'
   # )
 
   validates_presence_of :author, :content_type, :filesize
