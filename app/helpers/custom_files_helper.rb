@@ -6,7 +6,7 @@ module CustomFilesHelper
   mattr_accessor :file_ids
 
   def upload_custom_file(object_type, custom_field_type)
-    @file_ids = CustomField.where(:field_format => 'file', :type => custom_field_type).pluck(:id)
+    @file_ids = CustomField.where(:field_format => 'file', :type => custom_field_type + 'CustomField').pluck(:id)
     @file_names = []
 
     @file_ids.each do |id|

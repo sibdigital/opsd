@@ -14,13 +14,15 @@ class ContractsController < ApplicationController
   include ::ColorsHelper
   include CustomFilesHelper
   include CounterHelper
+  include ClassifierHelper
 
   before_action only: [:create, :update] do
-    upload_custom_file("contract", "ContractCustomField")
+    upload_custom_file("contract", @contract.class.name)
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Contract", @contract.id)
+    parse_classifier_value("Contract", @contract.class.name, @contract.id)
     init_counter_value("Contract", @contract.class.name, @contract.id)
   end
 

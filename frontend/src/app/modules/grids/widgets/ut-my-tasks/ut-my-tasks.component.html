@@ -1,6 +1,42 @@
-<h3 class="widget-box--header" cdkDragHandle>
-    <span class="widget-box--header-title">Задачи мне</span>
-</h3>
+<div class="widget-box--header" cdkDragHandle>
+    <h3><span class="widget-box--header-title">Задачи мне </span></h3>
+    <div>
+        <div style="font-weight: bold; display: inline-block">
+            <input type="checkbox"
+                   id="ut_filter"
+                   (change)="filterChart()"
+                   [(ngModel)]="ut_filter"
+                   name="ut_filter" />
+            Фильтр:
+        </div>
+        Выполнено
+        <input type="checkbox"
+               id="ut_completed_filter"
+               (change)="filterChart()"
+               [(ngModel)]="ut_completed_filter"
+               name="ut_completed_filter" />
+        С:
+        <op-date-picker (onChange)="dateBegin = parser($event); filterChart()" style="display: inline-block">
+            <input [ngModel]="formatter(dateBegin)"
+                   (ngModelChange)="dateBegin = parser($event); filterChart()"
+                   id="ut_date_begin"
+                   name="date_begin_ut"
+                   class="advanced-filters--date-field"
+                   size="10"
+                   type="text"/>
+        </op-date-picker>
+        По:
+        <op-date-picker (onChange)="dateEnd = parser($event); filterChart()" style="display: inline-block">
+            <input [ngModel]="formatter(dateEnd)"
+                   (ngModelChange)="dateEnd = parser($event); filterChart()"
+                   id="ut_date_end"
+                   name="date_end_ut"
+                   class="advanced-filters--date-field"
+                   size="10"
+                   type="text"/>
+        </op-date-picker>
+    </div>
+</div>
 <div class="grid--widget-content">
     <table width="100%" cellpadding="2" style="text-align: left">
         <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Создатель задачи</th><th>Проект</th><th>Связанный объект</th><th>Текст</th><th>Срок</th><th>Выполнено</th></tr>

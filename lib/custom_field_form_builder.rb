@@ -31,6 +31,8 @@ require 'action_view/helpers/form_helper'
 
 class CustomFieldFormBuilder < TabularFormBuilder
   include ActionView::Context
+  include ActionView::Helpers::FormTagHelper
+  include ActionView::Helpers::FormOptionsHelper
   # Return custom field html tag corresponding to its format
   def custom_field(options = {})
     input = custom_field_input(options)
@@ -73,12 +75,17 @@ class CustomFieldFormBuilder < TabularFormBuilder
       check_box(field, input_options.merge(checked: formatter.checked?))
     when 'list'
       custom_field_input_list(field, input_options)
+    when 'document'
+      apply_selection(field, field_format.try(:edit_as), formatted_id, options[:obj_id], input_options)
+    when 'work_package'
+      apply_selection(field, field_format.try(:edit_as), formatted_id, options[:obj_id], input_options)
+    when 'message'
+      apply_selection(field, field_format.try(:edit_as), formatted_id, options[:obj_id], input_options)
     when 'counter'
       if options[:action] == 'edit'
         custom_value = CustomValue.where(:customized_id => options[:obj_id], :custom_field_id => formatted_id).first
         custom_value == nil ? "" : custom_value.value
       end
-
     when 'formula'
       if options[:obj_id] != nil
         calculate_formula(options[:obj_id], options[:class_name], formatted_id, options[:from])
@@ -86,23 +93,51 @@ class CustomFieldFormBuilder < TabularFormBuilder
     when 'rtf'
       text_area(field, input_options.merge(with_text_formatting: true))
     when 'file'
-      data = CustomValue.where(:custom_field_id => formatted_id, :customized_id => options[:obj_id]).pluck(:value)
-
-      if data.any?
-        html = ''
-        data.each do |filename|
-          html += file_field(field, input_options)
-          html += '<div class="form--field content--split">'
-          html += ActionController::Base.helpers.link_to filename, '/download_file/?filename=' + filename
-          html += '</div>'
-        end
-
-        ActiveSupport::SafeBuffer.new(html)
-      else
-        file_field(field, input_options)
-      end
+      display_uploaded_files(field, formatted_id, options[:obj_id], input_options)
     else
       text_field(field, input_options)
+    end
+  end
+
+  # tmd
+  def display_uploaded_files(field, custom_field_id, customized_id, input_options)
+    data = CustomValue.where(:custom_field_id => custom_field_id, :customized_id => customized_id).pluck(:value)
+
+    if data.any?
+      html = ''
+      data.each do |filename|
+        html += file_field(field, input_options)
+        html += '<div class="form--field content--split">'
+        html += ActionController::Base.helpers.link_to filename, '/download_file/?filename=' + filename
+        html += '</div>'
+      end
+
+      ActiveSupport::SafeBuffer.new(html)
+    else
+      file_field(field, input_options)
+    end
+  end
+
+  # tmd
+  def apply_selection(field, format, custom_field_id, customized_id, input_options)
+    val = CustomValue.where(:custom_field_id => custom_field_id, :customized_id => customized_id).pluck(:value)
+    selected = nil
+    input_options[:multiple] = true
+    input_options[:style] = 'height: auto; width: auto'
+    input_options[:name] = 'classifier' + custom_field_id + '[]'
+
+    if val.any?
+      selected = val[0].split
+    end
+
+    case format
+    when "work_package"
+      select_tag(field, options_for_select(WorkPackage.all.map {|c| [c.subject, c.id]}, selected), input_options)
+    when "document"
+      select_tag(field, options_for_select(Document.all.map {|c| [c.title, c.id]}, selected), input_options)
+    when "message"
+      messages = Message.where(:parent_id => nil)
+      select_tag(field, options_for_select(messages.map {|c| [c.subject, c.id]}, selected), input_options)
     end
   end
 
@@ -149,7 +184,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
     is_required = object.custom_field.is_required?
     default_value = object.custom_field.default_value
 
-    select_options = { no_label: true }
+    select_options = {no_label: true}
 
     if is_required && default_value.blank?
       select_options[:prompt] = "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"
@@ -175,7 +210,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
     classes = 'form--label'
     classes << ' error' unless custom_value.errors.empty?
-    classes << ' -required'if is_required
+    classes << ' -required' if is_required
 
     content_tag 'label',
                 for: custom_field_field_id,

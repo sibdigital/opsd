@@ -8,11 +8,12 @@ class TypedRisksController < ApplicationController
   before_action :require_coordinator
   before_action :find_typed_risk, only: [:edit, :update, :destroy]
   before_action only: [:create, :update] do
-    upload_custom_file("typed_risk", "TypedRiskCustomField")
+    upload_custom_file("typed_risk", @typed_risk.class.name)
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Risk", @typed_risk.id)
+    parse_classifier_value("Risk", @typed_risk.class.name, @typed_risk.id)
     init_counter_value("Risk", @typed_risk.class.name, @typed_risk.id)
   end
 
@@ -24,6 +25,7 @@ class TypedRisksController < ApplicationController
   include ::ColorsHelper
   include CustomFilesHelper
   include CounterHelper
+  include ClassifierHelper
 
   def index
     sort_columns = {'id' => "#{TypedRisk.table_name}.id",

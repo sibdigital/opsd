@@ -37,8 +37,8 @@
 </p>
 <p>
   <strong>Периодичность:</strong>
-  <%= if @user_task.period_id != nil
-        Enumeration.find_by(id: @user_task.period_id).name
+  <%= if @user_task.period_id != nil && @user_task.period_id != 0
+      Enumeration.find_by(id: @user_task.period_id).name
       end
   %>
 </p>
