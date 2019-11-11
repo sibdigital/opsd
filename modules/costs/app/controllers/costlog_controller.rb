@@ -20,7 +20,7 @@
 class CostlogController < ApplicationController
   menu_item :work_packages
   before_action :find_project, :authorize, only: %i[edit new create update destroy]
-  before_action :find_associated_objects, only: %i[create update]
+  before_action :find_associated_objects, :replace_dot, only: %i[create update]
   before_action :find_optional_project, only: %i[report]
 
   helper :work_packages
@@ -147,6 +147,10 @@ class CostlogController < ApplicationController
     @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
                    @cost_entry.cost_type :
                    CostType.find_by_id(cost_type_id)
+  end
+
+  def replace_dot
+    params[:cost_entry][:recorded_liability].sub! ',', '.' if params[:cost_entry][:recorded_liability]
   end
 
   def new_default_cost_entry
