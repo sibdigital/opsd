@@ -335,6 +335,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         agendaDayFull:{
           type: 'agendaDay',
           buttonText: 'День'
+        },
+        day: {
+          titleFormat: 'YYYY, MM, DD'
         }
       }
     };
