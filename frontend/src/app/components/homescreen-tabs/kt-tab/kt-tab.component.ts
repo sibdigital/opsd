@@ -23,6 +23,7 @@ export class KtTabComponent {
   private value:{ [attribute:string]:any } | undefined = {};
   public valueOptions:ValueOption[] = [];
   public compareByHref = AngularTrackingHelpers.compareByHref;
+  public predstoyashie:boolean = false;
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
 
@@ -65,5 +66,6 @@ export class KtTabComponent {
       this.curator = this.selectedOption.kurator;
       this.ruk = this.selectedOption.rukovoditel;
     }
+    this.predstoyashie = false;
   }
 }

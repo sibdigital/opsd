@@ -75,9 +75,8 @@ export class HomescreenDiagramComponent implements OnInit {
     this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
     this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
     let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
-    //let organization = this.element.nativeElement.getAttribute('organization-id') || 0;
     this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, /*{organization: organization}*/)
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         if (resource.label === 'visible') {
@@ -95,11 +94,10 @@ export class HomescreenDiagramComponent implements OnInit {
     this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d']; //default color set
   }
 
-  /*public refresh() {
+  public refresh(project:string) {
     let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
-    let organization = this.element.nativeElement.getAttribute('organization-id') || 0;
     this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {organization: organization})
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {project: project})
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.barChartData[0].data = resource.data;
@@ -114,7 +112,7 @@ export class HomescreenDiagramComponent implements OnInit {
           this.element.nativeElement.parentElement.style.display = 'none';
         }
       });
-  }*/
+  }
 }
 
 DynamicBootstrapper.register({ selector: homescreenDiagramSelector, cls: HomescreenDiagramComponent });
