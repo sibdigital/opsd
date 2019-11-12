@@ -695,9 +695,6 @@ class User < Principal
   end
 
   def allowed_to?(action, context, options = {})
-    if (status == STATUSES[:builtin])#tan встроенных не пускаем, если не активны
-      return false
-    end
     authorization_service.call(action, context, options).result
   end
 

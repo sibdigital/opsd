@@ -140,10 +140,6 @@ class Role < ActiveRecord::Base
   # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
-    #+-tan анонимов никуда не пускаем
-    if builtin == BUILTIN_ANONYMOUS
-      return false
-    end
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
