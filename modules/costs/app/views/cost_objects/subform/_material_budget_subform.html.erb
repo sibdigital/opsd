@@ -35,7 +35,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 <col highlight-col>
                 <% if User.current.allowed_to?(:view_cost_rates, @project)%>
                   <col highlight-col>
+                  <col highlight-col>
+                  <col highlight-col>
                 <%end%>
+                <col highlight-col>
                 <col>
               </colgroup>
             <thead>
@@ -86,7 +89,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                       </div>
                     </div>
                   </th>
+                  <th class="currency" id="material_budget_items_price2">
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= MaterialBudgetItem.human_attribute_name(:passport_units) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="currency" id="material_budget_items_price3">
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= MaterialBudgetItem.human_attribute_name(:consolidate_units) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
                 <%end%>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                        <span>
+                          <%= "Год&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html_safe %>
+                        </span>
+                    </div>
+                  </div>
+                </th>
                 <th></th>
               </tr>
             </thead>

@@ -7,9 +7,15 @@ module API
       class MeetingsAPI < ::API::OpenProjectAPI
         resources :meetings do
           get do
-            @meetings = Meeting.all
+            meetings = if params[:project_identifier].nil?
+                          Meeting.all
+                       else
+                          project_id = Project.find_by(identifier: params[:project_identifier]).id;
+                          puts project_id
+                          Meeting.where('project_id = ?', project_id)
+                       end
 
-            MeetingCollectionRepresenter.new(@meetings,
+            MeetingCollectionRepresenter.new(meetings,
                                               api_v3_paths.meetings,
                                               current_user: current_user)
           end

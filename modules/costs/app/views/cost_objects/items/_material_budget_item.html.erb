@@ -80,7 +80,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </a>
       </cost-unit-subform>
     </td>
+    <td class="currency budget-table--fields">
+      <% obj_id = "#{id_prefix}_passport_units" %>
+      <%# Keep current budget as hidden field because otherwise they will be overridden %>
+      <cost-unit-subform obj-id="<%= obj_id %>" obj-name="<%= "#{name_prefix}[passport_units]" %>">
+        <a id="<%= obj_id %>" class="costs--edit-planned-costs-btn" role="button" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+          <%= number_to_currency(material_budget_item.passport_units || 0) %>
+        </a>
+      </cost-unit-subform>
+    </td>
+    <td class="currency budget-table--fields">
+      <% obj_id = "#{id_prefix}_consolidate_units" %>
+      <%# Keep current budget as hidden field because otherwise they will be overridden %>
+      <cost-unit-subform obj-id="<%= obj_id %>" obj-name="<%= "#{name_prefix}[consolidate_units]" %>">
+        <a id="<%= obj_id %>" class="costs--edit-planned-costs-btn" role="button" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+          <%= number_to_currency(material_budget_item.consolidate_units || 0) %>
+        </a>
+      </cost-unit-subform>
+    </td>
   <% end %>
+  <td class="plan_year">
+    <div class="form--field-container">
+      <div class="form--text-field-container -xslim">
+        <label class="hidden-for-sighted" for="<%= id_prefix %>_units">Год</label>
+        <%= cost_form.number_field :plan_year,
+                                   index: id_or_index,
+                                   min: 1900,
+                                   step: 1,
+                                   class: 'budget-item-value form--text-field',
+                                   data: { :'request-key' => 'plan_year' } %>
+      </div>
+    </div>
+  </td>
   <td class="delete budget-table--fields buttons">
     <a class="delete-budget-item no-decoration-on-hover" title="<%= t(:button_delete) %>">
       <%= op_icon('icon-context icon-delete') %>

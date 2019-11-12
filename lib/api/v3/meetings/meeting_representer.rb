@@ -19,7 +19,7 @@ module API
         property :start_time,
                  render_nil: true,
                  exec_context: :decorator,
-                 getter: ->(*) { datetime_formatter.format_datetime(represented.start_time) }
+                 getter: ->(*) { datetime_formatter.format_date(represented.start_time) }
 
         property :agenda_text,
                  render_nil: true,

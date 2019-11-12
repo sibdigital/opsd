@@ -30,15 +30,15 @@
     <tr>
         <td>Фильтр</td>
         <td>
-            <a href="" (click)="this.blueChild.changeFilter('all')">Все</a> /
-            <a href="" (click)="this.blueChild.changeFilter('vsrok')">Исполнено в срок</a> /
-            <a href="" (click)="this.blueChild.changeFilter('sopozdaniem')">Исполнено с опозданием</a> /
-            <a href="" (click)="this.blueChild.changeFilter('vrabote')">В работе</a> /
-            <a href="" (click)="this.blueChild.changeFilter('predstoyashie')">Предстоящие</a>
+            <a href="" (click)="this.blueChild.changeFilter('all'); predstoyashie=false;">Все</a> /
+            <a href="" (click)="this.blueChild.changeFilter('vsrok'); predstoyashie=false;">Исполнено в срок</a> /
+            <a href="" (click)="this.blueChild.changeFilter('sopozdaniem'); predstoyashie=false;">Исполнено с опозданием</a> /
+            <a href="" (click)="this.blueChild.changeFilter('vrabote'); predstoyashie=false;">В работе</a> /
+            <a href="" (click)="this.blueChild.changeFilter('predstoyashie'); predstoyashie=true;">Предстоящие</a>
         </td>
     </tr>
 
-    <tr>
+    <tr *ngIf="predstoyashie">
         <td>Предстоящие</td>
         <td>
             <u><a href="" (click)="this.blueChild.limitDays(3)">3 дня</a></u>&nbsp;

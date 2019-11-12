@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -6,6 +6,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
+import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
 
 export interface ValueOption {
   name:string;
@@ -28,6 +29,7 @@ export class DesktopTabComponent implements OnInit {
   public compareByHref = AngularTrackingHelpers.compareByHref;
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
+  @ViewChildren(HomescreenDiagramComponent) homescreenDiagrams:QueryList<HomescreenDiagramComponent>;
 
   constructor(
     protected halResourceService:HalResourceService,
@@ -183,6 +185,11 @@ export class DesktopTabComponent implements OnInit {
 
   public handleUserSubmit() {
     if (this.selectedOption) {
+      this.homescreenDiagrams.forEach((diagram) => {
+        if (this.selectedOption.$href) {
+          diagram.refresh(this.selectedOption.$href);
+        }
+      });
       this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.data = [];
       let from = new Date();

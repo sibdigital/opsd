@@ -15,6 +15,7 @@ module API
           @organization = params[:organization]
           @current_user = current_user
           @global_role = global_role
+          @project = params[:project]
         end
 
         property :data,
@@ -93,7 +94,7 @@ on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.tar
 where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
 group by yearly.project_id, yearly.target_id
           SQL
-          arr = Project.visible(current_user).map { |p| p.id }
+          arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
           @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
           @plan_facts.map do |plan|
             project = plan.project
@@ -121,7 +122,9 @@ group by yearly.project_id, yearly.target_id
           ne_ispolneno = 0
           riski = 0
           kt = Type.find_by name: I18n.t(:default_type_milestone)
-          ProjectIspolnStat.where(type_id: kt.id).map do |ispoln|
+          pis = ProjectIspolnStat.where(type_id: kt.id)
+          pis = pis.where(project_id: @project) if @project && @project != '0'
+          pis.map do |ispoln|
             # +-tan 2019.09.17
             if ispoln.project.visible? current_user
               project = ispoln.project #Project.visible(current_user).find(ispoln.project_id)
@@ -149,11 +152,18 @@ group by yearly.project_id, yearly.target_id
           spent = BigDecimal("0")
 
           cost_objects.each do |cost_object|
-            project = Project.visible(current_user).find(cost_object.project_id)
-            exist = which_role(project, @current_user, @global_role)
-            if exist
-              total_budget += cost_object.budget
-              spent += cost_object.spent
+            if @project && @project != '0'
+              if @project == cost_object.project_id.to_s
+                total_budget += cost_object.budget
+                spent += cost_object.spent
+              end
+            else
+              project = Project.visible(current_user).find(cost_object.project_id)
+              exist = which_role(project, @current_user, @global_role)
+              if exist
+                total_budget += cost_object.budget
+                spent += cost_object.spent
+              end
             end
           end
 
@@ -173,11 +183,19 @@ group by yearly.project_id, yearly.target_id
           kritich = 0
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
-          @risks = ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
+          @risks = if @project && @project != '0'
+                     ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
+select type, project_id, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
+where type in ('created_risk', 'no_risk_problem') and project_id = #{@project}
+group by type, project_id, importance_id
+            SQL
+                   else
+                     ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
 select type, project_id, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
 where type in ('created_risk', 'no_risk_problem')
 group by type, project_id, importance_id
-          SQL
+            SQL
+                     end
           @risks.map do |risk|
             # +-tan 2019.09.17
             if risk.project.visible? current_user
