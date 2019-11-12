@@ -24,24 +24,24 @@ function notifying()
   //   }
   // });
 
-  jQuery.ajax({ type: 'GET',
-    url: '/alerts/get_pop_up_alerts',
-    async: true,
-    success: function(text)
-    {
-      if (text!==null&&text!==undefined)
-      {
-        count=text.length;
-        for (var i=0;i<count;i++)
-        {
-          var date=new Date(text[i].alert_date);
-          var info = text[i].about.split("^");
-          pop(text[i].id, info,time);
-        }
-      }
-    }
-  });
-  setTimeout(notifying,requestdelay);
+  // jQuery.ajax({ type: 'GET',
+  //   url: '/alerts/get_pop_up_alerts',
+  //   async: true,
+  //   success: function(text)
+  //   {
+  //     if (text!==null&&text!==undefined)
+  //     {
+  //       count=text.length;
+  //       for (var i=0;i<count;i++)
+  //       {
+  //         var date=new Date(text[i].alert_date);
+  //         var info = text[i].about.split("^");
+  //         pop(text[i].id, info,time);
+  //       }
+  //     }
+  //   }
+  // });
+  //setTimeout(notifying,requestdelay);
 }
 
 function pop(id, text, time){
