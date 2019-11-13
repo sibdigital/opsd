@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
   before_action :authorize, only: [
     :show, :edit, :update, :modules, :types, :custom_fields
   ]
-  before_action :authorize_global, only: [:new, :create]
+  before_action :authorize_global, only: [:index, :new, :create]
   before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
