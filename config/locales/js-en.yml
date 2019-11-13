@@ -733,6 +733,7 @@ en:
         latest_activity: Последние действия
         created_by_me: Создано мной
         assigned_to_me: Предназначено для меня
+        highlight_by_status: Подсветка по статусу
         recently_created: Недавно созданное
         all_open: Все открытые
         summary: Сводка
@@ -805,6 +806,7 @@ en:
           entire_row_by: Вся строка по
           status: Состояние
           priority: Приоритет
+          indication: Индикация
           type: Тип
         columns_help_text: Используйте ввод выше для добавления или удаления столбцов
           в табличном представлении. Вы можете перетаскивать столбцы для изменения

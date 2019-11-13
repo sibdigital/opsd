@@ -35,6 +35,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
       type: this.I18n.t('js.work_packages.properties.type'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
+      indication: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.indication'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     },
     upsaleEnterpriseOnly: this.I18n.t('js.upsale.ee_only'),
@@ -83,7 +84,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
       this.highlightingMode = mode;
     }
 
-    if (['status', 'priority', 'type'].indexOf(this.highlightingMode) !== -1) {
+    if (['status', 'priority', 'type', 'indication'].indexOf(this.highlightingMode) !== -1) {
       this.lastEntireRowAttribute = this.highlightingMode;
       this.entireRowMode = true;
     } else {

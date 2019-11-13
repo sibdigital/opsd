@@ -423,11 +423,11 @@ class PermittedParams
 
   #bbm(
   def control_level
-    params.require(:control_level_id).permit(:code, :name, :color_id)
+    params.require(:control_level).permit(:code, :name, :color_id)
   end
 
   def control_level_roles
-    params.require(:control_level_id).permit(roles: [])
+    params.require(:control_level).permit(roles: [])
   end
 
   def typed_risk

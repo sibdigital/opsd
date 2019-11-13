@@ -646,6 +646,7 @@ en:
         last_due_date: Текущая дата окончания
         first_start_date: Изначальная дата начала
         last_start_date: Текущая дата начала
+        control_level: Уровень контроля
         #)
       doorkeeper/application:
         uid: ID клиента
@@ -942,6 +943,7 @@ en:
 #    period: Периодичность добавления отчетов
     time: Время
     busyness: Занятость
+    control_level_id: Уровень контроля
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций
