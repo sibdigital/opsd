@@ -36,10 +36,10 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
                                           :target_id,
                                           :description,
                                           :fixed_date,
-                                          { new_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget] },
-                                          { new_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget] },
-                                          { existing_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget] },
-                                          existing_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget])
+                                          { new_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget, :passport_units, :consolidate_units, :plan_year] },
+                                          { new_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget, :passport_units, :consolidate_units, :plan_year] },
+                                          { existing_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget, :passport_units, :consolidate_units, :plan_year] },
+                                          existing_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget, :passport_units, :consolidate_units, :plan_year])
     end
 
     def cost_type

@@ -12,7 +12,7 @@ class ReportMeetingsController < ApplicationController
   def generate_some_report
     meeting = Meeting.find(params[:id])
     @title = meeting.title
-    @location = meeting.raion
+    @location = meeting.location
     @date_meeting = format_date meeting.start_date
     @number_meeting = ''
     @uchastniki = format_participant_list(meeting.participants).join(', ') + meeting.add_participants

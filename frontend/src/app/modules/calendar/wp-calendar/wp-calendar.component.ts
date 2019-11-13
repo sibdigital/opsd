@@ -97,10 +97,24 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   public addTooltip($event:any) {
     let event = $event.detail.event;
     let element = $event.detail.element;
-//    let workPackage = event.workPackage;
+//  let workPackage = event.workPackage;
+
+    let contentStr;
+
+    switch (event.type_event) {
+      case 'meeting':
+        contentStr =  this.contentStringMeeting(event.meeting);
+        break;
+      case 'user_task':
+        contentStr = this.contentStringUserTask(event.user_task);
+        break;
+      default:
+        contentStr = this.contentString(event.workPackage);
+    }
 
     jQuery(element).tooltip({
-      content: event.type_event == "meeting" ? this.contentStringMeeting(event.meeting) : this.contentString(event.workPackage),
+      //content: event.type_event == "meeting" ? this.contentStringMeeting(event.meeting) : this.contentString(event.workPackage),
+      content: contentStr,
       items: '.fc-content',
       track: true
     });
@@ -175,12 +189,13 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       this.mapToCalendarEvents(collection.elements);
       this.setCalendarsDate();
       this.getMeetingEvents();
+      this.getUserTasks();
     });
   }
 
   private getMeetingEvents() {
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.meetings.toString()).toPromise().then(
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.meetings.toString(), {project_identifier: this.projectIdentifier}).toPromise().then(
 
       (resources: CollectionResource<HalResource>) => {
 
@@ -189,9 +204,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
           return {
             title: meeting.title,
             start: meeting.startTime,
-            //end: meeting.startTime,
+          //  end: meeting.startTime,
             className: `__hl_row_type_${meeting.workPackageId}`,
-            //workPackage: meeting.workPackage,
+            // workPackage: meeting.workPackage,
             meeting: meeting,
             type_event: "meeting"
           }
@@ -206,13 +221,49 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       });
   }
 
+  private getUserTasks() {
+    this.halResourceService
+     // .get<CollectionResource<HalResource>>(`${this.pathHelper.api.v3.apiV3Base}/user_tasks`, {project_identifier: this.projectIdentifier}).toPromise().then(
+      .get<CollectionResource<HalResource>>(`${this.pathHelper.api.v3.apiV3Base}/user_tasks`).toPromise().then(
+
+      (resources: CollectionResource<HalResource>) => {
+
+        console.log("resources"  + resources);
+        if (resources) {
+
+          let events = resources.source.map((user_task: HalResource) => {
+          //let events = resources.elements.map((user_task: HalResource) => {
+
+            return {
+              title: "userTask" + user_task.title,
+              //start: user_task.due_date,
+              start: "2019-03-11",
+              // end: meeting.startTime,
+              // className: `__hl_row_type_${meeting.workPackageId}`,
+              // workPackage: meeting.workPackage,
+              user_task: user_task,
+              type_event: "user_task"
+            }
+
+          });
+
+
+          let oldEvent = this.ucCalendar.clientEvents(null);
+
+          events = oldEvent.concat(events);
+
+          this.ucCalendar.renderEvents(events);
+        }
+      });
+  }
+
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
 
     let events = workPackages.map((workPackage:WorkPackageResource) => {
       let startDate = this.eventDate(workPackage, 'start');
       let endDate = this.eventDate(workPackage, 'due');
 
-      return {
+       return {
         title: workPackage.subject,
         start: startDate,
         end: endDate,
@@ -256,14 +307,37 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         // -12 for the bottom padding
         return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
       },
+
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'month,basicWeek'
+        right: 'month247, workMonth, week247, workWeek, agendaDayFull'
       },
       views: {
-        month: {
-          fixedWeekCount: false
+        month247: {
+          type: 'month',
+          buttonText: 'Месяц 24/7'
+        },
+        workMonth: {
+          type: 'month',
+          weekends: false,
+          buttonText: 'Месяц 24/5'
+        },
+        week247:{
+          type: 'basicWeek',
+          buttonText: 'Неделя'
+        },
+        workWeek:{
+          type: 'basicWeek',
+          weekends: false,
+          buttonText: 'Рабочая неделя'
+        },
+        agendaDayFull:{
+          type: 'agendaDay',
+          buttonText: 'День'
+        },
+        day: {
+          titleFormat: 'YYYY, MM, DD'
         }
       }
     };
@@ -335,6 +409,19 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
             <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.participantList)}</span>
           </li>
           
+        </ul>
+        `;
+  }
+
+  private contentStringUserTask(userTask:any) {
+    return `
+        <b> Задача: </b> ${this.sanitizer.sanitize(SecurityContext.HTML, userTask.text)}
+        
+        <ul class="tooltip--map">
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">Срок:</span>
+            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, userTask.due_date)}</span>
+          </li>          
         </ul>
         `;
   }

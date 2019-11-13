@@ -24,7 +24,6 @@ class Meeting < ActiveRecord::Base
   belongs_to :project
   #bbm(
   belongs_to :work_package
-  belongs_to :raion, class_name: 'Raion', foreign_key: :location
   # )
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   belongs_to :chairman, class_name: 'User', foreign_key: 'chairman_id'
