@@ -1695,7 +1695,7 @@ class ReportProgressProjectController < ApplicationController
   def get_budjet_by_cost_type
     sql = "select t.id, t.name,t.national_project_goal, m.cost_type_id, sum(m.passport_units) as passport_units,
                    sum(m.consolidate_units) as consolidate_units, sum(m.budget) as limit_units,
-                   sum(ce.recorded_liability) as recorded_liability,sum(ce.units) as kassa
+                   sum(ce.recorded_liability) as recorded_liability,sum(ce.costs) as kassa
            FROM targets t
            left join cost_objects co on co.target_id = t.id
            left join material_budget_items m on m.cost_object_id = co.id
