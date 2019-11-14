@@ -139,15 +139,15 @@ module API
             end
 
             #ban(
-            route_param :assigned_to_id do
-              before do
-                @work_package.update(assigned_to_id: params[:assigned_to_id])
-              end
-              get do
-                message_assigned = 'Информация обновлена'
-                message_assigned
-              end
-            end
+            # route_param :assigned_to_id do
+            #   before do
+            #     @work_package.update(assigned_to_id: params[:assigned_to_id])
+            #   end
+            #   get do
+            #     message_assigned = 'Информация обновлена'
+            #     message_assigned
+            #   end
+            # end
             # )
 
             delete do
