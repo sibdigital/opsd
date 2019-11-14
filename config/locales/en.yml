@@ -1000,6 +1000,7 @@ en:
     value: Значение
     inn: ИНН
     is_legal_entity: Юридическое лицо
+    is_additional: Дополнительный
     org_prav_forma: Организационно-правовая форма
     ur_addr: Юридический адрес
     post_addr: Почтовый адрес
@@ -1013,11 +1014,13 @@ en:
     arbitary_object: Произвольный объект
     raion: Район
     raions: районы
+    result_assigned: Назначено
+    result_due_date: Дата окончания
     target_status: Статус
     target_type: Тип
     target_parent: Родитель
     label_targets: Целевые показатели
-    label_target_calc_procedures: Методики расчета
+    label_target_calc_procedures: Методики расчета дополнительных показателей
     date_agreement: Дата
     number_agreement: Номер
     count_days: Количество рабочих дней (направление разъяснений по Соглашению)
@@ -1027,6 +1030,9 @@ en:
     other_liabilities_2281: Иные обязательства п.п. 2.2.8.1
     other_liabilities_2282: Иные обязательства п.п. 2.2.8.2
     national_project: Национальный проект
+    national_project_goal: Цель национального проекта
+    national_project_result: Результат национального проекта
+    national_project_charact: Характеристика результата национального проекта
     federal_project: Федеральный проект
     date_end: Действует до
   #)
@@ -1844,8 +1850,8 @@ en:
   label_raion: Район
   label_raions: Районы
   label_target: Цели и результаты
-  label_target_calc_procedures: Методики расчета
-  label_target_calc_procedure: Методика расчета
+  label_target_calc_procedures: Методики расчета дополнительных показателей
+  label_target_calc_procedure: Методика расчета дополнительных показателей
   label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
   label_generate_key: Сгенерируйте ключ
@@ -2056,7 +2062,7 @@ en:
   label_plan_uploader_settings: Настройка соответствия полей
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
-  label_target_calc_procedure_new: Новая методика расчета
+  label_target_calc_procedure_new: Новая методика расчета дополнительных показателей
   label_target_new: Добавить цель
   label_indicator_new: Добавить целевой показатель
   label_result_new: Добавить результат
