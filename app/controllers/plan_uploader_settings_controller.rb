@@ -103,15 +103,15 @@ class PlanUploaderSettingsController < ApplicationController
     # массив типов для select'ов
     @settings_types = []
     @plan_uploader_settings_types.each do |setting|
-      @settings_types << [setting.setting_type, setting.setting_type]
+      @settings_types << [t(setting.setting_type), setting.setting_type]
     end
 
-    if !@settings_types.include?(['UploadPlanType1', 'UploadPlanType1'])
-      @settings_types << ['UploadPlanType1', 'UploadPlanType1']
-    end
-    if !@settings_types.include?(['UploadPlanType2', 'UploadPlanType2'])
-      @settings_types << ['UploadPlanType2', 'UploadPlanType2']
-    end
+    # if !@settings_types.include?(['UploadPlanType1', 'UploadPlanType1'])
+    #   @settings_types << [t('UploadPlanType1'), 'UploadPlanType1']
+    # end
+    # if !@settings_types.include?(['UploadPlanType2', 'UploadPlanType2'])
+    #   @settings_types << [t('UploadPlanType2'), 'UploadPlanType2']
+    # end
     @settings_types << ['выберите для ввода новой настройки', 999]
     # текущее значение
     @setting_type = params[:setting_type]
