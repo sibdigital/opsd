@@ -104,7 +104,7 @@ group by yearly.project_id, yearly.target_id
               znamenatel = plan.target_plan_year_value;
               procent = znamenatel == 0 ? 0 : chislitel / znamenatel
               ne_ispolneno += 1 if procent == 0
-              v_rabote += 1 if procent < 100
+              v_rabote += 1 if procent < 100 and procent > 0
               ispolneno += 1 if procent == 100
             end
           end
