@@ -457,6 +457,14 @@ jQuery( document ).ready(function() {
         row_id = 0;
     });
 
+    jQuery('#upload-plan-type').change(function(){
+      if(jQuery('#upload-plan-type option:selected').val() == "UploadPlanType6"){
+          jQuery('#upload-plan-type6-notify').show();
+      }
+      else{
+          jQuery('#upload-plan-type6-notify').hide();
+      }
+    });
 });
 //)
 //knm +

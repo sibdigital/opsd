@@ -526,7 +526,7 @@ class PermittedParams
   # )
   #xcc(
   def target
-    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type)
+    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type, :is_additional)
   end
 
   def target_execution_value
