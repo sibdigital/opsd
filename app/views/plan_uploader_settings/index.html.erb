@@ -3,7 +3,7 @@
 <%# local_assigns[:additional_breadcrumb] = @plan_uploader_settings %>
 <%= breadcrumb_toolbar %>
 
-<%= toolbar title: 'Настройка соответствия полей' do %>
+<%= toolbar title: t(:label_plan_uploader_settings) do %>
 <!--  <li class="toolbar-item">-->
     <%#= link_to new_plan_uploader_setting_path,
                 { class: 'button -alt-highlight',
@@ -17,8 +17,8 @@
 
 
 <% @plan_uploader_settings_types.each do |setting_type| %>
-  <h3 class="-no-border">
-    <%= setting_type.setting_type %>
+  <h3 class="-no-border" style="margin-top: 15px;">
+    <%= t(setting_type.setting_type) %>
   </h3>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
