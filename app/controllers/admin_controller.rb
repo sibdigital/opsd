@@ -64,11 +64,13 @@ class AdminController < ApplicationController
   # nse for http://localhost:3000/admin/send_email_assignee_report?
   def send_email_assignee_report
     workPackage = WorkPackage.find(params["workPackageId"])
-    unless workPackage.assigned_to_id.nil?
+    unless workPackage.assigned_to_id.nil? || workPackage.assigned_to_id == 0 #+ban
       @assigneee = User.find(workPackage.assigned_to_id)
-      @term_date = workPackage.due_date #ban
-      @project_name = Project.find_by(id: workPackage.project_id).name #ban
-      UserMailer.work_package_report_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now #ban
+      #ban(
+      @term_date = workPackage.due_date
+      @project_name = Project.find_by(id: workPackage.project_id).name
+      UserMailer.work_package_report_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now
+      #ban)
       #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
       #Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)
       @alert = Alert.new
