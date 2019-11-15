@@ -24,12 +24,23 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <h3 class="widget-box--header">
-  <span class="widget-box--header-title"><%=l(:label_project_description)%></span>
+  <span class="widget-box--header-title"><%= l(:label_project_description) %></span>
 </h3>
 
 <div class="overview">
   <%= format_text @project.description %>
   <%= 'Дата начала: ' + @project.start_date.strftime("%d/%m/%Y") + ' Дата окончания: ' + @project.due_date.strftime("%d/%m/%Y") %>
+
+  <% sql = "SELECT m.user_id FROM members m
+    JOIN member_roles mr ON m.id = mr.member_id
+    JOIN roles r ON mr.role_id = r.id
+    WHERE m.project_id = '" + @project.id.to_s + "' AND r.name = '" + I18n.t(:default_role_project_head) + "'" %>
+  <% project_head_id = ActiveRecord::Base.connection.execute(sql).values.first %>
+  <% if project_head_id.present? %>
+    <% if @project.project_approve_status_id == Enumeration.where(:name => I18n.t(:default_project_approve_status_approve_project_head)).first.id && @project.journals.first.user_id == project_head_id[0] %>
+      <p><%= 'Дата утверждения: ' + @project.updated_on.strftime("%d/%m/%Y") %>
+    <% end %>
+  <% end %>
 </div>
 
 <% if current_user.allowed_to?(:edit_project, project) %>
