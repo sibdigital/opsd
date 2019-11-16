@@ -23,7 +23,7 @@
       <tr>
         <%= content_tag(:td, link_to(task.project.identifier, project_path(task.project.identifier), title: task.project.identifier)) %>
         <%= content_tag(:td, link_to(task.subject, project_work_package_path(task.project.identifier, task.id, 'activity') + '?plan_type=execution', title: task.subject)) %>
-        <%= task.assigned_to_id == nil ? content_tag(:td, "-") : content_tag(:td, User.find(task.assigned_to_id).name) %>
+        <%= task.assigned_to_id == nil ? content_tag(:td, "-") : content_tag(:td, (task.assigned_to_id && task.assigned_to_id != 0 ? User.find(task.assigned_to_id).name : "")) %>
         <%= content_tag(:td, format_date(task.due_date)) %>
       </tr>
     <% end %>
@@ -54,7 +54,7 @@
       <tr>
         <%= content_tag(:td, link_to(task.project.identifier, project_path(task.project.identifier), title: task.project.identifier)) %>
         <%= content_tag(:td, link_to(task.subject, project_work_package_path(task.project.identifier, task.id, 'activity') + '?plan_type=execution', title: task.subject)) %>
-        <%= task.assigned_to_id == nil ? content_tag(:td, "-") : content_tag(:td, User.find(task.assigned_to_id).name) %>
+        <%= task.assigned_to_id == nil ? content_tag(:td, "-") : content_tag(:td, (task.assigned_to_id && task.assigned_to_id != 0 ? User.find(task.assigned_to_id).name : "")) %>
         <%= content_tag(:td, format_date(task.due_date)) %>
       </tr>
     <% end %>
