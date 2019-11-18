@@ -165,7 +165,7 @@ export class DesktopTabComponent implements OnInit {
     this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects.toString())
       .toPromise()
       .then((projects:CollectionResource<HalResource>) => {
-        this.valueOptions = projects.elements.map((el:HalResource) => {
+        this.valueOptions = projects.elements.sort((a, b) => (a.name > b.name ? 1 : -1)).map((el:HalResource) => {
           return {name: el.name, $href: el.id};
         });
         this.valueOptions.unshift({name: 'Все проекты', $href: "0"});
