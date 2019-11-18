@@ -3,8 +3,17 @@ class CommunicationRequirementsController < ApplicationController
   before_action :find_project
   before_action :find_com_requirement, only: [:edit, :update, :destroy]
 
+  include StakeholdersHelper
+
   def new
     @com_req = CommunicationRequirement.new(project_id: @project.id)
+
+    sth_users, sth_orgs = get_stakeholders(@project.id)
+    @stakeholders = []
+    sth_users.each do |user|
+      @stakeholders.push [user['name'], user['user_id']]
+    end
+
   end
 
   def create
@@ -19,7 +28,11 @@ class CommunicationRequirementsController < ApplicationController
   end
 
   def edit
-
+    sth_users, sth_orgs = get_stakeholders(@project.id)
+    @stakeholders = []
+    sth_users.each do |user|
+      @stakeholders.push [user['name'], user['user_id']]
+    end
   end
 
   def update

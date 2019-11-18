@@ -65,6 +65,10 @@ class UsersController < ApplicationController
     init_counter_value("Principal", @user.class.name, @user.id)
   end
 
+  # after_action only: [:update] do
+  #   update_stakeholder_org(@user.id, @user.organization_id)
+  # end
+
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
@@ -75,6 +79,7 @@ class UsersController < ApplicationController
   include CustomFilesHelper
   include CounterHelper
   include ClassifierHelper
+  include StakeholdersHelper
 
   def index
     @groups = Group.all.sort
@@ -125,7 +130,7 @@ class UsersController < ApplicationController
                                                     OR journable_type = ?
                                                     OR journable_type = ?
                                                     OR journable_type = ?) AND user_id = ?",
-                                                  "WorkPackage", "NationalProject", "Document", "Message","Board","Meeting","MeetingContent","News","Project", "CostObject",@user.id)
+                                                  "WorkPackage", "NationalProject", "Document", "Message", "Board", "Meeting", "MeetingContent", "News", "Project", "CostObject", @user.id)
                      .order(sort_clause)
                      .page(page_param)
                      .per_page(per_page_param)

@@ -868,7 +868,7 @@ class PlanUploadersController < ApplicationController
   def add_to_members(user_id, user)
     if Member.where(user_id: user_id, project_id: @project_for_load.id).count < 1
       @project_for_load.add_member!(user, Role.where(name: t(:default_role_member)).first)
-      add_to_stakeholders(user_id, user)
+      # add_to_stakeholders(user_id, user)
     end
   end
 

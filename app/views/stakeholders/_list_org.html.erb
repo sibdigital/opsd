@@ -1,0 +1,47 @@
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="national_projects_items">
+      <thead>
+      <tr>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span>
+                  <%= Stakeholder.human_attribute_name(:id) %>
+                </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+                <span style="width: 200px;">
+                  <%= Stakeholder.human_attribute_name(:name) %>
+                </span>
+            </div>
+          </div>
+        </th>
+<!--        <th>-->
+<!--          <div class="generic-table--sort-header-outer">-->
+<!--            <div class="generic-table--sort-header">-->
+<!--                <span style="width: 200px;">-->
+                  <%#= Stakeholder.human_attribute_name(:description) %>
+<!--                </span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </th>-->
+      </tr>
+      </thead>
+      <tbody>
+
+      <% data.each do |row| %>
+        <tr>
+          <%= content_tag(:td, row['organization_id']) %>
+          <%= content_tag(:td, row['name']) %>
+          <%#= content_tag(:td, row.description) %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
