@@ -5,18 +5,18 @@
 <% end %>
 
 <div style="margin-bottom: 30px;">
-  <h3>Организации</h3>
-  <% if @org_stakeholders.present? %>
-    <%= render :partial => 'stakeholders/list', :locals => {:type => 'orgs', :data => @org_stakeholders} %>
+  <h3>Участники</h3>
+  <% if @user_stakeholders.present? %>
+    <%= render :partial => 'stakeholders/list', :locals => {:type => 'users', :data => @user_stakeholders} %>
   <% else %>
     <%= l(:no_results_title_text) %>
   <% end %>
 </div>
 
 <div style="margin-bottom: 30px;">
-  <h3>Участники</h3>
-  <% if @user_stakeholders.present? %>
-    <%= render :partial => 'stakeholders/list', :locals => {:type => 'users', :data => @user_stakeholders} %>
+  <h3>Организации</h3>
+  <% if @org_stakeholders.present? %>
+    <%= render :partial => 'stakeholders/list_org', :locals => {:type => 'orgs', :data => @org_stakeholders} %>
   <% else %>
     <%= l(:no_results_title_text) %>
   <% end %>

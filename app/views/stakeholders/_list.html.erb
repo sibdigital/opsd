@@ -23,15 +23,15 @@
             </div>
           </div>
         </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-                <span style="width: 200px;">
-                  <%= Stakeholder.human_attribute_name(:description) %>
-                </span>
-            </div>
-          </div>
-        </th>
+<!--        <th>-->
+<!--          <div class="generic-table--sort-header-outer">-->
+<!--            <div class="generic-table--sort-header">-->
+<!--                <span style="width: 200px;">-->
+                  <%#= Stakeholder.human_attribute_name(:description) %>
+<!--                </span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </th>-->
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
@@ -101,21 +101,23 @@
       <% data.each do |row| %>
         <tr>
           <% if type == 'users' %>
-            <%= content_tag(:td, link_to(row.id, user_path(id: row.user_id))) %>
-            <%= content_tag(:td, link_to(h(row.name), user_path(id: row.user_id))) %>
+            <%#= content_tag(:td, link_to(row.id, user_path(id: row.user_id))) %>
+            <%#= content_tag(:td, row.id) %>
+            <%= content_tag(:td, row['user_id']) %>
+            <%= content_tag(:td, link_to(h(row['name']), user_path(id: row['user_id'])) + " (" + (row['organization_id'].present? ? Organization.find(row['organization_id']).name : "") + ")") %>
           <% else %>
             <%#= content_tag(:td, link_to(row.id, organization_path(id: row.organization_id))) %>
             <%#= content_tag(:td, link_to(h(row.name), organization_path(id: row.organization_id))) %>
-            <%= content_tag(:td, row.id) %>
-            <%= content_tag(:td, row.name) %>
+            <%= content_tag(:td, row['user_id']) %>
+            <%= content_tag(:td, row['name']) %>
           <% end %>
-          <%= content_tag(:td, row.description) %>
-          <%= content_tag(:td, row.phone_wrk) %>
-          <%= content_tag(:td, row.phone_wrk_add) %>
-          <%= content_tag(:td, row.phone_mobile) %>
-          <%= content_tag(:td, row.mail_add) %>
-          <%= content_tag(:td, row.address) %>
-          <%= content_tag(:td, row.cabinet) %>
+          <%#= content_tag(:td, row.description) %>
+          <%= content_tag(:td, row['phone_wrk']) %>
+          <%= content_tag(:td, row['phone_wrk_add']) %>
+          <%= content_tag(:td, row['phone_mobile']) %>
+          <%= content_tag(:td, row['mail_add']) %>
+          <%= content_tag(:td, row['address']) %>
+          <%= content_tag(:td, row['cabinet']) %>
         </tr>
       <% end %>
       </tbody>

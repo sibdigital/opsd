@@ -1,11 +1,17 @@
 class StakeholdersController < ApplicationController
   before_action :find_optional_project
 
+  include StakeholdersHelper
+
   def index
     @project = Project.find(params[:project_id])
-    @org_stakeholders = StakeholderOrganization.where(project_id: @project.id).all
-    @user_stakeholders = StakeholderUser.where(project_id: @project.id).order(:organization_id).all
+    # @org_stakeholders = StakeholderOrganization.where(project_id: @project.id).all
+    #@org_stakeholders = StakeholderUser.select("name, organization_id").where(project_id: @project.id).order(:organization_id).distinct
+    # @user_stakeholders = StakeholderUser.where(project_id: @project.id).order(:organization_id).all
     @outer_stakeholders = StakeholderOuter.where(project_id: @project.id).all
+
+    @user_stakeholders, @org_stakeholders = get_stakeholders(@project.id)
+
   end
 
   def default_breadcrumb

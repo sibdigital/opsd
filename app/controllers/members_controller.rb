@@ -72,7 +72,7 @@ class MembersController < ApplicationController
         end
 
         #zbd(
-        add_to_stakeholders added_member
+        # add_to_stakeholders added_member
         # )
       end
       #)
@@ -134,6 +134,8 @@ class MembersController < ApplicationController
         #)
         @member.destroy
       end
+
+      # del_from_stakeholders @member
     end
 
     redirect_to project_members_path(project_id: @project)
@@ -340,7 +342,9 @@ class MembersController < ApplicationController
   def add_to_stakeholders(member)
     user = User.find(member.user_id)
     if user.present?
+      new_record = false
       su = StakeholderUser.where(user_id: user.id, project_id: @project.id).first_or_create do |s|
+        new_record = true
         s.user_id = user.id
         s.organization_id = user.organization_id
         s.name = user.name
@@ -353,22 +357,52 @@ class MembersController < ApplicationController
         s.cabinet = user.cabinet
       end
 
+      #updates record
+      if !new_record
+        params = {}
+        params['user_id'] = user.id
+        params['organization_id'] = user.organization_id
+        params['name'] = user.name
+        params['phone_wrk'] = user.phone_wrk
+        params['phone_wrk_add'] = user.phone_wrk_add
+        params['phone_mobile'] = user.phone_mobile
+        params['mail_add'] = user.mail_add
+        params['address'] = user.address
+        params['cabinet'] = user.cabinet
+        StakeholderUser.update(su.id, params)
+      end
+
       if user.organization_id.present?
         org = Organization.find(user.organization_id)
         if org.present?
+          new_record = false
           so = StakeholderOrganization.where(organization_id: org.id, project_id: @project).first_or_create do |s|
+            new_record = true
             s.organization_id = org.id
             s.name = org.name
-            s.phone_wrk = org.phone_wrk
-            s.phone_wrk_add = org.phone_wrk_add
-            s.phone_mobile = org.phone_mobile
-            s.mail_add = org.mail_add
-            s.address = org.address
-            s.cabinet = org.cabinet
+            # s.phone_wrk = org.phone_wrk
+            # s.phone_wrk_add = org.phone_wrk_add
+            # s.phone_mobile = org.phone_mobile
+            # s.mail_add = org.mail_add
+            # s.address = org.address
+            # s.cabinet = org.cabinet
+          end
+
+          #updates
+          if !new_record
+            params = {}
+            params['organization_id'] = org.id
+            params['name'] = org.name
+            StakeholderOrganization.update(so.id, params)
           end
         end
       end
     end
   end
+
+  def del_from_stakeholders(member)
+    StakeholderUser.where(:user_id=>member.user_id, :project_id=>member.project_id).delete_all
+  end
   # )
+
 end

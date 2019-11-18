@@ -5,6 +5,7 @@ class CommunicationMeetingsController < ApplicationController
 
   include SortHelper
   include PaginationHelper
+  include StakeholdersHelper
 
   def index
     if params[:tab].blank?
@@ -17,8 +18,8 @@ class CommunicationMeetingsController < ApplicationController
     when 'req'
       sort_columns = {'id' => "#{CommunicationRequirement.table_name}.id",
                       'name' => "#{CommunicationRequirement.table_name}.name",
-                       'stakeholder' => "#{Contract.table_name}.stakeholder",
-                       'period' => "#{Contract.table_name}.period"
+                      'stakeholder' => "#{CommunicationRequirement.table_name}.stakeholder",
+                      'period' => "#{CommunicationRequirement.table_name}.period"
       }
       sort_init 'id', 'asc'
       sort_update sort_columns
@@ -44,6 +45,13 @@ class CommunicationMeetingsController < ApplicationController
                    .order(sort_clause)
                    .page(page_param)
                    .per_page(per_page_param)
+
+      sth_users, sth_orgs = get_stakeholders(@project.id)
+      @stakeholders = []
+      sth_users.each do |user|
+        @stakeholders.push [user['name'], user['user_id']]
+      end
+
     end
 
   end
@@ -65,6 +73,11 @@ class CommunicationMeetingsController < ApplicationController
 
   def edit
     @com_meeting_members = CommunicationMeetingMember.where(project_id: @project.id, communication_meeting_id: params[:id]).all
+    sth_users, sth_orgs = get_stakeholders(@project.id)
+    @stakeholders = []
+    sth_users.each do |user|
+      @stakeholders.push [user['name'], user['user_id']]
+    end
   end
 
   def update
