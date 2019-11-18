@@ -37,8 +37,10 @@ See doc/COPYRIGHT.md for more details.
     WHERE m.project_id = '" + @project.id.to_s + "' AND r.name = '" + I18n.t(:default_role_project_head) + "'" %>
   <% project_head_id = ActiveRecord::Base.connection.execute(sql).values.first %>
   <% if project_head_id.present? %>
-    <% if @project.project_approve_status_id == Enumeration.where(:name => I18n.t(:default_project_approve_status_approve_project_head)).first.id && @project.journals.first.user_id == project_head_id[0] %>
-      <p><%= 'Дата утверждения: ' + @project.updated_on.strftime("%d/%m/%Y") %>
+    <% project_journal = Journal::ProjectJournal.where(:identifier => @project.identifier, :project_approve_status_id => Enumeration.where(:name => I18n.t(:default_project_approve_status_approve_project_head)).first.id).first  %>
+
+    <% if project_journal.present? && @project.journals.first.user_id == project_head_id[0] %>
+      <p><%= 'Дата утверждения: ' + project_journal.created_on.strftime("%d/%m/%Y") %>
     <% end %>
   <% end %>
 </div>
