@@ -207,8 +207,8 @@ module API
                     quarter['work_package_id'] = row.work_package_id
                     wp = WorkPackage.find(row.id)
                     quarter['subject'] = wp.subject
-                    quarter['assignee'] = wp.assigned_to.fio
-                    quarter['assignee_id'] = wp.assigned_to.id
+                    quarter['assignee'] = wp.assigned_to ? wp.assigned_to.fio : ''
+                    quarter['assignee_id'] = wp.assigned_to ? wp.assigned_to.id : ''
                     case DateTime.now.month
                     when 1, 2, 3
                       quarter['plan'] = row.quarter1_plan_value

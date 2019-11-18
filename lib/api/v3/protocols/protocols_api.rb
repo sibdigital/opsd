@@ -63,11 +63,16 @@ module API
 
           route_param :id do
             before do
-              @protocol = MeetingProtocol.find(params[:id])
+              begin
+                @protocol = MeetingProtocol.find(params[:id])
+              rescue Exception => e
+                Rails.logger.info(e.message)
+                @protocol = nil
+              end
             end
 
             get do
-              ProtocolRepresenter.new(@protocol, current_user: current_user)
+              ProtocolRepresenter.new(@protocol, current_user: current_user) unless @protocol
             end
           end
         end
