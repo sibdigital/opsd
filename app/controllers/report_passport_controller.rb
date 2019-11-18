@@ -266,6 +266,12 @@ class ReportPassportController < ApplicationController
      sheet[3][1].change_contents(result_str)
      break
    end
+
+    result_str["#"] = " "
+    result_str["$"] = " "
+    result_str["%"] = " "
+    sheet[3][1].change_contents(result_str)
+
    sheet[2][0].change_contents(national_project_goal)
 
    get_result_target_end_date.each_with_index do |result_target, i|
@@ -294,7 +300,7 @@ class ReportPassportController < ApplicationController
        date_end_result = "31.12."+result_target["year"]
      end
 
-     if result_target["result_due_date"] == ""
+     if result_target["result_due_date"] == nil || result_target["result_due_date"] == ""
       sheet.insert_cell(6+i, 2, date_end_result)
      else
       sheet.insert_cell(6+i, 2, result_target["result_due_date"].to_date.strftime("%d.%m.%Y"))
@@ -764,8 +770,7 @@ class ReportPassportController < ApplicationController
       sheet.insert_cell(2+i+countUser, 4, direct_manager)
       sheet.insert_cell(2+i+countUser, 5, member_info["busyness"].to_s)
 
-      str_ids += ", "+user.id.to_s
-
+      str_ids = str_ids == "" ? user.id.to_s : str_ids += ", "+user.id.to_s
 
       sheet.sheet_data[2+i+countUser][0].change_horizontal_alignment('center')
       sheet.sheet_data[2+i+countUser][0].change_vertical_alignment('center')
@@ -868,7 +873,7 @@ class ReportPassportController < ApplicationController
 
         sheet.insert_cell(start_position+1+incriment, 1, role)
         user_id = result_member["user_id"]
-        str_ids += ", "+user_id.to_s
+        str_ids = str_ids == "" ? user_id.to_s : str_ids += ", "+user_id.to_s
         member = User.find_by(id: user_id)
         direct_manager = User.find_by(id: member.direct_manager_id)
         direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
@@ -981,6 +986,7 @@ class ReportPassportController < ApplicationController
 
 
 
+    str_ids = str_ids == "" ? "0" : str_ids
 
     decriment = 0
     members = get_members(str_ids)
