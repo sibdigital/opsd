@@ -24,7 +24,7 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <h3 class="widget-box--header">
-  <span class="widget-box--header-title"><%= l(:label_project_description) %></span>
+  <span class="widget-box--header-title"><%=l(:label_project_description)%></span>
 </h3>
 
 <div class="overview">
@@ -41,6 +41,10 @@ See doc/COPYRIGHT.md for more details.
       <p><%= 'Дата утверждения: ' + @project.updated_on.strftime("%d/%m/%Y") %>
     <% end %>
   <% end %>
+  <%= 'Дата начала: '%>
+  <%= @project.start_date ? @project.start_date.strftime("%d/%m/%Y") : '-'%>
+  <%= ' Дата окончания: ' %>
+  <%= @project.due_date ? @project.due_date.strftime("%d/%m/%Y") : '-'%>
 </div>
 
 <% if current_user.allowed_to?(:edit_project, project) %>

@@ -183,19 +183,13 @@ group by yearly.project_id, yearly.target_id
           kritich = 0
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
-          @risks = if @project && @project != '0'
-                     ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
+          sql_query = <<-SQL
 select type, project_id, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
-where type in ('created_risk', 'no_risk_problem') and project_id = #{@project}
+where type in ('created_risk', 'no_risk_problem') and project_id in (?)
 group by type, project_id, importance_id
             SQL
-                   else
-                     ProjectRiskOnWorkPackagesStat.find_by_sql <<-SQL
-select type, project_id, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
-where type in ('created_risk', 'no_risk_problem')
-group by type, project_id, importance_id
-            SQL
-                     end
+          arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
+          @risks = ProjectRiskOnWorkPackagesStat.find_by_sql([sql_query, arr])
           @risks.map do |risk|
             # +-tan 2019.09.17
             if risk.project.visible? current_user

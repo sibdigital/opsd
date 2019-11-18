@@ -343,7 +343,9 @@ module API
                  render_nil: true
 
         property :on_critical_way,
-                 render_nil: true
+                 getter: ->(*) {
+                   on_cw
+                 }
 
         property :days,
                  render_nil: false,
