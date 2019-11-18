@@ -53,6 +53,10 @@ class Relations::BaseService
       reschedule_result = reschedule(relation)
       result.merge!(reschedule_result)
     end
+    #bbm(
+    WorkPackages::CriticalWayService.new(user: user, work_package: relation.to)
+      .call
+    # )
     result
   end
 

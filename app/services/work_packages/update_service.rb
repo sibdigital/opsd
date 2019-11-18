@@ -81,6 +81,11 @@ class WorkPackages::UpdateService
       end
     end
 
+    #bbm(
+    WorkPackages::CriticalWayService.new(user: user, work_package: work_package)
+      .call
+    # )
+
     result
   end
 

@@ -29,7 +29,10 @@ See doc/COPYRIGHT.md for more details.
 
 <div class="overview">
   <%= format_text @project.description %>
-  <%= 'Дата начала: ' + @project.start_date.strftime("%d/%m/%Y") + ' Дата окончания: ' + @project.due_date.strftime("%d/%m/%Y") %>
+  <%= 'Дата начала: '%>
+  <%= @project.start_date ? @project.start_date.strftime("%d/%m/%Y") : '-'%>
+  <%= ' Дата окончания: ' %>
+  <%= @project.due_date ? @project.due_date.strftime("%d/%m/%Y") : '-'%>
 </div>
 
 <% if current_user.allowed_to?(:edit_project, project) %>
