@@ -9,6 +9,23 @@ class CommunicationRequirementsController < ApplicationController
     @com_req = CommunicationRequirement.new(project_id: @project.id)
 
     sth_users, sth_orgs = get_stakeholders(@project.id)
+
+    # + add StakeholderOuter
+    # sth_outer = StakeholderOuter.where(:project_id => @project.id).all
+    # sth_outer.each do |sth|
+    #   s = []
+    #   s = Hash['user_id'=>sth.id,
+    #            'organization_id'=> sth.organization_id,
+    #            'name'=> sth.name,
+    #            'phone_wrk'=> sth.phone_wrk,
+    #            'phone_wrk_add'=> sth.phone_wrk_add,
+    #            'phone_mobile'=> sth.phone_mobile,
+    #            'mail_add'=> sth.mail_add,
+    #            'address'=> sth.address,
+    #            'cabinet'=> sth.cabinet]
+    #   sth_users.push s
+    # end
+
     @stakeholders = []
     sth_users.each do |user|
       @stakeholders.push [user['name'], user['user_id']]
