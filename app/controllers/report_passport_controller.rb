@@ -875,7 +875,7 @@ class ReportPassportController < ApplicationController
 
         sheet.insert_cell(start_position+1+incriment, 1, role)
         user_id = result_member["user_id"]
-        str_ids = str_ids == "" ? user_id.to_s : str_ids += ", "+user_id.to_s
+        str_ids = str_ids == "" ? user_id.to_s : (str_ids += ", "+user_id.to_s)
         member = User.find_by(id: user_id)
         direct_manager = User.find_by(id: member.direct_manager_id)
         direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
@@ -1323,7 +1323,7 @@ class ReportPassportController < ApplicationController
     punkt = (index+1).to_s+"."
     sheet.insert_cell(start_index+i, 0, punkt)
     sheet.insert_cell(start_index+i, 1, targetCalcProcedure.name)
-    sheet.insert_cell(start_index+i, 2, targetCalcProcedure.base_target.name)
+    sheet.insert_cell(start_index+i, 2, targetCalcProcedure.base_target ? targetCalcProcedure.base_target.name : '')
     sheet.insert_cell(start_index+i, 3, targetCalcProcedure.data_source)
     sheet.insert_cell(start_index+i, 4, targetCalcProcedure.user.name(:lastname_f_p))
     sheet.insert_cell(start_index+i, 5, targetCalcProcedure.level)

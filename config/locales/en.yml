@@ -484,6 +484,9 @@ en:
         types: Типы
         versions: Этапы
         work_packages: Задачи
+        national_project_target: Цель национального проекта
+        government_program: Государственная программа Республики Буряти
+        mission_of_head: Поручение главы Республики Бурятия
       query:
         column_names: Столбцы
         relations_to_type_column: Отношения к %{type}
@@ -565,7 +568,7 @@ en:
         mail_add: Эл.почта (дополнительная)
         phone_wrk: Рабочий телефон
         phone_wrk_add: Добавочный номер
-        phone_mobile: Мобильный телефон
+        phone_mobile: Доп. рабочий телефон
         address: Адрес
         cabinet: Кабинет
       #)
@@ -592,9 +595,9 @@ en:
         #zbd(
         patronymic: Отчество
         mail_add: Эл.почта (дополнительная)
-        phone_wrk: Рабочий телефон
+        phone_wrk: Раб. тел.
         phone_wrk_add: Добавочный номер
-        phone_mobile: Мобильный телефон
+        phone_mobile: Служебный моб. тел.
         address: Адрес
         cabinet: Кабинет
         direct_manager: Непосредственный руководитель
@@ -2178,6 +2181,7 @@ en:
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
   label_by_status: Статус
+  label_by_category: Категория
   label_message_filter: Фильтр
   #zbd(
   label_typed_targets: Типовые результаты

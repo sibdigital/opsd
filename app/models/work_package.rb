@@ -139,7 +139,7 @@ class WorkPackage < ActiveRecord::Base
       org = User.current.organization
       childs = org != nil ? org.childs().map {|c| c.id.to_i} : [0]
       where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
-        .where('project_id in (?) or organization_id in (?)', projects, childs)
+        .where('"work_packages".project_id in (?) or "work_packages".organization_id in (?)', projects, childs)
 
     end
     # if !User.current.has_priveleged?(self.project) && !User.current.admin? && !User.current.detect_project_office_coordinator?
