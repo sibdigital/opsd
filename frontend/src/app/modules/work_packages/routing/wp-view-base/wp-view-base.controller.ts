@@ -113,14 +113,15 @@ export class WorkPackageViewController implements OnDestroy {
       .require(this.workPackage.project.idFromLink)
       .then(() => {
       this.projectIdentifier = this.workPackage.project.identifier;
-      if (this.workPackage.project.defaultBoard != null){
-        if (this.workPackage.project.defaultBoard.id != null) {
-          this.boardIdentifier = this.workPackage.project.defaultBoard.id;
-        }
-      }
-      //this.boardIdentifier = this.workPackage.project.defaultBoard.id;
+      this.boardIdentifier = this.workPackage.project.defaultBoard;
     });
-
+    //.then(() => {
+    //       this.boardIdentifier = this.workPackage.project.defaultBoard.id;
+    //     }) this.projectCacheService
+    //   .require(this.workPackage.project.defaultBoard.identifier)
+    //   .then(() => {
+    //   this.boardIdentifier = this.workPackage.project.defaultBoard.id;
+    // });
     // Set authorisation data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 

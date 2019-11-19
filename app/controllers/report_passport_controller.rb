@@ -118,6 +118,7 @@ class ReportPassportController < ApplicationController
     sheet[20][1].change_contents(@str_set_curators)
     sheet[21][1].change_contents(@str_set_leaders)
     sheet[22][1].change_contents(@str_set_admins)
+    sheet[23][1].change_contents(@project.government_program)
 
   end
 
@@ -190,7 +191,8 @@ class ReportPassportController < ApplicationController
         sheet.sheet_data[5+i][3].change_horizontal_alignment('center')
         sheet.sheet_data[5+i][3].change_vertical_alignment('center')
 
-        basic_date = target.basic_date.nil? ? "" : target.basic_date.strftime("%d.%m.%Y")
+        #basic_date = target.basic_date.nil? ? "" : target.basic_date.strftime("%d.%m.%Y")
+        basic_date = target.created_at.nil? ? "" : target.created_at.strftime("%d.%m.%Y")
         sheet.insert_cell(5+i, 5, basic_date)
         sheet.insert_cell(5+i, 6, "")
         sheet.merge_cells(5+i, 5, 5+i, 6)
@@ -266,6 +268,12 @@ class ReportPassportController < ApplicationController
      sheet[3][1].change_contents(result_str)
      break
    end
+
+    result_str["#"] = " "
+    result_str["$"] = " "
+    result_str["%"] = " "
+    sheet[3][1].change_contents(result_str)
+
    sheet[2][0].change_contents(national_project_goal)
 
    get_result_target_end_date.each_with_index do |result_target, i|
@@ -294,7 +302,7 @@ class ReportPassportController < ApplicationController
        date_end_result = "31.12."+result_target["year"]
      end
 
-     if result_target["result_due_date"] == ""
+     if result_target["result_due_date"] == nil || result_target["result_due_date"] == ""
       sheet.insert_cell(6+i, 2, date_end_result)
      else
       sheet.insert_cell(6+i, 2, result_target["result_due_date"].to_date.strftime("%d.%m.%Y"))
@@ -764,8 +772,7 @@ class ReportPassportController < ApplicationController
       sheet.insert_cell(2+i+countUser, 4, direct_manager)
       sheet.insert_cell(2+i+countUser, 5, member_info["busyness"].to_s)
 
-      str_ids += ", "+user.id.to_s
-
+      str_ids = str_ids == "" ? user.id.to_s : str_ids += ", "+user.id.to_s
 
       sheet.sheet_data[2+i+countUser][0].change_horizontal_alignment('center')
       sheet.sheet_data[2+i+countUser][0].change_vertical_alignment('center')
@@ -868,7 +875,7 @@ class ReportPassportController < ApplicationController
 
         sheet.insert_cell(start_position+1+incriment, 1, role)
         user_id = result_member["user_id"]
-        str_ids += ", "+user_id.to_s
+        str_ids = str_ids == "" ? user_id.to_s : str_ids += ", "+user_id.to_s
         member = User.find_by(id: user_id)
         direct_manager = User.find_by(id: member.direct_manager_id)
         direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
@@ -981,6 +988,7 @@ class ReportPassportController < ApplicationController
 
 
 
+    str_ids = str_ids == "" ? "0" : str_ids
 
     decriment = 0
     members = get_members(str_ids)
@@ -1135,7 +1143,7 @@ class ReportPassportController < ApplicationController
            sheet.insert_cell(start_index+i+k, 3, due_date)
            sheet.insert_cell(start_index+i+k, 4, username)
            sheet.insert_cell(start_index+i+k, 5, result["document"])
-           sheet.insert_cell(start_index+i+k, 6, "")
+           sheet.insert_cell(start_index+i+k, 6, result["control_level"])
 
            sheet[start_index+i+k][1].change_text_wrap(true)
            sheet[start_index+i+k][4].change_text_wrap(true)
@@ -1223,7 +1231,7 @@ class ReportPassportController < ApplicationController
             sheet.insert_cell(start_index+i+j+k, 3, due_date)
             sheet.insert_cell(start_index+i+j+k, 4, username)
             sheet.insert_cell(start_index+i+j+k, 5, ktTask["document"])
-            sheet.insert_cell(start_index+i+j+k, 6, "")
+            sheet.insert_cell(start_index+i+j+k, 6, ktTask["control_level"])
 
             sheet[start_index+i+j+k][1].change_text_wrap(true)
             sheet[start_index+i+j+k][4].change_text_wrap(true)
@@ -1488,15 +1496,17 @@ class ReportPassportController < ApplicationController
                             w.start_date,
                             w.due_date,
                             u.id    as user_id,
-                            ed.name as document
+                            ed.name as document,
+                            cl.name as control_level
             FROM work_packages w
             LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
             INNER JOIN work_package_targets wt ON wt.work_package_id = w.id
             INNER JOIN targets t ON t.id = wt.target_id
             INNER JOIN enumerations e ON e.id = t.type_id and e.name = 'Результат'
             LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
+            LEFT OUTER JOIN control_levels cl ON cl.id = w.control_level_id
             WHERE w.type_id = "+id_type_kt+" and w.project_id = "+ @project.id.to_s +
-          " GROUP BY t.id, t.name,  w.id, w.subject, w.type_id, w.start_date, w.due_date, u.id, ed.name
+          " GROUP BY t.id, t.name,  w.id, w.subject, w.type_id, w.start_date, w.due_date, u.id, ed.name, cl.name
             ORDER BY t.id "
     result = ActiveRecord::Base.connection.execute(sql)
     index = 0
@@ -1554,7 +1564,10 @@ class ReportPassportController < ApplicationController
                 SELECT r.to_id FROM r
             )
           )
-         SELECT t.*, l.level+1 as level, l.path from LEVEL l, TASK t
+         SELECT t.*, l.level+1 as level, l.path, cl.name as control_level from LEVEL l, TASK t
+         INNER JOIN work_packages w ON w.id = t.work_packages_id
+         LEFT OUTER JOIN control_levels cl ON cl.id = w.control_level_id
+
          WHERE l.work_packages_id = t.work_packages_id and l.level <> 1
          ORDER BY  l.path"
 

@@ -58,6 +58,9 @@ export interface WorkPackageResourceEmbedded {
   contract:HalResource|any;
   result_agreed:boolean;
   //)
+  //knm+
+  indication:string;
+  //-
   children:WorkPackageResource[];
   parent:HalResource|any;
   priority:HalResource|any;

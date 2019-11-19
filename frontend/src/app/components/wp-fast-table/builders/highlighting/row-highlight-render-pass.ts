@@ -41,8 +41,13 @@ export class HighlightingRenderPass {
       if (!property) {
         return;
       }
-
-      const id = property.getId();
+      let id = '';
+      if (highlightAttribute === 'indication') {
+        id = property.toString();
+      }
+      else {
+        id = property.getId();
+      }
       const element:HTMLElement = this.tablePass.tableBody.children[position] as HTMLElement;
       element.classList.add(Highlighting.rowClass(highlightAttribute, id));
 

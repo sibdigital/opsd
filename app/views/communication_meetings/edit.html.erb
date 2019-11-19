@@ -28,7 +28,8 @@
 
             </td>
             <td>
-              <li><%= Stakeholder.find(member.stakeholder_id).name %></li>
+<!--              <li><%#= Stakeholder.find(member.stakeholder_id).name %></li>-->
+              <li><%= User.find(member.stakeholder_id).name %></li>
             </td>
             <td>
               <%=link_to(
@@ -61,7 +62,8 @@
             <%= f.hidden_field :communication_meeting_id, value: @com_meeting.id %>
             <%= f.hidden_field :project_id, value: @project.id %>
             <%= f.select 'stakeholder_id',
-                         options_for_select(Stakeholder.where(project_id: @project.id).all.map {|s| [s.name, s.id]}, 0),
+                         # options_for_select(Stakeholder.where(project_id: @project.id).all.map {|s| [s.name, s.id]}, 0),
+                         options_for_select(@stakeholders, 0),
                          include_blank: true,
                          container_class: '-middle' %>
           </section>

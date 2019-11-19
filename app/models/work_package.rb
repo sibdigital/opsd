@@ -72,6 +72,7 @@ class WorkPackage < ActiveRecord::Base
   #bbm(
   has_many :meetings, dependent: :delete_all
   has_many :messages, dependent: :delete_all
+  has_one :critical_way, foreign_key: 'wp_id', dependent: :delete
   # )
   #tan(
   has_many :work_package_problems, foreign_key: 'work_package_id'
@@ -108,6 +109,9 @@ class WorkPackage < ActiveRecord::Base
   #bbm(
   def sum_time_entries
     time_entries.sum(:hours)
+  end
+  def on_cw
+    critical_way ? critical_way.on_crit_way : false
   end
   def count_wpp
     work_package_problems.count

@@ -350,7 +350,8 @@ module API
                                            }
                                          },
                                          required: false
-          schema_with_allowed_collection :control_level_id,
+
+          schema_with_allowed_collection :control_level,
                                          value_representer: ControlLevels::ControlLevelRepresenter,
                                          link_factory: ->(control_level) {
                                            {
@@ -359,6 +360,9 @@ module API
                                            }
                                          },
                                          required: false
+
+          schema :indication,
+                 type: 'String'
           # knm-
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,

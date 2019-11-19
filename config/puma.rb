@@ -31,3 +31,7 @@ preload_app! if Rails.env.production?
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+ssl_bind '0.0.0.0','443',{
+  key:'/root/.ssh/private.key',
+  cert:'/root/.ssh/sup_govrb_ru.crt'
+}

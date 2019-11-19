@@ -55,6 +55,7 @@ export class WorkPackageStaticQueriesService {
     latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
     created_by_me:this.I18n.t('js.work_packages.default_queries.created_by_me'),
     assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
+    highlight_by_status: this.I18n.t('js.work_packages.default_queries.highlight_by_status'),
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
     summary: this.I18n.t('js.work_packages.default_queries.summary')
@@ -107,6 +108,11 @@ export class WorkPackageStaticQueriesService {
           identifier: 'assigned_to_me',
           label: this.text.assigned_to_me,
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}'
+        },
+        {
+          identifier: 'highlight_by_status',
+          label: this.text.highlight_by_status,
+          query_props: '{"c":["id","subject","type","status","assignee","startDate","dueDate"],"hl":"status","hi":true,"g":"","t":"id:asc","f":[{"n":"status","o":"*","v":[]},{"n":"planType","o":"~","v":["execution"]},{"n":"planType","o":"~","v":["execution"]}],"pa":1,"pp":20}'
         }
       ]);
     }

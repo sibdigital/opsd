@@ -60,7 +60,12 @@ See docs/COPYRIGHT.rdoc for more details.
                   class: "#{'selected' if @tab == 'statistic' }"  %>
     </li>
     <li>
-    <%= link_to t("label_statistics_additional"),
+    <%= link_to t(:key_performance_indicator),
+                  user_path(id: @user.id, tab: :kpi),
+                  class: "#{'selected' if @tab == 'kpi'}"%>
+    </li>
+    <li>
+      <%= link_to t(:label_statistics_additional),
                   user_path(id: @user.id, tab: :additional),
                   class: "#{'selected' if @tab == 'additional'}"%>
     </li>

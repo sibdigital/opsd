@@ -646,6 +646,7 @@ en:
         last_due_date: Текущая дата окончания
         first_start_date: Изначальная дата начала
         last_start_date: Текущая дата начала
+        control_level: Уровень контроля
         #)
       doorkeeper/application:
         uid: ID клиента
@@ -942,6 +943,7 @@ en:
 #    period: Периодичность добавления отчетов
     time: Время
     busyness: Занятость
+    control_level: Уровень контроля
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций
@@ -2535,6 +2537,7 @@ en:
   permission_change_wiki_parent_page: Смена родительской wiki-страницы
   permission_comment_news: Комментировать новость
   permission_commit_access: Возможность чтения/записи в репозиторий (commit)
+  permission_costs: Бюджет
   #permission_copy_projects: Копировать проект
   permission_copy_projects: Создать шаблон проекта
   permission_delete_work_package_watchers: Удалить наблюдателей
@@ -2545,6 +2548,8 @@ en:
   permission_delete_timelines: Удалить графики
   permission_delete_wiki_pages: Удалить wiki-страницы
   permission_delete_wiki_pages_attachments: Удалить вложения
+  permission_desktop: Рабочий стол
+  permission_discussions: Дискуссии
   permission_edit_work_package_notes: Редактировать заметки
   permission_edit_work_packages: Редактировать мероприятия
   permission_edit_messages: Редактировать сообщения
@@ -2582,10 +2587,17 @@ en:
   permission_manage_versions: Управление этапами
   permission_manage_wiki: Управление wiki
   permission_manage_wiki_menu: Управление меню wiki
+  permission_municipality: Муниципалитеты
+  permission_milestones: Веха
+  permission_kpi: KPI
+  permission_indicators: Индикаторы
+
   permission_move_work_packages: Переместить пакет работ
   permission_protect_wiki_pages: Защитить wiki-страницы
   permission_rename_wiki_pages: Переименование wiki-страниц
   permission_save_queries: Сохранить представления
+  permission_save_target_reports: Сохранить целевые показатели
+  permission_save_private_target_reports: Сохранить скрытые целевые показатели
   permission_select_project_modules: Выбор модулей проекта
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
@@ -2616,6 +2628,9 @@ en:
   permission_view_national_and_federal_projects: Просмотр проектов и программ
   permission_manage_national_and_federal_projects: Управление проектами и программами
   permission_manage_hpi_values: Управление оценками ВДЛ
+  permission_rating: Рейтинг
+  permission_risks: Риски
+  permission_protocol: Протокол
   permission_view_hpi_values: Просмотр оценок ВДЛ
   #)
   permission_view_changesets: Просмотр изменений репозитория
@@ -2625,11 +2640,15 @@ en:
   permission_view_work_packages: Просмотр пакетов работ
   permission_view_messages: Просмотр сообщений
   permission_view_members: Просмотреть участников
+  permission_view_report_progress_project_page: Просмотр отчета о ходе реализации проекта
+  permission_view_report_passport_page: Просмотр паспорта регионального проекта
+  permission_view_report_change_request_page: Просмотр изменений паспорта регионального проекта
   permission_view_reportings: Просмотр отчетов
   permission_view_time_entries: Просмотр потраченного времени
   permission_view_timelines: Просмотр графиков
   permission_view_wiki_edits: Просмотр истории wiki
   permission_view_wiki_pages: Просмотр wiki
+  permission_view_strategic_map: Просмотр стратегической карты
   placeholders:
     default: "-"
   project:

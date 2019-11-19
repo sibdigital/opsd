@@ -244,7 +244,8 @@ class AgreementsController < ApplicationController
       sheet.insert_cell(17+i, 8, "")
       sheet.merge_cells(17+i, 7, 17+i, 8)
 
-      basic_date = target.basic_date.nil? ? "" : target.basic_date.strftime("%d.%m.%Y")
+#      basic_date = target.basic_date.nil? ? "" : target.basic_date.strftime("%d.%m.%Y")
+      basic_date = target.created_at.nil? ? "" : target.created_at.strftime("%m.%Y")
       sheet.insert_cell(17+i, 9, basic_date)
 
       sheet.sheet_data[17+i][0].change_border(:top, 'thin')

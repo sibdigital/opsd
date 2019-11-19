@@ -101,6 +101,7 @@ module WorkPackage::Journalized
                                   :raion_id, :organization_id,
                                   :arbitary_object_id, :cost_object_id,
                                   :required_doc_type_id,
+                                  :period_id, :control_level_id,
                                   # -
                                   #zbd(
                                   :contract_id, :target_id, :required_doc_type_id, :organization_id
