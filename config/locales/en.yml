@@ -943,7 +943,7 @@ en:
 #    period: Периодичность добавления отчетов
     time: Время
     busyness: Занятость
-    control_level_id: Уровень контроля
+    control_level: Уровень контроля
     #)
     issue: Пакет работ
     invest_amount: Объем инвестиций

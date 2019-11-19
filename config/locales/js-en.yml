@@ -726,6 +726,7 @@ en:
         subject: Тема
         title: Заголовок
         type: Тип
+        controlLevel: Уровень контроля
         updatedAt: Обновлено
         versionName: Этап
         version: Этап

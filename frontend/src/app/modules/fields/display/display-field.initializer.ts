@@ -70,7 +70,8 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'UserTask',
         //)
         'Priority',
-        'Period'
+        'Period',
+        'ControlLevel'
       ])
       .addFieldType(ResourceDisplayField, 'resource', [
         'User',
