@@ -157,7 +157,7 @@ class MessagesController < ApplicationController
 
     @message.participants = @message.participants.select {|participant| participant.invited}
 
-    unless @message.participants.present?
+    unless @message.participants.present? || @message.parent.present?
       flash[:error] = "Укажите как минимум одного участника дискуссии"
       return render action: 'edit'
     end
