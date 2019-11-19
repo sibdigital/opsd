@@ -2,9 +2,28 @@
 <%= resource_color_css('status', ::Status) %>
 <%= resource_color_css('priority', ::IssuePriority) %>
 <%= resource_color_css('type', ::Type) %>
+<%= resource_color_css('indication', ::Status) %>
 
 <%# Overdue tasks %>
 .__hl_date_due_today { color: #F76707 !important; }
 .__hl_date_overdue { color: #C92A2A !important; font-weight: bold; }
 .__hl_row_overdue { background-color: #C92A2A !important; }
 .__hl_border_overdue { border-color: #C92A2A !important; }
+
+<%# Indication coloring %>
+.__hl_inl_indication_over { color:#333333 !important;background-color:#ff6969 !important; }
+.__hl_dot_indication_over::before { color:#333333 !important;background-color:#ff6969 !important; border-color: #555555; }
+.__hl_row_indication_over { background-color: #ff6969 !important;; }
+.__hl_border_indication_over { border-color: #ff6969 !important;; }
+.__hl_inl_indication_close { color:#333333 !important;background-color:#ffff69 !important; }
+.__hl_dot_indication_close::before { color:#333333 !important;background-color:#ffff69 !important; border-color: #555555; }
+.__hl_row_indication_close { background-color: #ffff69 !important;; }
+.__hl_border_indication_close { border-color: #ffff69 !important;; }
+/*.__hl_row_indication_close {color: #ffff69 !important;}*/
+/*.__hl_row_indication_over {color: #ff6969 !important;}*/
+/*.__hl_row_indication_status_completed {color: #69ff69 !important;}*/
+/*.__hl_row_indication_status_2 {color: #6969ff !important;}*/
+/*.__hl_row_indication_status_on_check {color: #bbffbb !important;}*/
+/*.__hl_row_indication_status_on_hold {color: #bb69ff !important;}*/
+/*.__hl_row_indication_status_canceled {color: #ffbb69 !important;}*/
+/*.__hl_row_indication_status_1 {color: #bbbbbb !important;}*/

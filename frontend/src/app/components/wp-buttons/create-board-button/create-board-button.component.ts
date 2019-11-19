@@ -34,6 +34,7 @@ import {takeUntil} from "rxjs/operators";
 import {componentDestroyed} from "ng2-rx-componentdestroyed";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {ProjectCacheService} from "core-components/projects/project-cache.service";
 
 @Component({
   templateUrl: './create-board-button.html',
@@ -56,7 +57,8 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
               private readonly PathHelper:PathHelperService,
               readonly http:HttpClient,
               protected NotificationsService:NotificationsService,
-              readonly wpCacheService:WorkPackageCacheService) {
+              readonly wpCacheService:WorkPackageCacheService,
+              protected projectCacheService:ProjectCacheService) {
   }
 
   ngOnInit() {
@@ -67,7 +69,20 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
+        // this.projectIdentifier = wp.project.id;
+        // this.boardIdentifier = wp.project.defaultBoard;
       });
+    this.projectCacheService
+      .require(this.workPackage.project.idFromLink)
+      .then(() => {
+        this.projectIdentifier = this.workPackage.project.identifier;
+        this.boardIdentifier = this.workPackage.project.defaultBoard;
+      });
+      // .require(this.workPackage.project.idFromLink)
+      // .then(() => {
+      //   this.projectIdentifier = this.workPackage.project.identifier;
+      //   this.boardIdentifier = this.workPackage.project.defaultBoard;
+      // });
   }
 
   ngOnDestroy() {
@@ -75,7 +90,9 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
   }
 
   createBoard() {
-    const url = this.PathHelper.newTopicPath(this.projectIdentifier, this.boardIdentifier,this.workPackage.id);
+    // this.projectIdentifier = this.workPackage.project.id;
+    // this.boardIdentifier = this.workPackage.project.defaultBoard;
+    const url = this.PathHelper.newTopicPath(this.projectIdentifier, this.boardIdentifier, this.workPackage.id);
     let params = new HttpParams().set("wpId", this.workPackage.id);
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
     const promise = this.http.get(url, {params: params}).toPromise();
@@ -88,7 +105,7 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
       })
       .catch((error) => {
         window.location.href = url;
-        this.NotificationsService.addError(error);
+        // this.NotificationsService.addError(error);
       });
   }
 }

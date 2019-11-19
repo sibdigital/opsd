@@ -40,15 +40,6 @@ class WorkPackages::SetScheduleService
   end
 
   def call(attributes = %i(start_date due_date))
-    #bbm(Очищаем признак
-    #(cwproject.work_packages - work_packages).map do |wp|
-    #  wp.on_critical_way = false
-    #  wp.save(:validate => false)
-    #end
-    #work_packages.map do |wp|
-    #  wp.on_critical_way = false
-    #end
-    #)
     altered = if (%i(parent parent_id) & attributes).any?
                 schedule_by_parent
               else
@@ -66,14 +57,6 @@ class WorkPackages::SetScheduleService
     if (%i(start_date due_date parent parent_id) & attributes).any?
       altered += schedule_following
     end
-    # bbm(
-    #begin #+- tan ошибки не влияющие на необходимость сохранения. обернуто в исключение
-      #TEMPORARY HOT FIX
-    #altered = reCalculateCriticalWay altered
-    #rescue StandardError => e
-    #  Rails.logger.error "Cannot recalculate critical way: #{e}"
-    #end
-    # )
     result = ServiceResult.new(success: true,
                                result: work_packages.first)
 
@@ -215,52 +198,5 @@ class WorkPackages::SetScheduleService
 
     scheduled.start_date += required_delta
     scheduled.due_date += required_delta
-  end
-
-  def reCalculateCriticalWay(altered)
-    #Step1
-    cwwps = cwproject.work_packages
-    min_step1 = cwwps.select { |wp| !wp.parent && wp.start_date}.min_by { |wp| wp.start_date }
-    ways = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date == min_step1.start_date }
-    @max = 0
-    @way = []
-    ways.map do |wp|
-      if wp.due_date and wp.start_date
-        durat = wp.due_date - wp.start_date
-        step2(cwwps, wp.due_date, [wp], durat)
-      end
-    end
-    @way = @way.uniq
-
-    (@way - altered - work_packages).map do |wp|
-      wp.on_critical_way = true
-      wp.save(:validate => false)
-    end
-    (altered & @way).map do |wp|
-      wp.on_critical_way = true
-    end
-    (work_packages & @way).map do |wp|
-      wp.on_critical_way = true
-    end
-    altered
-  end
-
-  def step2(cwwps, timeline, stack, length)
-    min_step2 = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date >= timeline}.min_by { |wp| wp.start_date }
-    if min_step2
-      max_step2 = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date == min_step2.start_date && wp.due_date}.max_by { |wp| wp.due_date }
-      ways = cwwps.select { |wp| !wp.parent && wp.start_date && wp.start_date == min_step2.start_date && wp.due_date && wp.due_date == max_step2.due_date }
-      ways.map do |wp|
-        stack << wp
-        durat = wp.due_date - wp.start_date
-        step2(cwwps, wp.due_date, stack, length + durat)
-        stack.pop
-        end
-    elsif length == @max
-      @way += stack
-    elsif length > @max
-      @max = length
-      @way.replace(stack)
-    end
   end
 end

@@ -343,7 +343,9 @@ module API
                  render_nil: true
 
         property :on_critical_way,
-                 render_nil: true
+                 getter: ->(*) {
+                   on_cw
+                 }
 
         property :days,
                  render_nil: false,
@@ -515,6 +517,21 @@ module API
 
         associated_resource :control_level,
                             link_title_attribute: :name
+
+        property :indication,
+                 exec_context: :decorator,
+                 getter: ->(*){
+                   id = represented.status.id.to_s
+                   unless represented.status.is_closed
+                     if represented.due_date - Date.current <= 0
+                       id = 'over'
+                     elsif represented.due_date - Date.current <= Setting.remaining_count_days.to_i
+                       id = 'close'
+                     end
+                   end
+                   id
+                 }
+
         #bbm(
         property :is_closed,
         exec_context: :decorator,

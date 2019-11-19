@@ -74,6 +74,7 @@ module API
       # )
       # (ban
       mount ::API::V3::UserTasks::UserTasksAPI
+      mount ::API::V3::WPAssigned::WPAssignedAPI
       # )
       # +tan 2019.07.30
       mount ::API::V3::Boards::BoardsAPI

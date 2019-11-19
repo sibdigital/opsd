@@ -252,7 +252,7 @@ class Project < ActiveRecord::Base
   # end
   def get_default_board
     default_board = Board.find_by( project_id: self.id, is_default: true)
-    default_board
+    default_board.id
   end
 
   def curator

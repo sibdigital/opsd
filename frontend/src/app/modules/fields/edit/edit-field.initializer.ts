@@ -68,6 +68,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         'UserTask',
         //)
         'Period',
+        'ControlLevel',
         'CustomOption',
         'Project'])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
