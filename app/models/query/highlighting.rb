@@ -81,7 +81,7 @@ module Query::Highlighting
     end
 
     def highlighting_mode
-      return :none unless EnterpriseToken.allows_to?(:conditional_highlighting)
+      # return :none unless EnterpriseToken.allows_to?(:conditional_highlighting)
 
       val = super
 
