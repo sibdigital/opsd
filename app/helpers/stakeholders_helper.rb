@@ -128,7 +128,6 @@ module StakeholdersHelper
                                 'mail_add'=> user.mail_add,
                                 'address'=> user.address,
                                 'cabinet'=> user.cabinet ]
-
       sth_users.push u
 
       if user.organization_id.present?
@@ -142,7 +141,6 @@ module StakeholdersHelper
     end
 
     return sth_users, sth_orgs.uniq
-
   end
 
 end
