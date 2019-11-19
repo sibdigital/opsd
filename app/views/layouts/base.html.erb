@@ -68,7 +68,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <%= javascript_include_tag 'application' %>
   <%= javascript_include_tag "locales/#{I18n.locale}" %>
-  <% unless @user.id.nil? %>
+  <% if User.current.logged? %>
     <%= javascript_include_tag 'notifyme' %>
   <% end %>
   <!-- Text formatting specific includes -->
