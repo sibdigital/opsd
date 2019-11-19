@@ -1,0 +1,23 @@
+
+<div class="grid-content medium-up-2">
+  <div class="grid-content">
+    <div class="kpi">
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <ul>
+            <% KeyPerformanceIndicator.where(:enable=>true).all.each do |kpi| %>
+              <li>
+                <h5><%= kpi.name %></h5>
+                <span>
+                  <% if I18n.backend.translations[:en].key(kpi.name).present? %>
+                    <%= send(I18n.backend.translations[:en].key(kpi.name).to_s.gsub("default_", "calc_"), @user) %>
+                  <% end %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
