@@ -526,10 +526,14 @@ module API
                  getter: ->(*){
                    id = represented.status.id.to_s
                    unless represented.status.is_closed
-                     if represented.due_date - Date.current <= 0
+                     if represented.due_date
+                       if represented.due_date - Date.current <= 0
+                         id = 'over'
+                       elsif represented.due_date - Date.current <= Setting.remaining_count_days.to_i
+                         id = 'close'
+                       end
+                     else
                        id = 'over'
-                     elsif represented.due_date - Date.current <= Setting.remaining_count_days.to_i
-                       id = 'close'
                      end
                    end
                    id

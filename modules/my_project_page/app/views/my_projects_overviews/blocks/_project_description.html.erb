@@ -29,7 +29,6 @@ See doc/COPYRIGHT.md for more details.
 
 <div class="overview">
   <%= format_text @project.description %>
-  <%= 'Дата начала: ' + @project.start_date.strftime("%d/%m/%Y") + ' Дата окончания: ' + @project.due_date.strftime("%d/%m/%Y") %>
 
   <% sql = "SELECT m.user_id FROM members m
     JOIN member_roles mr ON m.id = mr.member_id
