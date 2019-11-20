@@ -113,6 +113,99 @@ create or replace view v_quartered_work_package_targets_with_quarter_groups as (
        ) as s
          left join projects as p
                    on s.project_id = p.id
+  group by p.national_project_id, p.federal_project_id, project_id, target_id, work_package_id, yearselect ROW_NUMBER () OVER (ORDER BY national_project_id, federal_project_id, project_id, target_id, work_package_id, year) as id,
+         p.national_project_id as national_project_id,
+         p.federal_project_id as federal_project_id,
+         project_id,
+         target_id,
+         work_package_id,
+         year,
+         max(quarter1_value)      as quarter1_value,
+         max(quarter1_plan_value) as quarter1_plan_value,
+         max(quarter2_value)      as quarter2_value,
+         max(quarter2_plan_value) as quarter2_plan_value,
+         max(quarter3_value)      as quarter3_value,
+         max(quarter3_plan_value) as quarter3_plan_value,
+         max(quarter4_value)      as quarter4_value,
+         max(quarter4_plan_value) as quarter4_plan_value
+  from (
+         select project_id,
+                target_id,
+                work_package_id,
+                year,
+                value      as quarter1_value,
+                plan_value as quarter1_plan_value,
+                0          as quarter2_value,
+                0          as quarter2_plan_value,
+                0          as quarter3_value,
+                0          as quarter3_plan_value,
+                0          as quarter4_value,
+                0          as quarter4_plan_value
+         from v_quartered_work_package_targets
+         where false
+         union all
+         select project_id,
+                target_id,
+                work_package_id,
+                year,
+                value      as quarter1_value,
+                plan_value as quarter1_plan_value,
+                null       as quarter2_value,
+                null       as quarter2_plan_value,
+                null       as quarter3_value,
+                null       as quarter3_plan_value,
+                null       as quarter4_value,
+                null       as quarter4_plan_value
+         from v_quartered_work_package_targets
+         where quarter = 1
+         union all
+         select project_id,
+                target_id,
+                work_package_id,
+                year,
+                null       as quarter1_value,
+                null       as quarter1_plan_value,
+                value      as quarter2_value,
+                plan_value as quarter2_plan_value,
+                null       as quarter3_value,
+                null       as quarter3_plan_value,
+                null       as quarter4_value,
+                null       as quarter4_plan_value
+         from v_quartered_work_package_targets
+         where quarter = 2
+         union all
+         select project_id,
+                target_id,
+                work_package_id,
+                year,
+                null       as quarter1_value,
+                null       as quarter1_plan_value,
+                null       as quarter2_value,
+                null       as quarter2_plan_value,
+                value      as quarter3_value,
+                plan_value as quarter3_plan_value,
+                null       as quarter4_value,
+                null       as quarter4_plan_value
+         from v_quartered_work_package_targets
+         where quarter = 3
+         union all
+         select project_id,
+                target_id,
+                work_package_id,
+                year,
+                null       as quarter1_value,
+                null       as quarter1_plan_value,
+                null       as quarter2_value,
+                null       as quarter2_plan_value,
+                null       as quarter3_value,
+                null       as quarter3_plan_value,
+                value      as quarter4_value,
+                plan_value as quarter4_plan_value
+         from v_quartered_work_package_targets
+         where quarter = 4
+       ) as s
+         left join projects as p
+                   on s.project_id = p.id
   group by p.national_project_id, p.federal_project_id, project_id, target_id, work_package_id, year
 )
 ;

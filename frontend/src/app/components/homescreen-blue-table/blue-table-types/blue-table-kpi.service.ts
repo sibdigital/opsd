@@ -317,12 +317,12 @@ export class BlueTableKpiService extends BlueTableService {
           return '<a href="' + super.getBasePath() + '/users/' + row.assignee_id + '">' + row.assignee + '</a>';
           break;
         }
-        case 3: {
-          return row.fact;
+        case 3: { //+-tan исправлена опечатка был row.fact
+          return row.plan;
           break;
         }
-        case 4: {
-          return row.plan;
+        case 4: { //+-tan исправлена опечатка был row.plan
+          return row.fact;
           break;
         }
       }

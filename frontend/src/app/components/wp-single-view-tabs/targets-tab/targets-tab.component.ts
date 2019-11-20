@@ -245,48 +245,49 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
 
   private checkPlanOfQuarter(target: WpTarget, plan_value: number, plan_year_value: number): boolean {
     let result = true;
+    //+- tan до решения вопроса проверку закомментировал
     // квартал без месяца - сравниваем с планом
-    if((target.month == 0) || (target.month == null)) {
-      // если plan_value != 0 - значит есть записи по месяцам
-      if (plan_value != null && target.plan_value < Number(plan_value)) {
-        result = false;
-        this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') меньше планового значения целевого показателя ('+plan_value.toString()+')'});
-      }
-      else // иначе если есть годовой план сравниваем с годовым планом
-      if ((plan_year_value != null) && (Number(target.plan_value) > Number(plan_year_value))) {
-        result = false;
-        this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
-      }
-    }
-    // иначе (месяц != 0) сравниваем с квартальным планом
-    else {
-      // // ищем показатель за квартал
-      // let quartTarg = this.wpTargets.find(value => {
-      //   return (value.target_id == target.target_id)
-      //     && (value.year == target.year)
-      //     && (value.quarter == target.quarter)
-      //     && (value.month == null)
-      // });
-      //
-      // // если за квартал значение есть
-      // if(quartTarg != undefined) {
-      //   if (target.plan_value > quartTarg.plan_value) {
-      //     result = false;
-      //     this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+quartTarg.plan_value.toString()+')'});
-      //   }
-      // }
-      //else { // иначе сравниваем все таки с планом, если есть
-        if(plan_value != null && target.plan_value > plan_value){
-          result = false;
-          this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+plan_value.toString()+')'});
-        }
-        else // или с годовым планом, если он есть
-          if(plan_year_value != null && target.plan_value > Number(plan_year_value)) {
-            result = false;
-            this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
-          }
-      //}
-    }
+    // if((target.month == 0) || (target.month == null)) {
+    //   // если plan_value != 0 - значит есть записи по месяцам
+    //   if (plan_value != null && target.plan_value < Number(plan_value)) {
+    //     result = false;
+    //     this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') меньше планового значения целевого показателя ('+plan_value.toString()+')'});
+    //   }
+    //   else // иначе если есть годовой план сравниваем с годовым планом
+    //   if ((plan_year_value != null) && (Number(target.plan_value) > Number(plan_year_value))) {
+    //     result = false;
+    //     this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
+    //   }
+    // }
+    // // иначе (месяц != 0) сравниваем с квартальным планом
+    // else {
+    //   // // ищем показатель за квартал
+    //   // let quartTarg = this.wpTargets.find(value => {
+    //   //   return (value.target_id == target.target_id)
+    //   //     && (value.year == target.year)
+    //   //     && (value.quarter == target.quarter)
+    //   //     && (value.month == null)
+    //   // });
+    //   //
+    //   // // если за квартал значение есть
+    //   // if(quartTarg != undefined) {
+    //   //   if (target.plan_value > quartTarg.plan_value) {
+    //   //     result = false;
+    //   //     this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+quartTarg.plan_value.toString()+')'});
+    //   //   }
+    //   // }
+    //   //else { // иначе сравниваем все таки с планом, если есть
+    //     if(plan_value != null && target.plan_value > plan_value){
+    //       result = false;
+    //       this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+plan_value.toString()+')'});
+    //     }
+    //     else // или с годовым планом, если он есть
+    //       if(plan_year_value != null && target.plan_value > Number(plan_year_value)) {
+    //         result = false;
+    //         this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
+    //       }
+    //   //}
+    // }
     return result;
   }
 
