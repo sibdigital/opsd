@@ -84,10 +84,16 @@ class Authorization::UserAllowedService
 
     # No action allowed on archived projects
     return false unless project.active?
+
+    #zbd(
+    return true if project.template? && (user.detect_project_office_coordinator? || user.detect_project_administrator?)
+    # )
+
     # No action allowed on disabled modules
     return false unless project.allows_to?(action)
     # Admin users are authorized for anything else
     return true if user.admin?
+
 
     has_authorized_role?(action, project)
   end

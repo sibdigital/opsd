@@ -554,6 +554,10 @@ class Project < ActiveRecord::Base
     status == STATUS_ARCHIVED
   end
 
+  def template?
+    type == TYPE_TEMPLATE
+  end
+
   # Archives the project and its descendants
   def archive
     # Check that there is no issue of a non descendant project that is assigned
