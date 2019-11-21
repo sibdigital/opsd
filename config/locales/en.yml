@@ -1837,6 +1837,7 @@ en:
   label_stage_execution: Исполнение
   label_stage_control: Контроль
   label_stage_completion: Завершение
+  label_svod_otchet: Сводный отчет
 
   label_admin_user_info: Пользователи и роли
   label_admin_dictionaries: Справочники
