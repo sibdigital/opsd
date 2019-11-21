@@ -61,6 +61,7 @@ class AlertsController < ApplicationController
        OR ( (days(alerts.last_date) + 3) <= CURRENT_DATE)");
 =end
     if Setting.notified_events.include?('work_package_report_notify_assignee')
+      @alerts_array = []
       @WorkPackages = WorkPackage.find_by_sql("SELECT Work_Packages.* FROM Work_Packages LEFT JOIN
                             (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'WorkPackage' AND alerts.alert_type = 'Email') as al ON Work_Packages.id = al.entity_id where
     (
@@ -94,7 +95,8 @@ class AlertsController < ApplicationController
           @alert = Alert.new
 
           @alert.entity_id = workPackage.id
-          puts workPackage.id, ' entity_id: ', @alert.entity_id
+          @alerts_array << @alert.entity_id.to_s
+          #puts workPackage.id, ' entity_id: ', @alert.entity_id
 
           @alert.alert_date = Date.current
           @alert.entity_type = 'WorkPackage'
@@ -104,8 +106,15 @@ class AlertsController < ApplicationController
           @alert.save
         end
       end
+      if @alerts_array.length > 0
+        puts 'dlina'
+        puts @alerts_array.length.to_s
+        puts 'Создание алертов с типом WorkPackage (о наступлении срока добавления отчета по задаче). Идентификаторы: '
+        puts @alerts_array.inspect.to_s
+      end
     end
     if Setting.notified_events.include?('deadline_of_work_package_is_approaching')
+      @alerts_array = []
       @WorkPackages = WorkPackage.find_by_sql("
       SELECT Work_Packages.* FROM Work_Packages LEFT JOIN
       (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'WorkPackage' AND alerts.alert_type = 'Email') as al ON Work_Packages.id = al.entity_id where
@@ -115,7 +124,7 @@ class AlertsController < ApplicationController
         (Work_Packages.due_date - CURRENT_DATE) < '#{Setting.remaining_count_days.to_i}' and Work_Packages.due_date > CURRENT_DATE
       )
       OR ( (al.alert_date + 1) <= CURRENT_DATE)
-      ");
+      ")
 
       #puts(@WorkPackages.size)
 
@@ -137,7 +146,8 @@ class AlertsController < ApplicationController
           @alert = Alert.new
 
           @alert.entity_id = workPackage.id
-          puts workPackage.id, ' entity_id: ', @alert.entity_id
+          @alerts_array << @alert.entity_id.to_s
+          #puts workPackage.id, ' entity_id: ', @alert.entity_id
 
           @alert.alert_date = Date.current
           @alert.entity_type = 'WorkPackage'
@@ -149,9 +159,14 @@ class AlertsController < ApplicationController
           #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
         end
       end
+      if @alerts_array.length > 0
+        puts 'Создание алертов с типом WorkPackage (о приближении срока по пакету работ). Идентификаторы: '
+        puts @alerts_array.inspect.to_s
+      end
     end
 
     if Setting.notified_events.include?('deadline_of_work_package')
+      @alerts_array = []
       @WorkPackagesDeadline = WorkPackage.find_by_sql("
       SELECT Work_Packages.* FROM Work_Packages LEFT JOIN
       (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'WorkPackageDeadline' AND alerts.alert_type = 'Email') as al ON Work_Packages.id = al.entity_id where
@@ -161,7 +176,7 @@ class AlertsController < ApplicationController
         Work_Packages.due_date <= CURRENT_DATE
       )
       OR ( (al.alert_date + 1) <= CURRENT_DATE)
-      ");
+      ")
 
       @WorkPackagesDeadline.each do |workPackage|
 
@@ -180,7 +195,8 @@ class AlertsController < ApplicationController
           @alert = Alert.new
 
           @alert.entity_id = workPackage.id
-          puts workPackage.id, ' entity_id: ', @alert.entity_id
+          @alerts_array << @alert.entity_id.to_s
+          #puts workPackage.id, ' entity_id: ', @alert.entity_id
 
           @alert.alert_date = Date.current
           @alert.entity_type = 'WorkPackageDeadline'
@@ -192,9 +208,14 @@ class AlertsController < ApplicationController
           #puts workPackage.due_date, ' ', workPackage.assigned_to_id, ' ', 'to delayed job.';
         end
       end
+      if @alerts_array.length > 0
+        puts 'Создание алертов с типом WorkPackageDeadline (о наступлении срока по пакету работ). Идентификаторы: '
+        puts @alerts_array.inspect.to_s
+      end
     end
 
     if Setting.notified_events.include?('deadline_of_project_is_approaching')
+      @alerts_array = []
       @Projects = Project.find_by_sql("
       SELECT projects.* FROM projects LEFT JOIN
       (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'Project' AND alerts.alert_type = 'Email') as al ON projects.id = al.entity_id where
@@ -204,7 +225,7 @@ class AlertsController < ApplicationController
         (cast(projects.due_date as date) - CURRENT_DATE) < '#{Setting.remaining_count_days.to_i}' and cast(projects.due_date as date) > CURRENT_DATE
       )
       OR ( (al.alert_date + 1) <= CURRENT_DATE)
-      ");
+      ")
 
       @Projects.each do |project|
 
@@ -223,7 +244,8 @@ class AlertsController < ApplicationController
         @alert = Alert.new
 
         @alert.entity_id = project.id
-        puts project.id, ' entity_id: ', @alert.entity_id
+        @alerts_array << @alert.entity_id.to_s
+        #puts project.id, ' entity_id: ', @alert.entity_id
 
         @alert.alert_date = Date.current
         @alert.entity_type = 'Project'
@@ -231,9 +253,14 @@ class AlertsController < ApplicationController
 
         @alert.save
       end
+      if @alerts_array.length > 0
+        puts 'Создание алертов с типом Project (о приближении срока по проекту). Идентификаторы: '
+        puts @alerts_array.inspect.to_s
+      end
     end
 
     if Setting.notified_events.include?('deadline_of_project')
+      @alerts_array = []
       @Projects = Project.find_by_sql("
       SELECT projects.* FROM projects LEFT JOIN
       (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'ProjectDeadline' AND alerts.alert_type = 'Email') as al ON projects.id = al.entity_id where
@@ -261,7 +288,8 @@ class AlertsController < ApplicationController
         @alert = Alert.new
 
         @alert.entity_id = project.id
-        puts project.id, ' entity_id: ', @alert.entity_id
+        @alerts_array << @alert.entity_id.to_s
+        #puts project.id, ' entity_id: ', @alert.entity_id
 
         @alert.alert_date = Date.current
         @alert.entity_type = 'ProjectDeadline'
@@ -269,9 +297,14 @@ class AlertsController < ApplicationController
 
         @alert.save
       end
+      if @alerts_array.length > 0
+        puts 'Создание алертов с типом ProjectDeadline (о наступлении срока по проекту). Идентификаторы: '
+        puts @alerts_array.inspect.to_s
+      end
     end
 
     #ban: обязательная отправка напоминаний о вводе данных в справочники (
+    @alerts_array = []
     @user_tasks = UserTask.find_by_sql("SELECT User_tasks.* FROM User_tasks LEFT JOIN
     (SELECT alerts.* FROM alerts WHERE alerts.entity_type = 'UserTask' AND alerts.alert_type = 'Email') as al ON User_tasks.id = al.entity_id where
     (
@@ -297,13 +330,18 @@ class AlertsController < ApplicationController
         end
         @alert = Alert.new
         @alert.entity_id = user_task.id
-        puts user_task.id, ' entity_id: ', @alert.entity_id
+        @alerts_array << @alert.entity_id.to_s
+        #puts user_task.id, ' entity_id: ', @alert.entity_id
         @alert.alert_date = Date.current
         @alert.entity_type = 'UserTask'
         @alert.alert_type = 'Email'
         @alert.to_user = @ut_assignee.id
         @alert.save
       end
+    end
+    if @alerts_array.length > 0
+      puts 'Создание алертов с типом UserTask (напоминания о вводе данных в справочники). Идентификаторы: '
+      puts @alerts_array.inspect.to_s
     end
     # )
 
