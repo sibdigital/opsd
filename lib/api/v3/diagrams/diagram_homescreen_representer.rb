@@ -211,67 +211,89 @@ group by type, project_id, importance_id
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def fed_budget_data
-          cost_objects = CostObject.by_user @current_user
-          total_budget = BigDecimal("0")
-          spent = BigDecimal("0")
+          # cost_objects = CostObject.by_user @current_user
+          # total_budget = BigDecimal("0")
+          # spent = BigDecimal("0")
+          #
+          # cost_objects.each do |cost_object|
+          #   total_budget += cost_object.budget
+          #   spent += cost_object.spent
+          # end
 
-          cost_objects.each do |cost_object|
-            total_budget += cost_object.budget
-            spent += cost_object.spent
-          end
+          # total_budget: total_budget,
+          #   labor_budget: labor_budget,
+          #   material_budget: material_budget,
+          #   spent: spent, #израсходовано
+          #   ostatok: total_budget - spent,
+          #   ne_ispoln: 0,
+          #   risk_ispoln: 0
+          data = AllBudgetsHelper.federal_budget current_user
 
-          spent
-          risk_ispoln = 0
-          ostatok = total_budget - spent
+          #spent
+          #risk_ispoln = 0
+          # ostatok = total_budget - spent
           result = []
           # Порядок важен
-          result << spent
-          result << risk_ispoln
-          result << ostatok
+          result << data[:spent]
+          result << data[:risk_ispoln]
+          result << data[:ostatok]
         end
 
         def reg_budget_data
-          cost_objects = CostObject.by_user @current_user
-          total_budget = BigDecimal("0")
-          labor_budget = BigDecimal("0")
-          spent = BigDecimal("0")
-
-          cost_objects.each do |cost_object|
-            total_budget += cost_object.budget
-            labor_budget += cost_object.labor_budget
-            spent += cost_object.spent
-          end
-
-          spent
-          risk_ispoln = 0
-          ostatok = total_budget - spent
+          data = AllBudgetsHelper.regional_budget current_user
           result = []
           # Порядок важен
-          result << spent
-          result << risk_ispoln
-          result << ostatok
+          result << data[:spent]
+          result << data[:risk_ispoln]
+          result << data[:ostatok]
+          # cost_objects = CostObject.by_user @current_user
+          # total_budget = BigDecimal("0")
+          # labor_budget = BigDecimal("0")
+          # spent = BigDecimal("0")
+          #
+          # cost_objects.each do |cost_object|
+          #   total_budget += cost_object.budget
+          #   labor_budget += cost_object.labor_budget
+          #   spent += cost_object.spent
+          # end
+          #
+          # spent
+          # risk_ispoln = 0
+          # ostatok = total_budget - spent
+          # result = []
+          # # Порядок важен
+          # result << spent
+          # result << risk_ispoln
+          # result << ostatok
         end
 
         def other_budget_data
-          cost_objects = CostObject.by_user @current_user
-          total_budget = BigDecimal("0")
-          material_budget = BigDecimal("0")
-          spent = BigDecimal("0")
-
-          cost_objects.each do |cost_object|
-            total_budget += cost_object.budget
-            material_budget += cost_object.labor_budget
-            spent += cost_object.spent
-          end
-
-          spent
-          risk_ispoln = 0
-          ostatok = total_budget - spent
+          data = AllBudgetsHelper.vnebudget_budget current_user
           result = []
           # Порядок важен
-          result << spent
-          result << risk_ispoln
-          result << ostatok
+          result << data[:spent]
+          result << data[:risk_ispoln]
+          result << data[:ostatok]
+
+          # cost_objects = CostObject.by_user @current_user
+          # total_budget = BigDecimal("0")
+          # material_budget = BigDecimal("0")
+          # spent = BigDecimal("0")
+          #
+          # cost_objects.each do |cost_object|
+          #   total_budget += cost_object.budget
+          #   material_budget += cost_object.labor_budget
+          #   spent += cost_object.spent
+          # end
+          #
+          # spent
+          # risk_ispoln = 0
+          # ostatok = total_budget - spent
+          # result = []
+          # # Порядок важен
+          # result << spent
+          # result << risk_ispoln
+          # result << ostatok
         end
 
         def indicator_label

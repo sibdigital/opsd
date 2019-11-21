@@ -51,6 +51,17 @@ class VariableCostObject < CostObject
     I18n.t(:label_variable_cost_object)
   end
 
+
+  def budget_by_cost_type(cost_type)
+    material_budget_by_cost_type(cost_type) + labor_budget
+  end
+
+  def material_budget_by_cost_type(cost_type)
+    @material_budget ||= material_budget_items
+      .where(cost_type_id: cost_type.id)
+      .visible_costs.inject(BigDecimal('0.0000')) { |sum, i| sum += i.costs }
+  end
+
   def material_budget
     @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal('0.0000')) { |sum, i| sum += i.costs }
   end
@@ -63,12 +74,36 @@ class VariableCostObject < CostObject
     spent_material + spent_labor
   end
 
+  def spent_by_cost_type(cost_type)
+    spent_material_by_cost_type(cost_type) + spent_labor
+  end
+
+  def spent_by_cost_type(cost_type)
+    spent_material_by_cost_type(cost_type) + spent_labor
+  end
+
   def spent_material
     @spent_material ||= begin
       if cost_entries.blank?
         BigDecimal('0.0000')
       else
         cost_entries.visible_costs(User.current, project).sum("CASE
+          WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
+            #{CostEntry.table_name}.costs
+          ELSE
+            #{CostEntry.table_name}.overridden_costs END").to_d
+      end
+    end
+  end
+
+  def spent_material_by_cost_type(cost_type)
+    @spent_material ||= begin
+      if cost_entries.blank?
+        BigDecimal('0.0000')
+      else
+        cost_entries
+          .where(cost_type_id: cost_type.id)
+          .visible_costs(User.current, project).sum("CASE
           WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
             #{CostEntry.table_name}.costs
           ELSE
