@@ -177,7 +177,7 @@ class ApplicationController < ActionController::Base
       session[:global_role_id] = '0' #nobody
       importance = 0
       MemberRole.joins(:role).joins(:member).where(members: {user_id: User.current.id}).map do |mr|
-        if mr.role.name == I18n.t(:default_role_reader) and importance < 1
+        if mr.role.name == I18n.t(:default_role_ispolnitel) and importance < 1
           session[:global_role_id] = mr.role.id.to_s
           importance = 1 # Читатель
         end

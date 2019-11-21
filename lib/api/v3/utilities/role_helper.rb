@@ -12,7 +12,9 @@ module API
           @see_all_roles ||= see_all_roles
           @see_all_roles[global_role] || current_user.roles_for_project(project).find do |e|
             # функция которая определяет, укладывается ли проект в данную выбранную роль
-            e.id.to_s == global_role and (e.name == I18n.t(:default_role_project_curator) or e.name == I18n.t(:default_role_project_head) or e.name == I18n.t(:default_role_project_office_coordinator) or e.name == I18n.t(:default_role_project_admin))
+            e.id.to_s == global_role and (e.name == I18n.t(:default_role_project_curator) or e.name == I18n.t(:default_role_project_head) or
+              e.name == I18n.t(:default_role_project_office_coordinator) or e.name == I18n.t(:default_role_project_admin) or
+              e.name == I18n.t(:default_role_member) or e.name == I18n.t(:default_role_ispolnitel))
           end
         end
 
