@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
   before_action :authorize, only: [
     :show, :edit, :update, :modules, :types, :custom_fields
   ]
-  before_action :authorize_global, only: [:index, :new, :create]
+  before_action :authorize_global, only: [:new, :create]
   before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
@@ -398,7 +398,7 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
-    @address = @project.build_address
+    #@address = @project.build_address
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.attributes = permitted_params.project if params[:project].present?
   end

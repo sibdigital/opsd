@@ -147,6 +147,11 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     }
   }
 
+  public onSelectDay($event: any) {
+    //alert('selected method run' );
+    alert('selected ' + $event.detail.start.format() + ' to ' + $event.detail.end.format());
+  }
+
   private get calendarElement() {
     return jQuery(this.element.nativeElement).find('ng-fullcalendar');
   }
@@ -228,25 +233,39 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
       (resources: CollectionResource<HalResource>) => {
 
-        console.log("resources"  + resources);
         if (resources) {
 
-          let events = resources.source.map((user_task: HalResource) => {
+          let events = resources.source.map((userTask: HalResource) => {
           //let events = resources.elements.map((user_task: HalResource) => {
 
+            let kind = userTask.kind;
+            switch (userTask.kind) {
+              case 'Task':
+                kind = "Задача";
+                break;
+              case 'Request':
+                kind = "Запрос";
+                break;
+              case 'Note':
+                kind = "Заметка";
+                break;
+              case 'Response':
+                kind = "Ответ";
+                break;
+            }
+
             return {
-              title: "userTask" + user_task.title,
-              //start: user_task.due_date,
-              start: "2019-03-11",
-              // end: meeting.startTime,
+              //title: userTask.kind == "Task" ? "Задача: " : "Заметка: " + userTask.text,
+              title: kind + ": " + userTask.text,
+              start: userTask.due_date,
+              end: userTask.due_date,
               // className: `__hl_row_type_${meeting.workPackageId}`,
               // workPackage: meeting.workPackage,
-              user_task: user_task,
+              user_task: userTask,
               type_event: "user_task"
             }
 
           });
-
 
           let oldEvent = this.ucCalendar.clientEvents(null);
 
@@ -300,9 +319,11 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
   private get dynamicOptions() {
     return {
-      editable: false,
+      //editable: false,
       eventLimit: false,
-      locale: this.i18n.locale,
+      selectable: true,
+      //locale: this.i18n.locale,
+      locale: 'ru',
       height: () => {
         // -12 for the bottom padding
         return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
@@ -311,6 +332,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       header: {
         left: 'prev,next today',
         center: 'title',
+        //right: 'month247, workMonth, week247, workWeek, agendaDayFull, setPeriodButton, addUserTask'
         right: 'month247, workMonth, week247, workWeek, agendaDayFull'
       },
       views: {
@@ -339,8 +361,30 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         day: {
           titleFormat: 'YYYY, MM, DD'
         }
+      },
+      customButtons: {
+        setPeriodButton: {
+          text: 'Задать период',
+          click: function () {
+            alert('clicked the custom button!');
+          }
+        },
+        addUserTask: {
+          text: 'Добавить...',
+          click: this.addUserTask,
+         }
       }
     };
+  }
+
+  private addUserTask(){
+    let cal = jQuery(window).find('ng-fullcalendar');
+
+    console.log("cal: " + cal);
+
+    //let moment1 = moment(this.calendarElement.fullCalendar('getDate'));
+    let moment1 = moment(cal.fullCalendar('getDate'));
+    alert("The current date of the calendar is " + moment1.format());
   }
 
   private get staticOptions() {
@@ -399,31 +443,63 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
           <li class="tooltip--map--item">
             <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.startDate')}:</span>
             <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.startTime)}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">Местоположение:</span>
-            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.location)}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">Участники и приглашенные:</span>
-            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.participantList)}</span>
-          </li>
-          
+          </li>          
+          ${meeting.location ?
+            `<li class="tooltip--map--item">
+              <span class="tooltip--map--key">Местоположение:</span>
+              <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.location)}</span>
+            </li>` : ''}
+          ${meeting.participantList ?
+            `<li class="tooltip--map--item">
+              <span class="tooltip--map--key">Участники и приглашенные:</span>
+              <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, meeting.participantList)}</span>
+            </li>` : ''}          
         </ul>
         `;
   }
 
   private contentStringUserTask(userTask:any) {
-    return `
-        <b> Задача: </b> ${this.sanitizer.sanitize(SecurityContext.HTML, userTask.text)}
-        
-        <ul class="tooltip--map">
+    if (userTask.kind == "Note") {
+      return `
+        <b> Заметка: </b> ${this.sanitizer.sanitize(SecurityContext.HTML, userTask.text)}
+            `;
+    }else{
+
+      let kind = userTask.kind;
+      switch (userTask.kind) {
+        case 'Task':
+          kind = "Задача";
+          break;
+        case 'Request':
+          kind = "Запрос";
+          break;
+        case 'Note':
+          kind = "Заметка";
+          break;
+        case 'Response':
+          kind = "Ответ";
+          break;
+      }
+
+      return `
+        <b> ${kind}: </b> ${this.sanitizer.sanitize(SecurityContext.HTML, userTask.text)} 
+
+         <ul class="tooltip--map">  
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">Назначена:</span>
+            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, userTask.assigned_to)}</span>
+          </li>          
           <li class="tooltip--map--item">
             <span class="tooltip--map--key">Срок:</span>
             <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, userTask.due_date)}</span>
+          </li>                   
+          <li class="tooltip--map--item">
+            <span class="tooltip--map--key">Отметка о выполнении:</span>
+            <span class="tooltip--map--value">${this.sanitizer.sanitize(SecurityContext.HTML, userTask.completed)}</span>
           </li>          
         </ul>
-        `;
+            `;
+    }
   }
 
   private contentString(workPackage:WorkPackageResource) {

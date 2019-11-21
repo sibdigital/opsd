@@ -189,6 +189,10 @@ class ApplicationController < ActionController::Base
           session[:global_role_id] = mr.role.id.to_s
           importance = 3 # Администратор проектного офиса
         end
+        if mr.role.name == I18n.t(:default_role_project_admin) and importance < 3
+          session[:global_role_id] = mr.role.id.to_s
+          importance = 9 # Администратор проектa
+        end
         if mr.role.name == I18n.t(:default_role_project_office_coordinator) and importance < 4
           session[:global_role_id] = mr.role.id.to_s
           importance = 4 # Координатор от проектного офиса

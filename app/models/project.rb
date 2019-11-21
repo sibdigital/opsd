@@ -151,8 +151,8 @@ class Project < ActiveRecord::Base
      association_foreign_key: 'custom_field_id'
 
   #tmd
-  has_one :address, dependent: :destroy
-  accepts_nested_attributes_for :address, :reject_if => :all_blank
+  #has_one :address, dependent: :destroy
+  #accepts_nested_attributes_for :address, :reject_if => :all_blank
 
   #bbm(
   has_many :project_risks
@@ -252,7 +252,7 @@ class Project < ActiveRecord::Base
   # end
   def get_default_board
     default_board = Board.find_by( project_id: self.id, is_default: true)
-    default_board.id
+    default_board.nil? ? nil : default_board.id
   end
 
   def curator

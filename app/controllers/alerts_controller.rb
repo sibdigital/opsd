@@ -105,6 +105,7 @@ class AlertsController < ApplicationController
         end
       end
     end
+    puts (' deadline_of_work_package_is_approaching: ' + Setting.notified_events.include?('deadline_of_work_package_is_approaching').to_s)
     if Setting.notified_events.include?('deadline_of_work_package_is_approaching')
       @WorkPackages = WorkPackage.find_by_sql("
       SELECT Work_Packages.* FROM Work_Packages LEFT JOIN
@@ -120,7 +121,7 @@ class AlertsController < ApplicationController
       #puts(@WorkPackages.size)
 
       @WorkPackages.each do |workPackage|
-
+        puts (' workPackage: ' + workPackage.id.to_s)
         unless workPackage.assigned_to_id.nil?
           @assigneee = User.find(workPackage.assigned_to_id)
           @term_date = workPackage.due_date #ban

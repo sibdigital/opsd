@@ -44,7 +44,9 @@ module FileUploader
   end
 
   def readable?
-    file && File.readable?(local_file)
+    #bbm(
+    file && file.exists? && File.readable?(local_file)
+    # )
   end
 
    # store! nil's the cache_id after it finishes so we need to remember it for deletion
