@@ -1289,7 +1289,7 @@ class ReportPassportController < ApplicationController
     target_id = 0
     index = 0
     targetCalcProcedures.each_with_index do |targetCalcProcedure, i|
-    if targetCalcProcedure.target_id != target_id
+    if targetCalcProcedure.target_id != target_id && targetCalcProcedure.target!=nil
        sheet.insert_cell(start_index+i, 0, targetCalcProcedure.target.name)
        sheet.insert_cell(start_index+i, 1, "")
        sheet.insert_cell(start_index+i, 2, "")
@@ -1323,7 +1323,8 @@ class ReportPassportController < ApplicationController
     punkt = (index+1).to_s+"."
     sheet.insert_cell(start_index+i, 0, punkt)
     sheet.insert_cell(start_index+i, 1, targetCalcProcedure.name)
-    sheet.insert_cell(start_index+i, 2, targetCalcProcedure.base_target.name)
+    base_target = targetCalcProcedure.base_target.nil? ? "" : targetCalcProcedure.base_target.name
+    sheet.insert_cell(start_index+i, 2, base_target)
     sheet.insert_cell(start_index+i, 3, targetCalcProcedure.data_source)
     sheet.insert_cell(start_index+i, 4, targetCalcProcedure.user.name(:lastname_f_p))
     sheet.insert_cell(start_index+i, 5, targetCalcProcedure.level)
