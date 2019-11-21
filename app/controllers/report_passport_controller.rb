@@ -719,7 +719,7 @@ class ReportPassportController < ApplicationController
       sheet.insert_cell(2+i+countUser, 4, direct__manager_fio)
       sheet.insert_cell(2+i+countUser, 5, member_info["busyness"].to_s)
 
-      str_ids += ", "+user.id.to_s
+      str_ids = (str_ids =="" ? user.id.to_s : str_ids += ", "+user.id.to_s)
 
       sheet.sheet_data[2+i+countUser][5].change_horizontal_alignment('center')
       sheet.sheet_data[2+i+countUser][5].change_vertical_alignment('center')
