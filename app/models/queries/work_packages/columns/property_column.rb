@@ -119,6 +119,11 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: "name",
       groupable: true
     },
+    control_level: {
+      association: 'control_level',
+      sortable: "name",
+      groupable: true
+    },
     fixed_version: {
       association: 'fixed_version',
       sortable: ["name"],

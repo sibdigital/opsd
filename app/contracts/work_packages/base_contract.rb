@@ -62,15 +62,16 @@ module WorkPackages
 
     attribute :organization_id
 
-    # attribute :control_level_id
+    attribute :control_level_id
     # )
-
     attribute :arbitary_object_id
     #
     #+tan
     attribute :raion_id
     #-tan
     attribute :period_id
+
+    attribute :control_level_id
 
     attribute :fixed_version_id do
       validate_fixed_version_is_assignable :fixed_version_id, 'fixed_version_id'
