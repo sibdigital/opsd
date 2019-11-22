@@ -43,10 +43,13 @@ class CommunicationRequirementsController < ApplicationController
 private
 
   def prepare_stakeholders
-    sth_users, sth_orgs = get_stakeholders(@project.id)
+    sth_users, sth_orgs, sth_outer = get_stakeholders(@project.id)
     @stakeholders = []
     sth_users.each do |user|
       @stakeholders.push [user['name'], user['type'] + ":" + user['user_id'].to_s]
+    end
+    sth_outer.each do |outer|
+      @stakeholders.push [outer['name'], outer['type'] + ":" + outer['user_id'].to_s]
     end
   end
 

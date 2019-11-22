@@ -157,10 +157,10 @@ module StakeholdersHelper
                'cabinet'=> sth.cabinet,
                'type'=> 'StakeholderOuter'
       ]
-      sth_users.push s
+      # sth_users.push s
     end
 
-    return sth_users, sth_orgs.uniq
+    return sth_users, sth_orgs.uniq, sth_outer
   end
 
 end
