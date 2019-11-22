@@ -2,6 +2,7 @@
 class CommunicationMeetingMembersController < ApplicationController
   before_action :find_project
   before_action :find_com_meeting_member, only: [:edit, :update, :destroy]
+  before_action :prepare_params, only: [:create, :update]
 
   include SortHelper
   include PaginationHelper
@@ -67,4 +68,10 @@ private
     @com_meeting_member = CommunicationMeetingMember.find(params[:id])
   end
 
+  def prepare_params
+    tmp = params['communication_meeting_member']['stakeholder_id'].to_s
+    tmp = tmp.split(':')
+    params['communication_meeting_member']['stakeholder_type'] = tmp[0]
+    params['communication_meeting_member']['stakeholder_id'] = tmp[1]
+  end
 end

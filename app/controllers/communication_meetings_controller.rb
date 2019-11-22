@@ -2,6 +2,7 @@
 class CommunicationMeetingsController < ApplicationController
   before_action :find_project
   before_action :find_com_meeting, only: [:edit, :update, :destroy]
+  before_action :prepare_stakeholders, only: [:new, :edit]
 
   include SortHelper
   include PaginationHelper
@@ -29,6 +30,13 @@ class CommunicationMeetingsController < ApplicationController
                     .page(page_param)
                     .per_page(per_page_param)
 
+      # sth_users, sth_orgs = get_stakeholders(@project.id)
+      #
+      # @stakeholders = []
+      # sth_users.each do |user|
+      #   @stakeholders.push [user['name'], user['type'] + ":" + user['user_id'].to_s]
+      # end
+
     when 'meet'
       sort_columns = {'id' => "#{CommunicationMeeting.table_name}.id",
                       'name' => "#{CommunicationMeeting.table_name}.name",
@@ -45,30 +53,6 @@ class CommunicationMeetingsController < ApplicationController
                    .order(sort_clause)
                    .page(page_param)
                    .per_page(per_page_param)
-
-      sth_users, sth_orgs = get_stakeholders(@project.id)
-
-      # + add StakeholderOuter
-      # sth_outer = StakeholderOuter.where(:project_id => @project.id).all
-      # sth_outer.each do |sth|
-      #   s = []
-      #   s = Hash['user_id'=>sth.id,
-      #            'organization_id'=> sth.organization_id,
-      #            'name'=> sth.name,
-      #            'phone_wrk'=> sth.phone_wrk,
-      #            'phone_wrk_add'=> sth.phone_wrk_add,
-      #            'phone_mobile'=> sth.phone_mobile,
-      #            'mail_add'=> sth.mail_add,
-      #            'address'=> sth.address,
-      #            'cabinet'=> sth.cabinet]
-      #   sth_users.push s
-      # end
-
-      @stakeholders = []
-      sth_users.each do |user|
-        @stakeholders.push [user['name'], user['user_id']]
-      end
-
     end
 
   end
@@ -90,11 +74,6 @@ class CommunicationMeetingsController < ApplicationController
 
   def edit
     @com_meeting_members = CommunicationMeetingMember.where(project_id: @project.id, communication_meeting_id: params[:id]).all
-    sth_users, sth_orgs = get_stakeholders(@project.id)
-    @stakeholders = []
-    sth_users.each do |user|
-      @stakeholders.push [user['name'], user['user_id']]
-    end
   end
 
   def update
@@ -136,6 +115,14 @@ private
 
   def find_com_meeting
     @com_meeting = CommunicationMeeting.find(params[:id])
+  end
+
+  def prepare_stakeholders
+    sth_users, sth_orgs = get_stakeholders(@project.id)
+    @stakeholders = []
+    sth_users.each do |user|
+      @stakeholders.push [user['name'], user['type'] + ":" + user['user_id'].to_s]
+    end
   end
 
 end
