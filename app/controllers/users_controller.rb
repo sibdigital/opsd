@@ -56,12 +56,15 @@ class UsersController < ApplicationController
   before_action :enforce_user_limit, only: [:create]
   before_action -> { enforce_user_limit flash_now: true }, only: [:new]
   before_action only: [:create, :update] do
-    upload_custom_file("user", @user.class.name)
+    upload_custom_file("user", "User")
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Principal", @user.id)
     parse_classifier_value("Principal", @user.class.name, @user.id)
+  end
+
+  after_action only: [:create] do
     init_counter_value("Principal", @user.class.name, @user.id)
   end
 

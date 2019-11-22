@@ -46,15 +46,17 @@ class DocumentsController < ApplicationController
   include PaginationHelper
 
   before_action only: [:create, :update] do
-    upload_custom_file("document", @document.class.name)
+    upload_custom_file("document", "Document")
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Document", @document.id)
     parse_classifier_value("Document", @document.class.name, @document.id)
-    init_counter_value("Document", @document.class.name, @document.id)
   end
 
+  after_action only: [:create] do
+    init_counter_value("Document", @document.class.name, @document.id)
+  end
 
   def index
     if params[:commit] == "Применить"
