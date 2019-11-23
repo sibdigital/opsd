@@ -1,7 +1,6 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 export class BlueTableDiscussService extends BlueTableService {
   protected columns:string[] = ['Проект', 'Куратор/\nРП', 'Тема', 'Дата последнего сообщения'];
