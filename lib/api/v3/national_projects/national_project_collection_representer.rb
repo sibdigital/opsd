@@ -57,6 +57,8 @@ module API
                    getter: ->(*) {
                      @elements = []
                      render_tree(represented, nil)
+                     Rails.logger.info('repr: ' + represented.to_json)
+                     Rails.logger.info(@elements ? @elements.size() : 'empty mat proj')
                      @elements
                    },
                    exec_context: :decorator,
@@ -66,18 +68,25 @@ module API
 
         def render_tree(tree, pid)
           represented.map do |el|
+            # Rails.logger.info("render_tree: #{el.id} PID: #{pid} el.parent_id= #{el.parent_id}")
+            #Rails.logger.info('current_user: ' + @current_user.name + ' @global_role: ' + @global_role.to_s)
             if el.parent_id == pid
               exist = nil
               if pid
-                el.projects_federal.map do |project|
-                  exist ||= which_role(project, @current_user, @global_role)
-                end
+                exist = which_roles(el.projects_federal, @current_user)
+                # el.projects_federal.map do |project|
+                  # exist ||= which_role(project, @current_user, @global_role)
+                  # Rails.logger.info('project:' + project.id.id.to_s + 'roles' + which_role(project, @current_user, @global_role).to_json())
+                #end
               else
-                exist = nil
-                el.projects.map do |project|
-                  exist ||= which_role(project, @current_user, @global_role)
-                end
+                # exist = nil
+                exist = which_roles(el.projects, @current_user)
+                # el.projects.map do |project|
+                #   exist ||= which_role(project, @current_user, @global_role)
+                #   #Rails.logger.info('project:' + project.id.to_s + 'roles' + which_role(project, @current_user, @global_role).to_json())
+                # end
               end
+              # Rails.logger.info("exist#{exist} render_tree: #{el.id} PID: #{pid} el.parent_id= #{el.parent_id}")
               unless exist
                 next
               end
