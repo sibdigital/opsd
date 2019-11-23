@@ -1,4 +1,3 @@
-
 # tmd
 module CustomFilesHelper
 
@@ -10,16 +9,20 @@ module CustomFilesHelper
     @file_names = []
 
     @file_ids.each do |id|
-      if params[object_type][:custom_field_values] != nil
+      begin
         uploaded_file = params[object_type][:custom_field_values][id.to_s]
-        @file_names << uploaded_file.original_filename
 
-        path = Rails.root.join('public', 'uploads', 'custom_fields')
-        FileUtils.mkdir_p(path) unless File.exist?(path)
+        if uploaded_file != nil
+          @file_names << uploaded_file.original_filename
 
-        File.open(File.join(path, uploaded_file.original_filename), 'wb') do |file|
-          file.write(uploaded_file.read)
+          path = Rails.root.join('public', 'uploads', 'custom_fields')
+          FileUtils.mkdir_p(path) unless File.exist?(path)
+
+          File.open(File.join(path, uploaded_file.original_filename), 'wb') do |file|
+            file.write(uploaded_file.read)
+          end
         end
+      rescue
 
       end
     end

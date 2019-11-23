@@ -34,12 +34,15 @@ class BoardsController < ApplicationController
   before_action :new_board, only: [:new, :create]
   before_action :find_board_if_available, except: [:index]
   before_action only: [:create, :update] do
-    upload_custom_file("board", @board.class.name)
+    upload_custom_file("board", "Board")
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Board", @board.id)
     parse_classifier_value("Board", @board.class.name, @board.id)
+  end
+
+  after_action only: [:create] do
     init_counter_value("Board", @board.class.name, @board.id)
   end
 
