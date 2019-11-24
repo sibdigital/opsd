@@ -23,7 +23,7 @@ This file written by XCC
                                           options_for_select(ArbitaryObjectType.where(active: true).map {|u| [u.name, u.id]}, @selected_obj_type),
                                           include_blank: true,
                                           container_class: '-slim' %></div>
-  <% if User.current.admin?%>
+  <% if User.current.allowed_to?(:approve_instance, @project) %>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>
     </div>

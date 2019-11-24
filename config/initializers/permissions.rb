@@ -118,6 +118,9 @@ Redmine::AccessControl.map do |map|
                    members: [:paginate_users] },
                  require: :member
 
+  map.permission :approve_instance,
+                 {}
+
   map.project_module :work_package_tracking do |wpt|
     # Issue categories
     wpt.permission :manage_categories,

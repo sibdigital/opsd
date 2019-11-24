@@ -19,7 +19,7 @@ by zbd
   <div class="form--field content--split"><%= f.text_field 'etaps', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.hidden_field 'project_id', value: @project_id %></div>
 
-  <% if User.current.admin?%>
+  <% if User.current.allowed_to?(:approve_instance, @project_id)%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>
     </div>

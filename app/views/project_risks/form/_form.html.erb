@@ -54,7 +54,7 @@ This file written by BBM
                    label: @project_risk.color_label
                } %>
   <% end %>
-  <% if User.current.admin?%>
+  <% if User.current.allowed_to?(:approve_instance, @project)%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>
     </div>

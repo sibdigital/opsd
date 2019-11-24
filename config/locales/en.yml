@@ -2605,6 +2605,7 @@ en:
   permission_select_project_modules: Выбор модулей проекта
   permission_manage_types: Выберите типы
   permission_view_calendar: Календарь
+  permission_approve_instance: Возможность утверждать объекты
   #knm(
   setting_days_text: Дни недели
   button_refresh: Обновить
