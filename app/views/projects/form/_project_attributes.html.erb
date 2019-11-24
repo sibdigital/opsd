@@ -62,6 +62,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 
 </div>
+<% if User.current.project_office_coordinator?(project) || User.current.project_office_manager?(project) %>
 <div class="form--field">
   <%# f.select :project_status_id,
         options_for_select(project.get_allowed_project_statuses.map {|u| [u.name, u.id]}, @selected_project_status_id),
@@ -69,11 +70,25 @@ See docs/COPYRIGHT.rdoc for more details.
         container_class: '-slim' %>
   <!--  </div>-->
   <%# else %>
-  <span>
-    Статус: <strong><%= project.get_project_status %></strong>
-  </span>
+  <%= form.select :status,
+                  options_for_select(ProjectStatus.all.map {|u| [u.name, u.id]},project.get_project_status),
+                  container_class: '-slim' %>
   <%# end %>
 </div>
+<% else%>
+  <div class="form--field">
+    <%# f.select :project_status_id,
+        options_for_select(project.get_allowed_project_statuses.map {|u| [u.name, u.id]}, @selected_project_status_id),
+        include_blank: true,
+        container_class: '-slim' %>
+    <!--  </div>-->
+    <%# else %>
+    <span>
+    Статус: <strong><%= project.get_project_status %></strong>
+  </span>
+    <%# end %>
+  </div>
+<% end %>
 <div class="form--field">
   <%# f.select :project_approve_status_id,
                  options_for_select(project.get_allowed_project_approve_status.map {|u| [u.name, u.id]}, @selected_project_approve_status_id),
