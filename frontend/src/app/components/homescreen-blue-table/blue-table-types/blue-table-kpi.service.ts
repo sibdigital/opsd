@@ -286,6 +286,7 @@ export class BlueTableKpiService extends BlueTableService {
   }
 
   public initializeAndGetData():Promise<any[]> {
+    this.page = 0;
     return new Promise((resolve) => {
       this.national_project_titles = [];
       this.halResourceService

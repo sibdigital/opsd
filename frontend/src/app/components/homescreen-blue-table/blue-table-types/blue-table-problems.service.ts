@@ -27,6 +27,8 @@ export class BlueTableProblemsService extends BlueTableService {
   }
 
   public initializeAndGetData():Promise<any[]> {
+    this.page = 0;
+    this.filter = undefined;
     return new Promise((resolve) => {
       this.national_project_titles = [];
       this.halResourceService
