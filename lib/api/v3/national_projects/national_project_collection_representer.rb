@@ -57,8 +57,8 @@ module API
                    getter: ->(*) {
                      @elements = []
                      render_tree(represented, nil)
-                     Rails.logger.info('repr: ' + represented.to_json)
-                     Rails.logger.info(@elements ? @elements.size() : 'empty mat proj')
+                     #Rails.logger.info('repr: ' + represented.to_json)
+                     #Rails.logger.info(@elements ? @elements.size() : 'empty mat proj')
                      @elements
                    },
                    exec_context: :decorator,
