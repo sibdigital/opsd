@@ -79,7 +79,7 @@ class WorkPackage < ActiveRecord::Base
   has_many :work_package_targets, foreign_key: 'work_package_id'
   belongs_to :raion, class_name: 'Raion', foreign_key: 'raion_id'
   belongs_to :period, foreign_key: 'period_id'
-  belongs_to :control_level, foreign_key: 'control_level_id'
+  belongs_to :control_level, class_name: 'ControlLevel', foreign_key: 'control_level_id'
   has_many :work_package_quarterly_targets, foreign_key: 'work_package_id'
   # )
 
