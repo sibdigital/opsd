@@ -835,8 +835,8 @@ class Project < ActiveRecord::Base
   end
 
   #bbm(
-  def get_budget_fraction
-    budget = AllBudgetsHelper.cost_by_project self
+  def get_budget_fraction(raion_id)
+    budget = AllBudgetsHelper.cost_by_project self, raion_id
     if budget then
       if budget[:total_budget] == 0 then
         0

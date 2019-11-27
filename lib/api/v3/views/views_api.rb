@@ -109,7 +109,7 @@ module API
                 stroka['kurator_id'] = project.curator.empty? ? '' : project.curator['id']
                 stroka['rukovoditel'] = project.rukovoditel.empty? ? '' : project.rukovoditel['fio']
                 stroka['rukovoditel_id'] = project.rukovoditel.empty? ? '' : project.rukovoditel['id']
-                stroka['budget_fraction'] = project.get_budget_fraction
+                stroka['budget_fraction'] = project.get_budget_fraction raion_id
                 stroka['dueDate'] = project.due_date
                 stroka['preds'] = arr['preds'] || 0
                 stroka['prosr'] = arr['prosr'] || 0
