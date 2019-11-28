@@ -38,11 +38,16 @@ module Concerns::OmniauthLogin
     # the other filters are not applicable either since OmniAuth is doing authentication
     # itself
     [
-      :verify_authenticity_token, :user_setup,
+      :user_setup,
       :check_if_login_required, :check_session_lifetime
     ]
       .each { |key| skip_before_action key, only: [:omniauth_login] }
-
+    #+tan 2019.11.28 неправильно конечно, но что делать, других вариантов я уже не знаю
+    [
+      :verify_authenticity_token
+    ]
+      .each { |key| skip_before_action key }
+    #-tan
     helper :omniauth
   end
 
