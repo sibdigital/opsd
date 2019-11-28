@@ -1685,6 +1685,7 @@ en:
   label_blog: Блог
   label_board_locked: Закрыто
   label_board_new: Новая дискуссия
+  label_board_dont_exist: В данном проекте нет досок
   label_board_plural: Дискуссии
   label_board_sticky: Стикер
   label_boolean: Логическое значение

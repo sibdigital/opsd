@@ -51,6 +51,14 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= @selected_view == "table" ? op_icon('button--icon icon-organization') : op_icon('button--icon icon-enumerations') %>
       <% end %>
     </li>
+    <li class="toolbar-item">
+      <%= link_to(@project.get_default_board.nil? ? nil : new_board_topic_path(@project.get_default_board),
+                  class: @project.get_default_board.nil? ? 'button -disabled' : 'button',
+                  aria: {label: t("label_board_new")},
+                  title: @project.get_default_board.nil? ? t("label_board_dont_exist") : t("label_board_new")) do %>
+      <%= op_icon('button--icon icon-ticket-note') %>
+      <% end %>
+    </li>
   <% end %>
 <% end %>
 <%= styled_form_tag(project_documents_path(project_id: @project.id), { method: :get, id: 'query_form' }) do %>
