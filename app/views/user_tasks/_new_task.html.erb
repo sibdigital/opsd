@@ -17,7 +17,7 @@
 
   <div class="form--field">
     <%= form.select :object_id,
-                    children_options_for_select_wp(WorkPackage.all.map {|u| [u.subject, u.project_id, u.id]}),
+                    children_options_for_select_wp(WorkPackage.all.map {|u| [u.subject, u.project_id, u.id]}, @selected_wp),
                     include_blank: true,
                     container_class: '-slim' %>
   </div>

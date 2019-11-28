@@ -40,23 +40,33 @@ class DocumentsController < ApplicationController
   before_action :find_model_object, except: [:index, :new, :create]
   before_action :find_project_from_association, except: [:index, :new, :create]
   before_action :authorize
-  helper :sort
+  # helper :sort
   include SortHelper
   include CustomFieldsHelper
   include PaginationHelper
 
   before_action only: [:create, :update] do
-    upload_custom_file("document", @document.class.name)
+    upload_custom_file("document", "Document")
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Document", @document.id)
     parse_classifier_value("Document", @document.class.name, @document.id)
+  end
+
+  after_action only: [:create] do
     init_counter_value("Document", @document.class.name, @document.id)
   end
 
-
   def index
+    sort_init 'id', 'asc'
+    sort_columns = {'id' => "#{Document.table_name}.id",
+                    'title' => "#{Document.table_name}.title",
+                    'created_on' => "#{Document.table_name}.created_on",
+                    'user' => "#{Document.table_name}.user_id"}
+
+    sort_update sort_columns
+
     if params[:commit] == "Применить"
       params[:filter_start_date].blank? ? @filter_start_date = "" : @filter_start_date = params[:filter_start_date]
       params[:filter_end_date].blank? ? @filter_end_date = "" : @filter_end_date = params[:filter_end_date]
@@ -64,16 +74,13 @@ class DocumentsController < ApplicationController
       params[:filter_category].blank? ? @filter_category = "" : @filter_category = params[:filter_category]
     end
     if params[:selected_view].blank?
-      @selected_view="table"
+      @selected_view = "table"
     else
       @selected_view = params[:selected_view]
     end
-    sort_columns = {'id' => "#{Document.table_name}.id", 'title' => "#{Document.table_name}.title", 'user_id' => "#{Document.table_name}.user", 'created_on' => "#{Document.table_name}.created_on"}
-    sort_init 'id', 'asc'
-    sort_update sort_columns
     @documents = Document.where("project_id = ?", @project.id)
-    @existing_users = @documents.select(:user_id).distinct.map{|u| [User.find(u.user_id).fio, u.user_id]}
-    @existing_categories = @documents.select(:category_id).distinct.map{|c | [c.category.name, c.category_id]}
+    @existing_users = @documents.select(:user_id).distinct.map {|u| [User.find(u.user_id).fio, u.user_id]}
+    @existing_categories = @documents.select(:category_id).distinct.map {|c| [c.category.name, c.category_id]}
     unless @filter_end_date.blank?
       end_of_day = (@filter_end_date.to_date + 1.days).to_s
       @documents = @documents.where('created_on between ? and ?', "1000-01-01", end_of_day)
@@ -82,11 +89,12 @@ class DocumentsController < ApplicationController
       @documents = @documents.where('created_on between ? and ?', @filter_start_date, "3000-01-01")
     end
     unless @filter_user.blank?
-      @documents = @documents.where('user_id = ?',@filter_user)
+      @documents = @documents.where('user_id = ?', @filter_user)
     end
     unless @filter_category.blank?
-      @documents = @documents.where('category_id = ?',@filter_category)
+      @documents = @documents.where('category_id = ?', @filter_category)
     end
+    @documents = @documents.order(sort_clause)
   end
 
   def show
@@ -106,7 +114,7 @@ class DocumentsController < ApplicationController
 
     if @document.save
       render_attachment_warning_if_needed(@document)
-      Alert.create_pop_up_alert(@document,"Created",User.current,User.current)
+      Alert.create_pop_up_alert(@document, "Created", User.current, User.current)
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_documents_path(@project)
     else
@@ -170,8 +178,8 @@ class DocumentsController < ApplicationController
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
+    values.reject! {|k, v| k.to_i < 1 || !v.is_a?(String)}
 
-    values.empty? ? {} : { 'custom_field_values' => values.permit! }
+    values.empty? ? {} : {'custom_field_values' => values.permit!}
   end
 end

@@ -109,7 +109,7 @@ module API
                 stroka['kurator_id'] = project.curator.empty? ? '' : project.curator['id']
                 stroka['rukovoditel'] = project.rukovoditel.empty? ? '' : project.rukovoditel['fio']
                 stroka['rukovoditel_id'] = project.rukovoditel.empty? ? '' : project.rukovoditel['id']
-                stroka['budget_fraction'] = project.get_budget_fraction
+                stroka['budget_fraction'] = project.get_budget_fraction raion_id
                 stroka['dueDate'] = project.due_date
                 stroka['preds'] = arr['preds'] || 0
                 stroka['prosr'] = arr['prosr'] || 0
@@ -316,6 +316,9 @@ module API
                   stroka['target_id'] = row.target_id
                   stroka['target_year_value'] = row.target_year_value
                   stroka['fact_year_value'] = row.fact_year_value
+                  stroka['otvetstvenniy_id'] = row.resultassigned
+                  stroka['otvetstvenniy'] = row.result_assigned
+
                   stroka['target_quarter1_value'] = row.target_quarter1_value
                   stroka['target_quarter2_value'] = row.target_quarter2_value
                   stroka['target_quarter3_value'] = row.target_quarter3_value

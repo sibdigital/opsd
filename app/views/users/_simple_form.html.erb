@@ -40,10 +40,12 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field"><%= f.text_field :patronymic, required: false, container_class: '-middle' %></div>
   <!--zbd-->
 
-  <%= render partial:     'customizable/field',
-             collection:  @user.custom_field_values,
-             as:          :value,
-             locals:      { form: f, input_size: "middle", class_name: @user.class.name, obj_id: @user.id, from: 'users' } %>
+  <%= render partial: 'customizable/form', locals: { form: f,
+                                                     all_fields: true,
+                                                     only_required: false,
+                                                     class_name: @user.class.name,
+                                                     obj_id: @user.id,
+                                                     from: 'users' } %>
 
   <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
       <div class="form--field">

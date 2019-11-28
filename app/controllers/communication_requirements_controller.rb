@@ -2,35 +2,13 @@
 class CommunicationRequirementsController < ApplicationController
   before_action :find_project
   before_action :find_com_requirement, only: [:edit, :update, :destroy]
+  before_action :prepare_stakeholders, only: [:new, :edit]
+  before_action :prepare_params, only: [:create, :update]
 
   include StakeholdersHelper
 
   def new
     @com_req = CommunicationRequirement.new(project_id: @project.id)
-
-    sth_users, sth_orgs = get_stakeholders(@project.id)
-
-    # + add StakeholderOuter
-    # sth_outer = StakeholderOuter.where(:project_id => @project.id).all
-    # sth_outer.each do |sth|
-    #   s = []
-    #   s = Hash['user_id'=>sth.id,
-    #            'organization_id'=> sth.organization_id,
-    #            'name'=> sth.name,
-    #            'phone_wrk'=> sth.phone_wrk,
-    #            'phone_wrk_add'=> sth.phone_wrk_add,
-    #            'phone_mobile'=> sth.phone_mobile,
-    #            'mail_add'=> sth.mail_add,
-    #            'address'=> sth.address,
-    #            'cabinet'=> sth.cabinet]
-    #   sth_users.push s
-    # end
-
-    @stakeholders = []
-    sth_users.each do |user|
-      @stakeholders.push [user['name'], user['user_id']]
-    end
-
   end
 
   def create
@@ -45,11 +23,6 @@ class CommunicationRequirementsController < ApplicationController
   end
 
   def edit
-    sth_users, sth_orgs = get_stakeholders(@project.id)
-    @stakeholders = []
-    sth_users.each do |user|
-      @stakeholders.push [user['name'], user['user_id']]
-    end
   end
 
   def update
@@ -68,6 +41,24 @@ class CommunicationRequirementsController < ApplicationController
   end
 
 private
+
+  def prepare_stakeholders
+    sth_users, sth_orgs, sth_outer = get_stakeholders(@project.id)
+    @stakeholders = []
+    sth_users.each do |user|
+      @stakeholders.push [user['name'], user['type'] + ":" + user['user_id'].to_s]
+    end
+    sth_outer.each do |outer|
+      @stakeholders.push [outer['name'], outer['type'] + ":" + outer['user_id'].to_s]
+    end
+  end
+
+  def prepare_params
+    tmp = params['communication_requirement']['stakeholder_id'].to_s
+    tmp = tmp.split(':')
+    params['communication_requirement']['stakeholder_type'] = tmp[0]
+    params['communication_requirement']['stakeholder_id'] = tmp[1]
+  end
 
   def find_project
     return true unless params[:project_id]

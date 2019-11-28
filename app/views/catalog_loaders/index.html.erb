@@ -15,6 +15,7 @@
     <%= hidden_field_tag "catalog_type", params[:catalog_type] %>
     <%= hidden_field_tag "org_type", params[:org_type] %>
     <%= hidden_field_tag "org_type_str", params[:org_type_str] %>
+    <%= hidden_field_tag "project", @project_id %>
 
     <div class="form--field">
       <%= submit_tag "Загрузить" %>

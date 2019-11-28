@@ -5,13 +5,12 @@ class ArbitaryObjectsController < ApplicationController
   before_action :find_optional_project, :verify_arbitary_objects_module_activated
   before_action :find_arbitary_object, only: [:edit, :update, :destroy]
   before_action only: [:create, :update] do
-    upload_custom_file("arbitary_object", @arbitary_object.class.name)
+    upload_custom_file("arbitary_object", "ArbitaryObject")
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("ArbitaryObject", @arbitary_object.id)
     parse_classifier_value("ArbitaryObject", @arbitary_object.class.name, @arbitary.id)
-    init_counter_value("ArbitaryObject", @arbitary_object.class.name, @arbitary_object.id)
   end
 
   helper :sort

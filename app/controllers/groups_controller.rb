@@ -40,12 +40,15 @@ class GroupsController < ApplicationController
                                     :edit_membership]
 
   before_action only: [:create, :update] do
-    upload_custom_file("group", @group.class.name)
+    upload_custom_file("group", "Group")
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Principal", @group.id)
     parse_classifier_value("Principal", @group.class.name, @group.id)
+  end
+
+  after_action only: [:create] do
     init_counter_value("Principal", @group.class.name, @group.id)
   end
 

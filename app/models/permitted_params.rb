@@ -576,11 +576,11 @@ class PermittedParams
   end
 
   def communication_meeting_member
-    params.require(:communication_meeting_member).permit(:project_id, :stakeholder_id, :communication_meeting_id)
+    params.require(:communication_meeting_member).permit(:project_id, :stakeholder_id, :communication_meeting_id, :stakeholder_type)
   end
 
   def communication_requirement
-    params.require(:communication_requirement).permit(:name, :project_id, :stakeholder_id, :kind_info, :period)
+    params.require(:communication_requirement).permit(:name, :project_id, :stakeholder_id, :kind_info, :period, :stakeholder_type)
   end
   # )
 

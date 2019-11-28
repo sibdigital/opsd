@@ -17,12 +17,15 @@ class ContractsController < ApplicationController
   include ClassifierHelper
 
   before_action only: [:create, :update] do
-    upload_custom_file("contract", @contract.class.name)
+    upload_custom_file("contract", "Contract")
   end
 
   after_action only: [:create, :update] do
     assign_custom_file_name("Contract", @contract.id)
     parse_classifier_value("Contract", @contract.class.name, @contract.id)
+  end
+
+  after_action only: [:create] do
     init_counter_value("Contract", @contract.class.name, @contract.id)
   end
 

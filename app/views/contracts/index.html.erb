@@ -15,7 +15,7 @@ by zbd
   </li>
 
   <li class="toolbar-item">
-    <%= link_to(catalog_loaders_path(catalog_type: "contracts"),
+    <%= link_to(catalog_loaders_path(catalog_type: "contracts", project: @project),
                 aria: { label: t(:button_add) },
                 class: 'button -alt-highlight',
                 title: t(:button_add)) do %>

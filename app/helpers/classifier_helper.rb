@@ -7,6 +7,10 @@ module ClassifierHelper
       classifier_value = params['classifier' + custom_field_id.to_s]
       custom_value = CustomValue.where(:customized_type => type, :customized_id => id, :custom_field_id => custom_field_id).first
 
+      if custom_value.nil?
+        custom_value = CustomValue.create(:customized_type => type, :customized_id => id, :custom_field_id => custom_field_id)
+      end
+
       if classifier_value.nil?
         custom_value.update_attribute(:value, nil)
       else

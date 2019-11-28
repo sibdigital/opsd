@@ -6,7 +6,7 @@ class CatalogLoadersController < ApplicationController
   include PlanUploadersHelper
 
   def index
-
+    @project_id = params[:project]
   end
 
   def destroy
@@ -16,6 +16,7 @@ class CatalogLoadersController < ApplicationController
   def load
     uploaded_io = params[:file]
     catalog = params[:catalog_type]
+    project = params[:project]
     filename = ''
 
     File.open(Rails.root.join('public', 'uploads', 'catalog_loaders', uploaded_io.original_filename), 'wb') do |file|
@@ -91,6 +92,8 @@ class CatalogLoadersController < ApplicationController
       redirect_to :controller => "organizations", :action => "index"
     elsif catalog == "risks"
       redirect_to :controller => "typed_risks", :action => "index"
+    elsif catalog == "contracts"
+      redirect_to project_contracts_path(project)
     else
       redirect_to :controller => catalog, :action => 'index'
     end

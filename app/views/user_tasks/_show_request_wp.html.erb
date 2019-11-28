@@ -9,13 +9,29 @@
   <strong>Кому:</strong>
   <%= User.find_by(id: @user_task.assigned_to_id).to_s %>
 </p>
+<%=
+  @ut_project_url = '#'
+  if @user_task.project_id != nil && @user_task.project_id != 0
+    if Project.find(@user_task.project_id)
+      @ut_project_url = project_url(Project.find_by(id: @user_task.project_id))
+      @ut_project_name = Project.find_by(id: @user_task.project_id).name
+    end
+  end
+  @ut_wp_url = '#'
+  if @user_task.object_id != nil && @user_task.object_id != 0
+    if WorkPackage.find(@user_task.object_id)
+      @ut_wp_url = work_package_url(WorkPackage.find_by(id: @user_task.object_id))
+      @ut_wp_name = WorkPackage.find_by(id: @user_task.object_id).name
+    end
+  end
+%>
 <p>
   <strong>Проект:</strong>
-  <a href="<%= project_url(Project.find_by(id: @user_task.project_id)) %>"><%= Project.find_by(id: @user_task.project_id).name %></a>
+  <a href="<%= @ut_project_url %>"><%= @ut_project_name %></a>
 </p>
 <p>
   <strong>Пакет работ:</strong>
-  <a href="<%= work_package_url(WorkPackage.find_by(id: @user_task.object_id)) %>"><%= WorkPackage.find_by(id: @user_task.object_id).name %></a>
+  <a href="<%= @ut_wp_url %>"><%= @ut_wp_name %></a>
 </p>
 <p>
   <strong>Требуемая дата принятия:</strong>

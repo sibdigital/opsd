@@ -31,7 +31,13 @@
             <td><%= link_to req.id, edit_project_communication_requirement_path(id: req.id) %></td>
             <%= content_tag(:td, link_to(h(req.name), edit_project_communication_requirement_path(id: req.id))) %>
             <%#= content_tag(:td, Stakeholder.find(req.stakeholder_id).name) %>
-            <%= content_tag(:td, User.find(req.stakeholder_id).name) %>
+            <% if req.stakeholder_type == 'User' %>
+              <%= content_tag(:td, User.find(req.stakeholder_id).name) %>
+            <% end %>
+            <% if req.stakeholder_type == 'StakeholderOuter' %>
+              <%= content_tag(:td, StakeholderOuter.find(req.stakeholder_id).name) %>
+            <% end %>
+            <%#= content_tag(:td, User.find(req.stakeholder_id).name) %>
             <%= content_tag(:td, req.kind_info) %>
             <%= content_tag(:td, req.period) %>
             <%= content_tag(:td, link_to(
