@@ -18,6 +18,6 @@
   <div class="form--field"><%= f.text_field :leader_position, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field :curator, container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field :curator_position, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.date_field :start_date, container_class: '-middle' %></div>
-  <div class="form--field"><%= f.date_field :due_date, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.date_field :start_date, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.date_field :due_date, required: true, container_class: '-middle' %></div>
 </section>

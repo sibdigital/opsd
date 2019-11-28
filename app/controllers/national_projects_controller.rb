@@ -55,7 +55,7 @@ class NationalProjectsController < ApplicationController
   def update
     if @national_project.update_attributes(permitted_params.national_project)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to national_projects_path()
+      redirect_to national_projects_path
     else
       render action: 'edit'
     end
@@ -82,7 +82,7 @@ class NationalProjectsController < ApplicationController
     end
     if @national_project.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to national_projects_path
     else
       render action: 'new'
     end
