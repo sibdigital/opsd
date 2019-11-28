@@ -151,8 +151,8 @@ class Project < ActiveRecord::Base
      association_foreign_key: 'custom_field_id'
 
   #tmd
-  has_one :address, dependent: :destroy
-  accepts_nested_attributes_for :address, :reject_if => :all_blank
+  #has_one :address, dependent: :destroy
+  #accepts_nested_attributes_for :address, :reject_if => :all_blank
 
   #bbm(
   has_many :project_risks

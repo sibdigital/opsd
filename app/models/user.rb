@@ -644,6 +644,27 @@ class User < Principal
     roles
   end
 
+  # +-tan 2019.11.15
+  # Return user's roles for project
+  def roles_for_project_id(project_id)
+    roles = []
+    # No role on archived projects
+    if logged?
+      # Find project membership
+      membership = memberships.detect { |m| m.project_id == project_id }
+      if membership
+        roles = membership.roles
+      else
+        @role_non_member ||= Role.non_member
+        roles << @role_non_member
+      end
+    else
+      @role_anonymous ||= Role.anonymous
+      roles << @role_anonymous
+    end
+    roles
+  end
+
   # Cheap version of Project.visible.count
   def number_of_known_projects
     if admin?
@@ -795,6 +816,31 @@ class User < Principal
     roles = User.current.roles_for_project(project)
     roles.find_all{ |r| r.name == Role.project_office_coordinator.name}.size > 0
   end
+  # +tan 2019.11.15
+  def members_with_roles(roles_names_array)
+    slq =  <<-SQL
+      select m.*
+      from (
+             select member_id
+             from member_roles mr
+                    inner join(
+               select id
+               from roles as r
+               where r.id in (?)
+             ) as r
+                              on mr.role_id = r.id
+      ) as mr
+      inner join (
+        select * from
+        members as m
+        where m.user_id = ?
+        ) as m
+      on mr.member_id = m.id
+    SQL
+    roles_ids = Role.where(name: roles_names_array).map{|r| r.id}
+    Member.find_by_sql([slq, roles_ids, id])
+  end
+  # -tan
 
   #является координатором от проектного офиса хотя бы по одному проекту
   def detect_project_office_coordinator?()
@@ -826,11 +872,24 @@ class User < Principal
   end
 
   def has_priveleged?(project)
-    project_admin?(project) || project_curator?(project) || project_customer?(project) || project_office_manager?(project) || project_activity_coordinator?(project) || project_office_coordinator?(project)
+    #+-tan 2019.11.15 добавил РП
+    project_admin?(project) || project_curator?(project) || project_customer?(project) || project_office_manager?(project) ||
+      project_activity_coordinator?(project) || project_office_coordinator?(project) || project_head?(project) || project_region_head?(project)
+  end
+
+  def has_priveleged_id?(project_id)
+    #+-tan 2019.11.15 добавил РП
+    project_admin_id?(project_id) || project_curator_id?(project_id) || project_customer_id?(project_id) || project_office_manager_id?(project_id) ||
+      project_activity_coordinator_id?(project_id) || project_office_coordinator_id?(project_id) || project_head_id?(project_id) || project_region_head_id?(project_id)
   end
 
   def project_head?(project)
     roles = User.current.roles_for_project(project)
+    roles.find_all{ |r| r.name == Role.project_head.name}.size > 0
+  end
+
+  def project_head_id?(project_id)
+    roles = User.current.roles_for_project(project_id)
     roles.find_all{ |r| r.name == Role.project_head.name}.size > 0
   end
 
