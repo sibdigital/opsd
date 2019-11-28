@@ -103,24 +103,8 @@ See docs/COPYRIGHT.rdoc for more details.
         </colgroup>
         <thead>
         <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                  <span>
-                    <%= Message.human_attribute_name(:subject) %>
-                  </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                  <span>
-                    <%= Message.human_attribute_name(:author) %>
-                  </span>
-              </div>
-            </div>
-          </th>
+          <%= sort_header_tag("subject", caption: Message.human_attribute_name(:subject)) %>
+          <%= sort_header_tag("author", caption: Message.human_attribute_name(:author)) %>
           <%= sort_header_tag("created_on", caption: Message.human_attribute_name(:created_on)) %>
           <%= sort_header_tag("replies", caption: t(:label_reply_plural)) %>
           <%= sort_header_tag("updated_on", caption: t(:label_message_last)) %>
