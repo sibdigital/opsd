@@ -316,6 +316,9 @@ module API
                   stroka['target_id'] = row.target_id
                   stroka['target_year_value'] = row.target_year_value
                   stroka['fact_year_value'] = row.fact_year_value
+                  stroka['otvetstvenniy_id'] = row.resultassigned
+                  stroka['otvetstvenniy'] = row.result_assigned
+
                   stroka['target_quarter1_value'] = row.target_quarter1_value
                   stroka['target_quarter2_value'] = row.target_quarter2_value
                   stroka['target_quarter3_value'] = row.target_quarter3_value
