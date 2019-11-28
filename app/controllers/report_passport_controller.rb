@@ -767,7 +767,7 @@ class ReportPassportController < ApplicationController
       sheet.insert_cell(2+i+countUser, 1, member_info["role"])
       sheet.insert_cell(2+i+countUser, 2, user.name(:lastname_f_p))
       sheet.insert_cell(2+i+countUser, 3, member_info["position"])
-      sheet.insert_cell(2+i+countUser, 4, direct_manager)
+      sheet.insert_cell(2+i+countUser, 4, direct__manager_fio)
       sheet.insert_cell(2+i+countUser, 5, member_info["busyness"].to_s)
 
       str_ids = str_ids == "" ? user.id.to_s : str_ids += ", "+user.id.to_s
