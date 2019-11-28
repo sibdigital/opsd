@@ -43,10 +43,10 @@ module Concerns::OmniauthLogin
     ]
       .each { |key| skip_before_action key, only: [:omniauth_login] }
     #+tan 2019.11.28 неправильно конечно, но что делать, других вариантов я уже не знаю
-    [
-      :verify_authenticity_token
-    ]
-      .each { |key| skip_before_action key }
+    # [
+    #   :verify_authenticity_token
+    # ]
+    #   .each { |key| skip_before_action key }
     #-tan
     helper :omniauth
   end
