@@ -813,6 +813,7 @@ class PermittedParams
           lastname
           patronymic
           mail
+          mail_add
           mail_notification
           language
           organization_id

@@ -35,7 +35,7 @@ class UserMailer < BaseMailer
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'ИСУП - тестовое сообщение'
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'ИСУП - тестовое сообщение'
     end
   end
 =begin
@@ -51,7 +51,7 @@ class UserMailer < BaseMailer
 
       # Alert.create_new_pop_up_alert(1, "WorkPackages", "Changed", author.id, user.id)
       with_locale_for(user) do
-        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+        mail_for_author author, to: mail_for_notifications(user), subject: subject_for_work_package(work_package)
       end
     end
   end
@@ -66,7 +66,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'В проекте '+@project.name.to_s+' добавлено мероприятие '+@work_package.subject
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 #)
@@ -84,7 +84,7 @@ class UserMailer < BaseMailer
       references work_package, user
 
       with_locale_for(user) do
-        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+        mail_for_author author, to: mail_for_notifications(user), subject: subject_for_work_package(work_package)
       end
     end
   end
@@ -99,7 +99,7 @@ class UserMailer < BaseMailer
     @workPackage = workPackage
     @project_name = project_name
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо исполнить мероприятие '+@workPackage.subject+' по проекту '+project_name
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Необходимо исполнить мероприятие '+@workPackage.subject+' по проекту '+project_name
     end
   end
 #)
@@ -122,7 +122,7 @@ class UserMailer < BaseMailer
     @workPackage = workPackage
     @project_name = project_name
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Превышен срок по пакету работ '+@workPackage.subject+' в проекте '+project_name
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Превышен срок по пакету работ '+@workPackage.subject+' в проекте '+project_name
     end
   end
 
@@ -133,7 +133,7 @@ class UserMailer < BaseMailer
     @term_date = term_date
     @project = project
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Приближается срок по проекту '+@project.name
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Приближается срок по проекту '+@project.name
     end
   end
 
@@ -144,7 +144,7 @@ class UserMailer < BaseMailer
     @term_date = term_date
     @project = project
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Превышен срок по проекту '+@project.name
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Превышен срок по проекту '+@project.name
     end
   end
   # knm +
@@ -153,7 +153,7 @@ class UserMailer < BaseMailer
     @workPackage = workPackage
     @project_name = project_name
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Необходимо сегодня предоставить отчет по выполнению задачи '+@workPackage.subject+' в проекте '+project_name
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Необходимо сегодня предоставить отчет по выполнению задачи '+@workPackage.subject+' в проекте '+project_name
     end
   end
   # knm -
@@ -168,7 +168,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'В проект "'+@cost_object.project.name+'" добавлен бюджет '+@cost_object.subject
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -184,7 +184,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'В проект '+@project.name.to_s+' добавлен участник '+@added_user.lastname.to_s+' '+@added_user.firstname.to_s
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -200,7 +200,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Из проекта '+@project.name.to_s+' исключен участник '+@deleted_user.lastname.to_s+' '+@deleted_user.firstname.to_s
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -215,7 +215,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'По проекту "'+@project.name+'" создана дискуссия: '+@board.name
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -230,7 +230,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'По проекту "'+@project.name+'" изменена дискуссия: '+@board.name
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -245,7 +245,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'По проекту "'+@project.name+'" перемещена дискуссия: '+@board.name
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -259,7 +259,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'По проекту "'+@project.name+'" удалена дискуссия: '+@boardname
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -273,7 +273,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'В проекте "'+@project.name+'" обновлена новость: '+@news.title
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -287,7 +287,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'В проекте "'+@project.name+'" удалена новость: '+@news.title
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -299,7 +299,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Создан проект "'+@project.name+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -324,7 +324,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Изменен проект "'+@project.name+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -337,7 +337,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Удален проект "'+@project.name+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -349,7 +349,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Создана группа "'+@group.name+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -361,7 +361,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Удалена группа "'+@groupname+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -373,7 +373,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Создан статус "'+@status.name+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -385,7 +385,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Удален статус "'+@statusname+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -397,7 +397,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Создан тип рабочего пакета "'+@type.name+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -409,7 +409,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = 'Удален тип рабочего пакета "'+@typename+'"'
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -422,7 +422,7 @@ class UserMailer < BaseMailer
     @ut_creator = ut_creator
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Вам направлен запрос'
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Вам направлен запрос'
     end
   end
 
@@ -430,7 +430,7 @@ class UserMailer < BaseMailer
     @user_task = user_task
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Вам направлен запрос'
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Вам направлен запрос'
     end
   end
 #)
@@ -445,7 +445,7 @@ class UserMailer < BaseMailer
       references work_package, user
 
       with_locale_for(user) do
-        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+        mail_for_author author, to: mail_for_notifications(user), subject: subject_for_work_package(work_package)
       end
     end
   end
@@ -456,7 +456,7 @@ class UserMailer < BaseMailer
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'Ответьте на сообщение в дискуссии.'
+      mail to: "\"#{user.name}\" <#{mail_for_notifications(user)}>", subject: 'Ответьте на сообщение в дискуссии.'
     end
   end
 # )
@@ -471,7 +471,7 @@ class UserMailer < BaseMailer
       references work_package, user
 
       with_locale_for(user) do
-        mail to: user.mail, subject: subject_for_work_package(work_package)
+        mail to: mail_for_notifications(user), subject: subject_for_work_package(work_package)
       end
     end
   end
@@ -486,7 +486,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = t(:mail_subject_lost_password, value: Setting.app_title)
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
   # )
@@ -503,7 +503,7 @@ class UserMailer < BaseMailer
     user = @token.user
     with_locale_for(user) do
       subject = t(:mail_subject_lost_password, value: Setting.app_title)
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -520,7 +520,7 @@ class UserMailer < BaseMailer
     with_locale_for(user) do
       subject = I18n.t('copy_project.failed', source_project_name: source_project.name)
 
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -538,7 +538,7 @@ class UserMailer < BaseMailer
     with_locale_for(user) do
       subject = I18n.t('copy_project.succeeded', target_project_name: target_project.name)
 
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -553,7 +553,7 @@ class UserMailer < BaseMailer
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "[#{@news.project.name}] #{subject}" if @news.project
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -570,7 +570,7 @@ class UserMailer < BaseMailer
     user = token.user
     with_locale_for(user) do
       subject = t(:mail_subject_register, value: Setting.app_title)
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -586,7 +586,7 @@ class UserMailer < BaseMailer
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -601,7 +601,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.title)}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -622,7 +622,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.title)}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -639,7 +639,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -658,7 +658,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id} - сообщение изменено] #{@message.subject}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -670,7 +670,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = "[#{@project_name} - #{@board_name} - сообщение удалено] #{@message_subject}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail_for_author author, to: mail_for_notifications(user), subject: subject
     end
   end
 #)
@@ -682,7 +682,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = t(:mail_subject_register, value: Setting.app_title)
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -694,7 +694,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = t(:mail_subject_register, value: Setting.app_title)
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -727,7 +727,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = t(:mail_subject_reminder, count: @issues.size, days: @days)
-      mail to: user.mail, subject: subject
+      mail to: mail_for_notifications(user), subject: subject
     end
   end
 
@@ -745,6 +745,14 @@ class UserMailer < BaseMailer
   end
 
   private
+
+  def mail_for_notifications(user)
+    if user.pref.add_mail_notifications? && user.mail_add.present?
+      user.mail_add
+    else
+      user.mail
+    end
+  end
 
   def subject_for_work_package(wp)
     "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
