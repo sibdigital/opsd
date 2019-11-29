@@ -58,8 +58,8 @@ module Users
                 permitted_params: permitted_params,
                 user: current_user
 
-      if current_user.save!
-        success = current_user.pref.save!
+      if current_user.save
+        success = current_user.pref.save
         ServiceResult.new(success: success, errors: current_user.errors, result: current_user)
       else
         ServiceResult.new(success: false, errors: current_user.errors, result: current_user)
