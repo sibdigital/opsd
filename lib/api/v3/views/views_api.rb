@@ -315,12 +315,13 @@ module API
                 arr.each do |row|
                   stroka = Hash.new
                   stroka['_type'] = 'PlanFactQuarterlyTargetValue'
-                  stroka['name'] = Target.find(row.target_id).name
+                  target = Target.find(row.target_id)
+                  stroka['name'] = target.name
                   stroka['target_id'] = row.target_id
                   stroka['target_year_value'] = row.target_year_value
                   stroka['fact_year_value'] = row.fact_year_value
-                  stroka['otvetstvenniy_id'] = row.resultassigned
-                  stroka['otvetstvenniy'] = row.result_assigned
+                  stroka['otvetstvenniy_id'] = target.resultassigned ? target.resultassigned.id : ''
+                  stroka['otvetstvenniy'] = target.resultassigned ? target.resultassigned.fio : ''
 
                   stroka['target_quarter1_value'] = row.target_quarter1_value
                   stroka['target_quarter2_value'] = row.target_quarter2_value
