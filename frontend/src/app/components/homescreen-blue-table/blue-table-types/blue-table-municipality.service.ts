@@ -40,6 +40,7 @@ export class BlueTableMunicipalityService extends BlueTableService {
   }
 
   public initializeAndGetData():Promise<any[]> {
+    this.filter = '0';
     return new Promise((resolve) => {
       this.national_project_titles = [];
       this.halResourceService

@@ -12,6 +12,9 @@ export class BlueTableKtService extends BlueTableService {
   private national_projects:HalResource[];
 
   public initializeAndGetData():Promise<any[]> {
+    this.filter = undefined;
+    this.limit = undefined;
+    this.page = 0;
     return new Promise((resolve) => {
       this.national_project_titles = [];
       this.halResourceService

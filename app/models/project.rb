@@ -151,8 +151,8 @@ class Project < ActiveRecord::Base
      association_foreign_key: 'custom_field_id'
 
   #tmd
-  has_one :address, dependent: :destroy
-  accepts_nested_attributes_for :address, :reject_if => :all_blank
+  #has_one :address, dependent: :destroy
+  #accepts_nested_attributes_for :address, :reject_if => :all_blank
 
   #bbm(
   has_many :project_risks
@@ -836,7 +836,7 @@ class Project < ActiveRecord::Base
 
   #bbm(
   def get_budget_fraction(raion_id)
-    budget = AllBudgetsHelper.cost_by_project self, raion_id
+    budget = AllBudgetsHelper.cost_by_project_by_raion self, raion_id
     if budget then
       if budget[:total_budget] == 0 then
         0

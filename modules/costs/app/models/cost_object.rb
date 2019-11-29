@@ -129,6 +129,10 @@ class CostObject < ActiveRecord::Base
     material_budget + labor_budget
   end
 
+  def budget_by_cost_type
+    0.0
+  end
+
   # Label of the current type for display in GUI.  Virtual accessor that is overriden by subclasses.
   def type_label
     I18n.t(:label_cost_object)
@@ -167,22 +171,36 @@ class CostObject < ActiveRecord::Base
     end
   end
   #)
+  # SQL
   # +tan
   def self.by_user (user, cost_types = [])
-    projectids = []
-    user.projects.each do |p|
-      if p.type == Project::TYPE_PROJECT
-        projectids << p.id
-      end
-    end
-    #CostType.where('name in (?)', cost_types.map {|ct| ct.id}).map {|ct| ct.id}
-    # ct_ids = cost_types.map {|ct| ct.id}
-    # if ct_ids.size > 0
-    #   CostObject.where('project_id in (?) and', projectids)
-    # else
-    #   CostObject.where('project_id in (?)', projectids)
+
+    sql = <<-SQL
+        select co.*
+        from cost_objects as co
+        inner join (
+                    select project_id
+                    FROM members as m
+                    inner join (select id from projects where status = ?) as p on m.project_id = p.id
+                    where user_id = ?
+        ) as m
+        on co.project_id = m.project_id
+    SQL
+    CostObject.find_by_sql([sql, Project::STATUS_ACTIVE, user.id])
+    # projectids = []
+    # user.projects.each do |p|
+    #   if p.type == Project::TYPE_PROJECT
+    #     projectids << p.id
+    #   end
     # end
-    CostObject.where('project_id in (?) ', projectids)
+    # #CostType.where('name in (?)', cost_types.map {|ct| ct.id}).map {|ct| ct.id}
+    # # ct_ids = cost_types.map {|ct| ct.id}
+    # # if ct_ids.size > 0
+    # #   CostObject.where('project_id in (?) and', projectids)
+    # # else
+    # #   CostObject.where('project_id in (?)', projectids)
+    # # end
+    # CostObject.where('project_id in (?) ', projectids)
   end
   # -tan
 end

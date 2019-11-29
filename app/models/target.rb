@@ -7,6 +7,7 @@ class Target < ActiveRecord::Base
   has_many :cost_objects
   # )
   belongs_to :project
+  belongs_to :resultassigned, class_name: 'User', foreign_key: 'result_assigned'
   belongs_to :target_status, foreign_key: 'status_id'
   belongs_to :target_type, foreign_key: 'type_id'
   has_many :target_execution_values, dependent: :destroy

@@ -3,6 +3,7 @@ class CatalogLoadersController < ApplicationController
 
   require 'roo'
   require 'date'
+  require 'fileutils'
   include PlanUploadersHelper
 
   def index
@@ -18,8 +19,14 @@ class CatalogLoadersController < ApplicationController
     catalog = params[:catalog_type]
     project = params[:project]
     filename = ''
+    #+-tan если директория не существует, то ее надо сначала создать, потом производить запись
+    filename = Rails.root.join('public', 'uploads', 'catalog_loaders', uploaded_io.original_filename)
+    dirname = File.dirname(filename)
+    unless File.directory?(dirname)
+      FileUtils.mkdir_p(dirname)
+    end
 
-    File.open(Rails.root.join('public', 'uploads', 'catalog_loaders', uploaded_io.original_filename), 'wb') do |file|
+    File.open(filename, 'wb') do |file|
       filename = Rails.root.join('public', 'uploads', 'catalog_loaders', uploaded_io.original_filename)
       file.write(uploaded_io.read)
     end
@@ -40,7 +47,7 @@ class CatalogLoadersController < ApplicationController
             formatted_date = Date.strptime(date.to_s, "%d/%m/%Y")
             attributes[attribute] = formatted_date
           rescue Exception => e
-            break
+            Rails.logger.error "Error during load: #{e.message}"
           end
         else
           attributes[attribute] = row[settings[i]['column_num'] - 1].to_s

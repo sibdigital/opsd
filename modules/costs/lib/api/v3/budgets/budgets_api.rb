@@ -63,15 +63,15 @@ module API
           end
 
           get :federal do
-            AllBudgetsHelper.all_buget current_user
+            AllBudgetsHelper.federal_budget current_user
           end
 
           get :regional do
-            AllBudgetsHelper.all_buget current_user
+            AllBudgetsHelper.regional_budget current_user
           end
 
           get :vnebudget do
-            AllBudgetsHelper.all_buget current_user
+            AllBudgetsHelper.vnebudget_budget current_user
           end
 
           get :budget do

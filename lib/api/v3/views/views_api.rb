@@ -202,28 +202,31 @@ module API
                   stroka['name'] = t.name
                   stroka['work_packages'] = []
                   subarr.each do |row|
-                    quarter = Hash.new
-                    quarter['_type'] = 'WorkPackageQuarterlyTarget'
-                    quarter['work_package_id'] = row.work_package_id
-                    wp = WorkPackage.find(row.id)
-                    quarter['subject'] = wp.subject
-                    quarter['assignee'] = wp.assigned_to ? wp.assigned_to.fio : ''
-                    quarter['assignee_id'] = wp.assigned_to ? wp.assigned_to.id : ''
-                    case DateTime.now.month
-                    when 1, 2, 3
-                      quarter['plan'] = row.quarter1_plan_value
-                      quarter['fact'] = row.quarter1_value
-                    when 4, 5, 6
-                      quarter['plan'] = row.quarter2_plan_value
-                      quarter['fact'] = row.quarter2_value
-                    when 7, 8, 9
-                      quarter['plan'] = row.quarter3_plan_value
-                      quarter['fact'] = row.quarter3_value
-                    when 10, 11, 12
-                      quarter['plan'] = row.quarter4_plan_value
-                      quarter['fact'] = row.quarter4_value
+                    #+-tan исправлена опечатка по смыслу не find(row.id), a find(row.work_package_id)
+                    wp = WorkPackage.find_by(id: row.work_package_id)
+                    if wp
+                      quarter = Hash.new
+                      quarter['_type'] = 'WorkPackageQuarterlyTarget'
+                      quarter['work_package_id'] = row.work_package_id
+                      quarter['subject'] = wp.subject
+                      quarter['assignee'] = wp.assigned_to ? wp.assigned_to.fio : ''
+                      quarter['assignee_id'] = wp.assigned_to ? wp.assigned_to.id : ''
+                      case DateTime.now.month
+                      when 1, 2, 3
+                        quarter['plan'] = row.quarter1_plan_value
+                        quarter['fact'] = row.quarter1_value
+                      when 4, 5, 6
+                        quarter['plan'] = row.quarter2_plan_value
+                        quarter['fact'] = row.quarter2_value
+                      when 7, 8, 9
+                        quarter['plan'] = row.quarter3_plan_value
+                        quarter['fact'] = row.quarter3_value
+                      when 10, 11, 12
+                        quarter['plan'] = row.quarter4_plan_value
+                        quarter['fact'] = row.quarter4_value
+                      end
+                      stroka['work_packages'] << quarter
                     end
-                    stroka['work_packages'] << quarter
                   end
                   hash['targets'] << stroka
                 end
@@ -312,10 +315,14 @@ module API
                 arr.each do |row|
                   stroka = Hash.new
                   stroka['_type'] = 'PlanFactQuarterlyTargetValue'
-                  stroka['name'] = Target.find(row.target_id).name
+                  target = Target.find(row.target_id)
+                  stroka['name'] = target.name
                   stroka['target_id'] = row.target_id
                   stroka['target_year_value'] = row.target_year_value
                   stroka['fact_year_value'] = row.fact_year_value
+                  stroka['otvetstvenniy_id'] = target.resultassigned ? target.resultassigned.id : ''
+                  stroka['otvetstvenniy'] = target.resultassigned ? target.resultassigned.fio : ''
+
                   stroka['target_quarter1_value'] = row.target_quarter1_value
                   stroka['target_quarter2_value'] = row.target_quarter2_value
                   stroka['target_quarter3_value'] = row.target_quarter3_value
