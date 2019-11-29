@@ -14,7 +14,6 @@ class ReportProgressProjectController < ApplicationController
 
 
   def index
-
     @selected_target_id = 0
     @project = Project.find(params[:project_id])
     if @project.national_project_id
@@ -46,7 +45,6 @@ class ReportProgressProjectController < ApplicationController
 
 #    @targets = @project.targets
     @target = @targets.first
-
   end
 
   def generate_project_progress_report_out
@@ -72,16 +70,22 @@ class ReportProgressProjectController < ApplicationController
     @ready_project_progress_report_path = dir_path + '/project_progress_report_out.xlsx'
     @workbook.write(@ready_project_progress_report_path)
     #bbm(
-    pid = spawn('cd ' + File.absolute_path('.') + '/unoconv && unoconv -f pdf ' + @ready_project_progress_report_path)
-    @document = @project.documents.build
-    @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
-    @document.user_id = current_user.id
-    @document.title = 'отчет о ходе реализации проекта от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
-    service = AddAttachmentService.new(@document, author: current_user)
-    attachment = service.add_attachment_old uploaded_file: File.open(@ready_project_progress_report_path),
-                               filename: 'project_progress_report_out.xlsx'
-    @document.attach_files({'0'=> {'id'=> attachment.id}})
-    @document.save
+    exist = false
+    current_user.roles_for_project(@project).map do |role|
+      exist ||= role.role_permissions.any? {|perm| perm.permission == 'manage_documents'}
+    end
+    if exist
+      pid = spawn('cd ' + File.absolute_path('.') + '/unoconv && unoconv -f pdf ' + @ready_project_progress_report_path)
+      @document = @project.documents.build
+      @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
+      @document.user_id = current_user.id
+      @document.title = 'отчет о ходе реализации проекта от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
+      service = AddAttachmentService.new(@document, author: current_user)
+      attachment = service.add_attachment_old uploaded_file: File.open(@ready_project_progress_report_path),
+                                 filename: 'project_progress_report_out.xlsx'
+      @document.attach_files({'0'=> {'id'=> attachment.id}})
+      @document.save
+    end
     # )
   end
 
@@ -1212,7 +1216,7 @@ class ReportProgressProjectController < ApplicationController
     sheet[4][12].change_contents('%.2f' %(result_other_budjet[3]/1000000))
 
     sheetDataDiagram = @workbook['Данные для диаграмм']
-     @budjets = AllBudgetsHelper.cost_by_project @project
+     @budjets = AllBudgetsHelper.cost_by_project @project, 0
 
     sheetDataDiagram[3][4].raw_value = result_fed_budjet[0].to_f
     sheetDataDiagram[4][4].raw_value = result_fed_budjet[1].to_f
