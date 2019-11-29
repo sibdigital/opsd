@@ -73,7 +73,9 @@ class BoardsController < ApplicationController
     sort_init 'updated_on', 'desc'
     sort_update 'created_on' => "#{Message.table_name}.created_on",
                 'replies' => "#{Message.table_name}.replies_count",
-                'updated_on' => "#{Message.table_name}.updated_on"
+                'updated_on' => "#{Message.table_name}.updated_on",
+                'subject' => "#{Message.table_name}.subject",
+                'author' => "#{Message.table_name}.author_id"
 
     respond_to do |format|
       format.html do
