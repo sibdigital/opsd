@@ -120,7 +120,11 @@ module AllBudgetsHelper
     end
   end
 
-  def self.cost_by_project (project, raion_id)
+  def self.cost_by_project_by_raion (project, raion_id = nil)
+
+  end
+
+  def self.cost_by_project (project)
       cost_objects = CostObject.where(project_id: project.id)
       total_budget = BigDecimal("0")
       labor_budget = BigDecimal("0")
