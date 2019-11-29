@@ -20,8 +20,8 @@ module StakeholdersHelper
       html = html + content_tag(:td, national_project.leader_position)
       html = html + content_tag(:td, national_project.curator)
       html = html + content_tag(:td, national_project.curator_position)
-      html = html + content_tag(:td, national_project.start_date.strftime("%d/%m/%Y"))
-      html = html + content_tag(:td, national_project.due_date.strftime("%d/%m/%Y"))
+      html = html + content_tag(:td, national_project.start_date ? national_project.start_date.strftime("%d/%m/%Y") : '')
+      html = html + content_tag(:td, national_project.due_date ? national_project.due_date.strftime("%d/%m/%Y") : '')
 
       # html = html + content_tag(:td,
       #                           link_to(op_icon('icon icon-delete'),
@@ -49,8 +49,8 @@ module StakeholdersHelper
           html = html + content_tag(:td, federal_project.leader_position)
           html = html + content_tag(:td, federal_project.curator)
           html = html + content_tag(:td, federal_project.curator_position)
-          html = html + content_tag(:td, federal_project.start_date.strftime("%d/%m/%Y"))
-          html = html + content_tag(:td, federal_project.due_date.strftime("%d/%m/%Y"))
+          html = html + content_tag(:td, federal_project.start_date ? federal_project.start_date.strftime("%d/%m/%Y") : '')
+          html = html + content_tag(:td, federal_project.due_date ? federal_project.due_date.strftime("%d/%m/%Y") : '')
 
           html = html + content_tag(:td,
                                     link_to(op_icon('icon icon-delete'),

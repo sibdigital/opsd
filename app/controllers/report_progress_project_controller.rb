@@ -89,6 +89,10 @@ class ReportProgressProjectController < ApplicationController
     # )
   end
 
+  def generate svod_otchet
+
+  end
+
   def generate_report_progress_project_pril_1_2_out
     @project = Project.find(params[:project_id])
     template_path = File.absolute_path('.') +'/'+'app/reports/templates/report_progress_project_pril_1_2.xlsx'

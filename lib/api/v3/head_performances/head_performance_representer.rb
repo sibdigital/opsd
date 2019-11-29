@@ -13,7 +13,7 @@ module API
 
         link :self do
           {
-            href: api_v3_paths.work_package_target(represented.id),
+            href: api_v3_paths.head_performance_indicator(represented.id),
             title: represented.name
           }
         end
@@ -21,13 +21,18 @@ module API
         property :id, render_nil: true
         property :value,
                  exec_context: :decorator,
-                 getter: ->(*) { represented.head_performance_indicator_values.last ? represented.head_performance_indicator_values.last.value : nil },
+                 getter: ->(*) { indicator_value(represented) },
                  render_nil: true
         property :name
         property :sort_code
 
         def _type
-          'HeadPerformances'
+          'HeadPerformance'
+        end
+
+        def indicator_value(represented)
+          v = represented.head_performance_indicator_values.order(:year, :quarter, :month).last
+          v ? v.value : nil
         end
       end
     end
