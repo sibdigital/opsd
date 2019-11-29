@@ -57,9 +57,9 @@ See docs/COPYRIGHT.rdoc for more details.
                     container_class: '-slim' %>
   </div>
 
-
-  <%= render partial: "addresses/form",
-               locals: { form: form } %>
+  <div class="form--field">
+    <%= form.text_field :address_id, container_class: '-wide' %>
+  </div>
 
 </div>
 <div class="form--field">

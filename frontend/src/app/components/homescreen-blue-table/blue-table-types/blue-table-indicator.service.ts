@@ -89,7 +89,7 @@ export class BlueTableIndicatorService extends BlueTableService {
         }
         case 1: {
           if (row.otvetstvenniy) {
-            return '<a href="' + super.getBasePath() + '/users/' + row.otvetstvenniy.id + '">' + row.otvetstvenniy.lastname + ' ' + row.otvetstvenniy.firstname.slice(0, 1) + '.' + row.otvetstvenniy.patronymic.slice(0, 1) + '.</a>';
+            return '<a href="' + super.getBasePath() + '/users/' + row.otvetstvenniy_id + '">' + row.otvetstvenniy + '</a>';
           }
           break;
         }

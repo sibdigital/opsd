@@ -398,7 +398,7 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
-    @address = @project.build_address
+    #@address = @project.build_address
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.attributes = permitted_params.project if params[:project].present?
   end

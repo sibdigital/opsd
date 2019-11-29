@@ -645,15 +645,24 @@ module API
           def self.period(id)
             "#{periods}/#{id}"
           end
+
+          def self.control_levels
+            "#{root}/control_levels"
+          end
+
+          def self.control_level
+            "#{control_levels}/#{id}"
+          end
+
+          def self.head_performance_indicators
+            "#{root}/head_performance_indicators"
+          end
+
+          def self.head_performance_indicator(id)
+            "#{head_performance_indicators}/#{id}"
+          end
         end
 
-        def self.control_levels
-          "#{root}/control_levels"
-        end
-
-        def self.control_level
-          "#{control_levels}/#{id}"
-        end
         def api_v3_paths
           ApiV3Path
         end
