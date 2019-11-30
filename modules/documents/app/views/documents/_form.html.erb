@@ -37,13 +37,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="form--field">
   <%= f.select :category_id,
-               DocumentCategory.all.map { |c| [c.name, c.id] },
+               DocumentCategory.all.map {|c| [c.name, c.id]},
                required: true,
                container_class: '-slim' %>
 </div>
 <div class="form--field">
   <%= f.text_field :title, required: true, container_class: '-wide' %>
 </div>
+
+<wp-document-autocomplete-upgraded wpId='<%= @document.work_package ? @document.work_package.id : @wp %>'
+                                    projectObject='<%= @project ? @project.id : '' %>'>
+</wp-document-autocomplete-upgraded>
+
 <div class="form--field">
   <%= f.text_area :description,
                   container_class: '-xxwide',
@@ -54,10 +59,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% unless f.object.custom_field_values.empty? %>
   <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
-  <%= render partial: 'customizable/form', locals: { form: f,
-                                                     all_fields: true,
-                                                     only_required: false,
-                                                     class_name: @document.class.name,
-                                                     obj_id: @document.id,
-                                                     from: 'documents' } %>
+  <%= render partial: 'customizable/form', locals: {form: f,
+                                                    all_fields: true,
+                                                    only_required: false,
+                                                    class_name: @document.class.name,
+                                                    obj_id: @document.id,
+                                                    from: 'documents'} %>
 <% end %>

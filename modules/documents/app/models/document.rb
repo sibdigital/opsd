@@ -31,6 +31,9 @@
 #++
 
 class Document < ActiveRecord::Base
+
+  #tmd
+  belongs_to :work_package
   belongs_to :project
   belongs_to :category, class_name: "DocumentCategory", foreign_key: "category_id"
   acts_as_attachable delete_permission: :manage_documents,
@@ -49,6 +52,8 @@ class Document < ActiveRecord::Base
                      references: :projects
 
   acts_as_customizable
+
+  acts_as_watchable
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, maximum: 60
