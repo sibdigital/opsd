@@ -47,7 +47,7 @@ module API
                           @problems.where(project_id: params['project'])
                         else
                           projects = current_user.projects.map{|p| p.id}#[]
-                          if projects.empty?
+                          if projects.nil? || projects.empty?
                             @problems.where(project_id: nil)
                           else
                             @problems.where('work_package_problems.project_id in (' + projects.join(',') + ')')

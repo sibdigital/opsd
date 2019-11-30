@@ -167,8 +167,8 @@ en:
         no_results_title_text: Дискуссии в этом проекте отсутствуют.
         no_results_content_text: Создать новую дискуссию
       categories:
-        no_results_title_text: На данный момент категории пакетов работ отсутствуют.
-        no_results_content_text: Создать новую категорию пакета работ
+        no_results_title_text: На данный момент категории мероприятий отсутствуют.
+        no_results_content_text: Создать новую категорию меропрития
       custom_fields:
         no_results_title_text: Нет доступных настраиваемых полей.
       types:
@@ -204,7 +204,7 @@ en:
     edit:
       priority_color_text: |
         Щелкните, чтобы изменить цвет веса.
-        Цвет используется для выделения пакетов работ в таблице.
+        Цвет используется для выделения мероприятий в таблице.
   project_risks:
     edit:
       project_risk_color_text: |
@@ -250,9 +250,9 @@ en:
         <strong>Примечание</ strong>: Будут применены унаследованные значения (например, элементов предков или потомков).
       status_color_text: |
         Щелкните, чтобы задать или изменить цвет этого статуса.
-        Этот цвет отображается на кнопке статуса и может использоваться для выделения пакетов работ в таблице.
+        Этот цвет отображается на кнопке статуса и может использоваться для выделения мероприятий в таблице.
     index:
-      no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
+      no_results_title_text: В данный момент статусы мероприятий отсутствуют.
       no_results_content_text: Добавить новый статус
   types:
     index:
@@ -264,7 +264,7 @@ en:
       projects: Проекты
       enabled_projects: Доступные проекты
       add_group: Добавить группу атрибутов
-      add_table: Добавить таблицу связанных пакетов работ
+      add_table: Добавить таблицу связанных мероприятий
       edit_query: Изменить таблицу
       query_group_placeholder: Дайте таблице название
       reset: Восстановить значения по умолчанию
@@ -274,7 +274,7 @@ en:
 '
   versions:
     overview:
-      no_results_title_text: В настоящее время пакетов работ для этой версии нет.
+      no_results_title_text: В настоящее время мероприятий для этой версии нет.
   wiki:
     no_results_title_text: На данный момент wiki-страницы отсутствуют.
     index:
@@ -284,28 +284,28 @@ en:
       no_results_title_text: В данный момент рабочих потоков нет.
   work_packages:
     x_descendants:
-      one: Один пакет работ, являющийся потомком
-      other: 'Пакетов работ, являющихся потомками: %{count}'
-      few: 'Пакетов работ, являющихся потомками: %{count}'
-      many: 'Пакетов работ, являющихся потомками: %{count}'
+      one: Мероприятие, являющийся потомком
+      other: 'Мероприятия, являющихся потомками: %{count}'
+      few: 'Мероприятия, являющихся потомками: %{count}'
+      many: 'Мероприятия, являющихся потомками: %{count}'
     bulk:
       could_not_be_saved: 'Не удалось сохранить следующие мероприятия:'
     move:
-      no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ.
+      no_common_statuses_exists: Статус не доступен для всех выбранных мероприятиях.
         Их статус изменен быть не может.
       unsupported_for_multiple_projects: Массовое перемещение/копирование не поддерживается
-        при работе с пакетами из нескольких проектов
+        при работе с мероприятиями из нескольких проектов
     list_simple:
       assigned:
-        no_results_title_text: В данный момент пакетов работ, назначенных для меня
+        no_results_title_text: В данный момент мероприятий, назначенных для меня
           нет.
       reported:
-        no_results_title_text: В настоящее время нет рабочих пакетов, о которых я
+        no_results_title_text: В настоящее время нет мероприятий, о которых я
           сообщал.
       responsible:
-        no_results_title_text: На данный момент нет пакетов работ, в которых я подотчетен.
+        no_results_title_text: На данный момент нет мероприятий, в которых я подотчетен.
       watched:
-        no_results_title_text: На данный момент у меня нет рабочих пакетов, за которыми
+        no_results_title_text: На данный момент у меня нет мероприятий, за которыми
           я наблюдаю.
     summary:
       reports:
@@ -466,11 +466,11 @@ en:
         direct_manager: Руководитель
       relation:
         delay: Задержка
-        from: Пакет работ
-        to: Похожий пакет работ
+        from: Мероприятие
+        to: Похожее мероприятие
       status:
-        is_closed: Пакет работ закрыт
-        is_readonly: Пакет работ только для просмотра
+        is_closed: Мероприятие закрыт
+        is_readonly: Мероприятие только для просмотра
       journal:
         notes: Примечания
       member:
@@ -670,7 +670,7 @@ en:
         before: должны быть до %{date}.
         before_or_equal_to: должны быть до или ровно %{date}.
         blank: не может быть пустым.
-        cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
+        cant_link_a_work_package_with_a_descendant: Мероприятие не может быть связан
           с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
         no_commons_and_follows_together: Нельзя добавлять отношения последовательности и одного начала/конца одновременно.
@@ -777,7 +777,7 @@ en:
           must_not_be_ssh: не должно быть URL-адресом SSH.
           no_directory: не является каталогом.
         work_package:
-          is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым
+          is_not_a_valid_target_for_time_entries: 'Мероприятие #%{id} не допустимым
             для переназначения времени записи.'
           attributes:
             due_date:
@@ -796,12 +796,12 @@ en:
                 типе нет.
             type:
               cannot_be_milestone_due_to_children: не может быть вехой, поскольку
-                этот пакет работ имеет потомков.
+                этот Мероприятие имеет потомков.
             priority_id:
               only_active_priorities_allowed: требуется быть активным.
             category:
               only_same_project_categories_allowed: Категория пакета работ должна
-                быть в рамках того же проекта, что и пакет работ.
+                быть в рамках того же проекта, что и Мероприятие.
               does_not_exist: Указанная категория не существует.
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: должно быть > = 0.
@@ -880,7 +880,7 @@ en:
       wiki: Wiki
       wiki_page: Wiki-страница
       workflow: Рабочий поток
-      work_package: Пакет работ
+      work_package: Мероприятие
       doorkeeper/application: Приложение OAuth
       #xss 2019.06.27
       organization:
@@ -951,7 +951,7 @@ en:
     busyness: Занятость
     control_level: Уровень контроля
     #)
-    issue: Пакет работ
+    issue: Мероприятие
     invest_amount: Объем инвестиций
     lastname: Фамилия
     login: Логин
@@ -1001,7 +1001,7 @@ en:
     updated_on: Обновлено
     user: Пользователь
     version: Этап
-    work_package: Пакет работ
+    work_package: Мероприятие
     #(xcc
     year: Год
     quarter: Квартал
@@ -1380,7 +1380,7 @@ en:
   default_role_reader: Читатель
   default_role_member: Ответственный за блок мероприятий
   default_role_ispolnitel: Исполнитель
-  default_type: Пакет работ
+  default_type: Мероприятие
   default_target: Цель
   default_indicator: Показатель
   default_result: Результат
@@ -1433,14 +1433,14 @@ en:
   description_message_content: Содержание сообщения
   description_my_project: Вы являетесь участником
   description_notes: Примечания
-  description_parent_work_package: Родительский пакет работ для текущего
+  description_parent_work_package: Родительский Мероприятие для текущего
   description_project_scope: Область поиска
   description_query_sort_criteria_attribute: Атрибут сортировки
   description_query_sort_criteria_direction: Направление сортировки
   description_search: Поле поиска
-  description_select_work_package: Выберите пакет работ
+  description_select_work_package: Выберите Мероприятие
   description_selected_columns: Выбранные столбцы
-  description_sub_work_package: Вложенный пакет работ текущего
+  description_sub_work_package: Вложенный Мероприятие текущего
   description_toc_toggle: Показать/скрыть оглавление
   description_wiki_subpages_reassign: Укажите новую родительскую страницу
   direction: LTR
@@ -1476,11 +1476,11 @@ en:
     проекте.'
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
-  error_can_not_delete_type: Этот тип содержит пакет работ и не может быть удален.
+  error_can_not_delete_type: Этот тип содержит Мероприятие и не может быть удален.
   error_can_not_delete_standard_type: Стандартные типы не могут быть удалены.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
-  error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа
+  error_can_not_reopen_work_package_on_closed_version: Мероприятие закрытого этапа
     проекта не может быть открыт заново
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
   error_cookie_missing: Отсутствуют cookie. Пожалуйста, убедитесь, что
@@ -1505,7 +1505,7 @@ en:
     и попробуйте снова.
   error_work_package_done_ratios_not_updated: Сделанные соотношения пакета работ не
     обновляются.
-  error_work_package_not_found_in_project: Пакет работ не найден или не принадлежит
+  error_work_package_not_found_in_project: Мероприятие не найден или не принадлежит
     к этому проекту
   error_must_be_project_member: должен быть участник проекта
   error_no_default_work_package_status: Пакету работ не может быть присвоен статус
@@ -1545,8 +1545,8 @@ en:
     reply: Отвечено
     time_entry: Время подключения отредактировано
     wiki_page: Wiki-страница отредактирована
-    work_package_closed: Пакет работ закрыт
-    work_package_edit: Пакет работ отредактирован
+    work_package_closed: Мероприятие закрыт
+    work_package_edit: Мероприятие отредактирован
     work_package_note: Примечание к пакету работ добавлено
     document: Прикреплен документ
   export:
@@ -1952,7 +1952,7 @@ en:
   label_months_from: месяцев с
   label_more: Более
   label_more_than_ago: больше, чем дней назад
-  label_move_work_package: Переместить пакет работ
+  label_move_work_package: Переместить Мероприятие
   label_municipalities: "Муниципалитеты"
   label_my_account: Моя учетная запись
   label_my_account_data: Данные моей учетной записи
@@ -2208,7 +2208,7 @@ en:
   label_communication_meeting_members: Участники встречи
   #)
   label_ui: Интерфейс пользователя
-  label_update_work_package_done_ratios: Обновить пакет работ созданными коэффициентами
+  label_update_work_package_done_ratios: Обновить Мероприятие созданными коэффициентами
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
@@ -2260,13 +2260,13 @@ en:
   label_wiki_show_new_page_link: Показать пункт подменю «Создать новую дочернюю страницу»
   label_wiki_show_submenu_item: 'Показать как пункт подменю '
   label_wiki_start: Начальная страница
-  label_work_package: Пакет работ
-  label_work_package_added: Пакет работ добавлен
+  label_work_package: Мероприятие
+  label_work_package_added: Мероприятие добавлен
   label_work_package_attachments: Вложения пакета работ
   label_work_package_category_new: Новая категория
   label_work_package_category_plural: Категории пакета работ
   label_work_package_hierarchy: Иерархия пакета работ
-  label_work_package_new: Новый пакет работ
+  label_work_package_new: Новый Мероприятие
   label_work_package_note_added: Добавлено примечание к пакету работ
   label_work_package_edit: Редактирование пакета работ %{name}
   label_work_package_plural: Мероприятия
@@ -2276,7 +2276,7 @@ en:
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
   label_work_package_types: Типы рабочих пакетов
-  label_work_package_updated: Пакет работ обновлен
+  label_work_package_updated: Мероприятие обновлен
   label_work_package_tracking: Отслеживание мероприятия
   label_work_package_view_all: Посмотреть все мероприятия
   label_work_package_view_all_assigned_to_me: Входящая информация по мероприятиям
@@ -2337,7 +2337,7 @@ en:
   label_keyboard_shortcut_go_calendar: Перейти в календарь проекта
   label_keyboard_shortcut_go_news: Перейти к новостям проекта
   label_keyboard_shortcut_go_timelines: Перейти к срокам
-  label_keyboard_shortcut_new_work_package: Создать новый пакет работ
+  label_keyboard_shortcut_new_work_package: Создать новый Мероприятие
   label_keyboard_shortcut_details_package: Показать сведения о пакете работ
   label_keyboard_shortcut_go_edit: Перейти к редактированию текущего элемента (для
     страниц с подробностями)
@@ -2372,7 +2372,7 @@ en:
         no_project_context: Вызов макроса create_work_package_link из контекста за
           рамками проекта.
         invalid_type: Тип с именем «%{type}» в проекте «%{project}» не найден.
-      link_name: Новый пакет работ
+      link_name: Новый Мероприятие
       link_name_type: Новое %{type_name}
   mail:
     actions: Действия
@@ -2601,7 +2601,7 @@ en:
   permission_kpi: KPI
   permission_indicators: Индикаторы
 
-  permission_move_work_packages: Переместить пакет работ
+  permission_move_work_packages: Переместить Мероприятие
   permission_protect_wiki_pages: Защитить wiki-страницы
   permission_rename_wiki_pages: Переименование wiki-страниц
   permission_save_queries: Сохранить представления
@@ -2614,7 +2614,7 @@ en:
   setting_days_text: Дни недели
   button_refresh: Обновить
   label_filter_type:
-    workpackage: Пакет работ
+    workpackage: Мероприятие
     nationalproject: Национальный проект
     document: Документ
     message: Сообщение
@@ -3076,7 +3076,7 @@ en:
   text_work_package_category_destroy_question: Некоторые мероприятия (%{count}) принадлежат
     для этой категории. Что вы хотите сделать?
   text_work_package_category_reassign_to: Переназначить мероприятия этой категории
-  text_work_package_updated: "%{author} обновил пакет работ %{id}."
+  text_work_package_updated: "%{author} обновил Мероприятие %{id}."
   text_work_package_watcher_added: Вы были добавлены как наблюдатель к пакету работ
     %{id}, %{watcher_setter}.
   text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные
@@ -3109,14 +3109,14 @@ en:
   text_project_created_member: 'Добавлен участник'
   text_project_updated_member: 'Участник изменен'
   text_project_deleted_member: 'Удален участник'
-  text_project_created_workpackage: 'Создан пакет работ'
-  text_project_deleted_workpackage: 'Удален пакет работ'
-  text_project_updated_workpackage: 'Обновлен пакет работ'
-  text_project_overdue_wp: 'Пакет работ просрочен %{count}'
-  text_project_trouble_wp: 'Пакет работ с рисками'
-  text_project_done_wp: 'Пакет работ выполнен'
-  text_project_done_in_time_wp: 'Пакет работ выполнен до %{count}'
-  text_project_in_work_wp: 'Пакет работ выполняется'
+  text_project_created_workpackage: 'Создан Мероприятие'
+  text_project_deleted_workpackage: 'Удален Мероприятие'
+  text_project_updated_workpackage: 'Обновлен Мероприятие'
+  text_project_overdue_wp: 'Мероприятие просрочен %{count}'
+  text_project_trouble_wp: 'Мероприятие с рисками'
+  text_project_done_wp: 'Мероприятие выполнен'
+  text_project_done_in_time_wp: 'Мероприятие выполнен до %{count}'
+  text_project_in_work_wp: 'Мероприятие выполняется'
   text_project_changed_status: 'Сменен статус проекта'
   text_project_created_document: 'Добавлен документ'
   text_project_updated_document: 'Обновлен документ'
@@ -3163,11 +3163,11 @@ en:
   text_user_deleted_costobject: 'Удалил бюджет'
   text_user_doer_accepted: 'Назначен исполнителем'
   text_user_head_accepted: 'Назначен руководителем'
-  text_user_created_workpackage: 'Создал пакет работ'
-  text_user_deleted_workpackage: 'Удалил пакет работ'
-  text_user_updated_workpackage: 'Обновил пакет работ'
-  text_user_overdue_wp: 'Просрочил пакет работ'
-  text_user_done_wp: 'Выполнил пакет работ'
+  text_user_created_workpackage: 'Создал Мероприятие'
+  text_user_deleted_workpackage: 'Удалил Мероприятие'
+  text_user_updated_workpackage: 'Обновил Мероприятие'
+  text_user_overdue_wp: 'Просрочил Мероприятие'
+  text_user_done_wp: 'Выполнил Мероприятие'
   text_user_created_document: 'Добавил документ'
   text_user_updated_document: 'Обновил документ'
   text_user_deleted_document: 'Удалил документ'
@@ -3199,10 +3199,10 @@ en:
   text_no_roles_defined: Роли не определены.
   text_no_access_tokens_configurable: Маркеры доступа, которые могут быть настроены,
     отсутствуют.
-  text_no_configuration_data: Роли, типы,  статусы пакетов работ и рабочие потоки
+  text_no_configuration_data: Роли, типы,  статусы мероприятий и рабочие потоки
     еще не сконфигурированы. Настоятельно рекомендуем для правки загрузить конфигурацию
     по умолчанию.
-  text_no_notes: Комментарии для этого пакета работ отсутствуют.
+  text_no_notes: Комментарии для мероприятия отсутствуют.
   text_notice_too_many_values_are_inperformant: 'Примечание: Отображение более чем
     100 элементов на странице может увеличить время загрузки.'
   text_notice_security_badge_displayed_html: 'Примечание: Если этот параметр включен,
@@ -3216,7 +3216,7 @@ en:
   text_powered_by: С использованием %{link}
   text_project_identifier_info: Разрешены только строчные буквы (a-z), цифры, тире
     и знаки подчеркивания, начинать с буквы нижнего регистра.
-  text_reassign: 'Переназначить для пакета работ:'
+  text_reassign: 'Переназначить мероприятие:'
   text_regexp_info: 'например:  ^[A-Z0-9]+$'
   text_regexp_multiline: 'Регулярное выражение применяется в многострочном режиме.
     Например: ^---\s+'
@@ -3381,7 +3381,7 @@ en:
     history: История
     new_color: Новый цвет
     new_association: Новая зависимость
-    new_work_package: Новый пакет работ
+    new_work_package: Новый Мероприятие
     new_reporting: Новые отчетности
     new_timeline: Новый отчет по графику
     no_projects_for_reporting_available: Нет проектов, для которых может быть создана
@@ -3553,8 +3553,8 @@ en:
 
 '
     destroy:
-      info: Удаление рабочего пакета – действие необратимое.
-      title: Удалить пакет работ
+      info: Удаление мероприятия – необратимое действие .
+      title: Удалить Мероприятие
   nothing_to_preview: Нет ничего для предосмотра
   api_v3:
     attributes:
@@ -3723,8 +3723,7 @@ en:
     my_registered_applications: Зарегистрированные OAuth приложения
   setting_mail_handler_api_enabled: Разрешить входящую почту веб-сервисов
   setting_mail_handler_api_description: Веб-обработчик электронной почты позволяет
-    получать письма с командами (например, для создания и обновления пакетов
-    работы).
+    получать письма с командами (например, для создания и обновления мероприятий).
 
   choose: "Выбрать"
   label_cost_object_added: Бюджет добавлен
@@ -3734,8 +3733,8 @@ en:
   label_board_changed: Дискуссия изменена
   label_board_moved: Дискуссия перемещена
   label_board_deleted: Дискуссия удалена
-  label_deadline_of_work_package_is_approaching: Приближается срок по пакету работ
-  label_deadline_of_work_package: Превышен срок по пакету работ
+  label_deadline_of_work_package_is_approaching: Приближается срок по мероприятию
+  label_deadline_of_work_package: Превышен срок по мероприятию
   label_project_created: Проект создан
   label_project_changed: Проект изменен
   label_project_deleted: Проект удален
@@ -3748,10 +3747,10 @@ en:
   label_message_deleted: Сообщение удалено
   label_group_created: Группа создана
   label_group_deleted: Группа удалена
-  label_status_created: В системном справочнике статусов пакета работ добавлен статус
-  label_status_deleted: В системном справочнике статусов пакета работ удален статус
-  label_type_created: В системном справочнике типов рабочих пакетов добавлен тип
-  label_type_deleted: В системном справочнике типов рабочих пакетов удален тип
+  label_status_created: В справочнике статусов мероприятий добавлен статус
+  label_status_deleted: В справочнике статусов мероприятий удален статус
+  label_type_created: В справочнике типов мероприятий добавлен тип
+  label_type_deleted: В справочнике типов мероприятий удален тип
 
   national_project_zdravoohr: Здравоохранение
   national_project_demogr: Демография

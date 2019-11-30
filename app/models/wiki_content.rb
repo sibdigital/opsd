@@ -89,10 +89,16 @@ class WikiContent < ActiveRecord::Base
   end
 
   def send_content_added_mail
-    return unless Setting.notified_events.include?('wiki_content_added')
+    return unless Setting.is_notified_event('wiki_content_added')
     begin
-      create_recipients.uniq.each do |user|
-        UserMailer.wiki_content_added(user, self, User.current).deliver_now
+      recip = create_recipients
+      if (Setting.is_strong_notified_event('wiki_content_added'))
+        recip = all_recipients + create_recipients
+      end
+      recip.uniq.each do |user|
+        if Setting.can_notified_event(user, 'wiki_content_added')
+          UserMailer.wiki_content_added(user, self, User.current).deliver_now
+        end
       end
     rescue Exception => e
       Rails.logger.info(e.message)
@@ -101,10 +107,16 @@ class WikiContent < ActiveRecord::Base
   end
 
   def send_content_updated_mail
-    return unless Setting.notified_events.include?('wiki_content_updated')
+    return unless Setting.is_notified_event('wiki_content_updated')
     begin
-      update_recipients.uniq.each do |user|
-        UserMailer.wiki_content_updated(user, self, User.current).deliver_now
+      recip = update_recipients
+      if (Setting.is_strong_notified_event('wiki_content_updated'))
+        recip = all_recipients + update_recipients
+      end
+      recip.uniq.each do |user|
+        if Setting.can_notified_event(user, 'wiki_content_updated')
+          UserMailer.wiki_content_updated(user, self, User.current).deliver_now
+        end
       end
     rescue Exception => e
       Rails.logger.info(e.message)

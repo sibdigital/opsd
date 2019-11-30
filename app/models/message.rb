@@ -169,13 +169,19 @@ class Message < ActiveRecord::Base
   def send_message_posted_mail
     #+-tan add exception handling
     begin
-      return unless Setting.notified_events.include?('message_posted')
+      return unless Setting.is_notified_event('message_posted')
       to_mail = recipients +
                 root.watcher_recipients +
                 board.watcher_recipients
+      if (Setting.is_strong_notified_event('message_posted'))
+        to_mail = all_recipients + root.watcher_recipients +
+                  board.watcher_recipients
+      end
       to_mail.uniq.each do |user|
         begin
-          UserMailer.message_posted(user, self, User.current).deliver_now
+          if Setting.can_notified_event(user, 'message_posted')
+            UserMailer.message_posted(user, self, User.current).deliver_now
+          end
         rescue Exception => e
           Rails.logger.error "Failed to sent mail to user #{user} message: #{e}"
         end

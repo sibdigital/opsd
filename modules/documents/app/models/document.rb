@@ -33,6 +33,7 @@
 class Document < ActiveRecord::Base
 
   #tmd
+  belongs_to :user
   belongs_to :work_package
   belongs_to :project
   belongs_to :category, class_name: "DocumentCategory", foreign_key: "category_id"
@@ -95,10 +96,17 @@ class Document < ActiveRecord::Base
   private
 
   def notify_document_created
-    return unless Setting.notified_events.include?('document_added')
+    return unless Setting.is_notified_event('document_added')
     begin
-      recipients.each do |user|
-        DocumentsMailer.document_added(user, self).deliver_now
+      recip = recipients
+      if (Setting.is_strong_notified_event('document_added'))
+        recip = all_recipients
+      end
+
+      recip.each do |user|
+        if Setting.can_notified_event(user, 'document_added')
+          DocumentsMailer.document_added(user, self).deliver_now
+        end
       end
     rescue Exception => e
       Rails.logger.info(e.message)
