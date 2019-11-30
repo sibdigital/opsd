@@ -35,6 +35,8 @@ import {componentDestroyed} from "ng2-rx-componentdestroyed";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {ProjectCacheService} from "core-components/projects/project-cache.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
 @Component({
   templateUrl: './create-board-button.html',
@@ -45,7 +47,7 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
   @Input('projectIdentifier') public projectIdentifier:string;
   @Input('boardIdentifier') public boardIdentifier:string;
   @Input('showText') public showText:boolean = false;
-  @Input('disabled') public disabled:boolean = false;
+  @Input('disabled') public disabled:boolean = true;
   public buttonText:string = this.I18n.t('js.label_create_board');
   public buttonTitle:string = this.I18n.t('js.label_create_board');
   public buttonClass:string;
@@ -58,26 +60,37 @@ export class CreateBoardButtonComponent  implements OnInit,  OnDestroy {
               readonly http:HttpClient,
               protected NotificationsService:NotificationsService,
               readonly wpCacheService:WorkPackageCacheService,
-              protected projectCacheService:ProjectCacheService) {
+              readonly projectCacheService:ProjectCacheService,
+              readonly halResourceService:HalResourceService) {
   }
 
   ngOnInit() {
     this.wpCacheService.loadWorkPackage(this.workPackage.id)
       .values$()
-      .pipe(
-        takeUntil(componentDestroyed(this))
-      )
+      .pipe(takeUntil(componentDestroyed(this))      )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
+        // let path = wp.project.href;
+        this.halResourceService
+          .get<HalResource>(wp.project.href)
+          .toPromise()
+          .then((resource:HalResource) => {
+            this.projectIdentifier = resource.id;
+            this.boardIdentifier = resource.defaultBoard.id;
+            if (resource.defaultBoard) {
+              this.disabled = false;
+            }
+          });
         // this.projectIdentifier = wp.project.id;
+        // wp.source._links.project.href
         // this.boardIdentifier = wp.project.defaultBoard;
       });
-    this.projectCacheService
-      .require(this.workPackage.project.idFromLink)
-      .then(() => {
-        this.projectIdentifier = this.workPackage.project.identifier;
-        this.boardIdentifier = this.workPackage.project.defaultBoard;
-      });
+    // this.projectCacheService
+    //   .require(this.workPackage.project.idFromLink)
+    //   .then(() => {
+    //     this.projectIdentifier = this.workPackage.project.identifier;
+    //     this.boardIdentifier = this.workPackage.project.defaultBoard;
+    //   });
       // .require(this.workPackage.project.idFromLink)
       // .then(() => {
       //   this.projectIdentifier = this.workPackage.project.identifier;

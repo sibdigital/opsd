@@ -60,21 +60,21 @@ class User < Principal
                           after_remove: ->(user, group) { group.user_removed(user) }
 
   has_many :categories, foreign_key: 'assigned_to_id',
-                        dependent: :nullify
+           dependent: :nullify
   has_many :assigned_issues, foreign_key: 'assigned_to_id',
-                             class_name: 'WorkPackage',
-                             dependent: :nullify
+           class_name: 'WorkPackage',
+           dependent: :nullify
   has_many :responsible_for_issues, foreign_key: 'responsible_id',
-                                    class_name: 'WorkPackage',
-                                    dependent: :nullify
+           class_name: 'WorkPackage',
+           dependent: :nullify
   has_many :watches, class_name: 'Watcher',
-                     dependent: :delete_all
+           dependent: :delete_all
   has_many :changesets, dependent: :nullify
   has_many :passwords, -> {
     order('id DESC')
   }, class_name: 'UserPassword',
-     dependent: :destroy,
-     inverse_of: :user
+           dependent: :destroy,
+           inverse_of: :user
   has_one :rss_token, class_name: '::Token::Rss', dependent: :destroy
   has_one :api_token, class_name: '::Token::Api', dependent: :destroy
   belongs_to :auth_source
@@ -133,6 +133,7 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
+                        :mail_add,
                         unless: Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
 
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
@@ -235,7 +236,7 @@ class User < Principal
              try_authentication_for_existing_user(user, password, session)
            else
              try_authentication_and_create_user(login, password)
-    end
+           end
     unless prevent_brute_force_attack(user, login).nil?
       user.log_successful_login(request) if user && !user.new_record?
       return user
@@ -321,7 +322,7 @@ class User < Principal
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
     when :firstname               then firstname
     when :username                then login
-    #bbm(
+      #bbm(
     when :lastname_f_p then begin
       fshort = firstname ? firstname[0,1] : ''
       fshort += firstname ? '.' : ''
@@ -329,7 +330,7 @@ class User < Principal
       pshort += patronymic ? '.' : ''
       "#{lastname} #{fshort}#{pshort}"
     end
-    #)
+      #)
     else
       #zbd "#{firstname} #{lastname}"
       "#{firstname} #{patronymic} #{lastname}"
@@ -419,7 +420,7 @@ class User < Principal
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
     return false if uses_external_authentication? ||
-                    OpenProject::Configuration.disable_password_login?
+      OpenProject::Configuration.disable_password_login?
     return true if auth_source_id.blank?
     auth_source.allow_password_changes?
   end
@@ -450,7 +451,7 @@ class User < Principal
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
     return false if block_threshold == 0  # disabled
     (last_failed_login_within_block_time? and
-            failed_login_count >= block_threshold)
+      failed_login_count >= block_threshold)
   end
 
   def log_failed_login

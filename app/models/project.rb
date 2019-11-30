@@ -251,8 +251,14 @@ class Project < ActiveRecord::Base
   #
   # end
   def get_default_board
-    default_board = Board.find_by( project_id: self.id, is_default: true)
-    default_board.nil? ? nil : default_board.id
+    default_board = Board.find_by(project_id: self.id, is_default: true)
+    if default_board.nil?
+      default_board = Board.find_by(project_id: self.id)
+      if default_board.nil?
+        default_board = nil
+      end
+    end
+    default_board
   end
 
   def curator

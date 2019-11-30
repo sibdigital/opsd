@@ -611,6 +611,9 @@ en:
         auto_hide_popups: Автоматически скрывать успешные уведомления
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не
           сохраненных изменениях
+      user_task:
+        object: Объект
+        completed: Завершено
       version:
         effective_date: Дата окончания
         sharing: Совместное использование
@@ -1688,6 +1691,7 @@ en:
   label_blog: Блог
   label_board_locked: Закрыто
   label_board_new: Новая дискуссия
+  label_board_dont_exist: В данном проекте нет досок
   label_board_plural: Дискуссии
   label_board_sticky: Стикер
   label_boolean: Логическое значение
@@ -3497,6 +3501,7 @@ en:
         уведомления о том, за чем Вы наблюдаете или в чем участвуете (например, пакеты
         работ, где Вы автор или критик).
       mail_self_notified: Хочу получать уведомления об изменениях, которые делаю сам
+      add_mail_notifications: Отправлять почту на альтернативный адрес
       pop_up_delay: Задержка обновления уведомлений
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: Смена статуса

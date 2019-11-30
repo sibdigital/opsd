@@ -30,10 +30,12 @@
 UpdateUserEmailSettingsService = Struct.new(:user) do
   def call(mail_notification: nil,
            self_notified: nil,
+           add_mail_notifications: nil,
            notified_project_ids: [])
 
     set_mail_notification(mail_notification)
     set_self_notified(self_notified)
+    set_add_mail_notifications(add_mail_notifications)
 
     ret_value = false
 
@@ -54,6 +56,10 @@ UpdateUserEmailSettingsService = Struct.new(:user) do
 
   def set_self_notified(self_notified)
     user.pref.self_notified = self_notified unless self_notified.nil?
+  end
+
+  def set_add_mail_notifications(add_mail_notifications)
+    user.pref.add_mail_notifications = add_mail_notifications unless add_mail_notifications.nil?
   end
 
   def set_notified_project_ids(notified_project_ids)

@@ -105,6 +105,20 @@ class Journal < ActiveRecord::Base
     # if !self.is_deleted
       self.is_deleted = true
       self.save
+      # if self.next.nil? && (self.activity_type != 'members' || self.activity_type != 'member_roles')
+      #   clone = Journal.new()
+      #   clone.journable_type = self.journable_type
+      #   clone.journable_id = self.journable_id
+      #   clone.notes = self.notes
+      #   clone.activity_type = self.activity_type
+      #   clone.project_id = self.project_id
+      #   clone.is_deleted = self.is_deleted
+      #   clone.version = self.version + 1
+      #   clone.created_at = Date.current
+      #   clone.user_id = User.current.id
+      #   self.next = clone.version
+      #   clone.save
+      # end
       # unless self.next.nil?
       #   record_of_destroy = self.dup
       #   record_of_destroy.user_id = User.current.id

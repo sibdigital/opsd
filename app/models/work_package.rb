@@ -72,7 +72,7 @@ class WorkPackage < ActiveRecord::Base
   #bbm(
   has_many :meetings, dependent: :delete_all
   has_many :messages, dependent: :delete_all
-  has_many :has_many, dependent: :delete_all
+  has_many :documents, dependent: :delete_all
   has_one :critical_way, foreign_key: 'wp_id', dependent: :delete
   # )
   #tan(
