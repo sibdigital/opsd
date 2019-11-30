@@ -1,88 +1,115 @@
 <% html_title l(:label_administration), l(:label_typed_targets) %>
 <%= toolbar title: l(:label_typed_targets) %>
 
-<% if @typed_targets.empty? %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" id="typed_target_items">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-        </colgroup>
-        <thead>
-        <tr>
-          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
-          <%= sort_header_tag("name", :caption => TypedTarget.human_attribute_name(:name)) %>
-          <%= sort_header_tag("status", :caption => TypedTarget.human_attribute_name(:target_status)) %>
-          <%= sort_header_tag("type", :caption => TypedTarget.human_attribute_name(:target_type)) %>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:unit) %>
-                </span>
-              </div>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="typed_target_items">
+      <thead>
+      <tr>
+        <%#= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+        <%#= sort_header_tag("name", :caption => TypedTarget.human_attribute_name(:name)) %>
+        <%#= sort_header_tag("status", :caption => TypedTarget.human_attribute_name(:target_status)) %>
+        <%#= sort_header_tag("type", :caption => TypedTarget.human_attribute_name(:target_type)) %>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                #
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:basic_value) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th style="width: 45%;">
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= TypedTarget.human_attribute_name(:name) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:plan_value) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= TypedTarget.human_attribute_name(:target_status) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:is_approve) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= TypedTarget.human_attribute_name(:target_type) %>
+              </span>
             </div>
-          </th>
-
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= TypedTarget.human_attribute_name(:unit) %>
+              </span>
             </div>
-          </th>
-
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= TypedTarget.human_attribute_name(:basic_value) %>
+              </span>
             </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= TypedTarget.human_attribute_name(:plan_value) %>
+              </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= TypedTarget.human_attribute_name(:is_approve) %>
+              </span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+            </div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <% if @typed_targets.empty? %>
+          <tr>
+            <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+          </tr>
+        <% else %>
+          <%#= render :partial => 'typed_targets/list', :locals => {:typed_targets => @typed_targets} %>
+          <%= render_tree(@typed_targets, 0, 0) %>
+        <% end %>
+      </tbody>
+    </table>
+    <%#= pagination_links_full @typed_targets %>
   </div>
-<% else %>
-  <%= render :partial => 'typed_targets/list', :locals => {:typed_targets => @typed_targets} %>
-  <%= pagination_links_full @typed_targets %>
-<% end %>
+</div>
 <div class="wp-inline-create-button">
   <%= link_to new_typed_target_path(),
               aria: {label: t(:label_typed_target_new)},

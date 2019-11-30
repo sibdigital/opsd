@@ -1,90 +1,20 @@
 <%= form_tag({}) do -%>
-
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" id="targets_items">
-        <thead>
-        <tr>
-          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
-          <%= sort_header_tag("name", :caption => TypedTarget.human_attribute_name(:name)) %>
-          <%= sort_header_tag("status", :caption => TypedTarget.human_attribute_name(:target_status)) %>
-          <%= sort_header_tag("type", :caption => TypedTarget.human_attribute_name(:target_type)) %>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:unit) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:basic_value) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:plan_value) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= TypedTarget.human_attribute_name(:is_approve) %>
-                </span>
-              </div>
-            </div>
-          </th>
-
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-              </div>
-            </div>
-          </th>
-
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-              </div>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <% typed_targets.each do |typed_target| %>
-          <tr id="typed_target-<%= typed_target.id %>">
-            <td><%= link_to typed_target.id, edit_typed_target_path(typed_target.id) %></td>
-            <%= content_tag(:td, link_to(h(typed_target.name), edit_typed_target_path(typed_target.id))) %>
-            <%= content_tag(:td, (TargetStatus.where(id: typed_target.status_id).map {|u| [u.name]}).join) %>
-            <%= content_tag(:td, (TargetType.where(id: typed_target.type_id).map {|u| [u.name]}).join) %>
-            <%= content_tag(:td, (MeasureUnit.where(id: typed_target.measure_unit_id).map {|u| [u.short_name]}).join) %>
-            <%= content_tag(:td, typed_target.basic_value) %>
-            <%= content_tag(:td, typed_target.plan_value) %>
-            <%= content_tag(:td, typed_target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" ) %>
-            <%= content_tag(:td, link_to(
-                op_icon('icon icon-delete'),
-                typed_target_path(typed_target),
-                method: :delete,
-                data: {confirm: I18n.t(:text_are_you_sure)},
-                title: t(:button_delete))) %>
-          </tr>
-        <% end %>
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-
+  <% typed_targets.each do |typed_target| %>
+    <tr id="typed_target-<%= typed_target.id %>">
+      <td><%= link_to typed_target.id, edit_typed_target_path(typed_target.id) %></td>
+      <%= content_tag(:td, link_to(h(typed_target.name), edit_typed_target_path(typed_target.id))) %>
+      <%= content_tag(:td, (TargetStatus.where(id: typed_target.status_id).map {|u| [u.name]}).join) %>
+      <%= content_tag(:td, (TargetType.where(id: typed_target.type_id).map {|u| [u.name]}).join) %>
+      <%= content_tag(:td, (MeasureUnit.where(id: typed_target.measure_unit_id).map {|u| [u.short_name]}).join) %>
+      <%= content_tag(:td, typed_target.basic_value) %>
+      <%= content_tag(:td, typed_target.plan_value) %>
+      <%= content_tag(:td, typed_target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" ) %>
+      <%= content_tag(:td, link_to(
+          op_icon('icon icon-delete'),
+          typed_target_path(typed_target),
+          method: :delete,
+          data: {confirm: I18n.t(:text_are_you_sure)},
+          title: t(:button_delete))) %>
+    </tr>
+  <% end %>
 <% end -%>

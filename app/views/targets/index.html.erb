@@ -10,98 +10,97 @@
   </div>
 <% end %>
 
-<% if @targets.empty? %>
-
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" id="target_items">
-        <thead>
-        <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:id) %>
-                </span>
-              </div>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="target_items">
+      <thead>
+      <tr>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:id) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:name) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:name) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:status) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:status) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:type) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:type) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:measure_unit_id) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:measure_unit_id) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:basic_value) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:basic_value) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:plan_value) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:plan_value) %>
+              </span>
             </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:is_approve) %>
-                </span>
-              </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span>
+                <%= Target.human_attribute_name(:is_approve) %>
+              </span>
             </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <% if @targets.empty? %>
+          <tr>
+            <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+          </tr>
+        <% else %>
+          <%= render :partial => 'targets/form/list', :locals => {:targets => @targets } %>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-<% else %>
-  <%= render :partial => 'targets/form/list', :locals => {:targets => @targets } %>
-<% end %>
+</div>
 
 <%= pagination_links_full @targets %>
 

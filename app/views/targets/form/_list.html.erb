@@ -4,70 +4,68 @@ This file written by BBM
 ++#%>
 
 <%= form_tag({}) do -%>
+<!--  <div class="generic-table--container">-->
+<!--    <div class="generic-table--results-container">-->
+<!--      <table class="generic-table" id="targets_items">-->
+<!--        <thead>-->
+<!--        <tr>-->
+          <%#= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
+          <%#= sort_header_tag("name", :caption => Target.human_attribute_name(:name)) %>
+          <%#= sort_header_tag("status", :caption => Target.human_attribute_name(:target_status)) %>
+          <%#= sort_header_tag("type", :caption => Target.human_attribute_name(:target_type)) %>
+<!--          <th>-->
+<!--            <div class="generic-table--sort-header-outer">-->
+<!--              <div class="generic-table--sort-header">-->
+<!--                <span>-->
+                  <%#= Target.human_attribute_name(:unit) %>
+<!--                </span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </th>-->
+<!--          <th>-->
+<!--            <div class="generic-table--sort-header-outer">-->
+<!--              <div class="generic-table--sort-header">-->
+<!--                <span>-->
+                  <%#= Target.human_attribute_name(:basic_value) %>
+<!--                </span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </th>-->
+<!--          <th>-->
+<!--            <div class="generic-table--sort-header-outer">-->
+<!--              <div class="generic-table--sort-header">-->
+<!--                <span>-->
+                  <%#= Target.human_attribute_name(:plan_value) %>
+<!--                </span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </th>-->
+<!--          <th>-->
+<!--            <div class="generic-table--sort-header-outer">-->
+<!--              <div class="generic-table--sort-header">-->
+<!--                <span>-->
+                  <%#= Target.human_attribute_name(:is_approve) %>
+<!--                </span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </th>-->
 
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" id="targets_items">
-        <thead>
-        <tr>
-          <%= sort_header_tag("id", :caption => '#', :default_order => 'desc') %>
-          <%= sort_header_tag("name", :caption => Target.human_attribute_name(:name)) %>
-          <%= sort_header_tag("status", :caption => Target.human_attribute_name(:target_status)) %>
-          <%= sort_header_tag("type", :caption => Target.human_attribute_name(:target_type)) %>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:unit) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:basic_value) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:plan_value) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= Target.human_attribute_name(:is_approve) %>
-                </span>
-              </div>
-            </div>
-          </th>
+<!--          <th>-->
+<!--            <div class="generic-table--sort-header-outer">-->
+<!--              <div class="generic-table--sort-header">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </th>-->
 
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-              </div>
-            </div>
-          </th>
-
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-              </div>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-
+<!--          <th>-->
+<!--            <div class="generic-table--sort-header-outer">-->
+<!--              <div class="generic-table--sort-header">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
           <% if params[:target_type] == nil %>
             <%= render_tree(targets, 0, 0) %>
           <% else %>
@@ -90,8 +88,8 @@ This file written by BBM
               </tr>
             <% end %>
         <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<!--        </tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--  </div>-->
 <% end -%>

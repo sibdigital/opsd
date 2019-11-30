@@ -7,27 +7,28 @@ before_action :require_coordinator
 before_action :find_typed_target, only: [:edit, :update, :destroy]
 
 helper :sort
-include SortHelper
-include PaginationHelper
-include ::IconsHelper
-include ::ColorsHelper
+# include SortHelper
+# include PaginationHelper
+# include ::IconsHelper
+# include ::ColorsHelper
+include TypedTargetsHelper
 
   def index
-    sort_columns = {'id' => "#{TypedTarget.table_name}.id",
-                    'name' => "#{TypedTarget.table_name}.name",
-                    'status' => "#{TypedTarget.table_name}.status_id",
-                    'type' => "#{TypedTarget.table_name}.type_id",
-                    'basic_value' => "#{TypedTarget.table_name}.basic_value",
-                    'plan_value' => "#{TypedTarget.table_name}.plan_value"
-    }
-
-    sort_init 'id', 'desc'
-    sort_update sort_columns
+    # sort_columns = {'id' => "#{TypedTarget.table_name}.id",
+    #                 'name' => "#{TypedTarget.table_name}.name",
+    #                 'status' => "#{TypedTarget.table_name}.status_id",
+    #                 'type' => "#{TypedTarget.table_name}.type_id",
+    #                 'basic_value' => "#{TypedTarget.table_name}.basic_value",
+    #                 'plan_value' => "#{TypedTarget.table_name}.plan_value"
+    # }
+    #
+    # sort_init [['parent_id', 'asc'],['id', 'asc']]
+    # sort_update sort_columns
 
     @typed_targets = TypedTarget
-                     .order(sort_clause)
-                     .page(page_param)
-                     .per_page(per_page_param)
+                     .order('parent_id, id')
+                     # .page(page_param)
+                     # .per_page(per_page_param)
   end
 
   def edit
@@ -37,10 +38,16 @@ include ::ColorsHelper
       @typed_target = TypedTarget
                       .find(params[:id])
       @tab = params[:tab]
+
+      @typed_targets_arr = [['', 0]]
+      @typed_targets_arr += TypedTarget.where('id <> ?', @typed_target.id).order(:parent_id, :id).map {|u| ['(' + u.target_type.name + ') ' + u.name, u.id]}
     end
   end
   
   def new
+    @typed_targets_arr = [['', 0]]
+    @typed_targets_arr += TypedTarget.order(:parent_id, :id).map {|u|  ['(' + u.target_type.name + ') ' + u.name, u.id] }
+
     @typed_target = TypedTarget.new
   end
   
