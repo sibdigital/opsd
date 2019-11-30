@@ -1,0 +1,16 @@
+<div class="form--field">
+  <label class="form--label -required" title="Пакет работ" for="document_work_package_id">
+    Пакет работ
+    <span class="form--label-required" aria-hidden="true">*</span>
+  </label>
+  <span class="form--field-container">
+    <span class="form--text-field-container -wide">
+      <input size="60" container_class="-wide" class="form--text-field" aria-required="true" type="text"
+             value="{{selectedWPid}}" name="document[work_package_id]" id="document_work_package_id" style="display: none;">
+      <span>{{selectedWP}}</span>
+      <button mat-raised-button (click)="openDialog()" [ngStyle]="{'background':'#1a68a3','color':'#fff','padding':'10px','float':'right','border':'none','border-radius':'1px'}" type="button" >...</button>
+    </span>
+  </span>
+</div>
+
+
