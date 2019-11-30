@@ -32,7 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% form.object.custom_field_values.each do |value| %>
   <%= form.fields_for_custom_fields :custom_field_values, value do |value_form| %>
     <% if value.custom_field.is_approved? %>
-      <% if is_approve %>
+      <% if defined?(is_approve) and is_approve %>
         <% required = value.custom_field.is_required? %>
         <div class="form--field <%= required ? '-required' : '' %>">
           <%# display all fields OR only display required fields OR only display optional fields #%>
