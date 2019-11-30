@@ -148,6 +148,17 @@ module SettingsHelper
     end
   end
 
+  #+tan 2019.11.30
+  def strong_notification_field(notifiable, options = {})
+    content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do
+      styled_check_box_tag('settings[strong_notified_events][]',
+                           notifiable.name,
+                           Setting.strong_notified_events.include?(notifiable.name),
+                           options.merge(id: nil)) +
+        l_or_humanize(notifiable.name, prefix: 'label_')
+    end
+  end
+
   private
 
   def wrap_field_outer(options, &block)

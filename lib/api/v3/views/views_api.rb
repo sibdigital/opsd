@@ -53,9 +53,10 @@ module API
               kt = Type.find_by name: I18n.t(:default_type_milestone)
               raion_id = params[:raion]
               if raion_id
+                rprojects = Raion.projects_by_id(raion_id, @projects).map {|p| p.id}
                 records_array = ActiveRecord::Base.connection.execute <<~SQL
                   select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
-                      (select * from projects where id in (#{@projects.join(",")}))as p
+                      (select * from projects where id in (#{rprojects.join(",")}))as p
                   left join
                       (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(riski) as riski
                       from (
@@ -64,6 +65,7 @@ module API
                                       case when wp.days_to_due < 0 and wp.raion_id = #{raion_id} and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
                                       case when wp.raion_id = #{raion_id} then wp.created_problem_count else 0 end as riski
                                from v_work_package_ispoln_stat as wp
+                               where wp.raion_id = #{raion_id}
                            ) as slice
                       group by project_id) as p1
                   on p.id = p1.project_id
@@ -96,11 +98,13 @@ module API
                 SQL
               end
               @wps = []
+              proj_arr = Project.where(id: @projects).to_a
+
               records_array.map do |arr|
                 stroka = Hash.new
                 stroka['_type'] = 'Project'
                 stroka['project_id'] = arr['id']
-                project = Project.find(arr['id'])
+                project = proj_arr.select {|p| p.id == arr['id']}.first# Project.find(arr['id'])
                 stroka['name'] = project.name
                 stroka['identifier'] = project.identifier
                 stroka['federal_id'] = project.federal_project_id || 0
