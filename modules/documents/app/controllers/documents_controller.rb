@@ -102,6 +102,11 @@ class DocumentsController < ApplicationController
   end
 
   def new
+    # unless params["wpId"].blank?
+    #
+    # end
+
+    @wp = params["wpId"]
     @document = @project.documents.build
     @document.attributes = document_params
   end
@@ -165,9 +170,8 @@ class DocumentsController < ApplicationController
   private
 
   def document_params
-    document_params = params.fetch(:document, {}).permit('category_id', 'title', 'description', 'document')
+    document_params = params.fetch(:document, {}).permit('category_id', 'title', 'work_package_id', 'description', 'document')
     document_params = document_params.merge(custom_field_values(:document))
-
   end
 
   def custom_field_values(key, required: true)
