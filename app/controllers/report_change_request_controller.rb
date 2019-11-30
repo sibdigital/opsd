@@ -44,6 +44,13 @@ class ReportChangeRequestController < ApplicationController
     @workbook.calc_pr.full_calc_on_load = true
 
     #generate_title_sheet
+    generate_target_indicators_sheet
+    generate_target_results_sheet
+    generate_budget_sheet
+    generate_members_sheet
+    generate_additonal_info
+    #generate_plan_sheet
+    #generate_method_calc_sheet
 
     dir_path = File.absolute_path('.') + '/public/reports'
     if  !File.directory?(dir_path)
@@ -119,144 +126,362 @@ class ReportChangeRequestController < ApplicationController
   def generate_target_indicators_sheet
 
       sheet = @workbook['Цель и показатели']
-      sheet[1][0].change_contents(get_name_target.nil? ? "": get_name_target)
 
       count_year = difference_in_completed_years(@project.start_date, @project.due_date)
 
-      sheet.insert_cell(1,7+count_year, "")
-      sheet.merge_cells(1, 0, 1, 7+count_year)
-      sheet.sheet_data[1][7+count_year].change_border(:right, 'thin')
-
-      sheet.insert_cell(2,7+count_year, "")
-      sheet.merge_cells(2, 7, 2, 7+count_year)
-      sheet.sheet_data[2][7+count_year].change_border(:right, 'thin')
-
       for i in 0..count_year
-        sheet.insert_cell(3, 7+i, @project.start_date.year+i)
-        sheet.insert_cell(4, 7+i, "")
-        sheet.merge_cells(3, 7+i, 4, 7+i)
-
-        sheet.insert_cell(1, 7+i, "")
-        sheet.sheet_data[1][7+i].change_border(:top, 'thin')
-        sheet.sheet_data[1][7+i].change_border(:left, 'thin')
-        sheet.sheet_data[1][7+i].change_border(:right, 'thin')
-        sheet.sheet_data[1][7+i].change_border(:bottom, 'thin')
+        sheet.insert_cell(3, 9+i, @project.start_date.year+i)
+        sheet.sheet_data[3][9+i].change_horizontal_alignment('center')
+        sheet.sheet_data[3][9+i].change_vertical_alignment('center')
 
 
-        sheet.sheet_data[3][7+i].change_border(:top, 'thin')
-        sheet.sheet_data[3][7+i].change_border(:left, 'thin')
-        sheet.sheet_data[3][7+i].change_border(:right, 'thin')
-        sheet.sheet_data[3][7+i].change_border(:bottom, 'thin')
+        sheet.insert_cell(2, 9+i, "")
+        sheet.sheet_data[2][9+i].change_border(:top, 'thin')
+        sheet.sheet_data[2][9+i].change_border(:left, 'thin')
+        sheet.sheet_data[2][9+i].change_border(:right, 'thin')
+        sheet.sheet_data[2][9+i].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[4][7+i].change_border(:top, 'thin')
-        sheet.sheet_data[4][7+i].change_border(:left, 'thin')
-        sheet.sheet_data[4][7+i].change_border(:right, 'thin')
-        sheet.sheet_data[4][7+i].change_border(:bottom, 'thin')
+        sheet.sheet_data[3][9+i].change_border(:top, 'thin')
+        sheet.sheet_data[3][9+i].change_border(:left, 'thin')
+        sheet.sheet_data[3][9+i].change_border(:right, 'thin')
+        sheet.sheet_data[3][9+i].change_border(:bottom, 'thin')
+
       end
+
+      sheet[2][9].change_contents("Период реализации регионального проекта, год")
+      sheet.merge_cells(2, 9, 2, 9+count_year)
+
+      sheet.insert_cell(2, 9+count_year+1, "Уровень контроля")
+      sheet.insert_cell(3, 9+count_year+1, "")
+      sheet.merge_cells(2, 9+count_year+1, 3, 9+count_year+1)
+
+      cell = sheet[2][8+count_year+1]
+      cell.change_text_wrap(true)
+
+      sheet.sheet_data[2][9+count_year+1].change_horizontal_alignment('center')
+      sheet.sheet_data[2][9+count_year+1].change_vertical_alignment('center')
+
+      sheet.sheet_data[2][9+count_year+1].change_border(:top, 'thin')
+      sheet.sheet_data[2][9+count_year+1].change_border(:left, 'thin')
+      sheet.sheet_data[2][9+count_year+1].change_border(:right, 'thin')
+      sheet.sheet_data[2][9+count_year+1].change_border(:bottom, 'thin')
+
+      sheet.sheet_data[3][9+count_year+1].change_border(:top, 'thin')
+      sheet.sheet_data[3][9+count_year+1].change_border(:left, 'thin')
+      sheet.sheet_data[3][9+count_year+1].change_border(:right, 'thin')
+      sheet.sheet_data[3][9+count_year+1].change_border(:bottom, 'thin')
+
 
 
       id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
       targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
 
+      inc = 0
+      start_index = 4
       targets.each_with_index do |target, i|
-        sheet.insert_cell(5+i, 0, (i+1).to_s)
-        sheet.insert_cell(5+i, 1, target.name)
-        cell = sheet[5+i][1]
+        sheet.insert_cell(start_index+i+inc, 0, (i+1).to_s)
+        sheet.insert_cell(start_index+i+inc+1, 0, "")
+        sheet.merge_cells(start_index+i+inc, 0, start_index+i+inc+1, 0)
+
+        sheet.insert_cell(start_index+i+inc, 1, "Действующая редакция")
+        sheet.insert_cell(start_index+i+inc+1, 1, "Новая редакция")
+
+        sheet.insert_cell(start_index+i+inc, 2, target.name)
+        cell = sheet[start_index+i+inc][1]
+        cell.change_text_wrap(true)
+        cell = sheet[start_index+i+inc][2]
         cell.change_text_wrap(true)
 
-        type_target = target.is_additional == true ? "дополнительный" : "основной"
-        sheet.insert_cell(5+i, 2, type_target)
-        sheet.sheet_data[5+i][2].change_horizontal_alignment('center')
-        sheet.sheet_data[5+i][2].change_vertical_alignment('center')
+        sheet.insert_cell(start_index+i+inc+1, 2, "-")
+        cell = sheet[start_index+i+inc+1][1]
+        cell.change_text_wrap(true)
+        cell = sheet[start_index+i+inc+1][2]
+        cell.change_text_wrap(true)
 
-        sheet.insert_cell(5+i, 3, target.basic_value)
-        sheet.insert_cell(5+i, 4, "")
-        sheet.merge_cells(5+i, 3, 5+i, 4)
-        sheet.sheet_data[5+i][3].change_horizontal_alignment('center')
-        sheet.sheet_data[5+i][3].change_vertical_alignment('center')
+
+        measure_unit = target.measure_unit  == nil ? "" : target.measure_unit.name
+        sheet.insert_cell(start_index+i+inc, 3, measure_unit)
+
+        sheet.insert_cell(start_index+i+inc+1, 3, "")
+
+
+        type_target = target.is_additional == true ? "дополнительный" : "основной"
+        sheet.insert_cell(start_index+i+inc, 4, type_target)
+        sheet.sheet_data[start_index+i+inc][4].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc][4].change_vertical_alignment('center')
+
+        sheet.insert_cell(start_index+i+inc+1, 4, "-")
+        sheet.sheet_data[start_index+i+inc+1][4].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc+1][4].change_vertical_alignment('center')
+
+        sheet.insert_cell(start_index+i+inc, 5, target.basic_value)
+        sheet.merge_cells(start_index+i+inc, 5, start_index+i+inc, 6)
+        sheet.sheet_data[start_index+i+inc][5].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc][5].change_vertical_alignment('center')
+        sheet.insert_cell(start_index+i+inc, 6, "")
+
+        sheet.insert_cell(start_index+i+inc+1, 5, "-")
+        sheet.merge_cells(start_index+i+inc+1, 5, start_index+i+inc+1, 6)
+        sheet.sheet_data[start_index+i+inc+1][5].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc+1][5].change_vertical_alignment('center')
+        sheet.insert_cell(start_index+i+inc+1, 6, "")
 
         basic_date = target.basic_date.nil? ? "" : target.basic_date.strftime("%d.%m.%Y")
-        sheet.insert_cell(5+i, 5, basic_date)
-        sheet.insert_cell(5+i, 6, "")
-        sheet.merge_cells(5+i, 5, 5+i, 6)
-        sheet.sheet_data[5+i][5].change_horizontal_alignment('center')
-        sheet.sheet_data[5+i][5].change_vertical_alignment('center')
+        sheet.insert_cell(start_index+i+inc, 7, basic_date)
+        sheet.merge_cells(start_index+i+inc, 7, start_index+i+inc, 8)
+        sheet.sheet_data[start_index+i+inc][7].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc][7].change_vertical_alignment('center')
+        sheet.insert_cell(start_index+i+inc, 8, "")
 
-        sheet.sheet_data[5+i][0].change_border(:top, 'thin')
-        sheet.sheet_data[5+i][0].change_border(:left, 'thin')
-        sheet.sheet_data[5+i][0].change_border(:right, 'thin')
-        sheet.sheet_data[5+i][0].change_border(:bottom, 'thin')
+        sheet.insert_cell(start_index+i+inc+1, 7, basic_date)
+        sheet.merge_cells(start_index+i+inc+1, 7, start_index+i+inc+1, 8)
+        sheet.sheet_data[start_index+i+inc+1][7].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc+1][7].change_vertical_alignment('center')
+        sheet.insert_cell(start_index+i+inc+1, 8, "")
 
-        sheet.sheet_data[5+i][1].change_border(:top, 'thin')
-        sheet.sheet_data[5+i][1].change_border(:left, 'thin')
-        sheet.sheet_data[5+i][1].change_border(:right, 'thin')
-        sheet.sheet_data[5+i][1].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[5+i][2].change_border(:top, 'thin')
-        sheet.sheet_data[5+i][2].change_border(:left, 'thin')
-        sheet.sheet_data[5+i][2].change_border(:right, 'thin')
-        sheet.sheet_data[5+i][2].change_border(:bottom, 'thin')
+        sheet.sheet_data[start_index+i+inc][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][0].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[5+i][3].change_border(:top, 'thin')
-        sheet.sheet_data[5+i][3].change_border(:left, 'thin')
-        sheet.sheet_data[5+i][3].change_border(:right, 'thin')
-        sheet.sheet_data[5+i][3].change_border(:bottom, 'thin')
+        sheet.sheet_data[start_index+i+inc][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][1].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[5+i][4].change_border(:top, 'thin')
-        sheet.sheet_data[5+i][4].change_border(:left, 'thin')
-        sheet.sheet_data[5+i][4].change_border(:right, 'thin')
-        sheet.sheet_data[5+i][4].change_border(:bottom, 'thin')
+        sheet.sheet_data[start_index+i+inc][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][2].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[5+i][5].change_border(:top, 'thin')
-        sheet.sheet_data[5+i][5].change_border(:left, 'thin')
-        sheet.sheet_data[5+i][5].change_border(:right, 'thin')
-        sheet.sheet_data[5+i][5].change_border(:bottom, 'thin')
+        sheet.sheet_data[start_index+i+inc][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][3].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[5+i][6].change_border(:top, 'thin')
-        sheet.sheet_data[5+i][6].change_border(:left, 'thin')
-        sheet.sheet_data[5+i][6].change_border(:right, 'thin')
-        sheet.sheet_data[5+i][6].change_border(:bottom, 'thin')
+        sheet.sheet_data[start_index+i+inc][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][5].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc][6].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][6].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][6].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][6].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc][7].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][7].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][7].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][7].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc][8].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][8].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][8].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][8].change_border(:bottom, 'thin')
+
+
+        sheet.sheet_data[start_index+i+inc+1][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][0].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][1].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][2].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][3].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][5].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][6].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][6].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][6].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][6].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][7].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][7].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][7].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][7].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+inc+1][8].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][8].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][8].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][8].change_border(:bottom, 'thin')
+
 
         for j in 0..count_year
           targetValue = PlanFactYearlyTargetValue.find_by(target_id: target.id, year: @project.start_date.year+j)
           target_plan_year_value = targetValue.nil? ? "" : targetValue.target_plan_year_value
-          sheet.insert_cell(5+i, 7+j, target_plan_year_value)
-          sheet.sheet_data[5+i][7+j].change_border(:top, 'thin')
-          sheet.sheet_data[5+i][7+j].change_border(:left, 'thin')
-          sheet.sheet_data[5+i][7+j].change_border(:right, 'thin')
-          sheet.sheet_data[5+i][7+j].change_border(:bottom, 'thin')
+          sheet.insert_cell(start_index+i+inc, 9+j, target_plan_year_value)
+
+          sheet.sheet_data[start_index+i+inc][9+j].change_horizontal_alignment('center')
+          sheet.sheet_data[start_index+i+inc][9+j].change_vertical_alignment('center')
+
+          sheet.sheet_data[start_index+i+inc][9+j].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+inc][9+j].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+inc][9+j].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+inc][9+j].change_border(:bottom, 'thin')
+
+          sheet.insert_cell(start_index+i+inc+1, 9+j, "-")
+
+          sheet.sheet_data[start_index+i+inc+1][9+j].change_horizontal_alignment('center')
+          sheet.sheet_data[start_index+i+inc+1][9+j].change_vertical_alignment('center')
+
+          sheet.sheet_data[start_index+i+inc+1][9+j].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+inc+1][9+j].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+inc+1][9+j].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+inc+1][9+j].change_border(:bottom, 'thin')
+
         end
+
+        sheet.insert_cell(start_index+i+inc, 9+count_year+1, "")
+
+        sheet.sheet_data[start_index+i+inc][9+count_year+1].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc][9+count_year+1].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+i+inc][9+count_year+1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc][9+count_year+1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc][9+count_year+1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc][9+count_year+1].change_border(:bottom, 'thin')
+
+
+        sheet.insert_cell(start_index+i+inc+1, 9+count_year+1, "")
+
+        sheet.sheet_data[start_index+i+inc+1][9+count_year+1].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+i+inc+1][9+count_year+1].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+i+inc+1][9+count_year+1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][9+count_year+1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][9+count_year+1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+inc+1][9+count_year+1].change_border(:bottom, 'thin')
+
+        inc += 1
       end
+
+    start_index = start_index+targets.count+inc+5
+    sheet.insert_cell(start_index, 0, "Обоснование и анализ изменений")
+    sheet.merge_cells(start_index, 0, start_index, 9+count_year+1)
+
+    sheet.insert_cell(start_index+1, 0, "Сведения о предыдущих запросах на изменение")
+    sheet.insert_cell(start_index+2, 0, "Причины и обоснование необходимости изменений")
+    sheet.insert_cell(start_index+3, 0, "Анализ изменений и их влияния на параметры проекта и иные проекты")
+
+    sheet.merge_cells(start_index+1, 0, start_index+1, 2)
+    sheet.merge_cells(start_index+2, 0, start_index+2, 2)
+    sheet.merge_cells(start_index+3, 0, start_index+3, 2)
+
+    sheet.merge_cells(start_index+1, 3, start_index+1, 9+count_year+1)
+    sheet.merge_cells(start_index+2, 3, start_index+2, 9+count_year+1)
+    sheet.merge_cells(start_index+3, 3, start_index+3, 9+count_year+1)
+
+
+     sheet.sheet_data[start_index+1][0].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+1][0].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+1][0].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+1][0].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+2][0].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+2][0].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+2][0].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+2][0].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+3][0].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+3][0].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+3][0].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+3][0].change_border(:bottom, 'thin')
+
+    for i in 1..9+count_year+1
+      sheet.insert_cell(start_index+1, i, "")
+      sheet.sheet_data[start_index+1][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+2, i, "")
+      sheet.sheet_data[start_index+2][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+3, i, "")
+      sheet.sheet_data[start_index+3][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:bottom, 'thin')
+    end
+
+
 
   end
 
  def generate_target_results_sheet
-   sheet = @workbook['Результаты']
-   result_str = sheet[2][0].value
+   sheet = @workbook['Результаты и характеристики']
+
    id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
    targets = Target.where(project_id: @project.id, type_id: id_type_result, is_approve: true)
    targets.each do |target|
      national_project_goal = target.national_project_goal == nil ? " " : target.national_project_goal
-     sheet[2][0].change_contents(national_project_goal)
-     national_project_result = target.national_project_result == nil ? " " : target.national_project_result
-     national_project_charact = target.national_project_charact == nil ? " " : target.national_project_charact
-     result_due_date = target.result_due_date == nil ? " " : target.result_due_date.strftime("%d.%m.%Y")
-     result_str["#"] = national_project_result
-     result_str["$"] = national_project_charact
-     result_str["%"] = result_due_date
-     sheet[3][1].change_contents(result_str)
+     sheet[4][0].change_contents("Задача национального проекта: "+national_project_goal)
+#     national_project_result = target.national_project_result == nil ? " " : target.national_project_result
+#     national_project_charact = target.national_project_charact == nil ? " " : target.national_project_charact
+#     result_due_date = target.result_due_date == nil ? " " : target.result_due_date.strftime("%d.%m.%Y")
      break
    end
+  inc = 0
+  start_index = 5
+   result_targets = get_result_target_end_date
+   result_targets.each_with_index do |result_target, i|
+     punkt = (i+1).to_s
+     sheet.insert_cell(start_index+i+inc, 0, punkt)
+     sheet.insert_cell(start_index+i+inc+1, 0, "")
+     sheet.merge_cells(start_index+i+inc, 0, start_index+i+inc+1, 0)
+     sheet.sheet_data[start_index+i+inc][0].change_horizontal_alignment('center')
+     sheet.sheet_data[start_index+i+inc][0].change_vertical_alignment('center')
 
-   get_result_target_end_date.each_with_index do |result_target, i|
-     punkt = "1."+(i+1).to_s+"."
-     sheet.insert_cell(6+i, 0, punkt)
-     name = result_target["name"]
-     sheet.insert_cell(6+i, 1, name)
-     cell = sheet[6+i][1]
+
+     sheet.insert_cell(start_index+i+inc, 1, "Действующая редакция")
+     sheet.insert_cell(start_index+i+inc+1, 1, "Новая редакция")
+     cell = sheet[start_index+i+inc][1]
      cell.change_text_wrap(true)
-     sheet.sheet_data[6+i][1].change_vertical_alignment('center')
 
+     name = result_target["name"]
+     sheet.insert_cell(start_index+i+inc, 2, name)
+     sheet.insert_cell(start_index+i+inc+1, 2, "")
+     cell = sheet[start_index+i+inc][2]
+     cell.change_text_wrap(true)
+     sheet.sheet_data[start_index+i+inc][2].change_vertical_alignment('center')
+     sheet.insert_cell(start_index+i+inc, 3, result_target["name_measure_unit"])
+     sheet.insert_cell(start_index+i+inc+1, 3, "")
+     sheet.sheet_data[start_index+i+inc][3].change_horizontal_alignment('center')
+     sheet.sheet_data[start_index+i+inc][3].change_vertical_alignment('center')
+     sheet[start_index+i+inc][3].change_text_wrap(true)
+     sheet.insert_cell(start_index+i+inc, 4, result_target["value"])
+     sheet.insert_cell(start_index+i+inc+1, 4, "")
+     sheet.sheet_data[start_index+i+inc][4].change_horizontal_alignment('center')
+     sheet.sheet_data[start_index+i+inc][4].change_vertical_alignment('center')
 
 
      date_end_result=""
@@ -274,97 +499,237 @@ class ReportChangeRequestController < ApplicationController
        date_end_result = "31.12."+result_target["year"]
      end
 
-     sheet.insert_cell(6+i, 2, date_end_result)
-     cell = sheet[6+i][2]
+     sheet.insert_cell(start_index+i+inc, 5, date_end_result)
+     cell = sheet[start_index+i+inc][5]
      cell.change_text_wrap(true)
-     sheet.sheet_data[6+i][2].change_horizontal_alignment('center')
-     sheet.sheet_data[6+i][2].change_vertical_alignment('center')
+     sheet.sheet_data[start_index+i+inc][5].change_horizontal_alignment('center')
+     sheet.sheet_data[start_index+i+inc][5].change_vertical_alignment('center')
 
-     sheet.insert_cell(6+i, 3, "")
+     sheet.insert_cell(start_index+i+inc+1, 5, "")
 
-     sheet.sheet_data[6+i][0].change_border(:top, 'thin')
-     sheet.sheet_data[6+i][0].change_border(:left, 'thin')
-     sheet.sheet_data[6+i][0].change_border(:right, 'thin')
-     sheet.sheet_data[6+i][0].change_border(:bottom, 'thin')
+     sheet.insert_cell(start_index+i+inc, 6, result_target["national_project_charact"])
+     sheet.sheet_data[start_index+i+inc][6].change_vertical_alignment('center')
+     sheet[start_index+i+inc][6].change_text_wrap(true)
+     sheet.insert_cell(start_index+i+inc+1, 6, "")
 
-     sheet.sheet_data[6+i][1].change_border(:top, 'thin')
-     sheet.sheet_data[6+i][1].change_border(:left, 'thin')
-     sheet.sheet_data[6+i][1].change_border(:right, 'thin')
-     sheet.sheet_data[6+i][1].change_border(:bottom, 'thin')
+     sheet.insert_cell(start_index+i+inc, 7, "")
+     sheet.insert_cell(start_index+i+inc, 8, "")
 
-     sheet.sheet_data[6+i][2].change_border(:top, 'thin')
-     sheet.sheet_data[6+i][2].change_border(:left, 'thin')
-     sheet.sheet_data[6+i][2].change_border(:right, 'thin')
-     sheet.sheet_data[6+i][2].change_border(:bottom, 'thin')
+     sheet.insert_cell(start_index+i+inc+1, 7, "")
+     sheet.insert_cell(start_index+i+inc+1, 8, "")
 
-     sheet.sheet_data[6+i][3].change_border(:top, 'thin')
-     sheet.sheet_data[6+i][3].change_border(:left, 'thin')
-     sheet.sheet_data[6+i][3].change_border(:right, 'thin')
-     sheet.sheet_data[6+i][3].change_border(:bottom, 'thin')
+     sheet.sheet_data[start_index+i+inc][0].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][0].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][0].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][0].change_border(:bottom, 'thin')
 
+     sheet.sheet_data[start_index+i+inc][1].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][1].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][1].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][1].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc][2].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][2].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][2].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][2].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc][3].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][3].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][3].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][3].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc][4].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][4].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][4].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][4].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc][5].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][5].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][5].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][5].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc][6].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][6].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][6].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][6].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc][7].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][7].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][7].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][7].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc][8].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc][8].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc][8].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc][8].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][0].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][0].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][0].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][0].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][1].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][1].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][1].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][1].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][2].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][2].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][2].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][2].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][3].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][3].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][3].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][3].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][4].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][4].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][4].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][4].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][5].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][5].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][5].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][5].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][6].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][6].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][6].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][6].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][7].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][7].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][7].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][7].change_border(:bottom, 'thin')
+
+     sheet.sheet_data[start_index+i+inc+1][8].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][8].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][8].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+i+inc+1][8].change_border(:bottom, 'thin')
+
+     inc += 1
    end
+
+   start_index = start_index+result_targets.count+inc+5
+   sheet.insert_cell(start_index, 0, "Обоснование и анализ изменений")
+   sheet.merge_cells(start_index, 0, start_index, 8)
+   sheet.sheet_data[start_index][0].change_horizontal_alignment('center')
+   sheet.sheet_data[start_index][0].change_vertical_alignment('center')
+
+   sheet.insert_cell(start_index+1, 0, "Сведения о предыдущих запросах на изменение")
+   sheet.insert_cell(start_index+2, 0, "Причины и обоснование необходимости изменений")
+   sheet.insert_cell(start_index+3, 0, "Анализ изменений и их влияния на параметры проекта и иные проекты")
+
+   sheet.merge_cells(start_index+1, 0, start_index+1, 2)
+   sheet.merge_cells(start_index+2, 0, start_index+2, 2)
+   sheet.merge_cells(start_index+3, 0, start_index+3, 2)
+
+   sheet[start_index+1][0].change_text_wrap(true)
+   sheet[start_index+2][0].change_text_wrap(true)
+   sheet[start_index+3][0].change_text_wrap(true)
+
+   sheet.merge_cells(start_index+1, 3, start_index+1, 8)
+   sheet.merge_cells(start_index+2, 3, start_index+2, 8)
+   sheet.merge_cells(start_index+3, 3, start_index+3, 8)
+
+   sheet.sheet_data[start_index+1][0].change_border(:top, 'thin')
+   sheet.sheet_data[start_index+1][0].change_border(:left, 'thin')
+   sheet.sheet_data[start_index+1][0].change_border(:right, 'thin')
+   sheet.sheet_data[start_index+1][0].change_border(:bottom, 'thin')
+
+   sheet.sheet_data[start_index+2][0].change_border(:top, 'thin')
+   sheet.sheet_data[start_index+2][0].change_border(:left, 'thin')
+   sheet.sheet_data[start_index+2][0].change_border(:right, 'thin')
+   sheet.sheet_data[start_index+2][0].change_border(:bottom, 'thin')
+
+   sheet.sheet_data[start_index+3][0].change_border(:top, 'thin')
+   sheet.sheet_data[start_index+3][0].change_border(:left, 'thin')
+   sheet.sheet_data[start_index+3][0].change_border(:right, 'thin')
+   sheet.sheet_data[start_index+3][0].change_border(:bottom, 'thin')
+
+   for i in 1..8
+     sheet.insert_cell(start_index+1, i, "")
+     sheet.sheet_data[start_index+1][i].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+1][i].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+1][i].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+1][i].change_border(:bottom, 'thin')
+
+     sheet.insert_cell(start_index+2, i, "")
+     sheet.sheet_data[start_index+2][i].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+2][i].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+2][i].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+2][i].change_border(:bottom, 'thin')
+
+     sheet.insert_cell(start_index+3, i, "")
+     sheet.sheet_data[start_index+3][i].change_border(:top, 'thin')
+     sheet.sheet_data[start_index+3][i].change_border(:left, 'thin')
+     sheet.sheet_data[start_index+3][i].change_border(:right, 'thin')
+     sheet.sheet_data[start_index+3][i].change_border(:bottom, 'thin')
+   end
+
  end
 
   def generate_budget_sheet
     sheet = @workbook['Финансовое обеспечение']
     count_year = difference_in_completed_years(@project.start_date, @project.due_date)
-    sheet.merge_cells(1, 2, 1, 2+count_year)
+    sheet.merge_cells(1, 3, 1, 3+count_year)
 
     # вывод в шапке таблицы наименование годов
     for i in 0..count_year
-      sheet.insert_cell(0, 2+i,"")
-      sheet.insert_cell(1, 2+i, "Объем финансового обеспечения по годам реализации (млн. рублей)")
-      cell = sheet[1][2+i]
+      sheet.insert_cell(0, 3+i,"")
+      sheet.insert_cell(1, 3+i, "Объем финансового обеспечения по годам реализации (млн. рублей)")
+      cell = sheet[1][3+i]
       cell.change_text_wrap(true)
-      sheet.sheet_data[1][2+i].change_horizontal_alignment('center')
-      sheet.sheet_data[1][2+i].change_vertical_alignment('center')
+      sheet.sheet_data[1][3+i].change_horizontal_alignment('center')
+      sheet.sheet_data[1][3+i].change_vertical_alignment('center')
 
-      sheet.insert_cell(2, 2+i, @project.start_date.year+i)
-      sheet.sheet_data[2][2+i].change_horizontal_alignment('center')
-      sheet.sheet_data[2][2+i].change_vertical_alignment('center')
+      sheet.insert_cell(2, 3+i, @project.start_date.year+i)
+      sheet.sheet_data[2][3+i].change_horizontal_alignment('center')
+      sheet.sheet_data[2][3+i].change_vertical_alignment('center')
 
-      sheet.sheet_data[1][2+i].change_border(:top, 'thin')
-      sheet.sheet_data[1][2+i].change_border(:left, 'thin')
-      sheet.sheet_data[1][2+i].change_border(:right, 'thin')
-      sheet.sheet_data[1][2+i].change_border(:bottom, 'thin')
+      sheet.sheet_data[1][3+i].change_border(:top, 'thin')
+      sheet.sheet_data[1][3+i].change_border(:left, 'thin')
+      sheet.sheet_data[1][3+i].change_border(:right, 'thin')
+      sheet.sheet_data[1][3+i].change_border(:bottom, 'thin')
 
-      sheet.sheet_data[2][2+i].change_border(:top, 'thin')
-      sheet.sheet_data[2][2+i].change_border(:left, 'thin')
-      sheet.sheet_data[2][2+i].change_border(:right, 'thin')
-      sheet.sheet_data[2][2+i].change_border(:bottom, 'thin')
+      sheet.sheet_data[2][3+i].change_border(:top, 'thin')
+      sheet.sheet_data[2][3+i].change_border(:left, 'thin')
+      sheet.sheet_data[2][3+i].change_border(:right, 'thin')
+      sheet.sheet_data[2][3+i].change_border(:bottom, 'thin')
 
-      sheet.insert_cell(3, 2+i, "")
+      sheet.insert_cell(3, 3+i, "")
 
     end
-    sheet.insert_cell(0, 3+count_year, "")
-    sheet.merge_cells(0, 0, 0, 3+count_year)
+    sheet.insert_cell(0, 4+count_year, "")
+    sheet.merge_cells(0, 0, 0, 4+count_year)
     sheet.sheet_data[0][ 0].change_horizontal_alignment('center')
     sheet.sheet_data[0][ 0].change_vertical_alignment('center')
 
-    sheet.insert_cell(1, 3+count_year, "Всего (млн. рублей)")
-    cell = sheet[1][3+count_year]
+    sheet.insert_cell(1, 4+count_year, "Всего (млн. рублей)")
+    cell = sheet[1][4+count_year]
     cell.change_text_wrap(true)
 
-    sheet.insert_cell(2, 3+count_year, "")
-    sheet.merge_cells(1, 3+count_year, 2, 3+count_year)
+    sheet.insert_cell(2, 4+count_year, "")
+    sheet.merge_cells(1, 4+count_year, 2, 4+count_year)
 
-    sheet.insert_cell(3, 3+count_year, "")
-    sheet.sheet_data[3][3+count_year].change_border(:right, 'thin')
-    sheet.merge_cells(3, 1, 3, 3+count_year)
+    sheet.insert_cell(3, 4+count_year, "")
+    sheet.sheet_data[3][4+count_year].change_border(:right, 'thin')
+    sheet.merge_cells(3, 0, 3, 4+count_year)
 
 
-    sheet.sheet_data[1][ 3+count_year].change_horizontal_alignment('center')
-    sheet.sheet_data[1][ 3+count_year].change_vertical_alignment('center')
+    sheet.sheet_data[1][ 4+count_year].change_horizontal_alignment('center')
+    sheet.sheet_data[1][ 4+count_year].change_vertical_alignment('center')
 
-    sheet.sheet_data[1][3+count_year].change_border(:top, 'thin')
-    sheet.sheet_data[1][3+count_year].change_border(:left, 'thin')
-    sheet.sheet_data[1][3+count_year].change_border(:right, 'thin')
-    sheet.sheet_data[1][3+count_year].change_border(:bottom, 'thin')
+    sheet.sheet_data[1][4+count_year].change_border(:top, 'thin')
+    sheet.sheet_data[1][4+count_year].change_border(:left, 'thin')
+    sheet.sheet_data[1][4+count_year].change_border(:right, 'thin')
+    sheet.sheet_data[1][4+count_year].change_border(:bottom, 'thin')
 
-    sheet.sheet_data[2][3+count_year].change_border(:top, 'thin')
-    sheet.sheet_data[2][3+count_year].change_border(:left, 'thin')
-    sheet.sheet_data[2][3+count_year].change_border(:right, 'thin')
-    sheet.sheet_data[2][3+count_year].change_border(:bottom, 'thin')
+    sheet.sheet_data[2][4+count_year].change_border(:top, 'thin')
+    sheet.sheet_data[2][4+count_year].change_border(:left, 'thin')
+    sheet.sheet_data[2][4+count_year].change_border(:right, 'thin')
+    sheet.sheet_data[2][4+count_year].change_border(:bottom, 'thin')
 
     budget_array = get_budjet_by_cost_type_and_year
 
@@ -373,12 +738,17 @@ class ReportChangeRequestController < ApplicationController
 
 
     if budget_array.count > 0
-        sheet[3][1].change_contents(budget_array[0]["national_project_result"])
+        national_project_goal = budget_array[0]["national_project_goal"].nil? ? "" : budget_array[0]["national_project_goal"]
+        sheet.insert_cell(3, 0, "Задача национального проекта: " + national_project_goal)
 
-        cell = sheet[3][1]
+        cell = sheet[3][0]
         cell.change_text_wrap(true)
-        sheet.sheet_data[3][1].change_horizontal_alignment('center')
-        sheet.sheet_data[3][1].change_vertical_alignment('center')
+        sheet.sheet_data[3][0].change_vertical_alignment('center')
+
+
+        sheet.sheet_data[3][0].change_border(:left, 'thin')
+
+
     end
 
     cost_types = CostType.all
@@ -394,27 +764,27 @@ class ReportChangeRequestController < ApplicationController
       mapYearTarget = {}
       mapCostTypeTarget = {}
       cost_types.each_with_index do |cost_type, j|
-        punkt = "1." + count_target.to_s + "." + count_cost_type.to_s + "."
 
-        sheet.insert_cell(5+j+m, 0, punkt)
-        sheet.sheet_data[5+j+m][0].change_horizontal_alignment('center')
-        sheet.sheet_data[5+j+m][0].change_vertical_alignment('center')
-
-        sheet.sheet_data[5+j+m][0].change_border(:top, 'thin')
-        sheet.sheet_data[5+j+m][0].change_border(:left, 'thin')
-        sheet.sheet_data[5+j+m][0].change_border(:right, 'thin')
-        sheet.sheet_data[5+j+m][0].change_border(:bottom, 'thin')
-
-        sheet.insert_cell(5+j+m, 1, cost_type.name)
-
-        sheet.sheet_data[5+j+m][1].change_vertical_alignment('center')
-
-        sheet.sheet_data[5+j+m][1].change_border(:top, 'thin')
-        sheet.sheet_data[5+j+m][1].change_border(:left, 'thin')
-        sheet.sheet_data[5+j+m][1].change_border(:right, 'thin')
-        sheet.sheet_data[5+j+m][1].change_border(:bottom, 'thin')
-        cell = sheet[5+j+m][1]
-        cell.change_text_wrap(true)
+        #
+        # sheet.insert_cell(5+j+m, 0, "")
+        # sheet.sheet_data[5+j+m][0].change_horizontal_alignment('center')
+        # sheet.sheet_data[5+j+m][0].change_vertical_alignment('center')
+        #
+        # sheet.sheet_data[5+j+m][0].change_border(:top, 'thin')
+        # sheet.sheet_data[5+j+m][0].change_border(:left, 'thin')
+        # sheet.sheet_data[5+j+m][0].change_border(:right, 'thin')
+        # sheet.sheet_data[5+j+m][0].change_border(:bottom, 'thin')
+        #
+        # sheet.insert_cell(5+j+m, 2, cost_type.name)
+        #
+        # sheet.sheet_data[5+j+m][2].change_vertical_alignment('center')
+        #
+        # sheet.sheet_data[5+j+m][2].change_border(:top, 'thin')
+        # sheet.sheet_data[5+j+m][2].change_border(:left, 'thin')
+        # sheet.sheet_data[5+j+m][2].change_border(:right, 'thin')
+        # sheet.sheet_data[5+j+m][2].change_border(:bottom, 'thin')
+        # cell = sheet[5+j+m][2]
+        # cell.change_text_wrap(true)
 
 
         for k in 0..count_year
@@ -439,33 +809,33 @@ class ReportChangeRequestController < ApplicationController
           array[j][k] = value+old_value_array
 
 
-          sheet.insert_cell(5+j+m, 2+k, '%.2f' %(value/1000000))
-          sheet.sheet_data[5+j+m][2+k].change_horizontal_alignment('center')
-          sheet.sheet_data[5+j+m][2+k].change_vertical_alignment('center')
-
-          sheet.sheet_data[5+j+m][2+k].change_border(:top, 'thin')
-          sheet.sheet_data[5+j+m][2+k].change_border(:left, 'thin')
-          sheet.sheet_data[5+j+m][2+k].change_border(:right, 'thin')
-          sheet.sheet_data[5+j+m][2+k].change_border(:bottom, 'thin')
+          # sheet.insert_cell(5+j+m, 3+k, '%.2f' %(value/1000000))
+          # sheet.sheet_data[5+j+m][3+k].change_horizontal_alignment('center')
+          # sheet.sheet_data[5+j+m][3+k].change_vertical_alignment('center')
+          #
+          # sheet.sheet_data[5+j+m][3+k].change_border(:top, 'thin')
+          # sheet.sheet_data[5+j+m][3+k].change_border(:left, 'thin')
+          # sheet.sheet_data[5+j+m][3+k].change_border(:right, 'thin')
+          # sheet.sheet_data[5+j+m][3+k].change_border(:bottom, 'thin')
 
         end
 
         sum_value_type_cost = mapCostTypeTarget[cost_type.id] == nil ? 0 : mapCostTypeTarget[cost_type.id]
-        sheet.insert_cell(5+j+m, count_year+3, '%.2f' %(sum_value_type_cost/1000000))
-        sheet.sheet_data[5+j+m][count_year+3].change_horizontal_alignment('center')
-        sheet.sheet_data[5+j+m][count_year+3].change_vertical_alignment('center')
+        # sheet.insert_cell(5+j+m, count_year+4, '%.2f' %(sum_value_type_cost/1000000))
+        # sheet.sheet_data[5+j+m][count_year+4].change_horizontal_alignment('center')
+        # sheet.sheet_data[5+j+m][count_year+4].change_vertical_alignment('center')
+        #
+        # sheet.sheet_data[5+j+m][count_year+4].change_border(:top, 'thin')
+        # sheet.sheet_data[5+j+m][count_year+4].change_border(:left, 'thin')
+        # sheet.sheet_data[5+j+m][count_year+4].change_border(:right, 'thin')
+        # sheet.sheet_data[5+j+m][count_year+4].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[5+j+m][count_year+3].change_border(:top, 'thin')
-        sheet.sheet_data[5+j+m][count_year+3].change_border(:left, 'thin')
-        sheet.sheet_data[5+j+m][count_year+3].change_border(:right, 'thin')
-        sheet.sheet_data[5+j+m][count_year+3].change_border(:bottom, 'thin')
 
-
-        count_cost_type += 1
+        #count_cost_type += 1
       end
 
-      punkt = "1." + count_target.to_s + "."
-      sheet.insert_cell(4+m, 0, punkt)
+
+      sheet.insert_cell(4+m, 0, "")
       sheet.sheet_data[4+m][0].change_horizontal_alignment('center')
       sheet.sheet_data[4+m][0].change_vertical_alignment('center')
 
@@ -475,67 +845,174 @@ class ReportChangeRequestController < ApplicationController
       sheet.sheet_data[4+m][0].change_border(:bottom, 'thin')
 
 
-      sheet.insert_cell(4+m, 1, target.name)
-      sheet.sheet_data[4+m][1].change_vertical_alignment('center')
+      sheet.insert_cell(4+m, 2, target.name)
+      sheet.sheet_data[4+m][2].change_vertical_alignment('center')
 
-      sheet.sheet_data[4+m][1].change_border(:top, 'thin')
-      sheet.sheet_data[4+m][1].change_border(:left, 'thin')
-      sheet.sheet_data[4+m][1].change_border(:right, 'thin')
-      sheet.sheet_data[4+m][1].change_border(:bottom, 'thin')
-      cell = sheet[4+m][1]
+      sheet.sheet_data[4+m][2].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][2].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][2].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][2].change_border(:bottom, 'thin')
+      cell = sheet[4+m][2]
       cell.change_text_wrap(true)
 
 
       sum_value_target = 0
       for n in 0..count_year
          value_target =  mapYearTarget[@project.start_date.year+n] == nil ? 0 : mapYearTarget[@project.start_date.year+n]
-         sheet.insert_cell(4+m, n+2, '%.2f' %(value_target/1000000))
+         sheet.insert_cell(4+m, n+3, '%.2f' %(value_target/1000000))
 
-         sheet.sheet_data[4+m][n+2].change_horizontal_alignment('center')
-         sheet.sheet_data[4+m][n+2].change_vertical_alignment('center')
+         sheet.sheet_data[4+m][n+3].change_horizontal_alignment('center')
+         sheet.sheet_data[4+m][n+3].change_vertical_alignment('center')
 
-         sheet.sheet_data[4+m][n+2].change_border(:top, 'thin')
-         sheet.sheet_data[4+m][n+2].change_border(:left, 'thin')
-         sheet.sheet_data[4+m][n+2].change_border(:right, 'thin')
-         sheet.sheet_data[4+m][n+2].change_border(:bottom, 'thin')
+         sheet.sheet_data[4+m][n+3].change_border(:top, 'thin')
+         sheet.sheet_data[4+m][n+3].change_border(:left, 'thin')
+         sheet.sheet_data[4+m][n+3].change_border(:right, 'thin')
+         sheet.sheet_data[4+m][n+3].change_border(:bottom, 'thin')
 
 
          sum_value_target += value_target
       end
-      sheet.insert_cell(4+m, count_year+3, '%.2f' %(sum_value_target/1000000))
+      sheet.insert_cell(4+m, count_year+4, '%.2f' %(sum_value_target/1000000))
 
-      sheet.sheet_data[4+m][count_year+3].change_horizontal_alignment('center')
-      sheet.sheet_data[4+m][count_year+3].change_vertical_alignment('center')
+      sheet.sheet_data[4+m][count_year+4].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][count_year+4].change_vertical_alignment('center')
 
-      sheet.sheet_data[4+m][count_year+3].change_border(:top, 'thin')
-      sheet.sheet_data[4+m][count_year+3].change_border(:left, 'thin')
-      sheet.sheet_data[4+m][count_year+3].change_border(:right, 'thin')
-      sheet.sheet_data[4+m][count_year+3].change_border(:bottom, 'thin')
+      sheet.sheet_data[4+m][count_year+4].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][count_year+4].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][count_year+4].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][count_year+4].change_border(:bottom, 'thin')
 
       m += count_cost_type
     end
 
-      mapYear = {}
+    sheet.merge_cells(4, 0, 3+m, 0)
+    sheet.merge_cells(4, 1, 3+m, 1)
+
+    sheet.insert_cell(4, 0, "1")
+    sheet.insert_cell(4, 1, "Действующая редакция")
+
+    sheet.sheet_data[4][0].change_border(:top, 'thin')
+    sheet.sheet_data[4][0].change_border(:left, 'thin')
+    sheet.sheet_data[4][0].change_border(:right, 'thin')
+    sheet.sheet_data[4][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[4][1].change_border(:top, 'thin')
+    sheet.sheet_data[4][1].change_border(:left, 'thin')
+    sheet.sheet_data[4][1].change_border(:right, 'thin')
+    sheet.sheet_data[4][1].change_border(:bottom, 'thin')
+
+
+    sheet.sheet_data[4][0].change_horizontal_alignment('center')
+    sheet.sheet_data[4][0].change_vertical_alignment('center')
+    sheet.sheet_data[4][1].change_horizontal_alignment('center')
+    sheet.sheet_data[4][1].change_vertical_alignment('center')
+    sheet[4][1].change_text_wrap(true)
+
+
+
+    start_index = 4+m
+    targets.each_with_index do |target, i|
+      if id_target != target["id"].to_i
+        count_target += 1
+      end
+      count_cost_type = 1
+
+
+      sheet.insert_cell(4+m, 0, "")
+      sheet.sheet_data[4+m][0].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][0].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][0].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][0].change_border(:bottom, 'thin')
+
+
+      sheet.insert_cell(4+m, 2, target.name)
+      sheet.sheet_data[4+m][2].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][2].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][2].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][2].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][2].change_border(:bottom, 'thin')
+      cell = sheet[4+m][2]
+      cell.change_text_wrap(true)
+
+      for n in 0..count_year
+
+        sheet.insert_cell(4+m, n+3, "")
+
+        sheet.sheet_data[4+m][n+3].change_horizontal_alignment('center')
+        sheet.sheet_data[4+m][n+3].change_vertical_alignment('center')
+
+        sheet.sheet_data[4+m][n+3].change_border(:top, 'thin')
+        sheet.sheet_data[4+m][n+3].change_border(:left, 'thin')
+        sheet.sheet_data[4+m][n+3].change_border(:right, 'thin')
+        sheet.sheet_data[4+m][n+3].change_border(:bottom, 'thin')
+
+
+      end
+      sheet.insert_cell(4+m, count_year+4, "")
+
+      sheet.sheet_data[4+m][count_year+4].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][count_year+4].change_vertical_alignment('center')
+
+      sheet.sheet_data[4+m][count_year+4].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][count_year+4].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][count_year+4].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][count_year+4].change_border(:bottom, 'thin')
+
+      m += count_cost_type
+    end
+
+    sheet.merge_cells(start_index, 0, 3+m, 0)
+    sheet.merge_cells(start_index, 1, 3+m, 1)
+
+    sheet.insert_cell(start_index, 0, "")
+    sheet.insert_cell(start_index, 1, "Новая редакция")
+
+    sheet.sheet_data[start_index][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index][1].change_border(:top, 'thin')
+    sheet.sheet_data[start_index][1].change_border(:left, 'thin')
+    sheet.sheet_data[start_index][1].change_border(:right, 'thin')
+    sheet.sheet_data[start_index][1].change_border(:bottom, 'thin')
+
+
+    sheet.sheet_data[start_index][0].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index][0].change_vertical_alignment('center')
+    sheet.sheet_data[start_index][1].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index][1].change_vertical_alignment('center')
+    sheet[start_index][1].change_text_wrap(true)
+
+
+    start_index = 5+m
+
+
+    mapYear = {}
 
     cost_types.each_with_index do |cost_type, j|
 
-      sheet.insert_cell(5+j+m, 0, cost_type.name)
-      sheet.sheet_data[5+j+m][0].change_vertical_alignment('center')
-      sheet.insert_cell(5+j+m, 1, "")
-      sheet.merge_cells(5+j+m, 0, 5+j+m, 1)
+      sheet.insert_cell(start_index+j, 0, "")
+      sheet.sheet_data[start_index+j][0].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j][0].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j][0].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j][0].change_border(:bottom, 'thin')
 
-      sheet.sheet_data[5+j+m][0].change_border(:top, 'thin')
-      sheet.sheet_data[5+j+m][0].change_border(:left, 'thin')
-      sheet.sheet_data[5+j+m][0].change_border(:right, 'thin')
-      sheet.sheet_data[5+j+m][0].change_border(:bottom, 'thin')
+      sheet.insert_cell(start_index+j, 2, cost_type.name)
+      sheet.sheet_data[start_index+j][2].change_vertical_alignment('center')
 
-      sheet.sheet_data[5+j+m][1].change_border(:top, 'thin')
-      sheet.sheet_data[5+j+m][1].change_border(:left, 'thin')
-      sheet.sheet_data[5+j+m][1].change_border(:right, 'thin')
-      sheet.sheet_data[5+j+m][1].change_border(:bottom, 'thin')
+      sheet.sheet_data[start_index+j][2].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j][2].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j][2].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j][2].change_border(:bottom, 'thin')
 
-      cell = sheet[5+j+m][0]
+      cell = sheet[start_index+j][2]
       cell.change_text_wrap(true)
+
 
 
       sum_year = 0
@@ -546,32 +1023,54 @@ class ReportChangeRequestController < ApplicationController
         old_value_year = mapYear[@project.start_date.year+k] == nil ? 0 : mapYear[@project.start_date.year+k]
         mapYear[@project.start_date.year+k] = sum+old_value_year
 
-        sheet.insert_cell(5+j+m, k+2, '%.2f' %(sum/1000000))
-        sheet.sheet_data[5+j+m][k+2].change_horizontal_alignment('center')
-        sheet.sheet_data[5+j+m][k+2].change_vertical_alignment('center')
+        sheet.insert_cell(start_index+j, k+3, '%.2f' %(sum/1000000))
+        sheet.sheet_data[start_index+j][k+3].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j][k+3].change_vertical_alignment('center')
 
-        sheet.sheet_data[5+j+m][k+2].change_border(:top, 'thin')
-        sheet.sheet_data[5+j+m][k+2].change_border(:left, 'thin')
-        sheet.sheet_data[5+j+m][k+2].change_border(:right, 'thin')
-        sheet.sheet_data[5+j+m][k+2].change_border(:bottom, 'thin')
+        sheet.sheet_data[start_index+j][k+3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j][k+3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j][k+3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j][k+3].change_border(:bottom, 'thin')
       end
 
 
-      sheet.insert_cell(5+j+m, count_year+3, '%.2f' %(sum_year/1000000))
-      sheet.sheet_data[5+j+m][count_year+3].change_horizontal_alignment('center')
-      sheet.sheet_data[5+j+m][count_year+3].change_vertical_alignment('center')
-      sheet.sheet_data[5+j+m][count_year+3].change_border(:top, 'thin')
-      sheet.sheet_data[5+j+m][count_year+3].change_border(:left, 'thin')
-      sheet.sheet_data[5+j+m][count_year+3].change_border(:right, 'thin')
-      sheet.sheet_data[5+j+m][count_year+3].change_border(:bottom, 'thin')
+      sheet.insert_cell(start_index+j, count_year+4, '%.2f' %(sum_year/1000000))
+      sheet.sheet_data[start_index+j][count_year+4].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index+j][count_year+4].change_vertical_alignment('center')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:bottom, 'thin')
 
     end
+
+    sheet.merge_cells(start_index, 0, start_index+cost_types.count-1, 0)
+    sheet.merge_cells(start_index, 1, start_index+cost_types.count-1, 1)
+
+
+    sheet[start_index][0].change_contents("2")
+    sheet.insert_cell(start_index, 1, "Действующая редакция")
+
+
+
+    sheet.sheet_data[start_index][1].change_border(:top, 'thin')
+    sheet.sheet_data[start_index][1].change_border(:left, 'thin')
+    sheet.sheet_data[start_index][1].change_border(:right, 'thin')
+    sheet.sheet_data[start_index][1].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index][0].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index][0].change_vertical_alignment('center')
+    sheet.sheet_data[start_index][1].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index][1].change_vertical_alignment('center')
+    sheet[start_index][1].change_text_wrap(true)
+
 
 
     sheet.insert_cell(4+m, 0, "Всего по региональному проекту, в том числе:")
     sheet.sheet_data[4+m][0].change_vertical_alignment('center')
     sheet.insert_cell(4+m, 1, "")
-    sheet.merge_cells(4+m, 0, 4+m, 1)
+    sheet.insert_cell(4+m, 2, "")
+    sheet.merge_cells(4+m, 0, 4+m, 2)
 
     sheet.sheet_data[4+m][0].change_border(:top, 'thin')
     sheet.sheet_data[4+m][0].change_border(:left, 'thin')
@@ -583,34 +1082,229 @@ class ReportChangeRequestController < ApplicationController
     sheet.sheet_data[4+m][1].change_border(:right, 'thin')
     sheet.sheet_data[4+m][1].change_border(:bottom, 'thin')
 
+    sheet.sheet_data[4+m][2].change_border(:top, 'thin')
+    sheet.sheet_data[4+m][2].change_border(:left, 'thin')
+    sheet.sheet_data[4+m][2].change_border(:right, 'thin')
+    sheet.sheet_data[4+m][2].change_border(:bottom, 'thin')
+
     cell = sheet[4+m][0]
     cell.change_text_wrap(true)
 
     sum_value = 0
     for n in 0..count_year
       value =  mapYear[@project.start_date.year+n] == nil ? 0 : mapYear[@project.start_date.year+n]
-      sheet.insert_cell(4+m, n+2, '%.2f' %(value/1000000))
+      sheet.insert_cell(4+m, n+3, '%.2f' %(value/1000000))
 
-      sheet.sheet_data[4+m][n+2].change_horizontal_alignment('center')
-      sheet.sheet_data[4+m][n+2].change_vertical_alignment('center')
+      sheet.sheet_data[4+m][n+3].change_horizontal_alignment('center')
+      sheet.sheet_data[4+m][n+3].change_vertical_alignment('center')
 
-      sheet.sheet_data[4+m][n+2].change_border(:top, 'thin')
-      sheet.sheet_data[4+m][n+2].change_border(:left, 'thin')
-      sheet.sheet_data[4+m][n+2].change_border(:right, 'thin')
-      sheet.sheet_data[4+m][n+2].change_border(:bottom, 'thin')
+      sheet.sheet_data[4+m][n+3].change_border(:top, 'thin')
+      sheet.sheet_data[4+m][n+3].change_border(:left, 'thin')
+      sheet.sheet_data[4+m][n+3].change_border(:right, 'thin')
+      sheet.sheet_data[4+m][n+3].change_border(:bottom, 'thin')
 
 
       sum_value += value
     end
-    sheet.insert_cell(4+m, count_year+3, '%.2f' %(sum_value/1000000))
+    sheet.insert_cell(4+m, count_year+4, '%.2f' %(sum_value/1000000))
 
-    sheet.sheet_data[4+m][count_year+3].change_horizontal_alignment('center')
-    sheet.sheet_data[4+m][count_year+3].change_vertical_alignment('center')
+    sheet.sheet_data[4+m][count_year+4].change_horizontal_alignment('center')
+    sheet.sheet_data[4+m][count_year+4].change_vertical_alignment('center')
 
-    sheet.sheet_data[4+m][count_year+3].change_border(:top, 'thin')
-    sheet.sheet_data[4+m][count_year+3].change_border(:left, 'thin')
-    sheet.sheet_data[4+m][count_year+3].change_border(:right, 'thin')
-    sheet.sheet_data[4+m][count_year+3].change_border(:bottom, 'thin')
+    sheet.sheet_data[4+m][count_year+4].change_border(:top, 'thin')
+    sheet.sheet_data[4+m][count_year+4].change_border(:left, 'thin')
+    sheet.sheet_data[4+m][count_year+4].change_border(:right, 'thin')
+    sheet.sheet_data[4+m][count_year+4].change_border(:bottom, 'thin')
+
+
+
+
+    start_index = cost_types.count+start_index+1
+
+
+    mapYear = {}
+
+    cost_types.each_with_index do |cost_type, j|
+      sheet.insert_cell(start_index+j, 0, "")
+      sheet.sheet_data[start_index+j][0].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j][0].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j][0].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j][0].change_border(:bottom, 'thin')
+
+
+      sheet.insert_cell(start_index+j, 2, cost_type.name)
+      sheet.sheet_data[start_index+j][2].change_vertical_alignment('center')
+
+
+      sheet.sheet_data[start_index+j][2].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j][2].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j][2].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j][2].change_border(:bottom, 'thin')
+
+      cell = sheet[start_index+j][2]
+      cell.change_text_wrap(true)
+
+
+      sum_year = 0
+      for k in 0..count_year
+        sum = array[j][k] == nil ? 0 : array[j][k]
+        sum_year += sum
+
+        old_value_year = mapYear[@project.start_date.year+k] == nil ? 0 : mapYear[@project.start_date.year+k]
+        mapYear[@project.start_date.year+k] = sum+old_value_year
+
+        sheet.insert_cell(start_index+j, k+3, "")
+        sheet.sheet_data[start_index+j][k+3].change_horizontal_alignment('center')
+        sheet.sheet_data[start_index+j][k+3].change_vertical_alignment('center')
+
+        sheet.sheet_data[start_index+j][k+3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+j][k+3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+j][k+3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+j][k+3].change_border(:bottom, 'thin')
+      end
+
+
+      sheet.insert_cell(start_index+j, count_year+4, "")
+      sheet.sheet_data[start_index+j][count_year+4].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index+j][count_year+4].change_vertical_alignment('center')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+j][count_year+4].change_border(:bottom, 'thin')
+
+    end
+
+    sheet.merge_cells(start_index, 0, start_index+cost_types.count-1, 0)
+    sheet.merge_cells(start_index, 1, start_index+cost_types.count-1, 1)
+
+    sheet.insert_cell(start_index+cost_types.count-1, 0, "")
+    sheet.insert_cell(start_index+cost_types.count-1, 1, "")
+    sheet.sheet_data[start_index+cost_types.count-1][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+cost_types.count-1][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+cost_types.count-1][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+cost_types.count-1][0].change_border(:bottom, 'thin')
+    sheet.sheet_data[start_index+cost_types.count-1][1].change_border(:bottom, 'thin')
+
+
+    sheet.insert_cell(start_index, 1, "Новая редакция")
+
+
+    sheet.sheet_data[start_index][1].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index][1].change_vertical_alignment('center')
+    sheet[start_index][1].change_text_wrap(true)
+
+
+
+    sheet.insert_cell(start_index-1, 0, "Всего по региональному проекту, в том числе:")
+    sheet.sheet_data[start_index-1][0].change_vertical_alignment('center')
+    sheet.insert_cell(start_index-1, 1, "")
+    sheet.insert_cell(start_index-1, 2, "")
+    sheet.merge_cells(start_index-1, 0, start_index-1, 2)
+
+    sheet.sheet_data[start_index-1][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index-1][1].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1][1].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1][1].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1][1].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index-1][2].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1][2].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1][2].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1][2].change_border(:bottom, 'thin')
+
+    cell = sheet[start_index-1][0]
+    cell.change_text_wrap(true)
+
+    sum_value = 0
+    for n in 0..count_year
+      value =  mapYear[@project.start_date.year+n] == nil ? 0 : mapYear[@project.start_date.year+n]
+      sheet.insert_cell(start_index-1, n+3, "")
+
+      sheet.sheet_data[start_index-1][n+3].change_horizontal_alignment('center')
+      sheet.sheet_data[start_index-1][n+3].change_vertical_alignment('center')
+
+      sheet.sheet_data[start_index-1][n+3].change_border(:top, 'thin')
+      sheet.sheet_data[start_index-1][n+3].change_border(:left, 'thin')
+      sheet.sheet_data[start_index-1][n+3].change_border(:right, 'thin')
+      sheet.sheet_data[start_index-1][n+3].change_border(:bottom, 'thin')
+
+
+      sum_value += value
+    end
+    sheet.insert_cell(start_index-1, count_year+4, "")
+
+    sheet.sheet_data[start_index-1][count_year+4].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index-1][count_year+4].change_vertical_alignment('center')
+
+    sheet.sheet_data[start_index-1][count_year+4].change_border(:top, 'thin')
+    sheet.sheet_data[start_index-1][count_year+4].change_border(:left, 'thin')
+    sheet.sheet_data[start_index-1][count_year+4].change_border(:right, 'thin')
+    sheet.sheet_data[start_index-1][count_year+4].change_border(:bottom, 'thin')
+
+
+
+
+
+    start_index = start_index+cost_types.count+5
+    sheet.insert_cell(start_index, 0, "Обоснование и анализ изменений")
+    sheet.merge_cells(start_index, 0, start_index, 8)
+    sheet.sheet_data[start_index][0].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index][0].change_vertical_alignment('center')
+
+    sheet.insert_cell(start_index+1, 0, "Сведения о предыдущих запросах на изменение")
+    sheet.insert_cell(start_index+2, 0, "Причины и обоснование необходимости изменений")
+    sheet.insert_cell(start_index+3, 0, "Анализ изменений и их влияния на параметры проекта и иные проекты")
+
+    sheet.merge_cells(start_index+1, 0, start_index+1, 2)
+    sheet.merge_cells(start_index+2, 0, start_index+2, 2)
+    sheet.merge_cells(start_index+3, 0, start_index+3, 2)
+
+    sheet[start_index+1][0].change_text_wrap(true)
+    sheet[start_index+2][0].change_text_wrap(true)
+    sheet[start_index+3][0].change_text_wrap(true)
+
+    sheet.merge_cells(start_index+1, 3, start_index+1, 9)
+    sheet.merge_cells(start_index+2, 3, start_index+2, 9)
+    sheet.merge_cells(start_index+3, 3, start_index+3, 9)
+
+    sheet.sheet_data[start_index+1][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+1][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+1][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+1][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+2][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+2][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+2][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+2][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+3][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+3][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+3][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+3][0].change_border(:bottom, 'thin')
+
+    for i in 1..9
+      sheet.insert_cell(start_index+1, i, "")
+      sheet.sheet_data[start_index+1][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+2, i, "")
+      sheet.sheet_data[start_index+2][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+3, i, "")
+      sheet.sheet_data[start_index+3][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:bottom, 'thin')
+    end
 
 
   end
@@ -620,344 +1314,10 @@ class ReportChangeRequestController < ApplicationController
 
     sheet = @workbook['Участники']
 
-    str_ids = get_str_ids_result_members
-
-    @curatorsProject.each_with_index do |user, i|
-      member_info = get_member_info(user)
-      direct_manager = User.find_by(id: user.direct_manager_id)
-      direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
-      sheet.insert_cell(2+i, 0, (i+1).to_s)
-      sheet.insert_cell(2+i, 1, member_info["role"])
-      sheet.insert_cell(2+i, 2, user.name(:lastname_f_p))
-      sheet.insert_cell(2+i, 3, member_info["position"])
-      sheet.insert_cell(2+i, 4, direct__manager_fio)
-      sheet.insert_cell(2+i, 5, member_info["busyness"].to_s)
-
-      str_ids = (str_ids =="" ? user.id.to_s : str_ids += ", "+user.id.to_s)
-
-      sheet.sheet_data[2+i][0].change_horizontal_alignment('center')
-      sheet.sheet_data[2+i][0].change_vertical_alignment('center')
-
-      sheet.sheet_data[2+i][5].change_horizontal_alignment('center')
-      sheet.sheet_data[2+i][5].change_vertical_alignment('center')
-
-      sheet.sheet_data[2+i][0].change_border(:top, 'thin')
-      sheet.sheet_data[2+i][0].change_border(:left, 'thin')
-      sheet.sheet_data[2+i][0].change_border(:right, 'thin')
-      sheet.sheet_data[2+i][0].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i][1].change_border(:top, 'thin')
-      sheet.sheet_data[2+i][1].change_border(:left, 'thin')
-      sheet.sheet_data[2+i][1].change_border(:right, 'thin')
-      sheet.sheet_data[2+i][1].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i][2].change_border(:top, 'thin')
-      sheet.sheet_data[2+i][2].change_border(:left, 'thin')
-      sheet.sheet_data[2+i][2].change_border(:right, 'thin')
-      sheet.sheet_data[2+i][2].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i][3].change_border(:top, 'thin')
-      sheet.sheet_data[2+i][3].change_border(:left, 'thin')
-      sheet.sheet_data[2+i][3].change_border(:right, 'thin')
-      sheet.sheet_data[2+i][3].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i][4].change_border(:top, 'thin')
-      sheet.sheet_data[2+i][4].change_border(:left, 'thin')
-      sheet.sheet_data[2+i][4].change_border(:right, 'thin')
-      sheet.sheet_data[2+i][4].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i][5].change_border(:top, 'thin')
-      sheet.sheet_data[2+i][5].change_border(:left, 'thin')
-      sheet.sheet_data[2+i][5].change_border(:right, 'thin')
-      sheet.sheet_data[2+i][5].change_border(:bottom, 'thin')
-
-    end
-    countUser = @curatorsProject.count
-    @leadersProject.each_with_index do |user, i|
-
-      direct_manager = User.find_by(id: user.direct_manager_id)
-      direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
-
-      member_info = get_member_info(user)
-      sheet.insert_cell(2+i+countUser, 0, (i+1+countUser).to_s)
-      sheet.insert_cell(2+i+countUser, 1, member_info["role"])
-      sheet.insert_cell(2+i+countUser, 2, user.name(:lastname_f_p))
-      sheet.insert_cell(2+i+countUser, 3, member_info["position"])
-      sheet.insert_cell(2+i+countUser, 4, direct__manager_fio)
-      sheet.insert_cell(2+i+countUser, 5, member_info["busyness"].to_s)
-
-      str_ids += ", "+user.id.to_s
-
-      sheet.sheet_data[2+i+countUser][5].change_horizontal_alignment('center')
-      sheet.sheet_data[2+i+countUser][5].change_vertical_alignment('center')
-
-      sheet.sheet_data[2+i+countUser][0].change_horizontal_alignment('center')
-      sheet.sheet_data[2+i+countUser][0].change_vertical_alignment('center')
-
-      sheet.sheet_data[2+i+countUser,][0].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser,][0].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser,][0].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser,][0].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser,][1].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser,][1].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser,][1].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser,][1].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser,][2].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser,][2].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser,][2].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser,][2].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser,][3].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser,][3].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser,][3].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser,][3].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser,][4].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser,][4].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser,][4].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser,][4].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser,][5].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser,][5].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser,][5].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser,][5].change_border(:bottom, 'thin')
-
-    end
-    countUser += @leadersProject.count
-    @adminsProject.each_with_index do |user, i|
-
-      direct_manager = User.find_by(id: user.direct_manager_id)
-      direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
-
-      member_info = get_member_info(user)
-      sheet.insert_cell(2+i+countUser, 0, (i+1+countUser).to_s)
-      sheet.insert_cell(2+i+countUser, 1, member_info["role"])
-      sheet.insert_cell(2+i+countUser, 2, user.name(:lastname_f_p))
-      sheet.insert_cell(2+i+countUser, 3, member_info["position"])
-      sheet.insert_cell(2+i+countUser, 4, direct_manager)
-      sheet.insert_cell(2+i+countUser, 5, member_info["busyness"].to_s)
-
-      str_ids += ", "+user.id.to_s
-
-
-      sheet.sheet_data[2+i+countUser][0].change_horizontal_alignment('center')
-      sheet.sheet_data[2+i+countUser][0].change_vertical_alignment('center')
-
-      sheet.sheet_data[2+i+countUser][5].change_horizontal_alignment('center')
-      sheet.sheet_data[2+i+countUser][5].change_vertical_alignment('center')
-
-      sheet.sheet_data[2+i+countUser][0].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser][0].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser][0].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser][0].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser][1].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser][1].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser][1].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser][1].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser][2].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser][2].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser][2].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser][2].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser][3].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser][3].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser][3].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser][3].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser][4].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser][4].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser][4].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser][4].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[2+i+countUser][5].change_border(:top, 'thin')
-      sheet.sheet_data[2+i+countUser][5].change_border(:left, 'thin')
-      sheet.sheet_data[2+i+countUser][5].change_border(:right, 'thin')
-      sheet.sheet_data[2+i+countUser][5].change_border(:bottom, 'thin')
-
-    end
-
-    start_position = countUser + 4
-    sheet.insert_cell(start_position-1, 0, "Общие организационные мероприятия по региональному проекту")
-    sheet.insert_cell(start_position-1, 1, "")
-    sheet.insert_cell(start_position-1, 2, "")
-    sheet.insert_cell(start_position-1, 3, "")
-    sheet.insert_cell(start_position-1, 4, "")
-    sheet.insert_cell(start_position-1, 5, "")
-    sheet.merge_cells(start_position-1, 0, start_position-1, 5)
-    sheet.sheet_data[start_position-1][0].change_border(:top, 'thin')
-    sheet.sheet_data[start_position-1][0].change_border(:left, 'thin')
-    sheet.sheet_data[start_position-1][0].change_border(:right, 'thin')
-    sheet.sheet_data[start_position-1][0].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position-1][1].change_border(:top, 'thin')
-    sheet.sheet_data[start_position-1][1].change_border(:left, 'thin')
-    sheet.sheet_data[start_position-1][1].change_border(:right, 'thin')
-    sheet.sheet_data[start_position-1][1].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position-1][2].change_border(:top, 'thin')
-    sheet.sheet_data[start_position-1][2].change_border(:left, 'thin')
-    sheet.sheet_data[start_position-1][2].change_border(:right, 'thin')
-    sheet.sheet_data[start_position-1][2].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position-1][3].change_border(:top, 'thin')
-    sheet.sheet_data[start_position-1][3].change_border(:left, 'thin')
-    sheet.sheet_data[start_position-1][3].change_border(:right, 'thin')
-    sheet.sheet_data[start_position-1][3].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position-1][4].change_border(:top, 'thin')
-    sheet.sheet_data[start_position-1][4].change_border(:left, 'thin')
-    sheet.sheet_data[start_position-1][4].change_border(:right, 'thin')
-    sheet.sheet_data[start_position-1][4].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position-1][5].change_border(:top, 'thin')
-    sheet.sheet_data[start_position-1][5].change_border(:left, 'thin')
-    sheet.sheet_data[start_position-1][5].change_border(:right, 'thin')
-    sheet.sheet_data[start_position-1][5].change_border(:bottom, 'thin')
-
-
-    incriment = 0
-    decriment_result = 0
-    get_result_target.each do |result_target|
-      sheet.insert_cell(start_position+incriment, 0, result_target.name)
-      cell = sheet[start_position+incriment][0]
-      cell.change_text_wrap(true)
-      sheet.insert_cell(start_position+incriment, 1, "")
-      sheet.insert_cell(start_position+incriment, 2, "")
-      sheet.insert_cell(start_position+incriment, 3, "")
-      sheet.insert_cell(start_position+incriment, 4, "")
-      sheet.insert_cell(start_position+incriment, 5, "")
-      sheet.merge_cells(start_position+incriment, 0, start_position+incriment, 5)
-      sheet.sheet_data[start_position+incriment][0].change_border(:left, 'thin')
-      sheet.sheet_data[start_position+incriment][5].change_border(:right, 'thin')
-
-      result_members = get_result_member(result_target.id.to_s)
-
-      result_members.each do |result_member|
-
-        sheet.insert_cell(start_position+1+incriment, 0, (incriment+4-decriment_result).to_s)
-        role = result_member["role"]
-
-        sheet.insert_cell(start_position+1+incriment, 1, role)
-        user_id = result_member["user_id"]
-        str_ids += ", "+user_id.to_s
-        member = User.find_by(id: user_id)
-        direct_manager = User.find_by(id: member.direct_manager_id)
-        direct__manager_fio = direct_manager == nil ? "" : direct_manager.name(:lastname_f_p)
-
-        fio = member.name(:lastname_f_p)
-        sheet.insert_cell(start_position+1+incriment, 2, fio)
-        position = result_member["position"]
-        member_info = get_member_info(member)
-
-        sheet.insert_cell(start_position+1+incriment, 3, position)
-        sheet.insert_cell(start_position+1+incriment, 4, direct__manager_fio)
-        sheet.insert_cell(start_position+1+incriment, 5, member_info["busyness"].to_s)
-
-        sheet.sheet_data[start_position+1+incriment][5].change_horizontal_alignment('center')
-        sheet.sheet_data[start_position+1+incriment][5].change_vertical_alignment('center')
-
-      end
-      if (result_members.count == 0)
-        sheet.insert_cell(start_position+1+incriment, 0, (incriment+4-decriment_result).to_s)
-        sheet.insert_cell(start_position+1+incriment, 1, "")
-        sheet.insert_cell(start_position+1+incriment, 2, "")
-        sheet.insert_cell(start_position+1+incriment, 3, "")
-        sheet.insert_cell(start_position+1+incriment, 4, "")
-        sheet.insert_cell(start_position+1+incriment, 5, "")
-      end
-
-      sheet.sheet_data[start_position+1+incriment][0].change_horizontal_alignment('center')
-      sheet.sheet_data[start_position+1+incriment][0].change_vertical_alignment('center')
-
-      sheet.sheet_data[start_position+1+incriment][0].change_horizontal_alignment('center')
-      sheet.sheet_data[start_position+1+incriment][0].change_vertical_alignment('center')
-
-      sheet.sheet_data[start_position+1+incriment][0].change_border(:top, 'thin')
-      sheet.sheet_data[start_position+1+incriment][0].change_border(:left, 'thin')
-      sheet.sheet_data[start_position+1+incriment][0].change_border(:right, 'thin')
-      sheet.sheet_data[start_position+1+incriment][0].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[start_position+1+incriment][1].change_border(:top, 'thin')
-      sheet.sheet_data[start_position+1+incriment][1].change_border(:left, 'thin')
-      sheet.sheet_data[start_position+1+incriment][1].change_border(:right, 'thin')
-      sheet.sheet_data[start_position+1+incriment][1].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[start_position+1+incriment][2].change_border(:top, 'thin')
-      sheet.sheet_data[start_position+1+incriment][2].change_border(:left, 'thin')
-      sheet.sheet_data[start_position+1+incriment][2].change_border(:right, 'thin')
-      sheet.sheet_data[start_position+1+incriment][2].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[start_position+1+incriment][3].change_border(:top, 'thin')
-      sheet.sheet_data[start_position+1+incriment][3].change_border(:left, 'thin')
-      sheet.sheet_data[start_position+1+incriment][3].change_border(:right, 'thin')
-      sheet.sheet_data[start_position+1+incriment][3].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[start_position+1+incriment][4].change_border(:top, 'thin')
-      sheet.sheet_data[start_position+1+incriment][4].change_border(:left, 'thin')
-      sheet.sheet_data[start_position+1+incriment][4].change_border(:right, 'thin')
-      sheet.sheet_data[start_position+1+incriment][4].change_border(:bottom, 'thin')
-
-      sheet.sheet_data[start_position+1+incriment][5].change_border(:top, 'thin')
-      sheet.sheet_data[start_position+1+incriment][5].change_border(:left, 'thin')
-      sheet.sheet_data[start_position+1+incriment][5].change_border(:right, 'thin')
-      sheet.sheet_data[start_position+1+incriment][5].change_border(:bottom, 'thin')
-
-      incriment += 2
-      decriment_result += 1
-
-    end
-
-
-
-    sheet.insert_cell(start_position+incriment, 0, "")
-    sheet.insert_cell(start_position+incriment, 1, "")
-    sheet.insert_cell(start_position+incriment, 2, "")
-    sheet.insert_cell(start_position+incriment, 3, "")
-    sheet.insert_cell(start_position+incriment, 4, "")
-    sheet.insert_cell(start_position+incriment, 5, "")
-
-    sheet.sheet_data[start_position+incriment][0].change_horizontal_alignment('center')
-    sheet.sheet_data[start_position+incriment][0].change_vertical_alignment('center')
-
-
-    sheet.sheet_data[start_position+incriment][0].change_border(:top, 'thin')
-    sheet.sheet_data[start_position+incriment][0].change_border(:left, 'thin')
-    sheet.sheet_data[start_position+incriment][0].change_border(:right, 'thin')
-    sheet.sheet_data[start_position+incriment][0].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position+incriment][1].change_border(:top, 'thin')
-    sheet.sheet_data[start_position+incriment][1].change_border(:left, 'thin')
-    sheet.sheet_data[start_position+incriment][1].change_border(:right, 'thin')
-    sheet.sheet_data[start_position+incriment][1].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position+incriment][2].change_border(:top, 'thin')
-    sheet.sheet_data[start_position+incriment][2].change_border(:left, 'thin')
-    sheet.sheet_data[start_position+incriment][2].change_border(:right, 'thin')
-    sheet.sheet_data[start_position+incriment][2].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position+incriment][3].change_border(:top, 'thin')
-    sheet.sheet_data[start_position+incriment][3].change_border(:left, 'thin')
-    sheet.sheet_data[start_position+incriment][3].change_border(:right, 'thin')
-    sheet.sheet_data[start_position+incriment][3].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position+incriment][4].change_border(:top, 'thin')
-    sheet.sheet_data[start_position+incriment][4].change_border(:left, 'thin')
-    sheet.sheet_data[start_position+incriment][4].change_border(:right, 'thin')
-    sheet.sheet_data[start_position+incriment][4].change_border(:bottom, 'thin')
-
-    sheet.sheet_data[start_position+incriment][5].change_border(:top, 'thin')
-    sheet.sheet_data[start_position+incriment][5].change_border(:left, 'thin')
-    sheet.sheet_data[start_position+incriment][5].change_border(:right, 'thin')
-    sheet.sheet_data[start_position+incriment][5].change_border(:bottom, 'thin')
-
-
-
-
+    str_ids = "0"
+    start_position = 3
     decriment = 0
+    incriment = 0
     members = get_members(str_ids)
     members.each_with_index do |member, i|
 
@@ -971,56 +1331,141 @@ class ReportChangeRequestController < ApplicationController
         member_info["role"] == I18n.t(:default_role_project_office_manager)
         decriment += 1
       else
-        sheet.insert_cell(start_position+1+i-decriment+incriment, 0, (incriment+4-decriment_result-decriment+i).to_s)
-        sheet.insert_cell(start_position+1+i-decriment+incriment, 1, member_info["role"])
-        sheet.insert_cell(start_position+1+i+-decriment+incriment, 2, member.name(:lastname_f_p))
-        sheet.insert_cell(start_position+1+i+-decriment+incriment, 3, member_info["position"])
-        sheet.insert_cell(start_position+1+i+-decriment+incriment, 4, direct__manager_fio)
-        sheet.insert_cell(start_position+1+i+-decriment+incriment, 5, member_info["busyness"].to_s)
+        sheet.insert_cell(start_position+i-decriment+incriment, 0, (i+1-decriment).to_s)
+        sheet.insert_cell(start_position+i-decriment+incriment+1, 0, "")
+        sheet.merge_cells(start_position+i-decriment+incriment, 0, start_position+i-decriment+incriment+1, 0)
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][0].change_horizontal_alignment('center')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][0].change_vertical_alignment('center')
+        sheet.insert_cell(start_position+i-decriment+incriment, 1, "Действующая редакция")
+        sheet[start_position+i-decriment+incriment][1].change_text_wrap(true)
+        sheet.insert_cell(start_position+i-decriment+incriment+1, 1, "Новая редакция")
+        sheet[start_position+i-decriment+incriment+1][1].change_text_wrap(true)
+        sheet.insert_cell(start_position+i-decriment+incriment, 2, member_info["role"])
+        sheet[start_position+i-decriment+incriment][2].change_text_wrap(true)
+        sheet.insert_cell(start_position+i-decriment+incriment+1, 2, "")
+        sheet[start_position+i-decriment+incriment+1][2].change_text_wrap(true)
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][5].change_horizontal_alignment('center')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][5].change_vertical_alignment('center')
+        sheet.insert_cell(start_position+i+-decriment+incriment, 3, member.name(:lastname_f_p))
+        sheet.insert_cell(start_position+i+-decriment+incriment+1, 3, "")
+        sheet.insert_cell(start_position+i+-decriment+incriment, 4, member_info["position"])
+        sheet[start_position+i-decriment+incriment][4].change_text_wrap(true)
+        sheet.insert_cell(start_position+i+-decriment+incriment+1, 4, "")
+        sheet[start_position+i-decriment+incriment+1][4].change_text_wrap(true)
+        sheet.insert_cell(start_position+i+-decriment+incriment, 5, direct__manager_fio)
+        sheet.insert_cell(start_position+i+-decriment+incriment+1, 5, "")
+        sheet.insert_cell(start_position+i+-decriment+incriment, 6, member_info["busyness"].to_s)
+        sheet.insert_cell(start_position+i+-decriment+incriment+1, 6, "")
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][0].change_border(:top, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][0].change_border(:left, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][0].change_border(:right, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][0].change_border(:bottom, 'thin')
+        for j in 0..1
+            sheet.sheet_data[start_position+i-decriment+incriment+j][0].change_horizontal_alignment('center')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][0].change_vertical_alignment('center')
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][1].change_border(:top, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][1].change_border(:left, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][1].change_border(:right, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][1].change_border(:bottom, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][6].change_horizontal_alignment('center')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][6].change_vertical_alignment('center')
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][2].change_border(:top, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][2].change_border(:left, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][2].change_border(:right, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][2].change_border(:bottom, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][0].change_border(:top, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][0].change_border(:left, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][0].change_border(:right, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][0].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][3].change_border(:top, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][3].change_border(:left, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][3].change_border(:right, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][3].change_border(:bottom, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][1].change_border(:top, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][1].change_border(:left, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][1].change_border(:right, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][1].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][4].change_border(:top, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][4].change_border(:left, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][4].change_border(:right, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][4].change_border(:bottom, 'thin')
 
-        sheet.sheet_data[start_position+1+i-decriment+incriment][5].change_border(:top, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][5].change_border(:left, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][5].change_border(:right, 'thin')
-        sheet.sheet_data[start_position+1+i-decriment+incriment][5].change_border(:bottom, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][2].change_border(:top, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][2].change_border(:left, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][2].change_border(:right, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][2].change_border(:bottom, 'thin')
 
+            sheet.sheet_data[start_position+i-decriment+incriment+j][3].change_border(:top, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][3].change_border(:left, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][3].change_border(:right, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][3].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_position+i-decriment+incriment+j][4].change_border(:top, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][4].change_border(:left, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][4].change_border(:right, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][4].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_position+i-decriment+incriment+j][5].change_border(:top, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][5].change_border(:left, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][5].change_border(:right, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][5].change_border(:bottom, 'thin')
+
+            sheet.sheet_data[start_position+i-decriment+incriment+j][6].change_border(:top, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][6].change_border(:left, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][6].change_border(:right, 'thin')
+            sheet.sheet_data[start_position+i-decriment+incriment+j][6].change_border(:bottom, 'thin')
+        end
+        incriment += 1
       end
+
     end
+
+
+    start_index = start_position+members.count-decriment+incriment+5
+    sheet.insert_cell(start_index, 0, "Обоснование и анализ изменений")
+    sheet.merge_cells(start_index, 0, start_index, 6)
+    sheet.sheet_data[start_index][0].change_horizontal_alignment('center')
+    sheet.sheet_data[start_index][0].change_vertical_alignment('center')
+
+    sheet.insert_cell(start_index+1, 0, "Сведения о предыдущих запросах на изменение")
+    sheet.insert_cell(start_index+2, 0, "Причины и обоснование необходимости изменений")
+    sheet.insert_cell(start_index+3, 0, "Анализ изменений и их влияния на параметры проекта и иные проекты")
+
+    sheet.merge_cells(start_index+1, 0, start_index+1, 2)
+    sheet.merge_cells(start_index+2, 0, start_index+2, 2)
+    sheet.merge_cells(start_index+3, 0, start_index+3, 2)
+
+    sheet[start_index+1][0].change_text_wrap(true)
+    sheet[start_index+2][0].change_text_wrap(true)
+    sheet[start_index+3][0].change_text_wrap(true)
+
+    sheet.merge_cells(start_index+1, 3, start_index+1, 6)
+    sheet.merge_cells(start_index+2, 3, start_index+2, 6)
+    sheet.merge_cells(start_index+3, 3, start_index+3, 6)
+
+    sheet.sheet_data[start_index+1][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+1][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+1][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+1][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+2][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+2][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+2][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+2][0].change_border(:bottom, 'thin')
+
+    sheet.sheet_data[start_index+3][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index+3][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index+3][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index+3][0].change_border(:bottom, 'thin')
+
+    for i in 1..6
+      sheet.insert_cell(start_index+1, i, "")
+      sheet.sheet_data[start_index+1][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+1][i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+2, i, "")
+      sheet.sheet_data[start_index+2][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+2][i].change_border(:bottom, 'thin')
+
+      sheet.insert_cell(start_index+3, i, "")
+      sheet.sheet_data[start_index+3][i].change_border(:top, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:left, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:right, 'thin')
+      sheet.sheet_data[start_index+3][i].change_border(:bottom, 'thin')
+    end
+
 
   end
 
   def generate_additonal_info
-    sheet = @workbook['Дополнительная информация ']
+    sheet = @workbook['Дополнительная информация']
     sheet[1][0].change_contents(@project.description)
   end
 
@@ -1355,7 +1800,7 @@ class ReportChangeRequestController < ApplicationController
 
 
   def get_budjet_by_cost_type_and_year
-    sql  = "  select t.id, t.name,t.national_project_result, m.units,m.plan_year, m.cost_type_id, ct.name as cost_type_name
+    sql  = "  select t.id, t.name,t.national_project_goal, m.units,m.plan_year, m.cost_type_id, ct.name as cost_type_name
               FROM targets t
               left join cost_objects co on co.target_id = t.id
               left join material_budget_items m on m.cost_object_id = co.id
@@ -1450,7 +1895,8 @@ class ReportChangeRequestController < ApplicationController
              INNER JOIN roles r ON  mr.role_id = r.id
              LEFT JOIN positions ps ON ps.id = u.position_id
              INNER JOIN projects p ON m.project_id = p.id and p.id = " + @project.id.to_s+
-           " WHERE u.id = "+user.id.to_s
+           " WHERE u.id = "+user.id.to_s+" order by r.name"
+
     result_sql = ActiveRecord::Base.connection.execute(sql)
     result = result_sql[0]
   end
@@ -1599,7 +2045,7 @@ class ReportChangeRequestController < ApplicationController
 
    result_end_value as (
 
-            select t.id, tev.value, cast(tev.year as varchar) as year, cast(tev.quarter as varchar) as quarter, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
+            select t.id, t.national_project_charact, tev.value, cast(tev.year as varchar) as year, cast(tev.quarter as varchar) as quarter, concat(cast(tev.year as varchar), cast(tev.quarter as varchar)) as union_val
             FROM targets t
                     inner join enumerations e on e.id = t.type_id
                     left join target_execution_values tev on tev.target_id = t.id
@@ -1608,7 +2054,7 @@ class ReportChangeRequestController < ApplicationController
               and t.project_id = " + @project.id.to_s + "
     )
 
-  select re.*, rev.value from result_end re
+  select re.*, rev.value,rev.national_project_charact from result_end re
   left join result_end_value rev on rev.id=re.id and re.union_val = rev.union_val"
 
     result = ActiveRecord::Base.connection.execute(sql)

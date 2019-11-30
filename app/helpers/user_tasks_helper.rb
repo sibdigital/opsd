@@ -45,7 +45,7 @@ module UserTasksHelper
         stroka['created_at'] = ut.created_at.strftime("%d.%m.%Y")
         stroka['due_date'] = ut.due_date
         if stroka['due_date'] == nil
-          stroka['due_date'] = '0001-01-01'.to_date
+          stroka['due_date'] = '2099-12-31'.to_date
         end
         stroka['project_name'] = ut.project ? ut.project.name : ''
         stroka['project'] = if ut.project_id.nil? || ut.project_id == 0
