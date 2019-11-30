@@ -75,7 +75,14 @@ module API
           end
 
           get :budget do
-            AllBudgetsHelper.cost_by_user_project current_user
+            raion_id = params[:raion]
+            if raion_id
+              rprojects = Raion.projects_by_id(raion_id, current_user.projects.map {|p| p.id})
+              result = AllBudgetsHelper.cost_by_projects rprojects
+            else
+              result = AllBudgetsHelper.cost_by_user_project current_user
+            end
+            result
             # Project.where(type: Project::TYPE_PROJECT).all.map do |p|
             #   AllBudgetsHelper.cost_by_project p
             # end
