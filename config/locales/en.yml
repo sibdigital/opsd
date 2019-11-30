@@ -611,6 +611,9 @@ en:
         auto_hide_popups: Автоматически скрывать успешные уведомления
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не
           сохраненных изменениях
+      user_task:
+        object: Объект
+        completed: Завершено
       version:
         effective_date: Дата окончания
         sharing: Совместное использование
