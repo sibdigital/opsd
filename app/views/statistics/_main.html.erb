@@ -100,11 +100,11 @@
           <tr id="statistics-<%= stat.id %>">
             <td>
               <%= l(:text_project_user,stat.user.fio) %>
-              <% if stat.is_deleted && stat.next.nil?%>
+              <% if stat.is_deleted && stat.next.nil? && (@filter_action == "Удаление" || @filter_action.nil?)%>
                 <%= t("text_project_deleted_"+stat.journable_type.to_s.downcase).downcase %>
-              <% elsif stat.version == 1 %>
+              <% elsif stat.version == 1 && (@filter_action == "Создание" || @filter_action.nil?)%>
                 <%= t("text_project_created_"+stat.journable_type.to_s.downcase).downcase %>
-              <%elsif stat.version > 1 %>
+              <%elsif stat.version > 1 && (@filter_action == "Обновление" || @filter_action.nil?)%>
                 <%= t("text_project_updated_"+stat.journable_type.to_s.downcase).downcase %>
               <% else %>
                 <%= stat.journable_type %>
