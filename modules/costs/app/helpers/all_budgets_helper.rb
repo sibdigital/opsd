@@ -115,13 +115,20 @@ module AllBudgetsHelper
       end
     end
 
+    AllBudgetsHelper.cost_by_projects (projects)
+    # projects.map do |p|
+    #   AllBudgetsHelper.cost_by_project p
+    # end
+  end
+
+  def self.cost_by_raion (raion_id)
+
+  end
+
+  def self.cost_by_projects (projects)
     projects.map do |p|
       AllBudgetsHelper.cost_by_project p
     end
-  end
-
-  def self.cost_by_project_by_raion (project, raion_id = nil)
-
   end
 
   def self.cost_by_project (project)

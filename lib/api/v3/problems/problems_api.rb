@@ -40,16 +40,13 @@ module API
               .joins(:work_package)
               .all
             @problems = @problems.where(status: params['status']) if params['status'].present?
+            @problems = if params['raion'].present?
+                          @problems.where(work_packages: {raion_id: params['raion']})
+                        end
             @problems = if params['project'].present?
                           @problems.where(project_id: params['project'])
                         else
-                          projects = []
-                          Project.all.each do |project|
-                            exist = which_role(project, current_user, global_role)
-                            if exist
-                              projects << project.id
-                            end
-                          end
+                          projects = current_user.projects.map{|p| p.id}#[]
                           if projects.empty?
                             @problems.where(project_id: nil)
                           else
