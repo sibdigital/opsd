@@ -44,6 +44,9 @@ module UserTasksHelper
 
         stroka['created_at'] = ut.created_at.strftime("%d.%m.%Y")
         stroka['due_date'] = ut.due_date
+        if stroka['due_date'] == nil
+          stroka['due_date'] = '0001-01-01'.to_date
+        end
         stroka['project_name'] = ut.project ? ut.project.name : ''
         stroka['project'] = if ut.project_id.nil? || ut.project_id == 0
                               "#"
@@ -59,6 +62,27 @@ module UserTasksHelper
         stroka['completed'] = ut.completed ? 'Да' : 'Нет'
 
         user_tasks << stroka
+    end
+
+    left = 0
+    right = user_tasks.length-1
+    while left < right
+      for i in left...right
+        if user_tasks[i]['due_date'] > user_tasks[i+1]['due_date']
+          temp = user_tasks[i]
+          user_tasks[i] = user_tasks[i+1]
+          user_tasks[i+1] = temp
+        end
+      end
+      right -= 1
+      right.downto(left+1).each do |i|
+        if user_tasks[i]['due_date'] < user_tasks[i-1]['due_date']
+          temp = user_tasks[i]
+          user_tasks[i] = user_tasks[i-1]
+          user_tasks[i-1] = temp
+        end
+      end
+      left += 1
     end
 
     user_tasks
