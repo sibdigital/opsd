@@ -94,17 +94,27 @@ class NewsController < ApplicationController
     @news.attributes = permitted_params.news
     if @news.save
       flash[:notice] = l(:notice_successful_update)
-      Member.where(project_id: @news.project_id).each do |member|
-        if member != User.current
-        Alert.create_pop_up_alert(@news,  "Changed", User.current, member.user)
+      begin
+        Member.where(project_id: @news.project_id).each do |member|
+          if member != User.current
+            Alert.create_pop_up_alert(@news,  "Changed", User.current, member.user)
           end
-      end
-      #ban(
-      @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-      if Setting.notified_events.include?('news_changed')
-        @project.recipients.uniq.each do |user|
-          UserMailer.news_changed(user, @news, User.current, @project, @timenow).deliver_later
         end
+        #ban(
+        @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+        recip = @project.recipients
+        if (Setting.is_strong_notified_event('news_changed'))
+          recip = @project.all_recipients
+        end
+        if Setting.is_notified_event('news_changed')
+          recip.uniq.each do |user|
+            if Setting.can_notified_event(user,'news_changed')
+              UserMailer.news_changed(user, @news, User.current, @project, @timenow).deliver_later
+            end
+          end
+        end
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
       #)
       redirect_to action: 'show', id: @news
@@ -119,17 +129,28 @@ class NewsController < ApplicationController
     #)
     @news.destroy
     flash[:notice] = l(:notice_successful_delete)
-    Member.where(project_id: @news.project_id).each do |member|
-      if member != User.current
-      Alert.create_pop_up_alert(@news, "Deleted", User.current, member.user)
-        end
-    end
-    #ban(
-    @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-    if Setting.notified_events.include?('news_deleted')
-      @project.recipients.uniq.each do |user|
-        UserMailer.news_deleted(user, @newstitle, User.current, @project, @timenow).deliver_later
+
+    begin
+      Member.where(project_id: @news.project_id).each do |member|
+        if member != User.current
+        Alert.create_pop_up_alert(@news, "Deleted", User.current, member.user)
+          end
       end
+      #ban(
+      @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+      recip = @project.recipients
+      if (Setting.is_strong_notified_event('news_deleted'))
+        recip = @project.all_recipients
+      end
+      if Setting.is_notified_event('news_deleted')
+        recip.uniq.each do |user|
+          if Setting.can_notified_event(user,'news_deleted')
+            UserMailer.news_deleted(user, @newstitle, User.current, @project, @timenow).deliver_later
+          end
+        end
+      end
+    rescue Exception => e
+      Rails.logger.info(e.message)
     end
     #)
     redirect_to action: 'index', project_id: @project

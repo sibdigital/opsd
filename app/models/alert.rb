@@ -1,7 +1,11 @@
 class Alert < ActiveRecord::Base
-  def self.create_new_pop_up_alert(entityid,entitytype,aboutwhat,createdby,touser)
+  def self.create_new_pop_up_alert(entityid, entitytype, aboutwhat, createdby, touser)
+    #+-tan 2019.11.30 сами себя не уведомляем
+    if createdby == touser
+      return
+    end
     text = ""
-    user_created=User.where(id: createdby).map {|u| [u.lastname, u.firstname, u.patronymic]}
+    user_created = User.where(id: createdby).map {|u| [u.lastname, u.firstname, u.patronymic]}
 
     case aboutwhat
     when "Due"
@@ -52,6 +56,10 @@ class Alert < ActiveRecord::Base
   end
 
   def self.create_pop_up_alert(entity, aboutwhat,createdby,touser)
+    #+-tan 2019.11.30 сами себя не уведомляем
+    if createdby == touser
+      return
+    end
     begin
     text = ""
     if createdby != nil

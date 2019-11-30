@@ -65,7 +65,7 @@ class UserMailer < BaseMailer
     message_id work_package, user
 
     with_locale_for(user) do
-      subject = 'В проекте '+@project.name.to_s+' добавлено мероприятие '+@work_package.subject
+      subject = 'В проекте '+ @project.name.to_s+' добавлено мероприятие '+@work_package.subject
       mail_for_author author, to: user.mail, subject: subject
     end
   end
@@ -214,7 +214,7 @@ class UserMailer < BaseMailer
     #message_id @project, user
 
     with_locale_for(user) do
-      subject = 'По проекту "'+@project.name+'" создана дискуссия: '+@board.name
+      subject = 'В проекте "'+ @project.name+'" создана дискуссия: '+@board.name
       mail_for_author author, to: user.mail, subject: subject
     end
   end
@@ -229,7 +229,7 @@ class UserMailer < BaseMailer
     #message_id @project, user
 
     with_locale_for(user) do
-      subject = 'По проекту "'+@project.name+'" изменена дискуссия: '+@board.name
+      subject = 'В проекте "'+@project.name+'" изменена дискуссия: '+@board.name
       mail_for_author author, to: user.mail, subject: subject
     end
   end
@@ -244,7 +244,7 @@ class UserMailer < BaseMailer
     #message_id @project, user
 
     with_locale_for(user) do
-      subject = 'По проекту "'+@project.name+'" перемещена дискуссия: '+@board.name
+      subject = 'В проекте "'+@project.name+'" перемещена дискуссия: '+@board.name
       mail_for_author author, to: user.mail, subject: subject
     end
   end
@@ -258,7 +258,7 @@ class UserMailer < BaseMailer
     #message_id @project, user
 
     with_locale_for(user) do
-      subject = 'По проекту "'+@project.name+'" удалена дискуссия: '+@boardname
+      subject = 'В проекте "'+@project.name+'" удалена дискуссия: '+@boardname
       mail_for_author author, to: user.mail, subject: subject
     end
   end

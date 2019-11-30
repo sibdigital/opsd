@@ -350,20 +350,23 @@ module API
         property :days,
                  render_nil: false,
                  getter: ->(*) {
-                   pcalendar = ProductionCalendar.get_transfered
-                   working_days = Setting.working_days
                    i = 0
-                   current = start_date
-                   while current and current < due_date
-                     current += 1
-                     cal = pcalendar.find_by(date: current) rescue nil
-                     if cal
-                       if cal.day_type == 0
-                         i += 1
-                       end
-                     else
-                       if working_days.include? current.wday
-                         i += 1
+                   if start_date && due_date
+                     pcalendar = ProductionCalendar.get_transfered
+                     working_days = Setting.working_days
+
+                     current = start_date
+                     while current and current < due_date
+                       current += 1
+                       cal = pcalendar.find_by(date: current) rescue nil
+                       if cal
+                         if cal.day_type == 0
+                           i += 1
+                         end
+                       else
+                         if working_days.include? current.wday
+                           i += 1
+                         end
                        end
                      end
                    end
@@ -493,7 +496,7 @@ module API
 
         #xcc(
         associated_resource :organization,
-                             link_title_attribute: :name
+                            link_title_attribute: :name
 
         associated_resource :arbitary_object,
                             link_title_attribute: :name
@@ -522,11 +525,15 @@ module API
                  exec_context: :decorator,
                  getter: ->(*){
                    id = represented.status.id.to_s
-                   unless represented.status.is_closed || represented.due_date.nil?
-                     if represented.due_date - Date.current <= 0
+                   unless represented.status.is_closed
+                     if represented.due_date
+                       if represented.due_date - Date.current <= 0
+                         id = 'over'
+                       elsif represented.due_date - Date.current <= Setting.remaining_count_days.to_i
+                         id = 'close'
+                       end
+                     else
                        id = 'over'
-                     elsif represented.due_date - Date.current <= Setting.remaining_count_days.to_i
-                       id = 'close'
                      end
                    end
                    id
@@ -534,10 +541,10 @@ module API
 
         #bbm(
         property :is_closed,
-        exec_context: :decorator,
-          getter: ->(*) {
-            represented.status.is_closed
-          }
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   represented.status.is_closed
+                 }
 
         property :fact_due_date,
                  exec_context: :decorator,
@@ -635,10 +642,10 @@ module API
 
                               new_parent = if href
                                              id = ::API::Utilities::ResourceLinkParser
-                                                  .parse_id href,
-                                                            property: 'parent',
-                                                            expected_version: '3',
-                                                            expected_namespace: 'work_packages'
+                                                    .parse_id href,
+                                                              property: 'parent',
+                                                              expected_version: '3',
+                                                              expected_namespace: 'work_packages'
 
                                              WorkPackage.find_by(id: id) ||
                                                ::WorkPackage::InexistentWorkPackage.new(id: id)
@@ -696,9 +703,9 @@ module API
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
           visible_relations = represented
-                              .visible_relations(current_user)
-                              .non_hierarchy
-                              .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
+                                .visible_relations(current_user)
+                                .non_hierarchy
+                                .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_path,

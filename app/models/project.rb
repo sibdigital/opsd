@@ -755,6 +755,12 @@ class Project < ActiveRecord::Base
     notified_members.map(&:user)
   end
 
+  # +-tan 2019.11.30
+  # Returns the all users that should be notified on project events
+  def all_notified_users
+    members.map(&:user)
+  end
+
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   #

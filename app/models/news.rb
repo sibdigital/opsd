@@ -107,10 +107,20 @@ class News < ActiveRecord::Base
   end
 
   def send_news_added_mail
+    #+-tan 2019.11.30
     if Setting.is_notified_event('news_added')
       recipients.uniq.each do |user|
         if Setting.can_notified_event(user, 'news_added')
           UserMailer.news_added(user, self, User.current).deliver_later
+        end
+      end
+
+      #+-tan 2019.11.30
+      if Setting.is_strong_notified_event('news_added')
+        all_recipients.uniq.each do |user|
+          if Setting.can_notified_event(user, 'news_added')
+            UserMailer.news_added(user, self, User.current).deliver_later
+          end
         end
       end
     end

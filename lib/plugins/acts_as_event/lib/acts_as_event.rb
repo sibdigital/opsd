@@ -99,6 +99,13 @@ module Redmine
           notified.select { |user| visible?(user) }
         end
 
+        # +-tan 2019.11.30
+        def all_recipients
+          notified = []
+          notified = project.all_notified_users if project
+          notified.select { |user| visible?(user) }
+        end
+
         module ClassMethods
         end
       end

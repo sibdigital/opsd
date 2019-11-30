@@ -258,9 +258,9 @@ class GroupsController < ApplicationController
       .each {|r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
-      if Setting.notified_events.include?('group_created')
+      if Setting.is_notified_event('group_created')
         user = User.find(member.user_id)
-        if user.present?
+        if user.present? && Setting.can_notified_event(user,'group_created')
           UserMailer.group_created(user, @group, User.current).deliver_later
         end
       end
@@ -276,9 +276,9 @@ class GroupsController < ApplicationController
       .each {|r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
-      if Setting.notified_events.include?('group_deleted')
+      if Setting.is_notified_event('group_deleted')
         user = User.find(member.user_id)
-        if user.present?
+        if user.present? && Setting.can_notified_event(user,'group_deleted')
           UserMailer.group_deleted(user, @groupname, User.current).deliver_later
         end
       end
