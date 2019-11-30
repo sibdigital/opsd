@@ -29,14 +29,18 @@
     end
   end
 %>
-<p>
-  <strong>Проект:</strong>
-  <a href="<%= @ut_project_url %>"><%= @ut_project_name %></a>
-</p>
-<p>
-  <strong>Связанный объект:</strong>
-  <a href="<%= @ut_wp_url %>"><%= @ut_wp_name %></a>
-</p>
+<% if @ut_project_name != nil %>
+  <p>
+    <strong>Проект:</strong>
+    <a href="<%= @ut_project_url %>"><%= @ut_project_name %></a>
+  </p>
+<% end
+   if @ut_wp_name != nil %>
+  <p>
+    <strong>Пакет работ:</strong>
+    <a href="<%= @ut_wp_url %>"><%= @ut_wp_name %></a>
+  </p>
+<% end %>
 <p>
   <strong>Дата ответа:</strong>
   <%= @user_task.due_date.to_s %>

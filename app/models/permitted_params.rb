@@ -675,6 +675,7 @@ class PermittedParams
           :is_filter,
           :is_for_all,
           :is_required,
+          :is_approved,
           :max_length,
           :min_length,
           :move_to,
