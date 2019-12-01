@@ -70,9 +70,14 @@ module API
             else
               handle_work_package_errors work_package, result
             end
-          rescue => e
+          rescue Exception => e
+            Rails.logger.error 'exception---------'
             Rails.logger.error e.message
             Rails.logger.error e.backtrace.join("\n")
+
+            Rails.logger.info 'exception---------'
+            Rails.logger.info e.message
+            Rails.logger.info e.backtrace.join("\n")
           end
         end
 
