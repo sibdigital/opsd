@@ -1,12 +1,18 @@
 class ControlLevel < ActiveRecord::Base
+  OptionName = :control_level
+
   belongs_to :color
   has_many :control_level_roles, dependent: :destroy, autosave: true
-  has_many :work_packages, foreign_key: 'control_level_id', dependent: :nullify#, class_name: 'Project', foreign_key: 'project_status_id'
+  has_many :work_packages, foreign_key: 'control_level_id'#, dependent: :nullify#, class_name: 'Project', foreign_key: 'project_status_id'
   has_many :roles, through: :control_level_roles
 
   validates_presence_of :name, :code
   validates_length_of :name, maximum: 30
   validates_length_of :code, maximum: 15
+
+  def option_name
+    OptionName
+  end
 
   def color_label
     I18n.t('control_levels.edit.control_level_color_text')

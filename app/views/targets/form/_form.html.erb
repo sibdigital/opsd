@@ -37,7 +37,7 @@ This file written by XCC
 -->
   <div class="form--field"><label class="form--label -required">Тип<span class="form--label-required" aria-hidden="true">*</span></label>
     <span class="form--field-container"><%= f.collection_radio_buttons(:type_id,
-                                        TargetType.where(active: true),
+                                        TargetType.where(active: true, name: ['Цель', 'Показатель', 'Результат']),
                                         :id,
                                         :type_name, { checked: target_id },
                                         { required: true})%></span></div>
@@ -76,7 +76,7 @@ This file written by XCC
       </div>
     </fieldset>
   <% end %>
-  <% if User.current.admin?%>
+  <% if User.current.allowed_to?(:approve_instance, @project)%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>
     </div>

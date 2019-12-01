@@ -57,6 +57,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field">
     <%= f.select :direct_manager_id, options_for_select(@user.direct_manager_users.map { |obj| [obj.name, obj.id] }, @user.direct_manager_id), container_class: '-slim', include_blank: true%>
   </div>
+  <div class="form--field">
+    <p>Тип лицензии:      Без ограничений</p>
+  </div>
   <!--tan-->
   <% unless f.object.custom_field_values.empty? %>
     <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>

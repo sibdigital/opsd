@@ -650,7 +650,7 @@ module API
             "#{root}/control_levels"
           end
 
-          def self.control_level
+          def self.control_level(id)
             "#{control_levels}/#{id}"
           end
 

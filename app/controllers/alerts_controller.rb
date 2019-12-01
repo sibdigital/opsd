@@ -306,6 +306,8 @@ class AlertsController < ApplicationController
     rescue Exception => e
       Rails.logger.info(e.message)
     end
+
+    puts 'notify'
     #add method for delete unassigned records
   end
 
