@@ -32,6 +32,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
+  @Input() day:boolean = false;
   static MAX_DISPLAYED = 100;
 
   constructor(readonly states:States,
@@ -173,6 +174,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     let calendarDate:any = null;
     let calendarUnit = 'month';
+    if (this.day) {
+      calendarUnit = 'agendaDay';
+    }
 
     if (datesIntervalFilter) {
       let lower = moment(datesIntervalFilter.values[0] as string);
@@ -261,9 +265,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
                 break;
             }
 
+            let titleUt = kind + ": " + userTask.text
+
+            if (Date.parse(userTask.due_date) < Date.now() && userTask.completed == 'Нет') {
+              titleUt = "(!) " + kind + ": " + userTask.text
+            }
+
             return {
               //title: userTask.kind == "Task" ? "Задача: " : "Заметка: " + userTask.text,
-              title: kind + ": " + userTask.text,
+              title: titleUt,
               start: userTask.due_date,
               end: userTask.due_date,
               // className: `__hl_row_type_${meeting.workPackageId}`,

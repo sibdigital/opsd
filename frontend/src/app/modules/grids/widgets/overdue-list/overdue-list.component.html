@@ -1,0 +1,17 @@
+<div class="widget-box--header" cdkDragHandle>
+    <h3><span class="widget-box--header-title">Список просроченных задач</span></h3>
+</div>
+<div class="grid--widget-content">
+    <table width="100%" cellpadding="2" style="text-align: left">
+        <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;"><th>Создатель задачи</th><th>Проект</th><th>Связанный объект</th><th>Текст</th><th>Срок</th></tr>
+        <ng-container *ngFor="let user_task of entries">
+            <tr style="border-bottom: 1px solid #E7E7E7; height: 40px;">
+                <td><a [href]="user_taskCreator(user_task)" [textContent]="user_task.user_creator"></a></td>
+                <td><a [href]="user_task.project" [textContent]="user_task.project_name"></a></td>
+                <td><a [href]="user_task.object" [textContent]="user_task.object_name"></a></td>
+                <td><a [href]="user_taskResponse(user_task)" [textContent]="user_task.text"></a></td>
+                <td [textContent]="user_task.due_date"></td>
+            </tr>
+        </ng-container>
+    </table>
+</div>
