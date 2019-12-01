@@ -35,6 +35,7 @@ module API
         resources :national_projects do
           get do
             @national_projects = NationalProject.all
+            Rails.logger.info('params: ' + params.to_s)
             NationalProjectCollectionRepresenter.new(@national_projects,
                                                      params,
                                                      api_v3_paths.national_projects,

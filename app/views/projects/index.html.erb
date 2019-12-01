@@ -53,6 +53,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item">
     <%= link_to t(:label_overall_activity), activities_path, class: 'button' %>
   </li>
+  <li class="toolbar-item">
+    <%= link_to t(:label_svod_otchet), report_project_index_path, class: 'button' %>
+  </li>
 <% end %>
 
 <%= render partial: 'projects/filters/form', locals: { query: @query } %>

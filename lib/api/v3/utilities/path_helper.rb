@@ -653,6 +653,14 @@ module API
           def self.control_level(id)
             "#{control_levels}/#{id}"
           end
+
+          def self.head_performance_indicators
+            "#{root}/head_performance_indicators"
+          end
+
+          def self.head_performance_indicator(id)
+            "#{head_performance_indicators}/#{id}"
+          end
         end
 
         def api_v3_paths

@@ -32,7 +32,7 @@ class KpiObject < Enumeration
   OptionName = :enumeration_kpi_objects
 
   def self.colored?
-    true
+    false
   end
 
   def color_label
