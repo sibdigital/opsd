@@ -61,19 +61,31 @@ class MembersController < ApplicationController
       flash[:notice] = members_added_notice members
       #ban(
       @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-      members.each do |added_member|
-        if Setting.notified_events.include?('member_added')
-          @project.recipients.uniq.each do |user|
-            UserMailer.member_added(user, @project, User.find_by(id: added_member.user_id), User.current, @timenow).deliver_later
+      begin
+        members.each do |added_member|
+          recip = @project.recipients
+          if (Setting.is_strong_notified_event('member_added'))
+            recip = @project.all_recipients
           end
-          if added_member != User.current
-            Alert.create_pop_up_alert(added_member, "Created", User.current, added_member.user)
-          end
-        end
+          if Setting.is_notified_event('member_added')
+            recip.uniq.each do |user|
+              addr_user = User.find_by(id: added_member.user_id)
+              if Setting.can_notified_event(addr_user,'member_added')
+                UserMailer.member_added(user, @project, addr_user, User.current, @timenow).deliver_later
+                if added_member != User.current
+                  Alert.create_pop_up_alert(added_member, "Created", User.current, added_member.user)
+                end
+              end
+            end
 
-        #zbd(
-        # add_to_stakeholders added_member
-        # )
+          end
+
+          #zbd(
+          # add_to_stakeholders added_member
+          # )
+        end
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
       #)
       redirect_to project_members_path(project_id: @project, status: 'all')
@@ -114,10 +126,23 @@ class MembersController < ApplicationController
         Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
         #ban(
         @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-        if Setting.notified_events.include?('member_deleted')
-          @project.recipients.uniq.each do |user|
-            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current, @timenow).deliver_later
+
+        begin
+          recip = @project.recipients
+          if (Setting.is_strong_notified_event('member_deleted'))
+            recip = @project.all_recipients
           end
+
+          if Setting.is_notified_event('member_deleted')
+            recip.uniq.each do |user|
+              addr_user = User.find_by(id: @member.user_id)
+              if Setting.can_notified_event(addr_user,'member_deleted')
+                UserMailer.member_deleted(user, @project, addr_user, User.current, @timenow).deliver_later
+              end
+            end
+          end
+        rescue Exception => e
+          Rails.logger.info(e.message)
         end
         #)
         @member.user.destroy
@@ -126,10 +151,22 @@ class MembersController < ApplicationController
         Alert.create_pop_up_alert(@member, "Deleted", User.current, @member.user)
         #ban(
         @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-        if Setting.notified_events.include?('member_deleted')
-          @project.recipients.uniq.each do |user|
-            UserMailer.member_deleted(user, @project, User.find_by(id: @member.user_id), User.current, @timenow).deliver_later
+
+        begin
+          recip = @project.recipients
+          if (Setting.is_strong_notified_event('member_deleted'))
+            recip = @project.all_recipients
           end
+          if Setting.is_notified_event('member_deleted')
+            recip.uniq.each do |user|
+              addr_user = User.find_by(id: @member.user_id)
+              if Setting.can_notified_event(addr_user,'member_deleted')
+                UserMailer.member_deleted(user, @project, addr_user, User.current, @timenow).deliver_later
+              end
+            end
+          end
+        rescue Exception => e
+          Rails.logger.info(e.message)
         end
         #)
         @member.destroy

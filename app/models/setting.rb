@@ -336,6 +336,32 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  def self.can_notified_event (user, event)
+    notified = false
+    begin
+      if user.mail_notification == User::USER_MAIL_OPTION_NON
+        notified = Setting.strong_notified_events.include?(event)
+      else
+        #setting = user.user.mail_notification
+
+        #notset == (User::USER_MAIL_OPTION_SELECTED && member.mail_notification?) || setting == User::USER_MAIL_OPTION_ALL
+        notified = Setting.notified_events.include?(event) || Setting.strong_notified_events.include?(event)
+      end
+
+    rescue Exception => e
+      Rails.logger.error "#{e.message}:\n#{e.backtrace.join("\n")}"
+    end
+    notified
+  end
+
+  def self.is_notified_event (event)
+    Setting.notified_events.include?(event) || Setting.strong_notified_events.include?(event)
+  end
+
+  def self.is_strong_notified_event (event)
+    Setting.strong_notified_events.include?(event)
+  end
+
   require_dependency 'setting/callbacks'
   extend Callbacks
 

@@ -526,7 +526,7 @@ class PermittedParams
   # )
   #xcc(
   def target
-    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type, :is_additional)
+    params.require(:target).permit(:name, :status_id, :type_id, :unit, :basic_value, :plan_value, :comment, :project_id, :is_approve, :parent_id, :measure_unit_id, :type, :is_additional, :result_assigned)
   end
 
   def target_execution_value
@@ -675,6 +675,7 @@ class PermittedParams
           :is_filter,
           :is_for_all,
           :is_required,
+          :is_approved,
           :max_length,
           :min_length,
           :move_to,
@@ -813,6 +814,7 @@ class PermittedParams
           lastname
           patronymic
           mail
+          mail_add
           mail_notification
           language
           organization_id

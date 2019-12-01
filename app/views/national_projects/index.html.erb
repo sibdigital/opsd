@@ -1,6 +1,16 @@
 <% html_title l(:label_national_projects) %>
-<%= toolbar title: l(:label_national_projects)%>
-<%= form_tag({}) do -%>
+<%= toolbar title: l(:label_national_projects) do %>
+  <li class="toolbar-item">
+    <%= link_to(new_national_project_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_national_project_new)},
+                  title: t(:label_national_project_new)})  do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_national_project_new) %></span>
+    <% end %>
+  </li>
+<% end %>
+
   <% if @national_projects.empty? %>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
@@ -182,4 +192,4 @@
       </div>
     </div>
   <% end %>
-<%end %>
+

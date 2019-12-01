@@ -179,7 +179,7 @@ export class MunicipalityTabComponent implements OnInit {
           });
         });
       this.halResourceService
-        .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString())
+        .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString(), {"raion": this.selectedOption.$href})
         .toPromise()
         .then((resources:HalResource) => {
           resources.source.map( (el:HalResource, i:number) => {

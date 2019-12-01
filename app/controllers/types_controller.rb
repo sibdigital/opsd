@@ -186,9 +186,9 @@ class TypesController < ApplicationController
       .each { |r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
-      if Setting.notified_events.include?('type_created')
+      if Setting.is_notified_event('type_created')
         user = User.find(member.user_id)
-        if user.present?
+        if user.present? && Setting.can_notified_event(user,'type_created')
           UserMailer.type_created(user, @type, User.current).deliver_later
         end
       end
@@ -204,9 +204,9 @@ class TypesController < ApplicationController
       .each { |r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
-      if Setting.notified_events.include?('type_deleted')
+      if Setting.is_notified_event('type_deleted')
         user = User.find(member.user_id)
-        if user.present?
+        if user.present? && Setting.can_notified_event(user,'type_deleted')
           UserMailer.type_deleted(user, @typename, User.current).deliver_later
         end
       end

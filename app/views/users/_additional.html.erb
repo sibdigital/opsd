@@ -56,20 +56,32 @@
               <tr>
                 <td colspan="4"><%= I18n.t :no_results_title_text %></td>
               </tr>
-            <% else %>
+            <% else %>K
             <% @changeroles.each do |role| %>
               <tr id="roles-changes-<%= role.id %>">
                 <td>
-                  <%= l(:text_project_role_accepted, Role.find(role.role_id).name)%>
+                  <%= begin
+                         l(:text_project_role_accepted, Role.find(role.role_id).name)
+                    rescue Exception => e
+                  end %>
                 </td>
                 <td>
-                  <%= Project.find(Journal::MemberJournal.find(role.member_id).project_id).name %>
+                  <%= begin
+                        Project.find(Journal::MemberJournal.find(role.member_id).project_id).name
+                        rescue Exception => e
+                  end  %>
                 </td>
                 <td>
-                  <%= format_activity_day(Journal.find(role.journal_id).created_at) %>
+                  <%= begin
+                        format_activity_day(Journal.find(role.journal_id).created_at)
+                        rescue Exception => e
+                  end  %>
                 </td>
                 <td>
-                  <%= format_time(Journal.find(role.journal_id).created_at,false) %>
+                  <%= begin
+                        format_time(Journal.find(role.journal_id).created_at,false)
+                        rescue Exception => e
+                  end  %>
                 </td>
               </tr>
             <% end %>

@@ -53,9 +53,10 @@ module API
               kt = Type.find_by name: I18n.t(:default_type_milestone)
               raion_id = params[:raion]
               if raion_id
+                rprojects = Raion.projects_by_id(raion_id, @projects).map {|p| p.id}
                 records_array = ActiveRecord::Base.connection.execute <<~SQL
                   select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
-                      (select * from projects where id in (#{@projects.join(",")}))as p
+                      (select * from projects where id in (#{rprojects.join(",")}))as p
                   left join
                       (select project_id, sum(preds) as preds, sum(prosr) as prosr, sum(riski) as riski
                       from (
@@ -64,6 +65,7 @@ module API
                                       case when wp.days_to_due < 0 and wp.raion_id = #{raion_id} and wp.type_id = #{kt.id} and wp.ispolneno = false then 1 else 0 end as prosr,
                                       case when wp.raion_id = #{raion_id} then wp.created_problem_count else 0 end as riski
                                from v_work_package_ispoln_stat as wp
+                               where wp.raion_id = #{raion_id}
                            ) as slice
                       group by project_id) as p1
                   on p.id = p1.project_id
@@ -96,11 +98,13 @@ module API
                 SQL
               end
               @wps = []
+              proj_arr = Project.where(id: @projects).to_a
+
               records_array.map do |arr|
                 stroka = Hash.new
                 stroka['_type'] = 'Project'
                 stroka['project_id'] = arr['id']
-                project = Project.find(arr['id'])
+                project = proj_arr.select {|p| p.id == arr['id']}.first# Project.find(arr['id'])
                 stroka['name'] = project.name
                 stroka['identifier'] = project.identifier
                 stroka['federal_id'] = project.federal_project_id || 0
@@ -202,28 +206,31 @@ module API
                   stroka['name'] = t.name
                   stroka['work_packages'] = []
                   subarr.each do |row|
-                    quarter = Hash.new
-                    quarter['_type'] = 'WorkPackageQuarterlyTarget'
-                    quarter['work_package_id'] = row.work_package_id
-                    wp = WorkPackage.find(row.id)
-                    quarter['subject'] = wp.subject
-                    quarter['assignee'] = wp.assigned_to ? wp.assigned_to.fio : ''
-                    quarter['assignee_id'] = wp.assigned_to ? wp.assigned_to.id : ''
-                    case DateTime.now.month
-                    when 1, 2, 3
-                      quarter['plan'] = row.quarter1_plan_value
-                      quarter['fact'] = row.quarter1_value
-                    when 4, 5, 6
-                      quarter['plan'] = row.quarter2_plan_value
-                      quarter['fact'] = row.quarter2_value
-                    when 7, 8, 9
-                      quarter['plan'] = row.quarter3_plan_value
-                      quarter['fact'] = row.quarter3_value
-                    when 10, 11, 12
-                      quarter['plan'] = row.quarter4_plan_value
-                      quarter['fact'] = row.quarter4_value
+                    #+-tan исправлена опечатка по смыслу не find(row.id), a find(row.work_package_id)
+                    wp = WorkPackage.find_by(id: row.work_package_id)
+                    if wp
+                      quarter = Hash.new
+                      quarter['_type'] = 'WorkPackageQuarterlyTarget'
+                      quarter['work_package_id'] = row.work_package_id
+                      quarter['subject'] = wp.subject
+                      quarter['assignee'] = wp.assigned_to ? wp.assigned_to.fio : ''
+                      quarter['assignee_id'] = wp.assigned_to ? wp.assigned_to.id : ''
+                      case DateTime.now.month
+                      when 1, 2, 3
+                        quarter['plan'] = row.quarter1_plan_value
+                        quarter['fact'] = row.quarter1_value
+                      when 4, 5, 6
+                        quarter['plan'] = row.quarter2_plan_value
+                        quarter['fact'] = row.quarter2_value
+                      when 7, 8, 9
+                        quarter['plan'] = row.quarter3_plan_value
+                        quarter['fact'] = row.quarter3_value
+                      when 10, 11, 12
+                        quarter['plan'] = row.quarter4_plan_value
+                        quarter['fact'] = row.quarter4_value
+                      end
+                      stroka['work_packages'] << quarter
                     end
-                    stroka['work_packages'] << quarter
                   end
                   hash['targets'] << stroka
                 end
@@ -312,10 +319,14 @@ module API
                 arr.each do |row|
                   stroka = Hash.new
                   stroka['_type'] = 'PlanFactQuarterlyTargetValue'
-                  stroka['name'] = Target.find(row.target_id).name
+                  target = Target.find(row.target_id)
+                  stroka['name'] = target.name
                   stroka['target_id'] = row.target_id
                   stroka['target_year_value'] = row.target_year_value
                   stroka['fact_year_value'] = row.fact_year_value
+                  stroka['otvetstvenniy_id'] = target.resultassigned ? target.resultassigned.id : ''
+                  stroka['otvetstvenniy'] = target.resultassigned ? target.resultassigned.fio : ''
+
                   stroka['target_quarter1_value'] = row.target_quarter1_value
                   stroka['target_quarter2_value'] = row.target_quarter2_value
                   stroka['target_quarter3_value'] = row.target_quarter3_value

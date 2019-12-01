@@ -267,6 +267,46 @@ notified_events:
   - status_deleted
   - type_created
   - type_deleted #)
+#tan 2019.11.30 те уведомления, которые необходимо направлять обязательно
+strong_notified_events:
+  serialized: true
+  default:
+    - work_package_added
+    - work_package_updated
+    - work_package_note_added
+    - status_updated
+    - work_package_priority_updated
+    - news_added
+    - news_changed #ban
+    - news_deleted #ban
+    - news_comment_added
+    - file_added
+    - message_posted
+    - message_changed #ban
+    - message_deleted #ban
+    - wiki_content_added
+    - wiki_content_updated
+    - cost_object_added #ban(
+    - member_added
+    - member_deleted
+    - board_added
+    - board_changed
+    - board_moved
+    - board_deleted
+    - deadline_of_work_package_is_approaching
+    - work_package_report_notify_assignee
+    - deadline_of_work_package
+    - project_created
+    - project_changed
+    - project_deleted
+    - deadline_of_project_is_approaching
+    - deadline_of_project
+    - group_created
+    - group_deleted
+    - status_created
+    - status_deleted
+    - type_created
+    - type_deleted #)
 mail_handler_body_delimiters:
   default: ''
 mail_handler_ignore_filenames:

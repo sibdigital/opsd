@@ -46,13 +46,20 @@ class Comment < ActiveRecord::Base
   private
 
   def send_news_comment_added_mail
-    return unless Setting.notified_events.include?('news_comment_added')
+    return unless Setting.is_notified_event('news_comment_added')
+    #+-tan 2019.11.30
+    recip = commented.recipients + commented.watcher_recipients
+    if (Setting.is_strong_notified_event('news_comment_added'))
+      recip = commented.all_recipients + commented.watcher_recipients
+    end
 
     return unless commented.is_a?(News)
 
-    recipients = commented.recipients + commented.watcher_recipients
-    recipients.uniq.each do |user|
-      UserMailer.news_comment_added(user, self, User.current).deliver_later
+    #recipients = commented.recipients + commented.watcher_recipients
+    recip.uniq.each do |user|
+      if Setting.can_notified_event(user, 'news_comment_added')
+        UserMailer.news_comment_added(user, self, User.current).deliver_later
+      end
     end
   end
 end

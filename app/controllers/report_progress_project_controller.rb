@@ -14,7 +14,6 @@ class ReportProgressProjectController < ApplicationController
 
 
   def index
-
     @selected_target_id = 0
     @project = Project.find(params[:project_id])
     if @project.national_project_id
@@ -46,7 +45,6 @@ class ReportProgressProjectController < ApplicationController
 
 #    @targets = @project.targets
     @target = @targets.first
-
   end
 
   def generate_project_progress_report_out
@@ -61,6 +59,7 @@ class ReportProgressProjectController < ApplicationController
     generate_budgets_execution_details_sheet
     generate_status_achievement_sheet
     generate_dynamic_achievement_kt_sheet
+    generate_info_achievement_rktm_sheet
 
     #+tan
     dir_path = File.absolute_path('.') + '/public/reports'
@@ -72,17 +71,27 @@ class ReportProgressProjectController < ApplicationController
     @ready_project_progress_report_path = dir_path + '/project_progress_report_out.xlsx'
     @workbook.write(@ready_project_progress_report_path)
     #bbm(
-    pid = spawn('cd ' + File.absolute_path('.') + '/unoconv && unoconv -f pdf ' + @ready_project_progress_report_path)
-    @document = @project.documents.build
-    @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
-    @document.user_id = current_user.id
-    @document.title = 'отчет о ходе реализации проекта от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
-    service = AddAttachmentService.new(@document, author: current_user)
-    attachment = service.add_attachment_old uploaded_file: File.open(@ready_project_progress_report_path),
-                               filename: 'project_progress_report_out.xlsx'
-    @document.attach_files({'0'=> {'id'=> attachment.id}})
-    @document.save
+    exist = false
+    current_user.roles_for_project(@project).map do |role|
+      exist ||= role.role_permissions.any? {|perm| perm.permission == 'manage_documents'}
+    end
+    if exist
+      pid = spawn('cd ' + File.absolute_path('.') + '/unoconv && unoconv -f pdf ' + @ready_project_progress_report_path)
+      @document = @project.documents.build
+      @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
+      @document.user_id = current_user.id
+      @document.title = 'отчет о ходе реализации проекта от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
+      service = AddAttachmentService.new(@document, author: current_user)
+      attachment = service.add_attachment_old uploaded_file: File.open(@ready_project_progress_report_path),
+                                 filename: 'project_progress_report_out.xlsx'
+      @document.attach_files({'0'=> {'id'=> attachment.id}})
+      @document.save
+    end
     # )
+  end
+
+  def generate svod_otchet
+
   end
 
   def generate_report_progress_project_pril_1_2_out
@@ -1212,7 +1221,7 @@ class ReportProgressProjectController < ApplicationController
     sheet[4][12].change_contents('%.2f' %(result_other_budjet[3]/1000000))
 
     sheetDataDiagram = @workbook['Данные для диаграмм']
-     @budjets = AllBudgetsHelper.cost_by_project @project
+     @budjets = AllBudgetsHelper.cost_by_project @project, 0
 
     sheetDataDiagram[3][4].raw_value = result_fed_budjet[0].to_f
     sheetDataDiagram[4][4].raw_value = result_fed_budjet[1].to_f
@@ -1404,6 +1413,856 @@ class ReportProgressProjectController < ApplicationController
     end
 
   end
+
+  def generate_info_achievement_rktm_sheet
+    sheet = @workbook['Cведения о достижении РКТМ']
+
+    @id_type_target = Enumeration.find_by(name: I18n.t(:default_target)).id
+    @id_type_result = Enumeration.find_by(name: I18n.t(:default_result)).id
+    @id_type_kt = Type.find_by(name: I18n.t(:default_type_milestone)).id
+    @id_type_task = Type.find_by(name: I18n.t(:default_type_task)).id
+
+    str_ids_kt = ""
+    start_index = 4
+    parent_id = 0
+    target_id = 0
+    index = 0
+    numberResult= 1
+    k = 0
+    work_packages_id = 0
+    numberKT = 0
+    map = {}
+    targetCountParent = 0
+    targetCount = 0
+    common_count = 0
+    numberTarget = ""
+    get_result.each_with_index do |result, i|
+
+      if result["parent_id"] != parent_id && result["parent_id"]!=0
+        targetCount += 1
+        numberTarget = (targetCount).to_s+"."
+
+        username = result["result_assigned"] == nil ? "" : user = User.find(result["result_assigned"]).name(:lastname_f_p)
+        start_date = result["basic_date"] == nil ? "" : result["basic_date"].to_date.strftime("%d.%m.%Y")
+        due_date = result["result_due_date"] == nil ? "" : result["result_due_date"].to_date.strftime("%d.%m.%Y")
+        if start_date == "" && due_date !=""
+           period_plan = due_date
+        elsif start_date != "" && due_date ==""
+          period_plan = start_date
+        elsif start_date == "" && due_date ==""
+          period_plan =""
+        else
+          period_plan = start_date+" - "+ due_date
+        end
+
+
+        target = Target.find(result["parent_id"])
+
+        sheet.insert_cell(start_index+i+k, 0, numberTarget)
+        sheet.insert_cell(start_index+i+k, 1, result["control_level"])
+        sheet.insert_cell(start_index+i+k, 2, "")
+        sheet.insert_cell(start_index+i+k, 3, target.name)
+        sheet.insert_cell(start_index+i+k, 4, period_plan)
+        sheet.insert_cell(start_index+i+k, 5, "")
+        sheet.insert_cell(start_index+i+k, 6, username)
+        sheet.insert_cell(start_index+i+k, 7, result["comment"])
+
+
+        #  0ba53d -зеленый
+        #  ff0000 -красный
+        #  ffd800 -желтый
+        #  d7d7d7 - серый
+
+        if result["due_date"] == nil || result["due_date"] == ""
+          sheet.sheet_data[start_index+i+k][2].change_fill('d7d7d7')
+        elsif  Date.today > result["due_date"].to_date
+          sheet.sheet_data[start_index+i+k][2].change_fill('ff0000')
+        else
+          sheet.sheet_data[start_index+i+k][2].change_fill('0ba53d')
+        end
+
+        sheet[start_index+i+k][1].change_text_wrap(true)
+        sheet[start_index+i+k][2].change_text_wrap(true)
+        sheet[start_index+i+k][3].change_text_wrap(true)
+        sheet[start_index+i+k][4].change_text_wrap(true)
+        sheet[start_index+i+k][5].change_text_wrap(true)
+        sheet[start_index+i+k][6].change_text_wrap(true)
+        sheet[start_index+i+k][7].change_text_wrap(true)
+
+
+
+        sheet.sheet_data[start_index+i+k][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][0].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][1].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][2].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][3].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][5].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][6].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][6].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][6].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][6].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][7].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][7].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][7].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][7].change_border(:bottom, 'thin')
+
+        parent_id = result["parent_id"]
+        start_index += 1
+        index += 1
+        map[0] = index
+        targetCountParent = 0
+        common_count = start_index+i+k
+      end
+
+
+
+
+      if result["target_id"] != target_id
+        targetCountParent += 1
+        if result["parent_id"] == 0
+          targetCount += 1
+          numberResult = targetCount.to_s+"."
+        elsif
+        numberResult = numberTarget+targetCountParent.to_s+"."
+        end
+
+
+        username = result["result_assigned"] == nil ? "" : user = User.find(result["result_assigned"]).name(:lastname_f_p)
+        start_date = result["basic_date"] == nil ? "" : result["basic_date"].to_date.strftime("%d.%m.%Y")
+        due_date = result["result_due_date"] == nil ? "" : result["result_due_date"].to_date.strftime("%d.%m.%Y")
+
+        if start_date == "" && due_date !=""
+          period_plan = due_date
+        elsif start_date != "" && due_date ==""
+          period_plan = start_date
+        elsif start_date == "" && due_date ==""
+          period_plan =""
+        else
+          period_plan = start_date+" - "+ due_date
+        end
+
+
+        sheet.insert_cell(start_index+i+k, 0, numberResult)
+        sheet.insert_cell(start_index+i+k, 1, result["control_level"])
+        sheet.insert_cell(start_index+i+k, 2, "")
+        sheet.insert_cell(start_index+i+k, 3, result["name"])
+        sheet.insert_cell(start_index+i+k, 4, period_plan)
+        sheet.insert_cell(start_index+i+k, 5, "")
+        sheet.insert_cell(start_index+i+k, 6, username)
+        sheet.insert_cell(start_index+i+k, 7, result["comment"])
+
+
+        #  0ba53d -зеленый
+        #  ff0000 -красный
+        #  ffd800 -желтый
+        #  d7d7d7 - серый
+
+        if result["due_date"] == nil || result["due_date"] == ""
+          sheet.sheet_data[start_index+i+k][2].change_fill('d7d7d7')
+        elsif  Date.today > result["due_date"].to_date
+          sheet.sheet_data[start_index+i+k][2].change_fill('ff0000')
+        else
+          sheet.sheet_data[start_index+i+k][2].change_fill('0ba53d')
+        end
+
+
+        sheet[start_index+i+k][1].change_text_wrap(true)
+        sheet[start_index+i+k][2].change_text_wrap(true)
+        sheet[start_index+i+k][3].change_text_wrap(true)
+        sheet[start_index+i+k][4].change_text_wrap(true)
+        sheet[start_index+i+k][5].change_text_wrap(true)
+        sheet[start_index+i+k][6].change_text_wrap(true)
+        sheet[start_index+i+k][7].change_text_wrap(true)
+
+
+        sheet.sheet_data[start_index+i+k][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][0].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][1].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][2].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][3].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][5].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][6].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][6].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][6].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][6].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][7].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][7].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][7].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][7].change_border(:bottom, 'thin')
+
+        target_id = result["target_id"]
+        start_index += 1
+        index += 1
+        numberKT = 0
+        map[1] = index
+        common_count = start_index+i+k
+      end
+
+      if result["work_packages_id"] != nil
+        if result["work_packages_id"] != work_packages_id
+          username = result["user_id"] == nil ? "" : user = User.find(result["user_id"]).name(:lastname_f_p)
+          start_date = result["start_date"] == nil ? "" : result["start_date"].to_date.strftime("%d.%m.%Y")
+          due_date = result["due_date"] == nil ? "" : result["due_date"].to_date.strftime("%d.%m.%Y")
+          first_start_date = result["first_start_date"] == nil ? "" : result["first_start_date"].to_date.strftime("%d.%m.%Y")
+          fact_due_date = result["fact_due_date"] == nil ? "" : result["fact_due_date"].to_date.strftime("%d.%m.%Y")
+
+          if start_date == "" && due_date !=""
+            period_plan = due_date
+          elsif start_date != "" && due_date ==""
+            period_plan = start_date
+          elsif start_date == "" && due_date ==""
+            period_plan =""
+          else
+            period_plan = start_date+" - "+ due_date
+          end
+
+          if first_start_date == "" && start_date != ""
+            first_start_date = start_date
+          end
+          if fact_due_date == "" && due_date != ""
+            fact_due_date = due_date
+          end
+
+          if first_start_date == "" && fact_due_date !=""
+            period_fact = fact_due_date
+          elsif first_start_date != "" && fact_due_date ==""
+            period_fact = first_start_date
+          elsif first_start_date == "" && fact_due_date ==""
+            period_fact =""
+          else
+            period_fact = first_start_date+" - "+ fact_due_date
+          end
+
+          numberKT += 1
+          numberResultKt = numberResult+numberKT.to_s+"."
+          sheet.insert_cell(start_index+i+k, 0, numberResultKt)
+          sheet.insert_cell(start_index+i+k, 1, result["control_level"])
+          sheet.insert_cell(start_index+i+k, 2, "")
+          sheet.insert_cell(start_index+i+k, 3, result["subject"])
+          sheet.insert_cell(start_index+i+k, 4, period_plan)
+          sheet.insert_cell(start_index+i+k, 5, period_fact)
+          sheet.insert_cell(start_index+i+k, 6, username)
+          sheet.insert_cell(start_index+i+k, 7, "")
+
+
+          #  0ba53d -зеленый
+          #  ff0000 -красный
+          #  ffd800 -желтый
+          #  d7d7d7 - серый
+
+          if result["due_date"] == nil || result["due_date"] == ""
+            sheet.sheet_data[start_index+i+k][2].change_fill('d7d7d7')
+          elsif  Date.today > result["due_date"].to_date
+            sheet.sheet_data[start_index+i+k][2].change_fill('ff0000')
+          else
+            sheet.sheet_data[start_index+i+k][2].change_fill('0ba53d')
+          end
+
+
+          sheet[start_index+i+k][1].change_text_wrap(true)
+          sheet[start_index+i+k][2].change_text_wrap(true)
+          sheet[start_index+i+k][3].change_text_wrap(true)
+          sheet[start_index+i+k][4].change_text_wrap(true)
+          sheet[start_index+i+k][5].change_text_wrap(true)
+          sheet[start_index+i+k][6].change_text_wrap(true)
+          sheet[start_index+i+k][7].change_text_wrap(true)
+
+
+          sheet.sheet_data[start_index+i+k][0].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][0].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][1].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][1].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][2].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][2].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][3].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][3].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][4].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][4].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][5].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][5].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][6].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][6].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+k][7].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+k][7].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+k][7].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+k][7].change_border(:bottom, 'thin')
+
+          map[2] = numberKT
+          common_count = start_index+i+k
+        end
+
+
+        work_packages_id = result["work_packages_id"] == nil ? "0" : result["work_packages_id"].to_s
+
+        str_ids_kt = str_ids_kt == "" ? work_packages_id.to_s : str_ids_kt += ","+work_packages_id.to_s
+
+        ktTasks = get_kt_tasks(work_packages_id)
+        if ktTasks.count > 0
+          k += 1
+        end
+        level = 2
+        index2 = 0
+        ktTasks.each_with_index do |ktTask, j|
+          user = User.find(ktTask["user_id"])
+          username = user.name(:lastname_f_p)
+          start_date = ktTask["start_date"] == nil ? "" : ktTask["start_date"].to_date.strftime("%d.%m.%Y")
+          due_date = ktTask["due_date"] == nil ? "" : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
+          first_start_date = ktTask["first_start_date"] == nil ? "" : ktTask["first_start_date"].to_date.strftime("%d.%m.%Y")
+          fact_due_date = ktTask["fact_due_date"] == nil ? "" : ktTask["fact_due_date"].to_date.strftime("%d.%m.%Y")
+
+          if start_date == "" && due_date !=""
+            period_plan = due_date
+          elsif start_date != "" && due_date ==""
+            period_plan = start_date
+          elsif start_date == "" && due_date ==""
+            period_plan =""
+          else
+            period_plan = start_date+" - "+ due_date
+          end
+
+          if first_start_date == "" && start_date != ""
+            first_start_date = start_date
+          end
+          if fact_due_date == "" && due_date != ""
+            fact_due_date = due_date
+          end
+
+          if first_start_date == "" && fact_due_date !=""
+            period_fact = fact_due_date
+          elsif first_start_date != "" && fact_due_date ==""
+            period_fact = first_start_date
+          elsif first_start_date == "" && fact_due_date ==""
+            period_fact =""
+          else
+            period_fact = first_start_date+" - "+ fact_due_date
+          end
+
+          if ktTask["level"] > level
+            level = ktTask["level"]
+            index2 = 1
+            map[level] = index2
+          elsif ktTask["level"] < level
+            level = ktTask["level"]
+            map[level] = map[level]+1
+            index2 = map[level]
+          else
+            index2 += 1
+            map[level] = index2
+          end
+
+          punkt = numberResultKt
+          for l in 3..level
+            punkt += map[l].to_s + "."
+          end
+
+
+          sheet.insert_cell(start_index+i+j+k, 0, punkt)
+          sheet.insert_cell(start_index+i+j+k, 1, ktTask["control_level"])
+          sheet.insert_cell(start_index+i+j+k, 2, "")
+          sheet.insert_cell(start_index+i+j+k, 3, ktTask["subject"])
+          sheet.insert_cell(start_index+i+j+k, 4, period_plan)
+          sheet.insert_cell(start_index+i+j+k, 5, period_fact)
+          sheet.insert_cell(start_index+i+j+k, 6, username)
+          sheet.insert_cell(start_index+i+j+k, 7, "")
+
+
+          #  0ba53d -зеленый
+          #  ff0000 -красный
+          #  ffd800 -желтый
+          #  d7d7d7 - серый
+          if ktTask["is_closed"] == true
+            sheet.sheet_data[start_index+i+j+k][2].change_fill('0ba53d')
+          elsif ktTask["due_date"] == nil || ktTask["due_date"] == ""
+            sheet.sheet_data[start_index+i+j+k][2].change_fill('d7d7d7')
+          elsif  Date.today > ktTask["due_date"].to_date
+            sheet.sheet_data[start_index+i+j+k][2].change_fill('ff0000')
+          else
+            sheet.sheet_data[start_index+i+j+k][2].change_fill('0ba53d')
+          end
+
+          sheet[start_index+i+j+k][1].change_text_wrap(true)
+          sheet[start_index+i+j+k][2].change_text_wrap(true)
+          sheet[start_index+i+j+k][3].change_text_wrap(true)
+          sheet[start_index+i+j+k][4].change_text_wrap(true)
+          sheet[start_index+i+j+k][5].change_text_wrap(true)
+          sheet[start_index+i+j+k][6].change_text_wrap(true)
+          sheet[start_index+i+j+k][7].change_text_wrap(true)
+
+          sheet.sheet_data[start_index+i+j+k][0].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][0].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][0].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][0].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+j+k][1].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][1].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][1].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][1].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+j+k][2].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][2].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][2].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][2].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+j+k][3].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][3].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][3].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][3].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+j+k][4].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][4].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][4].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][4].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+j+k][5].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][5].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][5].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][5].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+j+k][6].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][6].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][6].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][6].change_border(:bottom, 'thin')
+
+          sheet.sheet_data[start_index+i+j+k][7].change_border(:top, 'thin')
+          sheet.sheet_data[start_index+i+j+k][7].change_border(:left, 'thin')
+          sheet.sheet_data[start_index+i+j+k][7].change_border(:right, 'thin')
+          sheet.sheet_data[start_index+i+j+k][7].change_border(:bottom, 'thin')
+
+          common_count = start_index+i+j+k
+        end
+
+        if ktTasks.count != 0
+          k += ktTasks.count - 1
+        end
+      else
+        start_index -= 1
+      end
+
+    end
+
+    start_index = common_count == 0 ? 3 : common_count
+
+    start_punkt = targetCount
+    k = 0
+    map = {}
+    map[1] = start_punkt
+
+    str_ids_kt = str_ids_kt == "" ? "0" : str_ids_kt
+    kt_task_no_relations = get_kt_task_no_relation(str_ids_kt)
+    kt_task_no_relations.each_with_index do |kt_task_no_relation, i|
+      start_punkt += 1
+      work_packages_id = kt_task_no_relation["id"].to_s
+      ktTasks = get_kt_tasks_parent(work_packages_id)
+      if ktTasks.count > 0
+        k += 1
+      end
+      level = 2
+      index2 = 0
+      ktTasks.each_with_index do |ktTask, j|
+        user = User.find(ktTask["user_id"])
+        username = user.name(:lastname_f_p)
+        start_date = ktTask["start_date"] == nil ? "" : ktTask["start_date"].to_date.strftime("%d.%m.%Y")
+        due_date = ktTask["due_date"] == nil ? "" : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
+        first_start_date = ktTask["first_start_date"] == nil ? "" : ktTask["first_start_date"].to_date.strftime("%d.%m.%Y")
+        fact_due_date = ktTask["fact_due_date"] == nil ? "" : ktTask["fact_due_date"].to_date.strftime("%d.%m.%Y")
+
+        if start_date == "" && due_date !=""
+          period_plan = due_date
+        elsif start_date != "" && due_date ==""
+          period_plan = start_date
+        elsif start_date == "" && due_date ==""
+          period_plan =""
+        else
+          period_plan = start_date+" - "+ due_date
+        end
+
+        if first_start_date == "" && start_date != ""
+          first_start_date = start_date
+        end
+        if fact_due_date == "" && due_date != ""
+          fact_due_date = due_date
+        end
+
+        if first_start_date == "" && fact_due_date !=""
+          period_fact = fact_due_date
+        elsif first_start_date != "" && fact_due_date ==""
+          period_fact = first_start_date
+        elsif first_start_date == "" && fact_due_date ==""
+          period_fact =""
+        else
+          period_fact = first_start_date+" - "+ fact_due_date
+        end
+
+        if ktTask["level"] > level
+          level = ktTask["level"]
+          index2 = 1
+          map[level] = index2
+        elsif ktTask["level"]  < level
+          level = ktTask["level"]
+          map[level] = map[level]+1
+          index2 = map[level]
+        else
+          index2 += 1
+          map[level] = index2
+        end
+
+        punkt = map[1].to_s + "."
+        for l in 2..level
+          punkt += map[l].to_s + "."
+        end
+
+
+
+        sheet.insert_cell(start_index+i+j+k, 0, punkt)
+        sheet.insert_cell(start_index+i+j+k, 1, ktTask["control_level"])
+        sheet.insert_cell(start_index+i+j+k, 2, "")
+        sheet.insert_cell(start_index+i+j+k, 3, ktTask["subject"])
+        sheet.insert_cell(start_index+i+j+k, 4, period_plan)
+        sheet.insert_cell(start_index+i+j+k, 5, period_fact)
+        sheet.insert_cell(start_index+i+j+k, 6, username)
+        sheet.insert_cell(start_index+i+j+k, 7, "")
+
+        #  0ba53d -зеленый
+        #  ff0000 -красный
+        #  ffd800 -желтый
+        #  d7d7d7 - серый
+        if ktTask["is_closed"] == true
+            sheet.sheet_data[start_index+i+j+k][2].change_fill('0ba53d')
+        elsif ktTask["due_date"] == nil || ktTask["due_date"] == ""
+          sheet.sheet_data[start_index+i+j+k][2].change_fill('d7d7d7')
+        elsif  Date.today > ktTask["due_date"].to_date
+            sheet.sheet_data[start_index+i+j+k][2].change_fill('ff0000')
+        else
+          sheet.sheet_data[start_index+i+j+k][2].change_fill('0ba53d')
+        end
+
+        sheet[start_index+i+j+k][1].change_text_wrap(true)
+        sheet[start_index+i+j+k][2].change_text_wrap(true)
+        sheet[start_index+i+j+k][3].change_text_wrap(true)
+        sheet[start_index+i+j+k][4].change_text_wrap(true)
+        sheet[start_index+i+j+k][5].change_text_wrap(true)
+        sheet[start_index+i+j+k][6].change_text_wrap(true)
+        sheet[start_index+i+j+k][7].change_text_wrap(true)
+
+        sheet.sheet_data[start_index+i+j+k][0].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][0].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][0].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][0].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+j+k][1].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][1].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][1].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][1].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+j+k][2].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][2].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][2].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][2].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+j+k][3].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][3].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][3].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][3].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+j+k][4].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][4].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][4].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][4].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+j+k][5].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][5].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][5].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][5].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+j+k][6].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][6].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][6].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][6].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+j+k][7].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][7].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][7].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][7].change_border(:bottom, 'thin')
+
+      end
+
+      if ktTasks.count != 0
+        k += ktTasks.count - 2
+      end
+
+
+    end
+
+  end
+
+
+  def get_result
+    sql  = "SELECT t.parent_id, t.id as target_id,t.name, t.result_due_date, t.result_assigned, t.basic_date, w.id as work_packages_id,
+               w.subject,
+               w.type_id,
+               w.start_date,
+               w.due_date,
+               w.first_start_date,
+               w.first_due_date,
+               u.id    as user_id,
+               ed.name as document,
+               cl.code as control_level,
+               t.comment
+            FROM targets t
+                   INNER JOIN enumerations e ON e.id = t.type_id and e.name = '"+I18n.t(:default_result)+"'
+                   LEFT JOIN work_package_targets wt ON wt.target_id = t.id
+                   LEFT JOIN work_packages w ON w.id = wt.work_package_id
+                   LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
+                   LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
+                   LEFT OUTER JOIN control_levels cl ON cl.id = w.control_level_id
+            WHERE t.project_id = "+ @project.id.to_s +
+      " GROUP BY t.parent_id, t.id, t.name, t.result_due_date, t.result_assigned, t.plan_date, w.id, w.subject, w.type_id, w.start_date, w.due_date, w.first_start_date,  w.first_due_date, u.id, ed.name, cl.code, t.comment
+            ORDER BY t.parent_id desc,  t.id"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
+  def get_kt_tasks(work_packages_id)
+    sql  = "WITH
+            LEVEL AS (
+              WITH RECURSIVE r AS (
+                SELECT distinct rel.to_id,  CAST (rel.to_id AS VARCHAR (50)) as PATH,1 AS level
+                FROM relations rel
+                WHERE rel.to_id = " + work_packages_id + "
+
+                UNION
+
+                SELECT distinct rel.to_id,  CAST ( r.PATH ||'->'|| rel.to_id AS VARCHAR(50)),r.level+1 AS level
+                FROM relations rel
+                       JOIN r ON rel.from_id = r.to_id
+                where rel.hierarchy = 1  and follows = 0
+
+                )
+                SELECT r.to_id as work_packages_id, r.path, r.level FROM r
+            ),
+          TASK AS (
+            SELECT distinct w.id as work_packages_id,
+                            w.subject,
+                            w.type_id,
+                            w.start_date,
+                            w.due_date,
+                            w.first_start_date,
+                            w.first_due_date,
+                            u.id    as user_id,
+                            ed.name as document,
+                            s.is_closed
+            FROM work_packages w
+                   LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
+                   LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
+                   left outer JOIN statuses s on w.status_id = s.id
+            WHERE w.id in (
+              WITH RECURSIVE r AS (
+                SELECT rel.to_id
+                FROM relations rel
+                WHERE rel.to_id = " + work_packages_id + "
+
+                UNION
+
+                SELECT distinct rel.to_id
+                FROM relations rel
+                       JOIN r ON rel.from_id = r.to_id
+                where rel.hierarchy = 1 and follows = 0
+
+                )
+                SELECT r.to_id FROM r
+            )
+          )
+         SELECT t.*, l.level+1 as level, l.path, cl.code as control_level from LEVEL l, TASK t
+         INNER JOIN work_packages w ON w.id = t.work_packages_id
+         LEFT OUTER JOIN control_levels cl ON cl.id = w.control_level_id
+
+         WHERE l.work_packages_id = t.work_packages_id and l.level <> 1
+         ORDER BY  l.path"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
+
+  def get_kt_tasks_parent(work_packages_id)
+    sql  = "WITH
+            LEVEL AS (
+              WITH RECURSIVE r AS (
+                SELECT distinct rel.to_id,  CAST (rel.to_id AS VARCHAR (50)) as PATH,1 AS level
+                FROM relations rel
+                WHERE rel.to_id = " + work_packages_id + "
+
+                UNION
+
+                SELECT distinct rel.to_id,  CAST ( r.PATH ||'->'|| rel.to_id AS VARCHAR(50)),r.level+1 AS level
+                FROM relations rel
+                       JOIN r ON rel.from_id = r.to_id
+                where rel.hierarchy = 1  and follows = 0
+
+                )
+                SELECT r.to_id as work_packages_id, r.path, r.level FROM r
+            ),
+          TASK AS (
+            SELECT distinct w.id as work_packages_id,
+                            w.subject,
+                            w.type_id,
+                            w.start_date,
+                            w.due_date,
+                            w.first_start_date,
+                            w.first_due_date,
+                            u.id    as user_id,
+                            ed.name as document,
+                            s.is_closed
+            FROM work_packages w
+                   LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
+                   LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
+                   left outer JOIN statuses s on w.status_id = s.id
+            WHERE w.id in (
+              WITH RECURSIVE r AS (
+                SELECT rel.to_id
+                FROM relations rel
+                WHERE rel.to_id = " + work_packages_id + "
+
+                UNION
+
+                SELECT distinct rel.to_id
+                FROM relations rel
+                       JOIN r ON rel.from_id = r.to_id
+                where rel.hierarchy = 1 and follows = 0
+
+                )
+                SELECT r.to_id FROM r
+            )
+          )
+         SELECT t.*, l.level as level, l.path, cl.code as control_level from LEVEL l, TASK t
+         INNER JOIN work_packages w ON w.id = t.work_packages_id
+         LEFT OUTER JOIN control_levels cl ON cl.id = w.control_level_id
+
+         WHERE l.work_packages_id = t.work_packages_id
+         ORDER BY  l.path"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
+
+  def get_kt_task_no_relation(str_ids_kt)
+
+    sql  = "SELECT w.*
+            FROM work_packages w
+            WHERE w.id in (
+            SELECT rel.to_id as id
+            FROM relations rel
+            WHERE rel.to_id  in (
+            SELECT id
+            from work_packages w
+            WHERE id not in
+            ("+str_ids_kt+")
+            and w.project_id = "+ @project.id.to_s+ " )  and follows = 0
+            group by rel.to_id
+            having count(id) = 1
+            order by rel.to_id )"
+
+    result = ActiveRecord::Base.connection.execute(sql)
+    index = 0
+    result_array = []
+    result.each do |row|
+      result_array[index] = row
+      index += 1
+    end
+    result_array
+  end
+
 
 
    def fed_budget_data

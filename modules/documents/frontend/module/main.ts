@@ -33,25 +33,51 @@ import {APP_INITIALIZER, Injector, NgModule} from '@angular/core';
 import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
 import {DocumentResource} from './hal/resources/document-resource';
 import {multiInput} from 'reactivestates';
+import {WpDocumentConfigurationModalComponent} from "./wp-document-modal/wp-document-configuration.modal";
+import {WpDocumentAutocompleteComponent} from "./wp-document-autocomplete/wp-document-autocomplete.upgraded.component";
+import {WorkPackageDocumentPaginationComponent} from "./wp-document-modal/wp-document-pagination.component";
+import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import {HookService} from "../../hook-service";
 
-export function initializeDocumentPlugin() {
-    return () => {
-        window.OpenProject.getPluginContext()
-            .then((pluginContext:OpenProjectPluginContext) => {
-                let halResourceService = pluginContext.services.halResource;
-                halResourceService.registerResource('Document', { cls: DocumentResource });
+export function initializeDocumentPlugin(injector: Injector) {
+  return () => {
+    window.OpenProject.getPluginContext()
+      .then((pluginContext: OpenProjectPluginContext) => {
+        let halResourceService = pluginContext.services.halResource;
+        halResourceService.registerResource('Document', {cls: DocumentResource});
 
-                let states = pluginContext.services.states;
-                states.add('documents', multiInput<DocumentResource>());
-            });
-    };
+        let states = pluginContext.services.states;
+        states.add('document', multiInput<DocumentResource>());
+      });
+
+    const hookService = injector.get(HookService);
+    hookService.register('openProjectAngularBootstrap', () => {
+      return [,
+        {selector: 'wp-document-pagination', cls: WorkPackageDocumentPaginationComponent},
+        {selector: 'wp-document-autocomplete-upgraded', cls: WpDocumentAutocompleteComponent}
+      ];
+    });
+  };
 }
 
 
 @NgModule({
-    providers: [
-        { provide: APP_INITIALIZER, useFactory: initializeDocumentPlugin, deps: [Injector], multi: true },
-    ],
+  imports: [
+    OpenprojectCommonModule
+  ],
+  declarations: [
+    WorkPackageDocumentPaginationComponent,
+    WpDocumentConfigurationModalComponent,
+    WpDocumentAutocompleteComponent
+  ],
+  providers: [
+    {provide: APP_INITIALIZER, useFactory: initializeDocumentPlugin, deps: [Injector], multi: true},
+  ],
+  entryComponents: [
+    WorkPackageDocumentPaginationComponent,
+    WpDocumentConfigurationModalComponent,
+    WpDocumentAutocompleteComponent
+  ]
 })
 export class PluginModule {
 }

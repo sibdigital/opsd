@@ -151,8 +151,8 @@ class Project < ActiveRecord::Base
      association_foreign_key: 'custom_field_id'
 
   #tmd
-  has_one :address, dependent: :destroy
-  accepts_nested_attributes_for :address, :reject_if => :all_blank
+  #has_one :address, dependent: :destroy
+  #accepts_nested_attributes_for :address, :reject_if => :all_blank
 
   #bbm(
   has_many :project_risks
@@ -251,8 +251,14 @@ class Project < ActiveRecord::Base
   #
   # end
   def get_default_board
-    default_board = Board.find_by( project_id: self.id, is_default: true)
-    default_board.nil? ? nil : default_board.id
+    default_board = Board.find_by(project_id: self.id, is_default: true)
+    if default_board.nil?
+      default_board = Board.find_by(project_id: self.id)
+      if default_board.nil?
+        default_board = nil
+      end
+    end
+    default_board
   end
 
   def curator
@@ -755,6 +761,12 @@ class Project < ActiveRecord::Base
     notified_members.map(&:user)
   end
 
+  # +-tan 2019.11.30
+  # Returns the all users that should be notified on project events
+  def all_notified_users
+    members.map(&:user)
+  end
+
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
   #
@@ -836,7 +848,7 @@ class Project < ActiveRecord::Base
 
   #bbm(
   def get_budget_fraction(raion_id)
-    budget = AllBudgetsHelper.cost_by_project self, raion_id
+    budget = AllBudgetsHelper.cost_by_project self
     if budget then
       if budget[:total_budget] == 0 then
         0

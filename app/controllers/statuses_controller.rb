@@ -133,9 +133,9 @@ class StatusesController < ApplicationController
       .each { |r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
-      if Setting.notified_events.include?('status_created')
+      if Setting.is_notified_event('status_created')
         user = User.find(member.user_id)
-        if user.present?
+        if user.present? && Setting.can_notified_event(user,'status_created')
           UserMailer.status_created(user, @status, User.current).deliver_later
         end
       end
@@ -151,9 +151,9 @@ class StatusesController < ApplicationController
       .each { |r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
-      if Setting.notified_events.include?('status_deleted')
+      if Setting.is_notified_event('status_deleted')
         user = User.find(member.user_id)
-        if user.present?
+        if user.present? && Setting.can_notified_event(user,'status_deleted')
           UserMailer.status_deleted(user, @statusname, User.current).deliver_later
         end
       end

@@ -58,7 +58,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= link_to_if_authorized(l(:button_edit), {action: 'edit', id: @page}, class: 'button icon-edit', accesskey: accesskey(:edit)) %>
       </li>
     <% end %>
-    <% if Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated") %>
+    <% if Setting.is_notified_event("wiki_content_added") or Setting.is_notified_event("wiki_content_updated") %>
       <li class="toolbar-item">
         <%= watcher_link(@page, User.current) %>
       </li>

@@ -73,7 +73,9 @@ class BoardsController < ApplicationController
     sort_init 'updated_on', 'desc'
     sort_update 'created_on' => "#{Message.table_name}.created_on",
                 'replies' => "#{Message.table_name}.replies_count",
-                'updated_on' => "#{Message.table_name}.updated_on"
+                'updated_on' => "#{Message.table_name}.updated_on",
+                'subject' => "#{Message.table_name}.subject",
+                'author' => "#{Message.table_name}.author_id"
 
     respond_to do |format|
       format.html do
@@ -134,15 +136,21 @@ class BoardsController < ApplicationController
     @timenow = Time.now.strftime("%d/%m/%Y %H:%M") #ban
     if @board.save
       flash[:notice] = l(:notice_successful_create)
-      Member.where(project_id: @board.project_id).each do |member|
-        if member != User.current
-          Alert.create_pop_up_alert(@board,  "Created", User.current, member.user)
+
+      begin
+        Member.where(project_id: @board.project_id).each do |member|
+          if member != User.current
+            Alert.create_pop_up_alert(@board,  "Created", User.current, member.user)
+          end
+          #ban(
+          addr_user = User.find_by(id: member.user_id)
+          if Setting.can_notified_event(addr_user, 'board_added')
+            UserMailer.board_added(addr_user, @board, User.current, @project, @timenow).deliver_later
+          end
+          #)
         end
-        #ban(
-        if Setting.notified_events.include?('board_added')
-          UserMailer.board_added(User.find_by(id:member.user_id), @board, User.current, @project, @timenow).deliver_later
-        end
-        #)
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
       redirect_to_settings_in_projects
     else
@@ -156,15 +164,21 @@ class BoardsController < ApplicationController
     @timenow = Time.now.strftime("%d/%m/%Y %H:%M") #ban
     if @board.update_attributes(permitted_params.board)
       flash[:notice] = l(:notice_successful_update)
-      Member.where(project_id: @board.project_id).each do |member|
-        if member != User.current
-          Alert.create_pop_up_alert(@board,  "Changed", User.current, member.user)
+
+      begin
+        Member.where(project_id: @board.project_id).each do |member|
+          if member != User.current
+            Alert.create_pop_up_alert(@board,  "Changed", User.current, member.user)
+          end
+          #ban(
+          addr_user = User.find_by(id: member.user_id)
+          if Setting.can_notified_event(addr_user,'board_changed')
+            UserMailer.board_changed(addr_user, @board, User.current, @project, @timenow).deliver_later
+          end
+          # )
         end
-        #ban(
-        if Setting.notified_events.include?('board_changed')
-          UserMailer.board_changed(User.find_by(id:member.user_id), @board, User.current, @project, @timenow).deliver_later
-        end
-        # )
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
       redirect_to_settings_in_projects
     else
@@ -176,16 +190,23 @@ class BoardsController < ApplicationController
     @timenow = Time.now.strftime("%d/%m/%Y %H:%M") #ban
     if @board.update_attributes(permitted_params.board_move)
       flash[:notice] = l(:notice_successful_update)
-      Member.where(project_id: @board.project_id).each do |member|
-        if member != User.current
-        Alert.create_pop_up_alert(@board, "Moved", User.current, member.user)
+
+      begin
+        Member.where(project_id: @board.project_id).each do |member|
+          if member != User.current
+          Alert.create_pop_up_alert(@board, "Moved", User.current, member.user)
+          end
+          #ban(
+          addr_user = User.find_by(id: member.user_id)
+          if Setting.can_notified_event(addr_user,'board_moved')
+            UserMailer.board_moved(addr_user, @board, User.current, @project, @timenow).deliver_later
+          end
+          #)
         end
-        #ban(
-        if Setting.notified_events.include?('board_moved')
-          UserMailer.board_moved(User.find_by(id:member.user_id), @board, User.current, @project, @timenow).deliver_later
-        end
-        #)
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
+
     else
       flash.now[:error] = l('board_could_not_be_saved')
       render action: 'edit'
@@ -200,15 +221,20 @@ class BoardsController < ApplicationController
     #)
     @board.destroy
     flash[:notice] = l(:notice_successful_delete)
-    Member.where(project_id: @board.project_id).each do |member|
-      if member != User.current
-        Alert.create_pop_up_alert(@board,  "Deleted", User.current, member.user)
+    begin
+      Member.where(project_id: @board.project_id).each do |member|
+        if member != User.current
+          Alert.create_pop_up_alert(@board,  "Deleted", User.current, member.user)
+        end
+        #ban(
+        addr_user = User.find_by(id: member.user_id)
+        if Setting.can_notified_event(addr_user,'board_deleted')
+          UserMailer.board_deleted(User.find_by(id:member.user_id), @boardname, User.current, @project, @timenow).deliver_later
+        end
+        #)
       end
-      #ban(
-      if Setting.notified_events.include?('board_deleted')
-        UserMailer.board_deleted(User.find_by(id:member.user_id), @boardname, User.current, @project, @timenow).deliver_later
-      end
-      #)
+    rescue Exception => e
+      Rails.logger.info(e.message)
     end
     redirect_to_settings_in_projects
   end

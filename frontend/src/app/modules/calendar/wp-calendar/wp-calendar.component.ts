@@ -133,17 +133,24 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     window.history.pushState({}, this.titleService.current, window.location.href);
 
 
-    if ($event.detail.event.type_event == "meeting"){
-      let meeting = $event.detail.event.meeting;
-
-      window.location.href = this.pathHelper.appBasePath + '/meetings/' + meeting.id;
-    }else{
-      let workPackage = $event.detail.event.workPackage;
-
-      this.$state.go(
-        'work-packages.show',
-        { workPackageId: workPackage.id },
-        { inherit: false });
+    switch ($event.detail.event.type_event) {
+      case 'meeting': {
+        let meeting = $event.detail.event.meeting;
+        window.location.href = this.pathHelper.appBasePath + '/meetings/' + meeting.id;
+        break;
+      }
+      case 'user_task': {
+        let user_task = $event.detail.event.user_task;
+        window.location.href = this.pathHelper.appBasePath + '/user_tasks/' + user_task.id;
+        break;
+      }
+      default: {
+        let workPackage = $event.detail.event.workPackage;
+        this.$state.go(
+          'work-packages.show',
+          {workPackageId: workPackage.id},
+          {inherit: false});
+      }
     }
   }
 

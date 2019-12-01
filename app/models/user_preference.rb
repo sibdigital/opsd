@@ -64,6 +64,14 @@ class UserPreference < ActiveRecord::Base
     others[:no_self_notified] = !value
   end
 
+  def add_mail_notifications?
+    others[:add_mail_notifications]
+  end
+
+  def add_mail_notifications=(value)
+    others[:add_mail_notifications] = value
+  end
+
   def auto_hide_popups=(value)
     others[:auto_hide_popups] = to_boolean(value)
   end

@@ -51,6 +51,14 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= @selected_view == "table" ? op_icon('button--icon icon-organization') : op_icon('button--icon icon-enumerations') %>
       <% end %>
     </li>
+    <li class="toolbar-item">
+      <%= link_to(@project.get_default_board.nil? ? nil : new_board_topic_path(@project.get_default_board),
+                  class: @project.get_default_board.nil? ? 'button -disabled' : 'button',
+                  aria: {label: t("label_board_new")},
+                  title: @project.get_default_board.nil? ? t("label_board_dont_exist") : t("label_board_new")) do %>
+      <%= op_icon('button--icon icon-ticket-note') %>
+      <% end %>
+    </li>
   <% end %>
 <% end %>
 <%= styled_form_tag(project_documents_path(project_id: @project.id), { method: :get, id: 'query_form' }) do %>
@@ -100,10 +108,11 @@ See doc/COPYRIGHT.rdoc for more details.
                 <col highlight-col>
                 <col highlight-col>
                 <col highlight-col>
+                <col highlight-col>
               </colgroup>
       <thead>
       <tr>
-        <%= sort_header_tag("id", :caption => '#', :default_order => 'asc') %>
+        <%= sort_header_tag("id", :caption => '#') %>
         <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
         <th>
           <div class="generic-table--sort-header-outer">
@@ -123,24 +132,9 @@ See doc/COPYRIGHT.rdoc for more details.
             </div>
           </div>
         </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-                <span>
-                  <%= Document.human_attribute_name(:user) %>
-                </span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-                <span>
-                  <%= Document.human_attribute_name(:created_on) %>
-                </span>
-            </div>
-          </div>
-        </th>
+        <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
+        <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
+
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
@@ -154,6 +148,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
                 <span>
+                  <%= Document.human_attribute_name(:work_package) %>
                 </span>
             </div>
           </div>
@@ -167,7 +162,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= content_tag(:td,link_to( h(document.title), :controller => '/documents', :action => 'show', :id => document)) %>
           <%= content_tag(:td, document.description) %>
           <%= content_tag(:td, document.category) %>
-          <%= content_tag(:td, User.find(document.user_id).fio) %>
+          <%= content_tag(:td, document.user.fio) %>
           <%= content_tag(:td, format_activity_day(document.created_on)) %>
           <td>
             <ul style="list-style-type: none; margin: 0;">
@@ -181,6 +176,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </li>
             </ul>
           </td>
+          <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
           <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
         </tr>
         <% end %>
@@ -194,7 +190,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <table class="generic-table" id="documents">
       <thead>
       <tr>
-        <%= sort_header_tag("id", :caption => '#', :default_order => 'asc') %>
+        <%= sort_header_tag("id", :caption => '#') %>
         <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
         <th>
           <div class="generic-table--sort-header-outer">
@@ -214,27 +210,14 @@ See doc/COPYRIGHT.rdoc for more details.
             </div>
           </div>
         </th>
+        <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
+        <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
                 <span>
-                  <%= Document.human_attribute_name(:user) %>
+                  <%= Document.human_attribute_name(:work_package) %>
                 </span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-                <span>
-                  <%= Document.human_attribute_name(:created_on) %>
-                </span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
             </div>
           </div>
         </th>
@@ -249,6 +232,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= content_tag(:td, document.category) %>
         <%= content_tag(:td, User.find(document.user_id).fio) %>
         <%= content_tag(:td, format_activity_day(document.created_on)) %>
+        <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
         <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'icon-2', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
         <%document.attachments.each do |attachment| %>
           </tr>
@@ -264,7 +248,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= content_tag(:td, format_activity_day(attachment.created_at)) %>
             <%#=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
         <% end %>
-      </tr>
+        </tr>
       <% end %>
       </tbody>
     </table>

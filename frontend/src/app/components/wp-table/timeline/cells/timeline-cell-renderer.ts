@@ -327,7 +327,7 @@ export class TimelineCellRenderer {
           trudozatraty.classList.add('__hl_row_overdue');
         } else {
           trudozatraty.classList.add(Highlighting.rowClass('status', id));
-          trudozatraty.classList.add('__hl_border_overdue');
+          trudozatraty.classList.add('__hl_border_black');
         }
       }
     }

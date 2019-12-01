@@ -12,7 +12,7 @@ var timerId = setTimeout(notifying(),requestdelay);
 
 function notifying()
 {
-  /*var count;
+  var count;
   var time=10;
 
   // jQuery.ajax({ type: 'GET',
@@ -41,7 +41,7 @@ function notifying()
       }
     }
   });
-  setTimeout(notifying,requestdelay);*/
+  setTimeout(notifying,requestdelay);
 }
 
 function pop(id, text, time){

@@ -118,3 +118,9 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", custom_field: @custom_field, form: f) %>
 </section>
+
+<section class="form--section">
+  <% if @custom_field.class.name == "ArbitaryObjectCustomField" or @custom_field.class.name == "ContractCustomField" or @custom_field.class.name == "OrganizationCustomField" or @custom_field.class.name == "PositionCustomField" or @custom_field.class.name == "TypedRiskCustomField" or @custom_field.class.name == "ProjectRiskCustomField"%>
+    <div class="form--field"><%= f.check_box :is_approved %></div>
+  <% end %>
+</section>

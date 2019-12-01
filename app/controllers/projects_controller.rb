@@ -163,16 +163,27 @@ class ProjectsController < ApplicationController
         @altered_project.set_allowed_parent!(params['project']['parent_id'])
       end
       flash[:notice] = l(:notice_successful_update)
-      Member.where(project_id: @altered_project.id).each do |member|
-        if member != User.current
-        Alert.create_pop_up_alert(@altered_project, "Changed", User.current, member.user)
-          end
-      end
-      #ban(
-      if Setting.notified_events.include?('project_changed')
-        @project.recipients.uniq.each do |user|
-          UserMailer.project_changed(user, @project, User.current, @old_status, @old_start_date, @old_due_date).deliver_later
+
+      begin
+        Member.where(project_id: @altered_project.id).each do |member|
+          if member != User.current
+          Alert.create_pop_up_alert(@altered_project, "Changed", User.current, member.user)
+            end
         end
+        #ban(
+        recip = @project.recipients
+        if (Setting.is_strong_notified_event('project_changed'))
+          recip = @project.all_recipients
+        end
+        if Setting.is_notified_event('project_changed')
+          recip.uniq.each do |user|
+            if Setting.can_notified_event(user, 'project_changed')
+              UserMailer.project_changed(user, @project, User.current, @old_status, @old_start_date, @old_due_date).deliver_later
+            end
+          end
+        end
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
       #)
       OpenProject::Notifications.send('project_updated', project: @altered_project)
@@ -254,19 +265,29 @@ class ProjectsController < ApplicationController
       # destroy_address
 
       flash[:notice] = I18n.t('projects.delete.scheduled')
-      Member.where(project_id: @project.id).each do |member|
-        if member != User.current
-        Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
-          end
-      end
-      #ban(
-      @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
-      if Setting.notified_events.include?('project_deleted')
-        @project.recipients.uniq.each do |user|
-          UserMailer.project_deleted(user, @project, User.current, @timenow).deliver_later
+      begin
+        Member.where(project_id: @project.id).each do |member|
+          if member != User.current
+          Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
+            end
         end
+        #ban(
+        @timenow = Time.now.strftime("%d/%m/%Y %H:%M")
+        recip = @project.recipients
+        if (Setting.is_strong_notified_event('project_changed'))
+          recip = @project.all_recipients
+        end
+        if Setting.is_notified_event('project_deleted')
+          recip.uniq.each do |user|
+            if Setting.can_notified_event(user, 'project_deleted')
+              UserMailer.project_deleted(user, @project, User.current, @timenow).deliver_later
+            end
+          end
+        end
+        #)
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
-      #)
     else
       flash[:error] = I18n.t('projects.delete.schedule_failed', errors: call.errors.full_messages.join("\n"))
     end
@@ -398,7 +419,7 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @project = Project.new
-    @address = @project.build_address
+    #@address = @project.build_address
     @project.parent = Project.find(params[:parent_id]) if params[:parent_id]
     @project.attributes = permitted_params.project if params[:project].present?
   end
@@ -495,30 +516,13 @@ class ProjectsController < ApplicationController
                               .each { |r| roles.push(r)}
     members = Member.joins(:member_roles).where('role_id in (?)', roles)
     members.each do |member|
-      if Setting.notified_events.include?('project_created')
+      if Setting.is_notified_event('project_created')
         user = User.find(member.user_id)
-        if user.present?
+        if user.present? && Setting.can_notified_event(user,'project_created')
           UserMailer.project_created(user, @project, User.current).deliver_later
         end
       end
     end
-
-    # ban(
-    # @project_office_members = []
-    # @memberroles = MemberRole.find_by_sql('select * from member_roles')
-    # @memberroles.each do |member_role|
-    #   if member_role.role_id = 8 || member_role.role_id = 10 || member_role.role_id = 13
-    #     @member_id = Member.find_by(id: member_role.member_id)
-    #     @project_office_members << User.find_by(id: Member.find_by(id: @member_id))
-    #   end
-    # end
-    # if Setting.notified_events.include?('project_created')
-    #   @project_office_members.uniq.each do |user|
-    #     if user != nil
-    #       UserMailer.project_created(user, @project, User.current).deliver_later
-    #     end
-    #   end
-    # end
   end
   # )
 end

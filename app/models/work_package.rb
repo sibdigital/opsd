@@ -72,6 +72,7 @@ class WorkPackage < ActiveRecord::Base
   #bbm(
   has_many :meetings, dependent: :delete_all
   has_many :messages, dependent: :delete_all
+  has_many :documents, dependent: :delete_all
   has_one :critical_way, foreign_key: 'wp_id', dependent: :delete
   # )
   #tan(
@@ -127,13 +128,28 @@ class WorkPackage < ActiveRecord::Base
 
   scope :visible, ->(*args) {
     #+tan tmd
-    if !User.current.has_priveleged?(@project) && !User.current.admin? && !User.current.detect_project_office_coordinator? && !User.current.detect_project_administrator?
+
+    if User.current.detect_in_global?
+      #если текущий пользователь обладает глобальной ролью, то может смотреть все
+      where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+    else
+      # иначе смотрим в каких проектах он руководитель админ куратор или заказчик
+      # а там где не имеет этой роли входит ли его организация
+      projects = User.current.members_with_roles([Role.project_admin.name, Role.project_head.name,
+                                         Role.project_curator.name, Role.project_customer.name]).map{|m| m.project_id.to_i} || [0]
       org = User.current.organization
       childs = org != nil ? org.childs().map {|c| c.id.to_i} : [0]
-      where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages)).where('organization_id in (?)', childs)
-    else
       where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+        .where('"work_packages".project_id in (?) or "work_packages".organization_id in (?)', projects, childs)
+
     end
+    # if !User.current.has_priveleged?(self.project) && !User.current.admin? && !User.current.detect_project_office_coordinator?
+    #   org = User.current.organization
+    #   childs = org != nil ? org.childs().map {|c| c.id.to_i} : [0]
+    #   where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages)).where('organization_id in (?)', childs)
+    # else
+    #   where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+    # end
     #-
   }
 
