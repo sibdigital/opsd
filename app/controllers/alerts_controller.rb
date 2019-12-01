@@ -18,10 +18,11 @@ class AlertsController < ApplicationController
   #include OrgSettingsHelper
 
   def index
-    notify_by_email
-
-    # render json: @alerts.select([:id, :entity_id, :entity_type, :alert_date])
-    render html: "AlertsController выполнен"
+    if (User.current && User.current.admin)
+      notify_by_email
+      # render json: @alerts.select([:id, :entity_id, :entity_type, :alert_date])
+      render html: "AlertsController выполнен"
+    end
   end
 
 

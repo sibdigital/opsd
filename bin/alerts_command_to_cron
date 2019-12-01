@@ -1,1 +1,1 @@
-*/1 * * * * PATH=$PATH:/usr/local/bin && bash -lc "cd /home/bulat/RubymineProjects/opsd; bundle exec rake alerts:start >> log/alerts.log 2>&1"
+30 * * * * PATH=$PATH:/usr/local/bin && bash -lc "cd /home/bulat/RubymineProjects/opsd; bundle exec rake alerts:start >> log/alerts.log 2>&1"
