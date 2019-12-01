@@ -80,7 +80,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <div class="wiki">
     <%= format_text(@topic.content, object: @topic, attachments: @topic.attachments) %>
+    <br/>
+    <p>Мероприятие: </p>
+    <%= content_tag(:p, @topic.work_package.nil? ? '' : link_to(@topic.work_package.subject, project_work_package_path(@topic.work_package.project.identifier, @topic.work_package.id, 'activity') + '?plan_type=execution', title: @topic.work_package.subject)) %>
+
   </div>
+
 
   <% resource = message_attachment_representer(@topic) %>
   <%= list_attachments(resource) %>

@@ -134,6 +134,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </th>
         <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
         <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
+        <%= sort_header_tag("updated_on", :caption => Document.human_attribute_name(:updated_on)) %>
 
         <th>
           <div class="generic-table--sort-header-outer">
@@ -164,6 +165,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= content_tag(:td, document.category) %>
           <%= content_tag(:td, document.user.fio) %>
           <%= content_tag(:td, format_activity_day(document.created_on)) %>
+          <%= content_tag(:td, format_activity_day(document.updated_on)) %>
           <td>
             <ul style="list-style-type: none; margin: 0;">
               <% document.attachments.each do |attachment| %>
@@ -212,6 +214,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </th>
         <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
         <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
+        <%= sort_header_tag("updated_on", :caption => Document.human_attribute_name(:updated_on)) %>
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
@@ -232,6 +235,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= content_tag(:td, document.category) %>
         <%= content_tag(:td, User.find(document.user_id).fio) %>
         <%= content_tag(:td, format_activity_day(document.created_on)) %>
+        <%= content_tag(:td, format_activity_day(document.updated_on)) %>
         <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
         <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'icon-2', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
         <%document.attachments.each do |attachment| %>

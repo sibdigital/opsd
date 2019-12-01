@@ -20,6 +20,19 @@ module Grids
       Grids::Configuration.register_widget('time_entries_current_user', 'Grids::MyPage')
       Grids::Configuration.register_widget('documents', 'Grids::MyPage')
       Grids::Configuration.register_widget('news', 'Grids::MyPage')
+      #+tan
+      Grids::Configuration.register_widget('work_packages_remaining', 'Grids::MyPage')
+      Grids::Configuration.register_widget('user_tasks_notes', 'Grids::MyPage')
+      Grids::Configuration.register_widget('user_tasks_requests', 'Grids::MyPage')
+      Grids::Configuration.register_widget('user_tasks_my_requests', 'Grids::MyPage')
+      Grids::Configuration.register_widget('user_tasks_responses', 'Grids::MyPage')
+      Grids::Configuration.register_widget('user_tasks_tasks', 'Grids::MyPage')
+      Grids::Configuration.register_widget('user_tasks_my_tasks', 'Grids::MyPage')
+      Grids::Configuration.register_widget('day_tasks', 'Grids::MyPage')
+      Grids::Configuration.register_widget('overdue_list', 'Grids::MyPage')
+      Grids::Configuration.register_widget('notifications', 'Grids::MyPage')
+
+      # -tan
     end
   end
 end

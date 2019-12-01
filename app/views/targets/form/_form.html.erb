@@ -53,7 +53,7 @@ This file written by XCC
   <div class="form--field"><%= f.number_field 'basic_value', step: :any, container_class: '-middle' %></div>
   <div class="form--field"><%= f.number_field 'plan_value', step: :any, container_class: '-middle' %></div>
   <div class="form--field"><%= f.select :result_assigned,
-                                        options_for_select(@project.members.map {|u| [u.name, u.id]}, @target.result_assigned),
+                                        options_for_select(@project.members.map {|m| [m.name, m.user.id]}, @target.result_assigned),
                                         include_blank: true,
                                         container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_field 'comment', container_class: '-middle' %></div>

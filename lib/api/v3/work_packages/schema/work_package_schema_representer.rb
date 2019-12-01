@@ -129,6 +129,11 @@ module API
                  type: 'Integer',
                  required: false
           # )
+          schema :topic_href,
+                 type: 'Href',
+                 required: false,
+                 min_length: 1,
+                 max_length: 255
 
           #zbd(
           schema :result_agreed,

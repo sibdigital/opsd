@@ -373,6 +373,17 @@ module API
                    i
                  }
 
+        property :topic_href,
+                 render_nil: false,
+                 getter: ->(*) {
+                   topic = Message.where(work_package_id: id).first
+                   if topic
+                     "#{Setting.protocol}://#{Setting.host_name}/topics/#{topic.id}"
+                   else
+                     ''
+                   end
+                 }
+
         property :problems_count,
                  render_nil: true,
                  getter: ->(*) {

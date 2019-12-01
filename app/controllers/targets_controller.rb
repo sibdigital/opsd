@@ -48,6 +48,9 @@ class TargetsController < ApplicationController
     @parent_id = parent_id_param
 
     if default
+
+      #tan 2019.12.01 TODO: надо решить вопрос с  иерархической пагинацией
+
       @targets = @project.targets
                    .order(sort_clause)
                    .page(page_param)
