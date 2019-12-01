@@ -261,9 +261,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
                 break;
             }
 
+            let titleUt = kind + ": " + userTask.text
+
+            if (Date.parse(userTask.due_date) < Date.now() && userTask.completed == 'Нет') {
+              titleUt = "(!) " + kind + ": " + userTask.text
+            }
+
             return {
               //title: userTask.kind == "Task" ? "Задача: " : "Заметка: " + userTask.text,
-              title: kind + ": " + userTask.text,
+              title: titleUt,
               start: userTask.due_date,
               end: userTask.due_date,
               // className: `__hl_row_type_${meeting.workPackageId}`,
