@@ -17,6 +17,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
+require 'cost_query'
+require 'cost_query/group_by'
+require 'cost_query/filter'
+
 class CostReportsController < ApplicationController
   module QueryPreperation
     ##

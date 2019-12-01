@@ -23,9 +23,9 @@ class Report2::Filter
     engine::Operator.load
 
     inherited_attribute :available_operators,
-                        list: true, map: :to_operator,
+                        list: true, map: :to_operator2,
                         uniq: true
-    inherited_attribute :default_operator, map: :to_operator
+    inherited_attribute :default_operator, map: :to_operator2
 
     accepts_property :values, :value, :operator
 
@@ -77,7 +77,7 @@ class Report2::Filter
       names.each do |name|
         dont_inherit :available_operators if skip_inherited_operators.include? name
         case name
-        when String, engine::Operator then operators << name.to_operator
+        when String, engine::Operator then operators << name.to_operator2
         when Symbol then operators.push(*engine::Operator.send(name))
         else fail "dunno what to do with #{name.inspect}"
         end
@@ -149,11 +149,11 @@ class Report2::Filter
     end
 
     def operator
-      (@operator || self.class.default_operator || engine::Operator.default_operator).to_operator
+      (@operator || self.class.default_operator || engine::Operator.default_operator).to_operator2
     end
 
     def operator=(value)
-      @operator = value.to_operator.tap do |o|
+      @operator = value.to_operator2.tap do |o|
         unless available_operators.include?(o) || additional_operators.include?(o)
           raise ArgumentError, "#{o.inspect} not supported by #{inspect}."
         end

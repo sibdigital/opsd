@@ -30,7 +30,7 @@ class TargetQuery::Filter::WorkPackageId < Report2::Filter::Base
   end
 
   def self.available_operators
-    ['='].map(&:to_operator)
+    ['='].map(&:to_operator2)
   end
 
   ##

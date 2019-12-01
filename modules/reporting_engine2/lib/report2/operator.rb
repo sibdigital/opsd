@@ -66,7 +66,7 @@ class Report2::Operator
 
         from  = Time.now.at_beginning_of_week + ((first_day % 7) - 1).days
         from -= offset.days
-        '<>d'.to_operator.modify query, field, from, from + 7.days
+        '<>d'.to_operator2.modify query, field, from, from + 7.days
       end
     end
 
@@ -178,14 +178,14 @@ class Report2::Operator
     new '<d', label: :label_less_or_equal, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        '<='.to_operator.modify query, field, quoted_date(value)
+        '<='.to_operator2.modify query, field, quoted_date(value)
       end
     end
 
     new '>d', label: :label_greater_or_equal, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        '>='.to_operator.modify query, field, quoted_date(value)
+        '>='.to_operator2.modify query, field, quoted_date(value)
       end
     end
 
@@ -200,7 +200,7 @@ class Report2::Operator
     new '=d', label: :label_date_on, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
-        '='.to_operator.modify query, field, quoted_date(value)
+        '='.to_operator2.modify query, field, quoted_date(value)
       end
     end
 
@@ -210,7 +210,7 @@ class Report2::Operator
       def modify(query, field, value)
         now = Time.now
         from = (now - value.to_i.days).beginning_of_day
-        '<>d'.to_operator.modify query, field, from, now
+        '<>d'.to_operator2.modify query, field, from, now
       end
     end
 
@@ -236,10 +236,10 @@ class Report2::Operator
   end
   #############################################################################################
 
-  module CoreExt
+  module CoreExt2
     ::String.send :include, self
     ::Symbol.send :include, self
-    def to_operator
+    def to_operator2
       Report2::Operator.find self
     end
   end
@@ -288,24 +288,24 @@ class Report2::Operator
   end
 
   def self.integer_operators
-    ['<', '>', '<=', '>='].map(&:to_operator)
+    ['<', '>', '<=', '>='].map(&:to_operator2)
   end
 
   def self.null_operators
-    ['*', '!*'].map(&:to_operator)
+    ['*', '!*'].map(&:to_operator2)
   end
 
   def self.string_operators
-    ['!~', '~'].map(&:to_operator)
+    ['!~', '~'].map(&:to_operator2)
   end
 
   def self.time_operators
-    # ["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator}
-    ['t', 'w', '<>d', '>d', '<d', '=d', '>=d'].map(&:to_operator)
+    # ["t-", "t+", ">t-", "<t-", ">t+", "<t+"].map { |s| s.to_operator2}
+    ['t', 'w', '<>d', '>d', '<d', '=d', '>=d'].map(&:to_operator2)
   end
 
   def self.default_operators
-    ['=', '!'].map(&:to_operator)
+    ['=', '!'].map(&:to_operator2)
   end
 
   attr_reader :name
@@ -320,7 +320,7 @@ class Report2::Operator
     singleton_class.class_eval(&block) if block
   end
 
-  def to_operator
+  def to_operator2
     self
   end
 

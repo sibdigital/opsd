@@ -23,31 +23,31 @@ class Widget2::Settings < Widget2::Base
   @@settings_to_render = [:filter, :group_by, :controls]
 
   def render_filter_settings
-    render_widget Widget2::Settings::Fieldset, @subject,
+    render_widget2 Widget2::Settings::Fieldset, @subject,
                   type: 'filters'  do
-      render_widget Widget2::Filters, @subject
+      render_widget2 Widget2::Filters, @subject
     end
   end
 
   def render_group_by_settings
-    render_widget Widget2::Settings::Fieldset, @subject,
+    render_widget2 Widget2::Settings::Fieldset, @subject,
                   type: 'group_by'  do
-      render_widget Widget2::GroupBys, @subject
+      render_widget2 Widget2::GroupBys, @subject
     end
   end
 
   def render_controls_settings
     content_tag :div, class: 'form--buttons -with-button-form' do
       widgets = ''.html_safe
-      render_widget(Widget2::Controls::Apply, @subject, to: widgets)
-      render_widget(Widget2::Controls::Save, @subject, to: widgets,
+      render_widget2(Widget2::Controls::Apply, @subject, to: widgets)
+      render_widget2(Widget2::Controls::Save, @subject, to: widgets,
                                                       can_save: allowed_to?(:save, @subject, current_user))
       if allowed_to?(:create, @subject, current_user)
-        render_widget(Widget2::Controls::SaveAs, @subject, to: widgets,
+        render_widget2(Widget2::Controls::SaveAs, @subject, to: widgets,
                                                           can_save_as_public: allowed_to?(:save_as_public, @subject, current_user))
       end
-      render_widget(Widget2::Controls::Clear, @subject, to: widgets)
-      render_widget(Widget2::Controls::Delete, @subject, to: widgets,
+      render_widget2(Widget2::Controls::Clear, @subject, to: widgets)
+      render_widget2(Widget2::Controls::Delete, @subject, to: widgets,
                                                         can_delete: allowed_to?(:destroy, @subject, current_user))
     end
   end

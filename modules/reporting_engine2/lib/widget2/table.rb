@@ -63,7 +63,7 @@ class Widget2::Table < Widget2::Base
         content_tag(:i, '', class: 'icon-info1') + content_tag(:h2, l(:no_results_title_text), class: 'generic-table--no-results-title')
       end)
     else
-      str = render_widget(resolve_table, @subject, @options.reverse_merge(to: @output))
+      str = render_widget2(resolve_table, @subject, @options.reverse_merge(to: @output))
       @cache_output.write(str.html_safe) if @cache_output
     end
   end

@@ -37,7 +37,7 @@ class Widget2::Filters::MultiValues < Widget2::Filters::Base
                         class: 'hidden-for-sighted'
 
       box = content_tag :select, select_options, id: "#{filter_class.underscore_name}_select_1" do
-        render_widget Widget2::Filters::Option, filter, to: box_content unless @options[:lazy]
+        render_widget2 Widget2::Filters::Option, filter, to: box_content unless @options[:lazy]
       end
       plus = content_tag :a, href: '#', class: 'form-label filter_multi-select -transparent',
                              :"data-filter-name" => filter_class.underscore_name,

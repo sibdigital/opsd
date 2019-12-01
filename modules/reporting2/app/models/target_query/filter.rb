@@ -27,7 +27,6 @@ class TargetQuery::Filter < Report2::Filter
        TargetQuery::Filter::Quarter,
        TargetQuery::Filter::Year,
        TargetQuery::Filter::WorkPackageId
-       #TargetQuery::Filter::PermissionFilter
     ]
   end
 end

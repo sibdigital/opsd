@@ -26,7 +26,7 @@ class Widget::Table < Widget::Base
   attr_accessor :mapping
 
   def initialize(query)
-    raise ArgumentError, 'Tables only work on Reports!' unless (query.kind_of? Report) #|| (query.is_a? TargetQuery)
+    raise ArgumentError, 'Tables only work on Reports!' unless (query.is_a? Report)
     super
   end
 
@@ -58,7 +58,7 @@ class Widget::Table < Widget::Base
 
   def render
     write('<!-- table start -->')
-    if @subject.result.count <= 0
+    if @subject.nil? || @subject.result.count <= 0
       write(content_tag(:div, '', class: 'generic-table--no-results-container') do
         content_tag(:i, '', class: 'icon-info1') + content_tag(:h2, l(:no_results_title_text), class: 'generic-table--no-results-title')
       end)

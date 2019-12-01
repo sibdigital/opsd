@@ -51,8 +51,8 @@ class ReportingWidget2 < ActionView::Base
     raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{object_id}>"
   end
 
-  module RenderWidgetInstanceMethods
-    def render_widget(widget, subject, options = {}, &block)
+  module RenderWidgetInstanceMethods2
+    def render_widget2(widget, subject, options = {}, &block)
       i = widget.new(subject)
       i.config = config
       i._routes = _routes
@@ -64,5 +64,5 @@ class ReportingWidget2 < ActionView::Base
   end
 end
 
-ActionView::Base.send(:include, ReportingWidget2::RenderWidgetInstanceMethods)
-ActionController::Base.send(:include, ReportingWidget2::RenderWidgetInstanceMethods)
+ActionView::Base.send(:include, ReportingWidget2::RenderWidgetInstanceMethods2)
+ActionController::Base.send(:include, ReportingWidget2::RenderWidgetInstanceMethods2)

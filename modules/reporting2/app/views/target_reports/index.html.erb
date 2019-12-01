@@ -9,13 +9,13 @@
 <% html_title (@query.persisted? ? "#{l(:label_target_report)}: #{@query.name}" : l(:label_new_report_target)) %>
 
 <h2 id="ur_caption">
-  <%= render_widget Widget2::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
+  <%= render_widget2 Widget2::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
 </h2>
-<%#= render_widget Widget::Settings, @query, :cost_types => nil, :selected_type_id => nil %>
-<%= render_widget Widget2::Settings, @query %>
+<%#= render_widget2 Widget::Settings, @query, :cost_types => nil, :selected_type_id => nil %>
+<%= render_widget2 Widget2::Settings, @query %>
 
 <div id="result-table">
-  <%= render_widget Widget2::Table, @query %>
+  <%= render_widget2 Widget2::Table, @query %>
 </div>
 <p class="footnote">
   <%= l(:text_costs_are_rounded_note) %>

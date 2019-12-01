@@ -74,27 +74,27 @@ class Widget2::Filters < ::Widget2::Base
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
     html = ''.html_safe
-    render_widget Label, f, to: html
-    render_widget Operators, f, to: html
+    render_widget2 Label, f, to: html
+    render_widget2 Operators, f, to: html
     if f_cls.heavy?
-      render_widget Heavy, f, to: html
+      render_widget2 Heavy, f, to: html
     elsif engine::Operator.string_operators.all? { |o| f_cls.available_operators.include? o }
-      render_widget TextBox, f, to: html
+      render_widget2 TextBox, f, to: html
     elsif engine::Operator.time_operators.all? { |o| f_cls.available_operators.include? o }
-      render_widget Date, f, to: html
+      render_widget2 Date, f, to: html
     elsif engine::Operator.integer_operators.all? { |o| f_cls.available_operators.include? o }
       if f_cls.available_values.nil? || f_cls.available_values.empty?
-        render_widget TextBox, f, to: html
+        render_widget2 TextBox, f, to: html
       else
-        render_widget MultiValues, f, to: html, lazy: true
+        render_widget2 MultiValues, f, to: html, lazy: true
       end
     else
       if f_cls.is_multiple_choice?
-        render_widget MultiChoice, f, to: html
+        render_widget2 MultiChoice, f, to: html
       else
-        render_widget MultiValues, f, to: html, lazy: true
+        render_widget2 MultiValues, f, to: html, lazy: true
       end
     end
-    render_widget RemoveButton, f, to: html
+    render_widget2 RemoveButton, f, to: html
   end
 end
