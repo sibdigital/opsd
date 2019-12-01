@@ -182,6 +182,8 @@ en:
           title: Календарь
         day_tasks:
           title: Задачи на день
+        overdue_list:
+          title: Просроченные задачи
         user_tasks_my_requests:
           title: Запросы от меня
         user_tasks_my_tasks:

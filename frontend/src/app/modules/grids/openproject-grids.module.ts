@@ -47,6 +47,7 @@ import {WidgetUtResponsesComponent} from "core-app/modules/grids/widgets/ut-resp
 import {WidgetUtTasksComponent} from "core-app/modules/grids/widgets/ut-tasks/ut-tasks.component.ts";
 import {WidgetUtMyTasksComponent} from "core-app/modules/grids/widgets/ut-my-tasks/ut-my-tasks.component.ts";
 import {WidgetDayTasksComponent} from "core-app/modules/grids/widgets/day-tasks/day-tasks.component.ts";
+import {WidgetOverdueListComponent} from "core-app/modules/grids/widgets/overdue-list/overdue-list.component.ts";
 //)
 //#knm(
 import {WidgetNotificationsComponent} from "core-app/modules/grids/widgets/notifications/notifications.component";
@@ -102,6 +103,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
                                   WidgetUtTasksComponent,
                                   WidgetUtMyTasksComponent,
                                   WidgetDayTasksComponent,
+                                  WidgetOverdueListComponent,
                                   //
                                   WidgetWpAccountableComponent,
                                   WidgetWpCreatedComponent,
@@ -140,6 +142,7 @@ export const GRID_ROUTES:Ng2StateDeclaration[] = [
     WidgetUtTasksComponent,
     WidgetUtMyTasksComponent,
     WidgetDayTasksComponent,
+    WidgetOverdueListComponent,
     //
     WidgetWpAccountableComponent,
     WidgetWpCreatedComponent,
@@ -209,6 +212,10 @@ export function registerWidgets(injector:Injector) {
         {
           identifier: 'day_tasks',
           component: WidgetDayTasksComponent
+        },
+        {
+          identifier: 'overdue_list',
+          component: WidgetOverdueListComponent
         },
         //)
         {
