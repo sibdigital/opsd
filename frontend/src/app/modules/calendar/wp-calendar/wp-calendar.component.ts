@@ -32,6 +32,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   @ViewChild(CalendarComponent) ucCalendar:CalendarComponent;
   @Input() projectIdentifier:string;
   @Input() static:boolean = false;
+  @Input() day:boolean = false;
   static MAX_DISPLAYED = 100;
 
   constructor(readonly states:States,
@@ -173,6 +174,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
     let calendarDate:any = null;
     let calendarUnit = 'month';
+    if (this.day) {
+      calendarUnit = 'agendaDay';
+    }
 
     if (datesIntervalFilter) {
       let lower = moment(datesIntervalFilter.values[0] as string);
