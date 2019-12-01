@@ -60,14 +60,19 @@ module API
         private
 
         def represent_create_result(result, current_user)
-          work_package = result.result
+          begin
+            work_package = result.result
 
-          if result.success?
-            WorkPackages::WorkPackageRepresenter.create(work_package.reload,
-                                                        current_user: current_user,
-                                                        embed_links: true)
-          else
-            handle_work_package_errors work_package, result
+            if result.success?
+              WorkPackages::WorkPackageRepresenter.create(work_package.reload,
+                                                          current_user: current_user,
+                                                          embed_links: true)
+            else
+              handle_work_package_errors work_package, result
+            end
+          rescue => e
+            Rails.logger.error e.message
+            Rails.logger.error e.backtrace.join("\n")
           end
         end
 
