@@ -17,7 +17,7 @@ module TypedTargetsHelper
         html = html + content_tag(:td, target.basic_value)
         html = html + content_tag(:td, target.plan_value)
         html = html + content_tag(:td, target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" )
-        html = html + render_tree(tree, target.id, level + 1)
+        html = html + render_tree_typed_targets(tree, target.id, level + 1)
         html = html + '</tr>'
       end
     end
