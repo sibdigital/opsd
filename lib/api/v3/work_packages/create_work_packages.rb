@@ -74,10 +74,6 @@ module API
             Rails.logger.error 'exception--------1'
             Rails.logger.error e.message
             Rails.logger.error e.backtrace.join("\n")
-
-            Rails.logger.info 'exception--------2'
-            Rails.logger.info e.message
-            Rails.logger.info e.backtrace.join("\n")
           end
         end
 

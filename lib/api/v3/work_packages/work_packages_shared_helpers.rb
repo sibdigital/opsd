@@ -51,11 +51,11 @@ module API
           Rails.logger.error errors.full_messages.join("\n")
           Rails.logger.error 'errors--------1'
 
-          api_errors = [::API::Errors::ErrorBase.create_and_merge_errors(errors)]
+          #api_errors = [::API::Errors::ErrorBase.create_and_merge_errors(errors)]
 
-          Rails.logger.error api_errors
+          #Rails.logger.error api_errors
 
-          fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
+          #fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
         end
 
         private
