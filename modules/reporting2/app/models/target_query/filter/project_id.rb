@@ -25,8 +25,8 @@ class TargetQuery::Filter::ProjectId < Report2::Filter::Base
   end
 
   def self.available_operators
-    #['=', '!', '=_child_projects', '!_child_projects'].map(&:to_operator)
-    ['=', '!'].map(&:to_operator)
+    #['=', '!', '=_child_projects', '!_child_projects'].map(&:to_operator2)
+    ['=', '!'].map(&:to_operator2)
   end
 
   ##

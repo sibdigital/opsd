@@ -45,7 +45,7 @@ module Report2::Controller
   # Render the report. Renders either the complete index or the table only
   def table
     if set_filter? && request.xhr?
-      self.response_body = render_widget(Widget2::Table, @query)
+      self.response_body = render_widget2(Widget2::Table, @query)
     end
   end
 
@@ -316,7 +316,7 @@ module Report2::Controller
       filter = f_cls.new.tap do |f|
         f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? and params[:values]
       end
-      render_widget Widget2::Filters::Option, filter, to: canvas = ''
+      render_widget2 Widget2::Filters::Option, filter, to: canvas = ''
       render plain: canvas, layout: !request.xhr?
     end
   end

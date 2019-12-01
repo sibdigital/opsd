@@ -40,7 +40,7 @@ class Widget2::Filters::Heavy < Widget2::Filters::Base
                           class: 'advanced-filters--select filter-value',
                           :"data-filter-name" => filter_class.underscore_name }
       box = content_tag :select, select_options do
-        render_widget Widget2::Filters::Option, filter, to: '', content: opts
+        render_widget2 Widget2::Filters::Option, filter, to: '', content: opts
       end
       box
     end

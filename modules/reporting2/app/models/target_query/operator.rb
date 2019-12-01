@@ -41,7 +41,7 @@ class TargetQuery::Operator < Report2::Operator
   #     values.each do |value|
   #       p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
   #     end
-  #     "=".to_operator.modify query, field, p_ids
+  #     "=".to_operator2.modify query, field, p_ids
   #   rescue ActiveRecord::RecordNotFound
   #     query
   #   end
@@ -53,7 +53,7 @@ class TargetQuery::Operator < Report2::Operator
   #     values.each do |value|
   #       p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
   #     end
-  #     "!".to_operator.modify query, field, p_ids
+  #     "!".to_operator2.modify query, field, p_ids
   #   rescue ActiveRecord::RecordNotFound
   #     query
   #   end
