@@ -17,8 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::NoFilter < Report::Filter::NoFilter
-  #table_name 'entries'
+class TargetQuery::Filter::NoFilter < Report2::Filter::NoFilter
   table_name 'work_package_targets'
   dont_display!
   singleton

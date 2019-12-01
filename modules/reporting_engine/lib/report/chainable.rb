@@ -240,23 +240,11 @@ class Report < ActiveRecord::Base
     def cached(*args)
       @cached ||= {}
       @cached[args] ||= send(*args)
+      send(*args)
     end
 
     def sql_statement
       raise "should not get here (#{inspect})" if bottom?
-      # if self.class.engine.to_s == "TargetQuery"
-      #   TargetQuery::SqlStatement.for_entries.tap do |q|
-      #     chain_collect(:table_joins).each { |args| q.join(*args) } if responsible_for_sql?
-      #   end
-      # else
-      #   if !self.child.is_a? CostQuery
-      #     CostQuery.new
-      #   end
-      #   CostQuery::SqlStatement.for_entries.tap do |q|
-      #     chain_collect(:table_joins).each { |args| q.join(*args) } if responsible_for_sql?
-      #   end
-      # end
-
       child.cached(:sql_statement).tap do |q|
         chain_collect(:table_joins).each { |args| q.join(*args) } if responsible_for_sql?
       end

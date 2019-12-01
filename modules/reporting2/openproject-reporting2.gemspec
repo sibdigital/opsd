@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.files       = Dir["{app,config,db,lib}/**/*", "README.md"]
 
-  s.add_dependency "reporting_engine", ">= 1.1.0"
+  s.add_dependency "reporting_engine2", ">= 1.1.0"
   # s.add_dependency "openproject-costs", "= #{OpenProject::Reporting2::VERSION}"
 
   s.add_dependency 'jquery-tablesorter', '~> 1.25.5'

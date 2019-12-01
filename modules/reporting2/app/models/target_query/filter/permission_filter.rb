@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::PermissionFilter < Report::Filter::Base
+class TargetQuery::Filter::PermissionFilter < Report2::Filter::Base
   dont_display!
   not_selectable!
   db_field ''

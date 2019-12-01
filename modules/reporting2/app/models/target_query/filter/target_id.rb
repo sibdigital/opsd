@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::TargetId < Report::Filter::Base
+class TargetQuery::Filter::TargetId < Report2::Filter::Base
   def self.label
     Target.model_name.human
   end
@@ -34,7 +34,7 @@ class TargetQuery::Filter::TargetId < Report::Filter::Base
   end
 
   ##
-  # Overwrites Report::Filter::Base self.label_for_value method
+  # Overwrites Report2::Filter::Base self.label_for_value method
   # to achieve a more performant implementation
   def self.label_for_value(value)
     return nil unless value.to_i.to_s == value.to_s # we expect an work_package-id

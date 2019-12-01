@@ -139,8 +139,8 @@ module ReportingHelper
     when "TargetQuery" then
       case unit_id
       when -1 then
-        t(:target_plan_value) + ': ' + row['plan_value'] + "<br>" +
-        t(:target_value) + ': ' + row['value']
+        t(:target_plan_value) + ': ' + (row['plan_value'].nil? ? '' : row['plan_value']) + "<br>" +
+        t(:target_value) + ': ' + (row['plan'].nil? ? '' : row['plan'])
       when 0 then
         row
       else
@@ -177,7 +177,7 @@ module ReportingHelper
 
   def link_to_details(result)
     return '' # unless result.respond_to? :fields # uncomment to display
-    session_filter = { operators: session[:report][:filters][:operators].dup, values: session[:report][:filters][:values].dup }
+    session_filter = { operators: session[:report2][:filters][:operators].dup, values: session[:report2][:filters][:values].dup }
     filters = result.fields.inject session_filter do |struct, (key, value)|
       key = key.to_sym
       case key

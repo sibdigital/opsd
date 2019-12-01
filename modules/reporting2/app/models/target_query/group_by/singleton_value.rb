@@ -17,6 +17,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::GroupBy::SingletonValue < Report::GroupBy::SingletonValue
+class TargetQuery::GroupBy::SingletonValue < Report2::GroupBy::SingletonValue
   dont_display!
 end

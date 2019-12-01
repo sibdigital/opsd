@@ -1,3 +1,9 @@
+<style>
+  .date-select {
+    display: inline-block;
+    width: 17%;
+  }
+</style>
 <div style="width:50%">
 
   <%= form.hidden_field 'object_type', value: 'WorkPackage' %>
@@ -31,12 +37,13 @@
   </p>
 
   <p>
-    <%= form.date_field :due_date %>
-  </p>
-
-  <p>
     <%= form.check_box :completed %>
   </p>
 
 </div>
+
+<p>Срок</p>
+<p style="display: inline-block; margin-bottom: 5px">
+  <%= form.datetime_select :due_date, {}, { class: "date-select" } %>
+</p>
 <%=javascript_include_tag 'select_wp_from_project' %>

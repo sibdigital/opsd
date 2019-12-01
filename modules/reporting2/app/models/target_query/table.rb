@@ -17,4 +17,4 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Table < Report::Table; end
+class TargetQuery::Table < Report2::Table; end

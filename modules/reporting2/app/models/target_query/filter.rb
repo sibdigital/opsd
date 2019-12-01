@@ -19,7 +19,7 @@
 
 require "set"
 
-class TargetQuery::Filter < Report::Filter
+class TargetQuery::Filter < Report2::Filter
   def self.all
     @all ||= super + Set[
        TargetQuery::Filter::ProjectId,

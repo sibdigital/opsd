@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Operator < Report::Operator
+class TargetQuery::Operator < Report2::Operator
   # Operators from Redmine
   new "c", arity: 0, label: :label_closed do
     def modify(query, field, *values)
