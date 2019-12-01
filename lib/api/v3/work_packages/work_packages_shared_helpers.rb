@@ -47,7 +47,12 @@ module API
           errors = result.errors
           errors = merge_dependent_errors work_package, result if errors.empty?
 
+          Rails.logger.error 'errors--------1'
+          Rails.logger.error errors.to_s
+
           api_errors = [::API::Errors::ErrorBase.create_and_merge_errors(errors)]
+
+          Rails.logger.error api_errors
 
           fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
         end

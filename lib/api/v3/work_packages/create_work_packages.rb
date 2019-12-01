@@ -71,11 +71,11 @@ module API
               handle_work_package_errors work_package, result
             end
           rescue Exception => e
-            Rails.logger.error 'exception---------'
+            Rails.logger.error 'exception--------1'
             Rails.logger.error e.message
             Rails.logger.error e.backtrace.join("\n")
 
-            Rails.logger.info 'exception---------'
+            Rails.logger.info 'exception--------2'
             Rails.logger.info e.message
             Rails.logger.info e.backtrace.join("\n")
           end
