@@ -19,7 +19,7 @@
 
 class TargetQuery::GroupBy
   module SqlAggregation
-    include Report::GroupBy::SqlAggregation
+    include Report2::GroupBy::SqlAggregation
 
     def sql_statement
       super.tap do |sql|

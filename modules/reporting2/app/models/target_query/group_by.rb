@@ -19,7 +19,7 @@
 
 require "set"
 
-class TargetQuery::GroupBy < Report::GroupBy
+class TargetQuery::GroupBy < Report2::GroupBy
   def self.all
     @all ||= super + Set[
       TargetQuery::GroupBy::ProjectId,

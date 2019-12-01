@@ -182,11 +182,17 @@ PATH
       prawn (~> 2.2)
 
 PATH
+  remote: modules/reporting_engine2
+  specs:
+    reporting_engine2 (8.3.1)
+      json
+
+PATH
   remote: modules/reporting2
   specs:
     openproject-reporting2 (8.3.1)
       jquery-tablesorter (~> 1.25.5)
-      reporting_engine (>= 1.1.0)
+      reporting_engine2 (>= 1.1.0)
 
 PATH
   remote: modules/reporting_engine
@@ -1000,6 +1006,7 @@ DEPENDENCIES
   reform (~> 2.2.0)
   reform-rails (~> 0.1.7)
   reporting_engine!
+  reporting_engine2!
   request_store (~> 1.4.1)
   responders (~> 2.4)
   rest-client (~> 2.0)

@@ -290,4 +290,10 @@ class Report::SqlStatement
     tablename = table_name_for model
     return "(#{to_s}) as #{tablename}"
   end
+
+
+  def for_targets
+
+  end
+
 end

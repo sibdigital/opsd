@@ -66,8 +66,8 @@ module OpenProject::Reporting2
 
     initializer 'reporting2.precompile_assets' do
       Rails.application.config.assets.precompile += %w(
-        reporting_engine/reporting_engine.css
-        reporting_engine/reporting_engine.js
+        reporting_engine2/reporting_engine.css
+        reporting_engine2/reporting_engine.js
       )
 
       # Without this, tablesorter's assets are not found.
@@ -76,10 +76,10 @@ module OpenProject::Reporting2
     end
 
     config.to_prepare do
-      require_dependency 'report/walker'
-      require_dependency 'report/transformer'
+      require_dependency 'report2/walker'
+      require_dependency 'report2/transformer'
       require_dependency 'widget/entry_table'
-      # require_dependency 'widget/settings_patch'
+      # require_dependency 'widget2/settings_patch'
       require_dependency 'target_query/group_by'
       require_dependency 'target_query/filter'
     end

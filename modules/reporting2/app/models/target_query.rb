@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery < Report
+class TargetQuery < Report2
   def_delegators :result #, :real_costs
 
   User.before_destroy do |user|

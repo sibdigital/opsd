@@ -25,4 +25,5 @@ class Report::Filter::NoFilter < Report::Filter::Base
   def sql_statement
     raise NotImplementedError, "My subclass should have overwritten 'sql_statement'"
   end
+
 end

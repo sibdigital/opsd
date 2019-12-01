@@ -164,7 +164,7 @@ class Report < ActiveRecord::Base
   def_delegators :chain, :empty_chain, :top, :bottom, :chain_collect, :sql_statement, :all_group_fields, :child, :clear, :result
   def_delegators :result, :each_direct_result, :recursive_each, :recursive_each_with_level, :each, :each_row, :count,
                  :units, :final_number
-  def_delegators :table, :row_index, :colum_index
+  def_delegators :table, :row_index, :column_index
 
   def to_a
     chain.to_a
@@ -192,15 +192,7 @@ class Report < ActiveRecord::Base
   end
 
   def minimal_chain!
-    if self.class.engine.to_s == "TargetQuery"
-      @chain = TargetQuery::Filter::NoFilter.new
-    else
-      if self.class.engine.to_s == "CostQuery"
-        @chain = CostQuery::Filter::NoFilter.new
-      else
-        @chain = self.class::Filter::NoFilter.new
-      end
-    end
+    @chain = self.class::Filter::NoFilter.new
   end
 
   def public!

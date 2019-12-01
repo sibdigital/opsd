@@ -17,9 +17,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::SqlStatement < Report::SqlStatement
+class TargetQuery::SqlStatement < Report2::SqlStatement
   COMMON_FIELDS = %w[
-    project_id target_id work_package_id quarter year month plan_value value
+    project_id target_id work_package_id plan_value value
   ].freeze
 
   # flag to mark a reporting query consisting of a union of cost and time entries
@@ -47,9 +47,11 @@ class TargetQuery::SqlStatement < Report::SqlStatement
       query.select(
         count: 1,
         id: [model, :id],
+        year: [model, :year],
+        quarter: [model, :quarter],
         # plan_value: [model, :plan_value],
         # value: [model, :value],
-        # month: [model, :month],
+        month: [model, :month],
         # real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
         # week: iso_year_week(:spent_on, model),
         # quarter: iso_year_quarter(:quarter),

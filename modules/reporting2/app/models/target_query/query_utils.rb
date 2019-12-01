@@ -19,12 +19,12 @@
 
 module TargetQuery::QueryUtils
   include Redmine::I18n
-  include Report::QueryUtils
+  include Report2::QueryUtils
 
   def map_field(key, value)
     case key.to_s
     when "user_id"                          then value ? user_name(value.to_i) : ''
-    when "tquarter", "tyear", "tmonth", /_id$/ then value.to_i
+    when "quarter", "year", "month", /_id$/ then value.to_i
     when "week"                             then value.to_i.divmod(100)
     when /_(on|at)$/                        then value ? value.to_dateish : Time.at(0)
     when /^custom_field/                    then value.to_s

@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::ProjectId < Report::Filter::Base
+class TargetQuery::Filter::ProjectId < Report2::Filter::Base
   db_field 'project_id'
 
   def self.label

@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::CreatedOn < Report::Filter::Base
+class TargetQuery::Filter::CreatedOn < Report2::Filter::Base
   db_field 'created_on'
   use :time_operators
 

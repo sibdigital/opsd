@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::GroupBy::TargetId < Report::GroupBy::Base
+class TargetQuery::GroupBy::TargetId < Report2::GroupBy::Base
 
   def self.label
     Target.model_name.human

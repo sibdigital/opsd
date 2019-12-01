@@ -28,6 +28,7 @@ group :opf_plugins do
 	gem 'openproject-my_project_page',           path: 'modules/my_project_page'
 	gem 'openproject-xls_export',                path: 'modules/xls_export'
 	gem 'reporting_engine',                      path: 'modules/reporting_engine'
+	gem 'reporting_engine2',                     path: 'modules/reporting_engine2'
 	gem 'openproject-costs',                     path: 'modules/costs'
 	gem 'openproject-reporting',                 path: 'modules/reporting'
 	gem 'openproject-reporting2',                path: 'modules/reporting2'

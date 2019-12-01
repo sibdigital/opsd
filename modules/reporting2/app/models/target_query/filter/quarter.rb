@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Filter::Quarter < Report::Filter::Base
+class TargetQuery::Filter::Quarter < Report2::Filter::Base
   use :integer_operators
 
   def self.label

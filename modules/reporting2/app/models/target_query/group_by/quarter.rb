@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::GroupBy::Quarter < Report::GroupBy::Base
+class TargetQuery::GroupBy::Quarter < Report2::GroupBy::Base
   def self.label
     I18n.t(:label_quarter_reporting)
   end

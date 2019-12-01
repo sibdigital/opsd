@@ -1,5 +1,5 @@
 #-- copyright
-# OpenProject Reporting Plugin
+# ReportingEngine
 #
 # Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
 #
@@ -17,23 +17,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-#explicitly require what will be patched to be loaded from the ReportingEngine
-require_dependency 'widget/settings'
-class Widget::Settings < Widget::Base
-  @@settings_to_render.insert -2, :cost_types
-
-  # def render_cost_types_settings
-  #   render_widget Widget::Settings::Fieldset, @subject, { type: "units" } do
-  #     render_widget Widget::CostTypes,
-  #                   @cost_types,
-  #                   selected_type_id: @selected_type_id
-  #   end
-  # end
-
-  def render_with_options(options, &block)
-    @cost_types = options.delete(:cost_types)
-    @selected_type_id = options.delete(:selected_type_id)
-
-    super(options, &block)
-  end
+module ReportingEngine2
+  require 'reporting_engine2/engine'
 end

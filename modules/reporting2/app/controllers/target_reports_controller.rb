@@ -45,14 +45,14 @@ class TargetReportsController < ApplicationController
     render_404
   end
 
-  Widget::Base.dont_cache!
+  Widget2::Base.dont_cache!
 
   before_action :check_cache
   before_action :load_all
   before_action :find_optional_project
   before_action :find_optional_user
 
-  include Report::Controller
+  include Report2::Controller
   include Concerns::Layout
   prepend QueryPreperation
 
@@ -177,12 +177,12 @@ class TargetReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_group_parameters
-    { columns: [:year], rows: [] }.tap do |h|
+    { columns: [:quarter], rows: [] }.tap do |h|
        if @project
-         #h[:rows] << :work_package_id
-         h[:rows] << :project_id
+         # h[:rows] << :work_package_id
+         #h[:rows] << :project_id
        else
-         h[:rows] << :project_id
+         # h[:rows] << :project_id
        end
     end
   end

@@ -18,7 +18,7 @@
 #++
 
 class TargetQuery::GroupBy
-  class Base < Report::GroupBy::Base
-    # Exists solely for +Report::Chainable#base?+
+  class Base < Report2::GroupBy::Base
+    # Exists solely for +Report2::Chainable#base?+
   end
 end

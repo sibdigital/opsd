@@ -17,7 +17,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class TargetQuery::Result < Report::Result
+class TargetQuery::Result < Report2::Result
   module BaseAdditions
     def inspect
       "<##{self.class}: @fields=#{fields.inspect} @type=#{type.inspect} " \
@@ -29,11 +29,11 @@ class TargetQuery::Result < Report::Result
     # end
   end
 
-  class Base < Report::Result::Base
+  class Base < Report2::Result::Base
     include BaseAdditions
   end
 
-  class DirectResult < Report::Result::DirectResult
+  class DirectResult < Report2::Result::DirectResult
     include BaseAdditions
     # def display_value
     #   self["display_values"].to_i
@@ -48,7 +48,7 @@ class TargetQuery::Result < Report::Result
     end
   end
 
-  class WrappedResult < Report::Result::WrappedResult
+  class WrappedResult < Report2::Result::WrappedResult
     include BaseAdditions
     # def display_values
     #   (sum_for :display_values) >= 1 ? 1 : 0
