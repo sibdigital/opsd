@@ -1,5 +1,6 @@
 module TypedTargetsHelper
-  def render_tree(tree, pid, level)
+
+  def render_tree_typed_targets(tree, pid, level)
     html = ''
     tree.each do |target|
       if target.parent_id == pid

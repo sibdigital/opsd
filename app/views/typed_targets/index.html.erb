@@ -103,7 +103,7 @@
           </tr>
         <% else %>
           <%#= render :partial => 'typed_targets/list', :locals => {:typed_targets => @typed_targets} %>
-          <%= render_tree(@typed_targets, 0, 0) %>
+          <%= render_tree_typed_targets(@typed_targets, 0, 0) %>
         <% end %>
       </tbody>
     </table>
