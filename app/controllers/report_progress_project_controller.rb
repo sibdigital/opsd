@@ -113,6 +113,8 @@ class ReportProgressProjectController < ApplicationController
 #    send_file @ready_report_progress_project_pril_1_2_path,  :type => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', :disposition => 'attachment'
 #     send_data @workbook_pril.stream.string, filename: "report_progress_project_pril_1_2_out.xlsx",
 #              disposition: 'attachment'
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
 
@@ -152,7 +154,8 @@ class ReportProgressProjectController < ApplicationController
     sheet = @workbook_pril['Приложение 2']
     sheet[1][3].change_contents("График достижения показателя: ")
     sheet.insert_cell(2,3, values["name"])
-
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
   def generate_title_sheet
@@ -165,7 +168,8 @@ class ReportProgressProjectController < ApplicationController
     sheet[9][3].change_contents(@leader_federal_project)
     sheet[12][3].change_contents(@date_today)
     sheet[22][11].change_contents(@project.name)
-
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
   def generate_key_risk_sheet
@@ -240,6 +244,8 @@ class ReportProgressProjectController < ApplicationController
     if get_v_risk_problem_stat_solved == 1
       sheet.sheet_data[27][5].change_fill('0ba53d')
     end
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
   def generate_targets_sheet
@@ -364,7 +370,8 @@ class ReportProgressProjectController < ApplicationController
     else
       sheet.sheet_data[27][9].change_fill('d7d7d7')
     end
-
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
 
@@ -918,7 +925,8 @@ class ReportProgressProjectController < ApplicationController
     sheet.sheet_data[start_index-1+m][9].change_border(:right, 'thin')
     sheet.sheet_data[start_index-1+m][9].change_border(:bottom, 'thin')
 
-
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
 
@@ -1127,7 +1135,8 @@ class ReportProgressProjectController < ApplicationController
     else
       sheet.sheet_data[27][17].change_fill('d7d7d7')
     end
-
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
   def get_value_targets_indicators
@@ -1221,7 +1230,7 @@ class ReportProgressProjectController < ApplicationController
     sheet[4][12].change_contents('%.2f' %(result_other_budjet[3]/1000000))
 
     sheetDataDiagram = @workbook['Данные для диаграмм']
-     @budjets = AllBudgetsHelper.cost_by_project @project, 0
+     @budjets = AllBudgetsHelper.cost_by_project @project
 
     sheetDataDiagram[3][4].raw_value = result_fed_budjet[0].to_f
     sheetDataDiagram[4][4].raw_value = result_fed_budjet[1].to_f
@@ -1308,6 +1317,8 @@ class ReportProgressProjectController < ApplicationController
     else
       sheetTitle.sheet_data[27][13].change_fill('d7d7d7')
     end
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
   def generate_dynamic_achievement_kt_sheet
@@ -1411,7 +1422,8 @@ class ReportProgressProjectController < ApplicationController
     else
       sheetTitle.sheet_data[27][21].change_fill('d7d7d7')
     end
-
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
   def generate_info_achievement_rktm_sheet
@@ -1442,7 +1454,12 @@ class ReportProgressProjectController < ApplicationController
         targetCount += 1
         numberTarget = (targetCount).to_s+"."
 
-        username = result["result_assigned"] == nil ? "" : user = User.find(result["result_assigned"]).name(:lastname_f_p)
+        username = ''
+        begin
+          username = result["result_assigned"] == nil ? "" : User.find(result["result_assigned"]).name(:lastname_f_p)
+        rescue Exception => e
+          Rails.logger.info(e.message)
+        end
         start_date = result["basic_date"] == nil ? "" : result["basic_date"].to_date.strftime("%d.%m.%Y")
         due_date = result["result_due_date"] == nil ? "" : result["result_due_date"].to_date.strftime("%d.%m.%Y")
         if start_date == "" && due_date !=""
@@ -1455,13 +1472,17 @@ class ReportProgressProjectController < ApplicationController
           period_plan = start_date+" - "+ due_date
         end
 
-
-        target = Target.find(result["parent_id"])
+        target  = nil
+        begin
+          target = Target.find(result["parent_id"])
+        rescue Exception => e
+          Rails.logger.info(e.message)
+        end
 
         sheet.insert_cell(start_index+i+k, 0, numberTarget)
         sheet.insert_cell(start_index+i+k, 1, result["control_level"])
         sheet.insert_cell(start_index+i+k, 2, "")
-        sheet.insert_cell(start_index+i+k, 3, target.name)
+        sheet.insert_cell(start_index+i+k, 3, target ? target.name : '')
         sheet.insert_cell(start_index+i+k, 4, period_plan)
         sheet.insert_cell(start_index+i+k, 5, "")
         sheet.insert_cell(start_index+i+k, 6, username)
@@ -1551,8 +1572,12 @@ class ReportProgressProjectController < ApplicationController
         numberResult = numberTarget+targetCountParent.to_s+"."
         end
 
-
-        username = result["result_assigned"] == nil ? "" : user = User.find(result["result_assigned"]).name(:lastname_f_p)
+        username = ''
+        begin
+          username = result["result_assigned"] == nil ? "" : User.find(result["result_assigned"]).name(:lastname_f_p)
+        rescue Exception => e
+          Rails.logger.info(e.message)
+        end
         start_date = result["basic_date"] == nil ? "" : result["basic_date"].to_date.strftime("%d.%m.%Y")
         due_date = result["result_due_date"] == nil ? "" : result["result_due_date"].to_date.strftime("%d.%m.%Y")
 
@@ -1650,7 +1675,12 @@ class ReportProgressProjectController < ApplicationController
 
       if result["work_packages_id"] != nil
         if result["work_packages_id"] != work_packages_id
-          username = result["user_id"] == nil ? "" : user = User.find(result["user_id"]).name(:lastname_f_p)
+          username = ''
+          begin
+            username = result["user_id"] == nil ? "" : User.find(result["user_id"]).name(:lastname_f_p)
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
           start_date = result["start_date"] == nil ? "" : result["start_date"].to_date.strftime("%d.%m.%Y")
           due_date = result["due_date"] == nil ? "" : result["due_date"].to_date.strftime("%d.%m.%Y")
           first_start_date = result["first_start_date"] == nil ? "" : result["first_start_date"].to_date.strftime("%d.%m.%Y")
@@ -1774,8 +1804,13 @@ class ReportProgressProjectController < ApplicationController
         level = 2
         index2 = 0
         ktTasks.each_with_index do |ktTask, j|
-          user = User.find(ktTask["user_id"])
-          username = user.name(:lastname_f_p)
+          username = ''
+          begin
+            user = User.find(ktTask["user_id"])
+            username = user.name(:lastname_f_p)
+          rescue Exception => e
+            Rails.logger.info(e.message)
+          end
           start_date = ktTask["start_date"] == nil ? "" : ktTask["start_date"].to_date.strftime("%d.%m.%Y")
           due_date = ktTask["due_date"] == nil ? "" : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
           first_start_date = ktTask["first_start_date"] == nil ? "" : ktTask["first_start_date"].to_date.strftime("%d.%m.%Y")
@@ -1930,8 +1965,13 @@ class ReportProgressProjectController < ApplicationController
       level = 2
       index2 = 0
       ktTasks.each_with_index do |ktTask, j|
-        user = User.find(ktTask["user_id"])
-        username = user.name(:lastname_f_p)
+        username = ''
+        begin
+          user = User.find(ktTask["user_id"])
+          username = user.name(:lastname_f_p)
+        rescue Exception => e
+          Rails.logger.info(e.message)
+        end
         start_date = ktTask["start_date"] == nil ? "" : ktTask["start_date"].to_date.strftime("%d.%m.%Y")
         due_date = ktTask["due_date"] == nil ? "" : ktTask["due_date"].to_date.strftime("%d.%m.%Y")
         first_start_date = ktTask["first_start_date"] == nil ? "" : ktTask["first_start_date"].to_date.strftime("%d.%m.%Y")
@@ -2063,7 +2103,8 @@ class ReportProgressProjectController < ApplicationController
 
 
     end
-
+  rescue Exception => e
+    Rails.logger.info(e.message)
   end
 
 

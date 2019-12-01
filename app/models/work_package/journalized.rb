@@ -104,7 +104,7 @@ module WorkPackage::Journalized
                                   :period_id, :control_level_id,
                                   # -
                                   #zbd(
-                                  :contract_id, :target_id, :required_doc_type_id, :organization_id
+                                  :contract_id, :target_id
                                   #)
 
     # :datetime - формат даты
@@ -119,7 +119,7 @@ module WorkPackage::Journalized
                                   :result_agreed, :plan_num_pp
                                   # -
     #  :hidden - для скрытых колонок
-    register_on_journal_formatter :hidden, :updated_at, :first_start_date,
+    register_on_journal_formatter :hidden, :created_at, :updated_at, :first_start_date,
                                   :last_start_date, :first_due_date, :last_due_date
   end
 end

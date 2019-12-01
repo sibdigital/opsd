@@ -11,7 +11,7 @@ This file written by TAN
 <%= error_messages_for :position %>
 <section class="form--section">
   <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
-  <% if User.current.admin?%>
+  <% if User.current.allowed_to?(:approve_instance, nil)%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>
     </div>

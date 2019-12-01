@@ -62,7 +62,8 @@ module WorkPackages
 
     attribute :organization_id
 
-    # attribute :control_level_id
+    attribute :control_level_id,
+              writeable: true
     # )
 
     attribute :arbitary_object_id

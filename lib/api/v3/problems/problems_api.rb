@@ -40,9 +40,9 @@ module API
               .joins(:work_package)
               .all
             @problems = @problems.where(status: params['status']) if params['status'].present?
-            @problems = if params['raion'].present?
-                          @problems.where(work_packages: {raion_id: params['raion']})
-                        end
+            if params['raion'].present?
+              @problems = @problems.where(work_packages: {raion_id: params['raion']})
+            end
             @problems = if params['project'].present?
                           @problems.where(project_id: params['project'])
                         else

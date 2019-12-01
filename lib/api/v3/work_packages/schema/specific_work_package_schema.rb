@@ -80,6 +80,8 @@ module API
             # )
             when :period
               Period.all
+            when :control_level
+              ControlLevel.all
             end
           end
 

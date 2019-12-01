@@ -62,7 +62,8 @@ Redmine::AccessControl.map do |map|
                    contracts: %i[index new create edit update destroy],
                    # knm+
                    target_calc_procedures: [:index, :new, :edit, :destroy],
-                   periods: [:show]
+                   periods: [:show, :edit],
+                   control_levels: [:show, :edit]
                    # knm-
                    #)
                    },
@@ -116,6 +117,8 @@ Redmine::AccessControl.map do |map|
                  { copy_projects: %i[copy copy_project copy_t copy_template],
                    members: [:paginate_users] },
                  require: :member
+  map.permission :approve_instance,
+                 {}
 
   map.project_module :work_package_tracking do |wpt|
     # Issue categories
