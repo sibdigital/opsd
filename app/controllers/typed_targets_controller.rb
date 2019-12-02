@@ -40,7 +40,7 @@ include TypedTargetsHelper
       @tab = params[:tab]
 
       @typed_targets_arr = [['', 0]]
-      @typed_targets_arr += TypedTarget.where('id <> ?', @typed_target.id).order(:parent_id, :id).map {|u| ['(' + u.target_type.name + ') ' + u.name, u.id]}
+      @typed_targets_arr += TypedTarget.where('id <> ?', @typed_target.id).order(:parent_id, :id).map {|u| [u.name, u.id]}
     end
   end
   
