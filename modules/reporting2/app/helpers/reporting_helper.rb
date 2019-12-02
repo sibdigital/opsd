@@ -140,7 +140,7 @@ module ReportingHelper
       case unit_id
       when -1 then
         t(:target_plan_value) + ': ' + (row['plan_value'].nil? ? '' : row['plan_value']) + "<br>" +
-        t(:target_value) + ': ' + (row['plan'].nil? ? '' : row['plan'])
+        t(:target_value) + ': ' + (row['value'].nil? ? '' : row['value'])
       when 0 then
         row
       else
