@@ -123,6 +123,12 @@ export class DisplayFieldRenderer {
     } else {
       span.classList.add(readOnlyClassName);
     }
+
+    if (field.schema.type === "Href" ) {
+      if (span.childNodes[0].getAttribute("href") === '-') {
+        span.childNodes[0].href = '';
+      }
+    }
   }
 
   private getAriaLabel(field:DisplayField, workPackage:WorkPackageResource):string {
