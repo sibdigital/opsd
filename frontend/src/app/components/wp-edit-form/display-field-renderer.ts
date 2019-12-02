@@ -125,8 +125,8 @@ export class DisplayFieldRenderer {
     }
 
     if (field.schema.type === "Href" ) {
-      if (span.childNodes[0].getAttribute("href") === '-') {
-        span.childNodes[0].href = '';
+      if (span.children[0].getAttribute("href") === '-') {
+        span.children[0].setAttribute("href", '');
       }
     }
   }
