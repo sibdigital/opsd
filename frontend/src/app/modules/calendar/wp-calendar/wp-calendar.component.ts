@@ -267,9 +267,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
             let titleUt = kind + ": " + userTask.text
 
-            if (Date.parse(userTask.due_date) < Date.now() && userTask.completed == 'Нет') {
-              titleUt = "(!) " + kind + ": " + userTask.text
-            }
+            //if (Date.parse(userTask.due_date) < Date.now() && userTask.completed == 'Нет') {
+              //titleUt = "(!) " + kind + ": " + userTask.text
+            //}
 
             return {
               //title: userTask.kind == "Task" ? "Задача: " : "Заметка: " + userTask.text,
@@ -279,7 +279,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               // className: `__hl_row_type_${meeting.workPackageId}`,
               // workPackage: meeting.workPackage,
               user_task: userTask,
-              type_event: "user_task"
+              type_event: "user_task",
+              color: (Date.parse(userTask.due_date) < Date.now() && userTask.completed == 'Нет' && ((userTask.kind == 'Task') || (userTask.kind == 'Request'))) ? "darkred" : ""
             }
 
           });
