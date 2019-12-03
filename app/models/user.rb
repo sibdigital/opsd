@@ -133,7 +133,6 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        :mail_add,
                         unless: Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
 
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
