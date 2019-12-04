@@ -63,7 +63,7 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
             if (obj.completed == 'Да') {
               obj_completed = true;
             }
-            if (obj.kind == 'Task' && Date.parse(Date(obj.due_date)) >= FilterDateBegin && Date.parse(Date(obj.due_date)) <= FilterDateEnd && obj_completed == this.ut_completed_filter) {
+            if (obj.kind == 'Task' && Date.parse(obj.due_date) >= FilterDateBegin && Date.parse(obj.due_date) <= FilterDateEnd && obj_completed == this.ut_completed_filter) {
               entriesarrayforuser.push(obj);
             }
           }
