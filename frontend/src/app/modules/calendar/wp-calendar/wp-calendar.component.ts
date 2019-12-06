@@ -22,6 +22,12 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {ChooseUserTaskModalComponent} from "core-app/modules/calendar/wp-calendar-dialogs/wp-calendar-choose-usertask.modal.component";
+import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
+import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import {start} from "repl";
+
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -34,6 +40,10 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   @Input() static:boolean = false;
   @Input() day:boolean = false;
   static MAX_DISPLAYED = 100;
+
+  private workPackageGlobal: any;
+
+  public workPackagesCalendarControllerInstance: WorkPackagesCalendarController;
 
   constructor(readonly states:States,
               readonly $state:StateService,
@@ -49,7 +59,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
               private sanitizer:DomSanitizer,
     //          private protocolService: BlueTableProtocolService,
               protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService
+              protected pathHelper:PathHelperService,
+              private readonly opModalService:OpModalService
   ) { }
 
   ngOnInit() {
@@ -57,6 +68,8 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     this.tableState.stopAllSubscriptions.next();
 
     this.setCalendarOptions();
+
+    this.workPackagesCalendarControllerInstance = this;
   }
 
   ngOnDestroy() {
@@ -98,7 +111,6 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   public addTooltip($event:any) {
     let event = $event.detail.event;
     let element = $event.detail.element;
-//  let workPackage = event.workPackage;
 
     let contentStr;
 
@@ -114,7 +126,6 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     }
 
     jQuery(element).tooltip({
-      //content: event.type_event == "meeting" ? this.contentStringMeeting(event.meeting) : this.contentString(event.workPackage),
       content: contentStr,
       items: '.fc-content',
       track: true
@@ -156,8 +167,30 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   public onSelectDay($event: any) {
-    //alert('selected method run' );
-    alert('selected ' + $event.detail.start.format() + ' to ' + $event.detail.end.format());
+    this.addUserTask();
+  }
+
+  public setCustomPeriod() {
+    //me.openDialog();
+  }
+
+  public openDialog() {
+    const modal = this.opModalService.show<ChooseUserTaskModalComponent>(ChooseUserTaskModalComponent);
+
+    modal.closingEvent.subscribe((modal:ChooseUserTaskModalComponent) => {
+      if (modal.confirmed) {
+        this.calendarElement.fullCalendar('changeView', 'basic', {
+          start: modal.startPeriodDate,
+          end: modal.endPeriodDate
+        });
+
+      //  this.calendarElement.fullCalendar('option', {
+      //    start: modal.startPeriodDate,
+      //    end: modal.endPeriodDate
+      //  });
+        modal.confirmed = false;
+      }
+    });
   }
 
   private get calendarElement() {
@@ -203,7 +236,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
     ).subscribe((collection: WorkPackageCollectionResource) => {
       this.warnOnTooManyResults(collection);
       this.mapToCalendarEvents(collection.elements);
-      this.setCalendarsDate();
+     // this.setCalendarsDate();
       this.getMeetingEvents();
       this.getUserTasks();
     });
@@ -336,6 +369,9 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private get dynamicOptions() {
+  //  let me: WorkPackagesCalendarController;
+//    me = this;
+
     return {
       //editable: false,
       eventLimit: false,
@@ -350,8 +386,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       header: {
         left: 'prev,next today',
         center: 'title',
-        //right: 'month247, workMonth, week247, workWeek, agendaDayFull, setPeriodButton, addUserTask'
-        right: 'month247, workMonth, week247, workWeek, agendaDayFull'
+        right: 'month247, workMonth, week247, workWeek, agendaDayFull, setPeriodButton, addUserTask'
       },
       views: {
         month247: {
@@ -378,31 +413,29 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
         },
         day: {
           titleFormat: 'YYYY, MM, DD'
+        },
+        customView: {
+          type: 'basicWeek',
+          duration: { days: 40 }
         }
+
       },
       customButtons: {
         setPeriodButton: {
           text: 'Задать период',
-          click: function () {
-            alert('clicked the custom button!');
-          }
+          click:this.addUserTask.bind(this)
         },
         addUserTask: {
           text: 'Добавить...',
-          click: this.addUserTask,
+          click: this.addUserTask
          }
       }
     };
+
   }
 
   private addUserTask(){
-    let cal = jQuery(window).find('ng-fullcalendar');
-
-    console.log("cal: " + cal);
-
-    //let moment1 = moment(this.calendarElement.fullCalendar('getDate'));
-    let moment1 = moment(cal.fullCalendar('getDate'));
-    alert("The current date of the calendar is " + moment1.format());
+    this.openDialog();
   }
 
   private get staticOptions() {
@@ -521,6 +554,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   private contentString(workPackage:WorkPackageResource) {
+    this.workPackageGlobal = workPackage;
     return `
         ${this.sanitizedValue(workPackage, 'type')} #${workPackage.id}: ${this.sanitizedValue(workPackage, 'subject', null)}
         <ul class="tooltip--map">
