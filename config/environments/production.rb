@@ -127,4 +127,7 @@ OpenProject::Application.configure do
 
 
   config.active_record.dump_schema_after_migration = false
+
+  #+-tan 2019.12.07
+  config.exceptions_app = self.routes
 end

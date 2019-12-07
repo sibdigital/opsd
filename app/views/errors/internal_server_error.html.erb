@@ -1,0 +1,31 @@
+<% html_title 'Внутренняя ошибка' %>
+<%= toolbar title: 'Внутренняя ошибка' %>
+<p style="font-size:0.8em";>На странице возникла ошибка.<br />
+  Если ошбка повторяется, обратитесь к администратору или в Службу технической поддержки.</p>
+
+<% if User.current && User.current.logged? %>
+  <label><%= 'Имя пользователя: ' + User.current.name %></label><br/>
+  <label><%= 'Логин: ' + User.current.login %></label><br/>
+  <label><%= 'Текущее время: ' + DateTime.now.strftime("%d/%m/%Y %H:%M") %></label><br/>
+<% end %>
+<p><a href="javascript:history.back()">Назад</a></p>
+
+<p><strong style="font-size:0.6em;">Прикрепите к обращению в службу технической поддержки скриншот данной страницы.</strong></p>
+<p style="font-size:0.6em;">Обращение в Службу технической поддержки&nbsp; должно содержать сведения, необходимые и достаточные для его регистрации и выполнения:</p>
+<ul>
+  <li style="font-size:0.6em;">идентифицирующую пользователя информацию (Фамилия, имя, отчество);</li>
+  <li style="font-size:0.6em;">адрес электронной почты;</li>
+  <li style="font-size:0.6em;">роль пользователя в Системе;</li>
+  <li style="font-size:0.6em;">раздел Системы;</li>
+  <li style="font-size:0.6em;"><strong>перечисление выполненных Пользователем действий;</strong></li>
+  <li style="font-size:0.6em;" ><strong>введенные Пользователем данные;</strong></li>
+  <li style="font-size:0.6em;"><strong>фактический и ожидаемый результаты;</strong></li>
+</ul>
+<p style="font-size:0.6em;">Служба технической поддержки может запросить следующие дополнительные материалы:</p>
+<ul>
+  <li style="font-size:0.6em;">файлы графической копии экрана с ошибкой;</li>
+  <li style="font-size:0.6em;">скопированный полный текст сообщения об ошибке;</li>
+  <li style="font-size:0.6em;">иная информация.</li>
+</ul>
+<p>&nbsp;</p>
+
