@@ -133,7 +133,6 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        #:mail_add,
                         unless: Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
 
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
@@ -145,7 +144,7 @@ class User < Principal
   #zbd(
   validates_length_of :patronymic, maximum: 30
   validates_format_of :mail_add, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
-  #validates_length_of :mail_add, maximum: 60, allow_nil: true
+  validates_length_of :mail_add, maximum: 60, allow_nil: true
   validates_format_of :phone_wrk, with: /\A((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{3,10}\z/i, allow_blank: true
   validates_format_of :phone_wrk_add, with: /\A[0-9]{1,4}\z/i, allow_blank: true
   validates_format_of :phone_mobile, with: /\A^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}\z/i, allow_blank: true
