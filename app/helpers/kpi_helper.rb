@@ -131,10 +131,19 @@ module KpiHelper
       end
     end
 
-    to_html = ""
-    percent.each { |p| to_html += "<li>" + l(p[0]) + ": " + p[1].to_s + "%</li>"}
-    to_html = "<ul>" + to_html + "</ul>"
-    to_html.present? ? to_html.html_safe : ''
+    result_all = 0
+    case kpi.calc_method
+    when "avg"
+      percent.each { |p| result_all += p[1]}
+      result_all = (result_all / percent.size).round(2)
+    when "sum"
+      percent.each { |p| result_all += p[1]}
+    else
+      percent.each { |p| result_all += p[1]}
+    end
+
+    to_html = result_all.to_s + "%"
+    to_html
   end
 
   #   5. Осуществление мониторинга региональных проектов в срок
@@ -278,10 +287,10 @@ module KpiHelper
     # result = ActiveRecord::Base.connection.execute(sql, kpi_id, val, val)
 
     if period.nil?
-      result = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and ? >= min_value and ? <= max_value",
+      result = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and ? >= min_value and ? <= max_value and enable = true",
                                       kpi_id, val, val).maximum(:percent)
     else
-      result = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and ? >= min_value and ? <= max_value and period = ?",
+      result = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and ? >= min_value and ? <= max_value and enable = true and period = ?",
                                                  kpi_id, val, val, period).maximum(:percent)
     end
     val_result = result.present? ? result : 0
