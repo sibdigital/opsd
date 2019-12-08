@@ -77,7 +77,64 @@ module KpiHelper
   # в отчетный квартал – 15%
   # в год – 30%
   def calc_kpi_no_red_kt(user)
-    "0%"
+    # "0%"
+    kpi = KeyPerformanceIndicator.find_by(:name=>t(:default_kpi_no_red_kt))
+    members = members_by_key_performance_indicator_cases(user.id, kpi.id)
+
+    today = Date.today
+
+    # if куратор проекта, руководитель проекта, администратор проекта,
+    #   # координатор от Проектного офиса по проекту в целом
+    # select period
+    percent = {}
+
+    members.each do |member|
+
+      kpi_period = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and role_id = ? and period <> ''",
+                                                     kpi.id,
+                                                     member['role_id']).all
+
+      where_assigned_to_id = ""
+      if (member['role_id'] == Role.events_responsible.id) || (member['role_id'] == Role.find_by(:name => 'Исполнитель').id)
+        where_assigned_to_id = " and (assigned_to_id = " + Member.where('project_id = ? and user_id = ?',
+                                                                    member['project_id'], user.id).first.id.to_s + ")"
+      end
+
+      if kpi_period.nil?
+        result = WorkPackage.where("(project_id = ?) and (not status_id in (?)) and (due_date < ?)" + where_assigned_to_id,
+                                   member['project_id'],
+                                   [Status.find_by(name: "Завершен"), Status.find_by(name: "Отменен")],
+                                   today)
+        val_result = result.present? ? result.count : 0
+        percent["no_period"] = percent_by_val(val_result, kpi.id)
+        #percent.to_s + '%'
+      else
+        kpi_period.each do |period|
+          query_where = "(project_id in (?)) and (not status_id in (?)) and (due_date < ?)" + where_assigned_to_id
+          case period.period
+          when "Monthly"
+            query_where = query_where + " and (extract(month from due_date) = extract(month from date ?))"
+          when "Quarterly"
+            query_where = query_where + " and (extract(quarter from due_date) = extract(quarter from date ?))"
+          when "Yearly"
+            query_where = query_where + " and (extract(year from due_date) = extract(year from date ?))"
+          end
+          result = WorkPackage.where(query_where,
+                                     member['project_id'],
+                                     [Status.find_by(name: "Завершен"), Status.find_by(name: "Отменен")],
+                                     today,
+                                     today)
+          val_result = result.present? ? result.count : 0
+          percent["default_period_" + period.period.to_s.downcase] = [percent_by_val(val_result, kpi.id, period.period),
+                                                                      (percent[period.period].nil? ? 0 : percent[period.period])].max
+        end
+      end
+    end
+
+    to_html = ""
+    percent.each { |p| to_html += "<li>" + l(p[0]) + ": " + p[1].to_s + "%</li>"}
+    to_html = "<ul>" + to_html + "</ul>"
+    to_html.present? ? to_html.html_safe : ''
   end
 
   #   5. Осуществление мониторинга региональных проектов в срок
@@ -200,6 +257,12 @@ module KpiHelper
         where k.key_performance_indicator_id = #{ActiveRecord::Base.sanitize_sql(kpi_id)}
       ) as kpi
       on m.role_id = kpi.role_id
+      inner join (
+        select *
+        from projects
+        where type = '#{Project::TYPE_PROJECT}' and status = #{Project::STATUS_ACTIVE}
+      ) as prj
+      on mb.project_id = prj.id
     SQL
     # MemberRole.where(sql, user_id, kpi_id)
     # query = sanitize_sql([sql, params[user_id, kpi_id]])
@@ -207,15 +270,20 @@ module KpiHelper
     result
   end
 
-  def percent_by_val(val, kpi_id)
+  def percent_by_val(val, kpi_id, period = nil)
     # sql = <<-SQL
     #   select max(percent) as percent from key_performance_indicator_cases as kc
     #   where kc.key_performance_indicator_id = ? and ? >= kc.min_value and ? <= kc.max_value
     # SQL
     # result = ActiveRecord::Base.connection.execute(sql, kpi_id, val, val)
 
-    result = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and ? >= min_value and ? <= max_value",
+    if period.nil?
+      result = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and ? >= min_value and ? <= max_value",
                                       kpi_id, val, val).maximum(:percent)
+    else
+      result = KeyPerformanceIndicatorCase.where("key_performance_indicator_id = ? and ? >= min_value and ? <= max_value and period = ?",
+                                                 kpi_id, val, val, period).maximum(:percent)
+    end
     val_result = result.present? ? result : 0
     val_result
   end
