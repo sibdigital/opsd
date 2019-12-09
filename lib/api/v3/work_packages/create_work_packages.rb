@@ -40,9 +40,9 @@ module API
           yield(work_package) if block_given?
 
           parameters = ::API::V3::WorkPackages::ParseParamsService
-                       .new(current_user)
-                       .call(request_body)
-                       .result
+                         .new(current_user)
+                         .call(request_body)
+                         .result
           if (parameters[:assigned_to_id] == nil) #+- tan текущий пользователь, если нет другого
             parameters['assigned_to_id'] = current_user.id
           end
@@ -60,20 +60,14 @@ module API
         private
 
         def represent_create_result(result, current_user)
-          begin
-            work_package = result.result
+          work_package = result.result
 
-            if result.success?
-              WorkPackages::WorkPackageRepresenter.create(work_package.reload,
-                                                          current_user: current_user,
-                                                          embed_links: true)
-            else
-              handle_work_package_errors work_package, result
-            end
-          rescue Exception => e
-            Rails.logger.error 'exception--------1'
-            Rails.logger.error e.message
-            Rails.logger.error e.backtrace.join("\n")
+          if result.success?
+            WorkPackages::WorkPackageRepresenter.create(work_package.reload,
+                                                        current_user: current_user,
+                                                        embed_links: true)
+          else
+            handle_work_package_errors work_package, result
           end
         end
 
