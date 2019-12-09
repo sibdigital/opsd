@@ -5,6 +5,7 @@ class OrganizationsController < ApplicationController
   layout 'admin'
   menu_item :org_settings
 
+  helper :sort
   include SortHelper
   include PaginationHelper
   include ::IconsHelper
@@ -47,7 +48,7 @@ class OrganizationsController < ApplicationController
     #@organizations = nil
 
     if @org_type.present?
-      @organizations = Organization.where(org_type: @org_type.id).order(sort_clause).page(page_param).per_page(per_page_param)
+      @organizations = Organization.where(org_type: @org_type.id, parent_id: nil).order(sort_clause).page(page_param).per_page(per_page_param)
     end
 
     @parent_id = parent_id_param

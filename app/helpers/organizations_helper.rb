@@ -43,7 +43,7 @@ module OrganizationsHelper
                                           data: { confirm: I18n.t(:text_are_you_sure) },
                                           title: t(:button_delete)
                                   ))
-        html = html + show_table_org(organizations, organization.id, level + 1)
+        html = html + show_table_org(Organization.where(parent_id: organization.id), organization.id, level + 1)
         html = html + '</tr>'
       end
     end
