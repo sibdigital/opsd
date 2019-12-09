@@ -5,12 +5,40 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 
 export class BlueTableBudgetService extends BlueTableService {
   protected columns:string[] = ['Республика Бурятия', 'Куратор', 'РП', 'План срок завершения', 'Исполнено', 'Риски исполнения', 'Остаток', 'Риски и проблемы', 'Исполнение бюджета'];
+  private data_local:any;
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
 
-  public initializeAndGetData():Promise<any[]> {
+  public getDataFromPage(i:number):Promise<any[]> {
     return new Promise((resolve) => {
       let data:any[] = [];
+      if (this.national_project_titles[i].id === 0) {
+        data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+        if (this.data_local[0]) {
+          this.data_local[0].map((project:ProjectResource) => {
+            data.push(project);
+          });
+        }
+      } else {
+        this.national_projects.map((el:HalResource) => {
+          if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
+            data.push(el);
+            if (this.data_local[el.id]) {
+              this.data_local[el.id].map((project:ProjectResource) => {
+                data.push(project);
+              });
+            }
+          }
+        });
+      }
+      resolve(data);
+    });
+  }
+  public getPages():number {
+    return this.national_project_titles.length;
+  }
+  public initializeAndGetData():Promise<any[]> {
+    return new Promise((resolve) => {
       let data_local:any = {};
       this.national_project_titles = [];
       this.halResourceService
@@ -44,21 +72,10 @@ export class BlueTableBudgetService extends BlueTableService {
                   data_local[budget.project.national_project_id].push(budget);
                 }
               });
-              this.national_projects.map((el:HalResource) => {
-                data.push(el);
-                if (data_local[el.id]) {
-                  data_local[el.id].map((budget:ProjectResource) => {
-                    data.push(budget);
-                  });
-                }
+              this.data_local = data_local;
+              this.getDataFromPage(0).then(data => {
+                resolve(data);
               });
-              data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
-              if (data_local[0]) {
-                data_local[0].map((budget:ProjectResource) => {
-                  data.push(budget);
-                });
-              }
-              resolve(data);
             });
         });
     });
@@ -68,17 +85,17 @@ export class BlueTableBudgetService extends BlueTableService {
     if (row._type === 'Budget') {
       switch (i) {
         case 0: {
-          return '<a href="' + super.getBasePath() + '/projects/' + row.project.identifier + '">' + row.project.name + '</a>';
+          return '<a href="' + super.getBasePath() + '/projects/' + row.project.identifier + '/cost_objects">' + row.project.name + '</a>';
           break;
         }
         case 1: {
-          if (row.curator) {
+          if (row.curator && row.curator.length !== 0) {
             return '<a href="' + super.getBasePath() + '/users/' + row.curator.id + '">' + row.curator.fio + '</a>';
           }
           break;
         }
         case 2: {
-          if (row.rukovoditel) {
+          if (row.rukovoditel && row.rukovoditel.length !== 0) {
             return '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel.id + '">' + row.rukovoditel.fio + '</a>';
           }
           break;
@@ -131,5 +148,9 @@ export class BlueTableBudgetService extends BlueTableService {
       }
     }
     return '';
+  }
+
+  public pagesToText(i:number):string {
+    return this.national_project_titles[i].name;
   }
 }
