@@ -84,7 +84,7 @@ export class BlueTableProtocolService extends BlueTableService {
     if (row._type === 'Protocol') {
       switch (i) {
         case 0: {
-          return 'Поручение: ' + row.name;
+          return '<a href="' + super.getBasePath() + '/meetings/' + row.meetingId + '/minutes">Поручение: ' + row.name + '</a>';
           break;
         }
         case 1: {
