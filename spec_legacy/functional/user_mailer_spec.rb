@@ -54,7 +54,7 @@ describe UserMailer, type: :mailer do
 
     assert_equal 1, ActionMailer::Base.deliveries.size
 
-    assert_equal 'ИСУП тестовое сообщение', mail.subject
+    assert_equal 'Цифровой проект тестовое сообщение', mail.subject
     assert_equal ['foo@bar.de'], mail.to
     assert_equal ['john@doe.com'], mail.from
     assert_match /Ссылка/, mail.body.encoded
