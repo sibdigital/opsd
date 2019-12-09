@@ -52,8 +52,6 @@ module API
 
             ProtocolCollectionRepresenter.new(@protocols,
                                               api_v3_paths.national_projects,
-                                              page: to_i_or_nil(params[:offset]),
-                                              per_page: resolve_page_size(params[:pageSize]),
                                               current_user: current_user)
           end
 
