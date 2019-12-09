@@ -49,6 +49,8 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
 
   public filterChart() {
     let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks/assigned/${this.currentuser.userId}`;
+    let FilterDateBegin = (this.dateBegin === undefined) ? Date.parse('0001-01-01') : Date.parse(this.dateBegin);
+    let FilterDateEnd = (this.dateEnd === undefined) ? Date.parse('2099-12-31') : Date.parse(this.dateEnd);
     this.halResourceService
       .get<HalResource>(url)
       .toPromise()
@@ -61,7 +63,7 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
             if (obj.completed == 'Да') {
               obj_completed = true;
             }
-            if (obj.kind == 'Task' && Date.parse(obj.due_date) >= Date.parse(this.dateBegin) && Date.parse(obj.due_date) <= Date.parse(this.dateEnd) && obj_completed == this.ut_completed_filter) {
+            if (obj.kind == 'Task' && Date.parse(Date(obj.due_date)) >= FilterDateBegin && Date.parse(Date(obj.due_date)) <= FilterDateEnd && obj_completed == this.ut_completed_filter) {
               entriesarrayforuser.push(obj);
             }
           }
