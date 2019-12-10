@@ -63,6 +63,7 @@ class DocumentsController < ApplicationController
     sort_columns = {'id' => "#{Document.table_name}.id",
                     'title' => "#{Document.table_name}.title",
                     'created_on' => "#{Document.table_name}.created_on",
+                    'updated_on' => "#{Document.table_name}.updated_on",
                     'user' => "#{Document.table_name}.user_id"}
 
     sort_update sort_columns

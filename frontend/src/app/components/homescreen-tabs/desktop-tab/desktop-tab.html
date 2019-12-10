@@ -93,8 +93,8 @@
                     [textContent]="i + 1"></td>
                 <td *ngIf="item.problems"
                     [ngClass]="getOrangeClass(i)">
-                    <span
-                            [textContent]="shorten(item.problems.risk)" [title]="item.problems.risk"></span>
+                    <a href="{{this.getBasePath()}}/work_packages/{{item.problems.wpid}}/problems"
+                       [textContent]="shorten(item.problems.risk)" [title]="item.problems.risk"></a>
                 </td>
                 <td *ngIf="item.problems"
                     [ngClass]="getOrangeClass(i)">
