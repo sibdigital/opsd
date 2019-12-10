@@ -35,7 +35,7 @@ export class WidgetUtTasksComponent extends AbstractWidgetComponent implements O
       .then((collection) => {
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Task'){
             entriesarrayforuser.push(obj);
           }
