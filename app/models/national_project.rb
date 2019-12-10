@@ -22,4 +22,21 @@ class NationalProject < ActiveRecord::Base
   def to_s
     name
   end
+
+  def self.visible_federal_project(current_user)
+    slq =  <<-SQL
+            select *
+            from national_projects as np
+            inner join(
+              select project_id, national_project_id, federal_project_id
+              from members as m
+              inner join projects as p
+              on p.id = m.project_id
+              where user_id = ?
+              ) as mu
+            on (np.id = mu.federal_project_id and np.parent_id = mu.national_project_id)
+    SQL
+    nps = NationalProject.find_by_sql([slq, current_user.id])
+    nps
+  end
 end

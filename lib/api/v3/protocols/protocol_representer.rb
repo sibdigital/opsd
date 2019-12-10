@@ -59,6 +59,11 @@ module API
                  #getter: ->(*) { 'Неизвестно' },
                  render_nil: true
 
+        property :meeting_id,
+                 exec_context: :decorator,
+                 getter: ->(*) { represented.meeting.id },
+                 render_nil: true
+
         def _type
           'Protocol'
         end

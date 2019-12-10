@@ -122,7 +122,7 @@ password_days_valid:
   format: int
   default: 0
 software_name:
-  default: ИСУП
+  default: Цифровой проект
 software_url:
   default: ''
 attachment_max_size:

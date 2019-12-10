@@ -40,9 +40,9 @@ module API
           yield(work_package) if block_given?
 
           parameters = ::API::V3::WorkPackages::ParseParamsService
-                       .new(current_user)
-                       .call(request_body)
-                       .result
+                         .new(current_user)
+                         .call(request_body)
+                         .result
           if (parameters[:assigned_to_id] == nil) #+- tan текущий пользователь, если нет другого
             parameters['assigned_to_id'] = current_user.id
           end

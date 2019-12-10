@@ -832,4 +832,10 @@ OpenProject::Application.routes.draw do
   if Rails.env.development?
     get '/styleguide' => redirect('/assets/styleguide.html')
   end
+
+  #+-tan 2019.12.07
+  if Rails.env.production?
+    match "/500", :to => "errors#internal_server_error", :via => :all
+  end
+
 end

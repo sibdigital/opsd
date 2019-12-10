@@ -57,25 +57,6 @@ class WorkPackages::CreateService
     result.success = if result.success
                        work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
                        work_package.save
-                       begin
-                         Alert.create_pop_up_alert(work_package, "Created", User.current, work_package.assigned_to)
-                         #ban(
-                         @project = Project.find_by(id: work_package.project_id)
-                         recip = @project.recipients
-                         if (Setting.is_strong_notified_event('work_package_added'))
-                           recip = @project.all_recipients
-                         end
-                         if Setting.is_notified_event('work_package_added')
-                           recip.uniq.each do |user|
-                             if Setting.can_notified_event(user,'work_package_added')
-                                UserMailer.work_package_added(user, @project, work_package, User.current).deliver_later
-                             end
-                           end
-                         end
-                       rescue Exception => e
-                         Rails.logger.info(e.message)
-                       end
-                       #)
                      else
                        false
                      end
@@ -85,6 +66,25 @@ class WorkPackages::CreateService
 
       update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
         result.merge!(ancestor_result)
+      end
+
+      begin
+        Alert.create_pop_up_alert(work_package, "Created", User.current, work_package.assigned_to)
+        #ban(
+        @project = Project.find_by(id: work_package.project_id)
+        recip = @project.recipients
+        if (Setting.is_strong_notified_event('work_package_added'))
+          recip = @project.all_recipients
+        end
+        if Setting.is_notified_event('work_package_added')
+          recip.uniq.each do |user|
+            if Setting.can_notified_event(user,'work_package_added')
+              UserMailer.work_package_added(user, @project, work_package, User.current).deliver_later
+            end
+          end
+        end
+      rescue Exception => e
+        Rails.logger.info(e.message)
       end
     else
       result.success = false

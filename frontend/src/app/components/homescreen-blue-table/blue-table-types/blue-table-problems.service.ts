@@ -178,7 +178,7 @@ export class BlueTableProblemsService extends BlueTableService {
     } else {
       switch (i) {
         case 0: {
-          return row.risk_or_problem;
+          return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/problems">' + row.risk_or_problem + '</a>';
           break;
         }
         case 1: {
