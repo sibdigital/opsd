@@ -25,12 +25,24 @@ module TargetsHelper
     html = ''
     tree.each do |target|
       if target.parent_id == pid
-        html = html + '<tr data-work-package-id="' + target.id.to_s + '" data-class-identifier="wp-row-' + target.id.to_s + '" class="wp-table--row wp--row wp-row-' + target.id.to_s + ' wp-row-' + target.id.to_s + '-table issue __hierarchy-group-' + target.parent_id.to_s + ' __hierarchy-root-' + target.id.to_s + '">'
-        html = html + content_tag(:td, link_to(target.id, edit_project_target_path(id: target.id)))
-        tag_td = content_tag(:td) do
-          # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
-          ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
-            link_to(h(target.name), edit_project_target_path(id: target.id), title: target.name)
+        if target.parent_id == 0
+          html = html + '<tr id="' + target.id.to_s + '" target-id="' + target.id.to_s + '" data-class-identifier="wp-row-' + target.id.to_s + '" class="hide-head wp-table--row wp--row wp-row-' + target.id.to_s + ' wp-row-' + target.id.to_s + '-table issue __hierarchy-group-' + target.parent_id.to_s + ' __hierarchy-root-' + target.id.to_s + '">'
+          html = html + content_tag(:td, link_to(target.id, edit_project_target_path(id: target.id)))
+          tag_td = content_tag(:td) do
+            # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
+            # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
+            ('<span id="' + target.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;">▼</span>').html_safe +
+              link_to(h(target.name), edit_project_target_path(id: target.id), title: target.name)
+          end
+        else
+          html = html + '<tr id="' + target.parent_id.to_s + '" target-id="' + target.parent_id.to_s + '" data-class-identifier="wp-row-' + target.id.to_s + '" class="hide-section wp-table--row wp--row wp-row-' + target.id.to_s + ' wp-row-' + target.id.to_s + '-table issue __hierarchy-group-' + target.parent_id.to_s + ' __hierarchy-root-' + target.id.to_s + '">'
+          html = html + content_tag(:td, link_to(target.id, edit_project_target_path(id: target.id)))
+          tag_td = content_tag(:td) do
+            # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
+            # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
+            ('<span id="' + target.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;"></span>').html_safe +
+              link_to(h(target.name), edit_project_target_path(id: target.id), title: target.name)
+          end
         end
         html = html + tag_td
         html = html + content_tag(:td, target.target_status)
@@ -56,7 +68,7 @@ module TargetsHelper
                      title: t(:button_delete)
                    ))
         end
-        html = html + render_tree(tree, target.id, level + 1)
+        html = html + render_tree(Target.where(parent_id: target.id), target.id, level + 1)
         html = html + '</tr>'
       end
     end
