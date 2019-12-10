@@ -5,11 +5,13 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 export class BlueTableProtocolService extends BlueTableService {
   protected columns:string[] = ['', 'Ответственный', 'Срок', 'Исполнение'];
+  private data_local:any;
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
 
   public initializeAndGetData():Promise<any[]> {
     return new Promise((resolve) => {
+      let data_local:any = {};
       this.national_project_titles = [];
       this.halResourceService
         .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
@@ -22,64 +24,59 @@ export class BlueTableProtocolService extends BlueTableService {
             }
           });
           this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
-          this.getDataFromPage(0).then(data => {
-            resolve(data);
-          });
+
+          this.halResourceService
+            .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.protocols.toString())
+            .toPromise()
+            .then((resources:CollectionResource<HalResource>) => {
+              resources.elements.map((protocol:HalResource) => {
+                if (!protocol.project.federal_project_id) {
+                  protocol.project.federal_project_id = 0;
+                }
+                if (!protocol.project.national_project_id) {
+                  protocol.project.national_project_id = 0;
+                }
+
+                if ((protocol.project.federal_project_id !== 0) || (protocol.project.federal_project_id === 0 && protocol.project.national_project_id === 0)) {
+                  data_local[protocol.project.federal_project_id] = data_local[protocol.project.federal_project_id] || [];
+                  data_local[protocol.project.federal_project_id].push(protocol);
+                } else {
+                  data_local[protocol.project.national_project_id] = data_local[protocol.project.national_project_id] || [];
+                  data_local[protocol.project.national_project_id].push(protocol);
+                }
+              });
+              this.data_local = data_local;
+              this.getDataFromPage(0).then(data => {
+                resolve(data);
+              });
+            });
         });
     });
   }
 
   public getDataFromPage(i:number):Promise<any[]> {
     return new Promise((resolve) => {
-      i += 1;
       let data:any[] = [];
-      let data_local:any = {};
-      this.halResourceService
-        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.protocols.toString(), {offset: i})
-        .toPromise()
-        .then((resources:CollectionResource<HalResource>) => {
-          let total:number = resources.total; //всего ex 29
-          let pageSize:number = resources.pageSize;
-          let remainder = total % pageSize;
-          this.pages = (total - remainder) / pageSize;
-          if (remainder !== 0) {
-            this.pages++;
-          }
-          /*resources.elements.map((el:HalResource) => {
-            data.push(el);
-          });*/
-          resources.elements.map((protocol:HalResource) => {
-            if (!protocol.project.federal_project_id) {
-              protocol.project.federal_project_id = 0;
-            }
-            if (!protocol.project.national_project_id) {
-              protocol.project.national_project_id = 0;
-            }
-
-            if ((protocol.project.federal_project_id !== 0) || (protocol.project.federal_project_id === 0 && protocol.project.national_project_id === 0)) {
-              data_local[protocol.project.federal_project_id] = data_local[protocol.project.federal_project_id] || [];
-              data_local[protocol.project.federal_project_id].push(protocol);
-            } else {
-              data_local[protocol.project.national_project_id] = data_local[protocol.project.national_project_id] || [];
-              data_local[protocol.project.national_project_id].push(protocol);
-            }
+      if (this.national_project_titles[i].id === 0) {
+        data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+        if (this.data_local[0]) {
+          this.data_local[0].map((project:ProjectResource) => {
+            data.push(project);
           });
-          this.national_projects.map( (el:HalResource) => {
+        }
+      } else {
+        this.national_projects.map((el:HalResource) => {
+          if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
             data.push(el);
-            if (data_local[el.id]) {
-              data_local[el.id].map((protocol:HalResource) => {
-                data.push(protocol);
+            if (this.data_local[el.id]) {
+              this.data_local[el.id].map((project:ProjectResource) => {
+                data.push(project);
               });
             }
-          });
-          data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
-          if (data_local[0]) {
-            data_local[0].map((protocol:ProjectResource) => {
-              data.push(protocol);
-            });
           }
-          resolve(data);
         });
+      }
+      resolve(data);
     });
   }
 
@@ -87,7 +84,7 @@ export class BlueTableProtocolService extends BlueTableService {
     if (row._type === 'Protocol') {
       switch (i) {
         case 0: {
-          return 'Поручение: ' + row.name;
+          return '<a href="' + super.getBasePath() + '/meetings/' + row.meetingId + '/minutes">Поручение: ' + row.name + '</a>';
           break;
         }
         case 1: {
@@ -127,13 +124,6 @@ export class BlueTableProtocolService extends BlueTableService {
 
   public getTdClass(row:any, i:number):string {
     let prefix:string = '';
-    // if (row._type === 'Protocol') {
-    //   if (row.completed) {
-    //     prefix = 'gr';
-    //   } else {
-    //     prefix = 'or';
-    //   }
-    // }
     switch (i) {
       case 0: {
         if (row._type === 'Protocol') {
@@ -161,5 +151,11 @@ export class BlueTableProtocolService extends BlueTableService {
   }
   public format(input:string):string {
     return input.slice(8, 10) + '.' + input.slice(5, 7) + '.' + input.slice(0, 4);
+  }
+  public getPages():number {
+    return this.national_project_titles.length;
+  }
+  public pagesToText(i:number):string {
+    return this.national_project_titles[i].name;
   }
 }

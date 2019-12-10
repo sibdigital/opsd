@@ -35,7 +35,7 @@ export class WidgetUtNotesComponent extends AbstractWidgetComponent implements O
       .then((collection) => {
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Note'){
             entriesarrayforuser.push(obj);
           }

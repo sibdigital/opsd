@@ -37,7 +37,7 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
       .then((resource:HalResource) => {
         let entriesarray = resource.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Task') {
               entriesarrayforuser.push(obj);
           }
@@ -59,17 +59,17 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
         let entriesarrayforuser = [];
         let obj_completed = false;
         if (this.ut_filter ==true) {
-          for (var obj of entriesarray) {
+          for (let obj of entriesarray) {
             if (obj.completed == 'Да') {
               obj_completed = true;
             }
-            if (obj.kind == 'Task' && Date.parse(Date(obj.due_date)) >= FilterDateBegin && Date.parse(Date(obj.due_date)) <= FilterDateEnd && obj_completed == this.ut_completed_filter) {
+            if (obj.kind == 'Task' && Date.parse(obj.due_date) >= FilterDateBegin && Date.parse(obj.due_date) <= FilterDateEnd && obj_completed == this.ut_completed_filter) {
               entriesarrayforuser.push(obj);
             }
           }
         }
         else {
-          for (var obj of entriesarray) {
+          for (let obj of entriesarray) {
             if (obj.kind == 'Task') {
               entriesarrayforuser.push(obj);
             }
