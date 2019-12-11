@@ -12,7 +12,8 @@
 
         <h2 [textContent]="text.title" class="op-modal--modal-header-title"></h2>
 
-        <div class="op-modal--modal-body">
+        <div class="op-modal--modal-body"   *ngIf="type_dialog === 'period'">
+
              <div>
                 <div >
                     Начало периода
@@ -35,7 +36,14 @@
                     <input name="endPeriodDateField" type="date" class="form--text-field" [(ngModel)]="endPeriodDate"/>
                 </div>
             </div>
+
         </div>
+
+        <div class="op-modal--modal-body" *ngIf="type_dialog === 'new_tasks'">
+            <a href="/server1/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на приемку задачи</a>
+            <a href="/server1/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочники&kind=Request"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на ввод данных в справочники</a>
+        </div>
+
 
         <div class="op-modal--modal-footer">
             <button class="confirm-form-submit--cancel button"

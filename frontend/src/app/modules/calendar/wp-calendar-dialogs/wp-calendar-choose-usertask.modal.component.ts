@@ -44,6 +44,9 @@ export class ChooseUserTaskModalComponent extends OpModalComponent implements On
 
   public confirmed = false;
 
+  //вид диалогового окна, "period" - выбор периода, "new_tasks" - выбор типа новой задачи
+  public type_dialog = "period";
+
   @Input() public startPeriodDate:string;
   @Input() public endPeriodDate:string;
 
@@ -73,11 +76,13 @@ export class ChooseUserTaskModalComponent extends OpModalComponent implements On
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+  this.$element = jQuery(this.elementRef.nativeElement);
+
     // this.startPeriodDate = this.locals.start;
     // this.endPeriodDate = this.locals.end;
-
     //console.log("startPeriod: " + this.startPeriodDate);
+
+    this.type_dialog = this.locals.type_dialog;
   }
 
   ngOnDestroy() {
@@ -104,5 +109,4 @@ export class ChooseUserTaskModalComponent extends OpModalComponent implements On
     console.log("this.confirmed = true;")
     this.closeMe(evt);
   }
-
 }

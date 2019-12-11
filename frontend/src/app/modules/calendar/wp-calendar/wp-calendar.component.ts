@@ -24,9 +24,6 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {ChooseUserTaskModalComponent} from "core-app/modules/calendar/wp-calendar-dialogs/wp-calendar-choose-usertask.modal.component";
-import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
-import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
-import {start} from "repl";
 
 
 @Component({
@@ -82,6 +79,7 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
 
   public updateTimeframe($event:any) {
     let calendarView = this.calendarElement.fullCalendar('getView')!;
+
     let startDate = (calendarView.start as Moment).format('YYYY-MM-DD');
     let endDate = (calendarView.end as Moment).format('YYYY-MM-DD');
 
@@ -167,15 +165,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
   }
 
   public onSelectDay($event: any) {
-    this.addUserTask();
+    this.openDialog("new_tasks");
   }
 
   public setCustomPeriod() {
-    //me.openDialog();
+    this.openDialog("period");
   }
 
-  public openDialog() {
-    const modal = this.opModalService.show<ChooseUserTaskModalComponent>(ChooseUserTaskModalComponent);
+  public openDialog(type_dialog: string) {
+    const modal = this.opModalService.show<ChooseUserTaskModalComponent>(ChooseUserTaskModalComponent, {type_dialog: type_dialog});
 
     modal.closingEvent.subscribe((modal:ChooseUserTaskModalComponent) => {
       if (modal.confirmed) {
@@ -184,10 +182,15 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
           end: modal.endPeriodDate
         });
 
-      //  this.calendarElement.fullCalendar('option', {
-      //    start: modal.startPeriodDate,
-      //    end: modal.endPeriodDate
-      //  });
+        /*
+        this.calendarElement.fullCalendar('option', {
+          start: modal.startPeriodDate,
+          end: modal.endPeriodDate
+        });
+        */
+        this.calendarElement.fullCalendar('option', 'start', modal.startPeriodDate);
+        this.calendarElement.fullCalendar('option', 'end', modal.endPeriodDate);
+
         modal.confirmed = false;
       }
     });
@@ -423,20 +426,13 @@ export class WorkPackagesCalendarController implements OnInit, OnDestroy {
       customButtons: {
         setPeriodButton: {
           text: 'Задать период',
-          click:this.addUserTask.bind(this)
-        },
-        addUserTask: {
-          text: 'Добавить...',
-          click: this.addUserTask
-         }
+          click:this.setCustomPeriod.bind(this)
+        }
       }
     };
 
   }
 
-  private addUserTask(){
-    this.openDialog();
-  }
 
   private get staticOptions() {
     return {
