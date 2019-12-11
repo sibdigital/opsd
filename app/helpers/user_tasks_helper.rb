@@ -42,10 +42,10 @@ module UserTasksHelper
         stroka['related_task'] = ut.related_task
         stroka['related_task_id'] = ut.related_task_id
 
-        stroka['created_at'] = ut.created_at.strftime("%d.%m.%Y")
+        stroka['created_at'] = ut.created_at
         stroka['due_date'] = ut.due_date
         if stroka['due_date'] == nil
-          stroka['due_date'] = '2099-12-31'.to_date
+          stroka['due_date'] = Time.utc(2099, 01, 01)
         end
         stroka['project_name'] = ut.project ? ut.project.name : ''
         stroka['project'] = if ut.project_id.nil? || ut.project_id == 0

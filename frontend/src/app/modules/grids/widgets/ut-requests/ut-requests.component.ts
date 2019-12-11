@@ -70,4 +70,12 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
   public user_taskCreator(user_task:UserTasksResource) {
     return `${this.pathHelper.appBasePath}/users/${user_task.user_creator_id}`;
   }
+
+  public newRequestPath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочники&kind=Request`;
+  }
+
+  public newWPRequestPath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage`;
+  }
 }
