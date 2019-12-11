@@ -37,7 +37,7 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
       .then((resource:HalResource) => {
         let entriesarray = resource.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Task') {
               entriesarrayforuser.push(obj);
           }
@@ -59,7 +59,7 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
         let entriesarrayforuser = [];
         let obj_completed = false;
         if (this.ut_filter ==true) {
-          for (var obj of entriesarray) {
+          for (let obj of entriesarray) {
             if (obj.completed == 'Да') {
               obj_completed = true;
             }
@@ -69,7 +69,7 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
           }
         }
         else {
-          for (var obj of entriesarray) {
+          for (let obj of entriesarray) {
             if (obj.kind == 'Task') {
               entriesarrayforuser.push(obj);
             }

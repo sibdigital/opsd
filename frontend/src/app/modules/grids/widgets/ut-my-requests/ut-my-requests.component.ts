@@ -35,7 +35,7 @@ export class WidgetUtMyRequestsComponent extends AbstractWidgetComponent impleme
       .then((collection) => {
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Request'){
             entriesarrayforuser.push(obj);
           }

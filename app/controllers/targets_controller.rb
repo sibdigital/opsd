@@ -52,12 +52,13 @@ class TargetsController < ApplicationController
       #tan 2019.12.01 TODO: надо решить вопрос с  иерархической пагинацией
 
       @targets = @project.targets
+                   .where(parent_id: 0)
                    .order(sort_clause)
                    .page(page_param)
                    .per_page(per_page_param)
     else
       @targets = @project.targets
-                   .where(:type_id => @type_id)
+                   .where(:type_id => @type_id, parent_id: 0)
                    .page(page_param)
                    .per_page(per_page_param)
     end
