@@ -44,6 +44,12 @@ module Queries::Projects
   register.filter query, filters::NationalProjectFilter
   #)
 
+  #tmd
+  register.filter query, filters::ProjectStatusFilter
+  register.filter query, filters::ProjectApproveStatusFilter
+  register.filter query, filters::StartDateFilter
+  register.filter query, filters::DoneRatioFilter
+
   #zbd(
   register.filter query, filters::FederalProjectFilter
   register.filter query, filters::DueDateFilter
@@ -52,4 +58,5 @@ module Queries::Projects
   register.order query, orders::LatestActivityAtOrder
   register.order query, orders::RequiredDiskSpaceOrder
   register.order query, orders::CustomFieldOrder
+  register.order query, orders::DoneRatioOrder
 end
