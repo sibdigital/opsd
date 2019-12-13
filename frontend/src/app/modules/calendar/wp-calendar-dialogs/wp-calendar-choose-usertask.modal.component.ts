@@ -20,6 +20,7 @@ import {takeUntil} from "rxjs/operators";
 import {input, InputState} from "reactivestates";
 import {PaginationUpdateObject} from "core-components/wp-fast-table/state/wp-table-pagination.service";
 import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 @Component({
   templateUrl: './wp-calendar-choose-usertask.modal.html'
@@ -71,6 +72,7 @@ export class ChooseUserTaskModalComponent extends OpModalComponent implements On
               readonly injector:Injector,
               readonly loadingIndicator:LoadingIndicatorService,
               readonly cdRef:ChangeDetectorRef,
+              readonly pathHelper:PathHelperService,
               readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
   }
@@ -108,5 +110,17 @@ export class ChooseUserTaskModalComponent extends OpModalComponent implements On
     this.confirmed = true;
     console.log("this.confirmed = true;")
     this.closeMe(evt);
+  }
+
+  public newUTRequestWPPath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage`;
+  }
+
+  public newUTRequestPath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочники&kind=Request`;
+  }
+
+  public newUTTaskPath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Новая+задача&kind=Task`;
   }
 }
