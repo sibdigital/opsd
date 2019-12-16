@@ -71,26 +71,10 @@ See docs/COPYRIGHT.rdoc for more details.
             <% if User.current.admin? %>
               <%= projects_sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :json) %>
             <% end %>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                <span>
-                  <%= l(:label_national_project_short) %>
-                </span>
-                </div>
-              </div>
-            </th>
+            <%= projects_sort_header_tag('national_project_id', caption: l(:label_national_project_short), param: :json) %>
             <%= projects_sort_header_tag('project_status_id', caption: Project.human_attribute_name(:project_status), param: :json) %>
             <%= projects_sort_header_tag('project_approve_status_id', caption: Project.human_attribute_name(:project_approve_status), param: :json) %>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                <span>
-                  <%= l(:label_done_ratio_project) %>
-                </span>
-                </div>
-              </div>
-            </th>
+            <%= projects_sort_header_tag('done_ratio', caption: l(:label_done_ratio_project), param: :json) %>
             <% if User.current.admin? %>
               <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
             <% end %>
