@@ -107,6 +107,7 @@ module API
                 project = proj_arr.select {|p| p.id == arr['id']}.first# Project.find(arr['id'])
                 stroka['name'] = project.name
                 stroka['identifier'] = project.identifier
+                stroka['parentId'] = project.federal_project_id || project.national_project_id || 0
                 stroka['federal_id'] = project.federal_project_id || 0
                 stroka['national_id'] = project.national_project_id || 0
                 stroka['kurator'] = project.curator.empty? ? '' : project.curator['fio']
@@ -147,6 +148,7 @@ module API
                 hash['project_id'] = project
                 p = Project.find(project)
                 hash['name'] = p.name
+                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
                 hash['identifier'] = p.identifier
                 hash['federal_id'] = p.federal_project_id || 0
                 hash['national_id'] = p.national_project_id || 0
@@ -155,6 +157,7 @@ module API
                   stroka = Hash.new
                   stroka['_type'] = 'RiskProblemStat'
                   stroka['work_package_id'] = row.work_package_id
+                  stroka['project_id'] = row.project_id
                   wpp = WorkPackageProblem.find(row.id)
                   stroka['solution_date'] = wpp.solution_date
                   stroka['risk_or_problem'] = wpp.risk ? wpp.risk.name : wpp.description
@@ -191,6 +194,7 @@ module API
                 p = Project.find(project)
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
+                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
                 hash['federal_id'] = p.federal_project_id || 0
                 hash['national_id'] = p.national_project_id || 0
                 hash['curator'] = p.curator.empty? ? '' : p.curator['fio']
@@ -271,6 +275,7 @@ module API
                 p = Project.find(project)
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
+                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
                 hash['federal_id'] = p.federal_project_id || 0
                 hash['national_id'] = p.national_project_id || 0
                 hash['work_packages'] = []
@@ -313,12 +318,13 @@ module API
                 p = Project.find(project)
                 hash['name'] = p.name
                 hash['identifier'] = p.identifier
+                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
                 hash['federal_id'] = p.federal_project_id || 0
                 hash['national_id'] = p.national_project_id || 0
                 hash['targets'] = []
                 arr.each do |row|
                   stroka = Hash.new
-                  stroka['_type'] = 'PlanFactQuarterlyTargetValue'
+                  stroka['_type'] = 'PlanFactQuarterlyTargetquartered_work_package_targets_with_quarter_groups_viewValue'
                   target = Target.find(row.target_id)
                   stroka['name'] = target.name
                   stroka['target_id'] = row.target_id

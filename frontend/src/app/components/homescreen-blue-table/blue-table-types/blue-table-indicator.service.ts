@@ -7,29 +7,136 @@ export class BlueTableIndicatorService extends BlueTableService {
   private data_local:any;
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
+  public table_data:any = [];
+  public configs:any = {
+    id_field: 'id',
+    parent_id_field: 'parentId',
+    parent_display_field: 'homescreen_name',
+    show_summary_row: false,
+    css: { // Optional
+      expand_class: 'icon-arrow-right2',
+      collapse_class: 'icon-arrow-down1',
+    },
+    columns: [
+      {
+        name: 'homescreen_name',
+        header: this.columns[0]
+      },
+      {
+        name: 'homescreen_assignee',
+        header: this.columns[1]
+      },
+      {
+        name: 'homescreen_plan_I',
+        header: this.columns[2]
+      },
+      {
+        name: 'homescreen_plan_II',
+        header: this.columns[3]
+      },
+      {
+        name: 'homescreen_plan_III',
+        header: this.columns[4]
+      },
+      {
+        name: 'homescreen_plan_IIII',
+        header: this.columns[5]
+      },
+      {
+        name: 'homescreen_fact_I',
+        header: this.columns[6]
+      },
+      {
+        name: 'homescreen_fact_II',
+        header: this.columns[7]
+      },
+      {
+        name: 'homescreen_fact_III',
+        header: this.columns[8]
+      },
+      {
+        name: 'homescreen_fact_IIII',
+        header: this.columns[9]
+      },
+      {
+        name: 'homescreen_progress',
+        header: this.columns[10]
+      }
+    ]
+  };
 
   public getDataFromPage(i:number):Promise<any[]> {
     return new Promise((resolve) => {
       let data:any[] = [];
       if (this.national_project_titles[i].id === 0) {
-        data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+        data.push({
+          id: '0National',
+          parentId: '0',
+          homescreen_name: 'Проекты Республики Бурятия'
+        });
         if (this.data_local[0]) {
           this.data_local[0].map((row:HalResource) => {
             data.push({_type: row._type, name: row.name, identifier: row.identifier});
+            data.push({
+              parentId: '0National',
+              id: row.project_id + 'Project',
+              homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+            });
             row.targets.map((target:HalResource) => {
-              data.push(target);
+              let fact:number = target.fact_year_value;
+              let goal:number = target.target_year_value;
+              data.push({
+                parentId: row.project_id + 'Project',
+                id: target.target_id,
+                homescreen_name: target.name,
+                homescreen_assignee: target.otvetstvenniy ? '<a href="' + super.getBasePath() + '/users/' + target.otvetstvenniy_id + '">' + target.otvetstvenniy + '</a>' : '',
+                homescreen_plan_I: target.target_quarter1_value,
+                homescreen_plan_II: target.target_quarter2_value,
+                homescreen_plan_III: target.target_quarter3_value,
+                homescreen_plan_IIII: target.target_quarter4_value,
+                homescreen_fact_I: target.fact_quarter1_value,
+                homescreen_fact_II: target.fact_quarter2_value,
+                homescreen_fact_III: target.fact_quarter3_value,
+                homescreen_fact_IIII: target.fact_quarter4_value,
+                homescreen_progress: goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed()
+              });
             });
           });
         }
       } else {
         this.national_projects.map((el:HalResource) => {
           if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-            data.push(el);
+            data.push({
+              id: el.id + el.type,
+              parentId: el.parentId + 'National' || 0,
+              homescreen_name: el.name
+            });
             if (this.data_local[el.id]) {
               this.data_local[el.id].map((row:HalResource) => {
                 data.push({_type: row._type, name: row.name, identifier: row.identifier});
+                data.push({
+                  id: row.project_id + 'Project',
+                  parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                  homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                });
                 row.targets.map((target:HalResource) => {
-                  data.push(target);
+                  let fact:number = target.fact_year_value;
+                  let goal:number = target.target_year_value;
+                  data.push({
+                    parentId: row.project_id + 'Project',
+                    id: target.target_id,
+                    homescreen_name: target.name,
+                    homescreen_assignee: target.otvetstvenniy ? '<a href="' + super.getBasePath() + '/users/' + target.otvetstvenniy_id + '">' + target.otvetstvenniy + '</a>' : '',
+                    homescreen_plan_I: target.target_quarter1_value,
+                    homescreen_plan_II: target.target_quarter2_value,
+                    homescreen_plan_III: target.target_quarter3_value,
+                    homescreen_plan_IIII: target.target_quarter4_value,
+                    homescreen_fact_I: target.fact_quarter1_value,
+                    homescreen_fact_II: target.fact_quarter2_value,
+                    homescreen_fact_III: target.fact_quarter3_value,
+                    homescreen_fact_IIII: target.fact_quarter4_value,
+                    homescreen_progress: goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed()
+                  });
                 });
               });
             }

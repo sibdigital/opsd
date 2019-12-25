@@ -9,7 +9,9 @@ export abstract class BlueTableService {
   protected readonly appBasePath:string;
   protected columns:string[] = [];
   protected pages:number = 0;
-
+  protected configs:any;
+  protected table_data:any;
+  protected data:any;
   constructor(
     protected halResourceService:HalResourceService,
     protected pathHelper:PathHelperService,
@@ -42,6 +44,12 @@ export abstract class BlueTableService {
   }
   public getBasePath():string {
     return this.appBasePath;
+  }
+  public getConfigs():any {
+    return this.configs;
+  }
+  public getDatas():any {
+    return this.table_data;
   }
   public pagesToText(i:number):string {
     return String(i + 1);
