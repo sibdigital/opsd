@@ -34,7 +34,7 @@ module WorkPackage::Validations
   included do
     validates_presence_of :subject, :priority, :project, :type, :author, :status
 
-    validates_length_of :subject, maximum: 255
+    validates_length_of :subject, maximum: 512 #+-tan
     validates_inclusion_of :done_ratio, in: 0..100
     validates_numericality_of :estimated_hours, allow_nil: true
 
