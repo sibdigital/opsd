@@ -142,6 +142,19 @@ module API
               rps = rps.limit(20).offset((to_i_or_nil(params[:offset]) - 1) * 20) if params[:offset].present?
               result['count'] = rps.count
               collection = []
+              if rps.count == 0
+                p = Project.find(@projects[1])
+                hash = Hash.new
+                hash['_type'] = 'Project'
+                hash['project_id'] = p.id
+                hash['name'] = p.name
+                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
+                hash['identifier'] = p.identifier
+                hash['federal_id'] = p.federal_project_id || 0
+                hash['national_id'] = p.national_project_id || 0
+                hash['problems'] = []
+                collection << hash
+              end
               rps.group_by(&:project_id).each do |project, arr|
                 hash = Hash.new
                 hash['_type'] = 'Project'
@@ -187,6 +200,23 @@ module API
               qwptwqg = qwptwqg.limit(20).offset((to_i_or_nil(params[:offset]) - 1) * 20) if params[:offset].present?
               result['count'] = qwptwqg.count
               collection = []
+              if qwptwqg.count == 0
+                p = Project.find(@projects[1])
+                hash = Hash.new
+                hash['_type'] = 'Project'
+                hash['project_id'] = p.id
+                hash['name'] = p.name
+                hash['identifier'] = p.identifier
+                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
+                hash['federal_id'] = p.federal_project_id || 0
+                hash['national_id'] = p.national_project_id || 0
+                hash['curator'] = p.curator.empty? ? '' : p.curator['fio']
+                hash['curator_id'] = p.curator.empty? ? '' : p.curator['id']
+                hash['rukovoditel'] = p.rukovoditel.empty? ? '' : p.rukovoditel['fio']
+                hash['rukovoditel_id'] = p.rukovoditel.empty? ? '' : p.rukovoditel['id']
+                hash['targets'] = []
+                collection << hash
+              end
               qwptwqg.group_by(&:project_id).each do |project, arr|
                 hash = Hash.new
                 hash['_type'] = 'Project'
