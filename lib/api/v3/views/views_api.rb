@@ -143,17 +143,21 @@ module API
               result['count'] = rps.count
               collection = []
               if rps.count == 0
-                p = Project.find(@projects[1])
-                hash = Hash.new
-                hash['_type'] = 'Project'
-                hash['project_id'] = p.id
-                hash['name'] = p.name
-                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
-                hash['identifier'] = p.identifier
-                hash['federal_id'] = p.federal_project_id || 0
-                hash['national_id'] = p.national_project_id || 0
-                hash['problems'] = []
-                collection << hash
+                @projects.each do |project|
+                  unless project.zero?
+                    p = Project.find(project)
+                    hash = Hash.new
+                    hash['_type'] = 'Project'
+                    hash['project_id'] = p.id
+                    hash['name'] = p.name
+                    hash['parentId'] = p.federal_project_id || p.national_project_id || 0
+                    hash['identifier'] = p.identifier
+                    hash['federal_id'] = p.federal_project_id || 0
+                    hash['national_id'] = p.national_project_id || 0
+                    hash['problems'] = []
+                    collection << hash
+                  end
+                end
               end
               rps.group_by(&:project_id).each do |project, arr|
                 hash = Hash.new

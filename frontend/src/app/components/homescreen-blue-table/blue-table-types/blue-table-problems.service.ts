@@ -107,56 +107,24 @@ export class BlueTableProblemsService extends BlueTableService {
             });
             this.national_projects.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
-                data.push({
-                  id: el.id + el.type,
-                  parentId: el.parentId + 'National' || 0,
-                  homescreen_name: el.name
-                });
+                data.push(this.getNational(el));
                 if (data_local[el.id]) {
                   data_local[el.id].map((row:HalResource) => {
-                    data.push({
-                      id: row.project_id + 'Project',
-                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                    });
+                    data.push(this.getProject(row));
                     row.problems.map((problem:HalResource) => {
-                      data.push({
-                        id: problem.id,
-                        parentId: problem.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                        homescreen_initiator: problem.user_creator,
-                        homescreen_address: problem.user_source,
-                        homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                        homescreen_date: this.format(problem.solution_date)
-                      });
+                      data.push(this.getProblem(problem));
                     });
                   });
                 }
               }
             });
             if (this.national_project_titles[i].id === 0) {
-              data.push({
-                id: '0National',
-                parentId: '0',
-                homescreen_name: 'Проекты Республики Бурятия'
-              });
+              data.push(this.getNational());
               if (data_local[0]) {
                 data_local[0].map((row:HalResource) => {
-                  data.push({
-                    parentId: '0National',
-                    id: row.project_id + 'Project',
-                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                  });
+                  data.push(this.getProject(row, true));
                   row.problems.map((problem:HalResource) => {
-                    data.push({
-                      id: problem.id,
-                      parentId: problem.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                      homescreen_initiator: problem.user_creator,
-                      homescreen_address: problem.user_source,
-                      homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                      homescreen_date: this.format(problem.solution_date)
-                    });
+                    data.push(this.getProblem(problem));
                   });
                 });
               }
@@ -188,56 +156,24 @@ export class BlueTableProblemsService extends BlueTableService {
             resource.elements.map((project:HalResource) => {
               this.national_projects.map((el:HalResource) => {
                 if ((el.id === project.federal_id) || (el.parentId && el.parentId === project.national_id) || (el.id === project.national_id)) {
-                  data.push({
-                    id: el.id + el.type,
-                    parentId: el.parentId + 'National' || 0,
-                    homescreen_name: el.name
-                  });
+                  data.push(this.getNational(el));
                   if (data_local[el.id]) {
                     data_local[el.id].map((row:HalResource) => {
-                      data.push({
-                        id: row.project_id + 'Project',
-                        parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                      });
+                      data.push(this.getProject(row));
                       row.problems.map((problem:HalResource) => {
-                        data.push({
-                          id: problem.id,
-                          parentId: problem.project_id + 'Project',
-                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                          homescreen_initiator: problem.user_creator,
-                          homescreen_address: problem.user_source,
-                          homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                          homescreen_date: this.format(problem.solution_date)
-                        });
+                        data.push(this.getProblem(problem));
                       });
                     });
                   }
                 }
               });
               if (project.national_id === 0) {
-                data.push({
-                  id: '0National',
-                  parentId: '0',
-                  homescreen_name: 'Проекты Республики Бурятия'
-                });
+                data.push(this.getNational());
                 if (data_local[0]) {
                   data_local[0].map((row:HalResource) => {
-                    data.push({
-                      parentId: '0National',
-                      id: row.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                    });
+                    data.push(this.getProject(row, true));
                     row.problems.map((problem:HalResource) => {
-                      data.push({
-                        id: problem.id,
-                        parentId: problem.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                        homescreen_initiator: problem.user_creator,
-                        homescreen_address: problem.user_source,
-                        homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                        homescreen_date: this.format(problem.solution_date)
-                      });
+                      data.push(this.getProblem(problem));
                     });
                   });
                 }
@@ -257,52 +193,52 @@ export class BlueTableProblemsService extends BlueTableService {
     }
   }
 
-  public getTdData(row:any, i:number):string {
-    if (row._type === 'NationalProject') {
-      switch (i) {
-        case 0: {
-          return row.name;
-          break;
-        }
-      }
-    } else if (row._type === 'Project') {
-      switch (i) {
-        case 0: {
-          return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>';
-          break;
-        }
-      }
-    } else {
-      switch (i) {
-        case 0: {
-          return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/problems">' + row.risk_or_problem + '</a>';
-          break;
-        }
-        case 1: {
-          return row.user_creator;
-          break;
-        }
-        case 2: {
-          return row.user_source;
-          break;
-        }
-        case 3: {
-          if (row.type === 'solved_risk') {
-            return 'Решен';
-          }
-          if (row.type === 'created_risk') {
-            return 'Не решен';
-          }
-          break;
-        }
-        case 4: {
-          return this.format(row.solution_date);
-          break;
-        }
-      }
-    }
-    return '';
-  }
+  // public getTdData(row:any, i:number):string {
+  //   if (row._type === 'NationalProject') {
+  //     switch (i) {
+  //       case 0: {
+  //         return row.name;
+  //         break;
+  //       }
+  //     }
+  //   } else if (row._type === 'Project') {
+  //     switch (i) {
+  //       case 0: {
+  //         return '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>';
+  //         break;
+  //       }
+  //     }
+  //   } else {
+  //     switch (i) {
+  //       case 0: {
+  //         return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/problems">' + row.risk_or_problem + '</a>';
+  //         break;
+  //       }
+  //       case 1: {
+  //         return row.user_creator;
+  //         break;
+  //       }
+  //       case 2: {
+  //         return row.user_source;
+  //         break;
+  //       }
+  //       case 3: {
+  //         if (row.type === 'solved_risk') {
+  //           return 'Решен';
+  //         }
+  //         if (row.type === 'created_risk') {
+  //           return 'Не решен';
+  //         }
+  //         break;
+  //       }
+  //       case 4: {
+  //         return this.format(row.solution_date);
+  //         break;
+  //       }
+  //     }
+  //   }
+  //   return '';
+  // }
 
   public format(input:string):string {
     if (input) {
@@ -312,22 +248,33 @@ export class BlueTableProblemsService extends BlueTableService {
     }
   }
 
-
-  public getTdClass(row:any, i:number):string {
-    switch (i) {
-      case 0: {
-        if (row._type === 'Project') {
-          return 'p30';
-        }
-        if (row._type === 'RiskProblemStat') {
-          return 'p40';
-        }
-        return row.parentId == null ? 'p10' : 'p20';
-        break;
-      }
-    }
-    return '';
+  private getProblem(problem:any) {
+    return {
+      id: problem.id,
+        parentId: problem.project_id + 'Project',
+      homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
+      homescreen_initiator: problem.user_creator,
+      homescreen_address: problem.user_source,
+      homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
+      homescreen_date: this.format(problem.solution_date)
+    };
   }
+
+  // public getTdClass(row:any, i:number):string {
+  //   switch (i) {
+  //     case 0: {
+  //       if (row._type === 'Project') {
+  //         return 'p30';
+  //       }
+  //       if (row._type === 'RiskProblemStat') {
+  //         return 'p40';
+  //       }
+  //       return row.parentId == null ? 'p10' : 'p20';
+  //       break;
+  //     }
+  //   }
+  //   return '';
+  // }
 
   public getDataWithFilter(param:string):Promise<any[]> {
     return new Promise((resolve) => {
@@ -359,56 +306,24 @@ export class BlueTableProblemsService extends BlueTableService {
               }
             });
             if (this.national_project_titles[this.page].id === 0) {
-              data.push({
-                id: '0National',
-                parentId: '0',
-                homescreen_name: 'Проекты Республики Бурятия'
-              });
+              data.push(this.getNational());
               if (data_local[0]) {
                 data_local[0].map((row:HalResource) => {
-                  data.push({
-                    parentId: '0National',
-                    id: row.project_id + 'Project',
-                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                  });
+                  data.push(this.getProject(row, true));
                   row.problems.map((problem:HalResource) => {
-                    data.push({
-                      id: problem.id,
-                      parentId: problem.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                      homescreen_initiator: problem.user_creator,
-                      homescreen_address: problem.user_source,
-                      homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                      homescreen_date: this.format(problem.solution_date)
-                    });
+                    data.push(this.getProblem(problem));
                   });
                 });
               }
             }
             this.national_projects.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
-                data.push({
-                  id: el.id + el.type,
-                  parentId: el.parentId + 'National' || 0,
-                  homescreen_name: el.name
-                });
+                data.push(this.getNational(el));
                 if (data_local[el.id]) {
                   data_local[el.id].map((row:HalResource) => {
-                    data.push({
-                      id: row.project_id + 'Project',
-                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                    });
+                    data.push(this.getProject(row));
                     row.problems.map((problem:HalResource) => {
-                      data.push({
-                        id: problem.id,
-                        parentId: problem.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                        homescreen_initiator: problem.user_creator,
-                        homescreen_address: problem.user_source,
-                        homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                        homescreen_date: this.format(problem.solution_date)
-                      });
+                      data.push(this.getProblem(problem));
                     });
                   });
                 }
@@ -443,56 +358,24 @@ export class BlueTableProblemsService extends BlueTableService {
             resource.elements.map((project:HalResource) => {
               this.national_projects.map((el:HalResource) => {
                 if ((el.id === project.federal_id) || (el.parentId && el.parentId === project.national_id) || (el.id === project.national_id)) {
-                  data.push({
-                    id: el.id + el.type,
-                    parentId: el.parentId + 'National' || 0,
-                    homescreen_name: el.name
-                  });
+                  data.push(this.getNational(el));
                   if (data_local[el.id]) {
                     data_local[el.id].map((row:HalResource) => {
-                      data.push({
-                        id: row.project_id + 'Project',
-                        parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                      });
+                      data.push(this.getProject(row));
                       row.problems.map((problem:HalResource) => {
-                        data.push({
-                          id: problem.id,
-                          parentId: problem.project_id + 'Project',
-                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                          homescreen_initiator: problem.user_creator,
-                          homescreen_address: problem.user_source,
-                          homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                          homescreen_date: this.format(problem.solution_date)
-                        });
+                        data.push(this.getProblem(problem));
                       });
                     });
                   }
                 }
               });
               if (project.national_id === 0) {
-                data.push({
-                  id: '0National',
-                  parentId: '0',
-                  homescreen_name: 'Проекты Республики Бурятия'
-                });
+                data.push(this.getNational());
                 if (data_local[0]) {
                   data_local[0].map((row:HalResource) => {
-                    data.push({
-                      parentId: '0National',
-                      id: row.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                    });
+                    data.push(this.getProject(row, true));
                     row.problems.map((problem:HalResource) => {
-                      data.push({
-                        id: problem.id,
-                        parentId: problem.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/problems">' + problem.risk_or_problem + '</a>',
-                        homescreen_initiator: problem.user_creator,
-                        homescreen_address: problem.user_source,
-                        homescreen_status: problem.type === 'solved_risk' ? 'Решен' : problem.type === 'created_risk' ? 'Не решен' : '',
-                        homescreen_date: this.format(problem.solution_date)
-                      });
+                      data.push(this.getProblem(problem));
                     });
                   });
                 }
