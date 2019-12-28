@@ -56,7 +56,7 @@ module API
         collection :elements,
                    getter: ->(*) {
                      @elements = []
-                     render_tree(represented, nil)
+                     sort_list
                      #Rails.logger.info('repr: ' + represented.to_json)
                      #Rails.logger.info(@elements ? @elements.size() : 'empty mat proj')
                      @elements
@@ -66,30 +66,24 @@ module API
 
         private
 
+        def sort_list
+          represented.map do |nel|
+            if nel.type == 'National'
+              @elements << element_decorator.create(nel, current_user: current_user)
+              represented.map do |fel|
+                if fel.parent_id == nel.id
+                  @elements << element_decorator.create(fel, current_user: current_user)
+                end
+              end
+            end
+          end
+        end
+
         def render_tree(tree, pid)
           represented.map do |el|
             # Rails.logger.info("render_tree: #{el.id} PID: #{pid} el.parent_id= #{el.parent_id}")
             #Rails.logger.info('current_user: ' + @current_user.name + ' @global_role: ' + @global_role.to_s)
             if el.parent_id == pid
-              exist = nil
-              if pid
-                exist = which_roles(el.projects_federal, @current_user)
-                # el.projects_federal.map do |project|
-                  # exist ||= which_role(project, @current_user, @global_role)
-                  # Rails.logger.info('project:' + project.id.id.to_s + 'roles' + which_role(project, @current_user, @global_role).to_json())
-                #end
-              else
-                # exist = nil
-                exist = which_roles(el.projects, @current_user)
-                # el.projects.map do |project|
-                #   exist ||= which_role(project, @current_user, @global_role)
-                #   #Rails.logger.info('project:' + project.id.to_s + 'roles' + which_role(project, @current_user, @global_role).to_json())
-                # end
-              end
-              # Rails.logger.info("exist#{exist} render_tree: #{el.id} PID: #{pid} el.parent_id= #{el.parent_id}")
-              unless exist
-                next
-              end
               @elements << element_decorator.create(el, current_user: current_user)
               render_tree(tree, el.id)
             end

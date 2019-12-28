@@ -34,7 +34,9 @@ module API
       class NationalProjectsAPI < ::API::OpenProjectAPI
         resources :national_projects do
           get do
-            @national_projects = NationalProject.all
+            federal_projects = NationalProject.visible_federal_project(User.current)
+            @national_projects = NationalProject.national_projects
+            @national_projects = @national_projects + federal_projects
             Rails.logger.info('params: ' + params.to_s)
             NationalProjectCollectionRepresenter.new(@national_projects,
                                                      params,

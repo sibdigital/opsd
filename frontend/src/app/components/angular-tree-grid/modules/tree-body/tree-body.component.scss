@@ -1,0 +1,96 @@
+@import '../../angular-tree-grid.component.scss';
+
+tr {
+  .colored-row {
+    background: #D0E4F5
+  }
+
+  .colored-row-red {
+    background: #F5D0E4
+  }
+
+  .colored-row-green {
+    background: #D0F5E4
+  }
+
+  .colored-row-yellow {
+    background: #F5F5D0
+  }
+
+  &.selected {
+  }
+
+  span.parent_container {
+    padding-left: 45px;
+  }
+
+  &.child {
+    background: #fff;
+
+    td:nth-child(2) {
+      padding: 0.875rem 1.25rem 0.875rem 2.5rem !important;
+    }
+  }
+
+  &.parent {
+    background: #fafbff;
+  }
+
+  &.subgrid-row {
+    background: #fcfcfc;
+  }
+
+  td {
+    font-size: 12px;
+    color: #333333;
+
+    .p10 {
+      padding-left: 10px;
+      font-weight: bold;
+    }
+
+    .p20 {
+      padding-left: 20px;
+    }
+
+    .p30 {
+      padding-left: 30px;
+    }
+
+    .p40 {
+      padding-left: 40px;
+    }
+
+    .p50 {
+      padding-left: 50px;
+    }
+
+    .gr {
+      background: #bbeebb;
+    }
+
+    .or {
+      background: #ffdab9;
+    }
+
+    &.checkbox_column {
+      text-align: center;
+    }
+
+    &.expand-column {
+      padding: 0.3rem;
+    }
+
+    &.column-hide {
+      display: none;
+    }
+
+    &.clear-left-border {
+      border-left: 0 !important;
+    }
+
+    &.clear-right-border {
+      border-right: 0 !important;
+    }
+  }
+}
