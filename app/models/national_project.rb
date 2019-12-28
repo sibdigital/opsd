@@ -39,4 +39,8 @@ class NationalProject < ActiveRecord::Base
     nps = NationalProject.find_by_sql([slq, current_user.id])
     nps
   end
+
+  def self.national_projects
+    NationalProject.where(type: 'National')
+  end
 end
