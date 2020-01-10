@@ -25,7 +25,7 @@ class NationalProject < ActiveRecord::Base
 
   def self.visible_federal_project(current_user)
     slq =  <<-SQL
-            select *
+            select distinct np.*
             from national_projects as np
             inner join(
               select project_id, national_project_id, federal_project_id
