@@ -40,8 +40,9 @@
         </div>
 
         <div class="op-modal--modal-body" *ngIf="type_dialog === 'new_tasks'">
-            <a href="/server1/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на приемку задачи</a>
-            <a href="/server1/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочники&kind=Request"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на ввод данных в справочники</a>
+            <p><a [href]="newUTRequestWPPath()"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на приемку задачи</a></p>
+            <p><a [href]="newUTRequestPath()"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на ввод данных в справочники</a></p>
+            <p><a [href]="newUTTaskPath()"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Задача</a></p>
         </div>
 
 

@@ -92,6 +92,9 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
+    @organization.childs(false).each do |org|
+      org.update(parent_id: nil)
+    end
     @organization.destroy
     redirect_to organizations_path(org_type: @organization.org_type)
   end

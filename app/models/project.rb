@@ -34,6 +34,7 @@ class Project < ActiveRecord::Base
   include Project::Copy
   include Project::Storage
   include Project::Activity
+  include Project::DoneRatio
 
   # Project statuses
   STATUS_ACTIVE     = 1
