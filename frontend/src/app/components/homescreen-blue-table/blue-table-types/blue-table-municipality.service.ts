@@ -94,7 +94,7 @@ export class BlueTableMunicipalityService extends BlueTableService {
           break;
         }
         case 5: {
-          return row.all_wps === 0 ? '0' : Number(row.ispolneno / row.all_wps).toFixed(1).toString();
+          return row.all_wps === 0 ? '0' : Number(row.ispolneno / row.all_wps * 100).toFixed(1).toString();
           break;
         }
         case 6: {

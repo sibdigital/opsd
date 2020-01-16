@@ -26,6 +26,9 @@ class CostlogController < ApplicationController
   helper :work_packages
   include CostlogHelper
 
+  def index
+  end
+
   def new
     new_default_cost_entry
 

@@ -43,7 +43,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%
     @selected_national_project = project.national_project_id
     @selected_federal_project = project.federal_project_id
-
+    @address = project.address_id.present? ? Address.find(project.address_id).address : nil
   %>
 </section>
 

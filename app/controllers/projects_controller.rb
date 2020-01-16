@@ -99,7 +99,7 @@ class ProjectsController < ApplicationController
       add_global_users_to_project(@project)
       #)
 
-      set_project_address
+
 
       respond_to do |format|
         format.html do
@@ -107,8 +107,9 @@ class ProjectsController < ApplicationController
           Member.where(project_id: @project.id).each do |member|
             if member != User.current
             Alert.create_pop_up_alert(@project, "Created", User.current, member.user)
-              end
+            end
           end
+          set_project_address
           #ban(
           deliver_mail_to_members
           #)
@@ -156,7 +157,7 @@ class ProjectsController < ApplicationController
     @old_start_date = @project.start_date.to_s
     @old_due_date = @project.due_date.to_s
     #)
-
+    @project.address_id.nil? ? set_project_address : Address.find(@project.address_id).update_attribute(:address, params[:project][:address_id])
     @altered_project.attributes = permitted_params.project
     if validate_parent_id && @altered_project.save
       if params['project'].has_key?('parent_id')
@@ -262,10 +263,9 @@ class ProjectsController < ApplicationController
     call = service.call(delayed: true)
 
     if call.success?
-      # destroy_address
-
       flash[:notice] = I18n.t('projects.delete.scheduled')
       begin
+        destroy_address
         Member.where(project_id: @project.id).each do |member|
           if member != User.current
           Alert.create_pop_up_alert(@project, "Deleted", User.current, member.user)
@@ -321,8 +321,11 @@ class ProjectsController < ApplicationController
 
   # tmd
   def set_project_address
-    newest_record = Address.last
-    @project.update_attribute(:address_id, newest_record[:id])
+    unless @project.id.nil?
+      Address.create(address: params[:project][:address_id], project_id: @project.id).save
+      newest_record = Address.last
+      @project.update_attribute(:address_id, newest_record[:id])
+    end
   end
 
   # tmd

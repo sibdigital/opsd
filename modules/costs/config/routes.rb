@@ -35,7 +35,7 @@ OpenProject::Application.routes.draw do
     resources :cost_entries, controller: 'costlog', only: %i[new]
   end
 
-  resources :cost_entries, controller: 'costlog', only: [:edit, :update, :destroy]
+  resources :cost_entries, controller: 'costlog', only: [:edit, :update, :destroy, :index]
 
   resources :cost_objects, only: [:show, :update, :destroy, :edit] do
     get :copy, on: :member

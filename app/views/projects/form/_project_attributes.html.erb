@@ -53,14 +53,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <div class="form--field">
     <%= form.select :is_program,
-                    options_for_select(type),
+                    options_for_select(type, project.is_program),
                     container_class: '-slim' %>
   </div>
-
-  <div class="form--field">
-    <%= form.text_field :address_id, container_class: '-wide' %>
-  </div>
-
+  <%#= form_for :address_id do |a| %>
+    <div class="form--field">
+      <%= form.text_field :address_id, :value => @address, container_class: '-wide' %>
+    </div>
+  <%# end %>
 </div>
 <% if User.current.project_office_coordinator?(project) || User.current.project_office_manager?(project) %>
 <div class="form--field">
@@ -103,7 +103,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--field">
   <%= form.select :federal_project_id,
-                  children_options_for_select(project.get_federal_projects.map {|u| [u.name, u.parent_id, u.id]}),
+                  children_options_for_select(project.get_federal_projects.map {|u| [u.name, u.parent_id, u.id]}, @selected_federal_project),
                include_blank: true,
                container_class: '-slim' %>
 </div>
