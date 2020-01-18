@@ -60,11 +60,12 @@ import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab
 import {BlueTableProtocolService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-protocol.service";
 import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
 import {BlueTableMunicipalityService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-municipality.service";
-import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 import {PerformanceTabComponent} from "core-components/homescreen-tabs/performance-tab/performance-tab.component";
 import {BlueTablePerformanceService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-performance.service";
 import {HomescreenPerformanceDiagramComponent} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
 import {ActivatedRoute, RouterModule} from "@angular/router";
+import {AngularTreeGridModule} from "core-components/angular-tree-grid/angular-tree-grid.module";
+import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
 
 @NgModule({
@@ -76,7 +77,8 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
     ChartsModule,
     FormsModule,
     BrowserAnimationsModule,
-    OpenprojectCommonModule
+    OpenprojectCommonModule,
+    AngularTreeGridModule
   ],
   providers: [
     BlueTableDesktopService,

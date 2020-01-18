@@ -6,6 +6,55 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 export class BlueTableBudgetService extends BlueTableService {
   protected columns:string[] = ['Республика Бурятия', 'Куратор', 'РП', 'План срок завершения', 'Исполнено', 'Риски исполнения', 'Остаток', 'Риски и проблемы', 'Исполнение бюджета'];
   private data_local:any;
+  public table_data:any = [];
+  public configs:any = {
+    id_field: 'id',
+    parent_id_field: 'parentId',
+    parent_display_field: 'homescreen_name',
+    show_summary_row: false,
+    css: { // Optional
+      expand_class: 'icon-arrow-right2',
+      collapse_class: 'icon-arrow-down1',
+    },
+    columns: [
+      {
+        name: 'homescreen_name',
+        header: this.columns[0]
+      },
+      {
+        name: 'homescreen_curator',
+        header: this.columns[1]
+      },
+      {
+        name: 'homescreen_RP',
+        header: this.columns[2]
+      },
+      {
+        name: 'homescreen_due_date',
+        header: this.columns[3]
+      },
+      {
+        name: 'homescreen_done',
+        header: this.columns[4]
+      },
+      {
+        name: 'homescreen_risks',
+        header: this.columns[5]
+      },
+      {
+        name: 'homescreen_left',
+        header: this.columns[6]
+      },
+      {
+        name: 'homescreen_problems',
+        header: this.columns[7]
+      },
+      {
+        name: 'homescreen_cost',
+        header: this.columns[8]
+      }
+    ]
+  };
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
 
@@ -13,19 +62,51 @@ export class BlueTableBudgetService extends BlueTableService {
     return new Promise((resolve) => {
       let data:any[] = [];
       if (this.national_project_titles[i].id === 0) {
-        data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+        data.push({
+          id: '0National',
+          parentId: '0',
+          homescreen_name: 'Проекты Республики Бурятия'
+        });
         if (this.data_local[0]) {
           this.data_local[0].map((project:ProjectResource) => {
-            data.push(project);
+            data.push({
+              id: project.project.project_id,
+              parentId: '0National',
+              homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.project.identifier + '/cost_objects">' + project.project.name + '</a>',
+              homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>',
+              homescreen_RP: project.rukovoditel && project.rukovoditel.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>' : '',
+              homescreen_due_date: this.format(project.project.due_date),
+              homescreen_done: project.spent,
+              homescreen_risks: '',
+              homescreen_left: project.ostatok,
+              homescreen_problems: '',
+              homescreen_cost: project.progress
+            });
           });
         }
       } else {
         this.national_projects.map((el:HalResource) => {
           if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-            data.push(el);
+            data.push({
+              id: el.id + el.type,
+              parentId: el.parentId + 'National' || 0,
+              homescreen_name: el.name
+            });
             if (this.data_local[el.id]) {
               this.data_local[el.id].map((project:ProjectResource) => {
-                data.push(project);
+                data.push({
+                  id: project.project.id,
+                  parentId: project.project.federal_project_id ? project.project.federal_project_id + 'Federal' : project.project.national_project_id + 'National',
+                  homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.project.identifier + '/cost_objects">' + project.project.name + '</a>',
+                  homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>',
+                  homescreen_RP: project.rukovoditel && project.rukovoditel.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>' : '',
+                  homescreen_due_date: this.format(project.project.due_date),
+                  homescreen_done: project.spent,
+                  homescreen_risks: '',
+                  homescreen_left: project.ostatok,
+                  homescreen_problems: '',
+                  homescreen_cost: project.progress
+                });
               });
             }
           }

@@ -2,31 +2,112 @@ import {BlueTableService} from "core-components/homescreen-blue-table/blue-table
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import htmlString = JQuery.htmlString;
 
 export class BlueTableDesktopService extends BlueTableService {
   protected columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные кт/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
   private project:string;
   private data_local:any;
+  public table_data:any = [];
+  public configs:any = {
+    id_field: 'id',
+    parent_id_field: 'parentId',
+    parent_display_field: 'homescreen_name',
+    show_summary_row: false,
+    css: { // Optional
+      expand_class: 'icon-arrow-right2',
+      collapse_class: 'icon-arrow-down1',
+    },
+    columns: [
+      {
+        name: 'homescreen_name',
+        header: this.columns[0]
+      },
+      {
+        name: 'homescreen_curator',
+        header: this.columns[1]
+      },
+      {
+        name: 'homescreen_due_date',
+        header: this.columns[2]
+      },
+      {
+        name: 'homescreen_future',
+        header: this.columns[3]
+      },
+      {
+        name: 'homescreen_risks',
+        header: this.columns[4]
+      },
+      {
+        name: 'homescreen_progress',
+        header: this.columns[5]
+      },
+      {
+        name: 'homescreen_kpi',
+        header: this.columns[6]
+      }
+    ]
+  };
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
-
   public getDataFromPage(i:number):Promise<any[]> {
     return new Promise((resolve) => {
       let data:any[] = [];
+      let from = new Date();
+      let to = new Date();
       if (this.national_project_titles[i].id === 0) {
-        data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+        data.push({
+          id: '0National',
+          parentId: '0',
+          homescreen_name: 'Проекты Республики Бурятия'
+        });
         if (this.data_local[0]) {
           this.data_local[0].map((project:ProjectResource) => {
-            data.push(project);
+            let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps).toFixed(1).toString();
+            let budget = Number(project.budget_fraction).toFixed(1).toString();
+            data.push({
+              id: project.project_id + 'Project',
+              parentId: '0National',
+              homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.identifier + '">' + project.name + '</a>',
+              homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + project.kurator_id + '">' + project.kurator + '</a>' + '<br>' + '<a href="' + super.getBasePath() + '/users/' + project.rukovoditel_id + '">' + project.rukovoditel + '</a>',
+              homescreen_due_date: this.format(project.dueDate),
+              homescreen_future: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                '/work_packages?plan_type=execution&query_id=3&query_props=%7B"c"%3A%5B"id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%5D%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A""%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"1"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<>d"%2C"v"%3A%5B"' + from.toISOString().slice(0, 10) + '"%2C"' + to.toISOString().slice(0, 10) + '"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.preds + '</a>',
+              homescreen_risks: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.prosr + '</a>&nbsp;/&nbsp;' +
+                '<a href="' + super.getBasePath() + '/vkladka1/problems?id=' + project.project_id + '">' + project.riski + '</a>',
+              homescreen_progress: this.progressbar(progress) + '<br>' + this.progressbar(budget),
+              homescreen_kpi: '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>',
+            });
           });
         }
       } else {
         this.national_projects.map((el:HalResource) => {
           if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-            data.push(el);
+            data.push({
+              id: el.id + el.type,
+              parentId: el.parentId + 'National' || 0,
+              homescreen_name: el.name
+            });
             if (this.data_local[el.id]) {
               this.data_local[el.id].map((project:ProjectResource) => {
-                data.push(project);
+                let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps).toFixed(1).toString();
+                let budget = Number(project.budget_fraction).toFixed(1).toString();
+                data.push({
+                  id: project.project_id + 'Project',
+                  parentId: project.federal_id ? project.parentId + 'Federal' : project.parentId + 'National',
+                  homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.identifier + '">' + project.name + '</a>',
+                  homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + project.kurator_id + '">' + project.kurator + '</a>' + '<br>' + '<a href="' + super.getBasePath() + '/users/' + project.rukovoditel_id + '">' + project.rukovoditel + '</a>',
+                  homescreen_due_date: this.format(project.dueDate),
+                  homescreen_future: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                    '/work_packages?plan_type=execution&query_id=3&query_props=%7B"c"%3A%5B"id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%5D%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A""%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"1"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<>d"%2C"v"%3A%5B"' + from.toISOString().slice(0, 10) + '"%2C"' + to.toISOString().slice(0, 10) + '"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.preds + '</a>',
+                  homescreen_risks: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                    '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.prosr + '</a>&nbsp;/&nbsp;' +
+                    '<a href="' + super.getBasePath() + '/vkladka1/problems?id=' + project.project_id + '">' + project.riski + '</a>',
+                  homescreen_progress: this.progressbar(progress) + '<br>' + this.progressbar(budget),
+                  homescreen_kpi: '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>',
+                });
               });
             }
           }
@@ -153,7 +234,15 @@ export class BlueTableDesktopService extends BlueTableService {
     }
     return '';
   }
-
+  public progressbar(input:any):htmlString {
+    let color = parseInt(input) < 30 ? '#ee8888' : parseInt(input) < 60 ? '#eeee88' : '#88ee88';
+    return  '<div class="border-progress">' +
+      '<div class="progress" title="' + input + '%' + '">' +
+      '<span class="value" style="display:none;width:' + input + '%; background-color:' + color + '">' +
+      '</span>' +
+      '</div>' +
+      '</div>';
+  }
   public format(input:string):string {
     if (!input) {
       return '';
@@ -164,7 +253,6 @@ export class BlueTableDesktopService extends BlueTableService {
   public pagesToText(i:number):string {
     return this.national_project_titles[i].name;
   }
-
 
   public getDataWithFilter(param:string):Promise<any[]> {
     return new Promise((resolve) => {
@@ -194,8 +282,8 @@ export class BlueTableDesktopService extends BlueTableService {
         this.halResourceService
           .get<HalResource>(this.pathHelper.api.v3.work_package_stat_by_proj_view.toString(), {"project": this.project})
           .toPromise()
-          .then((resource: HalResource) => {
-            resource.source.map((el: HalResource) => {
+          .then((resource:HalResource) => {
+            resource.source.map((el:HalResource) => {
               if ((el.federal_id !== 0) || (el.federal_id === 0 && el.national_id === 0)) {
                 data_local[el.federal_id] = data_local[el.federal_id] || [];
                 data_local[el.federal_id].push(el);
@@ -204,17 +292,70 @@ export class BlueTableDesktopService extends BlueTableService {
                 data_local[el.national_id].push(el);
               }
             });
-            this.national_projects.map((el: HalResource) => {
+            let from = new Date();
+            let to = new Date();
+            if (data_local[0]) {
+              data.push({
+                id: '0National',
+                parentId: '0',
+                homescreen_name: 'Проекты Республики Бурятия'
+              });
+              data_local[0].map((project:ProjectResource) => {
+                let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps).toFixed(1).toString();
+                let budget = Number(project.budget_fraction).toFixed(1).toString();
+                data.push({
+                  id: project.project_id + 'Project',
+                  parentId: '0National',
+                  homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.identifier + '">' + project.name + '</a>',
+                  homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + project.kurator_id + '">' + project.kurator + '</a>' + '<br>' + '<a href="' + super.getBasePath() + '/users/' + project.rukovoditel_id + '">' + project.rukovoditel + '</a>',
+                  homescreen_due_date: this.format(project.dueDate),
+                  homescreen_future: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                    '/work_packages?plan_type=execution&query_id=3&query_props=%7B"c"%3A%5B"id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%5D%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A""%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"1"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<>d"%2C"v"%3A%5B"' + from.toISOString().slice(0, 10) + '"%2C"' + to.toISOString().slice(0, 10) + '"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.preds + '</a>',
+                  homescreen_risks: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                    '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.prosr + '</a>&nbsp;/&nbsp;' +
+                    '<a href="' + super.getBasePath() + '/vkladka1/problems?id=' + project.project_id + '">' + project.riski + '</a>',
+                  homescreen_progress: this.progressbar(progress) + '<br>' + this.progressbar(budget),
+                  homescreen_kpi: '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>',
+                });
+              });
+            }
+            else {
+            this.national_projects.map((el:HalResource) => {
               if (data_local[el.id] && data_local[el.id].length > 0) {
                 if (el.parentId) {
-                  data.push(_.find(this.national_projects, e => e.id === el.parentId));
+                  let natP = _.find(this.national_projects, e => e.id === el.parentId);
+                  data.push({
+                    id: natP!.id + natP!.type,
+                    parentId: natP!.parentId + 'National' || 0,
+                    homescreen_name: natP!.name
+                  });
                 }
-                data.push(el);
-                data_local[el.id].map((project: ProjectResource) => {
-                  data.push(project);
+                data.push({
+                  id: el.id + el.type,
+                  parentId: el.parentId + 'National' || 0,
+                  homescreen_name: el.name
+                });
+                data_local[el.id].map((project:ProjectResource) => {
+                  let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps).toFixed(1).toString();
+                  let budget = Number(project.budget_fraction).toFixed(1).toString();
+                  data.push({
+                    id: project.project_id + 'Project',
+                    parentId: project.federal_id ? project.parentId + 'Federal' : project.parentId + 'National',
+                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.identifier + '">' + project.name + '</a>',
+                    homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + project.kurator_id + '">' + project.kurator + '</a>' + '<br>' + '<a href="' + super.getBasePath() + '/users/' + project.rukovoditel_id + '">' + project.rukovoditel + '</a>',
+                    homescreen_due_date: this.format(project.dueDate),
+                    homescreen_future: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                      '/work_packages?plan_type=execution&query_id=3&query_props=%7B"c"%3A%5B"id"%2C"subject"%2C"type"%2C"status"%2C"assignee"%5D%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A""%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"1"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<>d"%2C"v"%3A%5B"' + from.toISOString().slice(0, 10) + '"%2C"' + to.toISOString().slice(0, 10) + '"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.preds + '</a>',
+                    homescreen_risks: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
+                      '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.prosr + '</a>&nbsp;/&nbsp;' +
+                      '<a href="' + super.getBasePath() + '/vkladka1/problems?id=' + project.project_id + '">' + project.riski + '</a>',
+                    homescreen_progress: this.progressbar(progress) + '<br>' + this.progressbar(budget),
+                    homescreen_kpi: '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>',
+                  });
                 });
               }
             });
+            }
             this.data_local = data_local;
             resolve(data);
           });
