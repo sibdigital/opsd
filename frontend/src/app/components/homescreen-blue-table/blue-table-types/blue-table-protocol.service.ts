@@ -6,6 +6,38 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 export class BlueTableProtocolService extends BlueTableService {
   protected columns:string[] = ['', 'Ответственный', 'Срок', 'Исполнение'];
   private data_local:any;
+  public table_data:any = [];
+  public configs:any = {
+    id_field: 'id',
+    parent_id_field: 'parentId',
+    parent_display_field: 'homescreen_name',
+    show_summary_row: false,
+    css: { // Optional
+      expand_class: 'icon-arrow-right2',
+      collapse_class: 'icon-arrow-down1',
+    },
+    columns: [
+      {
+        name: 'homescreen_name',
+        header: this.columns[0]
+      },
+      {
+        name: 'homescreen_curator',
+        header: this.columns[1]
+      },
+      {
+        name: 'homescreen_due_date',
+        header: this.columns[2]
+      },
+      {
+        name: 'homescreen_progress',
+        header: this.columns[3]
+      }
+    ],
+    row_class_function: function(record:any) {
+      return record.row_style;
+    }
+  };
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
 
@@ -58,19 +90,47 @@ export class BlueTableProtocolService extends BlueTableService {
     return new Promise((resolve) => {
       let data:any[] = [];
       if (this.national_project_titles[i].id === 0) {
-        data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+        data.push({
+          id: '0National',
+          parentId: '0',
+          homescreen_name: 'Проекты Республики Бурятия'
+        });
         if (this.data_local[0]) {
           this.data_local[0].map((project:ProjectResource) => {
-            data.push(project);
+            data.push({
+              id: project.id + 'Protocol',
+              parentId: '0National',
+              homescreen_name: '<a href="' + super.getBasePath() + '/meetings/' + project.meetingId + '/minutes">Поручение: ' + project.name + '</a>',
+              homescreen_curator: project.user ? '<a href="' + super.getBasePath() + '/users/' + project.user.id + '">' + project.user.lastname + ' ' + project.user.firstname.slice(0, 1) + '.' + project.user.patronymic ? project.user.patronymic.slice(0, 1) + '.' : '' + '</a>' : '',
+              homescreen_due_date: this.format(project.dueDate),
+              homescreen_progress: project.completed ? 'Исполнено' : 'В работе',
+              row_style: this.getTrClass(project)
+            });
           });
         }
       } else {
         this.national_projects.map((el:HalResource) => {
           if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-            data.push(el);
+            data.push({
+              id: el.id + el.type,
+              parentId: el.parentId + 'National' || 0,
+              homescreen_name: el.name
+            });
             if (this.data_local[el.id]) {
               this.data_local[el.id].map((project:ProjectResource) => {
-                data.push(project);
+                let fio = project.user.lastname + ' ' + project.user.firstname.slice(0, 1) + '.';
+                if (project.user.patronymic) {
+                  fio += project.user.patronymic.slice(0, 1) + '.';
+                }
+                data.push({
+                  id: project.id + 'Protocol',
+                  parentId: project.project.federal_project_id ? project.project.federal_project_id + 'Federal' : project.project.national_project_id + 'National',
+                  homescreen_name: '<a href="' + super.getBasePath() + '/meetings/' + project.meetingId + '/minutes">Поручение: ' + project.name + '</a>',
+                  homescreen_curator: project.user ? '<a href="' + super.getBasePath() + '/users/' + project.user.id + '">' + fio + '</a>' : '',
+                  homescreen_due_date: this.format(project.dueDate),
+                  homescreen_progress: project.completed ? 'Исполнено' : 'В работе',
+                  row_style: this.getTrClass(project)
+                });
               });
             }
           }

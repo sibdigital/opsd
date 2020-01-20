@@ -22,28 +22,50 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) {
                    case @name
-                   when 'pokazateli' then desktop_pokazateli_data
-                   when 'kt' then desktop_kt_data
-                   when 'budget' then desktop_budget_data
-                   when 'riski' then desktop_riski_data
-                   when 'zdravoohranenie' then indicator_data(I18n.t(:national_project_zdravoohr))
-                   when 'obrazovanie' then indicator_data(I18n.t(:national_project_obraz))
-                   when 'demografia' then indicator_data(I18n.t(:national_project_demogr))
-                   when 'cultura' then indicator_data(I18n.t(:national_project_cultur))
-                   when 'avtodorogi' then indicator_data(I18n.t(:national_project_avtodor))
-                   when 'gorsreda' then indicator_data(I18n.t(:national_project_gorsreda))
-                   when 'ekologia' then indicator_data(I18n.t(:national_project_ekol))
-                   when 'nauka' then indicator_data(I18n.t(:national_project_nauka))
-                   when 'msp' then indicator_data(I18n.t(:national_project_msp))
-                   when 'digital' then indicator_data(I18n.t(:national_project_digital))
-                   when 'trud' then indicator_data(I18n.t(:national_project_trud))
-                   when 'export' then indicator_data(I18n.t(:national_project_export))
-                   when 'republic' then indicator_data(nil)
-                   when 'fed_budget' then fed_budget_data
-                   when 'reg_budget' then reg_budget_data
-                   when 'other_budget' then other_budget_data
-                   when 'head_performance' then head_performance_data
-                   else [0, 0, 0, 0]
+                   when 'pokazateli' then
+                     desktop_pokazateli_data
+                   when 'kt' then
+                     desktop_kt_data
+                   when 'budget' then
+                     desktop_budget_data
+                   when 'riski' then
+                     desktop_riski_data
+                   when 'zdravoohranenie' then
+                     indicator_data(I18n.t(:national_project_zdravoohr))
+                   when 'obrazovanie' then
+                     indicator_data(I18n.t(:national_project_obraz))
+                   when 'demografia' then
+                     indicator_data(I18n.t(:national_project_demogr))
+                   when 'cultura' then
+                     indicator_data(I18n.t(:national_project_cultur))
+                   when 'avtodorogi' then
+                     indicator_data(I18n.t(:national_project_avtodor))
+                   when 'gorsreda' then
+                     indicator_data(I18n.t(:national_project_gorsreda))
+                   when 'ekologia' then
+                     indicator_data(I18n.t(:national_project_ekol))
+                   when 'nauka' then
+                     indicator_data(I18n.t(:national_project_nauka))
+                   when 'msp' then
+                     indicator_data(I18n.t(:national_project_msp))
+                   when 'digital' then
+                     indicator_data(I18n.t(:national_project_digital))
+                   when 'trud' then
+                     indicator_data(I18n.t(:national_project_trud))
+                   when 'export' then
+                     indicator_data(I18n.t(:national_project_export))
+                   when 'republic' then
+                     indicator_data(nil)
+                   when 'fed_budget' then
+                     fed_budget_data
+                   when 'reg_budget' then
+                     reg_budget_data
+                   when 'other_budget' then
+                     other_budget_data
+                   when 'head_performance' then
+                     head_performance_data
+                   else
+                     [0, 0, 0, 0]
                    end
                  },
                  render_nil: true
@@ -52,21 +74,36 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) {
                    case @name
-                   when 'head_performance' then head_performance_label
-                   when 'zdravoohranenie' then indicator_label
-                   when 'obrazovanie' then indicator_label
-                   when 'demografia' then indicator_label
-                   when 'cultura' then indicator_label
-                   when 'avtodorogi' then indicator_label
-                   when 'gorsreda' then indicator_label
-                   when 'ekologia' then indicator_label
-                   when 'nauka' then indicator_label
-                   when 'msp' then indicator_label
-                   when 'digital' then indicator_label
-                   when 'trud' then indicator_label
-                   when 'export' then indicator_label
-                   when 'republic' then indicator_label
-                   else 'false1'
+                   when 'head_performance' then
+                     head_performance_label
+                   when 'zdravoohranenie' then
+                     indicator_label
+                   when 'obrazovanie' then
+                     indicator_label
+                   when 'demografia' then
+                     indicator_label
+                   when 'cultura' then
+                     indicator_label
+                   when 'avtodorogi' then
+                     indicator_label
+                   when 'gorsreda' then
+                     indicator_label
+                   when 'ekologia' then
+                     indicator_label
+                   when 'nauka' then
+                     indicator_label
+                   when 'msp' then
+                     indicator_label
+                   when 'digital' then
+                     indicator_label
+                   when 'trud' then
+                     indicator_label
+                   when 'export' then
+                     indicator_label
+                   when 'republic' then
+                     indicator_label
+                   else
+                     'false1'
                    end
                  },
                  render_nil: true
@@ -87,12 +124,13 @@ module API
           # проведен рефакторинг фильтрация проектов по видимости пользователю проводится непосредственно в запросе
           # это рациональнее и позволяет избежать ошибок связанных с проверкой видимости шаблонов
           sql_query = <<-SQL
-select yearly.project_id, yearly.target_id, sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
-from v_plan_fact_quarterly_target_values as quarterly
-left join v_plan_fact_yearly_target_values as yearly
-on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
-where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
-group by yearly.project_id, yearly.target_id
+            select yearly.project_id, yearly.target_id, 
+            sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
+            from v_plan_fact_quarterly_target_values as quarterly
+            left join v_plan_fact_yearly_target_values as yearly
+            on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
+            where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
+            group by yearly.project_id, yearly.target_id
           SQL
           arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
           @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
@@ -184,10 +222,11 @@ group by yearly.project_id, yearly.target_id
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
           sql_query = <<-SQL
-select type, project_id, importance_id, sum(count) as count from v_project_risk_on_work_packages_stat
-where type in ('created_risk', 'no_risk_problem') and project_id in (?)
-group by type, project_id, importance_id
-            SQL
+            select type, project_id, importance_id, sum(count) as count 
+            from v_project_risk_on_work_packages_stat
+            where type in ('created_risk', 'no_risk_problem') and project_id in (?)
+            group by type, project_id, importance_id
+          SQL
           arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
           @risks = ProjectRiskOnWorkPackagesStat.find_by_sql([sql_query, arr])
           @risks.map do |risk|
@@ -196,9 +235,9 @@ group by type, project_id, importance_id
               project = risk.project #Project.visible(current_user).find(risk.project_id)
               exist = which_role(project, @current_user, @global_role)
               if exist
-                net_riskov += risk.count if risk.type=='no_risk_problem'
-                neznachit += risk.count if risk.type=='created_risk' and risk.importance_id = status_neznachit
-                kritich += risk.count if risk.type=='created_risk' and risk.importance_id = status_kritich
+                net_riskov += risk.count if risk.type == 'no_risk_problem'
+                neznachit += risk.count if risk.type == 'created_risk' and risk.importance_id = status_neznachit
+                kritich += risk.count if risk.type == 'created_risk' and risk.importance_id = status_kritich
               end
             end
           end
@@ -319,7 +358,7 @@ group by type, project_id, importance_id
             end
           end
           nat_proj = NationalProject.find_by(name: name)
-          pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id in (" + projects.join(",")+ ")")
+          pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id in (" + projects.join(",") + ")")
           pfqtv = if name
                     pfqtv.where(national_project_id: nat_proj.id)
                   else
@@ -361,7 +400,7 @@ group by type, project_id, importance_id
                 net_dannyh += 1
               end
             end
-            drob = target_value == 0 ? 0 : fact_value/target_value
+            drob = target_value == 0 ? 0 : fact_value / target_value
             if drob == 1
               net_otkloneniy += total
             end
