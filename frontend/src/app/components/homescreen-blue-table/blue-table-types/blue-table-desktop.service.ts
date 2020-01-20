@@ -64,8 +64,8 @@ export class BlueTableDesktopService extends BlueTableService {
         });
         if (this.data_local[0]) {
           this.data_local[0].map((project:ProjectResource) => {
-            let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps).toFixed(1).toString();
-            let budget = Number(project.budget_fraction).toFixed(1).toString();
+            let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps * 100).toFixed(1).toString();
+            let budget = Number(project.budget_fraction * 100).toFixed(1).toString();
             data.push({
               id: project.project_id + 'Project',
               parentId: '0National',
@@ -92,8 +92,8 @@ export class BlueTableDesktopService extends BlueTableService {
             });
             if (this.data_local[el.id]) {
               this.data_local[el.id].map((project:ProjectResource) => {
-                let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps).toFixed(1).toString();
-                let budget = Number(project.budget_fraction).toFixed(1).toString();
+                let progress = project.all_wps === 0 ? '0' : Number(project.ispolneno / project.all_wps * 100).toFixed(1).toString();
+                let budget = Number(project.budget_fraction * 100).toFixed(1).toString();
                 data.push({
                   id: project.project_id + 'Project',
                   parentId: project.federal_id ? project.parentId + 'Federal' : project.parentId + 'National',
@@ -201,7 +201,7 @@ export class BlueTableDesktopService extends BlueTableService {
           break;
         }
         case 100: {
-          return Number(row.budget_fraction).toFixed(1).toString();
+          return Number(row.budget_fraction * 100).toFixed(1).toString();
           break;
         }
       }
