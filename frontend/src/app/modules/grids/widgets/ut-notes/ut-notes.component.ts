@@ -35,7 +35,7 @@ export class WidgetUtNotesComponent extends AbstractWidgetComponent implements O
       .then((collection) => {
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Note'){
             entriesarrayforuser.push(obj);
           }
@@ -47,5 +47,9 @@ export class WidgetUtNotesComponent extends AbstractWidgetComponent implements O
 
   public user_taskText(user_task:UserTasksResource) {
     return `${this.pathHelper.appBasePath}/user_tasks/${user_task.id}`;
+  }
+
+  public newNotePath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Новая+заметка&kind=Note`;
   }
 }

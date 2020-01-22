@@ -35,7 +35,7 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
       .then((collection) => {
         let entriesarray = collection.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Request' || obj.kind =='Response'){
             entriesarrayforuser.push(obj);
           }
@@ -69,5 +69,13 @@ export class WidgetUtRequestsComponent extends AbstractWidgetComponent implement
 
   public user_taskCreator(user_task:UserTasksResource) {
     return `${this.pathHelper.appBasePath}/users/${user_task.user_creator_id}`;
+  }
+
+  public newRequestPath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Запрос+на+ввод+данных+в+справочники&kind=Request`;
+  }
+
+  public newWPRequestPath() {
+    return `${this.pathHelper.appBasePath}/user_tasks/new?head_text=Запрос+на+приемку+задачи&kind=Request&object_type=WorkPackage`;
   }
 }

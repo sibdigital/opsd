@@ -225,7 +225,7 @@
 <ng-template #readOnlyTemplate2 let-value>
     <td class="colA">{{ value.year }}</td>
     <td class="colA">{{ quarterNames[value.quarter] }}</td>
-    <td class="colA">{{ months[value.month] }}</td>
+    <td class="colA">{{ months[value.month-1] }}</td>
     <td class="colA">{{ value.plan_value }}</td>
     <td class="colA">{{ value.value }}</td>
     <td>

@@ -1,0 +1,62 @@
+<div class="op-modal--portal ">
+    <div class="op-modal--modal-container">
+        <div class="op-modal--modal-header">
+            <a class="op-modal--modal-close-button-highlight">
+                <i
+                        class="icon-close"
+                        (click)="closeMe($event)"
+                        [attr.title]="text.closePopup">
+                </i>
+            </a>
+        </div>
+
+        <h2 [textContent]="text.title" class="op-modal--modal-header-title"></h2>
+
+        <div class="op-modal--modal-body"   *ngIf="type_dialog === 'period'">
+
+             <div>
+                <div >
+                    Начало периода
+                </div>
+                <div >
+                    <input name="startPeriodDateField"
+                           type="date"
+                           class="form--text-field"
+                           [(ngModel)]="startPeriodDate"
+                           [value]="startPeriodDate"
+                    />
+                </div>
+            </div>
+
+            <div>
+                <div >
+                    Конец периода
+                </div>
+                <div >
+                    <input name="endPeriodDateField" type="date" class="form--text-field" [(ngModel)]="endPeriodDate"/>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="op-modal--modal-body" *ngIf="type_dialog === 'new_tasks'">
+            <p><a [href]="newUTRequestWPPath()"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на приемку задачи</a></p>
+            <p><a [href]="newUTRequestPath()"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Запрос на ввод данных в справочники</a></p>
+            <p><a [href]="newUTTaskPath()"><op-icon icon-classes="icon icon-add" style="font-size: 11px;"></op-icon>Задача</a></p>
+        </div>
+
+
+        <div class="op-modal--modal-footer">
+            <button class="confirm-form-submit--cancel button"
+                    (click)="closeMe($event)"
+                    [textContent]="text.button_cancel"
+                    [attr.title]="text.button_cancel">
+            </button>
+            <button class="confirm-form-submit--continue button -highlight"
+                    (click)="confirmAndClose($event)"
+                    [textContent]="text.button_continue"
+                    [attr.title]="text.button_continue">
+            </button>
+        </div>
+    </div>
+</div>

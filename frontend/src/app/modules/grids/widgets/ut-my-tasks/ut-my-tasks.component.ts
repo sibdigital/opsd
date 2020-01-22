@@ -37,7 +37,7 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
       .then((resource:HalResource) => {
         let entriesarray = resource.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Task') {
               entriesarrayforuser.push(obj);
           }
@@ -49,6 +49,8 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
 
   public filterChart() {
     let url = `${this.pathHelper.api.v3.apiV3Base}/user_tasks/assigned/${this.currentuser.userId}`;
+    let FilterDateBegin = (this.dateBegin === undefined) ? Date.parse('0001-01-01') : Date.parse(this.dateBegin);
+    let FilterDateEnd = (this.dateEnd === undefined) ? Date.parse('2099-12-31') : Date.parse(this.dateEnd);
     this.halResourceService
       .get<HalResource>(url)
       .toPromise()
@@ -57,17 +59,17 @@ export class WidgetUtMyTasksComponent extends AbstractWidgetComponent implements
         let entriesarrayforuser = [];
         let obj_completed = false;
         if (this.ut_filter ==true) {
-          for (var obj of entriesarray) {
+          for (let obj of entriesarray) {
             if (obj.completed == 'Да') {
               obj_completed = true;
             }
-            if (obj.kind == 'Task' && Date.parse(obj.due_date) >= Date.parse(this.dateBegin) && Date.parse(obj.due_date) <= Date.parse(this.dateEnd) && obj_completed == this.ut_completed_filter) {
+            if (obj.kind == 'Task' && Date.parse(obj.due_date) >= FilterDateBegin && Date.parse(obj.due_date) <= FilterDateEnd && obj_completed == this.ut_completed_filter) {
               entriesarrayforuser.push(obj);
             }
           }
         }
         else {
-          for (var obj of entriesarray) {
+          for (let obj of entriesarray) {
             if (obj.kind == 'Task') {
               entriesarrayforuser.push(obj);
             }

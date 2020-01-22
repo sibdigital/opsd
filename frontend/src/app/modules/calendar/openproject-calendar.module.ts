@@ -34,6 +34,7 @@ import {WorkPackagesEmbeddedCalendarEntryComponent} from "core-app/modules/calen
 import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
+import {ChooseUserTaskModalComponent} from "core-app/modules/calendar/wp-calendar-dialogs/wp-calendar-choose-usertask.modal.component";
 
 require("fullcalendar/dist/locale-all.js");
 
@@ -65,11 +66,13 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     WorkPackagesCalendarEntryComponent,
     WorkPackagesCalendarController,
     WorkPackagesEmbeddedCalendarEntryComponent,
+    ChooseUserTaskModalComponent,
   ],
   entryComponents: [
     WorkPackagesEmbeddedCalendarEntryComponent,
     WorkPackagesCalendarController,
     WorkPackagesCalendarEntryComponent,
+    ChooseUserTaskModalComponent,
   ],
   exports: [
     WorkPackagesCalendarController

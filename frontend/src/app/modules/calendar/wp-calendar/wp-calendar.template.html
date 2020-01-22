@@ -8,6 +8,7 @@
                      (initialized)="onCalendarInitialized()"
                      (viewRender)="updateTimeframe($event)"
                      (eventRender)="addTooltip($event)"
-                     (eventClick)="toWPFullView($event)">
+                     (eventClick)="toWPFullView($event)"
+                     (select)="onSelectDay($event)">
     </ng-fullcalendar>
 </div>

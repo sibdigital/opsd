@@ -1,4 +1,4 @@
-import {Component, Injector, OnInit, Input} from "@angular/core";
+import {Component, Injector, OnInit, Input, ViewChild, ViewEncapsulation} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {BlueTableDesktopService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-desktop.service";
@@ -12,18 +12,21 @@ import {BlueTableProtocolService} from "core-components/homescreen-blue-table/bl
 import {BlueTableMunicipalityService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-municipality.service";
 import {BlueTablePerformanceService} from "core-components/homescreen-blue-table/blue-table-types/blue-table-performance.service";
 import {homescreenPerformanceDiagramSelector} from "core-components/homescreen-performance-diagram/homescreen-performance-diagram.component";
+import {AngularTreeGridComponent} from "core-components/angular-tree-grid/angular-tree-grid.component";
 
 @Component({
   selector: 'homescreen-blue-table',
   templateUrl: './homescreen-blue-table.html',
-  styleUrls: ['./homescreen-blue-table.sass']
+  styleUrls: ['./homescreen-blue-table.sass'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomescreenBlueTableComponent implements OnInit {
   @Input('template') public template:string;
+  @ViewChild('angularGrid') angularGrid:AngularTreeGridComponent;
   public blueTableModule:BlueTableService;
   public columns:string[] = [];
   public data:any[] = [];
-
+  public test_data:any[] = [];
   constructor(public readonly injector:Injector,
               protected I18n:I18nService) {
   }
@@ -32,7 +35,10 @@ export class HomescreenBlueTableComponent implements OnInit {
     this.getBlueTable(this.template);
     if (!!this.blueTableModule) {
       this.columns = this.blueTableModule.getColumns();
-      this.blueTableModule.initializeAndGetData().then((data) => {this.data = data; });
+      this.blueTableModule.initializeAndGetData().then((data) => {
+        this.data = data;
+        this.expandAll();
+      });
     }
   }
 
@@ -70,19 +76,23 @@ export class HomescreenBlueTableComponent implements OnInit {
   }
 
   public loadPage(i:number) {
-    this.blueTableModule.getDataFromPage(i).then((data:any[]) => {this.data = data; });
+    this.blueTableModule.getDataFromPage(i).then((data:any[]) => {this.data = data; this.expandAll(); });
   }
 
   public limitDays(i:number) {
-    this.blueTableModule.getDataWithFilter('limit' + i).then((data:any[]) => {this.data = data; });
+    this.blueTableModule.getDataWithFilter('limit' + i).then((data:any[]) => {this.data = data; this.expandAll(); });
   }
 
   public changeFilter(param:string) {
-    this.blueTableModule.getDataWithFilter(param).then((data:any[]) => {this.data = data; });
+    this.blueTableModule.getDataWithFilter(param).then((data:any[]) => {this.data = data; this.expandAll(); });
   }
 
   public hello(i:number) {
     jQuery(homescreenPerformanceDiagramSelector).attr('performance-id', i);
     jQuery('button.changeChart').trigger('click');
+  }
+
+  expandAll() {
+    this.angularGrid.expandAll();
   }
 }

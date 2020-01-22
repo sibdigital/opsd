@@ -33,7 +33,7 @@ export class WidgetOverdueListComponent extends AbstractWidgetComponent implemen
       .then((resource:HalResource) => {
         let entriesarray = resource.source as DocumentResource[];
         let entriesarrayforuser = [];
-        for (var obj of entriesarray) {
+        for (let obj of entriesarray) {
           if (obj.kind == 'Task' && Date.parse(obj.due_date) < Date.now() && obj.completed != 'Да') {
             entriesarrayforuser.push(obj);
           }

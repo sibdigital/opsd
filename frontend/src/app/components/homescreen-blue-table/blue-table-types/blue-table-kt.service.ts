@@ -8,6 +8,46 @@ export class BlueTableKtService extends BlueTableService {
   private limit:string | undefined;
   private filter:string | undefined;
   private page:number = 0;
+  public table_data:any = [];
+  public configs:any = {
+    id_field: 'id',
+    parent_id_field: 'parentId',
+    parent_display_field: 'homescreen_name',
+    show_summary_row: false,
+    css: { // Optional
+      expand_class: 'icon-arrow-right2',
+      collapse_class: 'icon-arrow-down1',
+    },
+    columns: [
+      {
+        name: 'homescreen_name',
+        header: this.columns[0]
+      },
+      {
+        name: 'homescreen_assignee',
+        header: this.columns[1]
+      },
+      {
+        name: 'homescreen_due_date',
+        header: this.columns[2]
+      },
+      {
+        name: 'homescreen_status',
+        header: this.columns[3]
+      },
+      {
+        name: 'homescreen_fact',
+        header: this.columns[4]
+      },
+      {
+        name: 'homescreen_risks',
+        header: this.columns[5]
+      }
+    ],
+    row_class_function: function(record:any) {
+      return record.row_style;
+    }
+  };
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
 
@@ -79,31 +119,68 @@ export class BlueTableKtService extends BlueTableService {
             });
             this.national_projects.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
-                data.push(el);
+                data.push({
+                  id: el.id + el.type,
+                  parentId: el.parentId + 'National' || 0,
+                  homescreen_name: el.name
+                });
                 if (data_local[el.id]) {
                   data_local[el.id].map((row:HalResource) => {
-                    data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                    data.push({
+                      id: row.project_id + 'Project',
+                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                    });
                     row.work_packages.map((wp:HalResource) => {
-                      data.push(wp);
+                      data.push({
+                        id: wp.id,
+                        parentId: wp.project_id + 'Project',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                        homescreen_assignee: wp.otvetstvenniy,
+                        homescreen_due_date: this.format(wp.due_date),
+                        homescreen_status: wp.status_name,
+                        homescreen_fact: this.format(wp.fakt_ispoln),
+                        homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                        row_style: this.getTrClass(wp)
+                      });
                     });
                   });
                 }
               }
             });
             if (this.national_project_titles[i].id === 0) {
-              data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+              data.push({
+                id: '0National',
+                parentId: '0',
+                homescreen_name: 'Проекты Республики Бурятия'
+              });
               if (data_local[0]) {
                 data_local[0].map((row:HalResource) => {
-                  data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                  data.push({
+                    parentId: '0National',
+                    id: row.project_id + 'Project',
+                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                  });
                   row.work_packages.map((wp:HalResource) => {
-                    data.push(wp);
+                    data.push({
+                      id: wp.id,
+                      parentId: wp.project_id + 'Project',
+                      homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                      homescreen_assignee: wp.otvetstvenniy,
+                      homescreen_due_date: this.format(wp.due_date),
+                      homescreen_status: wp.status_name,
+                      homescreen_fact: this.format(wp.fakt_ispoln),
+                      homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                      row_style: this.getTrClass(wp)
+                    });
                   });
                 });
               }
             }
             resolve(data);
           });
-      } else {
+      }
+      else {
         this.page += 1;
         let params:any = {project: this.project, offset: this.page};
         if (this.limit) {
@@ -126,24 +203,60 @@ export class BlueTableKtService extends BlueTableService {
             resource.elements.map((project:HalResource) => {
               this.national_projects.map((el:HalResource) => {
                 if ((el.id === project.federal_id) || (el.parentId && el.parentId === project.national_id) || (el.id === project.national_id)) {
-                  data.push(el);
+                  data.push({
+                    id: el.id + el.type,
+                    parentId: el.parentId + 'National' || 0,
+                    homescreen_name: el.name
+                  });
                   if (data_local[el.id]) {
                     data_local[el.id].map((row:HalResource) => {
-                      data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                      data.push({
+                        id: row.project_id + 'Project',
+                        parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                      });
                       row.work_packages.map((wp:HalResource) => {
-                        data.push(wp);
+                        data.push({
+                          id: wp.id,
+                          parentId: wp.project_id + 'Project',
+                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                          homescreen_assignee: wp.otvetstvenniy,
+                          homescreen_due_date: this.format(wp.due_date),
+                          homescreen_status: wp.status_name,
+                          homescreen_fact: this.format(wp.fakt_ispoln),
+                          homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                          row_style: this.getTrClass(wp)
+                        });
                       });
                     });
                   }
                 }
               });
               if (project.national_id === 0) {
-                data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+                data.push({
+                  id: '0National',
+                  parentId: '0',
+                  homescreen_name: 'Проекты Республики Бурятия'
+                });
                 if (data_local[0]) {
                   data_local[0].map((row:HalResource) => {
-                    data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                    data.push({
+                      parentId: '0National',
+                      id: row.project_id + 'Project',
+                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                    });
                     row.work_packages.map((wp:HalResource) => {
-                      data.push(wp);
+                      data.push({
+                        id: wp.id,
+                        parentId: wp.project_id + 'Project',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                        homescreen_assignee: wp.otvetstvenniy,
+                        homescreen_due_date: this.format(wp.due_date),
+                        homescreen_status: wp.status_name,
+                        homescreen_fact: this.format(wp.fakt_ispoln),
+                        homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                        row_style: this.getTrClass(wp)
+                      });
                     });
                   });
                 }
@@ -271,24 +384,60 @@ export class BlueTableKtService extends BlueTableService {
               }
             });
             if (this.national_project_titles[this.page].id === 0) {
-              data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+              data.push({
+                id: '0National',
+                parentId: '0',
+                homescreen_name: 'Проекты Республики Бурятия'
+              });
               if (data_local[0]) {
                 data_local[0].map((row:HalResource) => {
-                  data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                  data.push({
+                    parentId: '0National',
+                    id: row.project_id + 'Project',
+                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                  });
                   row.work_packages.map((wp:HalResource) => {
-                    data.push(wp);
+                    data.push({
+                      id: wp.id,
+                      parentId: wp.project_id + 'Project',
+                      homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                      homescreen_assignee: wp.otvetstvenniy,
+                      homescreen_due_date: this.format(wp.due_date),
+                      homescreen_status: wp.status_name,
+                      homescreen_fact: this.format(wp.fakt_ispoln),
+                      homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                      row_style: this.getTrClass(wp)
+                    });
                   });
                 });
               }
             }
             this.national_projects.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
-                data.push(el);
+                data.push({
+                  id: el.id + el.type,
+                  parentId: el.parentId + 'National' || 0,
+                  homescreen_name: el.name
+                });
                 if (data_local[el.id]) {
                   data_local[el.id].map((row:HalResource) => {
-                    data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                    data.push({
+                      id: row.project_id + 'Project',
+                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                    });
                     row.work_packages.map((wp:HalResource) => {
-                      data.push(wp);
+                      data.push({
+                        id: wp.id,
+                        parentId: wp.project_id + 'Project',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                        homescreen_assignee: wp.otvetstvenniy,
+                        homescreen_due_date: this.format(wp.due_date),
+                        homescreen_status: wp.status_name,
+                        homescreen_fact: this.format(wp.fakt_ispoln),
+                        homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                        row_style: this.getTrClass(wp)
+                      });
                     });
                   });
                 }
@@ -326,24 +475,60 @@ export class BlueTableKtService extends BlueTableService {
             resource.elements.map((project:HalResource) => {
               this.national_projects.map((el:HalResource) => {
                 if ((el.id === project.federal_id) || (el.parentId && el.parentId === project.national_id) || (el.id === project.national_id)) {
-                  data.push(el);
+                  data.push({
+                    id: el.id + el.type,
+                    parentId: el.parentId + 'National' || 0,
+                    homescreen_name: el.name
+                  });
                   if (data_local[el.id]) {
                     data_local[el.id].map((row:HalResource) => {
-                      data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                      data.push({
+                        id: row.project_id + 'Project',
+                        parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                      });
                       row.work_packages.map((wp:HalResource) => {
-                        data.push(wp);
+                        data.push({
+                          id: wp.id,
+                          parentId: wp.project_id + 'Project',
+                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                          homescreen_assignee: wp.otvetstvenniy,
+                          homescreen_due_date: this.format(wp.due_date),
+                          homescreen_status: wp.status_name,
+                          homescreen_fact: this.format(wp.fakt_ispoln),
+                          homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                          row_style: this.getTrClass(wp)
+                        });
                       });
                     });
                   }
                 }
               });
               if (project.national_id === 0) {
-                data.push({_type: 'NationalProject', id: 0, name: 'Проекты Республики Бурятия'});
+                data.push({
+                  id: '0National',
+                  parentId: '0',
+                  homescreen_name: 'Проекты Республики Бурятия'
+                });
                 if (data_local[0]) {
                   data_local[0].map((row:HalResource) => {
-                    data.push({_type: row._type, identifier: row.identifier, name: row.name});
+                    data.push({
+                      parentId: '0National',
+                      id: row.project_id + 'Project',
+                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+                    });
                     row.work_packages.map((wp:HalResource) => {
-                      data.push(wp);
+                      data.push({
+                        id: wp.id,
+                        parentId: wp.project_id + 'Project',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                        homescreen_assignee: wp.otvetstvenniy,
+                        homescreen_due_date: this.format(wp.due_date),
+                        homescreen_status: wp.status_name,
+                        homescreen_fact: this.format(wp.fakt_ispoln),
+                        homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
+                        row_style: this.getTrClass(wp)
+                      });
                     });
                   });
                 }

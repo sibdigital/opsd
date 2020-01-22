@@ -33,7 +33,7 @@ This file written by TAN
   <div class="form--field content--split"><%= f.text_field 'otrasl', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'gorod', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'capital', container_class: '-middle' %></div>
-  <% if User.current.allowed_to?(:approve_instance, nil)%>
+  <% if User.current.allowed_to?(:approve_instance, nil, global: true)%>
     <div class="form--field">
       <%= f.check_box 'is_approve', container_class: '-middle'%>
     </div>

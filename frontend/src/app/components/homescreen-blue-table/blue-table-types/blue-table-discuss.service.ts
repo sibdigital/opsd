@@ -4,6 +4,35 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 
 export class BlueTableDiscussService extends BlueTableService {
   protected columns:string[] = ['Проект', 'Куратор/\nРП', 'Тема', 'Дата последнего сообщения'];
+  public table_data:any = [];
+  public configs:any = {
+    id_field: 'id',
+    parent_id_field: 'parentId',
+    parent_display_field: 'homescreen_name',
+    show_summary_row: false,
+    css: { // Optional
+      expand_class: 'icon-arrow-right2',
+      collapse_class: 'icon-arrow-down1',
+    },
+    columns: [
+      {
+        name: 'homescreen_name',
+        header: this.columns[0]
+      },
+      {
+        name: 'homescreen_curator',
+        header: this.columns[1]
+      },
+      {
+        name: 'homescreen_subject',
+        header: this.columns[2]
+      },
+      {
+        name: 'homescreen_last',
+        header: this.columns[3]
+      }
+    ]
+  };
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
 
@@ -45,7 +74,18 @@ export class BlueTableDiscussService extends BlueTableService {
             this.pages++;
           }
           resources.elements.map((el:HalResource) => {
-            data.push(el);
+            let result:string = '';
+            el.project.curator.length !== 0 ? (result += '<a href="' + super.getBasePath() + '/users/' + el.project.curator.id + '">' + el.project.curator.fio + '</a>') : result += 'Нет куратора';
+            result += '<br>';
+            el.project.rukovoditel.length !== 0 ? (result += '<a href="' + super.getBasePath() + '/users/' + el.project.rukovoditel.id + '">' + el.project.rukovoditel.fio + '</a>') : result += 'Нет руководителя';
+            data.push({
+              id: el.id + 'Topic',
+              parentId: el.board.id + 'Board',
+              homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + el.project.identifier + '">' + el.project.name + '</a>',
+              homescreen_curator: result,
+              homescreen_subject: el.subject,
+              homescreen_last: this.format(el.updatedOn)
+            });
           });
           /*resources.elements.map((topic:HalResource) => {
             if (!topic.project.federalProjectId) {
