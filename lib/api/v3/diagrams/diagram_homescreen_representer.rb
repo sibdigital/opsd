@@ -222,9 +222,9 @@ module API
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
           sql_query = <<-SQL
-            select type, project_id, importance_id, sum(count) as count 
+            select type, project_id, importance_id, sum(count) as count
             from v_project_risk_on_work_packages_stat
-            where type in ('created_risk', 'no_risk_problem') and project_id in (?)
+            where type in ('created_risk', 'created_problem','no_risk_problem') and project_id in (?)
             group by type, project_id, importance_id
           SQL
           arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
@@ -236,8 +236,8 @@ module API
               exist = which_role(project, @current_user, @global_role)
               if exist
                 net_riskov += risk.count if risk.type == 'no_risk_problem'
-                neznachit += risk.count if risk.type == 'created_risk' and risk.importance_id = status_neznachit
-                kritich += risk.count if risk.type == 'created_risk' and risk.importance_id = status_kritich
+                neznachit += risk.count if (risk.type == 'created_risk' and risk.importance_id == status_neznachit.id) or (risk.type == 'created_problem')
+                kritich += risk.count if risk.type == 'created_risk' and risk.importance_id == status_kritich.id
               end
             end
           end

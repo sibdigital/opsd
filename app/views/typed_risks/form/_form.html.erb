@@ -39,7 +39,6 @@ This file written by BBM
                                           container_class: '-middle' %></div>
   <div class="form--field">  <%= f.select :importance_id,
                                           options_for_select(Importance.where(active: true).map {|u| [u.name, u.id]}, @selected_importance_id),
-                                          include_blank: true,
                                           container_class: '-middle' %></div>
   <div class="form--field"><%= f.text_area 'solution', container_class: '-middle' %></div>
   <div class="form--field">  <%= f.select :project_section_id,
