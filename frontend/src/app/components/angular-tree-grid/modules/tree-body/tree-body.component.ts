@@ -60,13 +60,16 @@ export class TreeBodyComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.configs.subheaders) {
+      this.columns = this.columns.filter(column => !column.children);
+      console.log(this.columns.length);
+    }
     this.display_data = this.store.getDisplayData();
     this.angularTreeGridService.display_data_observable$.subscribe((store) => {
       this.display_data = this.store.getDisplayData();
       this.setParents();
     });
     this.setParents();
-
   }
 
   setParents() {

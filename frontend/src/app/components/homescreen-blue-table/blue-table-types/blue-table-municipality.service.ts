@@ -3,6 +3,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import htmlString = JQuery.htmlString;
+import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 
 export class BlueTableMunicipalityService extends BlueTableService {
   protected columns:string[] = ['Проект', 'Куратор/\nРП', 'План срок завершения', 'Предстоящие мероприятия', 'Просроченные кт/\nПроблемы', 'Прогресс/\nИсполнение бюджета', 'KPI'];
@@ -41,7 +42,9 @@ export class BlueTableMunicipalityService extends BlueTableService {
       },
       {
         name: 'homescreen_progress',
-        header: this.columns[5]
+        header: this.columns[5],
+        type: 'custom',
+        component: HomescreenProgressBarComponent
       },
       {
         name: 'homescreen_kpi',
@@ -78,7 +81,7 @@ export class BlueTableMunicipalityService extends BlueTableService {
               homescreen_risks: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
                 '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.prosr + '</a>&nbsp;/&nbsp;' +
                 '<a href="' + super.getBasePath() + '/vkladka1/problems?id=' + project.project_id + '">' + project.riski + '</a>',
-              homescreen_progress: this.progressbar(progress) + '<br>' + this.progressbar(budget),
+              homescreen_progress: [progress, budget],
               homescreen_kpi: '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>',
             });
           });
@@ -106,7 +109,7 @@ export class BlueTableMunicipalityService extends BlueTableService {
                   homescreen_risks: '<a href=\'' + super.getBasePath() + '/projects/' + project.identifier +
                     '/work_packages?plan_type=execution&query_id=5&query_props=%7B"c"%3A%5B"id"%2C"type"%2C"status"%2C"subject"%2C"startDate"%2C"dueDate"%5D%2C"tv"%3Atrue%2C"tzl"%3A"days"%2C"hl"%3A"none"%2C"hi"%3Afalse%2C"g"%3A""%2C"t"%3A"id%3Aasc"%2C"f"%3A%5B%7B"n"%3A"status"%2C"o"%3A"o"%2C"v"%3A%5B%5D%7D%2C%7B"n"%3A"type"%2C"o"%3A"%3D"%2C"v"%3A%5B"2"%5D%7D%2C%7B"n"%3A"planType"%2C"o"%3A"~"%2C"v"%3A%5B"execution"%5D%7D%2C%7B"n"%3A"dueDate"%2C"o"%3A"<t-"%2C"v"%3A%5B"0"%5D%7D%5D%2C"pa"%3A1%2C"pp"%3A20%7D\'>' + project.prosr + '</a>&nbsp;/&nbsp;' +
                     '<a href="' + super.getBasePath() + '/vkladka1/problems?id=' + project.project_id + '">' + project.riski + '</a>',
-                  homescreen_progress: this.progressbar(progress) + '<br>' + this.progressbar(budget),
+                  homescreen_progress: [progress, budget],
                   homescreen_kpi: '<a href="' + super.getBasePath() + '/vkladka1/kpi">Посмотреть</a>',
                 });
               });

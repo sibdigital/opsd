@@ -3,6 +3,7 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import htmlString = JQuery.htmlString;
+import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 
 export class BlueTableBudgetService extends BlueTableService {
   protected columns:string[] = ['Республика Бурятия', 'Куратор', 'РП', 'План срок завершения', 'Исполнено', 'Риски исполнения', 'Остаток', 'Риски и проблемы', 'Исполнение бюджета'];
@@ -52,7 +53,9 @@ export class BlueTableBudgetService extends BlueTableService {
       },
       {
         name: 'homescreen_cost',
-        header: this.columns[8]
+        header: this.columns[8],
+        type: 'custom',
+        component: HomescreenProgressBarComponent
       }
     ]
   };
@@ -81,7 +84,7 @@ export class BlueTableBudgetService extends BlueTableService {
               homescreen_risks: '',
               homescreen_left: project.ostatok,
               homescreen_problems: '',
-              homescreen_cost: this.progressbar(Number(project.progress * 100).toFixed(1).toString())
+              homescreen_cost: [Number(project.progress * 100).toFixed(1).toString()]
             });
           });
         }
@@ -106,7 +109,7 @@ export class BlueTableBudgetService extends BlueTableService {
                   homescreen_risks: '',
                   homescreen_left: project.ostatok,
                   homescreen_problems: '',
-                  homescreen_cost: this.progressbar(Number(project.progress * 100).toFixed(1).toString())
+                  homescreen_cost: [Number(project.progress * 100).toFixed(1).toString()]
                 });
               });
             }
@@ -236,7 +239,7 @@ export class BlueTableBudgetService extends BlueTableService {
     let color = parseInt(input) < 30 ? '#ee8888' : parseInt(input) < 60 ? '#eeee88' : '#88ee88';
     return  '<div class="border-progress">' +
       '<div class="progress" title="' + input + '%' + '">' +
-      '<span class="value" width="' + input + '" color="red" style="width:' + input + '%; background-color:' + color + '">' +
+      '<span class="value" custom-width="' + input + '" custom-color="red" style="width:' + input + '%; background-color:' + color + '">' +
       '</span>' +
       '</div>' +
       '</div>';

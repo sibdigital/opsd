@@ -11,11 +11,18 @@
     <i *ngIf="!internal_configs.show_add_row && configs.actions.add" [ngClass]="configs.css.add_class" aria-hidden="true" title="Add a row"></i>
     <span *ngIf="internal_configs.show_add_row || !configs.actions.add">Actions</span>
   </th>
-  <th *ngFor="let column of columns" [ngClass]="{'column-hide': column.hidden}" [attr.width]="column.width">
-    <div>{{column.header}}</div>    
+  <th *ngFor="let column of columns" [ngClass]="{'column-hide': column.hidden}" [attr.width]="column.width"
+      [attr.colspan]="configs.subheaders && column.children ? column.children : 1"
+      [attr.rowspan]="configs.subheaders && !column.children? 2 : 1" >
+    <div [innerHTML]="column.header"></div>
   </th>
   <th *ngIf="(configs.show_parent_on_edit && internal_configs.show_parent_col) || internal_configs.show_add_row">
     Parent
+  </th>
+</tr>
+<tr class="second-header" *ngIf="configs.subheaders">
+  <th *ngFor="let column of child_columns" [ngClass]="{'column-hide': column.hidden}" [attr.width]="column.width">
+    <div [innerHTML]="column.header"></div>
   </th>
 </tr>
 </ng-container>

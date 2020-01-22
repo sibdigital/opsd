@@ -1,6 +1,10 @@
-<div class="border-progress">
-    <div class="progress">
-          <span class="value" [ngStyle]="{'width':progress+'%', 'background-color': color}">
+<div *ngFor="let value of cell_value;let i = index">
+    <div class="border-progress">
+        <div class="progress" [title]="value + '%'">
+          <span class="value" [ngStyle]="{'width': value +'%', 'background-color': value < 30 ? '#ee8888' : value < 60 ? '#eeee88' : '#88ee88'}">
           </span>
+        </div>
     </div>
+    <br *ngIf="i != cell_value.length-1">
 </div>
+

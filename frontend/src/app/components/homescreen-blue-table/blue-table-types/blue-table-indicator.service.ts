@@ -1,9 +1,10 @@
 import {BlueTableService} from "core-components/homescreen-blue-table/blue-table.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 
 export class BlueTableIndicatorService extends BlueTableService {
-  protected columns:string[] = ['Республика Бурятия', 'Ответственный', 'I', 'II', 'III', 'IV', 'I', 'II', 'III', 'IV', 'Процент исполнения'];
+  protected columns:string[] = ['Республика Бурятия', 'Ответственный', 'I', 'II', 'III', 'IV', 'I', 'II', 'III', 'IV', 'Процент исполнения', 'Плановые', 'Фактические'];
   private data_local:any;
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
@@ -13,6 +14,7 @@ export class BlueTableIndicatorService extends BlueTableService {
     parent_id_field: 'parentId',
     parent_display_field: 'homescreen_name',
     show_summary_row: false,
+    subheaders: true,
     css: { // Optional
       expand_class: 'icon-arrow-right2',
       collapse_class: 'icon-arrow-down1',
@@ -28,39 +30,59 @@ export class BlueTableIndicatorService extends BlueTableService {
       },
       {
         name: 'homescreen_plan_I',
-        header: this.columns[2]
+        header: this.columns[2],
+        parent_name:'homescreen_plan'
       },
       {
         name: 'homescreen_plan_II',
-        header: this.columns[3]
+        header: this.columns[3],
+        parent_name:'homescreen_plan'
       },
       {
         name: 'homescreen_plan_III',
-        header: this.columns[4]
+        header: this.columns[4],
+        parent_name:'homescreen_plan'
       },
       {
         name: 'homescreen_plan_IIII',
-        header: this.columns[5]
+        header: this.columns[5],
+        parent_name:'homescreen_plan'
       },
       {
         name: 'homescreen_fact_I',
-        header: this.columns[6]
+        header: this.columns[6],
+        parent_name:'homescreen_fact'
       },
       {
         name: 'homescreen_fact_II',
-        header: this.columns[7]
+        header: this.columns[7],
+        parent_name:'homescreen_fact'
       },
       {
         name: 'homescreen_fact_III',
-        header: this.columns[8]
+        header: this.columns[8],
+        parent_name:'homescreen_fact'
       },
       {
         name: 'homescreen_fact_IIII',
-        header: this.columns[9]
+        header: this.columns[9],
+        parent_name:'homescreen_fact'
+      },
+      {
+        name: 'homescreen_plan',
+        header: this.columns[11],
+        children: 4
+      },
+      {
+        name: 'homescreen_fact',
+        header: this.columns[12],
+        children: 4
       },
       {
         name: 'homescreen_progress',
-        header: this.columns[10]
+        header: this.columns[10],
+        type: 'custom',
+        component: HomescreenProgressBarComponent
       }
     ]
   };
@@ -98,7 +120,7 @@ export class BlueTableIndicatorService extends BlueTableService {
                 homescreen_fact_II: target.fact_quarter2_value,
                 homescreen_fact_III: target.fact_quarter3_value,
                 homescreen_fact_IIII: target.fact_quarter4_value,
-                homescreen_progress: goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed()
+                homescreen_progress: [goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed(1).toString()]
               });
             });
           });
@@ -135,7 +157,7 @@ export class BlueTableIndicatorService extends BlueTableService {
                     homescreen_fact_II: target.fact_quarter2_value,
                     homescreen_fact_III: target.fact_quarter3_value,
                     homescreen_fact_IIII: target.fact_quarter4_value,
-                    homescreen_progress: goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed()
+                    homescreen_progress: [goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed(1).toString()]
                   });
                 });
               });

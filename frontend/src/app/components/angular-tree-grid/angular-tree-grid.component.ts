@@ -61,6 +61,7 @@ export class AngularTreeGridComponent implements OnChanges, OnInit {
     row_class_function: () => true,
     row_edit_function: () => true,
     row_delete_function: () => true,
+    subheaders: false,
     subgrid_config: {
       show_summary_row: false,
       data_loading_text: 'Загрузка...'
@@ -72,7 +73,9 @@ export class AngularTreeGridComponent implements OnChanges, OnInit {
     editable: false,
     hidden: false,
     filter: true,
-    case_sensitive_filter: false
+    case_sensitive_filter: false,
+    parent_name: null,
+    children: null
   };
 
    @Output() cellclick:EventEmitter<any> = new EventEmitter();

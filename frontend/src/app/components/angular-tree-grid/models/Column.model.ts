@@ -15,4 +15,6 @@ export interface Column {
     onComponentInit?:any;
     case_sensitive_filter:Boolean;
     summary_renderer?:any;
+    parent_name:string|null;
+    children:any|null;
 }
