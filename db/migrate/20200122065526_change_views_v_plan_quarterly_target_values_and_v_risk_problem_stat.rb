@@ -54,6 +54,17 @@ class ChangeViewsVPlanQuarterlyTargetValuesAndVRiskProblemStat < ActiveRecord::M
                    when status = 'created' and risk_id is null then 'created_problem'
                    when status = 'solved' and risk_id is null then 'solved_problem' end as type
           from work_package_problems as wpp
+            inner join (
+              select w.id as work_package_id
+              from work_packages as w
+              inner join (
+                  select id
+                  from statuses as s
+                  where s.is_closed = false
+                ) as s
+              on w.status_id = s.id
+            ) as not_closed
+            using (work_package_id)
           ),
           risk_imp as (
             select pr.*, r.importance_id, imp.name as importance
