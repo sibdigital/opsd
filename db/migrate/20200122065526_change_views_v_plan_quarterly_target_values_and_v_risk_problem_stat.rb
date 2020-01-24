@@ -44,15 +44,15 @@ class ChangeViewsVPlanQuarterlyTargetValuesAndVRiskProblemStat < ActiveRecord::M
                  wpp.project_id,
                  wpp.work_package_id,
                  case
-                   when status = 'created' and not risk_id is null then risk_id
-                   when status = 'solved' and not risk_id is null then risk_id
-                   when status = 'created' and risk_id is null then id
-                   when status = 'solved' and risk_id is null then id end               as problem_id,
+                   when status = 'created' and not (wpp.risk_id IS NULL or wpp.risk_id = 0) then risk_id
+                   when status = 'solved' and not (wpp.risk_id IS NULL or wpp.risk_id = 0) then risk_id
+                   when status = 'created' and (wpp.risk_id IS NULL or wpp.risk_id = 0) then id
+                   when status = 'solved' and (wpp.risk_id IS NULL or wpp.risk_id = 0) then id end               as problem_id,
                  case
-                   when status = 'created' and not risk_id is null then 'created_risk'
-                   when status = 'solved' and not risk_id is null then 'solved_risk'
-                   when status = 'created' and risk_id is null then 'created_problem'
-                   when status = 'solved' and risk_id is null then 'solved_problem' end as type
+                   when status = 'created' and not (wpp.risk_id IS NULL or wpp.risk_id = 0) then 'created_risk'
+                   when status = 'solved' and not (wpp.risk_id IS NULL or wpp.risk_id = 0) then 'solved_risk'
+                   when status = 'created' and (wpp.risk_id IS NULL or wpp.risk_id = 0) then 'created_problem'
+                   when status = 'solved' and (wpp.risk_id IS NULL or wpp.risk_id = 0) then 'solved_problem' end as type
           from work_package_problems as wpp
             inner join (
               select w.id as work_package_id
