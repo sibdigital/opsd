@@ -153,7 +153,7 @@ See doc/COPYRIGHT.md for more details.
                   <div class="form--field"><label for="due_date"><%= Meeting.human_attribute_name(:meeting_protocol_due_date) %>:</label><%= f.date_field(:due_date, required: true)%></div>
 
                   <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button', remote: true%>
-                  <%= button_tag l(:button_cancel), type: 'reset', class: '-highlight -with-icon icon-checkmark button', id: 'meeting-protocol-cancel' %>
+                  <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'meeting-protocol-cancel' %>
 
                 </section>
               <% end %>

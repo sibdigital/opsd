@@ -414,7 +414,6 @@ module API
                   else
                     net_dannyh += 1
                   end
-
                 else
                   net_dannyh += 1
                 end
