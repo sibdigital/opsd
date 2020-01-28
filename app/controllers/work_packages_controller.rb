@@ -82,6 +82,17 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def cost_entries
+    @cost_entries = CostEntry.where(work_package_id: @work_package.id)
+  end
+
+  def delete_cost_entry
+    @entry = CostEntry.find(params[:cost_entry_id])
+    @entry.destroy
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_to cost_entries_project_work_package_path(project_id: @project, id: @work_package.id)
+  end
+
   protected
 
   def set_gon_settings

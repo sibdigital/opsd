@@ -175,7 +175,7 @@ module OpenProject::Costs
         next unless represented.cost_reporting_enabled? && represented.persisted?
 
         {
-            href: work_packages_cost_entries_path(represented),
+            href: cost_entries_project_work_package_path(project_id: represented.project_id, id: represented.id),
             type: 'text/html',
             title: "Show cost entries"
         }

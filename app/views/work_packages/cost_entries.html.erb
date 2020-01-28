@@ -1,0 +1,118 @@
+<% html_title(l('activerecord.attributes.project.cost_entries')) -%>
+
+<%= toolbar title: "Расходы для задачи: ", subtitle: link_to(h(@work_package.subject), project_work_package_path(project_id: @project, id: @work_package.id)) do%>
+<% end %>
+
+<% if @cost_entries.empty? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="cost_entries_items">
+
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostEntry.human_attribute_name(:id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostEntry.human_attribute_name(:project) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostEntry.human_attribute_name(:work_package) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostEntry.human_attribute_name(:units) %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="cost_entries_items">
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostEntry.human_attribute_name(:id) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostEntry.human_attribute_name(:cost_type) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= CostEntry.human_attribute_name(:units) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+              </div>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @cost_entries.each do |entry| %>
+          <tr id="cost-entry-<%=entry.id %>">
+            <%= content_tag(:td, entry.id) %>
+            <%= content_tag(:td, entry.cost_type) %>
+            <%= content_tag(:td, entry.units) %>
+            <%= content_tag(:td, link_to(
+                op_icon('icon icon-delete'),
+                delete_cost_entry_project_work_package_path(project_id: @project, id: @work_package.id, cost_entry_id: entry.id),
+                method: :get,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                title: t(:button_delete))) %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

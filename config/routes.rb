@@ -326,6 +326,8 @@ OpenProject::Application.routes.draw do
         get '/report' => 'work_packages/reports#report'
       end
 
+      get :cost_entries, on: :member
+      get :delete_cost_entry, on: :member
       # states managed by client-side routing on work_package#index
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
       get '/create_new' => 'work_packages#index', on: :collection, as: 'new_split'
@@ -333,7 +335,6 @@ OpenProject::Application.routes.draw do
 
       # state for show view in project context
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
-
       resources :work_package_targets
     end
     #knm +
