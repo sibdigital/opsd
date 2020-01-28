@@ -42,21 +42,25 @@ module OpenProject
 
     # Displays a link to user's account page if active or registered
     def link_to_user(user, options = {})
-      if user.is_a?(User)
-        name = user.name
-        only_path = options.delete(:only_path)
-        only_path = true if only_path.nil?
+      if (user)
+        if user.is_a?(User)
+          name = user.name
+          only_path = options.delete(:only_path)
+          only_path = true if only_path.nil?
 
-        if user.active? || user.registered? || user.invited?
-          href = only_path ? user_path(user) : user_url(user)
-          options[:title] ||= I18n.t(:label_user_named, name: name)
+          if user.active? || user.registered? || user.invited?
+            href = only_path ? user_path(user) : user_url(user)
+            options[:title] ||= I18n.t(:label_user_named, name: name)
 
-          link_to(name, href, options)
+            link_to(name, href, options)
+          else
+            name
+          end
         else
-          name
+          h(user.to_s)
         end
       else
-        h(user.to_s)
+        'Не указан'
       end
     end
 

@@ -222,9 +222,9 @@ module API
           status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
           status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
           sql_query = <<-SQL
-            select type, project_id, importance_id, sum(count) as count 
+            select type, project_id, importance_id, sum(count) as count
             from v_project_risk_on_work_packages_stat
-            where type in ('created_risk', 'no_risk_problem') and project_id in (?)
+            where type in ('created_risk', 'created_problem','no_risk_problem') and project_id in (?)
             group by type, project_id, importance_id
           SQL
           arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
@@ -236,8 +236,8 @@ module API
               exist = which_role(project, @current_user, @global_role)
               if exist
                 net_riskov += risk.count if risk.type == 'no_risk_problem'
-                neznachit += risk.count if risk.type == 'created_risk' and risk.importance_id = status_neznachit
-                kritich += risk.count if risk.type == 'created_risk' and risk.importance_id = status_kritich
+                neznachit += risk.count if (risk.type == 'created_risk' and risk.importance_id == status_neznachit.id) or (risk.type == 'created_problem')
+                kritich += risk.count if risk.type == 'created_risk' and risk.importance_id == status_kritich.id
               end
             end
           end
@@ -374,16 +374,52 @@ module API
               when 1
                 f = row.fact_quarter1_value
                 t = row.target_quarter1_value
+                p = row.plan_quarter1_value
               when 2
                 f = row.fact_quarter2_value
                 t = row.target_quarter2_value
+                p = row.plan_quarter2_value
               when 3
                 f = row.fact_quarter3_value
                 t = row.target_quarter3_value
+                p = row.plan_quarter3_value
               when 4
                 f = row.fact_quarter4_value
                 t = row.target_quarter4_value
+                p = row.plan_quarter4_value
               end
+
+              if f
+                if t
+                  fact_value = f
+                  target_value = t
+                  total += 1
+                elsif row.target_year_value
+                  fact_value = f
+                  target_value = row.target_year_value
+                  total += 1
+                else
+                  net_dannyh += 1
+                end
+              else
+                if p
+                  if t
+                    fact_value = 0
+                    target_value = t
+                    total += 1
+                  elsif row.target_year_value
+                    fact_value = 0
+                    target_value = row.target_year_value
+                    total += 1
+                  else
+                    net_dannyh += 1
+                  end
+                else
+                  net_dannyh += 1
+                end
+              end
+
+=begin
               if f
                 if t
                   fact_value += f
@@ -399,9 +435,10 @@ module API
               else
                 net_dannyh += 1
               end
+=end
             end
             drob = target_value == 0 ? 0 : fact_value / target_value
-            if drob == 1
+            if drob >= max
               net_otkloneniy += total
             end
             if drob >= overage and drob < max

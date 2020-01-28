@@ -118,15 +118,18 @@ export class BlueTableProtocolService extends BlueTableService {
             });
             if (this.data_local[el.id]) {
               this.data_local[el.id].map((project:ProjectResource) => {
-                let fio = project.user.lastname + ' ' + project.user.firstname.slice(0, 1) + '.';
-                if (project.user.patronymic) {
-                  fio += project.user.patronymic.slice(0, 1) + '.';
+                let fio = '';
+                if (project.user) {
+                  fio = project.user.lastname + ' ' + project.user.firstname.slice(0, 1) + '.';
+                  if (project.user.patronymic) {
+                    fio += project.user.patronymic.slice(0, 1) + '.';
+                  }
                 }
                 data.push({
                   id: project.id + 'Protocol',
                   parentId: project.project.federal_project_id ? project.project.federal_project_id + 'Federal' : project.project.national_project_id + 'National',
                   homescreen_name: '<a href="' + super.getBasePath() + '/meetings/' + project.meetingId + '/minutes">Поручение: ' + project.name + '</a>',
-                  homescreen_curator: project.user ? '<a href="' + super.getBasePath() + '/users/' + project.user.id + '">' + fio + '</a>' : '',
+                  homescreen_curator: project.user ? '<a href="' + super.getBasePath() + '/users/' + project.user.id + '">' + fio + '</a>' : 'Не указан',
                   homescreen_due_date: this.format(project.dueDate),
                   homescreen_progress: project.completed ? 'Исполнено' : 'В работе',
                   row_style: this.getTrClass(project)
