@@ -132,7 +132,7 @@ module API
             where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
             group by yearly.project_id, yearly.target_id
           SQL
-          arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
+          arr = Project.visible(current_user).map(&:id)
           @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
           @plan_facts.map do |plan|
             project = plan.project
@@ -140,7 +140,7 @@ module API
             if exist
               chislitel = plan.final_fact_year_value || 0
               znamenatel = plan.target_plan_year_value
-              procent = znamenatel == 0 ? 0 : chislitel / znamenatel * 100
+              procent = znamenatel != 0 ? 0 : chislitel / znamenatel * 100
               ne_ispolneno += 1 if procent == 0
               v_rabote += 1 if procent < 100 and procent > 0
               ispolneno += 1 if procent == 100

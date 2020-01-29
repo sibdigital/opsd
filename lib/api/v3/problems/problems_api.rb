@@ -36,28 +36,28 @@ module API
 
         resources :problems do
           get do
-            @problems = WorkPackageProblem
+            problems = WorkPackageProblem
               .joins(:work_package)
               .all
-            @problems = @problems.where(status: params['status']) if params['status'].present?
+            problems = problems.where(status: params['status']) if params['status'].present?
             if params['raion'].present?
-              @problems = @problems.where(work_packages: {raion_id: params['raion']})
+              problems = problems.where(work_packages: {raion_id: params['raion']})
             end
-            @problems = if params['project'].present?
-                          @problems.where(project_id: params['project'])
+            problems = if params['project'].present?
+                          problems.where(project_id: params['project'])
                         else
-                          projects = current_user.projects.map{|p| p.id}#[]
+                          projects = Project.all.visible_by(current_user).map{|p| p.id}
                           if projects.nil? || projects.empty?
-                            @problems.where(project_id: nil)
+                            problems.where(project_id: nil)
                           else
-                            @problems.where('work_package_problems.project_id in (' + projects.join(',') + ')')
+                            problems.where('work_package_problems.project_id in (' + projects.join(',') + ')')
                           end
                         end
-            @problems = @problems.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
-            @offset = params['offset'] || "1"
-            ProblemCollectionRepresenter.new(@problems,
+            problems = problems.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
+            offset = params['offset'] || "1"
+            ProblemCollectionRepresenter.new(problems,
                                              api_v3_paths.problems,
-                                             page: @offset.to_i,
+                                             page: offset.to_i,
                                              per_page: 20,
                                              current_user: current_user)
           end
