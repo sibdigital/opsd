@@ -25,13 +25,17 @@ module NationalProjectsHelper
       html = html + content_tag(:td, national_project.start_date ? national_project.start_date.strftime("%d/%m/%Y") : '')
       html = html + content_tag(:td, national_project.due_date ? national_project.due_date.strftime("%d/%m/%Y") : '')
 
-      # html = html + content_tag(:td,
-      #                           link_to(op_icon('icon icon-delete'),
-      #                                   national_project_path(id: national_project.id),
-      #                                   method: :delete,
-      #                                   data: { confirm: I18n.t(:text_are_you_sure) },
-      #                                   title: t(:button_delete)
-      #                           ))
+      count_children_projects = all_projects.where(parent_id: national_project.id).count
+      if count_children_projects.zero?
+        html = html + content_tag(:td,
+                                  link_to(op_icon('icon icon-delete'),
+                                          national_project_path(id: national_project.id),
+                                          method: :delete,
+                                          data: { confirm: I18n.t(:text_are_you_sure) },
+                                          title: t(:button_delete)
+                                  ))
+      end
+
       html = html + '</tr>'
       federal_projects.each do |federal_project|
         if federal_project.parent_id === national_project.id
