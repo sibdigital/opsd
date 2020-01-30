@@ -198,12 +198,12 @@ module API
                 spent += cost_object.spent
               end
             else
-              project = Project.visible(current_user).find(cost_object.project_id)
-              exist = which_role(project, @current_user, @global_role)
-              if exist
+              project = Project.visible(current_user).find(cost_object.project_id)#можно стереть
+              exist = which_role(project, @current_user, @global_role)#можно стереть
+              if exist#можно стереть
                 total_budget += cost_object.budget
                 spent += cost_object.spent
-              end
+              end#можно стереть
             end
           end
 
