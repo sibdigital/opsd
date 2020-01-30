@@ -89,26 +89,18 @@ class NationalProjectsController < ApplicationController
   end
 
   def destroy
-    if @national_project.type === "National"
-      del=0
-      NationalProject.where(type: "Federal").each do |national_project|
-        if national_project.parent_id === @national_project.id
-          # national_project.parent_id = null
-          del=del+1
-          # national_project.destroy
-        end
-      end
-      if del==0
-        @national_project.destroy
+    count_children_projects = NationalProject.where(parent_id: @national_project.id).count
+    if count_children_projects.zero?
+      type = @national_project.type
+      @national_project.destroy
+      if type == 'Government'
+        redirect_to government_programs_national_projects_path
       else
-        flash.now[:error] = l(:notice_project_not_deleted)
-        redirect_to action: 'index'
+        redirect_to national_projects_path
       end
     else
-    @national_project.destroy
-    redirect_to action: 'index'
+      flash.now[:error] = l(:notice_project_not_deleted)
     end
-    nil
   end
 
   def default_breadcrumb
