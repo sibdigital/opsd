@@ -46,9 +46,9 @@ module API
             problems = if params['project'].present?
                           problems.where(project_id: params['project'])
                         else
-                          projects = Project.all.visible_by(current_user).map{|p| p.id}
+                          projects = current_user.projects.map{|p| p.id}
                           if projects.nil? || projects.empty?
-                            problems.where(project_id: nil)
+                            problems.where(project_id: nil)#Зачем выполнять лишние запросы
                           else
                             problems.where('work_package_problems.project_id in (' + projects.join(',') + ')')
                           end
@@ -59,7 +59,7 @@ module API
                                              api_v3_paths.problems,
                                              page: offset.to_i,
                                              per_page: 20,
-                                             current_user: current_user)
+                                             current_user: current_user)#Есть ограничение на количество проблем - per_page
           end
 
           params do
