@@ -132,7 +132,9 @@ module API
             where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
             group by yearly.project_id, yearly.target_id
           SQL
-          arr = Project.visible(current_user).map(&:id)
+          arr = Project.visible(current_user)
+          arr = arr.where(id: @project) if @project && @project != '0'
+          arr = arr.map(&:id)
           @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
           @plan_facts.map do |plan|
             project = plan.project
