@@ -117,15 +117,20 @@ class PlanUploadersController < ApplicationController
           if params['start_date'].present?
             if params['start_date'] == Date.parse('1899-12-30')
               wp.start_date = @project_for_load.created_on
+              params['start_date'] = @project_for_load.created_on
             else
-              wp.start_date  = Date.parse(params['start_date'].to_s)
+              wp.start_date = Date.parse(params['start_date'].to_s)
             end
           else
             params['start_date'] = @project_for_load.created_on
           end
 
           if params['due_date'].present?
-            wp.due_date = params['due_date']
+            wp.due_date = Date.parse(params['due_date'].to_s)
+            start_date = Date.parse(params['start_date'].to_s)
+            if wp.due_date <= start_date
+              wp.due_date = start_date + 1
+            end
           end
 
           wp.project_id = @project_for_load.id
@@ -172,7 +177,12 @@ class PlanUploadersController < ApplicationController
           end
 
           if params['due_date'].present?
-            params['due_date'] = Date.parse(params['due_date'].to_s)
+            due_date = Date.parse(params['due_date'].to_s)
+            start_date = Date.parse(params['start_date'].to_s)
+            if due_date <= start_date
+              due_date = start_date + 1
+            end
+            params['due_date'] = due_date
           end
 
           params['project_id'] = @project_for_load.id
@@ -279,10 +289,6 @@ class PlanUploadersController < ApplicationController
               .first_or_initialize do |wp|
         is_new_record = true
         wp.subject = row['work'].to_s[0..250]
-        if row['due_date'].present?
-          wp.due_date = row['due_date']
-        end
-
         if row['desc'].present?
           wp.description = row['desc']
         end
@@ -301,11 +307,20 @@ class PlanUploadersController < ApplicationController
         if row['start_date'].present?
           if row['start_date'] == Date.parse('1899-12-30')
             wp.start_date = @project_for_load.created_on
+            row['start_date'] = @project_for_load.created_on
           else
-            wp.start_date  = Date.parse(row['start_date'].to_s)
+            wp.start_date = Date.parse(row['start_date'].to_s)
           end
         else
           row['start_date'] = @project_for_load.created_on
+        end
+
+        if row['due_date'].present?
+          wp.due_date = Date.parse(row['due_date'].to_s)
+          start_date = Date.parse(row['start_date'].to_s)
+          if wp.due_date <= start_date
+            wp.due_date = start_date + 1
+          end
         end
 
         wp.project_id = @project_for_load.id
@@ -497,7 +512,6 @@ class PlanUploadersController < ApplicationController
               wp = WorkPackage.new
                 #is_new_record = true
                 wp.subject = row[col_num['subject']].value.to_s[0..255]
-                wp.due_date = row[col_num['due_date']].value
                 wp.description = row[col_num['description']].value.to_s[0..255]
                 if row[col_num['assigned_to_id']].value == 0
                   wp.assigned_to_id = nil
@@ -549,11 +563,20 @@ class PlanUploadersController < ApplicationController
                 if row[col_num['start_date']].present?
                   if row[col_num['start_date']].value == Date.parse('1899-12-30')
                     wp.start_date = @project_for_load.created_on
+                    row[col_num['start_date']].value = @project_for_load.created_on
                   else
                     wp.start_date  = Date.parse(row[col_num['start_date']].value)
                   end
                 else
-                  #row['start_date'] = @project_for_load.created_on
+                  row[col_num['start_date']].value = @project_for_load.created_on
+                end
+
+                if row[col_num['due_date']].present?
+                  wp.due_date = Date.parse(row[col_num['due_date']].value)
+                  start_date = Date.parse(row[col_num['start_date']].value)
+                  if wp.due_date <= start_date
+                    wp.due_date = start_date + 1
+                  end
                 end
 
                 wp.project_id = @project_for_load.id
@@ -686,17 +709,21 @@ class PlanUploadersController < ApplicationController
           if params['start_date'].present?
             if params['start_date'] == Date.parse('1899-12-30')
               wp.start_date = @project_for_load.created_on
+              params['start_date'] = @project_for_load.created_on
             else
-              #wp.start_date  = Date.parse(params['start_date'].to_s)
               wp.start_date = Date.strptime(params['start_date'].to_s, "%d.%m.%y")
+              params['start_date'] = wp.start_date
             end
           else
             params['start_date'] = @project_for_load.created_on
           end
 
           if params['due_date'].present?
-            #wp.due_date = params['due_date']
             wp.due_date = Date.strptime(params['due_date'].to_s, "%d.%m.%y")
+            start_date = Date.parse(params['start_date'].to_s)
+            if wp.due_date <= start_date
+              wp.due_date = start_date + 1
+            end
           end
 
           wp.project_id = @project_for_load.id
@@ -739,7 +766,12 @@ class PlanUploadersController < ApplicationController
           end
 
           if params['due_date'].present?
-            params['due_date'] = Date.strptime(params['due_date'].to_s, "%d.%m.%y")
+            due_date = Date.strptime(params['due_date'].to_s, "%d.%m.%y")
+            start_date = Date.parse(params['start_date'].to_s)
+            if due_date <= start_date
+              due_date = start_date + 1
+            end
+            params['due_date'] = due_date
           end
 
           params['project_id'] = @project_for_load.id
