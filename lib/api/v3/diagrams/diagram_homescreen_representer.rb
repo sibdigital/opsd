@@ -236,14 +236,16 @@ module API
               exist = which_role(project, @current_user, @global_role)
               if exist
                 net_riskov += risk.count if risk.type == 'no_risk_problem'
-                neznachit += risk.count if (risk.type == 'created_risk' and risk.importance_id == status_neznachit.id) or (risk.type == 'created_problem')
+                neznachit += risk.count if (risk.type == 'created_risk' and (risk.importance_id == status_neznachit.id or risk.importance_id == nil)) or (risk.type == 'created_problem')
                 kritich += risk.count if risk.type == 'created_risk' and risk.importance_id == status_kritich.id
               end
             end
           end
           result = []
           # Порядок важен
-          result << net_riskov
+          # fva: Раскомментировать если необходимо будет вернуть графу: отсутствует.
+          # Также не забудьте раскомментировать строку в файле desktop-tab.html
+          #result << net_riskov
           result << neznachit
           result << kritich
         end
