@@ -53,17 +53,17 @@ export class BubbleDiagramComponent implements OnInit {
         boxWidth: 15
       }
     },
-    tooltips: {
-      callbacks: {
-        label: function (t, d) {
-          if (d.labels) {
-            return d.labels[t.index || 0];
-          } else {
-            return '';
-          }
-        }
-      }
-    }
+    // tooltips: {
+    //   callbacks: {
+    //     label: function (t, d) {
+    //       if (d.labels) {
+    //         return d.labels[t.index || 0];
+    //       } else {
+    //         return '';
+    //       }
+    //     }
+    //   }
+    // }
   };
   public bubbleChartColors:Color[] = [
     {
