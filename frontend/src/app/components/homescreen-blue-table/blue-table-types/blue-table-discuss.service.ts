@@ -69,6 +69,9 @@ export class BlueTableDiscussService extends BlueTableService {
           let total:number = resources.total; //всего ex 29
           let pageSize:number = resources.pageSize;
           let remainder = total % pageSize;
+          if (total === 0) {
+            this.configs.data_loading_text = "Нет данных";
+          }
           this.pages = (total - remainder) / pageSize;
           if (remainder !== 0) {
             this.pages++;
