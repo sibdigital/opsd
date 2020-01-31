@@ -188,7 +188,7 @@ export class MunicipalityTabComponent implements OnInit {
             let name = el.project.name;
             let spent = el.spent;
             let total_budget = el.total_budget;
-            let budget = {id: id, name: name, value: total_budget === '0.0' ? 0 : spent / total_budget};
+            let budget = {id: id, name: name, value: total_budget === '0.0' ? 0 : total_budget - spent};
             row["budget"] = budget;
             this.data[i] = row;
           });
