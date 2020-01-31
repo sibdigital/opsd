@@ -43,9 +43,7 @@ export class TreeHeadComponent implements OnInit {
   ngOnInit() {
     if (this.configs.subheaders) {
       this.child_columns = this.columns.filter(column => column.parent_name);
-      console.log(this.child_columns.length);
       this.columns = this.columns.filter(column => !column.parent_name);
-      console.log(this.columns.length);
     }
   }
 
