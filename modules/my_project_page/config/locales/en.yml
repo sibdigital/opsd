@@ -7,7 +7,7 @@ en:
   label_project_description: "Описание проекта"
   label_project_details: "Детали проекта"
   label_custom_element: "Добавить тизер..."
-  label_table_dostizheniy: "Таблица достижения целей/результатов..."
+  label_table_dostizheniy: "Достижение целей и результатов"
   label_target_result: "Результат"
   label_target_plan: "Плановый"
   label_target_fact: "Фактический"

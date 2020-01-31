@@ -139,7 +139,7 @@ module API
             exist = which_role(project, @current_user, @global_role)
             if exist
               chislitel = plan.final_fact_year_value || 0
-              znamenatel = plan.target_plan_year_value
+              znamenatel = plan.target_plan_year_value || 0
               procent = znamenatel == 0 ? 0 : chislitel / znamenatel * 100
               ne_ispolneno += 1 if procent == 0
               v_rabote += 1 if procent < 100 and procent > 0
