@@ -54,6 +54,7 @@ module API
               raion_id = params[:raion]
               if raion_id
                 rprojects = Raion.projects_by_id(raion_id, @projects).map {|p| p.id}
+                rprojects = rprojects.empty? ? [0] : rprojects #Временное решение, необходимо обдумать. Проблема возникает когда в районе нет проектов, так как возвращается пустой список
                 records_array = ActiveRecord::Base.connection.execute <<~SQL
                   select p.id, p1.preds, p1.prosr, p1.riski, p2.ispolneno, p2.all_wps from
                       (select * from projects where id in (#{rprojects.join(",")}))as p
