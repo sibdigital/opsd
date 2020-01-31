@@ -24,7 +24,7 @@ class NationalProject < ActiveRecord::Base
   end
 
   def self.visible_federal_project(current_user)
-    slq =  <<-SQL
+    slq = <<-SQL
             select distinct np.*
             from national_projects as np
             inner join(
@@ -35,6 +35,42 @@ class NationalProject < ActiveRecord::Base
               where user_id = ?
               ) as mu
             on (np.id = mu.federal_project_id and np.parent_id = mu.national_project_id)
+    SQL
+    nps = NationalProject.find_by_sql([slq, current_user.id])
+    nps
+  end
+
+  def self.visible_national_projects(current_user)
+    slq = <<~SQL
+      select distinct np.*
+      from national_projects as np
+      inner join(
+        select DISTINCT national_project_id
+        from members as m
+          inner join projects as p
+            on p.id = m.project_id
+        where user_id = ?
+      ) as mu
+       on (np.id = mu.national_project_id);
+    SQL
+    nps = NationalProject.find_by_sql([slq, current_user.id])
+    nps
+  end
+
+  def self.visible_national_projects_with_problems(current_user)
+    slq = <<~SQL
+      select distinct np.*
+      from national_projects as np
+               inner join(
+          select DISTINCT national_project_id
+          from members as m
+                   inner join projects as p
+                              on p.id = m.project_id
+          where user_id = ?
+      ) as mu
+      on (np.id = mu.national_project_id)
+        left join v_project_risk_on_work_packages_stat as vprowps
+            on (np.id = vprowps.national_project_id and (vprowps.type = 'created_problem' or vprowps.type = 'created_risk'));
     SQL
     nps = NationalProject.find_by_sql([slq, current_user.id])
     nps
