@@ -41,6 +41,7 @@ export class MunicipalityTabComponent implements OnInit {
           return {name: el.name, $href: el.id};
         });
         this.value = this.valueOptions[0];
+        this.handleUserSubmit();
       });
   }
 
