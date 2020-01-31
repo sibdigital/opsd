@@ -615,7 +615,12 @@ class AccountController < ApplicationController
       # Sends an email to the administrators
       admins = User.admin.active
       admins.each do |admin|
-        UserMailer.account_activation_requested(admin, user).deliver_now
+        begin
+          UserMailer.account_activation_requested(admin, user).deliver_now
+        rescue Exception => e #+- tan 2020.01.31 если отправка прямо сейчас невозможна
+          Rails.logger.info(e.message)
+          UserMailer.account_activation_requested(admin, user).deliver_later
+        end
       end
       account_pending
     else
