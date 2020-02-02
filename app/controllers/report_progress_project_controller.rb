@@ -13,6 +13,15 @@ class ReportProgressProjectController < ApplicationController
   before_action :find_optional_project, :verify_reportsProgressProject_module_activated
 
 
+  def difference_in_completed_years (d1, d2)
+    a = d2.year - d1.year
+    a = a - 1 if (
+    d1.month > d2.month or
+      (d1.month >= d2.month and d1.day > d2.day)
+    )
+    a
+  end
+
   def index
     @selected_target_id = 0
     @project = Project.find(params[:project_id])
@@ -30,11 +39,15 @@ class ReportProgressProjectController < ApplicationController
     if  params[:report_id] == 'report_progress_project'
       generate_project_progress_report_out
       send_to_user filepath: @ready_project_progress_report_path
-      # generate_report_progress_project_pril_1_2_out
     end
 
+    if  params[:report_id] == 'report_dynamics_of_achievement_kt'
+      generate_dynamics_of_achievement_kt_report_out
+      send_to_user filepath: @ready_dynamics_of_achievement_kt_report_path
+    end
+
+
     if  params[:report_id] == 'report_progress_project_pril_1_2'
-      #index_params
       generate_report_progress_project_pril_1_2_out
       send_to_user filepath: @ready_report_progress_project_pril_1_2_path
     end
@@ -43,8 +56,16 @@ class ReportProgressProjectController < ApplicationController
     id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
     @targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
 
-#    @targets = @project.targets
     @target = @targets.first
+
+    count_year = difference_in_completed_years(@project.start_date, @project.due_date)
+    @years_project = []
+    for i in 0..count_year
+      currentYear = @project.start_date.year + i
+      @years_project << currentYear
+    end
+
+
   end
 
   def generate_project_progress_report_out
@@ -52,13 +73,14 @@ class ReportProgressProjectController < ApplicationController
     @workbook = RubyXL::Parser.parse(template_path)
     @workbook.calc_pr.full_calc_on_load = true
 
+    selected_year = params[:selected_year] == nil ? 0 : params[:selected_year]
     generate_title_sheet
     generate_key_risk_sheet
-    generate_targets_sheet
+    generate_targets_sheet(selected_year)
     generate_status_execution_budgets_sheet
     generate_budgets_execution_details_sheet
     generate_status_achievement_sheet
-    generate_dynamic_achievement_kt_sheet
+    generate_dynamic_achievement_kt_sheet(2)
     generate_info_achievement_rktm_sheet
 
     #+tan
@@ -88,6 +110,42 @@ class ReportProgressProjectController < ApplicationController
       @document.save
     end
     # )
+  end
+
+
+  def generate_dynamics_of_achievement_kt_report_out
+    template_path = File.absolute_path('.') +'/'+'app/reports/templates/dynamics_of_achievement_kt.xlsx'
+    @workbook = RubyXL::Parser.parse(template_path)
+    @workbook.calc_pr.full_calc_on_load = true
+
+    generate_dynamic_achievement_kt_sheet(1)
+
+    dir_path = File.absolute_path('.') + '/public/reports'
+    if  !File.directory?(dir_path)
+      Dir.mkdir dir_path
+    end
+
+
+    @ready_dynamics_of_achievement_kt_report_path = dir_path + '/dynamics_of_achievement_kt_out.xlsx'
+    @workbook.write(@ready_dynamics_of_achievement_kt_report_path)
+
+    exist = false
+    current_user.roles_for_project(@project).map do |role|
+      exist ||= role.role_permissions.any? {|perm| perm.permission == 'manage_documents'}
+    end
+    if exist
+      pid = spawn('cd ' + File.absolute_path('.') + '/unoconv && unoconv -f pdf ' + @ready_dynamics_of_achievement_kt_report_path)
+      @document = @project.documents.build
+      @document.category = DocumentCategory.find_by(name: 'Отчет о ходе реализации проекта')
+      @document.user_id = current_user.id
+      @document.title = 'график достижения контрольных точек от ' + DateTime.now.strftime("%d/%m/%Y %H:%M")
+      service = AddAttachmentService.new(@document, author: current_user)
+      attachment = service.add_attachment_old uploaded_file: File.open(@ready_dynamics_of_achievement_kt_report_path),
+                                              filename: 'dynamics_of_achievement_kt_out.xlsx'
+      @document.attach_files({'0'=> {'id'=> attachment.id}})
+      @document.save
+    end
+
   end
 
   def generate svod_otchet
@@ -174,7 +232,7 @@ class ReportProgressProjectController < ApplicationController
 
   def generate_key_risk_sheet
        sheet = @workbook['Ключевые риски']
-       workPackageProblems = WorkPackageProblem.where(project_id: @project.id)
+       workPackageProblems = WorkPackageProblem.where(project_id: @project.id, type: 'risk')
 
        data_row = 3
        workPackageProblems.each_with_index do |workPackageProblem, i|
@@ -193,11 +251,11 @@ class ReportProgressProjectController < ApplicationController
        elsif status_risk == 3
          sheet.sheet_data[data_row + i][1].change_fill('ff0000')
        else
-           sheet.sheet_data[data_row + i][1].change_fill('d7d7d7')
+         sheet.sheet_data[data_row + i][1].change_fill('d7d7d7')
        end
        sheet.insert_cell(data_row + i, 2, workPackageProblem.work_package.subject)
-       sheet.insert_cell(data_row + i, 3, workPackageProblem.risk==nil ? "" : workPackageProblem.risk.description)
-       sheet.insert_cell(data_row + i, 4, workPackageProblem.description)
+       sheet.insert_cell(data_row + i, 3, workPackageProblem.description)
+       sheet.insert_cell(data_row + i, 4, workPackageProblem.risk==nil ? "" : workPackageProblem.risk.description)
 
        sheet.sheet_data[data_row + i][0].change_border(:top, 'thin')
        sheet.sheet_data[data_row + i][0].change_border(:bottom, 'thin')
@@ -248,10 +306,10 @@ class ReportProgressProjectController < ApplicationController
     Rails.logger.info(e.message)
   end
 
-  def generate_targets_sheet
+  def generate_targets_sheet(year)
 
     sheet = @workbook['Сведения о значениях целей']
-    result_array_targets = get_value_targets_indicators
+    result_array_targets = get_value_targets_indicators(year)
     status = 0
     data_row = 4
     result_array_targets.each_with_index do |target, i|
@@ -1139,20 +1197,20 @@ class ReportProgressProjectController < ApplicationController
     Rails.logger.info(e.message)
   end
 
-  def get_value_targets_indicators
+  def get_value_targets_indicators(year)
 
     sql = "with
             prev_year_value as (
              select  pf.target_id, pf.fact_year_value
              from v_plan_fact_quarterly_target_values as pf
-             where pf.year = (extract(year from current_date)-1) and pf.project_id = " + @project.id.to_s + "
+             where pf.year = ("+year.to_s+"-1) and pf.project_id = " + @project.id.to_s + "
             ),
             current_year_value as (
               select  cf.target_id, cf.fact_quarter1_value,
                       cf.fact_quarter2_value, cf.fact_quarter3_value, cf.fact_quarter4_value,
                       cf.plan_year_value
               from v_plan_fact_quarterly_target_values as cf
-              where cf.year = extract(year from current_date) and cf.project_id = "+ @project.id.to_s + "
+              where cf.year = "+year.to_s+" and cf.project_id = "+ @project.id.to_s + "
             )
             select t.name, m.short_name as measure_name, coalesce(p.fact_year_value, 0) as fact_year_value,
             coalesce(c.fact_quarter1_value, 0) as fact_quarter1_value, coalesce(c.fact_quarter2_value, 0) as fact_quarter2_value,
@@ -1244,18 +1302,6 @@ class ReportProgressProjectController < ApplicationController
     sheetDataDiagram[4][14].raw_value = result_other_budjet[1].to_f
     sheetDataDiagram[5][14].raw_value = result_other_budjet[2].to_f
 
-#    sheetDataDiagram[3][4].change_contents(result_fed_budjet[0])
-#    sheetDataDiagram[4][4].change_contents(result_fed_budjet[1])
-#    sheetDataDiagram[5][4].change_contents(result_fed_budjet[2])
-
-#    sheetDataDiagram[3][9].change_contents(result_reg_budjet[0])
-#    sheetDataDiagram[4][9].change_contents(result_reg_budjet[1])
-#    sheetDataDiagram[5][9].change_contents(result_reg_budjet[2])
-
-#    sheetDataDiagram[3][14].change_contents(result_other_budjet[0])
-#    sheetDataDiagram[4][14].change_contents(result_other_budjet[1])
-#    sheetDataDiagram[5][14].change_contents(result_other_budjet[2])
-
 
     no_devation =  Setting.find_by(name: 'no_devation').value
     small_devation =  Setting.find_by(name: 'small_devation').value
@@ -1321,9 +1367,10 @@ class ReportProgressProjectController < ApplicationController
     Rails.logger.info(e.message)
   end
 
-  def generate_dynamic_achievement_kt_sheet
-    sheet = @workbook['Динамика достижения КТ']
-
+  def generate_dynamic_achievement_kt_sheet(type)
+    if type == 1
+      sheet = @workbook['Динамика достижения КТ']
+    end
     sheetDataDiagram = @workbook['Данные для диаграмм']
 
     result_array = get_month_kt_values
@@ -1403,9 +1450,10 @@ class ReportProgressProjectController < ApplicationController
         index += 1
     end
 
-    sheet[2][6].change_contents(not_time)
-    sheet[4][6].change_contents(riski)
-
+    if type == 1
+      sheet[2][6].change_contents(not_time)
+      sheet[4][6].change_contents(riski)
+    end
     #  0ba53d -зеленый
     #  ff0000 -красный
     #  ffd800 -желтый
@@ -2307,28 +2355,30 @@ class ReportProgressProjectController < ApplicationController
 
 
    def fed_budget_data
-    cost_objects = CostObject.where(project_id: @project.id)
-    total_budget = BigDecimal("0")
-    spent = BigDecimal("0")
 
-    cost_objects.each do |cost_object|
-      cost_object.cost_entries.each do |cost_entry|
-        if cost_entry.cost_type.name == "Федеральный бюджет"
-          total_budget += cost_object.budget
-          spent += cost_object.spent
-        end
-      end
-    end
+     cost_type = CostType.find_by(name: I18n.t('costs.federal_cost_type'))
+     self.buget_by_cost_type(user, cost_type)
 
-    spent
+     cost_objects = CostObject.where('project_id in (?)', @project.id)
+     total_budget = BigDecimal("0")
+     labor_budget = BigDecimal("0")
+     material_budget = BigDecimal("0")
+     spent = BigDecimal("0")
+
+     cost_objects.each do |cost_object|
+       total_budget += cost_type ? cost_object.budget_by_cost_type(cost_type) : cost_object.budget
+       labor_budget += cost_object.labor_budget
+       material_budget += cost_type ? cost_object.material_budget_by_cost_type(cost_type) : cost_object.material_budget
+       spent += cost_type ? cost_object.spent_by_cost_type(cost_type) : cost_object.spent
+     end
+
     risk_ispoln = 0
-    ostatok = total_budget - spent
     result = []
-
     result << spent
     result << risk_ispoln
-    result << ostatok
+    result << total_budget - spent
     result << total_budget
+
   end
 
   def reg_budget_data

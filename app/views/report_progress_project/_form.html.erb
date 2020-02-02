@@ -6,12 +6,19 @@ This file written by XCC
 <%= error_messages_for :report_progress_project %>
 <%= error_messages_for :target %>
 <section class="form--section">
-     <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'button' %>
+
+  <h3>Год</h3>
+  <%= select_tag(:selected_year, options_for_select(@years_project)) %>
+  <br>
+  <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'pass-params-year-from-select button' %>
 
   <%
     id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id
     @targets = Target.where(project_id: @project.id, type_id: id_type_indicator)
   %>
+
+  <h3>График динамики достижения контрольных точек</h3>
+  <%= link_to "Сформировать", {report_id: "report_dynamics_of_achievement_kt"}, class: 'button' %>
 
   <h3>Графики достижения показателей. Приложение 1, 2</h3>
   <div class="form--field">
