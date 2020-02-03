@@ -21,41 +21,42 @@ module API
         property :data,
                  exec_context: :decorator,
                  getter: ->(*) {
+                   available_user_projects = user_projects(current_user)
                    case @name
                    when 'pokazateli' then
-                     desktop_pokazateli_data
+                     desktop_pokazateli_data(available_user_projects)
                    when 'kt' then
-                     desktop_kt_data
+                     desktop_kt_data(available_user_projects)
                    when 'budget' then
-                     desktop_budget_data
+                     desktop_budget_data(available_user_projects)
                    when 'riski' then
-                     desktop_riski_data
+                     desktop_riski_data(available_user_projects)
                    when 'zdravoohranenie' then
-                     indicator_data(I18n.t(:national_project_zdravoohr))
+                     indicator_data(I18n.t(:national_project_zdravoohr), available_user_projects)
                    when 'obrazovanie' then
-                     indicator_data(I18n.t(:national_project_obraz))
+                     indicator_data(I18n.t(:national_project_obraz), available_user_projects)
                    when 'demografia' then
-                     indicator_data(I18n.t(:national_project_demogr))
+                     indicator_data(I18n.t(:national_project_demogr), available_user_projects)
                    when 'cultura' then
-                     indicator_data(I18n.t(:national_project_cultur))
+                     indicator_data(I18n.t(:national_project_cultur), available_user_projects)
                    when 'avtodorogi' then
-                     indicator_data(I18n.t(:national_project_avtodor))
+                     indicator_data(I18n.t(:national_project_avtodor), available_user_projects)
                    when 'gorsreda' then
-                     indicator_data(I18n.t(:national_project_gorsreda))
+                     indicator_data(I18n.t(:national_project_gorsreda), available_user_projects)
                    when 'ekologia' then
-                     indicator_data(I18n.t(:national_project_ekol))
+                     indicator_data(I18n.t(:national_project_ekol), available_user_projects)
                    when 'nauka' then
-                     indicator_data(I18n.t(:national_project_nauka))
+                     indicator_data(I18n.t(:national_project_nauka), available_user_projects)
                    when 'msp' then
-                     indicator_data(I18n.t(:national_project_msp))
+                     indicator_data(I18n.t(:national_project_msp), available_user_projects)
                    when 'digital' then
-                     indicator_data(I18n.t(:national_project_digital))
+                     indicator_data(I18n.t(:national_project_digital), available_user_projects)
                    when 'trud' then
-                     indicator_data(I18n.t(:national_project_trud))
+                     indicator_data(I18n.t(:national_project_trud), available_user_projects)
                    when 'export' then
-                     indicator_data(I18n.t(:national_project_export))
+                     indicator_data(I18n.t(:national_project_export), available_user_projects)
                    when 'republic' then
-                     indicator_data(nil)
+                     indicator_data(nil, available_user_projects)
                    when 'fed_budget' then
                      fed_budget_data
                    when 'reg_budget' then
@@ -138,12 +139,12 @@ module API
         end
         # bbm(
         # Функция заполнения значений долей диаграммы Показатели на рабочем столе
-        def desktop_pokazateli_data
+        def desktop_pokazateli_data(available_user_projects)
           ispolneno = 0 # Порядок важен
           ne_ispolneno = 0
           v_rabote = 0
 
-          user_proj = @project && @project != '0' ? @project : user_projects(current_user).map(&:id)
+          user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
           plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_text_desktop_pokazateli_data(), user_proj])
 
           plan_facts.map do |pf|
@@ -201,14 +202,14 @@ module API
         # end
         #
         # Функция заполнения значений долей диаграммы KT на рабочем столе
-        def desktop_kt_data
+        def desktop_kt_data(available_user_projects)
           ispolneno = 0
           v_rabote = 0
           ne_ispolneno = 0
           riski = 0
 
           @kontrol_point_type = Type.find_by name: I18n.t(:default_type_milestone) || @kontrol_point_type
-          user_proj = @project && @project != '0' ? @project : user_projects(current_user).map(&:id)
+          user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
           pis = ProjectIspolnStat.where(type_id: @kontrol_point_type.id)
           pis = pis.where(project_id: user_proj)
 
@@ -253,12 +254,12 @@ module API
         # end
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
-        def desktop_budget_data
+        def desktop_budget_data(available_user_projects)
           cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           spent = BigDecimal("0")
 
-          user_proj = @project && @project != '0' ? @project : user_projects(current_user)
+          user_proj = @project && @project != '0' ? @project : available_user_projects
 
           cost_objects.each do |cost_object|
             user_proj.each do |uproj|
@@ -317,14 +318,14 @@ module API
           sql_query
         end
 
-        def desktop_riski_data
+        def desktop_riski_data(available_user_projects)
           net_riskov = 0
           neznachit = 0
           kritich = 0
           @status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low)) || @status_neznachit
           @status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical)) || @status_kritich
 
-          user_proj = @project && @project != '0' ? @project : user_projects(current_user).map(&:id)
+          user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
           @risks = ProjectRiskOnWorkPackagesStat.find_by_sql([sql_text_desktop_riski_data(), user_proj])
 
           @risks.map do |risk|
@@ -483,7 +484,7 @@ module API
           end
         end
 
-        def indicator_data(name)
+        def indicator_data(name, available_user_projects)
           max = 1
           overage = 0.8
           projects = [0]
@@ -492,7 +493,7 @@ module API
           big_otkloneniya = 0
           net_dannyh = 0
 
-          projects = user_projects(current_user).map(&:id)
+          projects = available_user_projects.map(&:id)
 
           # Project.all.each do |project|
           #   exist = which_role(project, @current_user, @global_role)
