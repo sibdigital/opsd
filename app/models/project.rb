@@ -414,7 +414,6 @@ class Project < ActiveRecord::Base
 
   def visible?(user = User.current)
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))
-    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
   end
 
   def copy_allowed?
