@@ -355,11 +355,15 @@ module API
           big_otkloneniya = 0
           net_dannyh = 0
           user_projects = Project.visible(@current_user).map {|p| p.id}
-          Raion.projects_by_id(@raionId, user_projects).each do |project|
-            exist = which_role(project, @current_user, @global_role)
-            if exist
-              projects << project.id
+          if @raionId && @raionId != '0'
+            Raion.projects_by_id(@raionId, user_projects).each do |project|
+              exist = which_role(project, @current_user, @global_role)
+              if exist
+                projects << project.id
+              end
             end
+          else
+            projects = user_projects
           end
           nat_proj = NationalProject.find_by(name: name)
           pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id in (" + projects.join(",") + ")")

@@ -77,6 +77,9 @@ export class HomescreenDiagramComponent implements OnInit {
     this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
     this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
     let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
+    if (!this.raionId) {
+      this.raionId = 0;
+    }
     this.halResourceService
       .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {raionId: this.raionId})
       .toPromise()
