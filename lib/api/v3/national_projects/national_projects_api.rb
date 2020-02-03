@@ -34,10 +34,14 @@ module API
       class NationalProjectsAPI < ::API::OpenProjectAPI
         resources :national_projects do
           get do
-            federal_projects = NationalProject.visible_federal_project(User.current)
+=begin
+            federal_projects = NationalProject.visible_federal_projects(User.current)
             @national_projects = NationalProject.visible_national_projects(User.current)
             #@national_projects = NationalProject.national_projects
             @national_projects = @national_projects + federal_projects
+=end
+
+            @national_projects = NationalProject.visible_national_federal_projects(User.current)
             Rails.logger.info('params: ' + params.to_s)
             NationalProjectCollectionRepresenter.new(@national_projects,
                                                      params,
@@ -59,6 +63,37 @@ module API
               NationalProjectRepresenter.new(@national_project, current_user: current_user)
             end
           end
+
+
+        end
+
+        resources :national_projects_problems do
+          get do
+            @national_projects = NationalProject.visible_national_projects_with_problems(User.current)
+
+            Rails.logger.info('params: ' + params.to_s)
+            NationalProjectCollectionRepresenter.new(@national_projects,
+                                                     params,
+                                                     api_v3_paths.national_projects,
+                                                     current_user: current_user,
+                                                     global_role: global_role)
+          end
+
+          params do
+            requires :id, desc: 'National Project id'
+          end
+
+          route_param :id do
+            before do
+              @national_project = NationalProject.find(params[:id])
+            end
+
+            get do
+              NationalProjectRepresenter.new(@national_project, current_user: current_user)
+            end
+          end
+
+
         end
       end
     end
