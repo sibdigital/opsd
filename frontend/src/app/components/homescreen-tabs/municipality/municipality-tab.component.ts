@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
@@ -7,6 +7,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
 
 export interface ValueOption {
   name:string;
@@ -26,6 +27,7 @@ export class MunicipalityTabComponent implements OnInit {
   public data:any[] = [];
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
+  @ViewChildren(HomescreenDiagramComponent) homescreenDiagrams:QueryList<HomescreenDiagramComponent>;
 
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
@@ -56,6 +58,11 @@ export class MunicipalityTabComponent implements OnInit {
 
   public handleUserSubmit() {
     if (this.selectedOption) {
+      this.homescreenDiagrams.forEach((diagram) => {
+        if (this.selectedOption.$href) {
+          diagram.refreshByMunicipality(Number(this.selectedOption.$href));
+        }
+      });
       this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.data = [];
       let from = new Date();

@@ -16,6 +16,7 @@ module API
           @current_user = current_user
           @global_role = global_role
           @project = params[:project]
+          @raionId = params[:raionId]
         end
 
         property :data,
@@ -353,7 +354,8 @@ module API
           small_otkloneniya = 0
           big_otkloneniya = 0
           net_dannyh = 0
-          Project.all.each do |project|
+          user_projects = Project.visible(@current_user).map {|p| p.id}
+          Raion.projects_by_id(@raionId, user_projects).each do |project|
             exist = which_role(project, @current_user, @global_role)
             if exist
               projects << project.id
