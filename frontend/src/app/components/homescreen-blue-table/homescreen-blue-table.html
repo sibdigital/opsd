@@ -33,7 +33,7 @@
     <tr>
         <td [attr.colspan]="columns.length">
             <div class="links"
-                 *ngIf="this.blueTableModule.getPages() > 1">
+                 *ngIf="this.blueTableModule.getPages() >= 1">
                 <a *ngFor="let item of [].constructor(this.blueTableModule.getPages()); let i = index"
                    [textContent]="this.blueTableModule.pagesToText(i)"
                    (click)="loadPage(i)"
