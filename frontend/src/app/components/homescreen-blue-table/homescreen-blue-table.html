@@ -2,7 +2,7 @@
 <db-angular-tree-grid
         #angularGrid
         [data]="data"
-        [configs]="configs">
+        [configs]="this.blueTableModule.getConfigs()">
 </db-angular-tree-grid>
 <table class="blueTable">
 <!--    <thead>-->

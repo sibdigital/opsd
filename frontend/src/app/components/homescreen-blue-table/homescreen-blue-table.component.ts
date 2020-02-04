@@ -26,15 +26,6 @@ export class HomescreenBlueTableComponent implements OnInit {
   public blueTableModule:BlueTableService;
   public columns:string[] = [];
   public data:any[] = [];
-  public configs:any = {
-    id_field: 'id',
-    parent_id_field: 'parentId',
-    parent_display_field: 'homescreen',
-    columns: [{
-      name: 'homescreen',
-      header: 'Загрузка...'
-    }]
-  };
   public test_data:any[] = [];
   constructor(public readonly injector:Injector,
               protected I18n:I18nService) {
@@ -46,7 +37,6 @@ export class HomescreenBlueTableComponent implements OnInit {
       this.columns = this.blueTableModule.getColumns();
       this.blueTableModule.initializeAndGetData().then((data) => {
         this.data = data;
-        this.configs = this.blueTableModule.getConfigs();
         this.expandAll();
       });
     }
