@@ -69,7 +69,7 @@ export abstract class BlueTableService {
   public getNational(el:any = null) {
     return this.getNode(el ? el.id + el.type : this.idRBProject, el ? el.parentId + 'National' || 0 : '0', el ? el.name : this.nameRBProject);
   }
-  public getProject(row:any, project_of_RB:boolean = false) {
-    return this.getNode(row.project_id + 'Project', project_of_RB ? this.idRBProject : row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National', this.getProjectPath(row));
+  public getProject(row:any, type:any) {
+    return this.getNode(row.project_id + 'Project', row.parentId + type, this.getProjectPath(row));
   }
 }

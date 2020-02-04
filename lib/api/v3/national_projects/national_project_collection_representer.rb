@@ -68,7 +68,7 @@ module API
 
         def sort_list
           represented.map do |nel|
-            if nel.type == 'National'
+            if nel.type == 'National' or nel.type == 'Default'
               @elements << element_decorator.create(nel, current_user: current_user)
               represented.map do |fel|
                 if fel.parent_id == nel.id

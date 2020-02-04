@@ -145,7 +145,6 @@ See doc/COPYRIGHT.md for more details.
                     <%= f.select :assigned_to_id,
                     options_for_select(MeetingParticipant.joins("JOIN users ON meeting_participants.user_id = users.id" )
                     .where(meeting_id: content.meeting_id, attended: true).map {|u| [u, u.user_id]}, @selected_participant_id),
-                    include_blank: true,
                     required: true,
                     container_class: '-middle' %>
                   </div>

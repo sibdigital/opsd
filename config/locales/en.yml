@@ -604,6 +604,9 @@ en:
         direct_manager: Непосредственный руководитель
         position: Должность
         #)
+        #fva(
+        name: ФИО
+        #)
       user_preference:
         comments_sorting: Показывать комментарии
         hide_mail: Скрывать мой адрес электронной почты

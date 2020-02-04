@@ -23,7 +23,7 @@ class NationalProject < ActiveRecord::Base
     name
   end
 
-  def self.visible_federal_project(current_user)
+  def self.visible_federal_projects(current_user)
     slq = <<-SQL
             select distinct np.*
             from national_projects as np
@@ -51,7 +51,24 @@ class NationalProject < ActiveRecord::Base
             on p.id = m.project_id
         where user_id = ?
       ) as mu
-       on (np.id = mu.national_project_id);
+      on (np.id = mu.national_project_id);
+    SQL
+    nps = NationalProject.find_by_sql([slq, current_user.id])
+    nps
+  end
+
+  def self.visible_national_federal_projects(current_user)
+    slq = <<~SQL
+      select distinct np.*
+      from national_projects as np
+        inner join(
+          select project_id, national_project_id, federal_project_id
+          from members as m
+                   inner join projects as p
+                              on p.id = m.project_id
+          where user_id = ?
+        ) as mu
+        on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id))
     SQL
     nps = NationalProject.find_by_sql([slq, current_user.id])
     nps
@@ -61,22 +78,31 @@ class NationalProject < ActiveRecord::Base
     slq = <<~SQL
       select distinct np.*
       from national_projects as np
-               inner join(
-          select DISTINCT national_project_id
-          from members as m
-                   inner join projects as p
-                              on p.id = m.project_id
-          where user_id = ?
+             inner join(
+        select DISTINCT project_id, national_project_id, federal_project_id
+        from members as m
+                 inner join projects as p
+                            on p.id = m.project_id
+        where user_id = ?
       ) as mu
-      on (np.id = mu.national_project_id)
-        left join v_project_risk_on_work_packages_stat as vprowps
-            on (np.id = vprowps.national_project_id and (vprowps.type = 'created_problem' or vprowps.type = 'created_risk'));
+        on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id))
+             left join v_project_risk_on_work_packages_stat as vprowps
+                       on (np.id = vprowps.national_project_id or np.id = vprowps.federal_project_id)
+      where vprowps.type = 'created_problem' or vprowps.type = 'created_risk'
     SQL
     nps = NationalProject.find_by_sql([slq, current_user.id])
     nps
   end
 
   def self.national_projects
-    NationalProject.where(type: 'National')
+    NationalProject.where(type: ['National', 'Default'])
+  end
+
+  def self.federal_projects
+    NationalProject.where(type: 'Federal')
+  end
+
+  def self.default_project
+    NationalProject.find_by(type: 'Default').id
   end
 end

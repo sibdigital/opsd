@@ -65,7 +65,7 @@ export class BlueTableProblemsService extends BlueTableService {
     return new Promise((resolve) => {
       this.national_project_titles = [];
       this.halResourceService
-        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects.toString())
+        .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.national_projects_problems.toString())
         .toPromise()
         .then((resources:CollectionResource<HalResource>) => {
           this.national_projects = resources.elements;
@@ -74,7 +74,6 @@ export class BlueTableProblemsService extends BlueTableService {
               this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
           this.getDataFromPage(0).then(data => {
             resolve(data);
           });
@@ -110,7 +109,7 @@ export class BlueTableProblemsService extends BlueTableService {
                 data.push(this.getNational(el));
                 if (data_local[el.id]) {
                   data_local[el.id].map((row:HalResource) => {
-                    data.push(this.getProject(row));
+                    data.push(this.getProject(row, el.type));
                     row.problems.map((problem:HalResource) => {
                       data.push(this.getProblem(problem));
                     });
@@ -118,17 +117,6 @@ export class BlueTableProblemsService extends BlueTableService {
                 }
               }
             });
-            if (this.national_project_titles[i].id === 0) {
-              data.push(this.getNational());
-              if (data_local[0]) {
-                data_local[0].map((row:HalResource) => {
-                  data.push(this.getProject(row, true));
-                  row.problems.map((problem:HalResource) => {
-                    data.push(this.getProblem(problem));
-                  });
-                });
-              }
-            }
             resolve(data);
           });
       } else {
@@ -159,7 +147,7 @@ export class BlueTableProblemsService extends BlueTableService {
                   data.push(this.getNational(el));
                   if (data_local[el.id]) {
                     data_local[el.id].map((row:HalResource) => {
-                      data.push(this.getProject(row));
+                      data.push(this.getProject(row, el.type));
                       row.problems.map((problem:HalResource) => {
                         data.push(this.getProblem(problem));
                       });
@@ -167,17 +155,6 @@ export class BlueTableProblemsService extends BlueTableService {
                   }
                 }
               });
-              if (project.national_id === 0) {
-                data.push(this.getNational());
-                if (data_local[0]) {
-                  data_local[0].map((row:HalResource) => {
-                    data.push(this.getProject(row, true));
-                    row.problems.map((problem:HalResource) => {
-                      data.push(this.getProblem(problem));
-                    });
-                  });
-                }
-              }
             });
             resolve(data);
           });
@@ -305,23 +282,12 @@ export class BlueTableProblemsService extends BlueTableService {
                 data_local[el.national_id].push(el);
               }
             });
-            if (this.national_project_titles[this.page].id === 0) {
-              data.push(this.getNational());
-              if (data_local[0]) {
-                data_local[0].map((row:HalResource) => {
-                  data.push(this.getProject(row, true));
-                  row.problems.map((problem:HalResource) => {
-                    data.push(this.getProblem(problem));
-                  });
-                });
-              }
-            }
             this.national_projects.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
                 data.push(this.getNational(el));
                 if (data_local[el.id]) {
                   data_local[el.id].map((row:HalResource) => {
-                    data.push(this.getProject(row));
+                    data.push(this.getProject(row, el.type));
                     row.problems.map((problem:HalResource) => {
                       data.push(this.getProblem(problem));
                     });
@@ -361,7 +327,7 @@ export class BlueTableProblemsService extends BlueTableService {
                   data.push(this.getNational(el));
                   if (data_local[el.id]) {
                     data_local[el.id].map((row:HalResource) => {
-                      data.push(this.getProject(row));
+                      data.push(this.getProject(row, el.type));
                       row.problems.map((problem:HalResource) => {
                         data.push(this.getProblem(problem));
                       });
@@ -369,17 +335,6 @@ export class BlueTableProblemsService extends BlueTableService {
                   }
                 }
               });
-              if (project.national_id === 0) {
-                data.push(this.getNational());
-                if (data_local[0]) {
-                  data_local[0].map((row:HalResource) => {
-                    data.push(this.getProject(row, true));
-                    row.problems.map((problem:HalResource) => {
-                      data.push(this.getProblem(problem));
-                    });
-                  });
-                }
-              }
             });
             resolve(data);
           });

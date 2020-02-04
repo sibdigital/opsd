@@ -14,8 +14,7 @@
   <div class="form--field-container">
     <div class="form--select-container" >
       <show-section-dropdown opt-value="selected" hide-sec-with-name="notified_projects">
-        <% @national_project_list = NationalProject.where(type: "National").map {|u| [u.name, u.id]} %>
-        <% @national_project_list.push(["Проекты Республики Бурятия", 0]) %>
+        <% @national_project_list = NationalProject.where(type: ["National", "Default"]).map {|u| [u.name, u.id]} %>
         <%= styled_select_tag 'choose_project_for_map',
                               options_for_select(@national_project_list),
                               container_class: '-wide' %>

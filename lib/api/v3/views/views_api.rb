@@ -145,7 +145,7 @@ module API
               collection = []
               if rps.count == 0
                 @projects.each do |project|
-                  unless project.zero?
+                  unless project == 0
                     p = Project.find(project)
                     hash = Hash.new
                     hash['_type'] = 'Project'

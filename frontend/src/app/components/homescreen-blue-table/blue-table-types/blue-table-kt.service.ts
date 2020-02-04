@@ -67,7 +67,6 @@ export class BlueTableKtService extends BlueTableService {
               this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
           this.getDataFromPage(0).then(data => {
             resolve(data);
           });
@@ -128,7 +127,7 @@ export class BlueTableKtService extends BlueTableService {
                   data_local[el.id].map((row:HalResource) => {
                     data.push({
                       id: row.project_id + 'Project',
-                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                      parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                       homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
                     });
                     row.work_packages.map((wp:HalResource) => {
@@ -148,35 +147,6 @@ export class BlueTableKtService extends BlueTableService {
                 }
               }
             });
-            if (this.national_project_titles[i].id === 0) {
-              data.push({
-                id: '0National',
-                parentId: '0',
-                homescreen_name: 'Проекты Республики Бурятия'
-              });
-              if (data_local[0]) {
-                data_local[0].map((row:HalResource) => {
-                  data.push({
-                    parentId: '0National',
-                    id: row.project_id + 'Project',
-                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                  });
-                  row.work_packages.map((wp:HalResource) => {
-                    data.push({
-                      id: wp.id,
-                      parentId: wp.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
-                      homescreen_assignee: wp.otvetstvenniy,
-                      homescreen_due_date: this.format(wp.due_date),
-                      homescreen_status: wp.status_name,
-                      homescreen_fact: this.format(wp.fakt_ispoln),
-                      homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
-                      row_style: this.getTrClass(wp)
-                    });
-                  });
-                });
-              }
-            }
             resolve(data);
           });
       }
@@ -212,7 +182,7 @@ export class BlueTableKtService extends BlueTableService {
                     data_local[el.id].map((row:HalResource) => {
                       data.push({
                         id: row.project_id + 'Project',
-                        parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                        parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                         homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
                       });
                       row.work_packages.map((wp:HalResource) => {
@@ -232,35 +202,6 @@ export class BlueTableKtService extends BlueTableService {
                   }
                 }
               });
-              if (project.national_id === 0) {
-                data.push({
-                  id: '0National',
-                  parentId: '0',
-                  homescreen_name: 'Проекты Республики Бурятия'
-                });
-                if (data_local[0]) {
-                  data_local[0].map((row:HalResource) => {
-                    data.push({
-                      parentId: '0National',
-                      id: row.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                    });
-                    row.work_packages.map((wp:HalResource) => {
-                      data.push({
-                        id: wp.id,
-                        parentId: wp.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
-                        homescreen_assignee: wp.otvetstvenniy,
-                        homescreen_due_date: this.format(wp.due_date),
-                        homescreen_status: wp.status_name,
-                        homescreen_fact: this.format(wp.fakt_ispoln),
-                        homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
-                        row_style: this.getTrClass(wp)
-                      });
-                    });
-                  });
-                }
-              }
             });
             resolve(data);
           });
@@ -383,35 +324,6 @@ export class BlueTableKtService extends BlueTableService {
                 data_local[el.national_id].push(el);
               }
             });
-            if (this.national_project_titles[this.page].id === 0) {
-              data.push({
-                id: '0National',
-                parentId: '0',
-                homescreen_name: 'Проекты Республики Бурятия'
-              });
-              if (data_local[0]) {
-                data_local[0].map((row:HalResource) => {
-                  data.push({
-                    parentId: '0National',
-                    id: row.project_id + 'Project',
-                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                  });
-                  row.work_packages.map((wp:HalResource) => {
-                    data.push({
-                      id: wp.id,
-                      parentId: wp.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
-                      homescreen_assignee: wp.otvetstvenniy,
-                      homescreen_due_date: this.format(wp.due_date),
-                      homescreen_status: wp.status_name,
-                      homescreen_fact: this.format(wp.fakt_ispoln),
-                      homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
-                      row_style: this.getTrClass(wp)
-                    });
-                  });
-                });
-              }
-            }
             this.national_projects.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
                 data.push({
@@ -423,7 +335,7 @@ export class BlueTableKtService extends BlueTableService {
                   data_local[el.id].map((row:HalResource) => {
                     data.push({
                       id: row.project_id + 'Project',
-                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                      parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                       homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
                     });
                     row.work_packages.map((wp:HalResource) => {
@@ -484,7 +396,7 @@ export class BlueTableKtService extends BlueTableService {
                     data_local[el.id].map((row:HalResource) => {
                       data.push({
                         id: row.project_id + 'Project',
-                        parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                        parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                         homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
                       });
                       row.work_packages.map((wp:HalResource) => {
@@ -504,35 +416,6 @@ export class BlueTableKtService extends BlueTableService {
                   }
                 }
               });
-              if (project.national_id === 0) {
-                data.push({
-                  id: '0National',
-                  parentId: '0',
-                  homescreen_name: 'Проекты Республики Бурятия'
-                });
-                if (data_local[0]) {
-                  data_local[0].map((row:HalResource) => {
-                    data.push({
-                      parentId: '0National',
-                      id: row.project_id + 'Project',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                    });
-                    row.work_packages.map((wp:HalResource) => {
-                      data.push({
-                        id: wp.id,
-                        parentId: wp.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
-                        homescreen_assignee: wp.otvetstvenniy,
-                        homescreen_due_date: this.format(wp.due_date),
-                        homescreen_status: wp.status_name,
-                        homescreen_fact: this.format(wp.fakt_ispoln),
-                        homescreen_risks: '<a href="' + this.getBasePath() + '/vkladka1/problems?id=' + wp.project_id + '">' + wp.created_problem_count + '</a>',
-                        row_style: this.getTrClass(wp)
-                      });
-                    });
-                  });
-                }
-              }
             });
             resolve(data);
           });

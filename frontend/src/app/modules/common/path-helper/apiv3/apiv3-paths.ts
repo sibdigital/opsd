@@ -29,10 +29,7 @@
 import {ApiV3WorkPackagesPaths} from 'core-app/modules/common/path-helper/apiv3/work_packages/apiv3-work-packages-paths';
 import {Apiv3UsersPaths} from 'core-app/modules/common/path-helper/apiv3/users/apiv3-users-paths';
 import {Apiv3ProjectsPaths} from 'core-app/modules/common/path-helper/apiv3/projects/apiv3-projects-paths';
-import {
-  SimpleResource,
-  SimpleResourceCollection
-} from 'core-app/modules/common/path-helper/apiv3/path-resources';
+import {SimpleResource, SimpleResourceCollection} from 'core-app/modules/common/path-helper/apiv3/path-resources';
 import {Apiv3QueriesPaths} from 'core-app/modules/common/path-helper/apiv3/queries/apiv3-queries-paths';
 import {Apiv3ProjectPaths} from 'core-app/modules/common/path-helper/apiv3/projects/apiv3-project-paths';
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
@@ -70,6 +67,8 @@ export class ApiV3Paths {
   public readonly work_packages_by_role = new SimpleResourceCollection(this.apiV3Base, 'work_packages_by_role');
 
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
+
+  public readonly national_projects_problems = new SimpleResource(this.apiV3Base, 'national_projects_problems');
 
   public readonly risk_problem_stat_view = new SimpleResourceCollection(this.apiV3Base, 'views/risk_problem_stat_view');
 

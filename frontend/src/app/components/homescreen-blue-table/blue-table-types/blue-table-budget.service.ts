@@ -65,57 +65,32 @@ export class BlueTableBudgetService extends BlueTableService {
   public getDataFromPage(i:number):Promise<any[]> {
     return new Promise((resolve) => {
       let data:any[] = [];
-      if (this.national_project_titles[i].id === 0) {
-        data.push({
-          id: '0National',
-          parentId: '0',
-          homescreen_name: 'Проекты Республики Бурятия'
-        });
-        if (this.data_local[0]) {
-          this.data_local[0].map((project:ProjectResource) => {
-            data.push({
-              id: project.project.project_id,
-              parentId: '0National',
-              homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.project.identifier + '/cost_objects">' + project.project.name + '</a>',
-              homescreen_curator: project.curator && project.curator.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>' : 'Не назначен',
-              homescreen_RP: project.rukovoditel && project.rukovoditel.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.rukovoditel.id + '">' + project.rukovoditel.fio + '</a>' : 'Не назначен',
-              homescreen_due_date: this.format(project.project.due_date),
-              homescreen_done: project.spent,
-              homescreen_risks: '',
-              homescreen_left: project.ostatok,
-              homescreen_problems: '',
-              homescreen_cost: [Number(project.progress * 100).toFixed(1).toString()]
-            });
+      this.national_projects.map((el:HalResource) => {
+        if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
+          data.push({
+            id: el.id + el.type,
+            parentId: el.parentId + 'National' || 0,
+            homescreen_name: el.name
           });
-        }
-      } else {
-        this.national_projects.map((el:HalResource) => {
-          if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-            data.push({
-              id: el.id + el.type,
-              parentId: el.parentId + 'National' || 0,
-              homescreen_name: el.name
-            });
-            if (this.data_local[el.id]) {
-              this.data_local[el.id].map((project:ProjectResource) => {
-                data.push({
-                  id: project.project.id,
-                  parentId: project.project.federal_project_id ? project.project.federal_project_id + 'Federal' : project.project.national_project_id + 'National',
-                  homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.project.identifier + '/cost_objects">' + project.project.name + '</a>',
-                  homescreen_curator: project.curator && project.curator.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>' : 'Не назначен',
-                  homescreen_RP: project.rukovoditel && project.rukovoditel.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.rukovoditel.id + '">' + project.rukovoditel.fio + '</a>' : 'Не назначен',
-                  homescreen_due_date: this.format(project.project.due_date),
-                  homescreen_done: project.spent,
-                  homescreen_risks: '',
-                  homescreen_left: project.ostatok,
-                  homescreen_problems: '',
-                  homescreen_cost: [Number(project.progress * 100).toFixed(1).toString()]
-                });
+          if (this.data_local[el.id]) {
+            this.data_local[el.id].map((project:ProjectResource) => {
+              data.push({
+                id: project.project.id,
+                parentId: !project.project.federal_project_id ? project.project.national_project_id + el.type : project.project.federal_project_id + 'Federal',
+                homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + project.project.identifier + '/cost_objects">' + project.project.name + '</a>',
+                homescreen_curator: project.curator && project.curator.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>' : 'Не назначен',
+                homescreen_RP: project.rukovoditel && project.rukovoditel.length !== 0 ? '<a href="' + super.getBasePath() + '/users/' + project.curator.id + '">' + project.curator.fio + '</a>' : '',
+                homescreen_due_date: this.format(project.project.due_date),
+                homescreen_done: project.spent,
+                homescreen_risks: '',
+                homescreen_left: project.ostatok,
+                homescreen_problems: '',
+                homescreen_cost: [Number(project.progress * 100).toFixed(1).toString()]
               });
-            }
+            });
           }
-        });
-      }
+        }
+      });
       resolve(data);
     });
   }
@@ -136,7 +111,6 @@ export class BlueTableBudgetService extends BlueTableService {
               this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
           this.halResourceService
             .get<HalResource>(this.pathHelper.api.v3.summary_budgets_users.toString())
             .toPromise()

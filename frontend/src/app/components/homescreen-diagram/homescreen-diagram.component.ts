@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, Input} from '@angular/core';
 import {ChartOptions, ChartType, ChartDataSets} from 'chart.js';
 import {Label, BaseChartDirective} from 'ng2-charts';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
@@ -15,6 +15,8 @@ export const homescreenDiagramSelector = 'homescreen-diagram';
   templateUrl: './homescreen-diagram.html'
 })
 export class HomescreenDiagramComponent implements OnInit {
+  @Input('raionId') public raionId:number;
+
   public barChartOptions:ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -75,8 +77,11 @@ export class HomescreenDiagramComponent implements OnInit {
     this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
     this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
     let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
+    if (!this.raionId) {
+      this.raionId = 0;
+    }
     this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName)
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {raionId: this.raionId})
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         if (resource.label === 'visible') {
@@ -98,6 +103,26 @@ export class HomescreenDiagramComponent implements OnInit {
     let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
     this.halResourceService
       .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {project: project})
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.barChartData[0].data = resource.data;
+        this.barChartData[0].label = resource.label;
+        if (resource.label === 'visible') {
+          this.element.nativeElement.parentElement.removeAttribute('style');
+          this.element.nativeElement.parentElement.style.visibility = 'visible';
+          this.element.nativeElement.parentElement.style.width = '350px';
+        }
+        if (resource.label === 'hidden') {
+          this.element.nativeElement.parentElement.removeAttribute('style');
+          this.element.nativeElement.parentElement.style.display = 'none';
+        }
+      });
+  }
+
+  public refreshByMunicipality(raionId:number) {
+    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
+    this.halResourceService
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {raionId: raionId})
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.barChartData[0].data = resource.data;

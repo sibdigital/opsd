@@ -55,8 +55,6 @@ export class BlueTableProtocolService extends BlueTableService {
               this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
-
           this.halResourceService
             .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.protocols.toString())
             .toPromise()
@@ -89,56 +87,35 @@ export class BlueTableProtocolService extends BlueTableService {
   public getDataFromPage(i:number):Promise<any[]> {
     return new Promise((resolve) => {
       let data:any[] = [];
-      if (this.national_project_titles[i].id === 0) {
-        data.push({
-          id: '0National',
-          parentId: '0',
-          homescreen_name: 'Проекты Республики Бурятия'
-        });
-        if (this.data_local[0]) {
-          this.data_local[0].map((project:ProjectResource) => {
-            data.push({
-              id: project.id + 'Protocol',
-              parentId: '0National',
-              homescreen_name: '<a href="' + super.getBasePath() + '/meetings/' + project.meetingId + '/minutes">Поручение: ' + project.name + '</a>',
-              homescreen_curator: project.user ? '<a href="' + super.getBasePath() + '/users/' + project.user.id + '">' + project.user.lastname + ' ' + project.user.firstname.slice(0, 1) + '.' + project.user.patronymic ? project.user.patronymic.slice(0, 1) + '.' : '' + '</a>' : '',
-              homescreen_due_date: this.format(project.dueDate),
-              homescreen_progress: project.completed ? 'Исполнено' : 'В работе',
-              row_style: this.getTrClass(project)
-            });
+      this.national_projects.map((el:HalResource) => {
+        if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
+          data.push({
+            id: el.id + el.type,
+            parentId: el.parentId + 'National' || 0,
+            homescreen_name: el.name
           });
-        }
-      } else {
-        this.national_projects.map((el:HalResource) => {
-          if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-            data.push({
-              id: el.id + el.type,
-              parentId: el.parentId + 'National' || 0,
-              homescreen_name: el.name
-            });
-            if (this.data_local[el.id]) {
-              this.data_local[el.id].map((project:ProjectResource) => {
-                let fio = '';
-                if (project.user) {
-                  fio = project.user.lastname + ' ' + project.user.firstname.slice(0, 1) + '.';
-                  if (project.user.patronymic) {
-                    fio += project.user.patronymic.slice(0, 1) + '.';
-                  }
+          if (this.data_local[el.id]) {
+            this.data_local[el.id].map((project:ProjectResource) => {
+              let fio = '';
+              if (project.user) {
+                fio = project.user.lastname + ' ' + project.user.firstname.slice(0, 1) + '.';
+                if (project.user.patronymic) {
+                  fio += project.user.patronymic.slice(0, 1) + '.';
                 }
-                data.push({
-                  id: project.id + 'Protocol',
-                  parentId: project.project.federal_project_id ? project.project.federal_project_id + 'Federal' : project.project.national_project_id + 'National',
-                  homescreen_name: '<a href="' + super.getBasePath() + '/meetings/' + project.meetingId + '/minutes">Поручение: ' + project.name + '</a>',
-                  homescreen_curator: project.user ? '<a href="' + super.getBasePath() + '/users/' + project.user.id + '">' + fio + '</a>' : 'Не указан',
-                  homescreen_due_date: this.format(project.dueDate),
-                  homescreen_progress: project.completed ? 'Исполнено' : 'В работе',
-                  row_style: this.getTrClass(project)
-                });
+              }
+              data.push({
+                id: project.id + 'Protocol',
+                parentId: !project.project.federal_project_id ? project.project.national_project_id + el.type : project.project.federal_project_id + 'Federal',
+                homescreen_name: '<a href="' + super.getBasePath() + '/meetings/' + project.meetingId + '/minutes">Поручение: ' + project.name + '</a>',
+                homescreen_curator: project.user ? '<a href="' + super.getBasePath() + '/users/' + project.user.id + '">' + fio + '</a>' : 'Не указан',
+                homescreen_due_date: this.format(project.dueDate),
+                homescreen_progress: project.completed ? 'Исполнено' : 'В работе',
+                row_style: this.getTrClass(project)
               });
-            }
+            });
           }
-        });
-      }
+        }
+      });
       resolve(data);
     });
   }

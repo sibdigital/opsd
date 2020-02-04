@@ -16,6 +16,7 @@ module API
           @current_user = current_user
           @global_role = global_role
           @project = params[:project]
+          @raionId = params[:raionId]
         end
 
         property :data,
@@ -383,11 +384,16 @@ module API
           big_otkloneniya = 0
           net_dannyh = 0
           nat_proj = NationalProject.find_by(name: name)
+          # user_projects = Project.visible(@current_user).map {|p| p.id}
           Project.all.each do |project|
             exist = which_role(project, @current_user, @global_role)
             if exist and project.national_project == nat_proj
               projects << project.id
             end
+          end
+          if @raionId && @raionId != '0'
+            projects = Raion.projects_by_id(@raionId, projects).map {|p| p.id}
+            projects = projects.empty? ? [0] : projects
           end
 
           targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
