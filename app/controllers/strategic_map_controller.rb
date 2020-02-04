@@ -9,9 +9,10 @@ class StrategicMapController < ApplicationController
     regionals = Array.new
     first_lvl = Array.new
     federals = Array.new
-    if params["national_id"]=="0"
-      list = [["Проекты Республики Бурятия",nil,"0National","National"]]
-      regionals = regionals + Project.visible.where(federal_project_id: nil, national_project_id: nil).map { |p| [p.name, "0National", p.id, "Regional"] }
+    prb  = NationalProject.find_by(type: 'Default')
+    if params["national_id"]==prb.id.to_s
+      list = [[prb.name,nil,"0National","National"]]
+      regionals = regionals + Project.visible.where(federal_project_id: nil, national_project_id: prb.id).map { |p| [p.name, "0National", p.id, "Regional"] }
     else
       list = NationalProject.where(id: params["national_id"]).map { |n| [n.name, n.parent_id, n.id.to_s+n.type, n.type] }
       federals = NationalProject.where(parent_id: params["national_id"]).map { |f| [f.name, f.parent_id.to_s+"National", f.id.to_s+f.type, f.type] }
@@ -20,7 +21,8 @@ class StrategicMapController < ApplicationController
       federals.each do |federal|
         regionals = regionals + Project.visible.where(federal_project_id: federal[2]).map { |p| [p.name, p.federal_project_id.to_s+"Federal", p.id, "Regional"] }
       end
-      federals = federals + [["Проекты Республики Бурятия", params["national_id"]+"National", "0Federal", "Federal" ]]
+      prb  = NationalProject.find_by(type: 'Default')
+      federals = federals + [[prb.name, params["national_id"]+"National", "0Federal", "Federal" ]]
     end
     regionals.each do |regional|
       WorkPackage.where(project_id: regional[2]).each do |wp|

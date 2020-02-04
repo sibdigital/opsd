@@ -41,7 +41,7 @@ See docs/COPYRIGHT.rdoc for more details.
                                    else project.get_project_approve_status.id end
   %>
   <%
-    @selected_national_project = project.national_project_id
+    @selected_national_project = project.national_project_id.present? ? project.national_project_id : NationalProject.default_project
     @selected_federal_project = project.federal_project_id
     @address = project.address_id.present? ? Address.find(project.address_id).address : nil
   %>

@@ -49,7 +49,6 @@ export class BlueTableDiscussService extends BlueTableService {
               this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
           this.getDataFromPage(0).then(data => {
             resolve(data);
           });

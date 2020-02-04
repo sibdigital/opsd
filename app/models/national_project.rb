@@ -95,6 +95,14 @@ class NationalProject < ActiveRecord::Base
   end
 
   def self.national_projects
-    NationalProject.where(type: 'National')
+    NationalProject.where(type: ['National', 'Default'])
+  end
+
+  def self.federal_projects
+    NationalProject.where(type: 'Federal')
+  end
+
+  def self.default_project
+    NationalProject.find_by(type: 'Default').id
   end
 end

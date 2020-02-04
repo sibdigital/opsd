@@ -49,6 +49,7 @@ export class BlueTableKpiService extends BlueTableService {
       let data_local:any = {};
       if (!this.project || this.project === '0') {
         let params:any = {national: this.national_project_titles[this.page].id};
+        console.log('getDataFromPage: ' + this.project + ' ' + this.national_project_titles[this.page].id);
         this.halResourceService
           .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.quartered_work_package_targets_with_quarter_groups_view.toString(), params)
           .toPromise()
@@ -73,7 +74,7 @@ export class BlueTableKpiService extends BlueTableService {
                   data_local[el.id].map((row:HalResource) => {
                     data.push({
                       id: row.project_id + 'Project',
-                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National' || 0,
+                      parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                       homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
                       homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
                       homescreen_directtor: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
@@ -102,44 +103,6 @@ export class BlueTableKpiService extends BlueTableService {
                 }
               }
             });
-            if (this.national_project_titles[i].id === 0) {
-              data.push({
-                id: '0National',
-                parentId: '0',
-                homescreen_name: 'Проекты Республики Бурятия'
-              });
-              if (data_local[0]) {
-                data_local[0].map((row:HalResource) => {
-                  data.push({
-                    id: row.project_id + 'Project',
-                    parentId: '0National',
-                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
-                    homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
-                    homescreen_director: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
-                    homescreen_plan: '',
-                    homescreen_fact: ''
-                  });
-                  row.targets.map((target:HalResource) => {
-                    data.push({
-                      id: target.target_id + 'Target',
-                      parentId: row.project_id + 'Project',
-                      homescreen_name: target.name
-                    });
-                    target.work_packages.map((wp:HalResource) => {
-                      data.push({
-                        id: wp.work_package_id,
-                        parentId: target.target_id + 'Target',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
-                        homescreen_curator: '',
-                        homescreen_director: '<a href="' + super.getBasePath() + '/users/' + wp.assignee_id + '">' + wp.assignee + '</a>',
-                        homescreen_plan: wp.plan,
-                        homescreen_fact: wp.fact
-                      });
-                    });
-                  });
-                });
-              }
-            }
             resolve(data);
           });
       } else {
@@ -168,7 +131,7 @@ export class BlueTableKpiService extends BlueTableService {
                     data_local[el.id].map((row:HalResource) => {
                       data.push({
                         id: row.project_id + 'Project',
-                        parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
+                        parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                         homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
                         homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
                         homescreen_director: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
@@ -190,37 +153,6 @@ export class BlueTableKpiService extends BlueTableService {
                   }
                 }
               });
-              if (project.national_id === 0) {
-                data.push({
-                  id: '0National',
-                  parentId: '0',
-                  homescreen_name: 'Проекты Республики Бурятия'
-                });
-                if (data_local[0]) {
-                  data_local[0].map((row:HalResource) => {
-                    data.push({
-                      id: row.project_id + 'Project',
-                      parentId: '0National',
-                      homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
-                      homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
-                      homescreen_director: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
-                      homescreen_plan: '',
-                      homescreen_fact: ''
-                    });
-                    row.problems.map((problem:HalResource) => {
-                      data.push({
-                        id: problem.work_package_id,
-                        parentId: problem.id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/activity?plan_type=execution">' + problem.subject + '</a>',
-                        homescreen_curator: '',
-                        homescreen_director: '<a href="' + super.getBasePath() + '/users/' + problem.assignee_id + '">' + problem.assignee + '</a>',
-                        homescreen_plan: problem.plan,
-                        homescreen_fact: problem.fact
-                      });
-                    });
-                  });
-                }
-              }
             });
             resolve(data);
           });
@@ -251,44 +183,6 @@ export class BlueTableKpiService extends BlueTableService {
                 data_local[el.national_id].push(el);
               }
             });
-            if (this.national_project_titles[this.page].id === 0) {
-              data.push({
-                id: '0National',
-                parentId: '0',
-                homescreen_name: 'Проекты Республики Бурятия'
-              });
-              if (data_local[0]) {
-                data_local[0].map((row:HalResource) => {
-                  data.push({
-                    id: row.project_id + 'Project',
-                    parentId: '0National',
-                    homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
-                    homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
-                    homescreen_director: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
-                    homescreen_plan: '',
-                    homescreen_fact: ''
-                  });
-                  row.targets.map((target:HalResource) => {
-                    data.push({
-                      id: target.target_id + 'Target',
-                      parentId: row.project_id + 'Project',
-                      homescreen_name: target.name
-                    });
-                    target.work_packages.map((wp:HalResource) => {
-                      data.push({
-                        id: wp.work_package_id,
-                        parentId: target.target_id + 'Target',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
-                        homescreen_curator: '',
-                        homescreen_director: '<a href="' + super.getBasePath() + '/users/' + wp.assignee_id + '">' + wp.assignee + '</a>',
-                        homescreen_plan: wp.plan,
-                        homescreen_fact: wp.fact
-                      });
-                    });
-                  });
-                });
-              }
-            }
             this.national_projects.map((el:HalResource) => {
               if ((el.id === this.national_project_titles[this.page].id) || (el.parentId && el.parentId === this.national_project_titles[this.page].id)) {
                 data.push({
@@ -300,7 +194,7 @@ export class BlueTableKpiService extends BlueTableService {
                   data_local[el.id].map((row:HalResource) => {
                     data.push({
                       id: row.project_id + 'Project',
-                      parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National' || 0,
+                      parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                       homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
                       homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
                       homescreen_directtor: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
@@ -364,7 +258,7 @@ export class BlueTableKpiService extends BlueTableService {
                       data_local[el.id].map((row:HalResource) => {
                         data.push({
                           id: row.project_id + 'Project',
-                          parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National' || 0,
+                          parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
                           homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
                           homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
                           homescreen_directtor: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
@@ -393,44 +287,6 @@ export class BlueTableKpiService extends BlueTableService {
                     }
                   }
                 });
-                if (project.national_id === 0) {
-                  data.push({
-                    id: '0National',
-                    parentId: '0',
-                    homescreen_name: 'Проекты Республики Бурятия'
-                  });
-                  if (data_local[0]) {
-                    data_local[0].map((row:HalResource) => {
-                      data.push({
-                        id: row.project_id + 'Project',
-                        parentId: '0National',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>',
-                        homescreen_curator: '<a href="' + super.getBasePath() + '/users/' + row.curator_id + '">' + row.curator + '</a>',
-                        homescreen_director: '<a href="' + super.getBasePath() + '/users/' + row.rukovoditel_id + '">' + row.rukovoditel + '</a>',
-                        homescreen_plan: '',
-                        homescreen_fact: ''
-                      });
-                      row.targets.map((target:HalResource) => {
-                        data.push({
-                          id: target.target_id + 'Target',
-                          parentId: row.project_id + 'Project',
-                          homescreen_name: target.name
-                        });
-                        target.work_packages.map((wp:HalResource) => {
-                          data.push({
-                            id: wp.work_package_id,
-                            parentId: target.target_id + 'Target',
-                            homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
-                            homescreen_curator: '',
-                            homescreen_director: '<a href="' + super.getBasePath() + '/users/' + wp.assignee_id + '">' + wp.assignee + '</a>',
-                            homescreen_plan: wp.plan,
-                            homescreen_fact: wp.fact
-                          });
-                        });
-                      });
-                    });
-                  }
-                }
               });
               resolve(data);
             });
@@ -468,7 +324,6 @@ export class BlueTableKpiService extends BlueTableService {
               this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
           this.getDataFromPage(0).then(data => {
             resolve(data);
           });

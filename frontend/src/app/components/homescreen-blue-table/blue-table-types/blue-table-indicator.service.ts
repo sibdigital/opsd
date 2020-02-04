@@ -90,81 +90,44 @@ export class BlueTableIndicatorService extends BlueTableService {
   public getDataFromPage(i:number):Promise<any[]> {
     return new Promise((resolve) => {
       let data:any[] = [];
-      if (this.national_project_titles[i].id === 0) {
-        data.push({
-          id: '0National',
-          parentId: '0',
-          homescreen_name: 'Проекты Республики Бурятия'
-        });
-        if (this.data_local[0]) {
-          this.data_local[0].map((row:HalResource) => {
-            data.push({_type: row._type, name: row.name, identifier: row.identifier});
-            data.push({
-              parentId: '0National',
-              id: row.project_id + 'Project',
-              homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-            });
-            row.targets.map((target:HalResource) => {
-              let fact:number = target.fact_year_value;
-              let goal:number = target.target_year_value;
-              data.push({
-                parentId: row.project_id + 'Project',
-                id: target.target_id,
-                homescreen_name: target.name,
-                homescreen_assignee: target.otvetstvenniy ? '<a href="' + super.getBasePath() + '/users/' + target.otvetstvenniy_id + '">' + target.otvetstvenniy + '</a>' : '',
-                homescreen_plan_I: target.target_quarter1_value,
-                homescreen_plan_II: target.target_quarter2_value,
-                homescreen_plan_III: target.target_quarter3_value,
-                homescreen_plan_IIII: target.target_quarter4_value,
-                homescreen_fact_I: target.fact_quarter1_value,
-                homescreen_fact_II: target.fact_quarter2_value,
-                homescreen_fact_III: target.fact_quarter3_value,
-                homescreen_fact_IIII: target.fact_quarter4_value,
-                homescreen_progress: [goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed(1).toString()]
-              });
-            });
+      this.national_projects.map((el:HalResource) => {
+        if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
+          data.push({
+            id: el.id + el.type,
+            parentId: el.parentId + 'National' || 0,
+            homescreen_name: el.name
           });
-        }
-      } else {
-        this.national_projects.map((el:HalResource) => {
-          if ((el.id === this.national_project_titles[i].id) || (el.parentId && el.parentId === this.national_project_titles[i].id)) {
-            data.push({
-              id: el.id + el.type,
-              parentId: el.parentId + 'National' || 0,
-              homescreen_name: el.name
-            });
-            if (this.data_local[el.id]) {
-              this.data_local[el.id].map((row:HalResource) => {
-                data.push({_type: row._type, name: row.name, identifier: row.identifier});
+          if (this.data_local[el.id]) {
+            this.data_local[el.id].map((row:HalResource) => {
+              data.push({_type: row._type, name: row.name, identifier: row.identifier});
+              data.push({
+                id: row.project_id + 'Project',
+                parentId: !row.federal_id ? row.parentId + el.type : row.parentId + 'Federal',
+                homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
+              });
+              row.targets.map((target:HalResource) => {
+                let fact:number = target.fact_year_value;
+                let goal:number = target.target_year_value;
                 data.push({
-                  id: row.project_id + 'Project',
-                  parentId: row.federal_id ? row.parentId + 'Federal' : row.parentId + 'National',
-                  homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
-                });
-                row.targets.map((target:HalResource) => {
-                  let fact:number = target.fact_year_value;
-                  let goal:number = target.target_year_value;
-                  data.push({
-                    parentId: row.project_id + 'Project',
-                    id: target.target_id,
-                    homescreen_name: target.name,
-                    homescreen_assignee: target.otvetstvenniy ? '<a href="' + super.getBasePath() + '/users/' + target.otvetstvenniy_id + '">' + target.otvetstvenniy + '</a>' : '',
-                    homescreen_plan_I: target.target_quarter1_value,
-                    homescreen_plan_II: target.target_quarter2_value,
-                    homescreen_plan_III: target.target_quarter3_value,
-                    homescreen_plan_IIII: target.target_quarter4_value,
-                    homescreen_fact_I: target.fact_quarter1_value,
-                    homescreen_fact_II: target.fact_quarter2_value,
-                    homescreen_fact_III: target.fact_quarter3_value,
-                    homescreen_fact_IIII: target.fact_quarter4_value,
-                    homescreen_progress: [goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed(1).toString()]
-                  });
+                  parentId: row.project_id + 'Project',
+                  id: target.target_id,
+                  homescreen_name: target.name,
+                  homescreen_assignee: target.otvetstvenniy ? '<a href="' + super.getBasePath() + '/users/' + target.otvetstvenniy_id + '">' + target.otvetstvenniy + '</a>' : '',
+                  homescreen_plan_I: target.target_quarter1_value,
+                  homescreen_plan_II: target.target_quarter2_value,
+                  homescreen_plan_III: target.target_quarter3_value,
+                  homescreen_plan_IIII: target.target_quarter4_value,
+                  homescreen_fact_I: target.fact_quarter1_value,
+                  homescreen_fact_II: target.fact_quarter2_value,
+                  homescreen_fact_III: target.fact_quarter3_value,
+                  homescreen_fact_IIII: target.fact_quarter4_value,
+                  homescreen_progress: [goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed(1).toString()]
                 });
               });
-            }
+            });
           }
-        });
-      }
+        }
+      });
       resolve(data);
     });
   }
@@ -186,7 +149,6 @@ export class BlueTableIndicatorService extends BlueTableService {
               this.national_project_titles.push({id: el.id, name: el.name});
             }
           });
-          this.national_project_titles.push({id: 0, name: 'Проекты Республики Бурятия'});
           this.halResourceService
             .get<HalResource>(this.pathHelper.api.v3.plan_fact_quarterly_target_values_view.toString())
             .toPromise()

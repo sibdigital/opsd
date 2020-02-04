@@ -96,14 +96,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="form--field">
   <%= form.select :national_project_id,
-               options_for_select(project.get_national_projects.map {|u| [u.name, u.id]}, @selected_national_project),
-               include_blank: true,
+               options_for_select(NationalProject.national_projects.map {|u| [u.name, u.id]}, @selected_national_project),
+               include_blank: false,
                container_class: '-slim' %>
 </div>
 
 <div class="form--field">
   <%= form.select :federal_project_id,
-                  children_options_for_select(project.get_federal_projects.map {|u| [u.name, u.parent_id, u.id]}, @selected_federal_project),
+                  children_options_for_select(NationalProject.federal_projects.map {|u| [u.name, u.parent_id, u.id]}, @selected_federal_project),
                include_blank: true,
                container_class: '-slim' %>
 </div>
