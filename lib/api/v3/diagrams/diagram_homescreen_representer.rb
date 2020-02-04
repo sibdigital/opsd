@@ -137,14 +137,17 @@ module API
           #   where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
           #   group by yearly.project_id, yearly.target_id
           # SQL
-          projects = @project && @project != '0' ? @project : []
-          # @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
-          Project.all.each do |project|
-            exist = which_role(project, @current_user, @global_role)
-            if exist
-              projects << project.id
+          if @project && @project != '0'
+            projects << @project
+          else
+            Project.all.each do |project|
+              exist = which_role(project, @current_user, @global_role)
+              if exist
+                projects << project.id
+              end
             end
           end
+          # @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
           targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
           targets.each do |t|
             wpts = WorkPackageTarget.where(target_id: t.id)
