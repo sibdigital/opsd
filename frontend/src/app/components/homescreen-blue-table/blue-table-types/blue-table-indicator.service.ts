@@ -121,7 +121,7 @@ export class BlueTableIndicatorService extends BlueTableService {
                   homescreen_fact_II: target.fact_quarter2_value,
                   homescreen_fact_III: target.fact_quarter3_value,
                   homescreen_fact_IIII: target.fact_quarter4_value,
-                  homescreen_progress: [goal === 0 || fact === 0 ? '0' : (100 * fact / goal).toFixed(1).toString()]
+                  homescreen_progress: [!goal || !fact ? '0' : (100 * fact / goal).toFixed(1).toString()]
                 });
               });
             });
