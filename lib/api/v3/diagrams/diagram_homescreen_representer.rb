@@ -117,40 +117,69 @@ module API
         # bbm(
         # Функция заполнения значений долей диаграммы Показатели на рабочем столе
         def desktop_pokazateli_data
-          ispolneno = 0 # Порядок важен
-          ne_ispolneno = 0
-          v_rabote = 0
+          max = 1
+          average = 0.9
+          net_otkloneniy = 0
+          small_otkloneniya = 0
+          big_otkloneniya = 0
+          net_dannyh = 0
+          projects = []
           #+-tan 2019.10.16
           # проведен рефакторинг фильтрация проектов по видимости пользователю проводится непосредственно в запросе
           # это рациональнее и позволяет избежать ошибок связанных с проверкой видимости шаблонов
-          sql_query = <<-SQL
-            select yearly.project_id, yearly.target_id, 
-            sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
-            from v_plan_fact_quarterly_target_values as quarterly
-            left join v_plan_fact_yearly_target_values as yearly
-            on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
-            where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
-            group by yearly.project_id, yearly.target_id
-          SQL
-          arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
-          @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
-          @plan_facts.map do |plan|
-            project = plan.project
+          # sql_query = <<-SQL
+          #   select yearly.project_id, yearly.target_id,
+          #   sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
+          #   from v_plan_fact_quarterly_target_values as quarterly
+          #   left join v_plan_fact_yearly_target_values as yearly
+          #   on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
+          #   where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
+          #   group by yearly.project_id, yearly.target_id
+          # SQL
+          projects = @project && @project != '0' ? @project : []
+          # @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
+          Project.all.each do |project|
             exist = which_role(project, @current_user, @global_role)
             if exist
-              chislitel = plan.final_fact_year_value || 0
-              znamenatel = plan.target_plan_year_value || 0
-              procent = znamenatel == 0 ? 0 : (chislitel / znamenatel * 100)
-              ne_ispolneno += 1 if procent == 0
-              v_rabote += 1 if procent < 100 and procent > 0
-              ispolneno += 1 if procent == 100
+              projects << project.id
             end
           end
-          result = []
-          # Порядок важен
-          result << ispolneno
-          result << ne_ispolneno
-          result << v_rabote
+          targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
+          targets.each do |t|
+            wpts = WorkPackageTarget.where(target_id: t.id)
+            tevs = TargetExecutionValue.where(target_id: t.id)
+            tev = tevs.where("value NOTNULL and ((year = date_part('year', CURRENT_DATE)
+                            and quarter >= date_part('quarter', CURRENT_DATE))
+                            or year > date_part('year', CURRENT_DATE))")
+                    .order(:year, :quarter).first
+            if wpts.count != 0 and !tev.nil?
+              check = 0
+              wpts.select(:work_package_id).distinct.each do |w|
+                wpt = wpts.where("work_package_id = #{w.work_package_id} and value NOTNULL and ((year = date_part('year', CURRENT_DATE)
+                            and quarter <= date_part('quarter', CURRENT_DATE)
+                            and month <= date_part('month', CURRENT_DATE)) or year < date_part('year', CURRENT_DATE))")
+                        .order(:year, :quarter, :month).last
+                if !wpt.nil? and wpt.value >= tev.value and check.zero?
+                  check = 0
+                elsif !wpt.nil? and (wpt.value / tev.value) >= average
+                  check = 1
+                else
+                  check = -1
+                  break
+                end
+              end
+              if check.zero?
+                net_otkloneniy += 1
+              elsif check == 1
+                small_otkloneniya += 1
+              else
+                big_otkloneniya += 1
+              end
+            else
+              net_dannyh += 1
+            end
+          end
+          result = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]
         end
 
         # Функция заполнения значений долей диаграммы KT на рабочем столе
@@ -347,107 +376,53 @@ module API
 
         def indicator_data(name)
           max = 1
-          overage = 0.8
+          average = 0.9
           projects = [0]
           net_otkloneniy = 0
           small_otkloneniya = 0
           big_otkloneniya = 0
           net_dannyh = 0
+          nat_proj = NationalProject.find_by(name: name)
           Project.all.each do |project|
             exist = which_role(project, @current_user, @global_role)
-            if exist
+            if exist and project.national_project == nat_proj
               projects << project.id
             end
           end
-          nat_proj = NationalProject.find_by(name: name)
-          pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id in (" + projects.join(",") + ")")
-          pfqtv = if name
-                    pfqtv.where(national_project_id: nat_proj.id)
-                  else
-                    pfqtv.where("national_project_id is null")
-                  end
-          quarter = ((Time.now.month - 1) / 3) + 1
-          pfqtv.group_by(&:target_id).each do |target, arr|
-            fact_value = 0
-            target_value = 0
-            total = 0
-            arr.each do |row|
-              case quarter
-              when 1
-                f = row.fact_quarter1_value
-                t = row.target_quarter1_value
-                p = row.plan_quarter1_value
-              when 2
-                f = row.fact_quarter2_value
-                t = row.target_quarter2_value
-                p = row.plan_quarter2_value
-              when 3
-                f = row.fact_quarter3_value
-                t = row.target_quarter3_value
-                p = row.plan_quarter3_value
-              when 4
-                f = row.fact_quarter4_value
-                t = row.target_quarter4_value
-                p = row.plan_quarter4_value
-              end
 
-              if f
-                if t
-                  fact_value = f
-                  target_value = t
-                  total += 1
-                elsif row.target_year_value
-                  fact_value = f
-                  target_value = row.target_year_value
-                  total += 1
+          targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
+          targets.each do |t|
+            wpts = WorkPackageTarget.where(target_id: t.id)
+            tevs = TargetExecutionValue.where(target_id: t.id)
+            tev = tevs.where("value NOTNULL and ((year = date_part('year', CURRENT_DATE)
+                            and quarter >= date_part('quarter', CURRENT_DATE))
+                            or year > date_part('year', CURRENT_DATE))")
+                    .order(:year, :quarter).first
+            if wpts.count != 0 and !tev.nil?
+              check = 0
+              wpts.select(:work_package_id).distinct.each do |w|
+                wpt = wpts.where("work_package_id = #{w.work_package_id} and value NOTNULL and ((year = date_part('year', CURRENT_DATE)
+                            and quarter <= date_part('quarter', CURRENT_DATE)
+                            and month <= date_part('month', CURRENT_DATE)) or year < date_part('year', CURRENT_DATE))")
+                        .order(:year, :quarter, :month).last
+                if !wpt.nil? and wpt.value >= tev.value and check.zero?
+                  check = 0
+                elsif !wpt.nil? and (wpt.value / tev.value) >= average
+                  check = 1
                 else
-                  net_dannyh += 1
-                end
-              else
-                if p
-                  if t
-                    fact_value = 0
-                    target_value = t
-                    total += 1
-                  elsif row.target_year_value
-                    fact_value = 0
-                    target_value = row.target_year_value
-                    total += 1
-                  else
-                    net_dannyh += 1
-                  end
-                else
-                  net_dannyh += 1
+                  check = -1
+                  break
                 end
               end
-
-=begin
-              if f
-                if t
-                  fact_value += f
-                  target_value += t
-                  total += 1
-                elsif row.target_year_value
-                  fact_value += f
-                  target_value += row.target_year_value
-                  total += 1
-                else
-                  net_dannyh += 1
-                end
+              if check.zero?
+                net_otkloneniy += 1
+              elsif check == 1
+                small_otkloneniya += 1
               else
-                net_dannyh += 1
+                big_otkloneniya += 1
               end
-=end
-            end
-            drob = target_value == 0 ? 0 : fact_value / target_value
-            if drob >= max
-              net_otkloneniy += total
-            end
-            if drob >= overage and drob < max
-              small_otkloneniya += total
-            end
-            if drob < overage
-              big_otkloneniya += total
+            else
+              net_dannyh += 1
             end
           end
           @indikator_data = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]

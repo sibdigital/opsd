@@ -13,5 +13,5 @@ class WorkPackageTarget < ActiveRecord::Base
     name <=> Target.where(id: work_package_target.target_id).first.name
   end
 
-  def to_s; name end
+  def to_s; Target.find(id: work_package_target.target_id).name end
 end

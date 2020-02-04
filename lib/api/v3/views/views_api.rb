@@ -343,7 +343,8 @@ module API
 
           resources :plan_fact_quarterly_target_values_view do
             get do
-              pfqtv = PlanFactQuarterlyTargetValue.where("year = date_part('year', CURRENT_DATE) and project_id in (" + @projects.join(",")+ ")")
+              targ = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + @projects.join(",") + ")").map(&:id)
+              pfqtv = PlanFactQuarterlyTargetValue.where("target_id in (" + targ.join(",") + ") and project_id in (" + @projects.join(",") + ")")
               pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
               result = []
               pfqtv.group_by(&:project_id).each do |project, arr|
@@ -357,31 +358,34 @@ module API
                 hash['federal_id'] = p.federal_project_id || 0
                 hash['national_id'] = p.national_project_id || 0
                 hash['targets'] = []
-                arr.each do |row|
+                arr.group_by(&:target_id).each do |t, rows|
                   stroka = Hash.new
-                  stroka['_type'] = 'PlanFactQuarterlyTargetquartered_work_package_targets_with_quarter_groups_viewValue'
-                  target = Target.find(row.target_id)
+                  stroka['_type'] = 'PlanFact QuarterlyTargetquartered_work_package_targets_with_quarter_groups_viewValue'
+                  target = Target.find(t)
                   stroka['name'] = target.name
-                  stroka['target_id'] = row.target_id
-                  stroka['target_year_value'] = row.target_year_value
-                  stroka['fact_year_value'] = row.fact_year_value
+                  stroka['target_id'] = t
+                  slice = PlanFactQuarterlyTargetValue.where("target_id = #{t} and year = date_part('year', CURRENT_DATE)").first
+
                   stroka['otvetstvenniy_id'] = target.resultassigned ? target.resultassigned.id : ''
                   stroka['otvetstvenniy'] = target.resultassigned ? target.resultassigned.fio : ''
 
-                  stroka['target_quarter1_value'] = row.target_quarter1_value
-                  stroka['target_quarter2_value'] = row.target_quarter2_value
-                  stroka['target_quarter3_value'] = row.target_quarter3_value
-                  stroka['target_quarter4_value'] = row.target_quarter4_value
+                  stroka['target_year_value'] = slice.nil? ? nil : slice.target_year_value
+                  stroka['target_quarter1_value'] = slice.nil? ? nil : slice.target_quarter1_value
+                  stroka['target_quarter2_value'] = slice.nil? ? nil : slice.target_quarter2_value
+                  stroka['target_quarter3_value'] = slice.nil? ? nil : slice.target_quarter3_value
+                  stroka['target_quarter4_value'] = slice.nil? ? nil : slice.target_quarter4_value
 
-                  stroka['plan_quarter1_value'] = row.plan_quarter1_value
-                  stroka['plan_quarter2_value'] = row.plan_quarter2_value
-                  stroka['plan_quarter3_value'] = row.plan_quarter3_value
-                  stroka['plan_quarter4_value'] = row.plan_quarter4_value
+                  stroka['plan_year_value'] = slice.nil? ? nil : slice.fact_year_value
+                  stroka['plan_quarter1_value'] = slice.nil? ? nil : slice.plan_quarter1_value
+                  stroka['plan_quarter2_value'] = slice.nil? ? nil : slice.plan_quarter2_value
+                  stroka['plan_quarter3_value'] = slice.nil? ? nil : slice.plan_quarter3_value
+                  stroka['plan_quarter4_value'] = slice.nil? ? nil : slice.plan_quarter4_value
 
-                  stroka['fact_quarter1_value'] = row.fact_quarter1_value
-                  stroka['fact_quarter2_value'] = row.fact_quarter2_value
-                  stroka['fact_quarter3_value'] = row.fact_quarter3_value
-                  stroka['fact_quarter4_value'] = row.fact_quarter4_value
+                  stroka['fact_year_value'] = slice.nil? ? nil : slice.fact_year_value
+                  stroka['fact_quarter1_value'] = slice.nil? ? nil : slice.fact_quarter1_value
+                  stroka['fact_quarter2_value'] = slice.nil? ? nil : slice.fact_quarter2_value
+                  stroka['fact_quarter3_value'] = slice.nil? ? nil : slice.fact_quarter3_value
+                  stroka['fact_quarter4_value'] = slice.nil? ? nil : slice.fact_quarter4_value
                   hash['targets'] << stroka
                 end
                 result << hash
