@@ -7,10 +7,12 @@ This file written by XCC
 <%= error_messages_for :target %>
 <section class="form--section">
 
-  <h3>Год</h3>
-  <%= select_tag(:selected_year, options_for_select(@years_project)) %>
+  <h3>Дата</h3>
+
+  <%= date_field_tag("selected_date",:selected_date, options = {}) %>
+
   <br>
-  <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'pass-params-year-from-select button' %>
+  <%= link_to "Сформировать", {report_id: "report_progress_project"}, class: 'pass-params-date-from-select button' %>
 
   <%
     id_type_indicator = Enumeration.find_by(name: I18n.t(:default_indicator)).id

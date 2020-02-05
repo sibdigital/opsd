@@ -73,10 +73,10 @@ class ReportProgressProjectController < ApplicationController
     @workbook = RubyXL::Parser.parse(template_path)
     @workbook.calc_pr.full_calc_on_load = true
 
-    selected_year = params[:selected_year] == nil ? 0 : params[:selected_year]
+    selected_date = params[:selected_date] == nil || params[:selected_date] == "" ? Date.today.to_s : params[:selected_date]
     generate_title_sheet
-    generate_key_risk_sheet
-    generate_targets_sheet(selected_year)
+    generate_key_risk_sheet(selected_date)
+    generate_targets_sheet(selected_date)
     generate_status_execution_budgets_sheet
     generate_budgets_execution_details_sheet
     generate_status_achievement_sheet
@@ -230,7 +230,7 @@ class ReportProgressProjectController < ApplicationController
     Rails.logger.info(e.message)
   end
 
-  def generate_key_risk_sheet
+  def generate_key_risk_sheet(date_param)
        sheet = @workbook['Ключевые риски']
        workPackageProblems = WorkPackageProblem.where(project_id: @project.id, type: 'risk')
 
@@ -306,10 +306,10 @@ class ReportProgressProjectController < ApplicationController
     Rails.logger.info(e.message)
   end
 
-  def generate_targets_sheet(year)
+  def generate_targets_sheet(date_param)
 
     sheet = @workbook['Сведения о значениях целей']
-    result_array_targets = get_value_targets_indicators(year)
+    result_array_targets = get_targets_indicators(date_param)
     status = 0
     data_row = 4
     result_array_targets.each_with_index do |target, i|
@@ -1197,32 +1197,221 @@ class ReportProgressProjectController < ApplicationController
     Rails.logger.info(e.message)
   end
 
-  def get_value_targets_indicators(year)
-
+  def get_targets_indicators(date_param)
     sql = "with
-            prev_year_value as (
-             select  pf.target_id, pf.fact_year_value
-             from v_plan_fact_quarterly_target_values as pf
-             where pf.year = ("+year.to_s+"-1) and pf.project_id = " + @project.id.to_s + "
+            quarter1 as (
+              select *
+              from (
+                     select s.target_id,
+                            s.year,
+                            case
+                              when (s.month = 1 or s.month = 2 or s.month = 3) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter1_value, 0)
+                              when (s.month = 4 or s.month = 5 or s.month = 6) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter2_value, s.fact_quarter1_value, 0)
+                              when (s.month = 7 or s.month = 8 or s.month = 9) and s.actual_year = s.year then coalesce(
+                                  s.fact_quarter3_value,
+                                  s.fact_quarter2_value,
+                                  s.fact_quarter1_value, 0)
+                              when s.month = 10 or s.month = 11 or s.month = 12 then coalesce(s.fact_quarter4_value,
+                                                                                              s.fact_quarter3_value,
+                                                                                              s.fact_quarter2_value,
+                                                                                              s.fact_quarter1_value, 0)
+                              else coalesce(s.fact_quarter4_value,
+                                            s.fact_quarter3_value,
+                                            s.fact_quarter2_value,
+                                            s.fact_quarter1_value, 0)
+                              end fact_value,
+                            s.plan_year_value
+                     from (
+                            select cf.target_id,
+                                   cf.year,
+                                   cf.fact_quarter1_value,
+                                   cf.fact_quarter2_value,
+                                   cf.fact_quarter3_value,
+                                   cf.fact_quarter4_value,
+                                   cf.plan_year_value,
+                                   3 as month,
+                                   date_part('year', date '"+date_param+"')  as actual_year
+                            from v_plan_fact_quarterly_target_values as cf
+                            where cf.year <= date_part('year', date '"+date_param+"')
+                              and cf.project_id = " + @project.id.to_s + "
+                            order by target_id, year desc
+                          ) s
+                   ) s
+              where s.fact_value <> 0
             ),
-            current_year_value as (
-              select  cf.target_id, cf.fact_quarter1_value,
-                      cf.fact_quarter2_value, cf.fact_quarter3_value, cf.fact_quarter4_value,
-                      cf.plan_year_value
-              from v_plan_fact_quarterly_target_values as cf
-              where cf.year = "+year.to_s+" and cf.project_id = "+ @project.id.to_s + "
+            quarter2 as (
+              select *
+              from (
+                     select s.target_id,
+                            s.year,
+                            case
+                              when (s.month = 1 or s.month = 2 or s.month = 3) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter1_value, 0)
+                              when (s.month = 4 or s.month = 5 or s.month = 6) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter2_value, s.fact_quarter1_value, 0)
+                              when (s.month = 7 or s.month = 8 or s.month = 9) and s.actual_year = s.year then coalesce(
+                                  s.fact_quarter3_value,
+                                  s.fact_quarter2_value,
+                                  s.fact_quarter1_value, 0)
+                              when s.month = 10 or s.month = 11 or s.month = 12 then coalesce(s.fact_quarter4_value,
+                                                                                              s.fact_quarter3_value,
+                                                                                              s.fact_quarter2_value,
+                                                                                              s.fact_quarter1_value, 0)
+                              else coalesce(s.fact_quarter4_value,
+                                            s.fact_quarter3_value,
+                                            s.fact_quarter2_value,
+                                            s.fact_quarter1_value, 0)
+                              end fact_value,
+                            s.plan_year_value
+                     from (
+                            select cf.target_id,
+                                   cf.year,
+                                   cf.fact_quarter1_value,
+                                   cf.fact_quarter2_value,
+                                   cf.fact_quarter3_value,
+                                   cf.fact_quarter4_value,
+                                   cf.plan_year_value,
+                                   6 as month,
+                                   date_part('year', date '"+date_param+"')  as actual_year
+                            from v_plan_fact_quarterly_target_values as cf
+                            where cf.year <= date_part('year', date '"+date_param+"')
+                              and cf.project_id = " + @project.id.to_s + "
+                            order by target_id, year desc
+                          ) s
+                   ) s
+              where s.fact_value <> 0
+            ),
+            quarter3 as (
+              select *
+              from (
+                     select s.target_id,
+                            s.year,
+                            case
+                              when (s.month = 1 or s.month = 2 or s.month = 3) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter1_value, 0)
+                              when (s.month = 4 or s.month = 5 or s.month = 6) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter2_value, s.fact_quarter1_value, 0)
+                              when (s.month = 7 or s.month = 8 or s.month = 9) and s.actual_year = s.year then coalesce(
+                                  s.fact_quarter3_value,
+                                  s.fact_quarter2_value,
+                                  s.fact_quarter1_value, 0)
+                              when s.month = 10 or s.month = 11 or s.month = 12 then coalesce(s.fact_quarter4_value,
+                                                                                              s.fact_quarter3_value,
+                                                                                              s.fact_quarter2_value,
+                                                                                              s.fact_quarter1_value, 0)
+                              else coalesce(s.fact_quarter4_value,
+                                            s.fact_quarter3_value,
+                                            s.fact_quarter2_value,
+                                            s.fact_quarter1_value, 0)
+                              end fact_value,
+                            s.plan_year_value
+                     from (
+                            select cf.target_id,
+                                   cf.year,
+                                   cf.fact_quarter1_value,
+                                   cf.fact_quarter2_value,
+                                   cf.fact_quarter3_value,
+                                   cf.fact_quarter4_value,
+                                   cf.plan_year_value,
+                                   9 as month,
+                                   date_part('year', date '"+date_param+"')  as actual_year
+                            from v_plan_fact_quarterly_target_values as cf
+                            where cf.year <= date_part('year', date '"+date_param+"')
+                              and cf.project_id = " + @project.id.to_s + "
+                            order by target_id, year desc
+                          ) s
+                   ) s
+              where s.fact_value <> 0
+            ),
+            quarter4 as (
+              select *
+              from (
+                     select s.target_id,
+                            s.year,
+                            case
+                              when (s.month = 1 or s.month = 2 or s.month = 3) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter1_value, 0)
+                              when (s.month = 4 or s.month = 5 or s.month = 6) and s.actual_year = s.year
+                                then coalesce(s.fact_quarter2_value, s.fact_quarter1_value, 0)
+                              when (s.month = 7 or s.month = 8 or s.month = 9) and s.actual_year = s.year then coalesce(
+                                  s.fact_quarter3_value,
+                                  s.fact_quarter2_value,
+                                  s.fact_quarter1_value, 0)
+                              when s.month = 10 or s.month = 11 or s.month = 12 then coalesce(s.fact_quarter4_value,
+                                                                                              s.fact_quarter3_value,
+                                                                                              s.fact_quarter2_value,
+                                                                                              s.fact_quarter1_value, 0)
+                              else coalesce(s.fact_quarter4_value,
+                                            s.fact_quarter3_value,
+                                            s.fact_quarter2_value,
+                                            s.fact_quarter1_value, 0)
+                              end fact_value,
+                            s.plan_year_value
+                     from (
+                            select cf.target_id,
+                                   cf.year,
+                                   cf.fact_quarter1_value,
+                                   cf.fact_quarter2_value,
+                                   cf.fact_quarter3_value,
+                                   cf.fact_quarter4_value,
+                                   cf.plan_year_value,
+                                   12 as month,
+                                   date_part('year', date '"+date_param+"')  as actual_year
+                            from v_plan_fact_quarterly_target_values as cf
+                            where cf.year <= date_part('year', date '"+date_param+"')
+                              and cf.project_id = " + @project.id.to_s + "
+                            order by target_id, year desc
+                          ) s
+                   ) s
+              where s.fact_value <> 0
+            ),
+            fact_prev_year as (
+                            select cf.target_id,
+                                   cf.year,
+                                   cf.fact_year_value
+                            from v_plan_fact_quarterly_target_values as cf
+                            where cf.year <=  (date_part('year', date '"+date_param+"') - 1) and fact_year_value <> 0
+                              and cf.project_id = 1
+                            order by target_id, year desc
+                            fetch first 1 rows only
             )
-            select t.name, m.short_name as measure_name, coalesce(p.fact_year_value, 0) as fact_year_value,
-            coalesce(c.fact_quarter1_value, 0) as fact_quarter1_value, coalesce(c.fact_quarter2_value, 0) as fact_quarter2_value,
-            coalesce(c.fact_quarter3_value, 0) as fact_quarter3_value, coalesce(c.fact_quarter4_value, 0) as fact_quarter4_value,
-            coalesce(c.plan_year_value, 0) as plan_year_value
-            FROM targets t
-            left join current_year_value c on c.target_id = t.id
-            left join prev_year_value p on p.target_id = t.id
-            left join measure_units m on m.id = t.measure_unit_id
-            inner join enumerations e on e.id = t.type_id
-            where t.is_approve = true and ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
-
+              select distinct t.id, t.name, m.short_name as measure_name, coalesce(fp.fact_year_value, 0) as fact_year_value,
+                     case
+                       when
+                         date_part('month', date '"+date_param+"')  >= 1  then
+                          coalesce(q1.fact_value, 0)
+                       else 0
+                     end  fact_quarter1_value,
+                     case
+                       when
+                         date_part('month', date '"+date_param+"')  >= 4 then
+                         coalesce(q2.fact_value, 0)
+                        else 0
+                     end  fact_quarter2_value,
+                     case
+                       when
+                          date_part('month', date '"+date_param+"')  >= 7 then
+                          coalesce(q3.fact_value, 0)
+                        else 0
+                     end  fact_quarter3_value,
+                     case
+                       when
+                         date_part('month', date '"+date_param+"') >= 10 then
+                         coalesce(q4.fact_value, 0)
+                       else 0
+                     end  fact_quarter4_value,
+                     coalesce(q1.plan_year_value, 0) as plan_year_value
+              FROM targets t
+                     left join measure_units m on m.id = t.measure_unit_id
+                     inner join enumerations e on e.id = t.type_id
+                     left join quarter1 q1 on q1.target_id = t.id
+                     left join quarter2 q2 on q2.target_id = t.id
+                     left join quarter3 q3 on q3.target_id = t.id
+                     left join quarter4 q4 on q4.target_id = t.id
+                     left join fact_prev_year fp on fp.target_id = t.id
+              where t.is_approve = true and ( e.name = '"+I18n.t(:default_target)+"' or e.name = '"++I18n.t(:default_indicator)+"') and t.project_id = "+ @project.id.to_s
 
     result = ActiveRecord::Base.connection.execute(sql)
     index = 0
@@ -2356,29 +2545,30 @@ class ReportProgressProjectController < ApplicationController
 
    def fed_budget_data
 
-     cost_type = CostType.find_by(name: I18n.t('costs.federal_cost_type'))
-     self.buget_by_cost_type(user, cost_type)
-
-     cost_objects = CostObject.where('project_id in (?)', @project.id)
+     cost_objects = CostObject.where(project_id: @project.id)
      total_budget = BigDecimal("0")
      labor_budget = BigDecimal("0")
-     material_budget = BigDecimal("0")
      spent = BigDecimal("0")
 
      cost_objects.each do |cost_object|
-       total_budget += cost_type ? cost_object.budget_by_cost_type(cost_type) : cost_object.budget
-       labor_budget += cost_object.labor_budget
-       material_budget += cost_type ? cost_object.material_budget_by_cost_type(cost_type) : cost_object.material_budget
-       spent += cost_type ? cost_object.spent_by_cost_type(cost_type) : cost_object.spent
+       cost_object.cost_entries.each do |cost_entry|
+         if cost_entry.cost_type.name == I18n.t('costs.federal_cost_type')
+           total_budget += cost_object.budget
+           labor_budget += cost_object.labor_budget
+           spent += cost_object.spent
+         end
+       end
      end
 
-    risk_ispoln = 0
-    result = []
-    result << spent
-    result << risk_ispoln
-    result << total_budget - spent
-    result << total_budget
+     spent
+     risk_ispoln = 0
+     ostatok = total_budget - spent
+     result = []
 
+     result << spent
+     result << risk_ispoln
+     result << ostatok
+     result << total_budget
   end
 
   def reg_budget_data
@@ -2389,7 +2579,7 @@ class ReportProgressProjectController < ApplicationController
 
     cost_objects.each do |cost_object|
       cost_object.cost_entries.each do |cost_entry|
-        if cost_entry.cost_type.name == "Региональный бюджет"
+        if cost_entry.cost_type.name == I18n.t('costs.regional_cost_type')
           total_budget += cost_object.budget
           labor_budget += cost_object.labor_budget
           spent += cost_object.spent
