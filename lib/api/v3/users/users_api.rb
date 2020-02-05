@@ -58,7 +58,7 @@ module API
           end
 
           get do
-            authorize_admin
+            authorize_logged_in
 
             query = ParamsToQueryService.new(User, current_user).call(params)
 
