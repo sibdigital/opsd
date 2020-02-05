@@ -232,7 +232,8 @@ class ReportProgressProjectController < ApplicationController
 
   def generate_key_risk_sheet(date_param)
        sheet = @workbook['Ключевые риски']
-       workPackageProblems = WorkPackageProblem.where(project_id: @project.id, type: 'risk')
+       date = Date.parse date_param
+       workPackageProblems = WorkPackageProblem.where('project_id = ? and type = ?', @project.id, 'risk') #  and created_at >= ? ,date
 
        data_row = 3
        workPackageProblems.each_with_index do |workPackageProblem, i|
@@ -1373,7 +1374,7 @@ class ReportProgressProjectController < ApplicationController
                                    cf.fact_year_value
                             from v_plan_fact_quarterly_target_values as cf
                             where cf.year <=  (date_part('year', date '"+date_param+"') - 1) and fact_year_value <> 0
-                              and cf.project_id = 1
+                              and cf.project_id = " + @project.id.to_s + "
                             order by target_id, year desc
                             fetch first 1 rows only
             )
