@@ -24,9 +24,10 @@ export class WpTarget {
   public value: number;
   public name: string;
 
-  constructor (parameters: { id: number, project_id: number, work_package_id: number, target_id: number, year: number, quarter?: number,
-    month?: number, plan_value?: number, value?: number, name?: string})
-  {
+  constructor(parameters: {
+    id: number, project_id: number, work_package_id: number, target_id: number, year: number, quarter?: number,
+    month?: number, plan_value?: number, value?: number, name?: string
+  }) {
     let {id, project_id, work_package_id, target_id, year, quarter = 0, month = 0, plan_value = 0, value = 0, name = ''} = parameters;
 
     this.id = id;
@@ -73,8 +74,8 @@ interface IError {
   templateUrl: './targets-tab.html'
 })
 export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
-  @Input() public workPackageId:string;
-  @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
+  @Input() public workPackageId: string;
+  @ViewChild('focusAfterSave') readonly focusAfterSave: ElementRef;
   @ViewChild('createTemplate') createTemplate: TemplateRef<any>;
   @ViewChild('readOnlyTemplate2') readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate2') editTemplate: TemplateRef<any>;
@@ -85,13 +86,13 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   @ViewChild('monthOfQuarter4') monthOfQuarter4: TemplateRef<any>;
   @ViewChild('quarters') quarters: TemplateRef<any>;
 
-  public workPackage:WorkPackageResource;
+  public workPackage: WorkPackageResource;
   public wpTargets: Array<WpTarget>;
   public wpTargetIds: number[] = [];
   public editedTarget: WpTarget | null;
-  
-  public showTargetsCreateForm:boolean = false;
-  public selectedTgId:string;
+
+  public showTargetsCreateForm: boolean = false;
+  public selectedTgId: string;
   public isDisabled = false;
 
   public planValueCanEdit: boolean;
@@ -101,7 +102,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   public checkErrors: IError[] = [];
   public months: string[] = [];
   public quarterNames: string[] = [];
-  protected readonly appBasePath:string;
+  protected readonly appBasePath: string;
 
   public text = {
     targets_header: this.I18n.t('js.work_packages.tabs.targets'),
@@ -118,15 +119,14 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     button_continue: 'Да'
   };
 
-  public constructor(readonly I18n:I18nService,
-                     readonly $transition:Transition,
-                     protected wpNotificationsService:WorkPackageNotificationService,
-                     readonly loadingIndicator:LoadingIndicatorService,
-                     readonly wpCacheService:WorkPackageCacheService,
-                     protected pathHelper:PathHelperService,
+  public constructor(readonly I18n: I18nService,
+                     readonly $transition: Transition,
+                     protected wpNotificationsService: WorkPackageNotificationService,
+                     readonly loadingIndicator: LoadingIndicatorService,
+                     readonly wpCacheService: WorkPackageCacheService,
+                     protected pathHelper: PathHelperService,
                      protected confirmDialog: ConfirmDialogService,
-                     protected halResourceService: HalResourceService)
-  {
+                     protected halResourceService: HalResourceService) {
     this.wpTargets = new Array<WpTarget>();
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
     this.months = 'Январь,Февраль,Март,Апрель,Май,Июнь,Июль,Август,Сентябрь,Октябрь,Ноябрь,Декабрь'.split(',');
@@ -163,18 +163,18 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   /**
    * Загружаем показатели из БД + плановые и фактические значения
    */
-  public loadWpTargets(){
+  public loadWpTargets() {
     return this.halResourceService
       .get<HalResource>(this.pathHelper.api.v3.work_package_targets.toString(), {'work_package_id': this.workPackageId})
       .toPromise()
-      .then((resource:HalResource) => {
+      .then((resource: HalResource) => {
         let els = resource.elements;
         this.wpTargetIds = [];
-        this.wpTargets = els.map( (el:any) => {
-            // список id
-            if(this.wpTargetIds.indexOf(Number(el.targetId)) === -1){
-              this.wpTargetIds.push(el.targetId);
-            }
+        this.wpTargets = els.map((el: any) => {
+          // список id
+          if (this.wpTargetIds.indexOf(Number(el.targetId)) === -1) {
+            this.wpTargetIds.push(el.targetId);
+          }
             return new WpTarget({
               id: el.getId(),
               project_id: el.projectId,
@@ -191,11 +191,15 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
         //console.log(this.PlanValues)
 
         // признак права редактирования плановых значений
-        if(els != undefined) { this.planValueCanEdit = els[0].canEditPlanValues; }
+        if (els !== undefined) {
+          this.planValueCanEdit = els[0].canEditPlanValues;
+        }
         //console.log(this.planValueCanEdit);
 
         // признак права редактирования фактических значений
-        if(els != undefined) { this.factValueCanEdit = els[0].canEditFactValues; }
+        if (els !== undefined) {
+          this.factValueCanEdit = els[0].canEditFactValues;
+        }
         //console.log(this.factValueCanEdit);
 
       })
@@ -204,12 +208,16 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       });
   }
 
-  loadPlanFact(project_id: number, year: number, target_id: number){
+  loadPlanFact(project_id: number, year: number, target_id: number) {
     //загружаем данные по показателям
     return this.halResourceService
-      .get<HalResource>(this.pathHelper.api.v3.plan_fact_quarterly_target_values.toString(), {'project_id': project_id, 'year': year, 'target_id': target_id})
+      .get<HalResource>(this.pathHelper.api.v3.plan_fact_quarterly_target_values.toString(), {
+        'project_id': project_id,
+        'year': year,
+        'target_id': target_id
+      })
       .toPromise()
-      .then((resource:HalResource) => {
+      .then((resource: HalResource) => {
         let els = resource.elements;
         this.planValues = els.map((pl: any) => {
           return {
@@ -229,7 +237,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
             plan_quarter2_value: pl.planQuarter2Value,
             plan_quarter3_value: pl.planQuarter3Value,
             plan_quarter4_value: pl.planQuarter4Value
-          }
+          };
         });
         //console.log(this.planValues);
       })
@@ -238,8 +246,10 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       });
   }
 
-  getTargetFromArr(targetId: number):WpTarget{
-    return <WpTarget>this.wpTargets.find(value => { return value.target_id == targetId; });
+  getTargetFromArr(targetId: number): WpTarget {
+    return <WpTarget>this.wpTargets.find(value => {
+      return value.target_id === targetId;
+    });
   }
 
 
@@ -247,42 +257,42 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     let result = true;
     //+- tan до решения вопроса проверку закомментировал
     // квартал без месяца - сравниваем с планом
-    // if((target.month == 0) || (target.month == null)) {
-    //   // если plan_value != 0 - значит есть записи по месяцам
-    //   if (plan_value != null && target.plan_value < Number(plan_value)) {
+    // if((target.month === 0) || (target.month === null)) {
+    //   // если plan_value !== 0 - значит есть записи по месяцам
+    //   if (plan_value !== null && target.plan_value < Number(plan_value)) {
     //     result = false;
     //     this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') меньше планового значения целевого показателя ('+plan_value.toString()+')'});
     //   }
     //   else // иначе если есть годовой план сравниваем с годовым планом
-    //   if ((plan_year_value != null) && (Number(target.plan_value) > Number(plan_year_value))) {
+    //   if ((plan_year_value !== null) && (Number(target.plan_value) > Number(plan_year_value))) {
     //     result = false;
     //     this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
     //   }
     // }
-    // // иначе (месяц != 0) сравниваем с квартальным планом
+    // // иначе (месяц !== 0) сравниваем с квартальным планом
     // else {
     //   // // ищем показатель за квартал
     //   // let quartTarg = this.wpTargets.find(value => {
-    //   //   return (value.target_id == target.target_id)
-    //   //     && (value.year == target.year)
-    //   //     && (value.quarter == target.quarter)
-    //   //     && (value.month == null)
+    //   //   return (value.target_id === target.target_id)
+    //   //     && (value.year === target.year)
+    //   //     && (value.quarter === target.quarter)
+    //   //     && (value.month === null)
     //   // });
     //   //
     //   // // если за квартал значение есть
-    //   // if(quartTarg != undefined) {
+    //   // if(quartTarg !== undefined) {
     //   //   if (target.plan_value > quartTarg.plan_value) {
     //   //     result = false;
     //   //     this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+quartTarg.plan_value.toString()+')'});
     //   //   }
     //   // }
     //   //else { // иначе сравниваем все таки с планом, если есть
-    //     if(plan_value != null && target.plan_value > plan_value){
+    //     if(plan_value !== null && target.plan_value > plan_value){
     //       result = false;
     //       this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за '+target.quarter.toString()+'-й квартал ('+plan_value.toString()+')'});
     //     }
     //     else // или с годовым планом, если он есть
-    //       if(plan_year_value != null && target.plan_value > Number(plan_year_value)) {
+    //       if(plan_year_value !== null && target.plan_value > Number(plan_year_value)) {
     //         result = false;
     //         this.checkErrors.push({result: result, text: 'Введенное значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan_year_value.toString()+')'});
     //       }
@@ -300,32 +310,35 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     // обнуляем массив ошибок
     this.checkErrors = [];
 
-    if(target.plan_value == 0) {
+    if (target.plan_value === 0) {
       result = false;
       this.checkErrors.push({result: result, text: 'Значение не может буть нулевым.'});
     }
 
     // сверка на наличие записи за период
-    if((target.month == null)||(target.month==0)){
+    if ((target.month === null) || (target.month === 0)) {
       if (this.wpTargets.find(value => {
-        return (value.target_id == target.target_id)
-          && (value.year == target.year)
-          && ((value.quarter == target.quarter)||(value.quarter == null))
-          && (value.month == null)    // когда месяц не указан
-          && (value.id != target.id) // не сравниваем с самим собой
+        return (value.target_id === target.target_id)
+          && (value.year === target.year)
+          && ((value.quarter === target.quarter) || (value.quarter === null))
+          && (value.month === null)    // когда месяц не указан
+          && (value.id !== target.id); // не сравниваем с самим собой
       })
       ) {
         result = false;
-        this.checkErrors.push({result: result, text: 'Запись за указанный период уже присутствует в базе. Пожалуйста, выберите другой период.'});
+        this.checkErrors.push({
+          result: result,
+          text: 'Запись за указанный период уже присутствует в базе. Пожалуйста, выберите другой период.'
+        });
       }
     }
     else {
       if (this.wpTargets.find(value => {
-        return (value.target_id == target.target_id)
-          && (value.year == target.year)
-          && (value.quarter == target.quarter)
-          && (value.month == target.month) // указан месяц
-          && (value.id != target.id) // не сравниваем с самим собой
+        return (value.target_id === target.target_id)
+          && (value.year === target.year)
+          && (value.quarter === target.quarter)
+          && (value.month === target.month) // указан месяц
+          && (value.id !== target.id); // не сравниваем с самим собой
       })
       ) {
         result = false;
@@ -335,58 +348,71 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
 
     // проверка наличия года в плане
     let yearResult = true;
-    if(!this.planValues.find(value => { return (value.target_id == target.target_id) && (value.year == target.year) })) {
+    if (!this.planValues.find(value => {
+      return (value.target_id === target.target_id) && (value.year === target.year);
+    })) {
       yearResult = false;
-      this.checkErrors.push({result: yearResult, text: 'Отсутствует плановое значение целевого показателя за '+target.year.toString()+' год.'});
+      this.checkErrors.push({
+        result: yearResult,
+        text: 'Отсутствует плановое значение целевого показателя за ' + target.year.toString() + ' год.'
+      });
     }
 
     // сверка с плановыми значениями
     let quartResult = true;
     this.planValues.forEach(plan => {
-        // если совпадает id, год
-        if((target.target_id == plan.target_id)
-          && target.year == plan.year) {
+      // если совпадает id, год
+      if ((target.target_id === plan.target_id)
+        && target.year === plan.year) {
 
-          // указан квартал
-          if ((target.quarter != 0 || target.quarter != null)){
-            switch (Number(target.quarter)) {
-              case 1: {
-                // если не с чем сравнивать - ошибка
-                if(plan.plan_quarter1_value == null && plan.target_year_value == null ){
-                  quartResult = false;
-                  this.checkErrors.push({result: quartResult, text: 'Отсутствует плановое значение целевого показателя.'});
-                }
-                else {
-                  quartResult = this.checkPlanOfQuarter(target, plan.plan_quarter1_value, plan.target_year_value);
-                }
+        // указан квартал
+        if ((target.quarter !== 0 || target.quarter !== null)) {
+          switch (Number(target.quarter)) {
+            case 1: {
+              // если не с чем сравнивать - ошибка
+              if (plan.plan_quarter1_value === null && plan.target_year_value === null) {
+                quartResult = false;
+                this.checkErrors.push({
+                  result: quartResult,
+                  text: 'Отсутствует плановое значение целевого показателя.'
+                });
+              } else {
+                quartResult = this.checkPlanOfQuarter(target, plan.plan_quarter1_value, plan.target_year_value);
+              }
                 break;
               }
               case 2: {
-                if(plan.plan_quarter2_value == null && plan.target_year_value == null ){
+                if (plan.plan_quarter2_value === null && plan.target_year_value === null) {
                   quartResult = false;
-                  this.checkErrors.push({result: quartResult, text: 'Отсутствует плановое значение целевого показателя.'});
-                }
-                else {
+                  this.checkErrors.push({
+                    result: quartResult,
+                    text: 'Отсутствует плановое значение целевого показателя.'
+                  });
+                } else {
                   quartResult = this.checkPlanOfQuarter(target, plan.plan_quarter2_value, plan.target_year_value);
                 }
                 break;
               }
               case 3: {
-                if(plan.plan_quarter3_value == null && plan.target_year_value == null ){
+                if (plan.plan_quarter3_value === null && plan.target_year_value === null) {
                   quartResult = false;
-                  this.checkErrors.push({result: quartResult, text: 'Отсутствует плановое значение целевого показателя.'});
-                }
-                else {
+                  this.checkErrors.push({
+                    result: quartResult,
+                    text: 'Отсутствует плановое значение целевого показателя.'
+                  });
+                } else {
                   quartResult = this.checkPlanOfQuarter(target, plan.plan_quarter3_value, plan.target_year_value);
                 }
                 break;
               }
               case 4: {
-                if(plan.plan_quarter4_value == null && plan.target_year_value == null ){
+                if (plan.plan_quarter4_value === null && plan.target_year_value === null) {
                   quartResult = false;
-                  this.checkErrors.push({result: quartResult, text: 'Отсутствует плановое значение целевого показателя.'});
-                }
-                else {
+                  this.checkErrors.push({
+                    result: quartResult,
+                    text: 'Отсутствует плановое значение целевого показателя.'
+                  });
+                } else {
                   quartResult = this.checkPlanOfQuarter(target, plan.plan_quarter4_value, plan.target_year_value);
                 }
                 break;
@@ -395,25 +421,27 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
                 // не указан квартал - сравниваем с годовым значение плана
                 if (Number(target.plan_value) > Number(plan.target_year_value)) {
                   yearResult = false;
-                  this.checkErrors.push({result: yearResult, text: 'Введенное плановое значение ('+target.plan_value.toString()+') превышает плановое значение целевого показателя за год ('+plan.target_year_value.toString()+')'});
+                  this.checkErrors.push({
+                    result: yearResult,
+                    text: 'Введенное плановое значение (' + target.plan_value.toString() + ') превышает плановое значение целевого показателя за год (' + plan.target_year_value.toString() + ')'
+                  });
                 }
               }
             }
           }
           else {
-            // не указан квартал - сравниваем с годовым значение плана
-            if(plan.target_year_value != null) {
-              if (plan.target_year_value != null && Number(target.plan_value) > Number(plan.target_year_value)) {
-                result = false;
-                this.checkErrors.push({
-                  result: result,
-                  text: 'Введенное плановое значение (' + target.plan_value.toString() + ') превышает плановое значение целевого показателя за год (' + plan.target_year_value.toString() + ')'
-                });
-              }
-            }
-            else {
+          // не указан квартал - сравниваем с годовым значение плана
+          if (plan.target_year_value !== null) {
+            if (plan.target_year_value !== null && Number(target.plan_value) > Number(plan.target_year_value)) {
               result = false;
               this.checkErrors.push({
+                result: result,
+                text: 'Введенное плановое значение (' + target.plan_value.toString() + ') превышает плановое значение целевого показателя за год (' + plan.target_year_value.toString() + ')'
+              });
+            }
+          } else {
+            result = false;
+            this.checkErrors.push({
                 result: result,
                 text: 'Отсутствует плановое значение целевого показателя за год.'
               });
@@ -425,16 +453,15 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
 
     // если есть ошибки - выводим все
     result = result && quartResult && yearResult;
-    if(result == false) {
+    if (result === false) {
       let errors = '';
       this.checkErrors.forEach((value, ind) => {
-        if(this.checkErrors.length > 1) {
-          errors = errors + (ind + 1).toString() + '. ' + value.text + '\n'
+        if (this.checkErrors.length > 1) {
+          errors = errors + (ind + 1).toString() + '. ' + value.text + '\n';
+        } else {
+          errors = errors + value.text + '\n';
         }
-        else {
-          errors = errors + value.text + '\n'
-        }
-      })
+      });
       alert(errors);
     }
     return result;
@@ -444,12 +471,12 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
    * При нажатии на "v"
    */
   public createTarget() {
-    if (!this.selectedTgId || (<WpTarget>this.editedTarget).project_id == 0 || (<WpTarget>this.editedTarget).target_id == 0) {
+    if (!this.selectedTgId || (<WpTarget>this.editedTarget).project_id === 0 || (<WpTarget>this.editedTarget).target_id === 0) {
       return;
     }
 
     this.loadPlanFact((<WpTarget>this.editedTarget).project_id, (<WpTarget>this.editedTarget).year, (<WpTarget>this.editedTarget).target_id)
-      .then(()=> {
+      .then(() => {
         if (this.checkTarget(<WpTarget>this.editedTarget)) {
           this.isDisabled = true;
           this.createCommonTarget()
@@ -462,9 +489,9 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
   /**
    * Действия при редактировании записи
    */
-  updateTarget(target: WpTarget){
+  updateTarget(target: WpTarget) {
     this.loadPlanFact(target.project_id, target.year, target.target_id)
-      .then(()=> {
+      .then(() => {
         if (this.checkTarget(target)) {
           this.saveWpTarget(target)
             .then(() => {
@@ -506,8 +533,10 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
         this.editedTarget = null;
       }
       else {
-        this.editedTarget = new WpTarget({id: 0, project_id: this.workPackage.project.getId(),
-          work_package_id: Number(this.workPackageId), target_id: 0, year: Number(moment(new Date()).format('YYYY'))})
+        this.editedTarget = new WpTarget({
+          id: 0, project_id: this.workPackage.project.getId(),
+          work_package_id: Number(this.workPackageId), target_id: 0, year: Number(moment(new Date()).format('YYYY'))
+        });
       }
     });
   }
@@ -516,7 +545,7 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
    * Удаляет запись
    * @param target
    */
-  private deleteTarget(target: WpTarget){
+  private deleteTarget(target: WpTarget) {
     const path = this.pathHelper.api.v3.work_package_targets.toString() + '/' + target.id;
     const params = {project_id: target.project_id};
 
@@ -537,21 +566,22 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
         .catch(err => {
             this.wpNotificationsService.handleRawError(err, this.workPackage);
           }
-        )
+        );
       })
       .catch(function () { return false; });
   }
 
   /** Добавляет новую запись в work_package_targets
    * */
-  addWpTarget(target: WpTarget){
-    const params = {project_id: target.project_id, work_package_id: this.workPackageId,
+  addWpTarget(target: WpTarget) {
+    const params = {
+      project_id: target.project_id, work_package_id: this.workPackageId,
       target_id: target.target_id,
       year: target.year,
-      quarter: target.quarter == 0 ? null : target.quarter,
-      month: target.month == 0 ? null : target.month,
+      quarter: target.quarter === 0 ? null : target.quarter,
+      month: target.month === 0 ? null : target.month,
       plan_value: target.plan_value,
-      value: target.value == 0 ? null : target.value
+      value: target.value === 0 ? null : target.value
     };
     const path = this.pathHelper.api.v3.work_package_targets.toString();
     return this.halResourceService
@@ -561,22 +591,24 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
 
   /** Изменяет запись
    * */
-  public saveWpTarget(target: WpTarget){
+  public saveWpTarget(target: WpTarget) {
     const path = this.pathHelper.api.v3.work_package_targets.toString() + '/' + target.id;
-    const params = { project_id: target.project_id, work_package_id: target.work_package_id,
+    const params = {
+      project_id: target.project_id, work_package_id: target.work_package_id,
       year: target.year,
-      quarter: target.quarter == 0 ? null : target.quarter,
-      month: target.month == 0 ? null : target.month,
+      quarter: target.quarter === 0 ? null : target.quarter,
+      month: target.month === 0 ? null : target.month,
       plan_value: target.plan_value,
-      value: target.value == 0 ? null : target.value
+      value: target.value === 0 ? null : target.value
     };
     return this.halResourceService
       .patch<HalResource>(path, params)
       .toPromise();
   }
 
-  public editTarget(el: WpTarget){
-    this.editedTarget = new WpTarget({id: el.id,
+  public editTarget(el: WpTarget) {
+    this.editedTarget = new WpTarget({
+      id: el.id,
       project_id: el.project_id,
       work_package_id: el.work_package_id,
       target_id: el.target_id,
@@ -585,24 +617,24 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       month: el.month,
       plan_value: el.plan_value,
       value: el.value,
-      name: el.name});
+      name: el.name
+    });
   }
 
-  public cancelEdit(){
+  public cancelEdit() {
     this.editedTarget = null;
   }
 
   /** загружаем один из двух шаблонов
    */
   loadTemplate(target: WpTarget) {
-    // if (this.editedTarget && this.editedTarget.id == 0) {
+    // if (this.editedTarget && this.editedTarget.id === 0) {
     //   return this.createTemplate;
     // }
-    if (this.editedTarget && this.editedTarget.id == target.id) {
-      if(this.planValueCanEdit) {
+    if (this.editedTarget && this.editedTarget.id === target.id) {
+      if (this.planValueCanEdit) {
         return this.editTemplateFull;
-      }
-      else {
+      } else {
         return this.editTemplate;
       }
     } else {
@@ -610,23 +642,28 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadTemplateMonth(quarter: number){
+  loadTemplateMonth(quarter: number) {
     switch (Number(quarter)) {
-      case 1: return this.monthOfQuarter1;
-      case 2: return this.monthOfQuarter2;
-      case 3: return this.monthOfQuarter3;
-      case 4: return this.monthOfQuarter4;
-      default: return 0;
+      case 1:
+        return this.monthOfQuarter1;
+      case 2:
+        return this.monthOfQuarter2;
+      case 3:
+        return this.monthOfQuarter3;
+      case 4:
+        return this.monthOfQuarter4;
+      default:
+        return 0;
     }
   }
 
-  changeQuarter(q: number){
-    if(q != (<WpTarget>this.editedTarget).quarter) {
+  changeQuarter(q: number) {
+    if (q !== (<WpTarget>this.editedTarget).quarter) {
       (<WpTarget>this.editedTarget).month = 0;
     }
   }
 
-  public getAppBasePath():string {
+  public getAppBasePath(): string {
     return this.appBasePath;
   }
 

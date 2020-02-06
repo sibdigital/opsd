@@ -29,7 +29,8 @@
             <input type="hidden" [(ngModel)]="wpProblem.project_id" [value]="workPackage.project.getId()" />
             <div style="float:left; width: 100%;">
               <label>Тип</label>
-              <label style="width: 260px; float:left;"><input type="radio" name="problem_type" [(ngModel)]="wpProblem.problem_type"  value="problem" />Проблема</label>
+              <label style="width: 260px; float:left;"><input type="radio" name="problem_type"
+                                                              [(ngModel)]="wpProblem.problem_type" value="problem"/>Проблема</label>
               <label><input type="radio" name="problem_type" [(ngModel)]="wpProblem.problem_type" value="risk" />Риск</label>
             </div>
 
