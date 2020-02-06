@@ -58,40 +58,44 @@ class NationalProject < ActiveRecord::Base
   end
 
   def self.visible_national_federal_projects(current_user)
+    exclude_status_id = Project::STATUS_ARCHIVED
     slq = <<~SQL
       select distinct np.*
       from national_projects as np
-        inner join(
-          select project_id, national_project_id, federal_project_id
+               inner join(
+          select status, project_id, national_project_id, federal_project_id
           from members as m
                    inner join projects as p
                               on p.id = m.project_id
           where user_id = ?
-        ) as mu
-        on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id)) order by np.id
+      ) as mu
+          on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id))
+      WHERE status <> ?
+      order by np.id
     SQL
-    nps = NationalProject.find_by_sql([slq, current_user.id])
+    nps = NationalProject.find_by_sql([slq, current_user.id, exclude_status_id])
     nps
   end
 
   def self.visible_national_projects_with_problems(current_user)
+    exclude_status_id = Project::STATUS_ARCHIVED
     slq = <<~SQL
       select distinct np.*
       from national_projects as np
-             inner join(
-        select DISTINCT project_id, national_project_id, federal_project_id
-        from members as m
-                 inner join projects as p
-                            on p.id = m.project_id
-        where user_id = ?
-      ) as mu
-        on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id))
-             left join v_project_risk_on_work_packages_stat as vprowps
-                       on (np.id = vprowps.national_project_id or np.id = vprowps.federal_project_id)
-      where vprowps.type = 'created_problem' or vprowps.type = 'created_risk' 
-      order by np.id
+          inner join(
+              select DISTINCT status, project_id, national_project_id, federal_project_id
+              from members as m
+                       inner join projects as p
+                                  on p.id = m.project_id
+              where m.user_id = ? AND p.status <> ?
+          ) as mu
+               on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id))
+                   left join v_project_risk_on_work_packages_stat as vprowps
+                             on ((np.id = vprowps.national_project_id or np.id = vprowps.federal_project_id) AND mu.project_id = vprowps.project_id)
+          where (vprowps.type = 'created_problem' or vprowps.type = 'created_risk')
+          order by np.id;
     SQL
-    nps = NationalProject.find_by_sql([slq, current_user.id])
+    nps = NationalProject.find_by_sql([slq, current_user.id, exclude_status_id])
     nps
   end
 

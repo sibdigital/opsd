@@ -14,7 +14,9 @@ import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 
-export interface typeArr { name: string};
+export interface typeArr {
+  name: string;
+}
 
 let PROBLEM_TYPE: typeArr[] = [{name: 'problem'}, {name: 'risk'}];
 let SOLUTION_TYPE: typeArr[] = [{name: 'created'}, {name: 'solved'}];
@@ -36,8 +38,10 @@ export class WpProblem {
   public status: string;
   public solution_date: string;
 
-  constructor (parameters: { id: number, project_id: number, work_package_id: number, risk_id: number, name: string, problem_type?: string, user_creator_id?: number, user_source_id?: number, organization_source_id?: number, description?: string, status?: string, solution_date?: string,
-      user?: UserResource}){
+  constructor(parameters: {
+    id: number, project_id: number, work_package_id: number, risk_id: number, name: string, problem_type?: string, user_creator_id?: number, user_source_id?: number, organization_source_id?: number, description?: string, status?: string, solution_date?: string,
+    user?: UserResource
+  }) {
     let {id, project_id, work_package_id, risk_id, name, problem_type = PROBLEM_TYPE[0].name, user_creator_id = 0, user_source_id = 0, organization_source_id = 0, description = '', status = '', solution_date = '', user = undefined} = parameters;
 
     this.id = id;
@@ -50,11 +54,15 @@ export class WpProblem {
     this.organization_source_id = organization_source_id;
     this.problem_type = problem_type;
 
-    if(user_creator_id != 0) this.user_creator = user;
+    if (user_creator_id !== 0) {
+      this.user_creator = user;
+    }
 
     this.description = description;
     this.status = status;
-    if(solution_date.length != 0) this.solution_date = solution_date;
+    if (solution_date.length !== 0) {
+      this.solution_date = solution_date;
+    }
   }
 }
 
@@ -66,20 +74,20 @@ export class WpProblem {
 })
 
 export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
-  @Input() public workPackageId:string;
-  @ViewChild('focusAfterSave') readonly focusAfterSave:ElementRef;
+  @Input() public workPackageId: string;
+  @ViewChild('focusAfterSave') readonly focusAfterSave: ElementRef;
   @ViewChild('readOnlyTemplate') readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate') editTemplate: TemplateRef<any>;
   @ViewChild('readOnlyTemplate2') readOnlyTemplate2: TemplateRef<any>;
   @ViewChild('editTemplate2') editTemplate2: TemplateRef<any>;
 
-  public workPackage:WorkPackageResource;
-  public wpProblems:Array<WpProblem>;
+  public workPackage: WorkPackageResource;
+  public wpProblems: Array<WpProblem>;
   public wpProblem: WpProblem | null;
   public editedProblem: WpProblem | null;
 
-  public showProblemCreateForm:boolean = false;
-  public selectedId:string;
+  public showProblemCreateForm: boolean = false;
+  public selectedId: string;
   public isDisabled = false;
   problemCanEdit: boolean;
 
@@ -105,14 +113,14 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
   problem_type = 'problem';
 
-  constructor(readonly timezoneService:TimezoneService,
-              protected I18n:I18nService,
-              protected wpNotificationsService:WorkPackageNotificationService,
-              protected halResourceService:HalResourceService,
-              readonly $transition:Transition,
-              readonly wpCacheService:WorkPackageCacheService,
+  constructor(readonly timezoneService: TimezoneService,
+              protected I18n: I18nService,
+              protected wpNotificationsService: WorkPackageNotificationService,
+              protected halResourceService: HalResourceService,
+              readonly $transition: Transition,
+              readonly wpCacheService: WorkPackageCacheService,
               protected confirmDialog: ConfirmDialogService,
-              protected pathHelper:PathHelperService) {
+              protected pathHelper: PathHelperService) {
 
     this.wpProblems = new Array<WpProblem>();
   }
@@ -152,10 +160,21 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       .then((collection:CollectionResource<HalResource>) => {
         this.wpProblems = collection.elements.map(el => {
           return new WpProblem(
-            {id: Number(el.getId()), project_id: el.projectId, work_package_id: el.workPackageId, risk_id: el.riskId, name: el.name,
-            problem_type: el.type, user_creator_id: el.userCreatorId, organization_source_id: el.organizationSourceId,
-            user_source_id: el.userSourceId, status: el.status, solution_date: el.solutionDate, description: el.description})
-          })
+            {
+              id: Number(el.getId()),
+              project_id: el.projectId,
+              work_package_id: el.workPackageId,
+              risk_id: el.riskId,
+              name: el.name,
+              problem_type: el.type,
+              user_creator_id: el.userCreatorId,
+              organization_source_id: el.organizationSourceId,
+              user_source_id: el.userSourceId,
+              status: el.status,
+              solution_date: el.solutionDate,
+              description: el.description
+            });
+        });
         }
       )
       .catch((err) => {
@@ -163,38 +182,41 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       });
   }
 
-  private loadOrgs(){
+  private loadOrgs() {
     return this.halResourceService.get<CollectionResource<HalResource>>(
       this.pathHelper.api.v3.organizations.toString())
       .toPromise()
-      .then((collection:CollectionResource<HalResource>) => {
+      .then((collection: CollectionResource<HalResource>) => {
         this.orgs.set(0, '');
-        collection.elements.forEach(el =>
-           {this.orgs.set(Number(el.getId()), el.name)}
+        collection.elements.forEach(el => {
+            this.orgs.set(Number(el.getId()), el.name);
+          }
         );
       });
   }
 
-  private loadUsers(){
+  private loadUsers() {
     return this.halResourceService.get<CollectionResource<HalResource>>(
       this.pathHelper.api.v3.users.toString())
       .toPromise()
-      .then((collection:CollectionResource<HalResource>) => {
+      .then((collection: CollectionResource<HalResource>) => {
           this.users.set(0, '');
-          collection.elements.forEach(el =>
-            {this.users.set(Number(el.getId()), el.name)}
+          collection.elements.forEach(el => {
+              this.users.set(Number(el.getId()), el.name);
+            }
           );
         }
       );
   }
 
-  private loadRisks(){
+  private loadRisks() {
     return this.halResourceService.get<CollectionResource<HalResource>>(
       this.pathHelper.api.v3.project_risks.toString(), {project_id: this.workPackage.project.id})
       .toPromise()
-      .then((collection:CollectionResource<HalResource>) => {
-          collection.elements.forEach(el =>
-            {this.risks.set(Number(el.getId()), el.name)}
+      .then((collection: CollectionResource<HalResource>) => {
+          collection.elements.forEach(el => {
+              this.risks.set(Number(el.getId()), el.name);
+            }
           );
           //console.log(this.risks)
         }
@@ -203,14 +225,17 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
   /** Добавляет новую запись в wp_problems
    * */
-  private addNewProblem(problem: WpProblem){
-    if(problem.problem_type == 'problem') { problem.risk_id = 0; }
+  private addNewProblem(problem: WpProblem) {
+    if (problem.problem_type === 'problem') {
+      problem.risk_id = 0;
+    }
 
     const path = this.pathHelper.api.v3.work_package_problems.toString();
-    const params = {project_id: problem.project_id, work_package_id: problem.work_package_id, risk_id: problem.risk_id,
-            user_creator_id: problem.user_creator_id, organization_source_id: problem.organization_source_id,
-            description: problem.description, status: 'created', type: problem.problem_type,
-            user_source_id: problem.user_source_id
+    const params = {
+      project_id: problem.project_id, work_package_id: problem.work_package_id, risk_id: problem.risk_id,
+      user_creator_id: problem.user_creator_id, organization_source_id: problem.organization_source_id,
+      description: problem.description, status: 'created', type: problem.problem_type,
+      user_source_id: problem.user_source_id
     };
     return this.halResourceService
       .post<HalResource>(path, params)
@@ -220,21 +245,24 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
   /** Изменяет запись
    * */
-  public saveWpProblem(problem: WpProblem){
+  public saveWpProblem(problem: WpProblem) {
     const path = this.pathHelper.api.v3.work_package_problems.toString() + '/' + problem.id;
-    const params = {project_id: problem.project_id, work_package_id: problem.work_package_id, risk_id: problem.risk_id,
+    const params = {
+      project_id: problem.project_id, work_package_id: problem.work_package_id, risk_id: problem.risk_id,
       user_creator_id: problem.user_creator_id, organization_source_id: problem.organization_source_id,
       description: problem.description, status: problem.status, type: problem.problem_type,
       user_source_id: problem.user_source_id, solution_date: problem.solution_date
     };
 
-    if(problem.problem_type == 'problem') { problem.risk_id = 0; }
+    if (problem.problem_type === 'problem') {
+      problem.risk_id = 0;
+    }
 
-    if(problem.status == 'solved' && problem.solution_date == undefined) {
+    if (problem.status === 'solved' && problem.solution_date === undefined) {
       this.wpNotificationsService.handleRawError('Для статуса "Решено" необходимо наличие даты решения', this.workPackage);
       return false;
     }
-    if(problem.status == 'created' && (problem.solution_date != undefined && problem.solution_date != '')) {
+    if (problem.status === 'created' && (problem.solution_date !== undefined && problem.solution_date !== '')) {
       this.wpNotificationsService.handleRawError('Дата решения может устанавливается только для статуса "Решено"', this.workPackage);
       return false;
     }
@@ -251,23 +279,25 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       });
   }
 
-  public editProblem(problem: WpProblem){
-    this.editedProblem = new WpProblem({id: problem.id, project_id: problem.project_id,
+  public editProblem(problem: WpProblem) {
+    this.editedProblem = new WpProblem({
+      id: problem.id, project_id: problem.project_id,
       work_package_id: Number(this.workPackageId), risk_id: problem.risk_id, name: problem.name,
       problem_type: problem.problem_type, status: problem.status,
       user_source_id: problem.user_source_id, organization_source_id: problem.organization_source_id,
       description: problem.description, solution_date: problem.solution_date,
-      user_creator_id: problem.user_creator_id});
+      user_creator_id: problem.user_creator_id
+    });
   }
 
-  public cancelEdit(){
+  public cancelEdit() {
     this.editedProblem = null;
   }
 
   /** загружаем один из двух шаблонов
    */
   loadTemplate(problem: WpProblem) {
-    if (this.editedProblem && this.editedProblem.id == problem.id) {
+    if (this.editedProblem && this.editedProblem.id === problem.id) {
       return this.editTemplate2;
     } else {
       return this.readOnlyTemplate2;
@@ -281,6 +311,10 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     // if (!this.selectedId) {
     //   return;
     // }
+
+    if (!this.checkForm(<WpProblem>this.wpProblem)) {
+      return;
+    }
     this.isDisabled = true;
     this.createCommonProblem()
       .catch(() => this.isDisabled = false)
@@ -317,16 +351,34 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
         this.wpProblem = null;
         this.selectedId = '';
         this.focusAfterSave.nativeElement.focus();
-      }
-      else {
-        this.wpProblem = new WpProblem({id: 0, project_id: this.workPackage.project.getId(),
-          work_package_id: Number(this.workPackageId), risk_id: 0, name:''});
+      } else {
+        this.wpProblem = new WpProblem({
+          id: 0, project_id: this.workPackage.project.getId(),
+          work_package_id: Number(this.workPackageId), risk_id: 0, name: ''
+        });
         //console.log(this.wpProblem);
       }
     });
   }
 
-  private deleteProblem(problem: WpProblem){
+  public handleButtonSave(componentName: string) {
+    console.log('[problems-tab.component.ts].handleButtonSave() componentName:', componentName);
+    if (componentName === 'problem') {
+      if (this.wpProblem) {
+        if (this.wpProblem.description.length === 0) {
+          this.isDisabled = true;
+        } else {
+          this.isDisabled = false;
+        }
+      } else {
+        this.isDisabled = true;
+      }
+    } else {
+      this.isDisabled = false;
+    }
+  }
+
+  private deleteProblem(problem: WpProblem) {
     const path = this.pathHelper.api.v3.work_package_problems.toString() + '/' + problem.id;
     const params = {project_id: problem.project_id};
     //const params = new HttpParams().set('project_id', problem.project_id.toString());
@@ -349,7 +401,56 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
           }
         );
     })
-      .catch(function () { return false; });
+      .catch(function () {
+        return false;
+      });
   }
 
+  /**
+   * Проверки при добавлении и редактировании записи
+   */
+  checkForm(wpProblem: WpProblem): boolean {
+    let isVaslid = true;
+    // обнуляем массив ошибок
+    let checkErrors = [];
+
+    if (wpProblem.problem_type === 'problem') {
+      if (wpProblem) {
+        if (wpProblem.description.length === 0) {
+          isVaslid = false;
+          checkErrors.push({result: isVaslid, text: 'Описание не может быть пустым.'});
+        }
+      } else {
+        isVaslid = false;
+        checkErrors.push({result: isVaslid, text: 'Заполните все поля.'});
+      }
+    }
+
+    if (wpProblem.problem_type === 'risk') {
+      if (wpProblem) {
+        if (!wpProblem.risk_id) {
+          isVaslid = false;
+          checkErrors.push({result: isVaslid, text: 'Поле риск не может быть пустым.'});
+        }
+      } else {
+        isVaslid = false;
+        checkErrors.push({result: isVaslid, text: 'Заполните все поля.'});
+      }
+    }
+
+
+    // если есть ошибки - выводим все
+    if (isVaslid === false) {
+      let errors = '';
+      checkErrors.forEach((value, ind) => {
+        if (checkErrors.length > 1) {
+          errors = errors + (ind + 1).toString() + '. ' + value.text + '\n';
+        } else {
+          errors = errors + value.text + '\n';
+        }
+      });
+      alert(errors);
+    }
+    return isVaslid;
+  }
 }
