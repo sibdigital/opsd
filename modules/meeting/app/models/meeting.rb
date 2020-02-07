@@ -32,7 +32,7 @@ class Meeting < ActiveRecord::Base
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
   #(iag
-  has_many :protocols, class_name: 'MeetingProtocol' , foreign_key: 'meeting_contents_id'
+  has_many :protocols, -> { order(id: :asc) }, class_name: 'MeetingProtocol' , foreign_key: 'meeting_contents_id'
   #)
 
   default_scope {

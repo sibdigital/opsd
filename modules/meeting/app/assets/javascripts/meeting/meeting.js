@@ -33,11 +33,22 @@ jQuery(function($) {
       jQuery(this).hide();
       jQuery('#meeting-protocol-form').show("fast");
     });
-
     jQuery('#meeting-protocol-cancel').click(function(){
       jQuery('#meeting-protocol-add').show("fast");
       jQuery('#meeting-protocol-form').hide("fast");
     });
   });
 //)
+//  knm+
+  jQuery(document).ready(function(){
+    jQuery('.meeting-protocol-edit').click(function () {
+      jQuery('#'+this.id+'.showing').hide('fast');
+      jQuery('#'+this.id+'.updating').show('fast');
+    });
+    jQuery('.meeting-protocol-edit-cancel').click(function(){
+      jQuery('#'+this.id+'.updating').hide('fast');
+      jQuery('#'+this.id+'.showing').show('fast');
+    });
+  });
+//  knm-
 });
