@@ -114,17 +114,21 @@ module API
           schema :subject,
                  type: 'String',
                  min_length: 1,
-                 max_length: 255
+                 max_length: 255,
+                 writable: ->(*) { current_user_allowed_to(:edit_subject, context: represented.project) }
           # bbm(
           schema :plan_type,
                  type: 'String',
                  min_length: 1,
                  max_length: 255
+
           schema :sed_href,
                  type: 'Href',
                  required: false,
                  min_length: 1,
-                 max_length: 255
+                 max_length: 255,
+                 writable: ->(*) { current_user_allowed_to(:edit_sed_href, context: represented.project) }
+
           schema :days,
                  type: 'Integer',
                  required: false
@@ -139,22 +143,26 @@ module API
           schema :result_agreed,
                  type: 'Boolean',
                  required: false,
-                 show_if: ->(*) { !represented.milestone? }
+                 show_if: ->(*) { !represented.milestone? },
+                 writable: ->(*) { current_user_allowed_to(:edit_result_agreed, context: represented.project) }
           # )
 
           schema :description,
                  type: 'Formattable',
-                 required: false
+                 required: false,
+                 writable: ->(*) { current_user_allowed_to(:edit_description, context: represented.project) }
 
           schema :start_date,
                  type: 'Date',
                  required: false,
-                 show_if: ->(*) { !represented.milestone? }
+                 show_if: ->(*) { !represented.milestone? },
+                 writable: ->(*) { current_user_allowed_to(:edit_start_date, context: represented.project) }
 
           schema :due_date,
                  type: 'Date',
                  required: false,
-                 show_if: ->(*) { !represented.milestone? }
+                 show_if: ->(*) { !represented.milestone? },
+                 writable: ->(*) { current_user_allowed_to(:edit_due_date, context: represented.project) }
 
           #bbm(
           schema :fact_due_date,
@@ -186,18 +194,25 @@ module API
 
           schema :estimated_time,
                  type: 'Duration',
-                 required: false
+                 required: false,
+                 writable: ->(*) { current_user_allowed_to(:edit_estimated_time, context: represented.project) }
 
           schema :spent_time,
                  type: 'Duration',
                  required: false,
                  show_if: ->(*) { represented.project && represented.project.module_enabled?('time_tracking') }
 
+          schema :remaining_time,
+                 type: 'Duration',
+                 required: false,
+                 writable: ->(*) { current_user_allowed_to(:edit_remaining_time, context: represented.project) }
+
           schema :percentage_done,
                  type: 'Integer',
                  name_source: :done_ratio,
                  show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
-                 required: false
+                 required: false,
+                 writable: ->(*) { current_user_allowed_to(:edit_done_ration, context: represented.project) }
 
           schema :created_at,
                  type: 'DateTime'
@@ -210,7 +225,8 @@ module API
                  writable: false
 
           schema :required_doc_type,
-                 type: 'AttachType'
+                 type: 'AttachType',
+                 writable: ->(*) { current_user_allowed_to(:edit_required_doc_type, context: represented.project) }
 
           schema_with_allowed_link :project,
                                    type: 'Project',
@@ -239,7 +255,8 @@ module API
                                      if represented.project
                                        api_v3_paths.available_assignees(represented.project_id)
                                      end
-                                   }
+                                   },
+                                   writable: ->(*) { current_user_allowed_to(:edit_assignee, context: represented.project) }
 
           schema_with_allowed_link :responsible,
                                    type: 'User',
@@ -248,7 +265,8 @@ module API
                                      if represented.project
                                        api_v3_paths.available_responsibles(represented.project_id)
                                      end
-                                   }
+                                   },
+                                   writable: ->(*) { current_user_allowed_to(:edit_responsible, context: represented.project) }
 
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,
@@ -258,7 +276,8 @@ module API
                                              title: type.name
                                            }
                                          },
-                                         has_default: false
+                                         has_default: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_type, context: represented.project) }
 
           schema_with_allowed_collection :status,
                                          value_representer: Statuses::StatusRepresenter,
@@ -278,7 +297,8 @@ module API
                                              title: category.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_category, context: represented.project) }
 
           #zbd(
           schema_with_allowed_collection :contract,
@@ -289,7 +309,8 @@ module API
                                              title: contract.contract_subject
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_contract, context: represented.project) }
 
           schema_with_allowed_collection :required_doc_type,
                                          value_representer: AttachTypes::AttachTypeRepresenter,
@@ -299,7 +320,8 @@ module API
                                              title: required_doc_type.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_required_doc_type, context: represented.project) }
           #)
 
           schema_with_allowed_collection :version,
@@ -310,7 +332,8 @@ module API
                                              title: version.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_fixed_version, context: represented.project) }
 
           #xcc(
           schema_with_allowed_collection :organization,
@@ -321,7 +344,8 @@ module API
                                              title: organization.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_organization, context: represented.project) }
 
           schema_with_allowed_collection :arbitary_object,
                                          value_representer: ArbitaryObjects::ArbitaryObjectRepresenter,
@@ -331,7 +355,8 @@ module API
                                              title: arbitary_object.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_arbitary_object, context: represented.project) }
 
           # )
           #+tan
@@ -343,7 +368,8 @@ module API
                                              title: raion.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_raion, context: represented.project) }
           #-tan
           # knm+
           schema_with_allowed_collection :period,
@@ -354,7 +380,8 @@ module API
                                              title: period.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_period, context: represented.project) }
 
           schema_with_allowed_collection :control_level,
                                          value_representer: ControlLevels::ControlLevelRepresenter,
@@ -364,7 +391,8 @@ module API
                                              title: control_level.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         writable: ->(*) { current_user_allowed_to(:edit_control_level, context: represented.project) }
 
           schema :indication,
                  type: 'String'
@@ -378,7 +406,8 @@ module API
                                            }
                                          },
                                          required: false,
-                                         has_default: true
+                                         has_default: true,
+                                         writable: ->(*) { current_user_allowed_to(:edit_priority, context: represented.project) }
 
           def attribute_groups
             (represented.type && represented.type.attribute_groups || []).map do |group|

@@ -2591,6 +2591,27 @@ en:
   permission_edit_required_doc_type: Редактирование типа контрольного документа
   permission_edit_fixed_version: Редактирование этапа
   #)
+  permission_edit_subject: Редактирование названия
+  permission_edit_sed_href: Редактирование ссылки СЭД
+  permission_edit_result_agreed: Редактирование результата согласования
+  permission_edit_description: Редактирование описания
+  permission_edit_start_date: Редактирование даты начала
+  permission_edit_due_date: Редактирование даты окончания
+  permission_edit_estimated_time: Редактирование предполагаемого времени
+  permission_edit_remaining_time: Редактирование оставшихся часов
+  permission_edit_done_ration: Редактирование прогресса
+  permission_edit_assignee: Редактирование подотчетного
+  permission_edit_responsible: Редактирование ответственного
+  permission_edit_type: Редактирование типа мероприятия
+  permission_edit_category: Редактирование категории
+  permission_edit_contract: Редактирование гос. контракта
+  permission_edit_organization: Редактирование организации
+  permission_edit_arbitary_object: Редактирование произвольного объекта
+  permission_edit_raion: Редактирование района
+  permission_edit_period: Редактирование периодичности
+  permission_edit_control_level: Редактирование уровня контроля
+  permission_edit_priority: Редактирование приоритета
+
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
   permission_manage_news: Управление новостями
