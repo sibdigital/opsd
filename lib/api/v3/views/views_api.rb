@@ -351,6 +351,8 @@ module API
               slice_plan_now = FirstPlanTarget.get_now(@projects.join(","))
               slice_plan_prev = FirstPlanTarget.get_previous_quarter(@projects.join(","))
               slice_plan_next = FirstPlanTarget.get_next_quarter(@projects.join(","))
+              slice_plan_end = LastPlanTarget.get_now(@projects.join(","))
+
               # pfqtv = PlanFactQuarterlyTargetValue.where("target_id in (" + targets.join(",") + ") and project_id in (" + @projects.join(",") + ")")
               # pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
               result = []
@@ -374,12 +376,14 @@ module API
                   target_plan_now = slice_plan_now.find {|slice| slice["target_id"] == t.id}
                   target_plan_prev = slice_plan_prev.find {|slice| slice["target_id"] == t.id}
                   target_plan_next = slice_plan_next.find {|slice| slice["target_id"] == t.id}
+                  target_plan_end = slice_plan_end.find {|slice| slice["target_id"] == t.id}
                   target_fact_now = slice_fact_now.select {|slice| slice["target_id"] == t.id}
                   target_fact_prev = slice_fact_prev.select {|slice| slice["target_id"] == t.id}
 
-                  stroka['target_prev'] = target_plan_prev.nil? ? '' : target_plan_prev["value"]
-                  stroka['target_now'] = target_plan_now.nil? ? '' : target_plan_prev["value"]
-                  stroka['target_next'] = target_plan_next.nil? ? '' : target_plan_prev["value"]
+                  stroka['target_prev'] = target_plan_prev.nil? ? 0.0 : target_plan_prev["value"].nil? ? 0.0 : target_plan_prev["value"].to_f
+                  stroka['target_now'] = target_plan_now.nil? ? 0.0 : target_plan_now["value"].nil? ? 0.0 : target_plan_now["value"].to_f
+                  stroka['target_next'] = target_plan_next.nil? ? 0.0 : target_plan_next["value"].nil? ? 0.0 : target_plan_next["value"].to_f
+                  stroka['target_end'] = target_plan_end.nil? ? 0.0 : target_plan_end["value"].nil? ? 0.0 : target_plan_end["value"].to_f
 
                   stroka['fact_prev'] = target_fact_prev.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
                   stroka['fact_now'] = target_fact_now.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }

@@ -91,8 +91,8 @@ export class BlueTableIndicatorService extends BlueTableService {
                 homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
               });
               row.targets.map((target:HalResource) => {
-                let fact:number = target.fact_year_value;
-                let goal:number = target.target_year_value;
+                let fact:number = target.fact_now;
+                let goal:number = target.target_end;
                 data.push({
                   parentId: row.project_id + 'Project',
                   id: target.target_id,
@@ -102,8 +102,8 @@ export class BlueTableIndicatorService extends BlueTableService {
                   homescreen_plan_now: target.target_now,
                   homescreen_plan_next: target.target_next,
                   homescreen_fact_prev: target.fact_prev,
-                  homescreen_fact_now: target.fact_prev,
-                  homescreen_progress: [!goal || !fact ? '0' : (100 * fact / goal).toFixed(1).toString()]
+                  homescreen_fact_now: target.fact_now,
+                  homescreen_progress: [!!goal ? (100 * fact / goal).toFixed(1).toString() : '0.0' ]
                 });
               });
             });
