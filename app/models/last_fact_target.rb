@@ -13,13 +13,15 @@ class LastFactTarget
     end
   end
 
-  def self.get(projects, time = Date.today)
-    results = ActiveRecord::Base.connection.exec_query(
+  def self.get_now(projects, time = Date.today)
+    ActiveRecord::Base.connection.exec_query(
       "select * from slice_last_quartered_fact_targets('#{time}' :: TIMESTAMP WITHOUT TIME ZONE, '{#{projects}}')"
-    )
-    answer = []
-    results.each do |result|
-      answer << initialize(result)
-    end
+    ).to_hash
+  end
+
+  def self.get_previous_quarter(projects, time = Date.today)
+    ActiveRecord::Base.connection.exec_query(
+      "select * from slice_last_quartered_fact_targets((first_quarter_day('#{time}') - INTERVAL  '1 day'), '{#{projects}}')"
+    ).to_hash
   end
 end

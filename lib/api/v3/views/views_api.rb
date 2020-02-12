@@ -343,49 +343,47 @@ module API
 
           resources :plan_fact_quarterly_target_values_view do
             get do
-              targ = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + @projects.join(",") + ")").map(&:id)
-              pfqtv = PlanFactQuarterlyTargetValue.where("target_id in (" + targ.join(",") + ") and project_id in (" + @projects.join(",") + ")")
-              pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
+              targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id)
+              # targets = targets.where("project_id in (" + @projects.join(",") + ")").map(&:id)
+              projects = Project.where("id in (" + @projects.join(",") + ")")
+              slice_fact_now = LastFactTarget.get_now(@projects.join(","))
+              slice_fact_prev = LastFactTarget.get_previous_quarter(@projects.join(","))
+              slice_plan_now = FirstPlanTarget.get_now(@projects.join(","))
+              slice_plan_prev = FirstPlanTarget.get_previous_quarter(@projects.join(","))
+              slice_plan_next = FirstPlanTarget.get_next_quarter(@projects.join(","))
+              # pfqtv = PlanFactQuarterlyTargetValue.where("target_id in (" + targets.join(",") + ") and project_id in (" + @projects.join(",") + ")")
+              # pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
               result = []
-              pfqtv.group_by(&:project_id).each do |project, arr|
+              projects.each do |project|
                 hash = Hash.new
                 hash['_type'] = 'Project'
-                hash['project_id'] = project
-                p = Project.find(project)
-                hash['name'] = p.name
-                hash['identifier'] = p.identifier
-                hash['parentId'] = p.federal_project_id || p.national_project_id || 0
-                hash['federal_id'] = p.federal_project_id || 0
-                hash['national_id'] = p.national_project_id || 0
+                hash['project_id'] = project.id
+                hash['name'] = project.name
+                hash['identifier'] = project.identifier
+                hash['parentId'] = project.federal_project_id || project.national_project_id || 0
+                hash['federal_id'] = project.federal_project_id || 0
+                hash['national_id'] = project.national_project_id || 0
                 hash['targets'] = []
-                arr.group_by(&:target_id).each do |t, rows|
+                targets.where(project_id: project.id).each do |t|
                   stroka = Hash.new
-                  stroka['_type'] = 'PlanFact QuarterlyTargetquartered_work_package_targets_with_quarter_groups_viewValue'
-                  target = Target.find(t)
-                  stroka['name'] = target.name
-                  stroka['target_id'] = t
-                  slice = PlanFactQuarterlyTargetValue.where("target_id = #{t} and year = date_part('year', CURRENT_DATE)").first
+                  stroka['_type'] = 'PlanFact QuarterlyTargetValue'
+                  stroka['name'] = t.name
+                  stroka['target_id'] = t.id
+                  stroka['otvetstvenniy_id'] = t.resultassigned ? t.resultassigned.id : ''
+                  stroka['otvetstvenniy'] = t.resultassigned ? t.resultassigned.fio : ''
+                  target_plan_now = slice_plan_now.find {|slice| slice["target_id"] == t.id}
+                  target_plan_prev = slice_plan_prev.find {|slice| slice["target_id"] == t.id}
+                  target_plan_next = slice_plan_next.find {|slice| slice["target_id"] == t.id}
+                  target_fact_now = slice_fact_now.select {|slice| slice["target_id"] == t.id}
+                  target_fact_prev = slice_fact_prev.select {|slice| slice["target_id"] == t.id}
 
-                  stroka['otvetstvenniy_id'] = target.resultassigned ? target.resultassigned.id : ''
-                  stroka['otvetstvenniy'] = target.resultassigned ? target.resultassigned.fio : ''
+                  stroka['target_prev'] = target_plan_prev.nil? ? '' : target_plan_prev["value"]
+                  stroka['target_now'] = target_plan_now.nil? ? '' : target_plan_prev["value"]
+                  stroka['target_next'] = target_plan_next.nil? ? '' : target_plan_prev["value"]
 
-                  stroka['target_year_value'] = slice.nil? ? nil : slice.target_year_value
-                  stroka['target_quarter1_value'] = slice.nil? ? nil : slice.target_quarter1_value
-                  stroka['target_quarter2_value'] = slice.nil? ? nil : slice.target_quarter2_value
-                  stroka['target_quarter3_value'] = slice.nil? ? nil : slice.target_quarter3_value
-                  stroka['target_quarter4_value'] = slice.nil? ? nil : slice.target_quarter4_value
+                  stroka['fact_prev'] = target_fact_prev.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
+                  stroka['fact_now'] = target_fact_now.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
 
-                  stroka['plan_year_value'] = slice.nil? ? nil : slice.fact_year_value
-                  stroka['plan_quarter1_value'] = slice.nil? ? nil : slice.plan_quarter1_value
-                  stroka['plan_quarter2_value'] = slice.nil? ? nil : slice.plan_quarter2_value
-                  stroka['plan_quarter3_value'] = slice.nil? ? nil : slice.plan_quarter3_value
-                  stroka['plan_quarter4_value'] = slice.nil? ? nil : slice.plan_quarter4_value
-
-                  stroka['fact_year_value'] = slice.nil? ? nil : slice.fact_year_value
-                  stroka['fact_quarter1_value'] = slice.nil? ? nil : slice.fact_quarter1_value
-                  stroka['fact_quarter2_value'] = slice.nil? ? nil : slice.fact_quarter2_value
-                  stroka['fact_quarter3_value'] = slice.nil? ? nil : slice.fact_quarter3_value
-                  stroka['fact_quarter4_value'] = slice.nil? ? nil : slice.fact_quarter4_value
                   hash['targets'] << stroka
                 end
                 result << hash

@@ -37,7 +37,6 @@ export class HomescreenBlueTableComponent implements OnInit {
       this.columns = this.blueTableModule.getColumns();
       this.blueTableModule.initializeAndGetData().then((data) => {
         this.data = data;
-        this.expandAll();
       });
     }
   }
