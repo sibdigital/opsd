@@ -8,7 +8,11 @@ threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port        ENV.fetch("PORT") { 80 }
+#
+# port        ENV.fetch("PORT") { 80 }
+# fva {
+port ENV.fetch("PORT") { 3000 }, '0.0.0.0'
+# }
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -31,7 +35,7 @@ preload_app! if Rails.env.production?
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
-ssl_bind '0.0.0.0','443',{
-  key:'/root/.ssh/private.key',
-  cert:'/root/.ssh/sup_govrb_ru.crt'
+ssl_bind '0.0.0.0', '3001', {
+    key: '/root/.ssh/private.key',
+    cert: '/root/.ssh/sup_govrb_ru.crt'
 }
