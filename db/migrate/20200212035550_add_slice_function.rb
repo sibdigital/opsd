@@ -1,7 +1,7 @@
 class AddSliceFunction < ActiveRecord::Migration[5.2]
   def change
     execute <<-SQL
-    CREATE OR REPLACE FUNCTION slice_last_quartered_plan_targets(projects integer[])
+    CREATE OR REPLACE FUNCTION slice_last_quartered_plan_targets(slice_date TIMESTAMP WITHOUT TIME ZONE, projects integer[])
         RETURNS table(
                          national_project_id integer,
                          federal_project_id integer,
@@ -23,6 +23,7 @@ class AddSliceFunction < ActiveRecord::Migration[5.2]
                                from target_execution_values as tev
                                         inner join prj_targ as pt
                                                    on tev.target_id = pt.id
+                               where max_date(tev.year, tev.quarter,null) <= first_quarter_day(slice_date :: DATE)
                  ),
     --              slice as (select t.project_id, t.target_id, t.year, min(min_year_quarter(t.year, t.quarter)) as quarter
                  slice as (select t.project_id, t.target_id, max(max_date(t.year,t.quarter,null)) as slice_date

@@ -351,7 +351,7 @@ module API
               slice_plan_now = FirstPlanTarget.get_now(@projects.join(","))
               slice_plan_prev = FirstPlanTarget.get_previous_quarter(@projects.join(","))
               slice_plan_next = FirstPlanTarget.get_next_quarter(@projects.join(","))
-              slice_plan_end = LastPlanTarget.get_now(@projects.join(","))
+              slice_plan_end = LastPlanTarget.get_ends(@projects.join(","))
 
               # pfqtv = PlanFactQuarterlyTargetValue.where("target_id in (" + targets.join(",") + ") and project_id in (" + @projects.join(",") + ")")
               # pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
