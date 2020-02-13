@@ -22,41 +22,42 @@ module API
         property :data,
                  exec_context: :decorator,
                  getter: ->(*) {
+                   available_user_projects = user_projects(current_user)
                    case @name
                    when 'pokazateli' then
-                     desktop_pokazateli_data
+                     desktop_pokazateli_data(available_user_projects)
                    when 'kt' then
-                     desktop_kt_data
+                     desktop_kt_data(available_user_projects)
                    when 'budget' then
-                     desktop_budget_data
+                     desktop_budget_data(available_user_projects)
                    when 'riski' then
-                     desktop_riski_data
+                     desktop_riski_data(available_user_projects)
                    when 'zdravoohranenie' then
-                     indicator_data(I18n.t(:national_project_zdravoohr))
+                     indicator_data(I18n.t(:national_project_zdravoohr), available_user_projects)
                    when 'obrazovanie' then
-                     indicator_data(I18n.t(:national_project_obraz))
+                     indicator_data(I18n.t(:national_project_obraz), available_user_projects)
                    when 'demografia' then
-                     indicator_data(I18n.t(:national_project_demogr))
+                     indicator_data(I18n.t(:national_project_demogr), available_user_projects)
                    when 'cultura' then
-                     indicator_data(I18n.t(:national_project_cultur))
+                     indicator_data(I18n.t(:national_project_cultur), available_user_projects)
                    when 'avtodorogi' then
-                     indicator_data(I18n.t(:national_project_avtodor))
+                     indicator_data(I18n.t(:national_project_avtodor), available_user_projects)
                    when 'gorsreda' then
-                     indicator_data(I18n.t(:national_project_gorsreda))
+                     indicator_data(I18n.t(:national_project_gorsreda), available_user_projects)
                    when 'ekologia' then
-                     indicator_data(I18n.t(:national_project_ekol))
+                     indicator_data(I18n.t(:national_project_ekol), available_user_projects)
                    when 'nauka' then
-                     indicator_data(I18n.t(:national_project_nauka))
+                     indicator_data(I18n.t(:national_project_nauka), available_user_projects)
                    when 'msp' then
-                     indicator_data(I18n.t(:national_project_msp))
+                     indicator_data(I18n.t(:national_project_msp), available_user_projects)
                    when 'digital' then
-                     indicator_data(I18n.t(:national_project_digital))
+                     indicator_data(I18n.t(:national_project_digital), available_user_projects)
                    when 'trud' then
-                     indicator_data(I18n.t(:national_project_trud))
+                     indicator_data(I18n.t(:national_project_trud), available_user_projects)
                    when 'export' then
-                     indicator_data(I18n.t(:national_project_export))
+                     indicator_data(I18n.t(:national_project_export), available_user_projects)
                    when 'republic' then
-                     indicator_data(nil)
+                     indicator_data(nil, available_user_projects)
                    when 'fed_budget' then
                      fed_budget_data
                    when 'reg_budget' then
@@ -115,173 +116,304 @@ module API
 
         private
 
-        # bbm(
-        # Функция заполнения значений долей диаграммы Показатели на рабочем столе
-        def desktop_pokazateli_data
-          max = 1
-          average = 0.9
-          net_otkloneniy = 0
-          small_otkloneniya = 0
-          big_otkloneniya = 0
-          net_dannyh = 0
-          projects = []
+        #tan
+        def user_projects(user)
+          proj_arr = user.projects.to_a
+          visibles = Project.visible(user).to_a
+          proj_arr & visibles # пересечение видимых и тех, в которых состоит
+        end
+
+        def sql_text_desktop_pokazateli_data
           #+-tan 2019.10.16
           # проведен рефакторинг фильтрация проектов по видимости пользователю проводится непосредственно в запросе
           # это рациональнее и позволяет избежать ошибок связанных с проверкой видимости шаблонов
-          # sql_query = <<-SQL
-          #   select yearly.project_id, yearly.target_id,
-          #   sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
-          #   from v_plan_fact_quarterly_target_values as quarterly
-          #   left join v_plan_fact_yearly_target_values as yearly
-          #   on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
-          #   where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
-          #   group by yearly.project_id, yearly.target_id
-          # SQL
-          if @project && @project != '0'
-            projects << @project
-          else
-            Project.all.each do |project|
-              exist = which_role(project, @current_user, @global_role)
-              if exist
-                projects << project.id
-              end
+          sql_query = <<-SQL
+            select yearly.project_id, yearly.target_id, 
+            sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
+            from v_plan_fact_quarterly_target_values as quarterly
+            left join v_plan_fact_yearly_target_values as yearly
+            on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
+            where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
+            group by yearly.project_id, yearly.target_id
+          SQL
+          sql_query
+        end
+        # bbm(
+        # Функция заполнения значений долей диаграммы Показатели на рабочем столе
+        def desktop_pokazateli_data(available_user_projects)
+          ispolneno = 0 # Порядок важен
+          ne_ispolneno = 0
+          v_rabote = 0
+
+          user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
+          plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_text_desktop_pokazateli_data(), user_proj])
+
+          plan_facts.map do |pf|
+            fact = pf.final_fact_year_value || 0
+            plan = pf.target_plan_year_value || 0
+            procent = plan == 0 ? 0 : (fact / plan * 100)
+            if procent == 100
+              ispolneno += 1
+            elsif procent < 100 and procent > 0
+              v_rabote += 1
+            elsif procent == 0
+              ne_ispolneno += 1
             end
           end
-          # @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
-          targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
-          targets.each do |t|
-            wpts = WorkPackageTarget.where(target_id: t.id)
-            tevs = TargetExecutionValue.where(target_id: t.id)
-            tev = tevs.where("value NOTNULL and ((year = date_part('year', CURRENT_DATE)
-                            and quarter >= date_part('quarter', CURRENT_DATE))
-                            or year > date_part('year', CURRENT_DATE))")
-                    .order(:year, :quarter).first
-            if wpts.count != 0 and !tev.nil?
-              check = 0
-              wpts.select(:work_package_id).distinct.each do |w|
-                wpt = wpts.where("work_package_id = #{w.work_package_id} and value NOTNULL and ((year = date_part('year', CURRENT_DATE)
-                            and quarter <= date_part('quarter', CURRENT_DATE)
-                            and month <= date_part('month', CURRENT_DATE)) or year < date_part('year', CURRENT_DATE))")
-                        .order(:year, :quarter, :month).last
-                if !wpt.nil? and wpt.value >= tev.value and check.zero?
-                  check = 0
-                elsif !wpt.nil? and (wpt.value / tev.value) >= average
-                  check = 1
-                else
-                  check = -1
-                  break
-                end
-              end
-              if check.zero?
-                net_otkloneniy += 1
-              elsif check == 1
-                small_otkloneniya += 1
-              else
-                big_otkloneniya += 1
-              end
-            else
-              net_dannyh += 1
-            end
-          end
-          result = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]
+          # Порядок важен
+          result = [ispolneno, ne_ispolneno, v_rabote]
+          result
         end
 
+        # def desktop_pokazateli_data
+        #   max = 1
+        #   average = 0.9
+        #   net_otkloneniy = 0
+        #   small_otkloneniya = 0
+        #   big_otkloneniya = 0
+        #   net_dannyh = 0
+        #   projects = []
+        #   #+-tan 2019.10.16
+        #   # проведен рефакторинг фильтрация проектов по видимости пользователю проводится непосредственно в запросе
+        #   # это рациональнее и позволяет избежать ошибок связанных с проверкой видимости шаблонов
+        #   # sql_query = <<-SQL
+        #   #   select yearly.project_id, yearly.target_id,
+        #   #   sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
+        #   #   from v_plan_fact_quarterly_target_values as quarterly
+        #   #   left join v_plan_fact_yearly_target_values as yearly
+        #   #   on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
+        #   #   where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
+        #   #   group by yearly.project_id, yearly.target_id
+        #   # SQL
+        #   if @project && @project != '0'
+        #     projects << @project
+        #   else
+        #     Project.all.each do |project|
+        #       exist = which_role(project, @current_user, @global_role)
+        #       if exist
+        #         projects << project.id
+        #       end
+        #     end
+        #   end
+        #   # @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
+        #   targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
+        #   targets.each do |t|
+        #     wpts = WorkPackageTarget.where(target_id: t.id)
+        #     tevs = TargetExecutionValue.where(target_id: t.id)
+        #     tev = tevs.where("value NOTNULL and ((year = date_part('year', CURRENT_DATE)
+        #                     and quarter >= date_part('quarter', CURRENT_DATE))
+        #                     or year > date_part('year', CURRENT_DATE))")
+        #             .order(:year, :quarter).first
+        #     if wpts.count != 0 and !tev.nil?
+        #       check = 0
+        #       wpts.select(:work_package_id).distinct.each do |w|
+        #         wpt = wpts.where("work_package_id = #{w.work_package_id} and value NOTNULL and ((year = date_part('year', CURRENT_DATE)
+        #                     and quarter <= date_part('quarter', CURRENT_DATE)
+        #                     and month <= date_part('month', CURRENT_DATE)) or year < date_part('year', CURRENT_DATE))")
+        #                 .order(:year, :quarter, :month).last
+        #         if !wpt.nil? and wpt.value >= tev.value and check.zero?
+        #           check = 0
+        #         elsif !wpt.nil? and (wpt.value / tev.value) >= average
+        #           check = 1
+        #         else
+        #           check = -1
+        #           break
+        #         end
+        #       end
+        #       if check.zero?
+        #         net_otkloneniy += 1
+        #       elsif check == 1
+        #         small_otkloneniya += 1
+        #       else
+        #         big_otkloneniya += 1
+        #       end
+        #     else
+        #       net_dannyh += 1
+        #     end
+        #   end
+        #   result = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]
+        # end
+        #
         # Функция заполнения значений долей диаграммы KT на рабочем столе
-        def desktop_kt_data
+        def desktop_kt_data(available_user_projects)
           ispolneno = 0
           v_rabote = 0
           ne_ispolneno = 0
           riski = 0
-          kt = Type.find_by name: I18n.t(:default_type_milestone)
-          pis = ProjectIspolnStat.where(type_id: kt.id)
-          pis = pis.where(project_id: @project) if @project && @project != '0'
+
+          @kontrol_point_type = Type.find_by name: I18n.t(:default_type_milestone) || @kontrol_point_type
+          user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
+          pis = ProjectIspolnStat.where(type_id: @kontrol_point_type.id)
+          pis = pis.where(project_id: user_proj)
+
           pis.map do |ispoln|
-            # +-tan 2019.09.17
-            if ispoln.project.visible? current_user
-              project = ispoln.project #Project.visible(current_user).find(ispoln.project_id)
-              exist = which_role(project, @current_user, @global_role)
-              if exist
-                ispolneno += ispoln.ispolneno
-                v_rabote += ispoln.v_rabote
-                ne_ispolneno += ispoln.ne_ispolneno
-                riski += ispoln.est_riski
-              end
-            end
+            ispolneno += ispoln.ispolneno
+            v_rabote += ispoln.v_rabote
+            ne_ispolneno += ispoln.ne_ispolneno
+            riski += ispoln.est_riski
           end
-          result = []
           # Порядок важен
-          result << ispolneno
-          result << ne_ispolneno
-          result << v_rabote
-          result << riski
+          result = [ispolneno, ne_ispolneno, v_rabote, riski]
+          result
         end
 
+        # def desktop_kt_data
+        #   ispolneno = 0
+        #   v_rabote = 0
+        #   ne_ispolneno = 0
+        #   riski = 0
+        #   kontrol_point_type = Type.find_by name: I18n.t(:default_type_milestone)
+        #   pis = ProjectIspolnStat.where(type_id: kt.id)
+        #   pis = pis.where(project_id: @project) if @project && @project != '0'
+        #   pis.map do |ispoln|
+        #     # +-tan 2019.09.17
+        #     if ispoln.project.visible? current_user
+        #       project = ispoln.project #Project.visible(current_user).find(ispoln.project_id)
+        #       exist = which_role(project, @current_user, @global_role)
+        #       if exist
+        #         ispolneno += ispoln.ispolneno
+        #         v_rabote += ispoln.v_rabote
+        #         ne_ispolneno += ispoln.ne_ispolneno
+        #         riski += ispoln.est_riski
+        #       end
+        #     end
+        #   end
+        #   result = []
+        #   # Порядок важен
+        #   result << ispolneno
+        #   result << ne_ispolneno
+        #   result << v_rabote
+        #   result << riski
+        # end
+
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
-        def desktop_budget_data
+        def desktop_budget_data(available_user_projects)
           cost_objects = CostObject.by_user @current_user
           total_budget = BigDecimal("0")
           spent = BigDecimal("0")
 
+          user_proj = @project && @project != '0' ? @project : available_user_projects
+
           cost_objects.each do |cost_object|
-            if @project && @project != '0'
-              if @project == cost_object.project_id.to_s
-                total_budget += cost_object.budget
-                spent += cost_object.spent
-              end
-            else
-              project = Project.visible(current_user).find(cost_object.project_id)#можно стереть
-              exist = which_role(project, @current_user, @global_role)#можно стереть
-              if exist#можно стереть
+            user_proj.each do |uproj|
+              if uproj.id == cost_object.project_id
                 total_budget += cost_object.budget
                 spent += cost_object.spent
               end#можно стереть
             end
           end
 
-          spent
+          # Порядок важен
           risk_ispoln = 0
           ostatok = total_budget - spent
-          result = []
-          # Порядок важен
-          result << spent
-          result << risk_ispoln
-          result << ostatok
+          result = [spent, risk_ispoln, ostatok]
+          result
         end
 
-        def desktop_riski_data
-          net_riskov = 0
-          neznachit = 0
-          kritich = 0
-          status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
-          status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
+        # def desktop_budget_data
+        #   cost_objects = CostObject.by_user @current_user
+        #   total_budget = BigDecimal("0")
+        #   spent = BigDecimal("0")
+        #
+        #   cost_objects.each do |cost_object|
+        #     if @project && @project != '0'
+        #       if @project == cost_object.project_id.to_s
+        #         total_budget += cost_object.budget
+        #         spent += cost_object.spent
+        #       end
+        #     else
+        #       project = Project.visible(current_user).find(cost_object.project_id)
+        #       exist = which_role(project, @current_user, @global_role)
+        #       if exist
+        #         total_budget += cost_object.budget
+        #         spent += cost_object.spent
+        #       end
+        #     end
+        #   end
+        #
+        #   spent
+        #   risk_ispoln = 0
+        #   ostatok = total_budget - spent
+        #   result = []
+        #   # Порядок важен
+        #   result << spent
+        #   result << risk_ispoln
+        #   result << ostatok
+        # end
+
+        def sql_text_desktop_riski_data
           sql_query = <<-SQL
             select type, project_id, importance_id, sum(count) as count
             from v_project_risk_on_work_packages_stat
             where type in ('created_risk', 'created_problem','no_risk_problem') and project_id in (?)
             group by type, project_id, importance_id
           SQL
-          arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
-          @risks = ProjectRiskOnWorkPackagesStat.find_by_sql([sql_query, arr])
+          sql_query
+        end
+
+        def desktop_riski_data(available_user_projects)
+          net_riskov = 0
+          neznachit = 0
+          kritich = 0
+          @status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low)) || @status_neznachit
+          @status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical)) || @status_kritich
+
+          user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
+          @risks = ProjectRiskOnWorkPackagesStat.find_by_sql([sql_text_desktop_riski_data(), user_proj])
+
           @risks.map do |risk|
-            # +-tan 2019.09.17
-            if risk.project.visible? current_user
-              project = risk.project #Project.visible(current_user).find(risk.project_id)
-              exist = which_role(project, @current_user, @global_role)
-              if exist
-                net_riskov += risk.count if risk.type == 'no_risk_problem'
-                neznachit += risk.count if (risk.type == 'created_risk' and (risk.importance_id == status_neznachit.id or risk.importance_id == nil)) or (risk.type == 'created_problem')
-                kritich += risk.count if risk.type == 'created_risk' and risk.importance_id == status_kritich.id
-              end
+            if risk.type == 'no_risk_problem'
+              net_riskov += risk.count
+            end
+            if (risk.type == 'created_risk' and (risk.importance_id == @status_neznachit.id or risk.importance_id == nil)) or (risk.type == 'created_problem')
+              neznachit += risk.count
+            end
+            if risk.type == 'created_risk' and risk.importance_id == @status_kritich.id
+              kritich += risk.count
             end
           end
-          result = []
+          result = [neznachit, kritich]
+          result
           # Порядок важен
           # fva: Раскомментировать если необходимо будет вернуть графу: отсутствует.
           # Также не забудьте раскомментировать строку в файле desktop-tab.html
           #result << net_riskov
-          result << neznachit
-          result << kritich
         end
+
+        # def desktop_riski_data
+        #   net_riskov = 0
+        #   neznachit = 0
+        #   kritich = 0
+        #   status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
+        #   status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
+        #   sql_query = <<-SQL
+        #     select type, project_id, importance_id, sum(count) as count
+        #     from v_project_risk_on_work_packages_stat
+        #     where type in ('created_risk', 'created_problem','no_risk_problem') and project_id in (?)
+        #     group by type, project_id, importance_id
+        #   SQL
+        #   arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
+        #   @risks = ProjectRiskOnWorkPackagesStat.find_by_sql([sql_query, arr])
+        #   @risks.map do |risk|
+        #     # +-tan 2019.09.17
+        #     if risk.project.visible? current_user
+        #       project = risk.project #Project.visible(current_user).find(risk.project_id)
+        #       exist = which_role(project, @current_user, @global_role)
+        #       if exist
+        #         net_riskov += risk.count if risk.type == 'no_risk_problem'
+        #         neznachit += risk.count if (risk.type == 'created_risk' and (risk.importance_id == status_neznachit.id or risk.importance_id == nil)) or (risk.type == 'created_problem')
+        #         kritich += risk.count if risk.type == 'created_risk' and risk.importance_id == status_kritich.id
+        #       end
+        #     end
+        #   end
+        #   result = []
+        #   # Порядок важен
+        #   # fva: Раскомментировать если необходимо будет вернуть графу: отсутствует.
+        #   # Также не забудьте раскомментировать строку в файле desktop-tab.html
+        #   #result << net_riskov
+        #   result << neznachit
+        #   result << kritich
+        # end
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def fed_budget_data
@@ -306,20 +438,24 @@ module API
           #spent
           #risk_ispoln = 0
           # ostatok = total_budget - spent
-          result = []
           # Порядок важен
-          result << data[:spent]
-          result << data[:risk_ispoln]
-          result << data[:ostatok]
+          result = [data[:spent], data[:risk_ispoln], data[:ostatok]]
+          result
+
+          # result << data[:spent]
+          # result << data[:risk_ispoln]
+          # result << data[:ostatok]
         end
 
         def reg_budget_data
           data = AllBudgetsHelper.regional_budget current_user
-          result = []
+          # result = []
           # Порядок важен
-          result << data[:spent]
-          result << data[:risk_ispoln]
-          result << data[:ostatok]
+          result = [data[:spent], data[:risk_ispoln], data[:ostatok]]
+          result
+          # result << data[:spent]
+          # result << data[:risk_ispoln]
+          # result << data[:ostatok]
           # cost_objects = CostObject.by_user @current_user
           # total_budget = BigDecimal("0")
           # labor_budget = BigDecimal("0")
@@ -343,11 +479,14 @@ module API
 
         def other_budget_data
           data = AllBudgetsHelper.vnebudget_budget current_user
-          result = []
           # Порядок важен
-          result << data[:spent]
-          result << data[:risk_ispoln]
-          result << data[:ostatok]
+          result = [data[:spent], data[:risk_ispoln], data[:ostatok]]
+          result
+          # result = []
+          # # Порядок важен
+          # result << data[:spent]
+          # result << data[:risk_ispoln]
+          # result << data[:ostatok]
 
           # cost_objects = CostObject.by_user @current_user
           # total_budget = BigDecimal("0")
@@ -378,7 +517,7 @@ module API
           end
         end
 
-        def indicator_data(name)
+        def indicator_data(name, available_user_projects)
           max = 1
           average = 0.9
           projects = [0]
@@ -386,14 +525,16 @@ module API
           small_otkloneniya = 0
           big_otkloneniya = 0
           net_dannyh = 0
+          projects = available_user_projects.map(&:id)
+
+          # Project.all.each do |project|
+          #   exist = which_role(project, @current_user, @global_role)
+          #   if exist
+          #     projects << project.id
+          #   end
+          # end
           nat_proj = NationalProject.find_by(name: name)
-          # user_projects = Project.visible(@current_user).map {|p| p.id}
-          Project.all.each do |project|
-            exist = which_role(project, @current_user, @global_role)
-            if exist and project.national_project == nat_proj
-              projects << project.id
-            end
-          end
+
           if @raionId && @raionId != '0'
             projects = Raion.projects_by_id(@raionId, projects).map {|p| p.id}
             projects = projects.empty? ? [0] : projects
