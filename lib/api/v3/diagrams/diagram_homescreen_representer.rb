@@ -57,7 +57,7 @@ module API
                    when 'export' then
                      indicator_data(I18n.t(:national_project_export), available_user_projects)
                    when 'republic' then
-                     indicator_data(nil, available_user_projects)
+                     indicator_data(I18n.t(:project_republic), available_user_projects)
                    when 'fed_budget' then
                      fed_budget_data
                    when 'reg_budget' then
@@ -123,6 +123,12 @@ module API
           proj_arr & visibles # пересечение видимых и тех, в которых состоит
         end
 
+        def np_user_projects(user, np)
+          np_proj_arr = Project.all.where(national_project_id: np).to_a
+          user_proj = user_projects(user)
+          np_proj_arr & user_proj
+        end
+
         def sql_text_desktop_pokazateli_data
           #+-tan 2019.10.16
           # проведен рефакторинг фильтрация проектов по видимости пользователю проводится непосредственно в запросе
@@ -141,99 +147,39 @@ module API
         # bbm(
         # Функция заполнения значений долей диаграммы Показатели на рабочем столе
         def desktop_pokazateli_data(available_user_projects)
-          ispolneno = 0 # Порядок важен
-          ne_ispolneno = 0
-          v_rabote = 0
+          max = 1
+          average = 0.9
+          net_otkloneniy = 0
+          small_otkloneniya = 0
+          big_otkloneniya = 0
+          net_dannyh = 0
 
           user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
-          plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_text_desktop_pokazateli_data(), user_proj])
-
-          plan_facts.map do |pf|
-            fact = pf.final_fact_year_value || 0
-            plan = pf.target_plan_year_value || 0
-            procent = plan == 0 ? 0 : (fact / plan * 100)
-            if procent == 100
-              ispolneno += 1
-            elsif procent < 100 and procent > 0
-              v_rabote += 1
-            elsif procent == 0
-              ne_ispolneno += 1
+          targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id)
+                      .where("project_id in (#{user_proj.join(",")})")
+          slice_plan_now = FirstPlanTarget.get_now(user_proj.join(","))
+          slice_fact_now = LastFactTarget.get_now(user_proj.join(","))
+          targets.each do |t|
+            target_plan_now = slice_plan_now.find {|slice| slice["target_id"] == t.id}
+            target_fact_now = slice_fact_now.select {|slice| slice["target_id"] == t.id}
+            target_plan_now = target_plan_now.nil? ? 0.0 : target_plan_now["value"].nil? ? 0.0 : target_plan_now["value"].to_f
+            target_fact_now = target_fact_now.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
+            if !t.target_execution_values.count.zero? and !t.work_package_targets.count.zero?
+              if target_plan_now <= target_fact_now
+                net_otkloneniy += 1
+              elsif target_plan_now * average <= target_fact_now
+                small_otkloneniya += 1
+              else
+                big_otkloneniya += 1
+              end
+            else
+              net_dannyh += 1
             end
           end
-          # Порядок важен
-          result = [ispolneno, ne_ispolneno, v_rabote]
+          result = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]
           result
         end
 
-        # def desktop_pokazateli_data
-        #   max = 1
-        #   average = 0.9
-        #   net_otkloneniy = 0
-        #   small_otkloneniya = 0
-        #   big_otkloneniya = 0
-        #   net_dannyh = 0
-        #   projects = []
-        #   #+-tan 2019.10.16
-        #   # проведен рефакторинг фильтрация проектов по видимости пользователю проводится непосредственно в запросе
-        #   # это рациональнее и позволяет избежать ошибок связанных с проверкой видимости шаблонов
-        #   # sql_query = <<-SQL
-        #   #   select yearly.project_id, yearly.target_id,
-        #   #   sum(final_fact_year_value)as final_fact_year_value, sum(quarterly.target_year_value) as target_plan_year_value
-        #   #   from v_plan_fact_quarterly_target_values as quarterly
-        #   #   left join v_plan_fact_yearly_target_values as yearly
-        #   #   on yearly.project_id = quarterly.project_id and yearly.target_id = quarterly.target_id and yearly.year = quarterly.year
-        #   #   where yearly.year = date_part('year', current_date) and yearly.project_id in (?)
-        #   #   group by yearly.project_id, yearly.target_id
-        #   # SQL
-        #   if @project && @project != '0'
-        #     projects << @project
-        #   else
-        #     Project.all.each do |project|
-        #       exist = which_role(project, @current_user, @global_role)
-        #       if exist
-        #         projects << project.id
-        #       end
-        #     end
-        #   end
-        #   # @plan_facts = PlanFactYearlyTargetValue.find_by_sql([sql_query, arr])
-        #   targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
-        #   targets.each do |t|
-        #     wpts = WorkPackageTarget.where(target_id: t.id)
-        #     tevs = TargetExecutionValue.where(target_id: t.id)
-        #     tev = tevs.where("value NOTNULL and ((year = date_part('year', CURRENT_DATE)
-        #                     and quarter >= date_part('quarter', CURRENT_DATE))
-        #                     or year > date_part('year', CURRENT_DATE))")
-        #             .order(:year, :quarter).first
-        #     if wpts.count != 0 and !tev.nil?
-        #       check = 0
-        #       wpts.select(:work_package_id).distinct.each do |w|
-        #         wpt = wpts.where("work_package_id = #{w.work_package_id} and value NOTNULL and ((year = date_part('year', CURRENT_DATE)
-        #                     and quarter <= date_part('quarter', CURRENT_DATE)
-        #                     and month <= date_part('month', CURRENT_DATE)) or year < date_part('year', CURRENT_DATE))")
-        #                 .order(:year, :quarter, :month).last
-        #         if !wpt.nil? and wpt.value >= tev.value and check.zero?
-        #           check = 0
-        #         elsif !wpt.nil? and (wpt.value / tev.value) >= average
-        #           check = 1
-        #         else
-        #           check = -1
-        #           break
-        #         end
-        #       end
-        #       if check.zero?
-        #         net_otkloneniy += 1
-        #       elsif check == 1
-        #         small_otkloneniya += 1
-        #       else
-        #         big_otkloneniya += 1
-        #       end
-        #     else
-        #       net_dannyh += 1
-        #     end
-        #   end
-        #   result = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]
-        # end
-        #
         # Функция заполнения значений долей диаграммы KT на рабочем столе
         def desktop_kt_data(available_user_projects)
           ispolneno = 0
@@ -256,35 +202,6 @@ module API
           result = [ispolneno, ne_ispolneno, v_rabote, riski]
           result
         end
-
-        # def desktop_kt_data
-        #   ispolneno = 0
-        #   v_rabote = 0
-        #   ne_ispolneno = 0
-        #   riski = 0
-        #   kontrol_point_type = Type.find_by name: I18n.t(:default_type_milestone)
-        #   pis = ProjectIspolnStat.where(type_id: kt.id)
-        #   pis = pis.where(project_id: @project) if @project && @project != '0'
-        #   pis.map do |ispoln|
-        #     # +-tan 2019.09.17
-        #     if ispoln.project.visible? current_user
-        #       project = ispoln.project #Project.visible(current_user).find(ispoln.project_id)
-        #       exist = which_role(project, @current_user, @global_role)
-        #       if exist
-        #         ispolneno += ispoln.ispolneno
-        #         v_rabote += ispoln.v_rabote
-        #         ne_ispolneno += ispoln.ne_ispolneno
-        #         riski += ispoln.est_riski
-        #       end
-        #     end
-        #   end
-        #   result = []
-        #   # Порядок важен
-        #   result << ispolneno
-        #   result << ne_ispolneno
-        #   result << v_rabote
-        #   result << riski
-        # end
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def desktop_budget_data(available_user_projects)
@@ -309,37 +226,6 @@ module API
           result = [spent, risk_ispoln, ostatok]
           result
         end
-
-        # def desktop_budget_data
-        #   cost_objects = CostObject.by_user @current_user
-        #   total_budget = BigDecimal("0")
-        #   spent = BigDecimal("0")
-        #
-        #   cost_objects.each do |cost_object|
-        #     if @project && @project != '0'
-        #       if @project == cost_object.project_id.to_s
-        #         total_budget += cost_object.budget
-        #         spent += cost_object.spent
-        #       end
-        #     else
-        #       project = Project.visible(current_user).find(cost_object.project_id)
-        #       exist = which_role(project, @current_user, @global_role)
-        #       if exist
-        #         total_budget += cost_object.budget
-        #         spent += cost_object.spent
-        #       end
-        #     end
-        #   end
-        #
-        #   spent
-        #   risk_ispoln = 0
-        #   ostatok = total_budget - spent
-        #   result = []
-        #   # Порядок важен
-        #   result << spent
-        #   result << risk_ispoln
-        #   result << ostatok
-        # end
 
         def sql_text_desktop_riski_data
           sql_query = <<-SQL
@@ -380,101 +266,23 @@ module API
           #result << net_riskov
         end
 
-        # def desktop_riski_data
-        #   net_riskov = 0
-        #   neznachit = 0
-        #   kritich = 0
-        #   status_neznachit = Importance.find_by(name: I18n.t(:default_impotance_low))
-        #   status_kritich = Importance.find_by(name: I18n.t(:default_impotance_critical))
-        #   sql_query = <<-SQL
-        #     select type, project_id, importance_id, sum(count) as count
-        #     from v_project_risk_on_work_packages_stat
-        #     where type in ('created_risk', 'created_problem','no_risk_problem') and project_id in (?)
-        #     group by type, project_id, importance_id
-        #   SQL
-        #   arr = @project && @project != '0' ? @project : Project.visible(current_user).map(&:id)
-        #   @risks = ProjectRiskOnWorkPackagesStat.find_by_sql([sql_query, arr])
-        #   @risks.map do |risk|
-        #     # +-tan 2019.09.17
-        #     if risk.project.visible? current_user
-        #       project = risk.project #Project.visible(current_user).find(risk.project_id)
-        #       exist = which_role(project, @current_user, @global_role)
-        #       if exist
-        #         net_riskov += risk.count if risk.type == 'no_risk_problem'
-        #         neznachit += risk.count if (risk.type == 'created_risk' and (risk.importance_id == status_neznachit.id or risk.importance_id == nil)) or (risk.type == 'created_problem')
-        #         kritich += risk.count if risk.type == 'created_risk' and risk.importance_id == status_kritich.id
-        #       end
-        #     end
-        #   end
-        #   result = []
-        #   # Порядок важен
-        #   # fva: Раскомментировать если необходимо будет вернуть графу: отсутствует.
-        #   # Также не забудьте раскомментировать строку в файле desktop-tab.html
-        #   #result << net_riskov
-        #   result << neznachit
-        #   result << kritich
-        # end
 
         # Функция заполнения значений долей диаграммы Бюджет на рабочем столе
         def fed_budget_data
-          # cost_objects = CostObject.by_user @current_user
-          # total_budget = BigDecimal("0")
-          # spent = BigDecimal("0")
-          #
-          # cost_objects.each do |cost_object|
-          #   total_budget += cost_object.budget
-          #   spent += cost_object.spent
-          # end
 
-          # total_budget: total_budget,
-          #   labor_budget: labor_budget,
-          #   material_budget: material_budget,
-          #   spent: spent, #израсходовано
-          #   ostatok: total_budget - spent,
-          #   ne_ispoln: 0,
-          #   risk_ispoln: 0
           data = AllBudgetsHelper.federal_budget current_user
 
-          #spent
-          #risk_ispoln = 0
-          # ostatok = total_budget - spent
-          # Порядок важен
           result = [data[:spent], data[:risk_ispoln], data[:ostatok]]
           result
 
-          # result << data[:spent]
-          # result << data[:risk_ispoln]
-          # result << data[:ostatok]
         end
 
         def reg_budget_data
           data = AllBudgetsHelper.regional_budget current_user
-          # result = []
-          # Порядок важен
+
           result = [data[:spent], data[:risk_ispoln], data[:ostatok]]
           result
-          # result << data[:spent]
-          # result << data[:risk_ispoln]
-          # result << data[:ostatok]
-          # cost_objects = CostObject.by_user @current_user
-          # total_budget = BigDecimal("0")
-          # labor_budget = BigDecimal("0")
-          # spent = BigDecimal("0")
-          #
-          # cost_objects.each do |cost_object|
-          #   total_budget += cost_object.budget
-          #   labor_budget += cost_object.labor_budget
-          #   spent += cost_object.spent
-          # end
-          #
-          # spent
-          # risk_ispoln = 0
-          # ostatok = total_budget - spent
-          # result = []
-          # # Порядок важен
-          # result << spent
-          # result << risk_ispoln
-          # result << ostatok
+
         end
 
         def other_budget_data
@@ -482,31 +290,7 @@ module API
           # Порядок важен
           result = [data[:spent], data[:risk_ispoln], data[:ostatok]]
           result
-          # result = []
-          # # Порядок важен
-          # result << data[:spent]
-          # result << data[:risk_ispoln]
-          # result << data[:ostatok]
 
-          # cost_objects = CostObject.by_user @current_user
-          # total_budget = BigDecimal("0")
-          # material_budget = BigDecimal("0")
-          # spent = BigDecimal("0")
-          #
-          # cost_objects.each do |cost_object|
-          #   total_budget += cost_object.budget
-          #   material_budget += cost_object.labor_budget
-          #   spent += cost_object.spent
-          # end
-          #
-          # spent
-          # risk_ispoln = 0
-          # ostatok = total_budget - spent
-          # result = []
-          # # Порядок важен
-          # result << spent
-          # result << risk_ispoln
-          # result << ostatok
         end
 
         def indicator_label
@@ -520,53 +304,29 @@ module API
         def indicator_data(name, available_user_projects)
           max = 1
           average = 0.9
-          projects = [0]
           net_otkloneniy = 0
           small_otkloneniya = 0
           big_otkloneniya = 0
           net_dannyh = 0
-          projects = available_user_projects.map(&:id)
-
-          # Project.all.each do |project|
-          #   exist = which_role(project, @current_user, @global_role)
-          #   if exist
-          #     projects << project.id
-          #   end
-          # end
           nat_proj = NationalProject.find_by(name: name)
-
+          projects = np_user_projects(current_user, nat_proj.id).map(&:id)
           if @raionId && @raionId != '0'
             projects = Raion.projects_by_id(@raionId, projects).map {|p| p.id}
-            projects = projects.empty? ? [0] : projects
           end
-
-          targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id).where("project_id in (" + projects.join(",") + ")")
+          projects = projects.empty? ? [0] : projects
+          targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id)
+                      .where("project_id in (#{projects.join(",")})")
+          slice_plan_now = FirstPlanTarget.get_now(projects.join(","))
+          slice_fact_now = LastFactTarget.get_now(projects.join(","))
           targets.each do |t|
-            wpts = WorkPackageTarget.where(target_id: t.id)
-            tevs = TargetExecutionValue.where(target_id: t.id)
-            tev = tevs.where("value NOTNULL and ((year = date_part('year', CURRENT_DATE)
-                            and quarter >= date_part('quarter', CURRENT_DATE))
-                            or year > date_part('year', CURRENT_DATE))")
-                    .order(:year, :quarter).first
-            if wpts.count != 0 and !tev.nil?
-              check = 0
-              wpts.select(:work_package_id).distinct.each do |w|
-                wpt = wpts.where("work_package_id = #{w.work_package_id} and value NOTNULL and ((year = date_part('year', CURRENT_DATE)
-                            and quarter <= date_part('quarter', CURRENT_DATE)
-                            and month <= date_part('month', CURRENT_DATE)) or year < date_part('year', CURRENT_DATE))")
-                        .order(:year, :quarter, :month).last
-                if !wpt.nil? and wpt.value >= tev.value and check.zero?
-                  check = 0
-                elsif !wpt.nil? and (wpt.value / tev.value) >= average
-                  check = 1
-                else
-                  check = -1
-                  break
-                end
-              end
-              if check.zero?
+            target_plan_now = slice_plan_now.find {|slice| slice["target_id"] == t.id}
+            target_fact_now = slice_fact_now.select {|slice| slice["target_id"] == t.id}
+            target_plan_now = target_plan_now.nil? ? 0.0 : target_plan_now["value"].nil? ? 0.0 : target_plan_now["value"].to_f
+            target_fact_now = target_fact_now.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
+            if !t.target_execution_values.count.zero? and !t.work_package_targets.count.zero?
+              if target_plan_now <= target_fact_now
                 net_otkloneniy += 1
-              elsif check == 1
+              elsif target_plan_now * average <= target_fact_now
                 small_otkloneniya += 1
               else
                 big_otkloneniya += 1
