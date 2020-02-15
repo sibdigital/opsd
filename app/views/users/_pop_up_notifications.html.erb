@@ -9,14 +9,22 @@
 
 <%= activate_angular_js do %>
   <div class="form--field" >
-    <%= styled_label_tag 'pop_up_delay', t(:'user.settings.pop_up_delay') %>
+    <%= styled_label_tag 'popups_delay', t(:'user.settings.popups_delay') %>
     <div class="form--field-container">
       <div class="form--select-container" >
         <show-section-dropdown opt-value="selected" hide-sec-with-name="notified_projects">
-          <%= styled_select_tag 'user[pop_up_delay]',
-                                options_for_select([["10 минут",10],["30 минут",30],["1 час",60]]),
-                                container_class: '-wide' %>
+          <%= styled_select_tag 'popups_delay',
+                                options_for_select([["10 минут",10],["30 минут",30],["1 час",60]], @user.pref.popups_delay),
+                                container_class: '-slim' %>
         </show-section-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="form--field">
+    <%= styled_label_tag 'disable_popups', t(:'user.settings.disable_popups') %>
+    <div class="form--field-container">
+      <div class="form--check-box-container">
+        <%= styled_check_box_tag 'disable_popups', 1, @user.pref.disable_popups? %>
       </div>
     </div>
   </div>

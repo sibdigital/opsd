@@ -1,10 +1,11 @@
 class Alert < ActiveRecord::Base
   def self.create_new_pop_up_alert(entityid, entitytype, aboutwhat, createdby, touser)
     #+-tan 2019.11.30 сами себя не уведомляем
-    if createdby == touser
+    #+-knm 2020.02.15 проверка настроек пользователя перед созданием
+    if createdby == touser or User.find(touser).pref.disable_popups?
       return
     end
-    text = ""
+
     user_created = User.where(id: createdby).map {|u| [u.lastname, u.firstname, u.patronymic]}
 
     case aboutwhat
@@ -55,9 +56,10 @@ class Alert < ActiveRecord::Base
                  to_user: touser
   end
 
-  def self.create_pop_up_alert(entity, aboutwhat,createdby,touser)
+  def self.create_pop_up_alert(entity, aboutwhat, createdby, touser)
     #+-tan 2019.11.30 сами себя не уведомляем
-    if createdby == touser
+    #+-knm 2020.02.15 проверка настроек пользователя перед созданием
+    if createdby == touser or touser.pref.disable_popups?
       return
     end
     begin

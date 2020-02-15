@@ -5,10 +5,24 @@ var notifyMe=function(){
   jQuery('button.btn').click(function()
   {
     notifying();
+    setDelay();
   });
   // pgClient.query("SELECT id from Users");
 };
 var timerId = setTimeout(notifying(),requestdelay);
+
+function setDelay(){
+  jQuery.ajax({ type: 'GET',
+    url: '/alerts/get_delay_setting',
+    async: true,
+    success: function(text)
+    {
+      console.log(text);
+      requestdelay = requestdelay * text;
+      console.log(requestdelay);
+    }
+  });
+}
 
 function notifying()
 {
@@ -89,4 +103,5 @@ function pop(id, text, time){
 }
 
 jQuery(document).ready(notifyMe);
+jQuery(document).ready(setDelay());
 jQuery(document).ready(timerId);

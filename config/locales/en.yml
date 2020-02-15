@@ -3541,7 +3541,8 @@ en:
         работ, где Вы автор или критик).
       mail_self_notified: Хочу получать уведомления об изменениях, которые делаю сам
       add_mail_notifications: Отправлять почту на альтернативный адрес
-      pop_up_delay: Задержка обновления уведомлений
+      popups_delay: Задержка обновления уведомлений
+      disable_popups: Отключить всплывающие уведомления
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: Смена статуса
     unlock: Разблокировать

@@ -127,7 +127,7 @@ class MyController < ApplicationController
   def pop_up_notifications; end
 
   def update_pop_up_notifications
-
+    write_pop_up_settings(redirect_to: :pop_up_notifications)
   end
   # Create a new feeds key
   def generate_rss_key
@@ -194,7 +194,12 @@ class MyController < ApplicationController
   end
 
   def write_pop_up_settings(redirect_to:)
-
+    update_service = UpdateUserPopupSettingsService.new(@user)
+    if update_service.call(popups_delay: params[:popups_delay],
+                           disable_popups: params[:disable_popups])
+      flash[:notice] = l(:notice_account_updated)
+      redirect_to(action: redirect_to)
+    end
   end
 
   def write_settings(current_user, request, permitted_params, params)

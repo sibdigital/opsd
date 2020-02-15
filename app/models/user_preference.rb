@@ -80,6 +80,22 @@ class UserPreference < ActiveRecord::Base
     others.fetch(:auto_hide_popups) { Setting.default_auto_hide_popups? }
   end
 
+  def disable_popups=(value)
+    others[:disable_popups] = to_boolean(value)
+  end
+
+  def disable_popups?
+    others[:disable_popups]
+  end
+
+  def popups_delay=(value)
+    others[:popups_delay] = value
+  end
+
+  def popups_delay
+    others.fetch(:popups_delay) { Setting.find_by(name: 'notify_delay') }
+  end
+
   def warn_on_leaving_unsaved?
     # Need to cast here as previous values were '0' / '1'
     to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
