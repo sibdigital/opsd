@@ -45,6 +45,10 @@ class MyController < ApplicationController
   menu_item :access_token,        only: [:access_token]
   menu_item :mail_notifications,  only: [:mail_notifications]
   menu_item :pop_up_notifications,  only: [:pop_up_notifications]
+  helper :sort
+  include SortHelper
+  include SortHelper
+  include PaginationHelper
 
   # Show user's page
   def index
@@ -65,7 +69,18 @@ class MyController < ApplicationController
 
   #ban(
   def tasks
+    sort_columns = {'id' => "#{UserTask.table_name}.id",
+                    'project' => "#{UserTask.table_name}.project_id",
+                    'assigned_to' => "#{UserTask.table_name}.assigned_to_id",
+                    'due_date' => "#{UserTask.table_name}.due_date",
+                    'completed' => "#{UserTask.table_name}.completed"
+    }
+    sort_init 'id', 'asc'
+    sort_update sort_columns
     @user_tasks = UserTask.all
+                    .order(sort_clause)
+                    .page(page_param)
+                    .per_page(per_page_param)
   end
   # )
 

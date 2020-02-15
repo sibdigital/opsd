@@ -3,17 +3,15 @@ This file written by BAN
 11/09/2019
 ++#%>
 <%= labelled_tabular_form_for @user_task do |form| %>
-
   <h1>Редактирование</h1>
-
   <%= render partial: "user_tasks/form_edit", locals: { form: form } %>
-  <p><%= form.submit 'Сохранить' %>
-  <%= content_tag(:td, link_to(
-      op_icon('icon icon-delete'),
-      user_task_path(id: @user_task.id),
-      method: :delete,
-      data: {confirm: I18n.t(:text_are_you_sure)},
-      title: t(:button_delete))) %></p>
-
-  <p><a href="/my/page">Вернуться к моей странице</a></p>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= link_to user_task_path(id: @user_task.id),
+              method: :delete,
+              data: {confirm: I18n.t(:text_are_you_sure)},
+              class: 'button delete',
+              title: t(:button_delete) do %>
+    <%= op_icon('button--icon icon-delete') %>
+    <span class="button--text"><%= t(:button_delete) %></span>
+  <% end %>
 <% end %>

@@ -617,7 +617,15 @@ en:
           сохраненных изменениях
       user_task:
         object: Объект
-        completed: Завершено
+        completed: Завершено?
+        kind:
+          request: Запрос
+          task: Задача
+          note: Заметка
+          response: Ответ
+        object_type: Тип объекта
+        text: Описание
+        assigned_to: Ответственный
       version:
         effective_date: Дата окончания
         sharing: Совместное использование
@@ -1053,6 +1061,10 @@ en:
   value_for_hpi: Значение показателя
   year_for_hpi: на дату
   button_add_member: Добавить участника
+  button_add_note: Новая заметка
+  button_add_task: Новая задача
+  button_add_request_input: Запрос на ввод данных в справочники
+  button_add_request_wp: Запрос на приемку задачи
   button_add_watcher: Добавить наблюдателя
   button_annotate: Комментировать
   button_apply: Применить
@@ -3795,6 +3807,7 @@ en:
 
   label_my_tasks: Мои запросы/задачи
   label_user_tasks: Запросы/задачи
+
   user_task_directory: Объекты запросов/задач
 
   UploadPlanType1: План мероприятий по реализации регионального проекта

@@ -113,15 +113,18 @@ Redmine::MenuManager.map :application_menu do |menu|
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
-  menu_push = menu.push :account,
-                        { controller: '/my', action: 'account' },
-                        caption: :label_profile,
-                        icon: 'icon2 icon-user'
-  menu_push
+  menu.push :account,
+            { controller: '/my', action: 'account' },
+            caption: :label_profile,
+            icon: 'icon2 icon-user'
   menu.push :settings,
             { controller: '/my', action: 'settings' },
             caption: :label_settings,
             icon: 'icon2 icon-settings2'
+  menu.push :my_tasks,
+            { controller: '/my', action: 'tasks' },
+            icon: 'icon2 icon-enumerations',
+            if: Proc.new { User.current.logged? }
   menu.push :password,
             { controller: '/my', action: 'password' },
             caption: :button_change_password,
@@ -504,12 +507,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-etap'
   # )
   menu.push :resources,
-              {},
-              param: :project_id,
-              caption: :label_resources,
-              #after: :communication,
-              #if: Proc.new { |p| p.module_enabled?('stages') },
-              icon: 'icon2 icon-resource'
+            {},
+            param: :project_id,
+            caption: :label_resources,
+            #after: :communication,
+            #if: Proc.new { |p| p.module_enabled?('stages') },
+            icon: 'icon2 icon-resource'
   # knm(
   menu.push :stages_init,
             {controller: '/stages', action: 'init'},

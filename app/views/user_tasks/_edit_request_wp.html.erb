@@ -23,21 +23,21 @@
                     container_class: '-slim' %>
   </div>
 
-  <p>
-    <%= form.collection_select(:assigned_to_id, User.all, :id, :name) %>
-  </p>
+  <div class="form--field">
+    <%= form.collection_select(:assigned_to_id, User.all, :id, :name, container_class: '-slim') %>
+  </div>
 
-  <p>
-    <%= form.text_area :text %>
-  </p>
+  <div class="form--field">
+    <%= form.text_area :text, container_class: '-wide' %>
+  </div>
 
-  <p>
-    <%= form.date_field :due_date %>
-  </p>
+  <div class="form--field">
+    <%= form.date_field :due_date, container_class: '-slim' %>
+  </div>
 
-  <p>
+  <div class="form--field">
     <%= form.check_box :completed %>
-  </p>
+  </div>
 
 </div>
 <%=javascript_include_tag 'select_wp_from_project' %>

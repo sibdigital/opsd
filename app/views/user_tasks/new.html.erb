@@ -3,11 +3,8 @@ This file written by BAN
 11/09/2019
 ++#%>
 <%= labelled_tabular_form_for @user_task do |form| %>
-
   <h1><%= params[:head_text] %></h1>
-
   <%= render partial: "user_tasks/form", locals: { form: form } %>
   <%= form.hidden_field 'kind', value: params[:kind] %>
-  <p><%= form.submit 'Создать' %></p>
-  <p><a href="/my/page">Вернуться к моей странице</a></p>
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
