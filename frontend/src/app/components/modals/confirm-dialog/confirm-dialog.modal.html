@@ -1,7 +1,7 @@
 <div class="op-modal--portal confirm-form-submit--modal  ngdialog-theme-openproject">
   <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
        data-indicator-name="modal"
-       tabindex="0">
+       tabindex="0" style="padding-bottom: 0;">
     <div class="op-modal--modal-header">
       <a class="op-modal--modal-close-button" *ngIf="showClose">
         <i
@@ -13,19 +13,18 @@
       <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
     </div>
 
-    <div class="ngdialog-body op-modal--modal-body">
-      <p [textContent]="text.text"></p>
+    <div class="ngdialog-body op-modal--modal-body" [innerHTML]="text.text">
     </div>
-    <div class="op-modal--modal-footer">
-      <button class="confirm-form-submit--cancel button"
-              (click)="closeMe($event)"
-              [textContent]="text.button_cancel"
-              [attr.title]="text.button_cancel">
-      </button>
+    <div class="op-modal--modal-footer" style="text-align: right">
       <button class="confirm-form-submit--continue button -highlight"
               (click)="confirmAndClose($event)"
               [textContent]="text.button_continue"
               [attr.title]="text.button_continue">
+      </button>
+      <button class="confirm-form-submit--cancel button"
+              (click)="closeMe($event)"
+              [textContent]="text.button_cancel"
+              [attr.title]="text.button_cancel">
       </button>
     </div>
   </div>

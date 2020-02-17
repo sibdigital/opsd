@@ -352,9 +352,11 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
       return (value.target_id === target.target_id) && (value.year === target.year);
     })) {
       yearResult = false;
+      // console.log(target);
       this.checkErrors.push({
         result: yearResult,
-        text: 'Отсутствует плановое значение целевого показателя за ' + target.year.toString() + ' год.'
+        // text: 'Отсутствует значение целевого показателя за ' + target.year.toString() + ' год.'
+        text: 'Отсутствует значение <a href="' + this.getAppBasePath() + '/projects/' + target.project_id.toString() + '/targets/' + target.target_id.toString() + '/edit">целевого показателя</a> за ' + target.year.toString() + ' год.'
       });
     }
 
@@ -455,14 +457,23 @@ export class WorkPackageTargetsTabComponent implements OnInit, OnDestroy {
     result = result && quartResult && yearResult;
     if (result === false) {
       let errors = '';
+      errors += '<ol>';
+      console.log(this.checkErrors);
       this.checkErrors.forEach((value, ind) => {
-        if (this.checkErrors.length > 1) {
-          errors = errors + (ind + 1).toString() + '. ' + value.text + '\n';
-        } else {
-          errors = errors + value.text + '\n';
-        }
+        errors += '<li>' + value.text + '</li>';
       });
-      alert(errors);
+      errors += '</ol>'
+      this.confirmDialog.confirm({
+        text: {
+          title: this.checkErrors.length > 1 ? 'Ошибки' : 'Ошибка',
+          text: errors,
+          button_continue: 'Ок'
+        },
+        closeByEscape: true,
+        showClose: true,
+        closeByDocument: true,
+      });
+      // alert(errors);
     }
     return result;
   }
