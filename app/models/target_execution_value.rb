@@ -7,13 +7,13 @@ class TargetExecutionValue < ActiveRecord::Base
                                 }
   validates_each :quarter do |record, attr, value|
     if value.nil?
-      if TargetExecutionValue.where("year = ? and target_id = ? and not quarter is null", record.year, record.target_id).count > 0
-        record.errors.add(attr, "Значение за квартал уже присутствует")
-        #Target.errors.add(attr, "Значение за квартал уже присутствует")
+      if TargetExecutionValue.where("year = ? and target_id = ? and quarter is null", record.year, record.target_id).count.positive?
+        record.errors.add(attr, "Значение за год уже присутствует")
       end
     else
-      if TargetExecutionValue.where("year = ? and target_id = ? and quarter is null", record.year, record.target_id).count > 0
-        record.errors.add(attr, "Значение за год уже присутствует")
+      if TargetExecutionValue.where("year = ? and target_id = ? and not quarter is null", record.year, record.target_id).count.positive?
+        record.errors.add(attr, "Значение за квартал уже присутствует")
+        #Target.errors.add(attr, "Значение за квартал уже присутствует")
       end
     end
   end
