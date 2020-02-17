@@ -1061,8 +1061,8 @@ en:
   value_for_hpi: Значение показателя
   year_for_hpi: на дату
   button_add_member: Добавить участника
-  button_add_note: Новая заметка
-  button_add_task: Новая задача
+  button_add_note: Заметка
+  button_add_task: Задача
   button_add_request_input: Запрос на ввод данных в справочники
   button_add_request_wp: Запрос на приемку задачи
   button_add_watcher: Добавить наблюдателя
