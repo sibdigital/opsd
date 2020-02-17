@@ -17,9 +17,7 @@ function setDelay(){
     async: true,
     success: function(text)
     {
-      console.log(text);
       requestdelay = requestdelay * text;
-      console.log(requestdelay);
     }
   });
 }
