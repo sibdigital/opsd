@@ -3,7 +3,7 @@ This file written by XCC
 06/07/2019
 ++#%>
 
-<% html_title l(:label_administration), "#{l(:label_edit)} #{Target.model_name.human} #{h @target.name}" %>
+<% html_title l(:label_administration), "#{l(:label_edit)} #{h @target.name}" %>
 <% local_assigns[:additional_breadcrumb] = @target %>
 <% breadcrumb_paths(default_breadcrumb, @target) %>
 <%# if @target.parent_id != 0 %>
