@@ -119,15 +119,20 @@ OpenProject::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  file = Rails.root.join('log', File.basename('production', '.log').to_s + ".log")
+  logger = ActiveSupport::Logger.new(file, 'daily')
+  logger.formatter = config.log_formatter
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
 
   config.active_record.dump_schema_after_migration = false
 
   #+-tan 2019.12.07
-  config.exceptions_app = self.routes
+  #config.exceptions_app = self.routes
 end
