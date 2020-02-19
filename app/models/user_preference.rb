@@ -93,7 +93,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def popups_delay
-    others.fetch(:popups_delay) { Setting.find_by(name: 'notify_delay') }
+    others.fetch(:popups_delay) { Setting.find_by(name: 'notify_delay').value }
   end
 
   def warn_on_leaving_unsaved?
