@@ -70,7 +70,8 @@ class NationalProject < ActiveRecord::Base
           where user_id = ?
       ) as mu
           on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id))
-      WHERE status <> ?;
+      WHERE status <> ?
+      order by np.id
     SQL
     nps = NationalProject.find_by_sql([slq, current_user.id, exclude_status_id])
     nps
@@ -91,7 +92,8 @@ class NationalProject < ActiveRecord::Base
                on ((np.id = mu.federal_project_id and np.parent_id = mu.national_project_id) or (np.id = mu.national_project_id))
                    left join v_project_risk_on_work_packages_stat as vprowps
                              on ((np.id = vprowps.national_project_id or np.id = vprowps.federal_project_id) AND mu.project_id = vprowps.project_id)
-          where (vprowps.type = 'created_problem' or vprowps.type = 'created_risk');
+          where (vprowps.type = 'created_problem' or vprowps.type = 'created_risk')
+          order by np.id;
     SQL
     nps = NationalProject.find_by_sql([slq, current_user.id, exclude_status_id])
     nps

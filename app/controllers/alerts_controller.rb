@@ -35,8 +35,9 @@ class AlertsController < ApplicationController
   end
 
   def get_pop_up_alerts
+
     @alerts=Alert.where(alert_type: 'PopUp').where(to_user: User.current.id).where(readed: false)
-    if Alert.where(alert_type: 'PopUp', readed: false).count.positive?
+    if Alert.where(alert_type: 'PopUp', readed: false).count.positive? and !User.current.pref.disable_popups?
       # render plain: Alert.where(alert_type: 'PopUp').count
       render json: @alerts
     end
@@ -44,9 +45,8 @@ class AlertsController < ApplicationController
   end
 
   def get_delay_setting
-    delay=Setting.find_by(name: 'notify_delay')
-
-    render plain: delay.value
+    delay = User.current.pref.popups_delay
+    render plain: delay
   end
 
   def read_alert

@@ -152,12 +152,6 @@ Redmine::AccessControl.map do |map|
     wpt.permission :view_work_package_problems,
                    { work_package_problems: %i[index] },
                    require: :member
-    wpt.permission :edit_required_doc_type,
-                   { work_packages: %i[edit update] },
-                   require: :member
-    wpt.permission :edit_fixed_version,
-                   { work_packages: %i[edit update] },
-                   require: :member
     #)
     # Issues
     wpt.permission :view_work_packages,
@@ -233,6 +227,94 @@ Redmine::AccessControl.map do |map|
 
     wpt.permission :delete_work_package_watchers,
                    {}
+    #Properties
+    wpt.permission :edit_type,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_subject,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_description,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_assignee,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_responsible,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_estimated_time,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_remaining_time,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_sed_href,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_result_agreed,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_start_date,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_due_date,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_done_ration,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_required_doc_type,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_category,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_contract,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_fixed_version,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_organization,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_arbitary_object,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_raion,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_period,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_control_level,
+                   { work_packages: %i[edit update] },
+                   require: :member
+
+    wpt.permission :edit_priority,
+                   { work_packages: %i[edit update] },
+                   require: :member
   end
 
   map.project_module :time_tracking do |time|

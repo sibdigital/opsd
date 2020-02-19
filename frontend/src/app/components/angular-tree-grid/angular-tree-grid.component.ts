@@ -113,6 +113,7 @@ export class AngularTreeGridComponent implements OnChanges, OnInit {
       this.edit_tracker,
       this.internal_configs
     );
+    // this.expandAll(); TODO autoexpand
   }
 
   validateConfigs() {

@@ -617,7 +617,15 @@ en:
           сохраненных изменениях
       user_task:
         object: Объект
-        completed: Завершено
+        completed: Завершено?
+        kind:
+          request: Запрос
+          task: Задача
+          note: Заметка
+          response: Ответ
+        object_type: Тип объекта
+        text: Описание
+        assigned_to: Ответственный
       version:
         effective_date: Дата окончания
         sharing: Совместное использование
@@ -1053,6 +1061,10 @@ en:
   value_for_hpi: Значение показателя
   year_for_hpi: на дату
   button_add_member: Добавить участника
+  button_add_note: Заметка
+  button_add_task: Задача
+  button_add_request_input: Запрос на ввод данных в справочники
+  button_add_request_wp: Запрос на приемку задачи
   button_add_watcher: Добавить наблюдателя
   button_annotate: Комментировать
   button_apply: Применить
@@ -1869,6 +1881,7 @@ en:
   label_target_calc_procedure: Методика расчета дополнительных показателей
   label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
+  label_target_work_packages: Мероприятия связанные с целью
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git
   label_greater_or_equal: ">="
@@ -2591,6 +2604,27 @@ en:
   permission_edit_required_doc_type: Редактирование типа контрольного документа
   permission_edit_fixed_version: Редактирование этапа
   #)
+  permission_edit_subject: Редактирование названия
+  permission_edit_sed_href: Редактирование ссылки СЭД
+  permission_edit_result_agreed: Редактирование результата согласования
+  permission_edit_description: Редактирование описания
+  permission_edit_start_date: Редактирование даты начала
+  permission_edit_due_date: Редактирование даты окончания
+  permission_edit_estimated_time: Редактирование предполагаемого времени
+  permission_edit_remaining_time: Редактирование оставшихся часов
+  permission_edit_done_ration: Редактирование прогресса
+  permission_edit_assignee: Редактирование подотчетного
+  permission_edit_responsible: Редактирование ответственного
+  permission_edit_type: Редактирование типа мероприятия
+  permission_edit_category: Редактирование категории
+  permission_edit_contract: Редактирование гос. контракта
+  permission_edit_organization: Редактирование организации
+  permission_edit_arbitary_object: Редактирование произвольного объекта
+  permission_edit_raion: Редактирование района
+  permission_edit_period: Редактирование периодичности
+  permission_edit_control_level: Редактирование уровня контроля
+  permission_edit_priority: Редактирование приоритета
+
   permission_manage_work_package_relations: Управление связями пакета работ
   permission_manage_members: Управление участниками
   permission_manage_news: Управление новостями
@@ -3508,7 +3542,8 @@ en:
         работ, где Вы автор или критик).
       mail_self_notified: Хочу получать уведомления об изменениях, которые делаю сам
       add_mail_notifications: Отправлять почту на альтернативный адрес
-      pop_up_delay: Задержка обновления уведомлений
+      popups_delay: Задержка обновления уведомлений
+      disable_popups: Отключить всплывающие уведомления
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: Смена статуса
     unlock: Разблокировать
@@ -3774,6 +3809,7 @@ en:
 
   label_my_tasks: Мои запросы/задачи
   label_user_tasks: Запросы/задачи
+
   user_task_directory: Объекты запросов/задач
 
   UploadPlanType1: План мероприятий по реализации регионального проекта

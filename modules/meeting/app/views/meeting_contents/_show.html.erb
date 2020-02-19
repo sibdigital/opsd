@@ -64,7 +64,7 @@ See doc/COPYRIGHT.md for more details.
         <table class="generic-table" id="arbitary_object_items" style="width: 80%;">
           <tbody>
             <% @meeting.protocols.each_with_index do |meeting_protocol, i| %>
-              <tr>
+              <tr id="<%= meeting_protocol.id %>" class="showing">
                 <% if meeting_protocol.completed_at.nil? && meeting_protocol.due_date < DateTime.now-%>
                   <td style="width: 80%; white-space: normal; background: #eebbbb;">
                 <% elsif meeting_protocol.completed == true-%>
@@ -89,7 +89,7 @@ See doc/COPYRIGHT.md for more details.
                 <% if authorize_for(:meetings, :destroy) &&  !meeting_protocol.completed%>
                   <%= content_tag(:td, button_to(
                     "Исполнить",
-                    meeting_protocol_path(id: meeting_protocol.id),
+                    meeting_protocol_path(id: meeting_protocol.id, protocol_action: 'complete'),
                     method: :put,
                     #data: {confirm: I18n.t(:text_are_you_sure)},
                     data: {confirm: "Поручение исполнено?"},
@@ -97,15 +97,47 @@ See doc/COPYRIGHT.md for more details.
                 <% else -%>
                 <td> </td>
                 <% end -%>
-
-                  <% if authorize_for(:meetings, :destroy) %>
-                    <%= content_tag(:td, link_to(
-                        op_icon('icon icon-delete'),
-                        meeting_protocol_path(id: meeting_protocol.id),
-                        method: :delete,
-                        data: {confirm: I18n.t(:text_are_you_sure)},
-                        title: t(:button_delete))) %>
+                <% if authorize_for(:meetings, :edit)%>
+                  <td><div id="<%= meeting_protocol.id %>" class="meeting-protocol-edit"><span class="icon icon-edit" style="cursor: pointer;"></span></div></td>
                 <% end -%>
+                <% if authorize_for(:meetings, :destroy) %>
+                  <%= content_tag(:td, link_to(
+                      op_icon('icon icon-delete'),
+                      meeting_protocol_path(id: meeting_protocol.id),
+                      method: :delete,
+                      data: {confirm: I18n.t(:text_are_you_sure)},
+                      title: t(:button_delete))) %>
+                <% end -%>
+              </tr>
+              <tr id="<%= meeting_protocol.id %>" class="updating" style="display: none;">
+                <% @protocol_for_edit = MeetingProtocol.find(meeting_protocol.id) %>
+                <%= form_with model: @protocol_for_edit, url: meeting_protocol_path(id: @protocol_for_edit.id, protocol_action: 'change', method: :put) do |f| %>
+                  <td>
+                    <section class="form--section">
+                      <%=  hidden_field_tag(:meeting_contents_id, @meeting.id) %>
+                      <div class="form--field"><label for="text"><%= Meeting.human_attribute_name(:meeting_protocol_text) %>:</label>
+                        <%= f.text_area :text, :size => 120, required: true %>
+                      </div>
+                      <div class="form--field">
+                        <label for="assigned_to_id"><%= Meeting.human_attribute_name(:meeting_protocol_executors) %></strong>:</label>
+                        <%= f.select :assigned_to_id,
+                                     options_for_select(MeetingParticipant.joins("JOIN users ON meeting_participants.user_id = users.id" )
+                                                            .where(meeting_id: content.meeting_id, attended: true).map {|u| [u, u.user_id]}, @selected_participant_id),
+                                     required: true,
+                                     container_class: '-middle' %>
+                      </div>
+
+                      <div class="form--field"><label for="due_date"><%= Meeting.human_attribute_name(:meeting_protocol_due_date) %>:</label><%= f.date_field(:due_date, required: true)%></div>
+                    </section>
+                  </td>
+                  <td>
+                  <%= button_tag 'Изменить', type: 'submit', class: '-highlight -with-icon icon-checkmark button ', remote: true%>
+                  </td>
+                  <td colspan="2">
+                    <div id="<%= meeting_protocol.id %>" class="meeting-protocol-edit-cancel"><span class="-with-icon icon-cancel button" style="cursor: pointer;"><%= l(:button_cancel) %></span></div>
+                  </td>
+                <% end %>
+
               </tr>
             <% end %>
           </tbody>
@@ -144,7 +176,7 @@ See doc/COPYRIGHT.md for more details.
 
                     <%= f.select :assigned_to_id,
                     options_for_select(MeetingParticipant.joins("JOIN users ON meeting_participants.user_id = users.id" )
-                    .where(meeting_id: content.meeting_id, attended: true).map {|u| [u, u.user_id]}, @selected_participant_id),
+                    .where(meeting_id: content.meeting_id, attended: true).map {|u| [u, u.user_id]} + [["Все", 0]], @selected_participant_id),
                     required: true,
                     container_class: '-middle' %>
                   </div>
@@ -152,8 +184,7 @@ See doc/COPYRIGHT.md for more details.
                   <div class="form--field"><label for="due_date"><%= Meeting.human_attribute_name(:meeting_protocol_due_date) %>:</label><%= f.date_field(:due_date, required: true)%></div>
 
                   <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button', remote: true%>
-                  <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'meeting-protocol-cancel' %>
-
+                  <div id="meeting-protocol-cancel"><span class="-with-icon icon-cancel button" style="cursor: pointer;"><%= l(:button_cancel) %></span></div>
                 </section>
               <% end %>
             </section>

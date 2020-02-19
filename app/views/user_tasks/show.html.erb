@@ -2,6 +2,28 @@
 This file written by BAN
 11/09/2019
 ++#%>
+<%= toolbar title: t("activerecord.attributes.user_task.kind." + @user_task.kind.downcase) do %>
+  <li class="toolbar-item">
+    <%= link_to edit_user_task_path(@user_task),
+                { class: 'button -highlight',
+                  aria: {label: t(:button_edit)},
+                  title: t(:button_edit)} do %>
+      <%= op_icon('button--icon icon-edit') %>
+      <span class="button--text"><%= t(:button_edit) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to user_task_path(@user_task),
+                method: :delete,
+                data: {confirm: I18n.t(:text_are_you_sure)},
+                class: 'button ',
+                  aria: {label: t(:button_delete)},
+                  title: t(:button_delete) do %>
+      <%= op_icon('button--icon icon-delete') %>
+      <span class="button--text"><%= t(:button_delete) %></span>
+    <% end %>
+  </li>
+<% end %>
 <%= form_with model: @user_task, local: true do |form| %>
 <%= case @user_task.kind
     when 'Note'
@@ -26,6 +48,4 @@ This file written by BAN
   <strong>Текст:</strong>
   <%= @user_task.text %>
 </p>
-<%= link_to 'Редактировать', edit_user_task_path(@user_task) %>
-<p><a href="/my/page">Вернуться к моей странице</a></p>
 <% end %>

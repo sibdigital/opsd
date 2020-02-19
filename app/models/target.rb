@@ -19,6 +19,7 @@ class Target < ActiveRecord::Base
   has_many :plan_fact_yearly_target_values, foreign_key: 'target_id'
   has_many :plan_quarterly_target_values, foreign_key: 'target_id'
   has_many :plan_fact_quarterly_target_values, foreign_key: 'target_id'
+  has_many :work_packages, through: :work_package_targets
   # )
 
   #acts_as_list scope: 'type = \'#{type}\''

@@ -4,7 +4,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 
 export class BlueTableIndicatorService extends BlueTableService {
-  protected columns:string[] = ['Республика Бурятия', 'Ответственный', 'I', 'II', 'III', 'IV', 'I', 'II', 'III', 'IV', 'Процент исполнения', 'Плановые', 'Фактические'];
+  protected columns:string[] = ['Республика Бурятия', 'Ответственный', 'Предыдущий', 'Текущий', 'Плановый', 'Предыдущий', 'Текущий', 'Процент исполнения', 'Плановые', 'Фактические'];
   private data_local:any;
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
@@ -29,58 +29,43 @@ export class BlueTableIndicatorService extends BlueTableService {
         header: this.columns[1]
       },
       {
-        name: 'homescreen_plan_I',
+        name: 'homescreen_plan_prev',
         header: this.columns[2],
         parent_name:'homescreen_plan'
       },
       {
-        name: 'homescreen_plan_II',
+        name: 'homescreen_plan_now',
         header: this.columns[3],
         parent_name:'homescreen_plan'
       },
       {
-        name: 'homescreen_plan_III',
+        name: 'homescreen_plan_next',
         header: this.columns[4],
         parent_name:'homescreen_plan'
       },
       {
-        name: 'homescreen_plan_IIII',
+        name: 'homescreen_fact_prev',
         header: this.columns[5],
-        parent_name:'homescreen_plan'
+        parent_name:'homescreen_fact'
       },
       {
-        name: 'homescreen_fact_I',
+        name: 'homescreen_fact_now',
         header: this.columns[6],
         parent_name:'homescreen_fact'
       },
       {
-        name: 'homescreen_fact_II',
-        header: this.columns[7],
-        parent_name:'homescreen_fact'
-      },
-      {
-        name: 'homescreen_fact_III',
-        header: this.columns[8],
-        parent_name:'homescreen_fact'
-      },
-      {
-        name: 'homescreen_fact_IIII',
-        header: this.columns[9],
-        parent_name:'homescreen_fact'
-      },
-      {
         name: 'homescreen_plan',
-        header: this.columns[11],
-        children: 4
+        header: this.columns[8],
+        children: 3
       },
       {
         name: 'homescreen_fact',
-        header: this.columns[12],
-        children: 4
+        header: this.columns[9],
+        children: 2
       },
       {
         name: 'homescreen_progress',
-        header: this.columns[10],
+        header: this.columns[7],
         type: 'custom',
         component: HomescreenProgressBarComponent
       }
@@ -106,22 +91,19 @@ export class BlueTableIndicatorService extends BlueTableService {
                 homescreen_name: '<a href="' + super.getBasePath() + '/projects/' + row.identifier + '">' + row.name + '</a>'
               });
               row.targets.map((target:HalResource) => {
-                let fact:number = target.fact_year_value;
-                let goal:number = target.target_year_value;
+                let fact:number = target.fact_now;
+                let goal:number = target.target_end;
                 data.push({
                   parentId: row.project_id + 'Project',
                   id: target.target_id,
                   homescreen_name: target.name,
                   homescreen_assignee: target.otvetstvenniy ? '<a href="' + super.getBasePath() + '/users/' + target.otvetstvenniy_id + '">' + target.otvetstvenniy + '</a>' : '',
-                  homescreen_plan_I: target.target_quarter1_value,
-                  homescreen_plan_II: target.target_quarter2_value,
-                  homescreen_plan_III: target.target_quarter3_value,
-                  homescreen_plan_IIII: target.target_quarter4_value,
-                  homescreen_fact_I: target.fact_quarter1_value,
-                  homescreen_fact_II: target.fact_quarter2_value,
-                  homescreen_fact_III: target.fact_quarter3_value,
-                  homescreen_fact_IIII: target.fact_quarter4_value,
-                  homescreen_progress: [!goal || !fact ? '0' : (100 * fact / goal).toFixed(1).toString()]
+                  homescreen_plan_prev: target.target_prev,
+                  homescreen_plan_now: target.target_now,
+                  homescreen_plan_next: target.target_next,
+                  homescreen_fact_prev: target.fact_prev,
+                  homescreen_fact_now: target.fact_now,
+                  homescreen_progress: [!!goal ? (100 * fact / goal).toFixed(1).toString() : '0.0' ]
                 });
               });
             });

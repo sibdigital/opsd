@@ -45,6 +45,10 @@ class MyController < ApplicationController
   menu_item :access_token,        only: [:access_token]
   menu_item :mail_notifications,  only: [:mail_notifications]
   menu_item :pop_up_notifications,  only: [:pop_up_notifications]
+  helper :sort
+  include SortHelper
+  include SortHelper
+  include PaginationHelper
 
   # Show user's page
   def index
@@ -65,7 +69,18 @@ class MyController < ApplicationController
 
   #ban(
   def tasks
+    sort_columns = {'id' => "#{UserTask.table_name}.id",
+                    'project' => "#{UserTask.table_name}.project_id",
+                    'assigned_to' => "#{UserTask.table_name}.assigned_to_id",
+                    'due_date' => "#{UserTask.table_name}.due_date",
+                    'completed' => "#{UserTask.table_name}.completed"
+    }
+    sort_init 'id', 'asc'
+    sort_update sort_columns
     @user_tasks = UserTask.all
+                    .order(sort_clause)
+                    .page(page_param)
+                    .per_page(per_page_param)
   end
   # )
 
@@ -112,7 +127,7 @@ class MyController < ApplicationController
   def pop_up_notifications; end
 
   def update_pop_up_notifications
-
+    write_pop_up_settings(redirect_to: :pop_up_notifications)
   end
   # Create a new feeds key
   def generate_rss_key
@@ -179,7 +194,12 @@ class MyController < ApplicationController
   end
 
   def write_pop_up_settings(redirect_to:)
-
+    update_service = UpdateUserPopupSettingsService.new(@user)
+    if update_service.call(popups_delay: params[:popups_delay],
+                           disable_popups: params[:disable_popups])
+      flash[:notice] = l(:notice_account_updated)
+      redirect_to(action: redirect_to)
+    end
   end
 
   def write_settings(current_user, request, permitted_params, params)

@@ -50,23 +50,21 @@ module TargetsHelper
         html = html + content_tag(:td, target.measure_unit)
         html = html + content_tag(:td, target.basic_value)
         html = html + content_tag(:td, target.plan_value)
-        html = html + content_tag(:td, target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" )
+        html = html + content_tag(:td, target.is_approve? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "")
         if User.current.allowed_to?(:manage_work_package_target_plan_values, @project)
           html = html + content_tag(:td,
-                    link_to(op_icon('icon icon-add'),
-                            new_project_target_path(parent_id: target.id),
-                            aria: { label: t(:label_child_target_new) },
-                            class: 'wp-inline-create--add-link',
-                            title: t(:label_child_target_new))
-          )
-        html = html + content_tag(:td,
-                   link_to(
-                     op_icon('icon icon-delete'),
-                     project_target_path(id: target.id),
-                     method: :delete,
-                     data: { confirm: I18n.t(:text_are_you_sure) },
-                     title: t(:button_delete)
-                   ))
+                                    link_to(op_icon('icon icon-add'),
+                                            new_project_target_path(parent_id: target.id),
+                                            aria: { label: t(:label_child_target_new) },
+                                            class: 'wp-inline-create--add-link',
+                                            title: t(:label_child_target_new)) +
+                                    link_to(
+                                      op_icon('icon icon-delete'),
+                                      project_target_path(id: target.id),
+                                      method: :delete,
+                                      data: { confirm: I18n.t(:text_are_you_sure) },
+                                      title: t(:button_delete)
+                                    ))
         end
         html = html + render_tree(Target.where(parent_id: target.id), target.id, level + 1)
         html = html + '</tr>'

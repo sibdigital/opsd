@@ -7,8 +7,8 @@
   <%= form.hidden_field 'assigned_to_id', value: @user_task.assigned_to_id %>
   <%= form.hidden_field 'related_task_id', value: @user_task.related_task_id %>
 
-  <p>
-    <%= form.text_area :text %>
-  </p>
+  <div class="form--field">
+    <%= form.text_area :text, container_class: '-wide' %>
+  </div>
 
 </div>

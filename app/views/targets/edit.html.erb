@@ -31,15 +31,17 @@ This file written by XCC
   </section>
 
   <section style="display: block; width: 50%; float: left;">
-    <h3><%= l(:label_target_execution_values) %></h3>
-    <%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id).order('year ASC, quarter ASC'), target_id: @target.id, project_id: @project.id%>
-
-    <div>
+    <h3><%= l(:label_target_execution_values) %>
+      <div class="float-right">
       <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
-<!--        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>-->
+        <!--        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>-->
         <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;"></span></div>
       <% end %>
     </div>
+    </h3>
+    <%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id).order('year ASC, quarter ASC'), target_id: @target.id, project_id: @project.id%>
+
+
     <div id="target-val-form" style="display: none; margin-top: 10px;">
       <section>
         <%= @target_execution_value = TargetExecutionValue.new %>
@@ -111,5 +113,10 @@ This file written by XCC
 
   </section>
 
+  <section style="display: block; width: 50%; float: left;">
+    <h3><%= l(:label_target_work_packages) %></h3>
+    <%= cell ::TargetWorkPackages::TableCell, @target.work_packages.order('id ASC'), target_id: @target.id, project_id: @project.id%>
+
+  </section>
 </div>
 

@@ -3,12 +3,49 @@ This file written by BAN
 11/09/2019
 ++#%>
 <% html_title l(:label_administration), l(:label_user_tasks) %>
-<%= toolbar title: l(:label_user_tasks) %>
-
+<%= toolbar title: l(:label_user_tasks) do %>
+  <li class="toolbar-item">
+    <%= link_to new_user_task_path(kind: 'Task', head_text: 'Новая задача'),
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:button_add_task)},
+                  title: t(:button_add_task)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:button_add_task) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to new_user_task_path(kind: 'Note', head_text: 'Новая заметка'),
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:button_add_note)},
+                  title: t(:button_add_note)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:button_add_note) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to new_user_task_path(kind: 'Request',
+                                   object_type: 'WorkPackage', head_text: 'Запрос на приемку задачи'),
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:button_add_request_wp)},
+                  title: t(:button_add_request_wp)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:button_add_request_wp) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to new_user_task_path(kind: 'Request', head_text: 'Запрос на ввод данных в справочники'),
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:button_add_request_input)},
+                  title: t(:button_add_request_input)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:button_add_request_input) %></span>
+    <% end %>
+  </li>
+<% end %>
 <%= form_tag({}) do -%>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table" id="project_risk_items">
+      <table class="generic-table" id="user_tasks_items">
         <colgroup>
           <col highlight-col>
           <col highlight-col>
@@ -17,42 +54,8 @@ This file written by BAN
         </colgroup>
         <thead>
         <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= UserTask.human_attribute_name(:id) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= UserTask.human_attribute_name(:kind) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= UserTask.human_attribute_name(:project) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= UserTask.human_attribute_name(:object_type) %>
-                </span>
-              </div>
-            </div>
-          </th>
+          <%= sort_header_tag("id", :caption => '#', :default_order => 'asc') %>
+          <%= sort_header_tag("project", :caption => UserTask.human_attribute_name(:project)) %>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
@@ -62,30 +65,12 @@ This file written by BAN
               </div>
             </div>
           </th>
+          <%= sort_header_tag("assigned_to", :caption => UserTask.human_attribute_name(:assigned_to)) %>
+          <%= sort_header_tag("due_date", :caption => UserTask.human_attribute_name(:due_date)) %>
+          <%= sort_header_tag("completed", :caption => UserTask.human_attribute_name(:completed)) %>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span>
-                  <%= UserTask.human_attribute_name(:assigned_to) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= UserTask.human_attribute_name(:due_date) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <%= UserTask.human_attribute_name(:completed) %>
-                </span>
               </div>
             </div>
           </th>
@@ -98,32 +83,38 @@ This file written by BAN
         </tr>
         </thead>
         <tbody>
-        <% @user_tasks.each do |user_task| %>
-          <tr id="user_task-<%= user_task.id %>">
-            <td><%= link_to user_task.id, edit_user_task_path(id: user_task.id) %></td>
-            <%= content_tag(:td, link_to(h(user_task.kind), edit_user_task_path(id: user_task.id))) %>
-            <%= content_tag(:td, link_to(h(user_task.project), edit_user_task_path(id: user_task.id))) %>
-            <%= content_tag(:td, link_to(h(user_task.object_type), edit_user_task_path(id: user_task.id))) %>
-            <%= content_tag(:td, link_to(h(user_task.text), edit_user_task_path(id: user_task.id))) %>
-            <%= content_tag(:td, link_to(h(user_task.assigned_to), edit_user_task_path(id: user_task.id))) %>
-            <%= content_tag(:td, link_to(h(user_task.due_date), edit_user_task_path(id: user_task.id))) %>
-            <%= content_tag(:td, link_to(h(user_task.completed), edit_user_task_path(id: user_task.id))) %>
-            <%= content_tag(:td, link_to(
-                op_icon('icon icon-delete'),
-                user_task_path(id: user_task.id),
-                method: :delete,
-                data: {confirm: I18n.t(:text_are_you_sure)},
-                title: t(:button_delete))) %>
-          </tr>
+        <% if @user_tasks.empty? %>
+        <tr>
+          <td colspan="8" style="text-align: center"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+        <% else %>
+          <% @user_tasks.each do |user_task| %>
+            <tr id="user_task-<%= user_task.id %>">
+              <%= content_tag(:td, link_to(user_task.id, user_task_path(id: user_task.id))) %>
+              <%= content_tag(:td, user_task.project) %>
+              <%= content_tag(:td, user_task.text) %>
+              <%= content_tag(:td, user_task.assigned_to) %>
+              <%= content_tag(:td, format_activity_day(user_task.due_date)) %>
+              <%= content_tag(:td, user_task.completed ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" ) %>
+              <%= content_tag(:td, link_to(
+                  op_icon('icon icon-edit'),
+                  edit_user_task_path(id: user_task.id))) %>
+              <%= content_tag(:td, link_to(
+                  op_icon('icon icon-delete'),
+                  user_task_path(id: user_task.id),
+                  method: :delete,
+                  data: {confirm: I18n.t(:text_are_you_sure)},
+                  title: t(:button_delete))) %>
+            </tr>
+          <% end %>
         <% end %>
         </tbody>
       </table>
     </div>
   </div>
-
+  <%= pagination_links_full @user_tasks %>
 <% end -%>
-<%= link_to 'Новая заметка', new_user_task_path(kind: 'Note', head_text: 'Новая заметка') %><br>
-<%= link_to 'Запрос на приемку задачи', new_user_task_path(kind: 'Request',
-  object_type: 'WorkPackage', head_text: 'Запрос на приемку задачи') %><br>
-<%= link_to 'Запрос на ввод данных в справочники', new_user_task_path(kind: 'Request', head_text: 'Запрос на ввод данных в справочники') %><br>
-<%= link_to 'Новая задача', new_user_task_path(kind: 'Task', head_text: 'Новая задача') %>
+<!--<%#= link_to t(:button_add_note), new_user_task_path(kind: 'Note', head_text: 'Новая заметка') %><br>-->
+<!--<%#= link_to t(:button_add_request_wp), new_user_task_path(kind: 'Request',  object_type: 'WorkPackage', head_text: 'Запрос на приемку задачи') %><br>-->
+<!--<%#= link_to t(:button_add_request_input), new_user_task_path(kind: 'Request', head_text: 'Запрос на ввод данных в справочники') %><br>-->
+<%#= link_to t(:button_add_task), new_user_task_path(kind: 'Task', head_text: 'Новая задача') %>

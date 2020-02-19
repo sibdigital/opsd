@@ -1,8 +1,27 @@
 #written by ban
 class UserTasksController < ApplicationController
 
+  layout 'my'
+  menu_item :my_tasks
+
+  helper :sort
+  include SortHelper
+  include SortHelper
+  include PaginationHelper
+
   def index
+    sort_columns = {'id' => "#{UserTask.table_name}.id",
+                    'project' => "#{UserTask.table_name}.project_id",
+                    'assigned_to' => "#{UserTask.table_name}.assigned_to_id",
+                    'due_date' => "#{UserTask.table_name}.due_date",
+                    'completed' => "#{UserTask.table_name}.completed"
+    }
+    sort_init 'id', 'asc'
+    sort_update sort_columns
     @user_tasks = UserTask.all
+                    .order(sort_clause)
+                    .page(page_param)
+                    .per_page(per_page_param)
   end
 
   def show
@@ -99,7 +118,7 @@ class UserTasksController < ApplicationController
   def destroy
     @user_task = UserTask.find(params[:id])
     @user_task.destroy
-    redirect_to my_page_path
+    redirect_to user_tasks_path
   end
 
   private

@@ -18,29 +18,30 @@
     <%= form.select :project_id,
                     options_for_select(Project.where(type: Project::TYPE_PROJECT).all.map {|u| [u.name, u.id]}, @selected_project),
                     include_blank: true,
-                    container_class: '-slim' %>
+                    container_class: '-wide' %>
   </div>
 
   <div class="form--field">
     <%= form.select :object_id,
                     children_options_for_select_wp(WorkPackage.all.map {|u| [u.subject, u.project_id, u.id]}, @selected_wp),
                     include_blank: true,
-                    container_class: '-slim' %>
+                    container_class: '-wide' %>
   </div>
 
-  <p>
-    <%= form.collection_select(:assigned_to_id, User.all, :id, :name) %>
-  </p>
+  <div class="form--field">
+    <%= form.collection_select(:assigned_to_id, User.all, :id, :name, container_class: '-slim') %>
+  </div>
 
-  <p>
-    <%= form.text_area :text %>
-  </p>
+  <div class="form--field">
+    <%= form.text_area :text, container_class: '-wide' %>
+  </div>
+  <p>Срок:</p>
+  <div class="form--field">
 
+    <%= form.datetime_select :due_date, {}, { class: "date-select" } %>
+  </div>
 </div>
 
-<p>Срок</p>
-  <p style="display: inline-block; margin-bottom: 5px">
-    <%= form.datetime_select :due_date, {}, { class: "date-select" } %>
-  </p>
+
 
 <%=javascript_include_tag 'select_wp_from_project' %>
