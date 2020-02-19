@@ -1,7 +1,6 @@
 // ban +
 var loadList = function() {
   var selectedValue = jQuery('#user_task_project_id').val();
-  console.log(selectedValue);
   jQuery('#user_task_object_id').children().css('display','none');
   jQuery('#user_task_object_id').children('#' + selectedValue).css('display','');
   jQuery('#user_task_object_id').children().first().css('display','');
