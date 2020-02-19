@@ -8,7 +8,12 @@ class UserTasksController < ApplicationController
   include SortHelper
   include SortHelper
   include PaginationHelper
-
+  # knm
+  # new и edit вью должны рендерить одну и ту же _form, только с разными методами в рендере
+  # на _form есть пример того как нужно его заполнить
+  # create просто дролжен делать save из params
+  # в роутах tasks сделать вложенным ресурсом чтобы index обрабатывался контроллером tasks а не my
+  # вопросы можно писать мне в вайбер
   def index
     sort_columns = {'id' => "#{UserTask.table_name}.id",
                     'project' => "#{UserTask.table_name}.project_id",

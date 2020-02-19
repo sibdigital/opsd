@@ -15,6 +15,46 @@ This file written by BAN
     </div>
   <% end %>
 
+<!--Пример-->
+<!-- Создаем радио кнопки для каждого типа-->
+
+<!--<div class="form--field">-->
+<!--  <label class="form--label">-->
+    <%#= label_tag I18n.t(:'activerecord.models.type') %>
+<!--  </label>-->
+<!--  <span class="form--field-container">-->
+    <%# I18n.t("activerecord.attributes.user_task.kind").each do |type|%>
+      <%#= radio_button_tag 'kind', type[0], true, class: 'radio-kind' %>
+      <%#= label_tag type[1] %>
+    <%# end %>
+<!--  </span>-->
+<!--</div>-->
+
+<!--Для каждого аттрибута создаем формфиелд с 2 дополнительными классами radio-depend и kind_[имя типа]-->
+<!--У одного форм филда может быть несколько kind-ов -->
+
+<!--<div class="form--field radio-depend kind_task kind_note">-->
+<!--  <span class="form--field-container -wide">-->
+    <%#= text_field_tag 'test_task', 'Task', container_class: '-slim' %>
+<!--  </span>-->
+<!--</div>-->
+<!--<div class="form--field radio-depend kind_note">-->
+<!--  <span class="form--field-container -wide">-->
+  <%#= text_field_tag 'test_note', 'Note', container_class: '-slim' %>
+<!--    </span>-->
+<!--</div>-->
+<!--<div class="form--field radio-depend kind_request">-->
+<!--  <span class="form--field-container -wide">-->
+  <%#= text_field_tag 'test_request', 'Request', container_class: '-slim' %>
+<!--    </span>-->
+<!--</div>-->
+<!--<div class="form--field radio-depend kind_response">-->
+<!--  <span class="form--field-container -wide">-->
+  <%#= text_field_tag 'test_response', 'Response', container_class: '-slim' %>
+<!--    </span>-->
+<!--</div>-->
+
+
 <%= case params[:kind]
     when 'Note'
       render partial: "user_tasks/new_note", locals: { form: form }
@@ -30,3 +70,4 @@ This file written by BAN
       render partial: "user_tasks/new_response", locals: { form: form }
     end
 %>
+<%=javascript_include_tag 'form_by_radio' %>
