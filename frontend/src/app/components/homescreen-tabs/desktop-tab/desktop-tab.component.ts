@@ -162,7 +162,7 @@ export class DesktopTabComponent implements OnInit {
           this.data[i] = row;
         });
       });
-    this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects.toString())
+    this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects_for_user.toString())
       .toPromise()
       .then((projects:CollectionResource<HalResource>) => {
         this.valueOptions = projects.elements.sort((a, b) => (a.name > b.name ? 1 : -1)).map((el:HalResource) => {

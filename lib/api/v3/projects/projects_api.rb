@@ -39,7 +39,7 @@ module API
                                                                     params)
           end
 
-         params do
+          params do
            requires :id, desc: 'Project id'
          end
 
@@ -63,6 +63,13 @@ module API
             mount API::V3::Versions::VersionsByProjectAPI
             mount API::V3::Types::TypesByProjectAPI
             mount API::V3::Queries::QueriesByProjectAPI
+          end
+        end
+        resources :projects_for_user do
+          get do
+            ::API::V3::Utilities::ParamsToQuery.collection_response(current_user.visible_projects,
+                                                                    current_user,
+                                                                    params)
           end
         end
       end

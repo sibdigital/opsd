@@ -665,6 +665,14 @@ class User < Principal
     roles
   end
 
+  def visible_projects
+    proj_arr = self.projects.to_a
+    visibles = Project.visible(self).to_a
+    scope = proj_arr & visibles
+    scope = scope.map(&:id)
+    Project.where("id in (#{scope.join(',')})")
+  end
+
   # Cheap version of Project.visible.count
   def number_of_known_projects
     if admin?

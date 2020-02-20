@@ -32,7 +32,7 @@ export class ProblemsTabComponent {
   }
 
   ngOnInit() {
-    this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects.toString())
+    this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects_for_user.toString())
       .toPromise()
       .then((projects:CollectionResource<HalResource>) => {
         this.valueOptions = projects.elements.map((el:HalResource) => {

@@ -118,9 +118,7 @@ module API
 
         #tan
         def user_projects(user)
-          proj_arr = user.projects.to_a
-          visibles = Project.visible(user).to_a
-          proj_arr & visibles # пересечение видимых и тех, в которых состоит
+          user.visible_projects.to_a # пересечение видимых и тех, в которых состоит
         end
 
         def np_user_projects(user, np)

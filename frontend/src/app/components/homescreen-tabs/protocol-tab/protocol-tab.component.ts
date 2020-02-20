@@ -31,7 +31,7 @@ export class ProtocolTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.halResourceService.get<CollectionResource<ProjectResource>>(this.pathHelper.api.v3.projects.toString())
+    this.halResourceService.get<CollectionResource<ProjectResource>>(this.pathHelper.api.v3.projects_for_user.toString())
       .toPromise()
       .then((projects:CollectionResource<ProjectResource>) => {
         this.valueOptions = projects.elements.map((el:ProjectResource) => {

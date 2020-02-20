@@ -126,6 +126,9 @@ export class ApiV3Paths {
   // /api/v3/projects
   public readonly projects = new Apiv3ProjectsPaths(this.apiV3Base);
 
+  // /api/v3/projects
+  public readonly projects_for_user = new SimpleResource(this.apiV3Base, 'projects_for_user');
+
   // /api/v3/users
   public readonly users = new Apiv3UsersPaths(this.apiV3Base);
 
