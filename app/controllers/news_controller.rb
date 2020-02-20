@@ -177,4 +177,18 @@ class NewsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_news_plural)
+    else
+      ActionController::Base.helpers.link_to(t(:label_news_plural), project_news_index_path(@project.id))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
 end

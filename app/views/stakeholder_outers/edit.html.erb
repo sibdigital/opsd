@@ -1,6 +1,8 @@
 <% html_title l(:label_administration), "#{l(:label_edit)} #{StakeholderOuter.model_name.human} #{h @stakeholder.name}" %>
 <% local_assigns[:additional_breadcrumb] =  @stakeholder.name %>
+<% breadcrumb_paths(default_breadcrumb, l(:label_edit) + ': ' + @stakeholder.name) %>
 <%= breadcrumb_toolbar l(:label_edit) +': ' + @stakeholder.name %>
+
 
 <%= labelled_tabular_form_for [@project, @stakeholder] do |f| %>
   <%= render partial: 'form', locals: { f: f } %>

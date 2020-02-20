@@ -519,10 +519,11 @@ en:
         is_default: В новых проектах активируется по умолчанию
         is_milestone: Это веха
         color: Цвет
-#        knm start
+      #        knm start
       head_performance_indicator_value:
         head_performance_indicator_id: Показатель деятельности высшего должностного лица
         head_performance_indicator: Показатель деятельности высшего должностного лица
+        head_performance_indicator_short: Показатель
         month: Месяц
       target_calc_procedure:
         name: Наименование
@@ -606,6 +607,7 @@ en:
         #)
         #fva(
         name: ФИО
+        new:
         #)
       user_preference:
         comments_sorting: Показывать комментарии
@@ -1178,7 +1180,7 @@ en:
       failed: Не удалось создать шаблон «%{target_project_name}» из проекта «%{source_project_name}».
       succeeded: Созданный шаблон «%{target_project_name}» из проекта «%{source_project_name}».
   #)
-  create_new_page: Wiki-страница
+  create_new_page: Новая Wiki-страница
   date:
     abbr_day_names:
       - Вс
@@ -2088,6 +2090,8 @@ en:
   label_project_show_details: Показать детали проекта
   label_project_hide_details: Скрыть детали проекта
   label_plan_uploader_settings: Настройки соответствия полей
+  label_plan_uploader_settings_new: Новое поле
+  label_plan_uploader_settings_edit: Изменение поля
   label_arbitary_object_new: Добавить произвольный объект
   label_targets: Целевые показатели
   label_target_calc_procedure_new: Новая методика расчета дополнительных показателей
@@ -2671,6 +2675,7 @@ en:
   label_by_user: По пользователю
   label_by_action: По действию
   label_production_calendar: Производственный календарь
+  label_production_calendar_new: Новый производственный календарь
   label_production_calendars: Производственные календари
   label_work_calendar: Производственный календарь
   permission_view_interactive_map: Просмотр карты

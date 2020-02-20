@@ -1,7 +1,12 @@
+<% local_assigns[:additional_breadcrumb] = "#{t(:label_head_performance_indicator_values_new)}" %>
+
+
 <% html_title(l(:label_my_account), I18n.t('label_head_performance_indicator_values_new')) -%>
+
 <%= toolbar title: I18n.t('label_head_performance_indicator_values_new') %>
 <%= labelled_tabular_form_for @value do |f| %>
-  <%= render partial: 'head_performance_indicator_values/form', locals: { f: f } %>
+  <%= render partial: 'head_performance_indicator_values/form', locals: {f: f} %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
+
 

@@ -4,6 +4,7 @@ This file written by xcc
 ++#%>
 
 <% html_title l(:label_arbitary_object_new) %>
+<% breadcrumb_paths(default_breadcrumb, l(:label_arbitary_object_new)) %>
 <%= breadcrumb_toolbar l(:label_arbitary_object_new) %>
 <%= labelled_tabular_form_for [@project, @arbitary_object], html: { id: 'arbitary-object-form' } do |f| %>
 <%= render partial: 'arbitary_objects/form/form', locals: { f: f } %>

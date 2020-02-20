@@ -74,9 +74,9 @@ private
 
   def default_breadcrumb
     if action_name == 'index'
-      l(:label_communication_requirements)
+      l(:label_communication_meetings_plural)
     else
-      ActionController::Base.helpers.link_to(l(:label_communication_requirements), project_communication_requirements_path)
+      ActionController::Base.helpers.link_to(l(:label_communication_meetings_plural), project_communication_meetings_path)
     end
   end
 

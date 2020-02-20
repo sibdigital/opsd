@@ -228,7 +228,7 @@ class MessagesController < ApplicationController
     content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
 
     respond_to do |format|
-      format.json { render json: { subject: subject, content: content } }
+      format.json { render json: {subject: subject, content: content} }
       format.any { head :not_acceptable }
     end
   end
@@ -237,4 +237,17 @@ class MessagesController < ApplicationController
     params.require(:participant_params).permit(:message_id, participants_attributes: [:user_id, :invited])
   end
 
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_meeting_plural)
+    else
+      ActionController::Base.helpers.link_to(t(:label_meeting_plural), meetings_path(@project.id))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
 end

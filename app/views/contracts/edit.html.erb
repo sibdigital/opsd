@@ -7,6 +7,7 @@ by zbd
 
 <% local_assigns[:additional_breadcrumb] = l(:label_edit) %>
 <%= toolbar title: l(:label_contracts) %>
+<% breadcrumb_paths(default_breadcrumb, l(:label_edit) + ': ' + @contract.contract_num) %>
 <%= breadcrumb_toolbar "Правка контракта №: "+@contract.contract_num %>
 
 

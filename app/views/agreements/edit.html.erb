@@ -7,7 +7,7 @@ This file written by XCC
   needs locals:
   f: labelled form builder
 %>
-
+<% breadcrumb_paths(default_breadcrumb, l(:label_edit) + ': ' + l(:label_agreement) + ' №' + @agreement.number_agreement) %>
 <% html_title l(:label_agreement) %>
 <%= breadcrumb_toolbar l(:label_agreement) %>
 <%= labelled_tabular_form_for @agreement, url: project_agreement_path(project_id: @project) do |f| %>

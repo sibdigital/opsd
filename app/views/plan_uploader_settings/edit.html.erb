@@ -4,10 +4,10 @@ by zbd
 ++#%>
 
 <% html_title l(:label_administration), l(:label_edit) %>
-<%# local_assigns[:additional_breadcrumb] = l(:label_edit) %>
+<% local_assigns[:additional_breadcrumb] = "#{l(:label_edit)}: #{@plan_uploader_setting.column_name}" %>
 <%#= breadcrumb_toolbar @plan_uploader_settings %>
 
-<%= toolbar title: "Изменение поля" %>
+<%= toolbar title: t(:label_plan_uploader_settings_edit) %>
 
 <%= labelled_tabular_form_for @plan_uploader_setting do |f| %>
   <%= render partial: 'settings', locals: { f: f, columns: @columns,

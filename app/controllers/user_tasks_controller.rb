@@ -127,8 +127,24 @@ class UserTasksController < ApplicationController
   end
 
   private
+
   def user_task_params
     params.require(:user_task).permit(:project_id, :user_creator_id, :assigned_to_id, :object_id, :object_type, :kind,
                                       :text, :due_date, :completed, :related_task_id, :period_id)
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_user_tasks)
+    else
+      ActionController::Base.helpers.link_to(t(:label_user_tasks), user_tasks_path)
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
 end

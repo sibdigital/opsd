@@ -441,4 +441,20 @@ class WikiController < ApplicationController
   def redirect_to_show
     redirect_to action: :show, project_id: @project, id: @page
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t("activerecord.models.wiki")
+    else
+      ActionController::Base.helpers.link_to(t("activerecord.models.wiki"), index_project_wiki_index_path(@project.id))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
+
 end

@@ -21,10 +21,18 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title "#{l(:label_meeting_edit)}: #{@meeting.title}" %>
 
+<% breadcrumb_paths(default_breadcrumb, @meeting) %>
+<%# if @target.parent_id != 0 %>
+<!--  <div class="breadcrumb" style="font-size: 14px; font-style: italic; margin-bottom: 5px;">-->
+<%#= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target.parent_id).name, edit_project_target_path(id: @target.parent_id))).html_safe %>
+<!--  </div>-->
+<%# end %>
+<%= breadcrumb_toolbar @meeting %>
+
 <%= toolbar title: "#{l(:label_meeting)} ##{@meeting.id}" %>
 <%= labelled_tabular_form_for @meeting, :url => {:controller => '/meetings', :action => 'update'}, :html => {:id => 'meeting-form', :method => :put} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
-<%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<%= link_to l(:button_cancel), { :action => 'show', :id => @meeting },
-      class: 'button' %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= link_to l(:button_cancel), {:action => 'show', :id => @meeting},
+              class: 'button' %>
 <% end if @project %>

@@ -1,5 +1,6 @@
 <% html_title l(:label_administration), l(:label_stakeholders) %>
 <% local_assigns[:additional_breadcrumb] =  l(:label_stakeholder_outer_new) %>
+<% breadcrumb_paths(default_breadcrumb, l(:label_stakeholder_outer_new)) %>
 <%= breadcrumb_toolbar l(:label_stakeholder_outer_new) %>
 
 <%= labelled_tabular_form_for [@project, @stakeholder] do |f| %>

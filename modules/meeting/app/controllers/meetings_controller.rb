@@ -154,9 +154,26 @@ class MeetingsController < ApplicationController
     @converted_params[:participants_attributes] ||= {}
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
   end
-private
+
+  private
+
   def meeting_params
     params.require(:meeting).permit(:title, :work_package_id, :location, :start_time, :duration, :start_date, :start_time_hour, :speakers, :add_participants,
-      participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting, :id])
+                                    participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting, :id])
+  end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_meeting_plural)
+    else
+      #ActionController::Base.helpers.link_to(t(:label_targets), project_targets_path(project_id: @project.identifier))
+      ActionController::Base.helpers.link_to(t(:label_meeting_plural), meetings_path(@project.id))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
   end
 end
