@@ -1,3 +1,4 @@
+<% local_assigns[:additional_breadcrumb] = "#{t(:label_edit)}: #{t(:label_production_calendar)} №#{@production_calendar.id}" %>
 <% "#{l(:label_edit)} #{ProductionCalendar.model_name.human}" %>
 <%= labelled_tabular_form_for @production_calendar do |f| %>
 

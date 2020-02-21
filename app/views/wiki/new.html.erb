@@ -27,14 +27,16 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% breadcrumb_paths(default_breadcrumb, *(@page.ancestors.reverse.collect { |parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project} } + [t(:create_new_page)])) %>
+
 <% html_title t("create_new_page") %>
 
 <%= labelled_tabular_form_for @content,
                               as: :content,
                               url: create_project_wiki_index_path(project_id: @project),
-                              html: { method: :post, multipart: true, id: 'wiki_form' } do |f| %>
+                              html: {method: :post, multipart: true, id: 'wiki_form'} do |f| %>
 
-  <%= render partial: 'page_form', locals: {f: f}  %>
+  <%= render partial: 'page_form', locals: {f: f} %>
 
 <% end %>
 

@@ -26,13 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% breadcrumb_paths(default_breadcrumb, l(:label_edit) + ': ' + @news.title) %>
+<%= breadcrumb_toolbar l(:label_edit) + ': ' + @news.title %>
 
 <% html_title l(:label_news_edit) %>
 <%= toolbar title: News.model_name.human %>
 
-<%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <hr class="form--separator" />
+<%= labelled_tabular_form_for @news, html: {id: 'news-form'} do |f| %>
+  <%= render partial: 'form', locals: {f: f} %>
+  <hr class="form--separator"/>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
 <div id="preview"></div>

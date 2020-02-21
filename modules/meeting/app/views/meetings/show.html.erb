@@ -20,12 +20,19 @@ See doc/COPYRIGHT.md for more details.
 ++#%>
 
 <% html_title "#{l(:label_meeting)}: #{@meeting.title}" %>
+<% breadcrumb_paths(default_breadcrumb, @meeting) %>
+<%# if @target.parent_id != 0 %>
+<!--  <div class="breadcrumb" style="font-size: 14px; font-style: italic; margin-bottom: 5px;">-->
+<%#= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target.parent_id).name, edit_project_target_path(id: @target.parent_id))).html_safe %>
+<!--  </div>-->
+<%# end %>
+<%= breadcrumb_toolbar @meeting %>
 <%= toolbar title: l(:label_meeting),
             link_to: link_to(@meeting),
-            html: { class: 'meeting--main-toolbar' } do %>
+            html: {class: 'meeting--main-toolbar'} do %>
   <li class="toolbar-item">
     <div class="button">
-      <%= link_to "Печатная форма", report_meeting_path(@meeting.id)%>
+      <%= link_to "Печатная форма", report_meeting_path(@meeting.id) %>
     </div>
   </li>
   <% unless User.current.anonymous? %>

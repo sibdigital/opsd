@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% if @related_page %>
   <% breadcrumb_for_page(@related_page, t(:label_table_of_contents)) %>
 <% else %>
-  <% breadcrumb_paths(t(:label_table_of_contents)) %>
+  <% breadcrumb_paths(t("activerecord.models.wiki")) %>
 <% end %>
 
 <%= toolbar title: t(:label_wiki_toc) do %>

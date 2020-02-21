@@ -183,8 +183,22 @@ class DocumentsController < ApplicationController
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject! {|k, v| k.to_i < 1 || !v.is_a?(String)}
+    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
 
     values.empty? ? {} : {'custom_field_values' => values.permit!}
+  end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_document_plural)
+    else
+      ActionController::Base.helpers.link_to(t(:label_document_plural), project_documents_path(@project.id))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
   end
 end

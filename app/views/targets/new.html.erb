@@ -6,10 +6,12 @@ This file written by xcc
 
 <% html_title l(:label_target_new) %>
 <% if params[:type] != nil %>
-  <%= breadcrumb_toolbar t("label_" + params[:type] + "_new") %>
+  <% breadcrumb_paths(default_breadcrumb, t("label_" + params[:type] + "_new")) %>
+<% else %>
+  <% breadcrumb_paths(default_breadcrumb, t("label_new")) %>
 <% end %>
-<%= labelled_tabular_form_for [@project, @target], html: { id: 'target-form' } do |f| %>
-  <%= render partial: 'targets/form/form', locals: { f: f, target_id: params[:type_id] } %>
+<%= labelled_tabular_form_for [@project, @target], html: {id: 'target-form'} do |f| %>
+  <%= render partial: 'targets/form/form', locals: {f: f, target_id: params[:type_id]} %>
   <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
     <%= styled_button_tag "Далее", class: '-highlight -with-icon icon-arrow-right3' %>
   <% end %>

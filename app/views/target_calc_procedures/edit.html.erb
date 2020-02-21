@@ -1,5 +1,5 @@
 <% html_title "#{l(:label_edit)} #{TargetCalcProcedure.model_name.human} #{h @calc_procedure.name}" %>
-<% breadcrumb_paths(default_breadcrumb, @calc_procedure.name) %>
+<% breadcrumb_paths(default_breadcrumb, l(:label_edit) + ': ' + @calc_procedure.name) %>
 <%= toolbar title: @calc_procedure.name %>
 <%= labelled_tabular_form_for @calc_procedure, url: project_target_calc_procedure_path(project_id: @project) do |f| %>
   <%= render partial: 'target_calc_procedures/form', locals: { f: f } %>

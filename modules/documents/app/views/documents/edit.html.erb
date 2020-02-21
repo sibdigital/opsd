@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
+<% breadcrumb_paths(default_breadcrumb, "#{t(:label_edit)} #{@document.title}") %>
 <%= toolbar title: Document.model_name.human %>
 
 <%= labelled_tabular_form_for @document, url: document_path(@document), method: 'PATCH' do |f| -%>

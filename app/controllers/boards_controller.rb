@@ -255,4 +255,19 @@ class BoardsController < ApplicationController
     @board = Board.new(permitted_params.board?)
     @board.project = @project
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_board_plural)
+    else
+      ActionController::Base.helpers.link_to(t(:label_board_plural), project_boards_path(@project.id))
+    end
+  end
+
+  def show_local_breadcrumb
+    true
+  end
+
 end

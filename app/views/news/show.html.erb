@@ -26,13 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
+<% breadcrumb_paths(default_breadcrumb, l(:label_edit) + ': ' + @news.title) %>
+<%= breadcrumb_toolbar l(:label_edit) + ': ' + @news.title %>
 <%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}".html_safe do %>
   <% if User.current.allowed_to?(:manage_news, @project) %>
     <li class="toolbar-item">
       <%= link_to(edit_news_path(@news),
-        accesskey: accesskey(:edit),
-        class: 'button edit-news-button') do %>
+                  accesskey: accesskey(:edit),
+                  class: 'button edit-news-button') do %>
         <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>

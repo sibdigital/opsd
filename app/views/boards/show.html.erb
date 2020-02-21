@@ -27,9 +27,13 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% breadcrumb_paths(default_breadcrumb, @board.name) %>
+
 <%= nonced_javascript_tag do %>
   <%= include_gon(need_tag: false) -%>
 <% end %>
+
+
 
 <div id="add-message" style="display:none;">
   <% if authorize_for('messages', 'new') %>
@@ -52,6 +56,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: @board.name, subtitle: format_text(@board.description) do %>
   <% if authorize_for(:messages, :new) %>
+
     <li class="toolbar-item">
       <%= link_to({controller: '/messages', action: 'new', board_id: @board},
                   {class: 'add-message-button button -alt-highlight',

@@ -134,10 +134,9 @@ class PlanUploaderSettingsController < ApplicationController
 
   def default_breadcrumb
     if action_name == 'index'
-      'Настройка полей'
+      t(:label_plan_uploader_settings)
     else
-      'Настройка полей'
-      #ActionController::Base.helpers.link_to('Настройка полей', plan_uploader_setting_path)
+      ActionController::Base.helpers.link_to(t(:label_plan_uploader_settings), plan_uploader_settings_path)
     end
   end
 
