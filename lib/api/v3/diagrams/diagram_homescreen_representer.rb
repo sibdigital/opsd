@@ -152,7 +152,7 @@ module API
           big_otkloneniya = 0
           net_dannyh = 0
 
-          user_proj = @project && @project != '0' ? @project : available_user_projects.map(&:id)
+          user_proj = @project && @project != '0' ? [@project] : available_user_projects.map(&:id)
           targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id)
                       .where("project_id in (#{user_proj.join(",")})")
           slice_plan_now = FirstPlanTarget.get_now(user_proj.join(","))
@@ -207,7 +207,7 @@ module API
           total_budget = BigDecimal("0")
           spent = BigDecimal("0")
 
-          user_proj = @project && @project != '0' ? @project : available_user_projects
+          user_proj = @project && @project != '0' ? Project.where(id: @project) : available_user_projects
 
           cost_objects.each do |cost_object|
             user_proj.each do |uproj|
