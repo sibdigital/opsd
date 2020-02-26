@@ -22,7 +22,10 @@ export class DesktopTabComponent implements OnInit {
   protected readonly appBasePath:string;
   public data:any[] = [];
   public problemCount:number = 0;
-
+  keyword = 'name';
+  data_autocomplete:any[] = [];
+  data_choosed:any;
+  is_loading:boolean = true;
   public options:any[];
   private value:{ [attribute:string]:any } | undefined = {};
   public valueOptions:ValueOption[] = [];
@@ -166,8 +169,10 @@ export class DesktopTabComponent implements OnInit {
       .toPromise()
       .then((projects:CollectionResource<HalResource>) => {
         this.valueOptions = projects.elements.sort((a, b) => (a.name > b.name ? 1 : -1)).map((el:HalResource) => {
+          this.data_autocomplete.push({id: el.id, name: el.name});
           return {name: el.name, $href: el.id};
         });
+        this.is_loading = false;
         this.valueOptions.unshift({name: 'Все проекты', $href: "0"});
         this.value = this.valueOptions[0];
       });
@@ -340,7 +345,163 @@ export class DesktopTabComponent implements OnInit {
         });
     }
   }
-
+  selectEvent(item:any) {
+    console.log(item);
+    this.data_choosed = item;
+    this.homescreenDiagrams.forEach((diagram) => {
+        diagram.refresh(this.data_choosed.id);
+    });
+    this.blueChild.changeFilter(String(this.data_choosed.id));
+    this.data = [];
+    let from = new Date();
+    let to = new Date();
+    to.setDate(to.getDate() + 14);
+    let filtersGreen = [
+      {
+        status: {
+          operator: 'o',
+          values: []
+        },
+      },
+      {
+        planType: {
+          operator: '~',
+          values: ['execution']
+        }
+      },
+      {
+        type: {
+          operator: '=',
+          values: ['1']
+        }
+      },
+      {
+        dueDate: {
+          operator: '<>d',
+          values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
+        }
+      },
+      {
+        project: {
+          operator: '=',
+          values: [String(this.data_choosed.id)]
+        }
+      }
+    ];
+    if (this.data_choosed.id === 0) {
+      console.log(this.data_choosed.id);
+      filtersGreen.pop();
+    }
+    this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
+      .toPromise()
+      .then((resources:CollectionResource<WorkPackageResource>) => {
+        resources.elements.map( (el, i) => {
+          let row = this.data[i] ? this.data[i] :{};
+          let id = el.id;
+          let subject = el.subject;
+          let projectId = '';
+          let project = '';
+          if (el.$links.project) {
+            projectId = el.$links.project.href.substr(17);
+            project = el.$links.project.title;
+          }
+          let upcoming_tasks = {id: id, subject: subject, project: project, projectId: projectId};
+          row["upcoming_tasks"] = upcoming_tasks;
+          this.data[i] = row;
+        });
+      });
+    let filtersRed = [
+      {
+        status: {
+          operator: 'o',
+          values: []
+        },
+      },
+      {
+        planType: {
+          operator: '~',
+          values: ['execution']
+        }
+      },
+      {
+        type: {
+          operator: '=',
+          values: ['2']
+        }
+      },
+      {
+        dueDate: {
+          operator: '<t-',
+          values: ['1']
+        }
+      },
+      {
+        project: {
+          operator: '=',
+          values: [String(this.data_choosed.id)]
+        }
+      }
+    ];
+    if (this.data_choosed.id === 0) {
+      console.log(this.data_choosed.id);
+      filtersRed.pop();
+    }
+    this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
+      .toPromise()
+      .then((resources:CollectionResource<WorkPackageResource>) => {
+        resources.elements.map( (el, i) => {
+          let row = this.data[i] ? this.data[i] :{};
+          let id = el.id;
+          let subject = el.subject;
+          let projectId = '';
+          let project = '';
+          if (el.$links.project) {
+            projectId = el.$links.project.href.substr(17);
+            project = el.$links.project.title;
+          }
+          let due_milestone = {id: id, subject: subject, project: project, projectId: projectId};
+          row["due_milestone"] = due_milestone;
+          this.data[i] = row;
+        });
+      });
+    let params:any = {"status": "created"};
+    if (this.data_choosed.id !== 0) {
+      params = {"status": "created", "project": this.data_choosed.id};
+    }
+    this.halResourceService
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), params)
+      .toPromise()
+      .then((resources:CollectionResource<HalResource>) => {
+        resources.elements.map( (el, i) => {
+          let row = this.data[i] ? this.data[i] :{};
+          let id = el.id;
+          let risk = el.risk;
+          let wptitle = el.workPackage ? el.workPackage.$links.self.title : '';
+          let wpid = el.workPackage ? el.workPackage.$links.self.href.slice(22) : '';
+          let problems = {id: id, risk: risk, wptitle: wptitle, wpid: wpid};
+          row["problems"] = problems;
+          this.data[i] = row;
+        });
+        this.problemCount = resources.elements ? resources.elements.length : 0;
+      });
+    this.halResourceService
+      .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString())
+      .toPromise()
+      .then((resources:HalResource) => {
+        resources.source.map( (el:HalResource, i:number) => {
+          let row = this.data[i] ? this.data[i] :{};
+          let id = el.project.id;
+          let name = el.project.name;
+          let spent = el.spent;
+          let total_budget = el.total_budget;
+          let budget = {id: id, name: name, value: total_budget === '0.0' ? 0 : spent / total_budget};
+          row["budget"] = budget;
+          this.data[i] = row;
+        });
+      });
+  }
   public getGreenClass(i:number):string {
     if (i % 2 === 0) {
       return "colored-col-bright-green";

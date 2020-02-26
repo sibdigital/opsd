@@ -30,21 +30,42 @@
             </div>
         </div>
     </div>
-    <div class="grid-block">
-        <p>Проект: </p>
-        <select [(ngModel)]="selectedOption"
-                [compareWith]="compareByHref"
-                (change)="handleUserSubmit()"
-                style="width: 200px">
-            <option
-                    *ngFor="let value of valueOptions"
-                    [attr.selected]="compareByHref(selectedOption, value) || undefined"
-                    [attr.label]="value.name"
-                    [ngValue]="value"
-                    [textContent]="value.name">
-            </option>
-        </select>
+<!--    <div class="grid-block" style="border: 2px solid #1C6EA4;border-radius: 5px;display: inline-flex;margin: 10px 0px">-->
+
+<!--        <button style="border: none;background: #1C6EA4;" class="icon-search"></button>-->
+<!--    </div>-->
+    <div class="ng-autocomplete" style="width: 100%;border: 2px solid #1C6EA4;display: inline-flex;margin: 10px 0;">
+        <ng-autocomplete [data]="data_autocomplete"
+                         [searchKeyword]="keyword"
+                         [isLoading]="is_loading"
+                         placeHolder="Все проекты..."
+                         (selected)="selectEvent($event)"
+                         (inputCleared)="selectEvent({id: 0, name: 'Все проекты'})"
+                         [itemTemplate]="itemTemplate"
+                         [notFoundTemplate]="notFoundTemplate"
+                         debounceTime="1000"
+                         notFoundText="Не найдено">
+        </ng-autocomplete>
+        <button class="icon-search" style="color: white;width: 8%;background: #1C6EA4;border: 1px #1C6EA4"></button>
+        <ng-template #itemTemplate let-item >
+            <a [innerHTML]="item.name" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis; padding: 5px 5px;"></a>
+        </ng-template>
+        <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+        </ng-template>
     </div>
+    <select [(ngModel)]="selectedOption"
+            [compareWith]="compareByHref"
+            (change)="handleUserSubmit()"
+            style="width: 200px" [hidden]="true">
+        <option
+                *ngFor="let value of valueOptions"
+                [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                [attr.label]="value.name"
+                [ngValue]="value"
+                [textContent]="value.name">
+        </option>
+    </select>
     <homescreen-blue-table [template]="'desktop'"></homescreen-blue-table>
     <div style="display: inline-flex;border: 1px solid #1A67A3;width: 100%;">
         <table border="0" class="coloredTable">
