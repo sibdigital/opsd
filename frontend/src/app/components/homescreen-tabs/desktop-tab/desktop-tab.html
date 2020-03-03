@@ -35,9 +35,11 @@
 <!--        <button style="border: none;background: #1C6EA4;" class="icon-search"></button>-->
 <!--    </div>-->
     <div class="ng-autocomplete" style="width: 100%;border: 2px solid #1C6EA4;display: inline-flex;margin: 10px 0;">
-        <ng-autocomplete [data]="data_autocomplete"
+        <ng-autocomplete #autocomplete
+                         [data]="data_autocomplete"
                          [searchKeyword]="keyword"
-                         [isLoading]="is_loading"
+                         [isLoading]="check_load()"
+                         [disabled]="check_load()"
                          placeHolder="Все проекты..."
                          (selected)="selectEvent($event)"
                          (inputCleared)="selectEvent({id: 0, name: 'Все проекты'})"

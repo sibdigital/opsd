@@ -25,7 +25,7 @@ export class DesktopTabComponent implements OnInit {
   keyword = 'name';
   data_autocomplete:any[] = [];
   data_choosed:any;
-  is_loading:boolean = true;
+  is_loading:boolean[] = [true, true, true, true, true];
   public options:any[];
   private value:{ [attribute:string]:any } | undefined = {};
   public valueOptions:ValueOption[] = [];
@@ -33,6 +33,7 @@ export class DesktopTabComponent implements OnInit {
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
   @ViewChildren(HomescreenDiagramComponent) homescreenDiagrams:QueryList<HomescreenDiagramComponent>;
+  @ViewChild('autocomplete') auto:any;
 
   constructor(
     protected halResourceService:HalResourceService,
@@ -88,7 +89,10 @@ export class DesktopTabComponent implements OnInit {
           row["upcoming_tasks"] = upcoming_tasks;
           this.data[i] = row;
         });
-      });
+        this.is_loading[1] = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
     const filtersRed = [
       {
         status: {
@@ -133,7 +137,10 @@ export class DesktopTabComponent implements OnInit {
           row["due_milestone"] = due_milestone;
           this.data[i] = row;
         });
-      });
+        this.is_loading[2] = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
     this.halResourceService
       .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created"})
       .toPromise()
@@ -149,7 +156,10 @@ export class DesktopTabComponent implements OnInit {
           this.data[i] = row;
         });
         this.problemCount = resources.elements ? resources.elements.length : 0;
-      });
+        this.is_loading[3] = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
     this.halResourceService
       .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString())
       .toPromise()
@@ -164,7 +174,10 @@ export class DesktopTabComponent implements OnInit {
           row["budget"] = budget;
           this.data[i] = row;
         });
-      });
+        this.is_loading[4] = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
     this.halResourceService.get<CollectionResource<HalResource>>(this.pathHelper.api.v3.projects_for_user.toString())
       .toPromise()
       .then((projects:CollectionResource<HalResource>) => {
@@ -172,10 +185,21 @@ export class DesktopTabComponent implements OnInit {
           this.data_autocomplete.push({id: el.id, name: el.name});
           return {name: el.name, $href: el.id};
         });
-        this.is_loading = false;
+        this.is_loading[0] = false;
         this.valueOptions.unshift({name: 'Все проекты', $href: "0"});
         this.value = this.valueOptions[0];
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
+  }
+
+  public check_load() {
+    // console.log(this.is_loading);
+    return this.is_loading[0] || this.is_loading[1] || this.is_loading[2] || this.is_loading[3] || this.is_loading[4];
+
+    // let is_ready = true;
+    // this.is_loading.forEach(value => (is_ready = value || is_ready));
+    // return is_ready;
   }
 
   public get selectedOption() {
@@ -346,7 +370,11 @@ export class DesktopTabComponent implements OnInit {
     }
   }
   selectEvent(item:any) {
-    console.log(item);
+    this.auto.close();
+    this.is_loading[1] = true;
+    this.is_loading[2] = true;
+    this.is_loading[3] = true;
+    this.is_loading[4] = true;
     this.data_choosed = item;
     this.homescreenDiagrams.forEach((diagram) => {
         diagram.refresh(this.data_choosed.id);
@@ -389,7 +417,6 @@ export class DesktopTabComponent implements OnInit {
       }
     ];
     if (this.data_choosed.id === 0) {
-      console.log(this.data_choosed.id);
       filtersGreen.pop();
     }
     this.halResourceService
@@ -410,6 +437,7 @@ export class DesktopTabComponent implements OnInit {
           row["upcoming_tasks"] = upcoming_tasks;
           this.data[i] = row;
         });
+        this.is_loading[1] = false;
       });
     let filtersRed = [
       {
@@ -444,7 +472,6 @@ export class DesktopTabComponent implements OnInit {
       }
     ];
     if (this.data_choosed.id === 0) {
-      console.log(this.data_choosed.id);
       filtersRed.pop();
     }
     this.halResourceService
@@ -465,6 +492,7 @@ export class DesktopTabComponent implements OnInit {
           row["due_milestone"] = due_milestone;
           this.data[i] = row;
         });
+        this.is_loading[2] = false;
       });
     let params:any = {"status": "created"};
     if (this.data_choosed.id !== 0) {
@@ -485,6 +513,7 @@ export class DesktopTabComponent implements OnInit {
           this.data[i] = row;
         });
         this.problemCount = resources.elements ? resources.elements.length : 0;
+        this.is_loading[3] = false;
       });
     this.halResourceService
       .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString())
@@ -500,7 +529,9 @@ export class DesktopTabComponent implements OnInit {
           row["budget"] = budget;
           this.data[i] = row;
         });
+        this.is_loading[4] = false;
       });
+    // this.auto.close();
   }
   public getGreenClass(i:number):string {
     if (i % 2 === 0) {
