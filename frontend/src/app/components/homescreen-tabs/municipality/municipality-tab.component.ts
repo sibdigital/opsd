@@ -21,6 +21,10 @@ export interface ValueOption {
 export class MunicipalityTabComponent implements OnInit {
   public options:any[];
   private value:{ [attribute:string]:any } | undefined = {};
+  keyword = 'name';
+  data_autocomplete:any[] = [];
+  data_choosed:any;
+  is_loading:boolean[] = [true, true, true, true, true];
   public valueOptions:ValueOption[] = [];
   public compareByHref = AngularTrackingHelpers.compareByHref;
   protected readonly appBasePath:string;
@@ -28,6 +32,7 @@ export class MunicipalityTabComponent implements OnInit {
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
   @ViewChildren(HomescreenDiagramComponent) homescreenDiagrams:QueryList<HomescreenDiagramComponent>;
+  @ViewChild('autocomplete') auto:any;
 
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
@@ -40,9 +45,11 @@ export class MunicipalityTabComponent implements OnInit {
       .toPromise()
       .then((raions:CollectionResource<HalResource>) => {
         this.valueOptions = raions.elements.map((el:HalResource) => {
+          this.data_autocomplete.push({id: el.id, name: el.name});
           return {name: el.name, $href: el.id};
         });
         this.value = this.valueOptions[0];
+        this.is_loading[0] = false;
         // this.handleUserSubmit();
         this.updateColorTables();
       });
@@ -58,6 +65,15 @@ export class MunicipalityTabComponent implements OnInit {
     this.value = option;
   }
 
+  public check_load() {
+    // console.log(this.is_loading);
+    return this.is_loading[0] || this.is_loading[1] || this.is_loading[2] || this.is_loading[3] || this.is_loading[4];
+
+    // let is_ready = true;
+    // this.is_loading.forEach(value => (is_ready = value || is_ready));
+    // return is_ready;
+  }
+
   public handleUserSubmit() {
     if (this.selectedOption) {
       this.homescreenDiagrams.forEach((diagram) => {
@@ -66,47 +82,93 @@ export class MunicipalityTabComponent implements OnInit {
         }
       });
       this.blueChild.changeFilter(String(this.selectedOption.$href));
-      this.updateColorTables();
+      this.updateColorTables(this.selectedOption.$href);
     }
   }
+  selectEvent(item:any) {
+    this.auto.close();
+    this.is_loading[0] = true;
+    this.is_loading[1] = true;
+    this.is_loading[2] = true;
+    this.is_loading[3] = true;
+    this.is_loading[4] = true;
+    this.data_choosed = item;
+    this.homescreenDiagrams.forEach((diagram) => {
+      diagram.refreshByMunicipality(Number(this.data_choosed.id));
+    });
+    this.blueChild.changeFilter(String(this.data_choosed.id));
+    this.updateColorTables(this.data_choosed.id);
+    this.is_loading[0] = false;
+  }
 
-  public updateColorTables() {
+  public updateColorTables(item:any = null) {
     this.data = [];
     let from = new Date();
     let to = new Date();
     to.setDate(to.getDate() + 14);
-    const filtersGreen = [
-      {
-        status: {
-          operator: 'o',
-          values: []
+    let filtersGreen;
+    if (item) {
+    filtersGreen = [
+        {
+          status: {
+            operator: 'o',
+            values: []
+          },
         },
-      },
-      {
-        planType: {
-          operator: '~',
-          values: ['execution']
+        {
+          planType: {
+            operator: '~',
+            values: ['execution']
+          }
+        },
+        {
+          type: {
+            operator: '=',
+            values: ['1']
+          }
+        },
+        {
+          dueDate: {
+            operator: '<>d',
+            values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
+          }
+        },
+        {
+          raion: {
+            operator: '=',
+            values: [String(item)]
+          }
         }
-      },
-      {
-        type: {
-          operator: '=',
-          values: ['1']
+      ];
+    }
+    else {
+      filtersGreen = [
+        {
+          status: {
+            operator: 'o',
+            values: []
+          },
+        },
+        {
+          planType: {
+            operator: '~',
+            values: ['execution']
+          }
+        },
+        {
+          type: {
+            operator: '=',
+            values: ['1']
+          }
+        },
+        {
+          dueDate: {
+            operator: '<>d',
+            values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
+          }
         }
-      },
-      {
-        dueDate: {
-          operator: '<>d',
-          values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
-        }
-      },
-      {
-        raion: {
-          operator: '=',
-          values: [String(this.selectedOption.$href)]
-        }
-      }
-    ];
+      ];
+    }
     this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
       .toPromise()
@@ -125,39 +187,79 @@ export class MunicipalityTabComponent implements OnInit {
           row["upcoming_tasks"] = upcoming_tasks;
           this.data[i] = row;
         });
+        this.is_loading[1] = false;
       });
-    const filtersRed = [
-      {
-        status: {
-          operator: 'o',
-          values: []
+    let filtersRed;
+    if (item) {
+      filtersRed = [
+        {
+          status: {
+            operator: 'o',
+            values: []
+          },
         },
-      },
-      {
-        planType: {
-          operator: '~',
-          values: ['execution']
+        {
+          planType: {
+            operator: '~',
+            values: ['execution']
+          }
+        },
+        {
+          type: {
+            operator: '=',
+            values: ['2']
+          }
+        },
+        {
+          dueDate: {
+            operator: '<t-',
+            values: ['1']
+          }
+        },
+        {
+          raion: {
+            operator: '=',
+            values: [String(item)]
+          }
         }
-      },
-      {
-        type: {
-          operator: '=',
-          values: ['2']
+      ];
+    }
+    else {
+      filtersRed = [
+        {
+          status: {
+            operator: 'o',
+            values: []
+          },
+        },
+        {
+          planType: {
+            operator: '~',
+            values: ['execution']
+          }
+        },
+        {
+          type: {
+            operator: '=',
+            values: ['2']
+          }
+        },
+        {
+          dueDate: {
+            operator: '<t-',
+            values: ['1']
+          }
         }
-      },
-      {
-        dueDate: {
-          operator: '<t-',
-          values: ['1']
-        }
-      },
-      {
+      ];
+    }
+    if (item) {
+      filtersRed.push({
         raion: {
           operator: '=',
-          values: [String(this.selectedOption.$href)]
+          values: [String(item)]
         }
-      }
-    ];
+      });
+    }
     this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
       .toPromise()
@@ -176,9 +278,10 @@ export class MunicipalityTabComponent implements OnInit {
           row["due_milestone"] = due_milestone;
           this.data[i] = row;
         });
+        this.is_loading[2] = false;
       });
     this.halResourceService
-      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created", "raion": this.selectedOption.$href})
+      .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created", "raion":  item ? item : null})
       .toPromise()
       .then((resources:CollectionResource<HalResource>) => {
         resources.elements.map( (el, i) => {
@@ -191,9 +294,10 @@ export class MunicipalityTabComponent implements OnInit {
           row["problems"] = problems;
           this.data[i] = row;
         });
+        this.is_loading[3] = false;
       });
     this.halResourceService
-      .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString(), {"raion": this.selectedOption.$href})
+      .get<HalResource>(this.pathHelper.api.v3.summary_budgets.toString(), {"raion": item ? item : "0"})
       .toPromise()
       .then((resources:HalResource) => {
         resources.source.map( (el:HalResource, i:number) => {
@@ -206,6 +310,7 @@ export class MunicipalityTabComponent implements OnInit {
           row["budget"] = budget;
           this.data[i] = row;
         });
+        this.is_loading[4] = false;
       });
   }
 
