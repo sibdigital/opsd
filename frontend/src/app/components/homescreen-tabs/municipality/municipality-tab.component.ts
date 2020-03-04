@@ -40,7 +40,7 @@ export class MunicipalityTabComponent implements OnInit {
   public upcomingTasksCount:number;
   public dueMilestoneCount:number;
 
-  private pageSize = 3;
+  private pageSize = 5;
 
   public problemPages:number = 0;
   public budgetPages:number = 0;
