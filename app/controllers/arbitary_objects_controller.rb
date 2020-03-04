@@ -83,7 +83,7 @@ class ArbitaryObjectsController < ApplicationController
     if action_name == 'index'
       t(:label_arbitary_objects)
     else
-      ActionController::Base.helpers.link_to(t(:label_targets), project_arbitary_objects_path(project_id: @project.identifier))
+      ActionController::Base.helpers.link_to(t(:label_arbitary_objects), project_arbitary_objects_path(project_id: @project.identifier))
     end
   end
 

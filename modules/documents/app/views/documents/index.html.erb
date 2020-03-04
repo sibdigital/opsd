@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   class: @project.get_default_board.nil? ? 'button -disabled' : 'button',
                   aria: {label: t("label_board_new")},
                   title: @project.get_default_board.nil? ? t("label_board_dont_exist") : t("label_board_new")) do %>
-      <%= op_icon('button--icon icon-ticket-note') %>
+        <%= op_icon('button--icon icon-ticket-note') %>
       <% end %>
     </li>
   <% end %>
@@ -90,173 +90,177 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= styled_select_tag :filter_user,options_for_select(@existing_users,@filter_user), include_blank: true  %>
         </div>
       </li>
-        <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
-        <%= link_to t(:button_clear), project_documents_path(project_id: @project.id), class: 'button -small -with-icon icon-undo' %>
+      <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
+      <%= link_to t(:button_clear), project_documents_path(project_id: @project.id), class: 'button -small -with-icon icon-undo' %>
       </li>
     </ul>
   </fieldset>
 <% end %>
 <% if @selected_view == "table" %>
-<div class="generic-table--container">
-  <div class="generic-table--results-container">
-    <table class="generic-table" id="documents">
-              <colgroup>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-                <col highlight-col>
-              </colgroup>
-      <thead>
-      <tr>
-        <%= sort_header_tag("id", :caption => '#') %>
-        <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="documents">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#') %>
+          <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span>
                   <%= Document.human_attribute_name(:description) %>
                 </span>
+              </div>
             </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span>
                   <%= Document.human_attribute_name(:category)%>
                 </span>
+              </div>
             </div>
-          </div>
-        </th>
-        <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
-        <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
-        <%= sort_header_tag("updated_on", :caption => Document.human_attribute_name(:updated_on)) %>
+          </th>
+          <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
+          <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
+          <%= sort_header_tag("updated_on", :caption => Document.human_attribute_name(:updated_on)) %>
 
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span>
                   <%= Document.human_attribute_name(:attachments) %>
                 </span>
+              </div>
             </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span>
                   <%= Document.human_attribute_name(:work_package) %>
                 </span>
+              </div>
             </div>
-          </div>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-        <% @documents.each do |document|%>
-        <tr id="documents-<%= document.id %>">
-          <%= content_tag(:td, link_to( h(document.id), :controller => '/documents', :action => 'show', :id => document)) %>
-          <%= content_tag(:td,link_to( h(document.title), :controller => '/documents', :action => 'show', :id => document)) %>
-          <%= content_tag(:td, document.description) %>
-          <%= content_tag(:td, document.category) %>
-          <%= content_tag(:td, document.user.fio) %>
-          <%= content_tag(:td, format_activity_day(document.created_on)) %>
-          <%= content_tag(:td, format_activity_day(document.updated_on)) %>
-          <td>
-            <ul style="list-style-type: none; margin: 0;">
-              <% document.attachments.each do |attachment| %>
-                <li>
-                  <%= link_to(h(attachment.filename), attachment_path(attachment.id,attachment.filename),{class: '', title: l(:added_by,attachment.author.fio)}) %>
-                </li>
-              <% end %>
-              <li>
-                <%= link_to( op_icon('icon-add' ), :controller => '/documents', :action => 'show', :id => document) %>
-              </li>
-            </ul>
-          </td>
-          <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
-          <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
+          </th>
         </tr>
+        </thead>
+        <tbody>
+        <% @documents.each do |document|%>
+          <tr id="documents-<%= document.id %>">
+            <%= content_tag(:td, link_to( h(document.id), :controller => '/documents', :action => 'show', :id => document)) %>
+            <%= content_tag(:td,link_to( h(document.title), :controller => '/documents', :action => 'show', :id => document)) %>
+            <%= content_tag(:td, document.description) %>
+            <%= content_tag(:td, document.category) %>
+            <%= content_tag(:td, document.user.fio) %>
+            <%= content_tag(:td, format_activity_day(document.created_on)) %>
+            <%= content_tag(:td, format_activity_day(document.updated_on)) %>
+            <td>
+              <ul style="list-style-type: none; margin: 0;">
+                <% document.attachments.each do |attachment| %>
+                  <li>
+                    <%= link_to(h(attachment.filename), attachment_path(attachment.id,attachment.filename),{class: '', title: l(:added_by,attachment.author.fio)}) %>
+                  </li>
+                <% end %>
+                <li>
+                  <%= link_to( op_icon('icon-add' ), :controller => '/documents', :action => 'show', :id => document) %>
+                </li>
+              </ul>
+            </td>
+            <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
+            <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
+          </tr>
         <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 <% elsif @selected_view == "explorer" %>
-<div class="generic-table--container">
-  <div class="generic-table--results-container">
-    <table class="generic-table" id="documents">
-      <thead>
-      <tr>
-        <%= sort_header_tag("id", :caption => '#') %>
-        <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" id="documents">
+        <thead>
+        <tr>
+          <%= sort_header_tag("id", :caption => '#') %>
+          <%= sort_header_tag("title", :caption => Document.human_attribute_name(:title)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span>
                   <%= Document.human_attribute_name(:description) %>
                 </span>
+              </div>
             </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span>
                   <%= Document.human_attribute_name(:category)%>
                 </span>
+              </div>
             </div>
-          </div>
-        </th>
-        <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
-        <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
-        <%= sort_header_tag("updated_on", :caption => Document.human_attribute_name(:updated_on)) %>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
+          </th>
+          <%= sort_header_tag("user", :caption => Document.human_attribute_name(:user)) %>
+          <%= sort_header_tag("created_on", :caption => Document.human_attribute_name(:created_on)) %>
+          <%= sort_header_tag("updated_on", :caption => Document.human_attribute_name(:updated_on)) %>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
                 <span>
                   <%= Document.human_attribute_name(:work_package) %>
                 </span>
+              </div>
             </div>
-          </div>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @documents.each do |document|%>
-      <tr id="documents-<%= document.id %>">
-        <%= content_tag(:td, op_icon('button--icon icon-folder')) %>
-        <%= content_tag(:td,link_to( h(document.title), :controller => '/documents', :action => 'show', :id => document)) %>
-        <%= content_tag(:td, document.description) %>
-        <%= content_tag(:td, document.category) %>
-        <%= content_tag(:td, User.find(document.user_id).fio) %>
-        <%= content_tag(:td, format_activity_day(document.created_on)) %>
-        <%= content_tag(:td, format_activity_day(document.updated_on)) %>
-        <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
-        <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'icon-2', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
-        <%document.attachments.each do |attachment| %>
-          </tr>
-          <tr id="documents-attachment<%= attachment.id %>">
-            <td>
-            <%= op_icon('button--icon icon-hierarchy') %>
-            <%= op_icon('button--icon icon-ticket-down') %>
-            </td>
-            <%= content_tag(:td,link_to(h(attachment.filename), attachment_path(attachment.id,attachment.filename)))  %>
-            <%= content_tag(:td, attachment.description) %>
-            <%= content_tag(:td, attachment.attach_type) %>
-            <%= content_tag(:td, attachment.author.fio) %>
-            <%= content_tag(:td, format_activity_day(attachment.created_at)) %>
-            <%#=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
-        <% end %>
+          </th>
         </tr>
-      <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <% @documents.each do |document|%>
+          <tr id="documents-<%= document.id %>">
+            <%= content_tag(:td, op_icon('button--icon icon-folder')) %>
+            <%= content_tag(:td,link_to( h(document.title), :controller => '/documents', :action => 'show', :id => document)) %>
+            <%= content_tag(:td, document.description) %>
+            <%= content_tag(:td, document.category) %>
+            <%= content_tag(:td, User.find(document.user_id).fio) %>
+            <%= content_tag(:td, format_activity_day(document.created_on)) %>
+            <%= content_tag(:td, format_activity_day(document.updated_on)) %>
+            <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
+            <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'icon-2', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
+            <%document.attachments.each do |attachment| %>
+              </tr>
+              <tr id="documents-attachment<%= attachment.id %>">
+                <td>
+                  <%= op_icon('button--icon icon-hierarchy') %>
+                  <%= op_icon('button--icon icon-ticket-down') %>
+                </td>
+                <%= content_tag(:td,link_to(h(attachment.filename), attachment_path(attachment.id,attachment.filename)))  %>
+                <%= content_tag(:td, attachment.description) %>
+                <%= content_tag(:td, attachment.attach_type) %>
+                <%= content_tag(:td, attachment.author.fio) %>
+                <%= content_tag(:td, format_activity_day(attachment.created_at)) %>
+                <%#=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
+            <% end %>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 <% end %>
+
+<div class="wp-inline-create-button">
+  <%= link_to(t(:label_document_new), { :controller => '/documents', :action => 'new', :project_id => @project }, class: 'wp-inline-create--split-link') %>
+</div>
 <% html_title(l(:label_document_plural)) -%>

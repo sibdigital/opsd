@@ -83,14 +83,11 @@
       </table>
     </div>
     <%= pagination_links_full @com_meeting %>
+
     <div class="wp-inline-create-button">
-      <%= link_to new_project_communication_meeting_path(),
-                  aria: {label: t(:label_communication_meetings_new)},
-                  class: 'wp-inline-create--add-link',
-                  title: t(:label_communication_meetings_new) do
-        op_icon('icon icon-add')
-      end %>
+      <%= link_to t(:label_communication_meetings_new), new_project_communication_meeting_path, class: 'wp-inline-create--split-link' %>
     </div>
+
   </div>
 
 <% end -%>

@@ -33,6 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= error_messages_for 'cost_object' %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= styled_button_tag t(:button_create), class: '-with-icon icon-checkmark' %>
-    <%= styled_button_tag t(:button_create_and_continue), :name => 'continue',
-          class: 'button -highlight'%>
+  <%= styled_button_tag t(:button_create_and_continue), :name => 'continue',
+                        class: 'button -highlight'%>
 <% end %>
+
+

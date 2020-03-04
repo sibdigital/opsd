@@ -35,17 +35,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% if @cost_objects.empty? %>
   <%= no_results_box %>
 <% else %>
-<%= render :partial => 'list', :locals => {:cost_objects => @cost_objects} %>
-<%= pagination_links_full @cost_objects %>
-<% end %>
+  <%= render :partial => 'list', :locals => {:cost_objects => @cost_objects} %>
+  <%= pagination_links_full @cost_objects %>
 
-<p class="other-formats">
-<%= t(:label_export_to) %>
-<!--
+  <% if authorize_for(:cost_objects, :new) %>
+    <div class="wp-inline-create-button">
+      <%= link_to t(:button_add_cost_object), new_projects_cost_object_path(@project) , class: 'wp-inline-create--split-link'%>
+    </div>
+  <% end %>
+  <br>
+  <hr>
+
+  <p class="other-formats">
+
+    <%= t(:label_export_to) %>
+    <!--
 <span><%= link_to 'Atom', {:query_id => @query, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
 -->
-<span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
-<!--
+    <span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
+    <!--
 <span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
 -->
-</p>
+  </p>
+
+<% end %>
+
+
+
+
+
+
+

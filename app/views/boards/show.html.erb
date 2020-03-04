@@ -27,7 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% breadcrumb_paths(default_breadcrumb, @board.name) %>
+
+<% breadcrumb_paths(default_breadcrumb, @board.name ) %>
 
 <%= nonced_javascript_tag do %>
   <%= include_gon(need_tag: false) -%>
@@ -155,6 +156,9 @@ See docs/COPYRIGHT.rdoc for more details.
 <% else %>
   <%= no_results_box %>
 <% end %>
+
+
+<hr>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>

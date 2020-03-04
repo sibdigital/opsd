@@ -564,7 +564,7 @@ en:
       project_risk:
         owner: Владелец риска
         is_possibility: Является возможностью
-#        end
+      #        end
       #zbd(
       stakeholder:
         mail_add: Эл.почта (дополнительная)
@@ -957,11 +957,11 @@ en:
     project_approve_status: Этап согласования
     is_approve: Утверждено
     #knm(
-#    first_due_date: Изначальная дата окончания
-#    last_due_date: Текущая дата окончания
-#    first_start_date: Изначальная дата начала
-#    last_start_date: Текущая дата начала
-#    period: Периодичность добавления отчетов
+    #    first_due_date: Изначальная дата окончания
+    #    last_due_date: Текущая дата окончания
+    #    first_start_date: Изначальная дата начала
+    #    last_start_date: Текущая дата начала
+    #    period: Периодичность добавления отчетов
     time: Время
     busyness: Занятость
     control_level: Уровень контроля
@@ -1088,11 +1088,11 @@ en:
   button_create: Создать
   button_create_and_continue: Создать и продолжить
   button_delete: Удалить
-#  knm(
+  #  knm(
   button_approve: Утвердить
   button_confirm: Согласовать
   button_like: Понравилось
-#  )
+  #  )
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
   button_download: Скачать
@@ -1133,6 +1133,8 @@ en:
   button_update: Обновление
   button_upgrade: Обновить
   button_upload: Загрузить
+  button_import: Импортировать из файла
+  button_import_short: Импортировать
   button_view: Вид
   button_watch: Просмотреть
   button_manage_menu_entry: Настройка пункта меню
@@ -2071,6 +2073,9 @@ en:
   label_key_performance_indicator: Настройка KPI
 
   label_project_risk_new: Добавить риск
+  label_project_risk_new_short: Риск
+  label_project_risk_type_new: Новый типовой проектный риск
+  label_project_risk_type_new_short: Типовой проектный риск
   label_head_performance_indicator_values: Оценки деятельности высшего должностного лица
   label_head_performance_indicator_value: Оценка деятельности высшего должностного лица
   label_head_performance_indicator_values_short: Оценка деятельности
@@ -2093,9 +2098,12 @@ en:
   label_plan_uploader_settings_new: Новое поле
   label_plan_uploader_settings_edit: Изменение поля
   label_arbitary_object_new: Добавить произвольный объект
+  label_arbitary_object_new_short: Произвольный объект
   label_targets: Целевые показатели
   label_target_calc_procedure_new: Новая методика расчета дополнительных показателей
-  label_target_new: Добавить цель
+  label_target_new: Новая цель
+  label_target_typical_new: Создать из типового результата
+  label_target_typical_new_short: Из типового результата
   label_indicator_new: Добавить целевой показатель
   label_result_new: Добавить результат
   label_child_target_new: Добавить дочерний целевой показатель
@@ -2215,6 +2223,7 @@ en:
   label_typed_target_new: Новый типовой результат
   label_contracts: Государственные контракты
   label_contracts_new: Новый гос.контракт
+  label_contracts_new_short: Гос.контракт
   label_contracts_value: Значение гос.контракта
   label_stakeholder_plural: Заинтересованные стороны
   label_stakeholders: Заинтересованные стороны
@@ -2225,8 +2234,10 @@ en:
   label_communication_meetings_plural: План коммуникаций
   label_communication_meetings: Встречи и участники
   label_communication_meetings_new: Новая встреча
+  label_communication_meetings_new_short: Встреча
   label_communication_requirements: Список информационных потребностей
   label_communication_requirements_new: Новая информационная потребность
+  label_communication_requirements_new_short: Информационная потребность
   label_communication_meeting_members: Участники встречи
   #)
   label_ui: Интерфейс пользователя
@@ -3142,8 +3153,8 @@ en:
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_latest_note: 'Последний комментарий: %{note}'
-#  knm +
-#  Типы действий для проектов
+  #  knm +
+  #  Типы действий для проектов
   text_project_user: 'Пользователем %{value} '
   text_project_created_project: 'Создан проект'
   text_project_updated_project: 'Изменен проект'
@@ -3184,7 +3195,7 @@ en:
   text_project_created_costobject: 'Создан бюджет'
   text_project_updated_costobject: 'Обновлен бюджет'
   text_project_deleted_costobject: 'Удален бюджет'
-#  Типы действий для юзера
+  #  Типы действий для юзера
   text_user_created_project: 'Создал проект'
   text_user_updated_project: 'Обновил проект'
   text_user_deleted_project: 'Удалил проект'
@@ -3222,7 +3233,7 @@ en:
   text_user_updated_nationalproject: 'Изменил каталог'
   text_user_created_nationalproject: 'Создал каталог'
   text_user_deleted_nationalproject: 'Удалил каталог'
-#  Статистика с подсчетом
+  #  Статистика с подсчетом
   statistics_accept_appointment: 'Принятие полномочий исполнителя/руководителя: %{count}'
   statistics_action_with_wp: 'Действия с объектами: %{count}'
   statistics_wps_created: 'Создано объектов: %{count}'
@@ -3236,7 +3247,7 @@ en:
   statistics_boards_messages_updated: 'Отредактировано сообщений: %{count}'
   statistics_nationalproject_created: 'Создано национальных проектов: %{count}'
   statistics_nationalproject_updated: 'Изменено национальных проектов: %{count}'
-#  -
+  #  -
   text_length_between: Количество символов между %{min} и %{max} .
   text_line_separated: Допускается  несколько значений (одна строка для каждого значения).
   text_load_default_configuration: Загрузить конфигурацию по умолчанию

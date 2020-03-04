@@ -77,4 +77,11 @@ See doc/COPYRIGHT.md for more details.
   <%= pagination_links_full @meetings, :container => false %>
 </p>
 
+<hr>
+<% if authorize_for(:meetings, :new) %>
+  <div class="wp-inline-create-button">
+    <%= link_to(t(:label_meeting_new), new_meeting_path, class: 'wp-inline-create--split-link') %>
+  </div>
+<% end %>
+
 <%= render :partial => 'shared/meeting_header' %>

@@ -130,3 +130,20 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= list_attachments(resource) %>
 
 <% html_title h(@page.title) %>
+
+<hr>
+<% if @editable %>
+  <% if User.current.allowed_to? :edit_wiki_pages, @project %>
+    <% if @page %>
+      <div class="wp-inline-create-button">
+        <%= link_to t('wiki.index.no_results_content_text'), {controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page}, class: 'wp-inline-create--split-link' %>
+        <% if @content.version == @page.content.version %>
+            <%= link_to_if_authorized(l(:button_edit), {action: 'edit', id: @page}, class: 'wp-inline-create--split-link') %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+<% end %>
+
+

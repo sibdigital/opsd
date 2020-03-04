@@ -29,14 +29,16 @@ See docs/COPYRIGHT.rdoc for more details.
 <% if current_user.admin? %>
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= t(:label_custom_field_new) %></legend>
-  <p><%= t('custom_fields.text_add_new_custom_field') %></p>
-  <%= link_to new_custom_field_path(type: 'WorkPackageCustomField'),
-        { class: 'button -alt-highlight',
-          aria: {label: t(:label_custom_field_new)},
-          title: t(:label_custom_field_new)} do %>
-    <%= op_icon('button--icon icon-add') %>
-    <span class="button--text"><%= CustomField.model_name.human %></span>
-  <% end %>
+  <div class="form--fieldset-control">
+      <span class="form--fieldset-control-container">
+        <%= link_to new_custom_field_path(type: 'WorkPackageCustomField'),
+                    { aria: {label: t(:label_custom_field_new)},
+                      title: t(:label_custom_field_new)} do %>
+          <%= op_icon('icon-add icon-small') %>
+          <span class="button--text"><%= CustomField.model_name.human %></span>
+        <% end %>
+      </span>
+  </div>
 </fieldset>
 <% end %>
 
@@ -56,5 +58,12 @@ See docs/COPYRIGHT.rdoc for more details.
     <p><%= form.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>
   <% end %>
 <% else %>
-  <%= no_results_box custom_title: t('projects.settings.custom_fields.no_results_title_text') %>
+  <%= no_results_box custom_title: "#{t('projects.settings.custom_fields.no_results_title_text')} #{t('custom_fields.text_add_new_custom_field')}" %>
+  <hr>
 <% end %>
+
+<div class="wp-inline-create-button">
+  <%= link_to t(:label_custom_field_new), new_custom_field_path(type: 'WorkPackageCustomField'), class: 'wp-inline-create--split-link'%>
+</div>
+
+

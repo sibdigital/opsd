@@ -2,6 +2,20 @@
 This file written by XCC
 06/07/2019
 ++#%>
+
+<%= toolbar title: l(:label_arbitary_objects) do %>
+  <li class="toolbar-item">
+    <%= link_to new_project_arbitary_object_path,
+                { class: 'button -alt-highlight',
+                  id: 'new_project_arbitary_object_path_link',
+                  aria: {label: t(:label_arbitary_object_new)},
+                  title: t(:label_arbitary_object_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_arbitary_object_new_short) %></span>
+    <% end %>
+  </li>
+<% end %>
+
 <% if @arbitary_objects.empty? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
@@ -68,10 +82,5 @@ This file written by XCC
   <%= pagination_links_full @arbitary_objects %>
 <% end %>
 <div class="wp-inline-create-button">
-  <%= link_to new_project_arbitary_object_path(),
-              aria: {label: t(:label_arbitary_object_new)},
-              class: 'wp-inline-create--add-link',
-              title: t(:label_arbitary_object_new) do
-    op_icon('icon icon-add')
-  end %>
+  <%= link_to t(:label_arbitary_object_new), new_project_arbitary_object_path(), class: 'wp-inline-create--split-link'%>
 </div>

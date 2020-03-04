@@ -28,6 +28,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <span class="button--text"><%= Role.model_name.human %></span>
     <% end %>
   </li>
+  <li class="toolbar-item">
+    <%= link_to({ action: 'report'},
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_permissions_report)},
+            title: t(:label_permissions_report)}) do %>
+      <%= op_icon('button--icon icon-export-xls-descr') %>
+      <span class="button--text"><%= t(:label_permissions_report) %></span>
+    <% end %>
+  </li>
 <% end %>
 
 <div class="generic-table--container">
@@ -102,4 +111,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= pagination_links_full @roles %>
 
-<p><%= link_to l(:label_permissions_report), :action => 'report' %></p>
+<div class="wp-inline-create-button">
+  <%= link_to t(:label_role_new), new_role_path, class: 'wp-inline-create--split-link'%>
+  <%= link_to t(:label_permissions_report), report_roles_path, class: 'wp-inline-create--split-link' %>
+</div>

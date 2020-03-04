@@ -1,3 +1,6 @@
+
+
+
 <%= form_tag({}) do -%>
 
   <div class="generic-table--container">
@@ -53,13 +56,12 @@
       </table>
     </div>
     <%= pagination_links_full @com_req %>
+
+
+
+
     <div class="wp-inline-create-button">
-      <%= link_to new_project_communication_requirement_path(),
-                  aria: {label: t(:label_communication_requirements_new)},
-                  class: 'wp-inline-create--add-link',
-                  title: t(:label_communication_requirements_new) do
-        op_icon('icon icon-add')
-      end %>
+      <%= link_to t(:label_communication_requirements_new), new_project_communication_requirement_path, class: 'wp-inline-create--split-link' %>
     </div>
   </div>
 

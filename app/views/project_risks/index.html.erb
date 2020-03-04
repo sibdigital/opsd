@@ -3,7 +3,29 @@ This file written by BBM
 26/04/2019
 ++#%>
 <% html_title l(:label_administration), l(:label_project_risks) %>
-<%= toolbar title: l(:label_project_risks) %>
+
+<%= toolbar title: l(:label_project_risks) do %>
+  <li class="toolbar-item">
+    <%= link_to new_project_project_risk_path,
+                { class: 'button -alt-highlight',
+                  id: 'new_project_project_risk_link',
+                  aria: {label: t(:label_project_risk_new)},
+                  title: t(:label_project_risk_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_project_risk_new_short) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to choose_typed_project_project_risks_path,
+                { class: 'button -alt-highlight',
+                  id: ' choose_typed_project_project_risks_link',
+                  aria: {label: t(:label_project_risk_type_new)},
+                  title: t(:label_project_risk_type_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_project_risk_type_new_short) %></span>
+    <% end %>
+  </li>
+<% end %>
 
 <% if @project_risks.empty? %>
   <div class="generic-table--container">
@@ -79,13 +101,7 @@ This file written by BBM
   <%= pagination_links_full @project_risks %>
 <% end %>
 <div class="wp-inline-create-button">
-  <%= link_to new_project_project_risk_path(),
-              aria: {label: t(:label_project_risk_new)},
-              class: 'wp-inline-create--add-link',
-              title: t(:label_project_risk_new) do %>
-                <%= op_icon('icon icon-add') %>
-              <% end %>
+  <%= link_to t(:label_project_risk_new), new_project_project_risk_path(), class: 'wp-inline-create--split-link'%>
+  <%= link_to t(:label_project_risk_type_new), choose_typed_project_project_risks_path(), class: 'wp-inline-create--split-link' %>
 </div>
-<div class="wp-inline-create-button">
-  <%= link_to "Новый типовой проектный риск", choose_typed_project_project_risks_path() %>
-</div>
+

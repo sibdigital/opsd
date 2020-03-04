@@ -99,14 +99,8 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <% if @project.categories.any? %>
-      <div class="generic-table--action-buttons">
-        <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
-                                  { class: 'button -alt-highlight',
-                                    aria: {label: t(:label_work_package_category_new)},
-                                    title: t(:label_work_package_category_new)}) do %>
-          <%= op_icon('button--icon icon-add') %>
-          <span class="button--text"><%= t('activerecord.models.category') %></span>
-        <% end %>
+      <div class="wp-inline-create-button">
+        <%= link_to_if_authorized t(:label_work_package_category_new), { controller: '/categories', action: 'new', project_id: @project }, class: 'wp-inline-create--split-link'%>
       </div>
     <% end %>
   <% else %>

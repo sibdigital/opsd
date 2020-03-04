@@ -10,7 +10,7 @@ by zbd
                   aria: {label: t(:label_contracts_new)},
                   title: t(:label_contracts_new)} do %>
       <%= op_icon('button--icon icon-add') %>
-      <span class="button--text">Гос.контракт</span>
+      <span class="button--text"><%= t(:label_contracts_new_short) %></span>
     <% end %>
   </li>
 
@@ -20,7 +20,7 @@ by zbd
                 class: 'button -alt-highlight',
                 title: t(:button_add)) do %>
       <%= op_icon('button--icon icon-export-xls-descr') %>
-      <span class="button--text">Загрузить</span>
+      <span class="button--text"><%= t(:button_upload) %></span>
     <% end %>
   </li>
 <% end %>
@@ -107,3 +107,8 @@ by zbd
   <%= render :partial => 'contracts/form/list', :locals => {:contracts => @contracts} %>
   <%= pagination_links_full @contracts %>
 <% end %>
+
+<div class="wp-inline-create-button">
+  <%= link_to(t(:label_contracts_new), new_project_contract_path, class: 'wp-inline-create--split-link') %>
+  <%= link_to(t(:button_import), catalog_loaders_path(catalog_type: "contracts", project: @project), class: 'wp-inline-create--split-link') %>
+</div>

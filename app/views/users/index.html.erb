@@ -57,7 +57,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 class: 'button -alt-highlight',
                 title: t(:button_add)) do %>
       <%= op_icon('button--icon icon-export-xls-descr') %>
-      <span class="button--text">Загрузить</span>
+      <span class="button--text"><%= "#{t(:button_import_short)}"%></span>
     <% end %>
   </li>
   <%= call_hook(:user_admin_action_menu) %>
@@ -66,3 +66,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= cell Users::UserFilterCell, params, groups: @groups, status: @status %>
 &nbsp;
 <%= cell Users::TableCell, @users, project: @project, current_user: current_user %>
+<div class="wp-inline-create-button">
+  <%= link_to t(:label_user_new), new_user_path, class: 'wp-inline-create--split-link'%>
+  <%= link_to t(:button_import), catalog_loaders_path(catalog_type: "users"), class: 'wp-inline-create--split-link'%>
+</div>

@@ -1,6 +1,8 @@
 //
 // INLINE CREATE
 //
+
+
 .wp-inline-create-button-row
   height: $table-timeline--row-height
   border-bottom: none !important
@@ -8,20 +10,30 @@
     padding: 0 !important
 
 .wp-inline-create-button
-  a
-    //xcc width: 100%
-    padding: 0.5rem 0
-    display: inline-block
-    line-height: 1.6
+  width: 100%
+  margin: 0 auto
+  margin-bottom: 1rem
+
+  :last-child
+    margin-right: 0
 
   a.wp-inline-create--split-link
     width: auto
+    float: left
+    margin-top: 10px
+    text-align: center
+    border: 1px solid #00A6FF
+    border-radius: 2px
+    padding: 0.5rem
+    margin-left: 1rem
 
-    &:last-child
-      margin-left: 1rem
+    &:first-child
+      margin-left: 0
 
     &:hover
       background: #e4f7fb
+      text-underline: none
+      text-decoration: none
 
 
 .wp-inline-create--add-link,

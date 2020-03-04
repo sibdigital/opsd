@@ -147,4 +147,18 @@ class VersionsController < ApplicationController
       @selected_type_ids = (default_types || selectable_types).map { |t| t.id.to_s }
     end
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_roadmap)
+    else
+      ActionController::Base.helpers.link_to(t(:label_roadmap), project_roadmap_path(@project.id))
+    end
+  end
+
+  def show_local_breadcrumb
+    current_user.admin?
+  end
 end

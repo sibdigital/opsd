@@ -262,7 +262,7 @@ class BoardsController < ApplicationController
     if action_name == 'index'
       t(:label_board_plural)
     else
-      ActionController::Base.helpers.link_to(t(:label_board_plural), project_boards_path(@project.id))
+      ActionController::Base.helpers.link_to(t(:label_board_plural), project_boards_path(@project))
     end
   end
 

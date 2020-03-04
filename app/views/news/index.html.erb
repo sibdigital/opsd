@@ -69,6 +69,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= pagination_links_full @newss %>
 
+<% if managable %>
+  <div class="wp-inline-create-button">
+    <%= link_to t(:label_news_new), new_project_news_path(@project), class: 'wp-inline-create--split-link' %>
+  </div>
+<% end %>
+<br>
+<hr>
+
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', url: {project_id: @project, key: User.current.rss_key} %>
 <% end %>
@@ -76,3 +84,4 @@ See docs/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({format: 'atom', page: nil, key: User.current.rss_key})) %>
 <% end %>
+

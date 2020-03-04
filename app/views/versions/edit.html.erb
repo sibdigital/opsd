@@ -27,12 +27,13 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title l("label_roadmap_edit", name: @version.name) %>
+<% breadcrumb_paths(default_breadcrumb, "#{t(:label_edit)}: #{@version.name}") %>
 <%= toolbar title: Version.model_name.human %>
 
 <%= labelled_tabular_form_for @version do |f| %>
 
   <%= render partial: 'form', locals: { f: f,
-                                              project: @project } %>
+                                        project: @project } %>
 
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 

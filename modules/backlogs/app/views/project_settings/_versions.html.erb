@@ -35,10 +35,22 @@ See doc/COPYRIGHT.rdoc for more details.
       <span class="form--fieldset-control-container">
         <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
                                   { aria: { label: t(:label_version_new) },
-                                    title: t(:label_version_new) }) do %>
+                                    title: t(:label_version_new),
+                                    style: "margin-right: 10px",
+                                  }) do %>
           <%= op_icon('icon-add icon-small') %>
             <span><%= l(:label_version) %></span>
         <% end %>
+        <% if @project.versions.any? %>
+          <%= link_to close_completed_project_versions_path(@project),
+                      method: :put,
+                      aria: { label: l(:label_close_versions) },
+                      title: l(:label_close_versions) do %>
+            <%= op_icon('icon-small icon-close') %>
+            <span><%= l(:label_close_versions) %></span>
+         <% end %>
+      <% end %>
+
       </span>
     </div>
     <div class="generic-table--container">
@@ -166,15 +178,19 @@ See doc/COPYRIGHT.rdoc for more details.
         </table>
       </div>
     </div>
-    <div class="generic-table--action-buttons">
-      <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
-                            { class: 'button -alt-highlight',
-                              aria: {label: t(:label_version_new)},
-                              title: t(:label_version_new)}) do %>
-        <%= op_icon('button--icon icon-add') %>
-        <span class="button--text"><%= l(:label_version) %></span>
+    <div class="wp-inline-create-button">
+      <%= link_to_if_authorized t('projects.settings.versions.no_results_content_text'), { controller: '/versions', action: 'new', project_id: @project }, class: 'wp-inline-create--split-link' %>
+      <% if @project.versions.any? %>
+        <%= link_to l(:label_close_versions),
+                    close_completed_project_versions_path(@project),
+                    method: :put,
+                    class: 'wp-inline-create--split-link'%>
+
       <% end %>
     </div>
+
+
+
   <% else %>
     <%= no_results_box action_url: new_project_version_path(@project),
                        display_action: authorize_for('versions', 'new'),
@@ -184,10 +200,4 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </fieldset>
 
-<% if @project.versions.any? %>
-  <div class="contextual">
-      <%= link_to l(:label_close_versions),
-                  close_completed_project_versions_path(@project),
-                  method: :put %>
-  </div>
-<% end %>
+

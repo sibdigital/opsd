@@ -1,10 +1,33 @@
 <% html_title l(:label_communication_meetings) %>
 <% local_assigns[:additional_breadcrumb] =  l(:label_communication_meetings_plural)%>
 <% case @tab %>
-  <% when 'req' %>
-    <%= breadcrumb_toolbar l(:label_communication_requirements) %>
-  <% when 'meet' %>
-    <%= breadcrumb_toolbar l(:label_communication_meetings) %>
+<% when 'req' %>
+  <%= toolbar title: l(:label_communication_requirements) do %>
+    <li class="toolbar-item">
+      <%= link_to new_project_communication_requirement_path,
+                  { class: 'button -alt-highlight',
+                    id: 'new_news_link',
+                    aria: {label: t(:label_communication_requirements_new)},
+                    title: t(:label_communication_requirements_new)} do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_communication_requirements_new_short) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% when 'meet' %>
+
+  <%= toolbar title: l(:label_communication_meetings) do %>
+    <li class="toolbar-item">
+      <%= link_to new_project_communication_meeting_path,
+                  { class: 'button -alt-highlight',
+                    id: 'new_news_link',
+                    aria: {label: t(:label_communication_meetings_new)},
+                    title: t(:label_communication_meetings_new)} do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_communication_meetings_new_short) %></span>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
 
 

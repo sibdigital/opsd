@@ -1,6 +1,33 @@
 <% html_title l(:label_administration), l(:label_targets) %>
 
-<%= toolbar title: @title %>
+<%#= toolbar title: @title %>
+
+<%= toolbar title: @title do %>
+
+
+  <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
+    <li class="toolbar-item">
+      <%= link_to new_project_target_path(:parent_id => params[:parent_id], :type_id => @type_id, :type => params[:target_type]),
+                  aria: {label: t(:label_target_new)},
+                  class: 'button -alt-highlight',
+                  title: t(:label_target_new) do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t('targets.target') %></span>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= link_to choose_typed_project_targets_path(),
+                  aria: {label: t(:label_target_typical_new)},
+                  class: 'button -alt-highlight',
+                  title: t(:label_target_typical_new) do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_target_typical_new_short) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <%= call_hook(:user_admin_action_menu) %>
+<% end %>
+
 
 <% if @target_parent != nil %>
   <div class="form--field">
@@ -98,13 +125,13 @@
       </tr>
       </thead>
       <tbody>
-        <% if @targets.empty? %>
-          <tr>
-            <td colspan="5"><%= I18n.t :no_results_title_text %></td>
-          </tr>
-        <% else %>
-          <%= render :partial => 'targets/form/list', :locals => {:targets => @targets } %>
-        <% end %>
+      <% if @targets.empty? %>
+        <tr>
+          <td colspan="5"><%= I18n.t :no_results_title_text %></td>
+        </tr>
+      <% else %>
+        <%= render :partial => 'targets/form/list', :locals => {:targets => @targets } %>
+      <% end %>
       </tbody>
     </table>
   </div>
@@ -114,15 +141,8 @@
 
 <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
   <div class="wp-inline-create-button">
-    <%= link_to new_project_target_path(:parent_id => params[:parent_id], :type_id => @type_id, :type => params[:target_type]),
-                aria: {label: t(:label_target_new)},
-                class: 'wp-inline-create--add-link',
-                style: 'margin-top: 5px;',
-                title: t(:label_target_new) do %>
-      <%= op_icon('button--icon icon-add') %>
-    <% end %>
+    <%= link_to t(:label_target_new), new_project_target_path(:parent_id => params[:parent_id], :type_id => @type_id, :type => params[:target_type]), class: 'wp-inline-create--split-link'%>
+    <%= link_to t(:label_target_typical_new), choose_typed_project_targets_path(), class: 'wp-inline-create--split-link' %>
   </div>
-  <div class="wp-inline-create-button">
-    <%= link_to "Добавить типовой результат", choose_typed_project_targets_path() %>
-  </div>
+
 <% end %>
