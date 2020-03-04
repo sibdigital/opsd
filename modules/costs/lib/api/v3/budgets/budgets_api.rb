@@ -76,7 +76,7 @@ module API
 
           get :budget do
             raion_id = params[:raion]
-            if raion_id
+            if raion_id && raion_id != '0'
               rprojects = Raion.projects_by_id(raion_id, current_user.projects.map {|p| p.id})
               result = AllBudgetsHelper.cost_by_projects rprojects
             else

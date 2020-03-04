@@ -88,7 +88,7 @@ export class ProblemsTabComponent {
     this.auto.close();
     this.is_loading[0] = true;
     this.data_choosed = item;
-    this.blueChild.changeFilter('project' + this.data_choosed.$href);
+    this.blueChild.changeFilter('project' + this.data_choosed.id);
     this.curator = this.data_choosed.kurator;
     this.ruk = this.data_choosed.rukovoditel;
     this.is_loading[0] = false;

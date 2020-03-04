@@ -35,7 +35,7 @@ module API
         before do
           @projects = [0]
           if params[:project].present?
-            @projects << params[:project]
+            @projects = [params[:project]]
           else
             Project.where(type: 'project').visible_by(current_user).each do |project|
               exist = which_role(project, current_user, global_role)
@@ -206,7 +206,7 @@ module API
               result['count'] = qwptwqg.count
               collection = []
               if qwptwqg.count == 0
-                p = Project.find(@projects[1])
+                p = Project.find(@projects[0])
                 hash = Hash.new
                 hash['_type'] = 'Project'
                 hash['project_id'] = p.id
