@@ -81,86 +81,185 @@
         </div>
     </div>
     <homescreen-blue-table [template]="'municipality'"></homescreen-blue-table>
-    <div style="display: inline-flex;border: 1px solid #1A67A3;width: 100%;">
-        <table border="0" class="coloredTable">
-            <thead>
-            <tr>
-                <th class="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
-                <th class="colored-col-red" colspan="3">Просроченные КТ:</th>
-                <th class="colored-col-orange" colspan="3">Проблемы:</th>
-                <th class="colored-col-purple" colspan="3">Бюджет:</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of data; let i = index" >
-                <td *ngIf="item.upcoming_tasks"
-                    [ngClass]="getGreenClass(i)"
-                    [textContent]="i + 1"></td>
-                <td *ngIf="item.upcoming_tasks"
-                    [ngClass]="getGreenClass(i)">
-                    <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}/work_packages/{{item.upcoming_tasks.id}}/activity?plan_type=execution"
-                       [textContent]="shorten(item.upcoming_tasks.subject)" [title]="item.upcoming_tasks.subject"></a>
-                </td>
-                <td *ngIf="item.upcoming_tasks"
-                    [ngClass]="getGreenClass(i)">
-                    <a href="{{this.getBasePath()}}/projects/{{item.upcoming_tasks.projectId}}"
-                       [textContent]="shorten(item.upcoming_tasks.project)"  [title]="item.upcoming_tasks.project"></a>
-                </td>
-                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
-                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
-                <td *ngIf="!item.upcoming_tasks" [ngClass]="getGreenClass(i)"></td>
-
-                <td *ngIf="item.due_milestone"
-                    [ngClass]="getRedClass(i)"
-                    [textContent]="i + 1"></td>
-                <td *ngIf="item.due_milestone"
-                    [ngClass]="getRedClass(i)">
-                    <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}/work_packages/{{item.due_milestone.id}}/activity?plan_type=execution"
-                       [textContent]="shorten(item.due_milestone.subject)" [title]="item.due_milestone.subject"></a>
-                </td>
-                <td *ngIf="item.due_milestone"
-                    [ngClass]="getRedClass(i)">
-                    <a href="{{this.getBasePath()}}/projects/{{item.due_milestone.projectId}}"
-                       [textContent]="shorten(item.due_milestone.project)" [title]="item.due_milestone.project"></a>
-                </td>
-                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
-                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
-                <td *ngIf="!item.due_milestone" [ngClass]="getRedClass(i)"></td>
-
-                <td *ngIf="item.problems"
-                    [ngClass]="getOrangeClass(i)"
-                    [textContent]="i + 1"></td>
-                <td *ngIf="item.problems"
-                    [ngClass]="getOrangeClass(i)">
-                    <span
-                            [textContent]="shorten(item.problems.risk)" [title]="item.problems.risk"></span>
-                </td>
-                <td *ngIf="item.problems"
-                    [ngClass]="getOrangeClass(i)">
-                    <a href="{{this.getBasePath()}}/work_packages/{{item.problems.wpid}}"
-                       [textContent]="shorten(item.problems.wptitle)" [title]="item.problems.wptitle"></a>
-                </td>
-                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
-                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
-                <td *ngIf="!item.problems" [ngClass]="getOrangeClass(i)"></td>
-
-                <td *ngIf="item.budget"
-                    [ngClass]="getPurpleClass(i)"
-                    [textContent]="i + 1"></td>
-                <td *ngIf="item.budget"
-                    [ngClass]="getPurpleClass(i)">
-                    <a href="{{this.getBasePath()}}/projects/{{item.budget.id}}"
-                       [textContent]="shorten(item.budget.name)" [title]="item.budget.name"></a>
-                </td>
-                <td *ngIf="item.budget"
-                    [ngClass]="getPurpleClass(i)"[textContent]="item.budget.value.toFixed(2)">
-                </td>
-                <td *ngIf="!item.budget" [ngClass]="getPurpleClass(i)"></td>
-                <td *ngIf="!item.budget" [ngClass]="getPurpleClass(i)"></td>
-                <td *ngIf="!item.budget" [ngClass]="getPurpleClass(i)"></td>
-            </tr>
-            </tbody>
-        </table>
+    <br/>
+    <div style="display: inline-flex; width: 100%;">
+        <div style="width: 25%">
+            <table border="0" class="coloredTable">
+                <thead (click)="changeUpcomingTasksVisibility()">
+                <tr>
+                    <th class="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
+                </tr>
+                </thead>
+                <tbody [hidden]="upcomingTasksVisibility">
+                <tr *ngFor="let item of upcomingTasksData; let i = index">
+                    <td [ngClass]="getGreenClass(i)"
+                        [textContent]="item.number"></td>
+                    <td [ngClass]="getGreenClass(i)">
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?plan_type=execution"
+                           [textContent]="shorten(item.subject)" [title]="item.subject"></a>
+                    </td>
+                    <td [ngClass]="getGreenClass(i)">
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}"
+                           [textContent]="shorten(item.project)"  [title]="item.project"></a>
+                    </td>
+                </tr>
+                <tr *ngIf="loadingUpcomingTasks">
+                    <td [ngClass]="getGreenClass(0)" colspan="3">Загрузка...</td>
+                </tr>
+                <tr *ngIf="!loadingUpcomingTasks && upcomingTasksCount === 0">
+                    <td [ngClass]="getGreenClass(0)" colspan="3">Нет данных</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="blueTable" *ngIf="upcomingTasksPages > 1" [hidden]="upcomingTasksVisibility">
+                <tfoot>
+                <tr>
+                    <td [attr.colspan]="3">
+                        <div class="links">
+                            <a *ngFor="let item of [].constructor(upcomingTasksPages); let i = index"
+                               [textContent]="i + 1"
+                               (click)="loadUpcomingTasksByPage(i + 1)"
+                               href="#">
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div style="width: 25%">
+            <table border="0" class="coloredTable">
+                <thead (click)="changeDueMilestoneVisibility()">
+                <tr>
+                    <th class="colored-col-red" colspan="3">Просроченные КТ:</th>
+                </tr>
+                </thead>
+                <tbody [hidden]="dueMilestoneVisibility">
+                <tr *ngFor="let item of dueMilestoneData; let i = index" >
+                    <td [ngClass]="getRedClass(i)"
+                        [textContent]="item.number"></td>
+                    <td [ngClass]="getRedClass(i)">
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?plan_type=execution"
+                           [textContent]="shorten(item.subject)" [title]="item.subject"></a>
+                    </td>
+                    <td [ngClass]="getRedClass(i)">
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}"
+                           [textContent]="shorten(item.project)" [title]="item.project"></a>
+                    </td>
+                </tr>
+                <tr *ngIf="loadingDueMilestones">
+                    <td [ngClass]="getRedClass(0)" colspan="3">Загрузка...</td>
+                </tr>
+                <tr *ngIf="!loadingDueMilestones && dueMilestoneCount === 0">
+                    <td [ngClass]="getRedClass(0)" colspan="3">Нет данных</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="blueTable" *ngIf="dueMilestonePages > 1" [hidden]="dueMilestoneVisibility">
+                <tfoot>
+                <tr>
+                    <td [attr.colspan]="3" *ngIf="dueMilestonePages > 1">
+                        <div class="links">
+                            <a *ngFor="let item of [].constructor(dueMilestonePages); let i = index"
+                               [textContent]="i + 1"
+                               (click)="loadDueMilestonesByPage(i + 1)"
+                               href="#">
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div style="width: 25%">
+            <table border="0" class="coloredTable">
+                <thead (click)="changeProblemVisibility()">
+                <tr>
+                    <th class="colored-col-orange" colspan="3">Проблемы:</th>
+                </tr>
+                </thead>
+                <tbody [hidden]="problemVisibility">
+                <tr *ngFor="let item of problemData; let i = index" >
+                    <td [ngClass]="getOrangeClass(i)"
+                        [textContent]="item.number"></td>
+                    <td [ngClass]="getOrangeClass(i)">
+                        <a href="{{this.getBasePath()}}/work_packages/{{item.wpid}}/problems"
+                           [textContent]="shorten(item.risk)" [title]="item.risk"></a>
+                    </td>
+                    <td [ngClass]="getOrangeClass(i)">
+                        <a href="{{this.getBasePath()}}/work_packages/{{item.wpid}}"
+                           [textContent]="shorten(item.wptitle)" [title]="item.wptitle"></a>
+                    </td>
+                </tr>
+                <tr *ngIf="loadingProblems">
+                    <td [ngClass]="getOrangeClass(0)" colspan="3">Загрузка...</td>
+                </tr>
+                <tr *ngIf="!loadingProblems && problemCount === 0">
+                    <td [ngClass]="getOrangeClass(0)" colspan="3">Нет данных</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="blueTable" *ngIf="problemPages > 1" [hidden]="problemVisibility">
+                <tfoot>
+                <tr>
+                    <td [attr.colspan]="3">
+                        <div class="links">
+                            <a *ngFor="let item of [].constructor(problemPages); let i = index"
+                               [textContent]="i + 1"
+                               (click)="loadProblemsByPage(i + 1)"
+                               href="#">
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div style="width: 25%">
+            <table border="0" class="coloredTable">
+                <thead (click)="changeBudgetVisibility()">
+                <tr>
+                    <th class="colored-col-purple" colspan="3">Бюджет:</th>
+                </tr>
+                </thead>
+                <tbody [hidden]="budgetVisibility">
+                <tr *ngFor="let item of budgetData; let i = index" >
+                    <td *ngIf="item"
+                        [ngClass]="getPurpleClass(i)"
+                        [textContent]="item.number"></td>
+                    <td *ngIf="item"
+                        [ngClass]="getPurpleClass(i)">
+                        <a href="{{this.getBasePath()}}/projects/{{item.id}}"
+                           [textContent]="shorten(item.name)" [title]="item.name"></a>
+                    </td>
+                    <td *ngIf="item"
+                        [ngClass]="getPurpleClass(i)"[textContent]="item.value.toFixed(2)">
+                    </td>
+                </tr>
+                <tr *ngIf="loadingBudgets">
+                    <td [ngClass]="getPurpleClass(0)" colspan="3">Загрузка...</td>
+                </tr>
+                <tr *ngIf="!loadingBudgets && budgetCount === 0">
+                    <td [ngClass]="getPurpleClass(0)" colspan="3">Нет данных</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="blueTable" *ngIf="budgetPages > 1" [hidden]="budgetVisibility">
+                <tfoot>
+                <tr>
+                    <td [attr.colspan]="3">
+                        <div class="links">
+                            <a *ngFor="let item of [].constructor(budgetPages); let i = index"
+                               [textContent]="i + 1"
+                               (click)="loadBudgetsByPage(i + 1)"
+                               href="#">
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 

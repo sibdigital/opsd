@@ -30,11 +30,11 @@ module API
                       elsif project.empty?
                         WorkPackageCollectionFromQueryParamsService
                           .new(current_user)
-                          .call(params.merge(pageSize: 500, filters: filters)) # as unlimited: 500 - max
+                          .call(params.merge(filters: filters)) # as unlimited: 500 - max
                       else
                         WorkPackageCollectionFromQueryParamsService
                           .new(current_user)
-                          .call(params.merge(pageSize: 500)) # as unlimited: 500 - max
+                          .call(params) # as unlimited: 500 - max
                       end
             if service.success?
               service.result
