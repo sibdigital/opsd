@@ -5,14 +5,25 @@ This file written by BBM
 <% html_title l(:label_administration), l(:label_typed_risks) %>
 <%= toolbar title: l(:label_typed_risks) do %>
   <li class="toolbar-item">
-    <%= link_to(catalog_loaders_path(catalog_type: "risks" ),
-                aria: { label: t(:button_add) },
-                class: 'button -alt-highlight',
-                title: t(:button_add)) do %>
-      <%= op_icon('button--icon icon-export-xls-descr') %>
-      <span class="button--text">Загрузить</span>
+    <%= link_to new_typed_risk_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_typed_risk_new)},
+                  title: t(:label_typed_risk_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_typed_risk) %></span>
     <% end %>
   </li>
+  <li class="toolbar-item">
+    <%= link_to(catalog_loaders_path(catalog_type: "risks" ),
+                aria: { label: t(:button_import) },
+                class: 'button -alt-highlight',
+                title: t(:button_import)) do %>
+      <%= op_icon('button--icon icon-export-xls-descr') %>
+      <span class="button--text"> <%= t(:button_import_short) %></span>
+    <% end %>
+  </li>
+
+
 <% end %>
 
 <% if @typed_risks.empty? %>
@@ -89,10 +100,6 @@ This file written by BBM
   <%= pagination_links_full @typed_risks %>
 <% end %>
 <div class="wp-inline-create-button">
-  <%= link_to new_typed_risk_path(),
-              aria: {label: t(:label_typed_risk_new)},
-              class: 'wp-inline-create--add-link',
-              title: t(:label_typed_risk_new) do
-    op_icon('icon icon-add')
-  end %>
+    <%= link_to t(:label_typed_risk_new), new_typed_risk_path, class: 'wp-inline-create--split-link' %>
+    <%= link_to t(:button_import), catalog_loaders_path(catalog_type: "risks" ), class: 'wp-inline-create--split-link' %>
 </div>

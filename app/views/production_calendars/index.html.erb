@@ -1,6 +1,18 @@
 <% html_title l(:label_production_calendars) %>
-<%= toolbar title: l(:label_production_calendar) do %>
 
+
+
+<%= toolbar title: l(:label_production_calendar) do %>
+  <li class="toolbar-item">
+    <%= link_to new_production_calendar_path,
+                { class: 'button -alt-highlight',
+                  id: 'new_news_link',
+                  aria: {label: t(:label_production_calendar_new)},
+                  title: t(:label_production_calendar_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_production_calendar) %></span>
+    <% end %>
+  </li>
 <%end %>
 <style>
   /*th{*/
@@ -379,11 +391,6 @@ This file written by BBM
 
   </div>
   <div class="wp-inline-create-button">
-    <%= link_to new_production_calendar_path(),
-                aria: {label: t(:label_production_calendar)},
-                class: 'wp-inline-create--add-link',
-                title: t(:label_production_calendar) do
-      op_icon('icon icon-add')
-    end %>
+    <%= link_to t(:label_production_calendar_new), new_production_calendar_path, class: 'wp-inline-create--split-link' %>
   </div>
 <% end %>
