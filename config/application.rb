@@ -93,7 +93,7 @@ module OpenProject
                                       content_type = headers['Content-Type']
                                       content_type != 'application/x-gzip'
                                     }
-
+    config.active_record.logger = Logger.new(STDOUT)
     config.middleware.use Rack::Attack
     # Ensure that tempfiles are cleared after request
     # http://stackoverflow.com/questions/4590229
