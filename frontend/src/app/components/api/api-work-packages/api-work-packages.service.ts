@@ -68,6 +68,7 @@ export class ApiWorkPackagesService {
       ids.length,
       {
         filters: buildApiV3Filter('id', '=', ids).toJson(),
+        type: 'ancestors'
       }
     ) as any; // WorkPackageCollectionResource does not satisfy constraint HalResource[]
   }

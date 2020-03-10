@@ -43,20 +43,37 @@ module API
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
 
           get do
-            authorize(:view_work_packages, global: true)
-            service = WorkPackageCollectionFromQueryParamsService
-                      .new(current_user)
-                      .call(params)
-
-            if service.success?
-              service.result
-            else
-              api_errors = service.errors.full_messages.map do |message|
-                ::API::Errors::InvalidQuery.new(message)
+            if params['type']
+              if params['type'] == 'ancestors'
+                work_packages = WorkPackage.where(id: JSON.parse(params[:filters])[0]['id']['values'])
+                project = Project.find(work_packages.first.project_id)
+                ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
+                  work_packages,
+                  api_v3_paths.work_packages_by_project(project.id),
+                  project: project,
+                  groups: nil,
+                  page: params[:offset] ? params[:offset].to_i : nil,
+                  per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
+                  total_sums: nil,
+                  embed_schemas: true,
+                  current_user: current_user)
               end
+            else
+              authorize(:view_work_packages, global: true)
+              service = WorkPackageCollectionFromQueryParamsService
+                        .new(current_user)
+                        .call(params)
 
-              raise ::API::Errors::MultipleErrors.create_if_many api_errors
-            end
+              if service.success?
+                service.result
+              else
+                api_errors = service.errors.full_messages.map do |message|
+                  ::API::Errors::InvalidQuery.new(message)
+                end
+
+                raise ::API::Errors::MultipleErrors.create_if_many api_errors
+              end
+              end
           end
 
           post do
