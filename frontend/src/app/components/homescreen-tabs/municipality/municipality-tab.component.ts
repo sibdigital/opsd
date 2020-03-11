@@ -75,40 +75,8 @@ export class MunicipalityTabComponent implements OnInit {
     let from = new Date();
     let to = new Date();
     to.setDate(to.getDate() + 14);
-    const filtersGreen = [
-      {
-        status: {
-          operator: 'o',
-          values: []
-        },
-      },
-      {
-        planType: {
-          operator: '~',
-          values: ['execution']
-        }
-      },
-      {
-        type: {
-          operator: '=',
-          values: ['1']
-        }
-      },
-      {
-        dueDate: {
-          operator: '<>d',
-          values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
-        }
-      },
-      {
-        raion: {
-          operator: '=',
-          values: [String(this.selectedOption.$href)]
-        }
-      }
-    ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersGreen)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(), {raion: this.selectedOption.$href})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map((el, i) => {
@@ -126,40 +94,8 @@ export class MunicipalityTabComponent implements OnInit {
           this.data[i] = row;
         });
       });
-    const filtersRed = [
-      {
-        status: {
-          operator: 'o',
-          values: []
-        },
-      },
-      {
-        planType: {
-          operator: '~',
-          values: ['execution']
-        }
-      },
-      {
-        type: {
-          operator: '=',
-          values: ['2']
-        }
-      },
-      {
-        dueDate: {
-          operator: '<t-',
-          values: ['1']
-        }
-      },
-      {
-        raion: {
-          operator: '=',
-          values: [String(this.selectedOption.$href)]
-        }
-      }
-    ];
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(), {filters: JSON.stringify(filtersRed)})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString(), {raion: this.selectedOption.$href})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map((el, i) => {

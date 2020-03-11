@@ -67,7 +67,8 @@ module API
       mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
       mount ::API::V3::Protocols::ProtocolsAPI
       mount ::API::V3::Views::ViewsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesByRoleAPI
+      mount ::API::V3::WorkPackages::WorkPackagesFutureAPI
+      mount ::API::V3::WorkPackages::WorkPackagesDueAPI
       # )
       # (iag
       mount ::API::V3::Meetings::MeetingsAPI
