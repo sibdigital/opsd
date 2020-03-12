@@ -1748,6 +1748,7 @@ en:
   label_collapsed_click_to_show: Свернуто. Кликните для показа
   label_configuration: Настройки
   label_control_levels: Уровни контроля
+  label_control_level: Уровень контроля
   label_control_levels_new: Новый уровень контроля
   label_control_levels_value: Значение уровня контроля
   label_comment_add: Добавить комментарий
@@ -1818,6 +1819,7 @@ en:
   label_end_to_end: конец в конец
   label_end_to_start: конец начала
   label_enumeration_new: Новое значение перечисления
+  label_new_value: "Новое значение:"
   label_enumeration_value: Значение перечисления
   label_enumerations: Перечисления
   label_enterprise: Предприятие
@@ -2213,6 +2215,7 @@ en:
   label_type_new: Новый тип
   label_type_plural: Типы
   label_typed_risks: Типовые риски
+  label_typed_risk: Типовой риск
   label_typed_risk_new: Новый типовой риск
   label_typed_risk_value: Значение типового риска
   label_by_status: Статус
@@ -2220,6 +2223,7 @@ en:
   label_message_filter: Фильтр
   #zbd(
   label_typed_targets: Типовые результаты
+  label_typed_target: Типовой результат
   label_typed_target_new: Новый типовой результат
   label_contracts: Государственные контракты
   label_contracts_new: Новый гос.контракт

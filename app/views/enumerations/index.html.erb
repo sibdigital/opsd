@@ -29,6 +29,18 @@ See docs/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_administration), l(:label_enumerations) %>
 <%= toolbar title: l(:label_enumerations) %>
 <% Enumeration.descendants.each do |klass| %>
-  <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l(klass::OptionName) %></legend>
+    <div class="form--fieldset-control">
+      <span class="form--fieldset-control-container">
+        <%= link_to new_enumeration_path(type: klass.name),
+                    { aria: {label: t(:label_enumeration_new)},
+                      title: t(:label_enumeration_new)} do %>
+          <%= op_icon('icon-add icon-small') %>
+          <span class="button--text"><%= l(klass::OptionName) %></span>
+        <% end %>
+      </span>
+    </div>
+  </fieldset>
   <%= cell ::Enumerations::TableCell, klass.shared %>
 <% end %>

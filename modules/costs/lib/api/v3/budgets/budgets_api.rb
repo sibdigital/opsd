@@ -31,6 +31,8 @@ module API
   module V3
     module Budgets
       class BudgetsAPI < ::API::OpenProjectAPI
+        helpers ::API::Utilities::ParamsHelper
+
         #include AllBudgetsHelper
         resources :budgets do
           route_param :id do
@@ -75,13 +77,41 @@ module API
           end
 
           get :budget do
+            result = Hash.new
+            result['_type'] = 'Collection'
+
+            current_projects = []
             raion_id = params[:raion]
             if raion_id
               rprojects = Raion.projects_by_id(raion_id, current_user.projects.map {|p| p.id})
-              result = AllBudgetsHelper.cost_by_projects rprojects
+              ids = []
+              rprojects.each do |project|
+                ids << project.id
+              end
+              ps = Project.where("id in (" + ids.join(",") + ")")
+              ps = ps.limit(params[:pageSize]) if params[:pageSize].present?
+              ps = ps.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
+              current_projects = AllBudgetsHelper.cost_by_projects ps
+              result['total'] = ids.length
             else
-              result = AllBudgetsHelper.cost_by_user_project current_user
+              project_id = params[:project]
+              if project_id
+                user_project = current_user.projects.find(project_id)
+                current_project = AllBudgetsHelper.cost_by_project user_project
+                current_projects << current_project
+              else
+                user_projects = current_user.projects
+                user_projects = user_projects.limit(params[:pageSize]) if params[:pageSize].present?
+                user_projects = user_projects.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
+                current_projects = AllBudgetsHelper.cost_by_projects user_projects
+              end
+              result['total'] = current_user.projects.count
             end
+
+            result['pageSize'] = params[:pageSize].present? ? to_i_or_nil(params[:pageSize]) : current_user.projects.count
+            result['offset'] = params[:offset].present? ? to_i_or_nil(params[:offset]) : 1
+            result['count'] = current_projects.count
+            result['elements'] = current_projects
             result
             # Project.where(type: Project::TYPE_PROJECT).all.map do |p|
             #   AllBudgetsHelper.cost_by_project p
