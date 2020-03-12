@@ -63,13 +63,13 @@ tempproblems = tempproblems.where(work_packages: {organization_id: params['organ
   if params['project'].present?
     user_projects = [params['project']]
   else
-    user_projects = current_user.visible_projects.to_a.map(&:id)
+    user_projects = current_user.visible_projects.map(&:id)
   end
 
   problems = WorkPackageProblem.where('work_package_problems.project_id in (' + user_projects.join(',') + ')')
 
   if params['raion'].present?
-    problems = problems.where(work_packages: {raion_id: params['raion']})
+    problems = problems.joins(:work_package).where(work_packages: {raion_id: params['raion']})
   end
   if params['status'].present?
     problems = problems.where(status: params['status'])

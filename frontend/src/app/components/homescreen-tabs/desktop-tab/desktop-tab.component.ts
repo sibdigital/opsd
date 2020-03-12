@@ -41,8 +41,9 @@ export class DesktopTabComponent implements OnInit {
     let from = new Date();
     let to = new Date();
     to.setDate(to.getDate() + 14);
+    console.log('ngOnInit');
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString())
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due_and_future.toString())
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         resources.elements.map( (el, i) => {
@@ -55,12 +56,19 @@ export class DesktopTabComponent implements OnInit {
             projectId = el.$links.project.href.substr(17);
             project = el.$links.project.title;
           }
-          let upcoming_tasks = {id: id, subject: subject, project: project, projectId: projectId};
-          row["upcoming_tasks"] = upcoming_tasks;
-          this.data[i] = row;
+          if (el.indication === 'over') {
+            let due_milestone = {id: id, subject: subject, project: project, projectId: projectId};
+            row["due_milestone"] = due_milestone;
+            this.data[i] = row;
+          }
+          else {
+            let upcoming_tasks = {id: id, subject: subject, project: project, projectId: projectId};
+            row["upcoming_tasks"] = upcoming_tasks;
+            this.data[i] = row;
+          }
         });
       });
-    this.halResourceService
+/*    this.halResourceService
       .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString())
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
@@ -78,7 +86,7 @@ export class DesktopTabComponent implements OnInit {
           row["due_milestone"] = due_milestone;
           this.data[i] = row;
         });
-      });
+      });*/
     this.halResourceService
       .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.problems.toString(), {"status": "created"})
       .toPromise()
@@ -132,6 +140,7 @@ export class DesktopTabComponent implements OnInit {
   }
 
   public handleUserSubmit() {
+    console.log('ngOnInit');
     if (this.selectedOption) {
       this.homescreenDiagrams.forEach((diagram) => {
         if (this.selectedOption.$href) {
@@ -144,7 +153,7 @@ export class DesktopTabComponent implements OnInit {
       let to = new Date();
       to.setDate(to.getDate() + 14);
       this.halResourceService
-        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(), {project: this.selectedOption.$href})
+        .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due_and_future.toString(), {project: this.selectedOption.$href})
         .toPromise()
         .then((resources:CollectionResource<WorkPackageResource>) => {
           resources.elements.map( (el, i) => {
@@ -157,12 +166,19 @@ export class DesktopTabComponent implements OnInit {
               projectId = el.$links.project.href.substr(17);
               project = el.$links.project.title;
             }
-            let upcoming_tasks = {id: id, subject: subject, project: project, projectId: projectId};
-            row["upcoming_tasks"] = upcoming_tasks;
-            this.data[i] = row;
+            if (el.indication === 'over') {
+              let due_milestone = {id: id, subject: subject, project: project, projectId: projectId};
+              row["due_milestone"] = due_milestone;
+              this.data[i] = row;
+            }
+            else {
+              let upcoming_tasks = {id: id, subject: subject, project: project, projectId: projectId};
+              row["upcoming_tasks"] = upcoming_tasks;
+              this.data[i] = row;
+            }
           });
         });
-      this.halResourceService
+/*      this.halResourceService
         .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString(), {project: this.selectedOption.$href})
         .toPromise()
         .then((resources:CollectionResource<WorkPackageResource>) => {
@@ -180,7 +196,7 @@ export class DesktopTabComponent implements OnInit {
             row["due_milestone"] = due_milestone;
             this.data[i] = row;
           });
-        });
+        });*/
       let params:any = {"status": "created"};
       if (this.selectedOption.$href !== "0") {
         params = {"status": "created", "project": this.selectedOption.$href};

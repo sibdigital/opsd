@@ -3,7 +3,6 @@ module API
   module V3
     module WorkPackages
       class WorkPackagesFutureAPI < ::API::OpenProjectAPI
-        helpers ::API::V3::Utilities::RoleHelper
 
         resources :work_packages_future do
           get do

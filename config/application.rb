@@ -71,7 +71,6 @@ if defined?(Bundler)
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
-require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
 module OpenProject
   class Application < Rails::Application
