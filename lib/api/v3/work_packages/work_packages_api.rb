@@ -46,7 +46,6 @@ module API
             if params['type']
               if params['type'] == 'ancestors'
                 work_packages = WorkPackage.where(id: JSON.parse(params[:filters])[0]['id']['values'])
-                project = Project.find(work_packages.first.project_id)
                 ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
                   work_packages,
                   api_v3_paths.work_packages,
