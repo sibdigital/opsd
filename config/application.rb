@@ -99,7 +99,7 @@ module OpenProject
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
     config.middleware.use ::ResetCurrentUser
-    config.active_record.logger = Logger.new(STDOUT)
+    # config.active_record.logger = Logger.new(STDOUT)
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.enable_dependency_loading = true
