@@ -24,12 +24,7 @@ module Enumerations
     end
 
     def inline_create_link
-      link_to new_enumeration_path(type: model.name),
-              aria: { label: t(:label_enumeration_new) },
-              class: 'wp-inline-create--add-link',
-              title: t(:label_enumeration_new) do
-        op_icon('icon icon-add')
-      end
+      link_to "#{t(:label_enumeration_new)}", new_enumeration_path(type: model.name), class: 'wp-inline-create--split-link'
     end
 
     def empty_row_message

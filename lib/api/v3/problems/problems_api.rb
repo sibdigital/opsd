@@ -36,24 +36,26 @@ module API
 
         resources :problems do
           get do
-            problems = WorkPackageProblem
-              .joins(:work_package)
-              .all
-            problems = problems.where(status: params['status']) if params['status'].present?
+
+            user_projects = [0]
+            if params['project'].present?
+              user_projects = [params['project']]
+            else
+              user_projects = current_user.visible_projects.to_a.map(&:id)
+            end
+
+            problems = WorkPackageProblem.where('work_package_problems.project_id in (' + user_projects.join(',') + ')')
+
             if params['raion'].present?
               problems = problems.where(work_packages: {raion_id: params['raion']})
             end
-            problems = if params['project'].present?
-                          problems.where(project_id: params['project'])
-                        else
-                          projects = current_user.projects.map{|p| p.id}
-                          if projects.nil? || projects.empty?
-                            problems.where(project_id: nil)#Зачем выполнять лишние запросы
-                          else
-                            problems.where('work_package_problems.project_id in (' + projects.join(',') + ')')
-                          end
-                        end
-            problems = problems.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
+            if params['status'].present?
+              problems = problems.where(status: params['status'])
+            end
+            if params['organization'].present?
+              problems = problems.where({organization_id: params['organization']})
+            end
+
             offset = params['offset'] || "1"
             ProblemCollectionRepresenter.new(problems,
                                              api_v3_paths.problems,

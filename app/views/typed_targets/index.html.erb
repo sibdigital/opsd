@@ -1,5 +1,16 @@
 <% html_title l(:label_administration), l(:label_typed_targets) %>
-<%= toolbar title: l(:label_typed_targets) %>
+
+<%= toolbar title: l(:label_typed_targets) do %>
+  <li class="toolbar-item">
+    <%= link_to new_typed_target_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_typed_target_new)},
+                  title: t(:label_typed_target_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_typed_target) %></span>
+    <% end %>
+  </li>
+<% end %>
 
 <div class="generic-table--container">
   <div class="generic-table--results-container">
@@ -111,10 +122,5 @@
   </div>
 </div>
 <div class="wp-inline-create-button">
-  <%= link_to new_typed_target_path(),
-              aria: {label: t(:label_typed_target_new)},
-              class: 'wp-inline-create--add-link',
-              title: t(:label_typed_target_new) do
-    op_icon('icon icon-add')
-  end %>
+  <%= link_to t(:label_typed_target_new), new_typed_target_path(),class: 'wp-inline-create--split-link' %>
 </div>
