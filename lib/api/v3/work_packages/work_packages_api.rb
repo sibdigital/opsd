@@ -49,8 +49,7 @@ module API
                 project = Project.find(work_packages.first.project_id)
                 ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
                   work_packages,
-                  api_v3_paths.work_packages_by_project(project.id),
-                  project: project,
+                  api_v3_paths.work_packages,
                   groups: nil,
                   page: params[:offset] ? params[:offset].to_i : nil,
                   per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
