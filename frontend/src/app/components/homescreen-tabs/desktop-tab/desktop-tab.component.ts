@@ -75,10 +75,44 @@ export class DesktopTabComponent implements OnInit {
         });
         this.valueOptions.unshift({name: 'Все проекты', $href: "0"});
         this.value = this.valueOptions[0];
-        this.getUpcomingTasks();
-        this.getDueMilestones();
+        this.getUpcomingAndDue();
         this.getProblems();
         this.getBudgets();
+      });
+  }
+
+  public getUpcomingAndDue() {
+    this.loadingUpcomingTasks = true;
+    this.upcomingTasksCount = 0;
+    this.upcomingTasksData = [];
+    this.halResourceService
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(),
+        {pageSize: this.pageSize, offset: this.upcomingTasksPage, project: this.selectedOption ? this.selectedOption.$href !== "0" ? String(this.selectedOption.$href) : "0" : "0"})
+      .toPromise()
+      .then((resources:CollectionResource<WorkPackageResource>) => {
+        let total:number = resources.total;
+        let pageSize:number = resources.pageSize;
+        let remainder = total % pageSize;
+        this.upcomingTasksPages = (total - remainder) / pageSize;
+        if (remainder !== 0) {
+          this.upcomingTasksPages++;
+        }
+        let beginNumber = (this.upcomingTasksPage - 1) * this.pageSize + 1;
+        resources.elements.map( (el, i) => {
+          let id = el.id;
+          let subject = el.subject;
+          let projectId = '';
+          let project = '';
+          if (el.$links.project) {
+            projectId = el.$links.project.href.substr(17);
+            project = el.$links.project.title;
+          }
+          let upcoming_tasks = {id: id, subject: subject, project: project, projectId: projectId, number: beginNumber + i};
+          this.upcomingTasksData[i] = upcoming_tasks;
+        });
+        this.upcomingTasksCount = resources.elements ? resources.elements.length : 0;
+        this.loadingUpcomingTasks = false;
+        this.getDueMilestones();
       });
   }
 
@@ -86,44 +120,9 @@ export class DesktopTabComponent implements OnInit {
     this.loadingUpcomingTasks = true;
     this.upcomingTasksCount = 0;
     this.upcomingTasksData = [];
-    let from = new Date();
-    let to = new Date();
-    to.setDate(to.getDate() + 14);
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['1']
-      }
-    }, {
-      dueDate: {
-        operator: '<>d',
-        values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
-      }
-    });
-    if (this.selectedOption) {
-      if (this.selectedOption.$href !== "0") {
-        filters.push({
-          project: {
-            operator: '=',
-            values: [String(this.selectedOption.$href)]
-          }
-        });
-      }
-    }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.upcomingTasksPage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(),
+        {pageSize: this.pageSize, offset: this.upcomingTasksPage, project: this.selectedOption ? this.selectedOption.$href !== "0" ? String(this.selectedOption.$href) : "0" : "0"})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -170,41 +169,9 @@ export class DesktopTabComponent implements OnInit {
     this.loadingDueMilestones = true;
     this.dueMilestoneCount = 0;
     this.dueMilestoneData = [];
-    let filters = [];
-    filters.push({
-        status: {
-          operator: 'o',
-          values: []
-        }
-      }, {
-        planType: {
-          operator: '~',
-          values: ['execution']
-        }
-      }, {
-        type: {
-          operator: '=',
-          values: ['2']
-        }
-      }, {
-        dueDate: {
-          operator: '<t-',
-          values: ['1']
-        }
-      });
-    if (this.selectedOption) {
-      if (this.selectedOption.$href !== "0") {
-        filters.push({
-          project: {
-            operator: '=',
-            values: [String(this.selectedOption.$href)]
-          }
-        });
-      }
-    }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.dueMilestonePage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString(),
+        {pageSize: this.pageSize, offset: this.dueMilestonePage, project: this.selectedOption ? this.selectedOption.$href !== "0" ? String(this.selectedOption.$href) : "0" : "0"})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;

@@ -86,49 +86,9 @@ export class MunicipalityTabComponent implements OnInit {
     this.loadingUpcomingTasks = true;
     this.upcomingTasksCount = 0;
     this.upcomingTasksData = [];
-    let from = new Date();
-    let to = new Date();
-    to.setDate(to.getDate() + 14);
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['1']
-      }
-    }, {
-      dueDate: {
-        operator: '<>d',
-        values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
-      }
-    }, {
-      raion: {
-        operator: '=',
-          values: [String(this.selectedOption.$href)]
-      }
-    });
-    // if (this.selectedOption) {
-    //   if (this.selectedOption.$href !== "0") {
-    //     filters.push({
-    //       project: {
-    //         operator: '=',
-    //         values: [String(this.selectedOption.$href)]
-    //       }
-    //     });
-    //   }
-    // }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.upcomingTasksPage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(),
+        {pageSize: this.pageSize, offset: this.upcomingTasksPage, raion: String(this.selectedOption.$href)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -175,46 +135,9 @@ export class MunicipalityTabComponent implements OnInit {
     this.loadingDueMilestones = true;
     this.dueMilestoneCount = 0;
     this.dueMilestoneData = [];
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['2']
-      }
-    }, {
-      dueDate: {
-        operator: '<t-',
-        values: ['1']
-      }
-    }, {
-      raion: {
-        operator: '=',
-        values: [String(this.selectedOption.$href)]
-      }
-    });
-    // if (this.selectedOption) {
-    //   if (this.selectedOption.$href !== "0") {
-    //     filters.push({
-    //       project: {
-    //         operator: '=',
-    //         values: [String(this.selectedOption.$href)]
-    //       }
-    //     });
-    //   }
-    // }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.dueMilestonePage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString(),
+        {pageSize: this.pageSize, offset: this.dueMilestonePage, raion: String(this.selectedOption.$href)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
