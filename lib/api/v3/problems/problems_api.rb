@@ -41,7 +41,7 @@ module API
             if params['project'].present?
               user_projects = [params['project']]
             else
-              user_projects = current_user.visible_projects.to_a.map(&:id)
+              user_projects = current_user.visible_projects.map(&:id)
             end
 
             problems = WorkPackageProblem.where('work_package_problems.project_id in (' + user_projects.join(',') + ')')
