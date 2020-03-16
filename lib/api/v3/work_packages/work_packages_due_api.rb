@@ -22,14 +22,11 @@ module API
               work_packages =  work_packages.where(raion_id: raion)
             end
 
-            ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
+            CompactWorkPackageCollectionRepresenter.new(
                 work_packages,
                 api_v3_paths.work_packages,
-                groups: nil,
                 page: params[:offset] ? params[:offset].to_i : nil,
                 per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
-                total_sums: nil,
-                embed_schemas: true,
                 current_user: current_user)
           end
         end
