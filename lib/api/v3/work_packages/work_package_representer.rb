@@ -51,30 +51,30 @@ module API
         link :update,
              cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.project) } do
           {
-            href: api_v3_paths.work_package_form(represented.id),
-            method: :post
+              href: api_v3_paths.work_package_form(represented.id),
+              method: :post
           }
         end
 
         link :schema do
           {
-            href: api_v3_paths.work_package_schema(represented.project_id, represented.type_id)
+              href: api_v3_paths.work_package_schema(represented.project_id, represented.type_id)
           }
         end
 
         link :updateImmediately,
              cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.project) } do
           {
-            href: api_v3_paths.work_package(represented.id),
-            method: :patch
+              href: api_v3_paths.work_package(represented.id),
+              method: :patch
           }
         end
 
         link :delete,
              cache_if: -> { current_user_allowed_to(:delete_work_packages, context: represented.project) } do
           {
-            href: api_v3_paths.work_package(represented.id),
-            method: :delete
+              href: api_v3_paths.work_package(represented.id),
+              method: :delete
           }
         end
 
@@ -83,9 +83,9 @@ module API
           next if represented.new_record?
 
           {
-            href: new_work_package_time_entry_path(represented),
-            type: 'text/html',
-            title: "Log time on #{represented.subject}"
+              href: new_work_package_time_entry_path(represented),
+              type: 'text/html',
+              title: "Log time on #{represented.subject}"
           }
         end
 
@@ -94,9 +94,9 @@ module API
           next if represented.new_record?
 
           {
-            href: new_work_package_move_path(represented),
-            type: 'text/html',
-            title: "Move #{represented.subject}"
+              href: new_work_package_move_path(represented),
+              type: 'text/html',
+              title: "Move #{represented.subject}"
           }
         end
 
@@ -106,8 +106,8 @@ module API
           next if represented.new_record?
 
           {
-            href: work_package_path(represented, 'copy'),
-            title: "Copy #{represented.subject}"
+              href: work_package_path(represented, 'copy'),
+              title: "Copy #{represented.subject}"
           }
         end
 
@@ -116,9 +116,9 @@ module API
           next if represented.new_record?
 
           {
-            href: work_package_path(id: represented.id, format: :pdf),
-            type: 'application/pdf',
-            title: 'Export as PDF'
+              href: work_package_path(id: represented.id, format: :pdf),
+              type: 'application/pdf',
+              title: 'Export as PDF'
           }
         end
 
@@ -127,9 +127,9 @@ module API
           next if represented.new_record? || !Setting.feeds_enabled?
 
           {
-            href: work_package_path(id: represented.id, format: :atom),
-            type: 'application/rss+xml',
-            title: 'Atom feed'
+              href: work_package_path(id: represented.id, format: :atom),
+              type: 'application/rss+xml',
+              title: 'Atom feed'
           }
         end
 
@@ -137,8 +137,8 @@ module API
           next if represented.new_record?
 
           {
-            href: api_v3_paths.work_package_available_relation_candidates(represented.id),
-            title: "Potential work packages to relate to"
+              href: api_v3_paths.work_package_available_relation_candidates(represented.id),
+              title: "Potential work packages to relate to"
           }
         end
 
@@ -147,8 +147,8 @@ module API
           next if represented.new_record?
 
           {
-            href: api_v3_paths.work_package_available_relation_candidates_paged(represented.id),
-            title: "Potential work packages to relate to (paged)"
+              href: api_v3_paths.work_package_available_relation_candidates_paged(represented.id),
+              title: "Potential work packages to relate to (paged)"
           }
         end
         # )
@@ -157,9 +157,9 @@ module API
              cache_if: -> { current_user_allowed_to(:edit_project, context: represented.project) } do
           next if represented.project.nil?
           {
-            href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
-            type: 'text/html',
-            title: "Custom fields"
+              href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
+              type: 'text/html',
+              title: "Custom fields"
           }
         end
 
@@ -167,34 +167,34 @@ module API
              cache_if: -> { current_user.admin? } do
           next unless represented.type_id
           {
-            href: edit_type_path(represented.type_id, tab: 'form_configuration'),
-            type: 'text/html',
-            title: "Configure form"
+              href: edit_type_path(represented.type_id, tab: 'form_configuration'),
+              type: 'text/html',
+              title: "Configure form"
           }
         end
 
         link :activities do
           {
-            href: api_v3_paths.work_package_activities(represented.id)
+              href: api_v3_paths.work_package_activities(represented.id)
           }
         end
 
         link :availableWatchers,
              cache_if: -> { current_user_allowed_to(:add_work_package_watchers, context: represented.project) } do
           {
-            href: api_v3_paths.available_watchers(represented.id)
+              href: api_v3_paths.available_watchers(represented.id)
           }
         end
 
         link :relations do
           {
-            href: api_v3_paths.work_package_relations(represented.id)
+              href: api_v3_paths.work_package_relations(represented.id)
           }
         end
 
         link :revisions do
           {
-            href: api_v3_paths.work_package_revisions(represented.id)
+              href: api_v3_paths.work_package_revisions(represented.id)
           }
         end
 
@@ -203,9 +203,9 @@ module API
           next if current_user.anonymous? || current_user_watcher?
 
           {
-            href: api_v3_paths.work_package_watchers(represented.id),
-            method: :post,
-            payload: { user: { href: api_v3_paths.user(current_user.id) } }
+              href: api_v3_paths.work_package_watchers(represented.id),
+              method: :post,
+              payload: { user: { href: api_v3_paths.user(current_user.id) } }
           }
         end
 
@@ -213,43 +213,43 @@ module API
              uncacheable: true do
           next unless current_user_watcher?
           {
-            href: api_v3_paths.watcher(current_user.id, represented.id),
-            method: :delete
+              href: api_v3_paths.watcher(current_user.id, represented.id),
+              method: :delete
           }
         end
 
         link :watchers,
              cache_if: -> { current_user_allowed_to(:view_work_package_watchers, context: represented.project) } do
           {
-            href: api_v3_paths.work_package_watchers(represented.id)
+              href: api_v3_paths.work_package_watchers(represented.id)
           }
         end
 
         link :addWatcher,
              cache_if: -> { current_user_allowed_to(:add_work_package_watchers, context: represented.project) } do
           {
-            href: api_v3_paths.work_package_watchers(represented.id),
-            method: :post,
-            payload: { user: { href: api_v3_paths.user('{user_id}') } },
-            templated: true
+              href: api_v3_paths.work_package_watchers(represented.id),
+              method: :post,
+              payload: { user: { href: api_v3_paths.user('{user_id}') } },
+              templated: true
           }
         end
 
         link :removeWatcher,
              cache_if: -> { current_user_allowed_to(:delete_work_package_watchers, context: represented.project) } do
           {
-            href: api_v3_paths.watcher('{user_id}', represented.id),
-            method: :delete,
-            templated: true
+              href: api_v3_paths.watcher('{user_id}', represented.id),
+              method: :delete,
+              templated: true
           }
         end
 
         link :addRelation,
              cache_if: -> { current_user_allowed_to(:manage_work_package_relations, context: represented.project) } do
           {
-            href: api_v3_paths.work_package_relations(represented.id),
-            method: :post,
-            title: 'Add relation'
+              href: api_v3_paths.work_package_relations(represented.id),
+              method: :post,
+              title: 'Add relation'
           }
         end
 
@@ -257,34 +257,34 @@ module API
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented.project) } do
           next if represented.milestone? || represented.new_record?
           {
-            href: api_v3_paths.work_packages_by_project(represented.project.identifier),
-            method: :post,
-            title: "Add child of #{represented.subject}"
+              href: api_v3_paths.work_packages_by_project(represented.project.identifier),
+              method: :post,
+              title: "Add child of #{represented.subject}"
           }
         end
 
         link :changeParent,
              cache_if: -> { current_user_allowed_to(:manage_subtasks, context: represented.project) } do
           {
-            href: api_v3_paths.work_package(represented.id),
-            method: :patch,
-            title: "Change parent of #{represented.subject}"
+              href: api_v3_paths.work_package(represented.id),
+              method: :patch,
+              title: "Change parent of #{represented.subject}"
           }
         end
 
         link :addComment,
              cache_if: -> { current_user_allowed_to(:add_work_package_notes, context: represented.project) } do
           {
-            href: api_v3_paths.work_package_activities(represented.id),
-            method: :post,
-            title: 'Add comment'
+              href: api_v3_paths.work_package_activities(represented.id),
+              method: :post,
+              title: 'Add comment'
           }
         end
 
         link :previewMarkup do
           {
-            href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
-            method: :post
+              href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
+              method: :post
           }
         end
 
@@ -292,9 +292,9 @@ module API
              cache_if: -> { view_time_entries_allowed? } do
           next if represented.new_record?
           {
-            href: work_package_time_entries_path(represented.id),
-            type: 'text/html',
-            title: 'Time entries'
+              href: work_package_time_entries_path(represented.id),
+              type: 'text/html',
+              title: 'Time entries'
           }
         end
 
@@ -304,8 +304,8 @@ module API
 
           visible_children.map do |child|
             {
-              href: api_v3_paths.work_package(child.id),
-              title: child.subject
+                href: api_v3_paths.work_package(child.id),
+                title: child.subject
             }
           end
         end
@@ -314,8 +314,8 @@ module API
               uncacheable: true do
           represented.visible_ancestors(current_user).map do |ancestor|
             {
-              href: api_v3_paths.work_package(ancestor.id),
-              title: ancestor.subject
+                href: api_v3_paths.work_package(ancestor.id),
+                title: ancestor.subject
             }
           end
         end
@@ -352,17 +352,18 @@ module API
                  getter: ->(*) {
                    i = 0
                    if start_date && due_date
-                     pcalendar = ProductionCalendar.get_transfered
+                     pcalendar = ProductionCalendar.get_transfered.to_a
                      working_days = Setting.working_days
 
                      current = start_date
                      while current and current < due_date
                        current += 1
-                       cal = pcalendar.find_by(date: current) rescue nil
-                       if cal
-                         if cal.day_type == 0
-                           i += 1
-                         end
+                       #cal = pcalendar.find_by(date: current) rescue nil
+                       #pcalendar.detect {|cal| cal.day_type == 0 }
+                       if pcalendar.detect {|cal| cal.day_type == 0 }
+                         #if cal.day_type == 0
+                         i += 1
+                         #end
                        else
                          if working_days.include? current.wday
                            i += 1
@@ -486,7 +487,7 @@ module API
                  if: ->(*) {
                    current_user_allowed_to(:view_work_package_watchers,
                                            context: represented.project) &&
-                     embed_links
+                       embed_links
                  }
 
         property :relations,
@@ -636,13 +637,13 @@ module API
                             link: ->(*) {
                               if represented.parent && represented.parent.visible?
                                 {
-                                  href: api_v3_paths.work_package(represented.parent.id),
-                                  title: represented.parent.subject
+                                    href: api_v3_paths.work_package(represented.parent.id),
+                                    title: represented.parent.subject
                                 }
                               else
                                 {
-                                  href: nil,
-                                  title: nil
+                                    href: nil,
+                                    title: nil
                                 }
                               end
                             },
@@ -653,13 +654,13 @@ module API
 
                               new_parent = if href
                                              id = ::API::Utilities::ResourceLinkParser
-                                                    .parse_id href,
-                                                              property: 'parent',
-                                                              expected_version: '3',
-                                                              expected_namespace: 'work_packages'
+                                                      .parse_id href,
+                                                                property: 'parent',
+                                                                expected_version: '3',
+                                                                expected_namespace: 'work_packages'
 
                                              WorkPackage.find_by(id: id) ||
-                                               ::WorkPackage::InexistentWorkPackage.new(id: id)
+                                                 ::WorkPackage::InexistentWorkPackage.new(id: id)
                                            end
 
                               represented.parent = new_parent
@@ -670,8 +671,8 @@ module API
                   link: ->(*) {
                     ordered_custom_actions.map do |action|
                       {
-                        href: api_v3_paths.custom_action(action.id),
-                        title: action.name
+                          href: api_v3_paths.custom_action(action.id),
+                          title: action.name
                       }
                     end
                   },
@@ -714,9 +715,9 @@ module API
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
           visible_relations = represented
-                                .visible_relations(current_user)
-                                .non_hierarchy
-                                .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
+                                  .visible_relations(current_user)
+                                  .non_hierarchy
+                                  .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_path,
