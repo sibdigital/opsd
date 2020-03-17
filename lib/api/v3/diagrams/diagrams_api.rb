@@ -20,6 +20,8 @@ module API
             get do
               if params[:name] == 'bubble'
                 BubbleDiagramRepresenter.new(params: params, current_user: current_user, global_role: global_role)
+              elsif params[:name] == 'municipality'
+                DiagramMunicipalityRepresenter.new(params: params, current_user: current_user, global_role: global_role)
               else
                 DiagramHomescreenRepresenter.new(params: params, current_user: current_user, global_role: global_role)
               end
