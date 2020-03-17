@@ -334,7 +334,7 @@ export class DesktopTabComponent implements OnInit {
 
   public getTargetIndicatorsChart() {
     this.halResourceService
-      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/pokazateli`)
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/pokazateli?project=${String(this.selectedOption.$href)}`)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.targetChartData = resource.data;
@@ -344,7 +344,7 @@ export class DesktopTabComponent implements OnInit {
 
   public getKTChart() {
     this.halResourceService
-      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/kt`)
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/kt?project=${String(this.selectedOption.$href)}`)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.KTChartData = resource.data;
@@ -354,7 +354,7 @@ export class DesktopTabComponent implements OnInit {
 
   public getBudgetChart() {
     this.halResourceService
-      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/budget`)
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/budget?project=${String(this.selectedOption.$href)}`)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.budgetChartData = resource.data;
@@ -364,7 +364,7 @@ export class DesktopTabComponent implements OnInit {
 
   public getRisksAndProblemsChart() {
     this.halResourceService
-      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/riski`)
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/riski?project=${String(this.selectedOption.$href)}`)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         this.risksAndProblemsChartData = resource.data;
@@ -389,6 +389,10 @@ export class DesktopTabComponent implements OnInit {
           diagram.refresh(this.selectedOption.$href);
         }
       });*/
+      this.getTargetIndicatorsChart();
+      this.getKTChart();
+      this.getBudgetChart();
+      this.getRisksAndProblemsChart();
       this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.upcomingTasksPage = 1;
       this.upcomingTasksPages = 0;

@@ -8,6 +8,7 @@ import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-tabl
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
+import {DiagramHomescreenResource} from "core-app/modules/hal/resources/diagram-homescreen-resource";
 
 export interface ValueOption {
   name:string;
@@ -29,6 +30,7 @@ export class MunicipalityTabComponent implements OnInit {
   public dueMilestoneData:any[];
   public problemData:any[];
   public budgetData:any[];
+  public chartsData:any[];
 
   public loadingProblems:boolean = false;
   public loadingBudgets:boolean = false;
@@ -75,6 +77,7 @@ export class MunicipalityTabComponent implements OnInit {
         });
         this.value = this.valueOptions[0];
         // this.handleUserSubmit();
+        this.getChartsData();
         this.getUpcomingTasks();
         this.getDueMilestones();
         this.getProblems();
@@ -281,6 +284,15 @@ export class MunicipalityTabComponent implements OnInit {
     }
   }
 
+  private getChartsData() {
+    this.halResourceService
+      .get<HalResource>(`${this.pathHelper.api.v3.diagrams.toString()}/municipality?raionId=${this.selectedOption.$href}`)
+      .toPromise()
+      .then((resource:HalResource) => {
+        this.chartsData = resource.nationalProjects;
+      });
+  }
+
   public get selectedOption() {
     const $href = this.value ? this.value.$href : null;
     return _.find(this.valueOptions, o => o.$href === $href)!;
@@ -293,11 +305,12 @@ export class MunicipalityTabComponent implements OnInit {
 
   public handleUserSubmit() {
     if (this.selectedOption) {
-      this.homescreenDiagrams.forEach((diagram) => {
+/*      this.homescreenDiagrams.forEach((diagram) => {
         if (this.selectedOption.$href) {
           diagram.refreshByMunicipality(Number(this.selectedOption.$href));
         }
-      });
+      });*/
+      this.getChartsData();
       this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.upcomingTasksPage = 1;
       this.upcomingTasksPages = 0;
