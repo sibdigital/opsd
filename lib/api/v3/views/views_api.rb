@@ -111,10 +111,12 @@ module API
                 stroka['parentId'] = project.federal_project_id || project.national_project_id || 0
                 stroka['federal_id'] = project.federal_project_id || 0
                 stroka['national_id'] = project.national_project_id || 0
-                stroka['kurator'] = project.curator.empty? ? '' : project.curator['fio']
-                stroka['kurator_id'] = project.curator.empty? ? '' : project.curator['id']
-                stroka['rukovoditel'] = project.rukovoditel.empty? ? '' : project.rukovoditel['fio']
-                stroka['rukovoditel_id'] = project.rukovoditel.empty? ? '' : project.rukovoditel['id']
+                curator = project.curator
+                stroka['kurator'] = curator.empty? ? '' : curator['fio']
+                stroka['kurator_id'] = curator.empty? ? '' : curator['id']
+                rukovoditel = project.rukovoditel
+                stroka['rukovoditel'] = rukovoditel.empty? ? '' : rukovoditel['fio']
+                stroka['rukovoditel_id'] = rukovoditel.empty? ? '' : rukovoditel['id']
                 stroka['budget_fraction'] = project.get_budget_fraction raion_id
                 stroka['dueDate'] = project.due_date
                 stroka['preds'] = arr['preds'] || 0

@@ -150,11 +150,14 @@ module API
           net_otkloneniy = 0
           small_otkloneniya = 0
           big_otkloneniya = 0
-          net_dannyh = 0
 
           user_proj = @project && @project != '0' ? [@project] : available_user_projects.map(&:id)
           targets = Target.where("type_id != ?", TargetType.where(name: I18n.t('targets.target')).first.id)
-                      .where("project_id in (#{user_proj.join(",")})")
+                         .where("project_id in (#{user_proj.join(",")})")
+          count_targets = targets.count
+
+          targets = targets.where("exists(select id from target_execution_values where target_id = targets.id)")
+                      .where("exists(select id from work_package_targets where target_id = targets.id)")
           slice_plan_now = FirstPlanTarget.get_now(user_proj.join(","))
           slice_fact_now = LastFactTarget.get_now(user_proj.join(","))
           targets.each do |t|
@@ -162,18 +165,15 @@ module API
             target_fact_now = slice_fact_now.select {|slice| slice["target_id"] == t.id}
             target_plan_now = target_plan_now.nil? ? 0.0 : target_plan_now["value"].nil? ? 0.0 : target_plan_now["value"].to_f
             target_fact_now = target_fact_now.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
-            if !t.target_execution_values.count.zero? and !t.work_package_targets.count.zero?
-              if target_plan_now <= target_fact_now
-                net_otkloneniy += 1
-              elsif target_plan_now * average <= target_fact_now
-                small_otkloneniya += 1
-              else
-                big_otkloneniya += 1
-              end
+            if target_plan_now <= target_fact_now
+              net_otkloneniy += 1
+            elsif target_plan_now * average <= target_fact_now
+              small_otkloneniya += 1
             else
-              net_dannyh += 1
+              big_otkloneniya += 1
             end
           end
+          net_dannyh = count_targets - (net_otkloneniy + small_otkloneniya + big_otkloneniya)
           result = [net_otkloneniy, small_otkloneniya, big_otkloneniya, net_dannyh]
           result
         end
