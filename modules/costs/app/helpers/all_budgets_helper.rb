@@ -132,7 +132,7 @@ module AllBudgetsHelper
   end
 
   def self.cost_by_project (project)
-      cost_objects = CostObject.where(project_id: project.id)
+      cost_objects = CostObject.includes(:cost_entries, :time_entries).where(project_id: project.id)
       total_budget = BigDecimal("0")
       labor_budget = BigDecimal("0")
       material_budget = BigDecimal("0")
