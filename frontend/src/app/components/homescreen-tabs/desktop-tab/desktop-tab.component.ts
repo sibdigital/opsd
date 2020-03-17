@@ -7,6 +7,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
+import {DiagramHomescreenResource} from "core-app/modules/hal/resources/diagram-homescreen-resource";
 
 export interface ValueOption {
   name:string;
@@ -24,6 +25,15 @@ export class DesktopTabComponent implements OnInit {
   public dueMilestoneData:any[];
   public problemData:any[];
   public budgetData:any[];
+
+  public targetChartData:any[];
+  public targetChartLabel:string;
+  public KTChartData:any[];
+  public KTChartLabel:string;
+  public budgetChartData:any[];
+  public budgetChartLabel:string;
+  public risksAndProblemsChartData:any[];
+  public risksAndProblemsChartLabel:string;
 
   public loadingProblems:boolean = false;
   public loadingBudgets:boolean = false;
@@ -75,9 +85,16 @@ export class DesktopTabComponent implements OnInit {
         });
         this.valueOptions.unshift({name: 'Все проекты', $href: "0"});
         this.value = this.valueOptions[0];
+/*
         this.getUpcomingAndDue();
+*/      this.getTargetIndicatorsChart();
+        this.getKTChart();
+        this.getBudgetChart();
+        this.getRisksAndProblemsChart();
         this.getProblems();
         this.getBudgets();
+        this.getDueMilestones();
+        this.getUpcomingTasks();
       });
   }
 
@@ -315,6 +332,46 @@ export class DesktopTabComponent implements OnInit {
     }
   }
 
+  public getTargetIndicatorsChart() {
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/pokazateli`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.targetChartData = resource.data;
+        this.targetChartLabel = resource.label;
+      });
+  }
+
+  public getKTChart() {
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/kt`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.KTChartData = resource.data;
+        this.KTChartLabel = resource.label;
+      });
+  }
+
+  public getBudgetChart() {
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/budget`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.budgetChartData = resource.data;
+        this.budgetChartLabel = resource.label;
+      });
+  }
+
+  public getRisksAndProblemsChart() {
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/riski`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.risksAndProblemsChartData = resource.data;
+        this.risksAndProblemsChartLabel = resource.label;
+      });
+  }
+
   public get selectedOption() {
     const $href = this.value ? this.value.$href : null;
     return _.find(this.valueOptions, o => o.$href === $href)!;
@@ -327,11 +384,11 @@ export class DesktopTabComponent implements OnInit {
 
   public handleUserSubmit() {
     if (this.selectedOption) {
-      this.homescreenDiagrams.forEach((diagram) => {
+      /*this.homescreenDiagrams.forEach((diagram) => {
         if (this.selectedOption.$href) {
           diagram.refresh(this.selectedOption.$href);
         }
-      });
+      });*/
       this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.upcomingTasksPage = 1;
       this.upcomingTasksPages = 0;

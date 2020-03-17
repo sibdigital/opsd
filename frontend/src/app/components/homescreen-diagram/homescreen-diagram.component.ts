@@ -15,9 +15,16 @@ export const homescreenDiagramSelector = 'homescreen-diagram';
   templateUrl: './homescreen-diagram.html'
 })
 export class HomescreenDiagramComponent implements OnInit {
-  @Input('raionId') public raionId:number;
+  @Input('data') public data:any[];
+  @Input('chartLabels') public chartLabels:any[];
+  @Input('chartColors') public chartColors:any[];
+  @Input('chartOptions') public chartOptions:ChartOptions;
+  @Input('chartPlugins') public chartPlugins:[];
+  @Input('chartType') public chartType:any;
+  @Input('chartLegend') public chartLegend:any;
+  @Input('label') public label:any;
 
-  public barChartOptions:ChartOptions = {
+  public defaultChartOptions:ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -57,13 +64,18 @@ export class HomescreenDiagramComponent implements OnInit {
       }
     },
   };
+  public barChartOptions:ChartOptions;
 
   public barChartLabels:Label[];
-  public barChartType:ChartType;
+  public barChartType:ChartType = 'pie';
   public barChartLegend = true;
   public barChartPlugins = [];
   public barChartData:ChartDataSets[] = [
-    {data:[]}
+    {
+      data: [],
+      label: '',
+      backgroundColor: ['#00b050', '#ffc000', '#c00000', '#1f497d']
+    }
   ];
 
   @ViewChild(BaseChartDirective) chart:BaseChartDirective;
@@ -74,14 +86,12 @@ export class HomescreenDiagramComponent implements OnInit {
               protected pathHelper:PathHelperService) { }
 
   ngOnInit() {
-    this.barChartType = this.element.nativeElement.getAttribute('chart-type') || 'pie'; //default diagram
-    this.barChartLabels = JSON.parse(this.element.nativeElement.getAttribute('chart-labels'));
-    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
-    if (!this.raionId) {
+    this.refresh();
+/*    if (!this.raionId) {
       this.raionId = 0;
-    }
-    this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {raionId: this.raionId})
+    }*/
+/*    this.halResourceService
+      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName/!*, {raionId: this.raionId}*!/)
       .toPromise()
       .then((resource:DiagramHomescreenResource) => {
         if (resource.label === 'visible') {
@@ -95,12 +105,28 @@ export class HomescreenDiagramComponent implements OnInit {
         }
         this.barChartData[0].data = resource.data;
         this.barChartData[0].label = resource.label;
-      });
-    this.barChartData[0].backgroundColor = JSON.parse(this.element.nativeElement.getAttribute('chart-colors')) || ['#00b050', '#ffc000', '#c00000', '#1f497d']; //default color set
+      });*/
+
   }
 
-  public refresh(project:string) {
-    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
+  ngOnChanges() {
+    this.refresh();
+  }
+
+  protected refresh() {
+    this.barChartType = this.chartType || this.barChartType; //default chart type
+    this.barChartLabels = this.chartLabels || this.barChartLabels; //default chart labels
+    this.barChartLegend = this.chartLegend ||  true;
+    this.barChartPlugins = this.chartPlugins || [];
+    this.barChartOptions = this.chartOptions || this.defaultChartOptions;
+    this.barChartData = [
+      {
+        data: this.data || [], //default data set
+        label: this.label || '', //default label
+        backgroundColor: this.chartColors || ['#00b050', '#ffc000', '#c00000', '#1f497d'] //default color set
+      }
+    ];
+    /*let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
     this.halResourceService
       .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {project: project})
       .toPromise()
@@ -116,11 +142,11 @@ export class HomescreenDiagramComponent implements OnInit {
           this.element.nativeElement.parentElement.removeAttribute('style');
           this.element.nativeElement.parentElement.style.display = 'none';
         }
-      });
+      });*/
   }
 
   public refreshByMunicipality(raionId:number) {
-    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
+/*    let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
     this.halResourceService
       .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {raionId: raionId})
       .toPromise()
@@ -136,7 +162,7 @@ export class HomescreenDiagramComponent implements OnInit {
           this.element.nativeElement.parentElement.removeAttribute('style');
           this.element.nativeElement.parentElement.style.display = 'none';
         }
-      });
+      });*/
   }
 }
 
