@@ -41,6 +41,10 @@ module Users
       [status_link].compact
     end
 
+    def organization_id
+      user.organization
+    end
+
     def status_link
       change_user_status_links user unless user.id == table.current_user.id
     end

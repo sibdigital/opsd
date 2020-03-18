@@ -84,7 +84,7 @@ module API
             raion_id = params[:raion]
             if raion_id
               rprojects = Raion.projects_by_id(raion_id, current_user.projects.map {|p| p.id})
-              ids = []
+              ids = [0]
               rprojects.each do |project|
                 ids << project.id
               end

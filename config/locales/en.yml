@@ -582,6 +582,7 @@ en:
         object: Объект расчета
       #-tan
       user:
+        organization_id: Организация
         admin: Администратор
         auth_source: Способ аутентификации
         current_password: Текущий пароль
