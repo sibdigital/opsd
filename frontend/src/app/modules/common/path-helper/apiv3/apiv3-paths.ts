@@ -68,8 +68,6 @@ export class ApiV3Paths {
 
   public readonly work_packages_due = new SimpleResourceCollection(this.apiV3Base, 'work_packages_due');
 
-  public readonly work_packages_due_and_future = new SimpleResourceCollection(this.apiV3Base, 'work_packages_due_and_future');
-
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
 
   public readonly national_projects_problems = new SimpleResource(this.apiV3Base, 'national_projects_problems');

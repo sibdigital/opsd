@@ -69,7 +69,6 @@ module API
       mount ::API::V3::Views::ViewsAPI
       mount ::API::V3::WorkPackages::WorkPackagesFutureAPI
       mount ::API::V3::WorkPackages::WorkPackagesDueAPI
-      mount ::API::V3::WorkPackages::WorkPackagesDueAndFutureAPI
       # )
       # (iag
       mount ::API::V3::Meetings::MeetingsAPI
