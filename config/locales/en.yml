@@ -2327,31 +2327,31 @@ en:
   label_x_closed_work_packages_abbr:
     one: 1 закрыто
     other: "%{count} закрыто"
-    zero: 0 closed
+    zero: Нет закрытых
     few: "%{count} закрыто"
     many: "%{count} закрыто"
   label_x_comments:
     one: 1 комментарий
     other: "%{count} комментариев"
-    zero: no comments
+    zero: Нет комментариев
     few: "%{count} комментария"
     many: "%{count} комментариев"
   label_x_open_work_packages_abbr:
     one: 1 открыт
     other: "%{count} открыто"
-    zero: 0 open
+    zero: 0 открыто
     few: "%{count} открыто"
     many: "%{count} открыто"
   label_x_open_work_packages_abbr_on_total:
     one: 1 открыт / %{total}
     other: "%{count} открыто / %{total}"
-    zero: 0 open / %{total}
+    zero: 0 открыто / %{total}
     few: "%{count} открыто / %{total}"
     many: "%{count} открыто / %{total}"
   label_x_projects:
     one: 1 проект
     other: "%{count} проектов"
-    zero: no projects
+    zero: нет проектов
     few: "%{count} проекта"
     many: "%{count} проектов"
   label_year: Год
