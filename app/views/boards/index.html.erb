@@ -100,9 +100,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
   </div>
 </div>
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', url: { controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key } %>
-<% end %>
+<%#= other_formats_links do |f| %>
+  <%#= f.link_to 'Atom', url: { controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key } %>
+<%# end %>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, { controller: '/activities', action: 'index', id: @project, format: 'atom', show_messages: 1, key: User.current.rss_key }) %>

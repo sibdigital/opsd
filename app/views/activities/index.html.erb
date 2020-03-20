@@ -120,9 +120,9 @@ avatar(e.event_author, {class: 'avatar-mini'}) if e.respond_to?(:event_author) %
                              class: 'navigate-right'}) unless @date_to >= Date.today %>
 </div>
 &nbsp;
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', url: { from: nil }, key: User.current.rss_key %>
-<% end %>
+<%#= other_formats_links do |f| %>
+  <%#= f.link_to 'Atom', url: { from: nil }, key: User.current.rss_key %>
+<%# end %>
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge(format: 'atom', from: nil, key: User.current.rss_key)) %>
