@@ -126,6 +126,7 @@
     "ui-select": "~0.19.6",
     "url-loader": "^1.1.2",
     "webpack-cli": "^3.1.2",
+    "webfonts-generator": "^0.4.0",
     "zone.js": "^0.8.29"
   },
   "scripts": {
