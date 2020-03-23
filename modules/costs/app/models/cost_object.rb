@@ -174,19 +174,12 @@ class CostObject < ActiveRecord::Base
   # SQL
   # +tan
   def self.by_user (user, cost_types = [])
-
-    sql = <<-SQL
-        select co.*
-        from cost_objects as co
-        inner join (
-                    select project_id
-                    FROM members as m
-                    inner join (select id from projects where status = ?) as p on m.project_id = p.id
-                    where user_id = ?
-        ) as m
-        on co.project_id = m.project_id
-    SQL
-    CostObject.find_by_sql([sql, Project::STATUS_ACTIVE, user.id])
+    CostObject.includes(:cost_entries, :time_entries).where("cost_objects.project_id in (
+      select project_id
+      from members as m
+               inner join projects p on p.id = m.project_id
+      where m.user_id = ?
+        and p.status = ?)", user.id, Project::STATUS_ACTIVE)
     # projectids = []
     # user.projects.each do |p|
     #   if p.type == Project::TYPE_PROJECT

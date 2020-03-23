@@ -42,8 +42,8 @@ See docs/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, params.merge({format: 'atom', page: nil, key: User.current.rss_key})) %>
 <% end %>
-<%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
-<% end %>
+<%#= other_formats_links do |f| %>
+  <%#= f.link_to 'Atom', url: {key: User.current.rss_key} %>
+<%# end %>
 
 <% html_title(l(:label_revision_plural)) -%>

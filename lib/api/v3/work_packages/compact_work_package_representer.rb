@@ -1,3 +1,4 @@
+
 #-- encoding: UTF-8
 
 #-- copyright
@@ -28,19 +29,48 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'token/base'
+module API
+  module V3
+    module WorkPackages
+      class CompactWorkPackageRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
 
-module Token
-  class Rss < Base
-    after_initialize do
-      unless value.present?
-        #self.value = self.class.generate_token_value
-        ''
+        cached_representer key_parts: %i(project),
+                           disabled: false
+
+        def initialize(model, current_user:, embed_links: false)
+          model = model
+
+          super
+        end
+
+        self_link
+
+        property :id,
+                 render_nil: true
+
+        property :subject,
+                 render_nil: true
+
+        associated_resource :project
+
+        def _type
+          'WorkPackage'
+        end
+
+        def json_cache_key
+          ['API',
+           'V3',
+           'WorkPackages',
+           'WorkPackageRepresenter',
+           'json',
+           I18n.locale,
+           represented.cache_checksum,
+           Setting.work_package_done_ratio,
+           Setting.feeds_enabled?]
+        end
       end
-    end
-
-    def plain_value
-      value
     end
   end
 end

@@ -362,7 +362,7 @@ module API
                        #pcalendar.detect {|cal| cal.day_type == 0 }
                        if pcalendar.detect {|cal| cal.day_type == 0 }
                          #if cal.day_type == 0
-                         i += 1
+                           i += 1
                          #end
                        else
                          if working_days.include? current.wday

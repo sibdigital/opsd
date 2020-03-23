@@ -8,6 +8,7 @@ import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-tabl
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
+import {DiagramHomescreenResource} from "core-app/modules/hal/resources/diagram-homescreen-resource";
 
 export interface ValueOption {
   name:string;
@@ -29,6 +30,7 @@ export class MunicipalityTabComponent implements OnInit {
   public dueMilestoneData:any[];
   public problemData:any[];
   public budgetData:any[];
+  public chartsData:any[];
 
   public loadingProblems:boolean = false;
   public loadingBudgets:boolean = false;
@@ -75,6 +77,7 @@ export class MunicipalityTabComponent implements OnInit {
         });
         this.value = this.valueOptions[0];
         // this.handleUserSubmit();
+        this.getChartsData();
         this.getUpcomingTasks();
         this.getDueMilestones();
         this.getProblems();
@@ -86,49 +89,9 @@ export class MunicipalityTabComponent implements OnInit {
     this.loadingUpcomingTasks = true;
     this.upcomingTasksCount = 0;
     this.upcomingTasksData = [];
-    let from = new Date();
-    let to = new Date();
-    to.setDate(to.getDate() + 14);
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['1']
-      }
-    }, {
-      dueDate: {
-        operator: '<>d',
-        values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
-      }
-    }, {
-      raion: {
-        operator: '=',
-          values: [String(this.selectedOption.$href)]
-      }
-    });
-    // if (this.selectedOption) {
-    //   if (this.selectedOption.$href !== "0") {
-    //     filters.push({
-    //       project: {
-    //         operator: '=',
-    //         values: [String(this.selectedOption.$href)]
-    //       }
-    //     });
-    //   }
-    // }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.upcomingTasksPage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(),
+        {pageSize: this.pageSize, offset: this.upcomingTasksPage, raion: String(this.selectedOption.$href)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -175,46 +138,9 @@ export class MunicipalityTabComponent implements OnInit {
     this.loadingDueMilestones = true;
     this.dueMilestoneCount = 0;
     this.dueMilestoneData = [];
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['2']
-      }
-    }, {
-      dueDate: {
-        operator: '<t-',
-        values: ['1']
-      }
-    }, {
-      raion: {
-        operator: '=',
-        values: [String(this.selectedOption.$href)]
-      }
-    });
-    // if (this.selectedOption) {
-    //   if (this.selectedOption.$href !== "0") {
-    //     filters.push({
-    //       project: {
-    //         operator: '=',
-    //         values: [String(this.selectedOption.$href)]
-    //       }
-    //     });
-    //   }
-    // }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.dueMilestonePage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString(),
+        {pageSize: this.pageSize, offset: this.dueMilestonePage, raion: String(this.selectedOption.$href)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -358,6 +284,15 @@ export class MunicipalityTabComponent implements OnInit {
     }
   }
 
+  private getChartsData() {
+    this.halResourceService
+      .get<HalResource>(`${this.pathHelper.api.v3.diagrams.toString()}/municipality?raionId=${this.selectedOption.$href}`)
+      .toPromise()
+      .then((resource:HalResource) => {
+        this.chartsData = resource.nationalProjects;
+      });
+  }
+
   public get selectedOption() {
     const $href = this.value ? this.value.$href : null;
     return _.find(this.valueOptions, o => o.$href === $href)!;
@@ -370,11 +305,12 @@ export class MunicipalityTabComponent implements OnInit {
 
   public handleUserSubmit() {
     if (this.selectedOption) {
-      this.homescreenDiagrams.forEach((diagram) => {
+/*      this.homescreenDiagrams.forEach((diagram) => {
         if (this.selectedOption.$href) {
           diagram.refreshByMunicipality(Number(this.selectedOption.$href));
         }
-      });
+      });*/
+      this.getChartsData();
       this.blueChild.changeFilter(String(this.selectedOption.$href));
       this.upcomingTasksPage = 1;
       this.upcomingTasksPages = 0;
