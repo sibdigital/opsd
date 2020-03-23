@@ -5,18 +5,20 @@
         <div class="grid-block">
             <div style="flex: 0 0 33.3%; max-width: 33.3%;">
                 <p style="text-align: center;font-weight: bold;margin: -2px;">Федеральный бюджет</p>
-                <homescreen-diagram chart-name='fed_budget' chart-labels='["Факт. исп.","Риски исп.","Остаток"]' chart-colors='["#00b050", "#ffc000", "#c00000"]'>
+                <homescreen-diagram [data]="this.budgetFederalChartData" [label]='this.budgetFederalChartLabel' [chartLabels]='["Факт. исп.","Риски исп.","Остаток"]' [chartColors]='["#00b050", "#ffc000", "#c00000"]'>
                 </homescreen-diagram>
             </div>
             <div style="flex: 0 0 33.3%; max-width: 33.3%;">
                 <p style="text-align: center;font-weight: bold;margin: -2px;">Региональный бюджет</p>
-                <homescreen-diagram chart-name='reg_budget' chart-labels='["Факт. исп.","Риски исп.","Остаток"]' chart-colors='["#00b050", "#ffc000", "#c00000"]'>
+                <homescreen-diagram [data]="this.budgetRegionalChartData" [label]='this.budgetRegionalChartLabel' [chartLabels]='["Факт. исп.","Риски исп.","Остаток"]' [chartColors]='["#00b050", "#ffc000", "#c00000"]'>
                 </homescreen-diagram>
             </div>
             <div style="flex: 0 0 33.3%; max-width: 33.3%;">
                 <p style="text-align: center;font-weight: bold;margin: -2px;">Внебюджетные источники</p>
-                <homescreen-diagram chart-name='other_budget' chart-labels='["Факт. исп.","Риски исп.","Остаток"]' chart-colors='["#00b050", "#ffc000", "#c00000"]'>
+                <homescreen-diagram [data]="this.budgetOtherChartData" [label]='this.budgetOtherChartLabel' [chartLabels]='["Факт. исп.","Риски исп.","Остаток"]' [chartColors]='["#00b050", "#ffc000", "#c00000"]'>
                 </homescreen-diagram>
+<!--                <homescreen-diagram chart-name='other_budget' chart-labels='["Факт. исп.","Риски исп.","Остаток"]' chart-colors='["#00b050", "#ffc000", "#c00000"]'>-->
+<!--                </homescreen-diagram>-->
             </div>
         </div>
     </div>
