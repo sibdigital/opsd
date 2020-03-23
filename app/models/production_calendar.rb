@@ -11,7 +11,9 @@ class ProductionCalendar < ActiveRecord::Base
   end
 
   def self.get_transfered
-    @@transfered = self.all unless @@transfered
+    if @@transfered.nil?
+      @@transfered = self.all
+    end
     @@transfered
   end
   def option_name

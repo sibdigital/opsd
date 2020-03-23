@@ -33,19 +33,15 @@ module RiskCharacts
 
     def inline_create_link
       if typed_risk?
-        link_to new_typed_risk_charact_path(risk_id: risk_id, type: model.name),
+        link_to t(:label_risk_characts_new), new_typed_risk_charact_path(risk_id: risk_id, type: model.name),
                 aria: { label: t(:label_risk_characts_new) },
-                class: 'wp-inline-create--add-link',
-                title: t(:label_risk_characts_new) do
-          op_icon('icon icon-add')
-        end
+                class: 'wp-inline-create--split-link',
+                title: t(:label_risk_characts_new)
       elsif project_risk?
-        link_to new_project_risk_charact_path(project_id: project_id, risk_id: risk_id, type: model.name),
+        link_to t(:label_risk_characts_new), new_project_risk_charact_path(project_id: project_id, risk_id: risk_id, type: model.name),
                 aria: { label: t(:label_risk_characts_new) },
-                class: 'wp-inline-create--add-link',
-                title: t(:label_risk_characts_new) do
-          op_icon('icon icon-add')
-        end
+                class: 'wp-inline-create--split-link',
+                title: t(:label_risk_characts_new)
       end
     end
 

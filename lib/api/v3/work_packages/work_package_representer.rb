@@ -352,17 +352,18 @@ module API
                  getter: ->(*) {
                    i = 0
                    if start_date && due_date
-                     pcalendar = ProductionCalendar.get_transfered
+                     pcalendar = ProductionCalendar.get_transfered.to_a
                      working_days = Setting.working_days
 
                      current = start_date
                      while current and current < due_date
                        current += 1
-                       cal = pcalendar.find_by(date: current) rescue nil
-                       if cal
-                         if cal.day_type == 0
+                       #cal = pcalendar.find_by(date: current) rescue nil
+                       #pcalendar.detect {|cal| cal.day_type == 0 }
+                       if pcalendar.detect {|cal| cal.day_type == 0 }
+                         #if cal.day_type == 0
                            i += 1
-                         end
+                         #end
                        else
                          if working_days.include? current.wday
                            i += 1

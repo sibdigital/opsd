@@ -3,7 +3,19 @@ This file written by BBM
 25/04/2019
 ++#%>
 <% html_title l(:label_administration), l(:label_control_levels) %>
-<%= toolbar title: l(:label_control_levels) %>
+
+
+<%= toolbar title: l(:label_control_levels) do %>
+  <li class="toolbar-item">
+    <%= link_to new_control_level_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_control_levels_new)},
+                  title: t(:label_control_levels_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_control_level) %></span>
+    <% end %>
+  </li>
+<% end %>
 
 <% if @control_levels.empty? %>
   <div class="generic-table--container">
@@ -79,10 +91,5 @@ This file written by BBM
   <%= pagination_links_full @control_levels %>
 <% end %>
 <div class="wp-inline-create-button">
-  <%= link_to new_control_level_path(),
-              aria: {label: t(:label_control_levels_new)},
-              class: 'wp-inline-create--add-link',
-              title: t(:label_control_levels_new) do
-    op_icon('icon icon-add')
-  end %>
+  <%= link_to t(:label_control_levels_new), new_control_level_path(),class: 'wp-inline-create--split-link' %>
 </div>

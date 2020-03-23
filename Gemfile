@@ -190,6 +190,8 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
+gem 'puma', '~> 4.1'
+
 gem 'nokogiri', '~> 1.10.0'
 
 gem 'carrierwave', '~> 1.3.1'
@@ -275,7 +277,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'puma', '~> 4.1'
   gem 'thin', '~> 1.7.2'
 
   # Tracing and profiling gems
