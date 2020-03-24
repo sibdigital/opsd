@@ -7,7 +7,7 @@
                      placeHolder="Все районы..."
                      [initialValue]="data_autocomplete[0]"
                      (selected)="selectEvent($event)"
-                     (inputCleared)="selectEvent({id: 0, name: 'Все районы'})"
+                     (inputCleared)="selectEvent({id: '0', name: 'Все районы'})"
                      [itemTemplate]="itemTemplate"
                      [notFoundTemplate]="notFoundTemplate"
                      debounceTime="1000"
@@ -21,26 +21,15 @@
         <div [innerHTML]="notFound"></div>
     </ng-template>
 </div>
-<select [(ngModel)]="selectedOption"
-        [compareWith]="compareByHref"
-        (change)="handleUserSubmit()"
-        style="width: 200px" [hidden]="true">
-    <option
-            *ngFor="let value of valueOptions"
-            [attr.selected]="compareByHref(selectedOption, value) || undefined"
-            [attr.label]="value.name"
-            [ngValue]="value"
-            [textContent]="value.name">
-    </option>
-</select>
 
-<div ng-app="OpenProjectLegacy" class="ng-scope" *ngIf="selectedOption">
+<div ng-app="OpenProjectLegacy" class="ng-scope">
     <div id="invisible-grid" class="widget-boxes project-overview">
         <div class="grid-block" style="overflow-x: scroll;">
             <div style="flex:auto;display: flex;align-items: center;justify-content: center;"
                  *ngFor="let chartData of chartsData; let i = index">
                 <div style="max-width:300px">
-                    <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;font-weight: bold;margin: -2px; height: 50px">{{chartData.name}}</p>
+                    <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;font-weight: bold;margin: -2px 0; height: 50px"
+                       [title]="chartData.name">{{chartData.name}}</p>
                     <homescreen-diagram [data]="chartData.data" [label]='chartData.label'
                                         [chartLabels]='["Нет откл.","Небольшие откл.","Значит. откл", "Нет данных"]'>
                     </homescreen-diagram>

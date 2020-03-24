@@ -6,7 +6,7 @@
             <div style="flex:auto;display: flex;align-items: center;justify-content: center;"
                  *ngFor="let chartData of chartsData; let i = index">
                 <div style="max-width:300px">
-                    <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;font-weight: bold;margin: -2px; height: 50px"
+                    <p style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;font-weight: bold;margin: -2px 0; height: 50px"
                        [title]="chartData.name">{{chartData.name}}</p>
                     <homescreen-diagram [data]="chartData.data" [label]='chartData.label'
                                         [chartLabels]='["Нет откл.","Небольшие откл.","Значит. откл", "Нет данных"]'>

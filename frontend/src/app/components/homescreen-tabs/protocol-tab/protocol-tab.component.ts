@@ -60,9 +60,9 @@ export class ProtocolTabComponent implements OnInit {
     this.value = option;
   }
   public check(item:any) {
-    console.log(this.auto);
-    console.log(item);
-    console.log(item.selected);
+    // console.log(this.auto);
+    // console.log(item);
+    // console.log(item.selected);
   }
   public check_load() {
     // console.log(this.is_loading);

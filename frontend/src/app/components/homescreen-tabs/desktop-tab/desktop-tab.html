@@ -57,7 +57,7 @@
                          [disabled]="check_load()"
                          placeHolder="Все проекты..."
                          (selected)="selectEvent($event)"
-                         (inputCleared)="selectEvent({id: 0, name: 'Все проекты'})"
+                         (inputCleared)="selectEvent({id: '0', name: 'Все проекты'})"
                          [itemTemplate]="itemTemplate"
                          [notFoundTemplate]="notFoundTemplate"
                          debounceTime="1000"
@@ -71,18 +71,6 @@
             <div [innerHTML]="notFound"></div>
         </ng-template>
     </div>
-    <select [(ngModel)]="selectedOption"
-            [compareWith]="compareByHref"
-            (change)="handleUserSubmit()"
-            style="width: 200px" [hidden]="true">
-        <option
-                *ngFor="let value of valueOptions"
-                [attr.selected]="compareByHref(selectedOption, value) || undefined"
-                [attr.label]="value.name"
-                [ngValue]="value"
-                [textContent]="value.name">
-        </option>
-    </select>
     <homescreen-blue-table [template]="'desktop'"></homescreen-blue-table>
     <br/>
     <div style="display: inline-flex; width: 100%;">
