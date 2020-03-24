@@ -76,7 +76,7 @@ export class ApiV3Paths {
 
   public readonly work_package_ispoln_stat_view = new SimpleResourceCollection(this.apiV3Base, 'views/work_package_ispoln_stat_view');
 
-  public readonly quartered_work_package_targets_with_quarter_groups_view = new SimpleResourceCollection(this.apiV3Base, '/views/quartered_work_package_targets_with_quarter_groups_view');
+  public readonly quartered_work_package_targets_with_quarter_groups_view = new SimpleResourceCollection(this.apiV3Base, 'views/quartered_work_package_targets_with_quarter_groups_view');
 
   public readonly work_package_stat_by_proj_view = new SimpleResource(this.apiV3Base, 'views/work_package_stat_by_proj_view');
 

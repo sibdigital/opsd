@@ -67,6 +67,7 @@ import {ActivatedRoute, RouterModule} from "@angular/router";
 import {AngularTreeGridModule} from "core-components/angular-tree-grid/angular-tree-grid.module";
 import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
+import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib/autocomplete-lib.module";
 
 @NgModule({
   imports: [
@@ -78,7 +79,8 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
     FormsModule,
     BrowserAnimationsModule,
     OpenprojectCommonModule,
-    AngularTreeGridModule
+    AngularTreeGridModule,
+    AutocompleteLibModule
   ],
   providers: [
     BlueTableDesktopService,
@@ -111,7 +113,7 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
     ProtocolTabComponent,
     MunicipalityTabComponent,
     PerformanceTabComponent,
-    HomescreenBlueTableComponent
+    HomescreenBlueTableComponent,
   ],
   entryComponents: [
     HomescreenProgressBarComponent,

@@ -68,7 +68,7 @@ tempproblems = tempproblems.where(work_packages: {organization_id: params['organ
 
   problems = WorkPackageProblem.where('work_package_problems.project_id in (' + user_projects.join(',') + ')')
 
-  if params['raion'].present?
+  if params['raion'].present? && params['raion'] != '0'
     problems = problems.joins(:work_package).where(work_packages: {raion_id: params['raion']})
   end
   if params['status'].present?

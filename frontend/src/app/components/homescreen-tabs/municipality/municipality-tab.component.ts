@@ -22,6 +22,10 @@ export interface ValueOption {
 export class MunicipalityTabComponent implements OnInit {
   public options:any[];
   private value:{ [attribute:string]:any } | undefined = {};
+  keyword = 'name';
+  data_autocomplete:any[] = [];
+  data_choosed:any;
+  is_loading:boolean[] = [true, true, true, true, true];
   public valueOptions:ValueOption[] = [];
   public compareByHref = AngularTrackingHelpers.compareByHref;
   protected readonly appBasePath:string;
@@ -61,6 +65,7 @@ export class MunicipalityTabComponent implements OnInit {
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
   @ViewChildren(HomescreenDiagramComponent) homescreenDiagrams:QueryList<HomescreenDiagramComponent>;
+  @ViewChild('autocomplete') auto:any;
 
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
@@ -73,9 +78,11 @@ export class MunicipalityTabComponent implements OnInit {
       .toPromise()
       .then((raions:CollectionResource<HalResource>) => {
         this.valueOptions = raions.elements.map((el:HalResource) => {
+          this.data_autocomplete.push({id: el.id, name: el.name});
           return {name: el.name, $href: el.id};
         });
         this.value = this.valueOptions[0];
+        this.is_loading[0] = false;
         // this.handleUserSubmit();
         this.getChartsData();
         this.getUpcomingTasks();
@@ -83,6 +90,21 @@ export class MunicipalityTabComponent implements OnInit {
         this.getProblems();
         this.getBudgets();
       });
+  }
+  selectEvent(item:any) {
+    this.auto.close();
+    this.is_loading[0] = true;
+    this.is_loading[1] = true;
+    this.is_loading[2] = true;
+    this.is_loading[3] = true;
+    this.is_loading[4] = true;
+    this.data_choosed = item;
+    this.homescreenDiagrams.forEach((diagram) => {
+      diagram.refreshByMunicipality(Number(this.data_choosed.id));
+    });
+    this.blueChild.changeFilter(String(this.data_choosed.id));
+    this.updateColorTables(this.data_choosed.id);
+    this.is_loading[0] = false;
   }
 
   public getUpcomingTasks() {

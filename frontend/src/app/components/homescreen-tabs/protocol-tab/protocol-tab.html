@@ -1,12 +1,45 @@
+<table>
+    <tr>
+        <td>Новое совещание:</td>
+        <td style="width: 100%">
+            <div class="ng-autocomplete" style="width: 100%;border: 2px solid #1C6EA4;display: inline-flex;margin: 10px 0;">
+                <ng-autocomplete #autocomplete
+                                 [data]="data_autocomplete"
+                                 [searchKeyword]="keyword"
+                                 [isLoading]="check_load()"
+                                 [disabled]="check_load()"
+                                 placeHolder="Проект не выбран..."
+                                 (selected)="selectEvent($event)"
+                                 (inputCleared)="clearEvent()"
+                                 [itemTemplate]="itemTemplate"
+                                 [notFoundTemplate]="notFoundTemplate"
+                                 debounceTime="1000"
+                                 notFoundText="Не найдено">
+                </ng-autocomplete>
+                <button (click)="selectEvent(this.data_choosed)" class="icon-search" style="color: white;width: 8%;background: #1C6EA4;border: 1px #1C6EA4"></button>
+                <ng-template #itemTemplate let-item >
+                    <a [innerHTML]="item.name" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis; padding: 5px 5px;"></a>
+                </ng-template>
+                <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                </ng-template>
+            </div>
+            <select [(ngModel)]="selectedOption"
+                    [compareWith]="compareByHref"
+                    (change)="handleUserSubmit()"
+                    style="width: 200px" [hidden]="true">
+                <option
+                        *ngFor="let value of valueOptions"
+                        [attr.selected]="compareByHref(selectedOption, value) || undefined"
+                        [attr.label]="value.name"
+                        [ngValue]="value"
+                        [textContent]="value.name">
+                </option>
+            </select>
+        </td>
+        <td>
+
+        </td>
+    </tr>
+</table>
 <homescreen-blue-table [template]="'protocol'"></homescreen-blue-table>
-<select [(ngModel)]="selectedOption"
-        [compareWith]="compareByHref"
-        (change)="handleUserSubmit()">
-    <option
-            *ngFor="let value of valueOptions"
-            [attr.selected]="compareByHref(selectedOption, value) || undefined"
-            [attr.label]="value.name"
-            [ngValue]="value"
-            [textContent]="value.name">
-    </option>
-</select>
