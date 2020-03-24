@@ -52,7 +52,7 @@ module API
               meropriyatie = Type.find_by name: I18n.t(:default_type_task)
               kt = Type.find_by name: I18n.t(:default_type_milestone)
               raion_id = params[:raion]
-              if raion_id
+              if raion_id && raion_id != '0'
                 rprojects = Raion.projects_by_id(raion_id, @projects).map {|p| p.id}
                 rprojects = rprojects.empty? ? [0] : rprojects #Временное решение, необходимо обдумать. Проблема возникает когда в районе нет проектов, так как возвращается пустой список
                 records_array = ActiveRecord::Base.connection.execute <<~SQL

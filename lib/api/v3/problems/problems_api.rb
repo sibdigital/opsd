@@ -60,7 +60,7 @@ tempproblems = tempproblems.where(work_packages: {organization_id: params['organ
 
 
   user_projects = [0]
-  if params['project'].present?
+  if params['project'].present? && params['raion'] != '0'
     user_projects = [params['project']]
   else
     user_projects = current_user.visible_projects.map(&:id)
