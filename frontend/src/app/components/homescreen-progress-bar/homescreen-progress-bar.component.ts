@@ -14,14 +14,13 @@ export class HomescreenProgressBarComponent implements OnInit {
   @Input() column:any = '';
   @Input() cell_value:any = '';
   public $element:JQuery;
-  public color:string = "#000"
+  public color:string = "#000";
 
   constructor(protected elementRef:ElementRef) { }
 
   ngOnInit() {
+    // console.log(this.cell_value);
   }
-
-
 }
 
 DynamicBootstrapper.register({ selector: HomescreenProgressBarSelector, cls: HomescreenProgressBarComponent });

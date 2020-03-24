@@ -1,7 +1,7 @@
 <div *ngFor="let value of cell_value;let i = index">
     <div class="border-progress">
         <div class="progress" [title]="value + '%'">
-          <span class="value" [ngStyle]="{'width': value +'%', 'background-color': value < 30 ? '#ee8888' : value < 60 ? '#eeee88' : '#88ee88'}">
+          <span class="value" [ngStyle]="{'width': value > 100 ? '100%' : value +'%', 'background-color': value < 30 ? '#ee8888' : value < 60 ? '#eeee88' : '#88ee88'}">
           </span>
         </div>
     </div>
