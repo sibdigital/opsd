@@ -57,7 +57,7 @@
     "@types/mousetrap": "^1.5.33",
     "@types/promises-a-plus": "0.0.27",
     "@types/rosie": "0.0.36",
-    "@types/urijs": "^1.15.38",
+    "@types/urijs": "~1.15.38",
     "@types/webpack-env": "^1.13.6",
     "@uirouter/angular": "^2.0.2",
     "@uirouter/core": "^5.0.21",
@@ -125,6 +125,7 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "ui-select": "~0.19.6",
     "url-loader": "^1.1.2",
+    "webfonts-generator": "^0.4.0",
     "webpack-cli": "^3.1.2",
     "zone.js": "^0.8.29"
   },
