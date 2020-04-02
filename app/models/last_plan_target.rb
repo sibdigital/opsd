@@ -13,7 +13,13 @@ class LastPlanTarget
     end
   end
 
-  def self.get_now(projects, time = Date.today)
+  def self.get_now(projects)
+    ActiveRecord::Base.connection.exec_query(
+      "select * from slice_last_quartered_plan_targets('#{Date.today}' :: TIMESTAMP WITHOUT TIME ZONE, '{#{projects}}')"
+    ).to_hash
+  end
+
+  def self.get_by_date(projects, time)
     ActiveRecord::Base.connection.exec_query(
       "select * from slice_last_quartered_plan_targets('#{time}' :: TIMESTAMP WITHOUT TIME ZONE, '{#{projects}}')"
     ).to_hash

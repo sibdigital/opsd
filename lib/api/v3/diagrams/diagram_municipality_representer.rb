@@ -42,7 +42,7 @@ module API
 
         def indicator_data(nat_proj)
           max = 1
-          average = 0.9
+          average = 0.8
           net_otkloneniy = 0
           small_otkloneniya = 0
           big_otkloneniya = 0
