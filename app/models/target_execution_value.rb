@@ -11,7 +11,7 @@ class TargetExecutionValue < ActiveRecord::Base
         record.errors.add(attr, "Значение за год уже присутствует")
       end
     else
-      if TargetExecutionValue.where("year = ? and target_id = ? and not quarter is null", record.year, record.target_id).count.positive?
+      if TargetExecutionValue.where("year = ? and target_id = ? and quarter = ?", record.year, record.target_id, value).count.positive?
         record.errors.add(attr, "Значение за квартал уже присутствует")
         #Target.errors.add(attr, "Значение за квартал уже присутствует")
       end
