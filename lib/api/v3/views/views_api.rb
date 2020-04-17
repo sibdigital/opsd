@@ -349,24 +349,26 @@ module API
               # targets = targets.where("project_id in (" + @projects.join(",") + ")").map(&:id)
               projects = Project.where("id in (" + @projects.join(",") + ")")
               slice_fact_now = LastFactTarget.get_now(@projects.join(","))
-              slice_fact_prev = LastFactTarget.get_previous_quarter(@projects.join(","))
+              #slice_fact_prev = LastFactTarget.get_previous_quarter(@projects.join(","))
               slice_fact_prev_year = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year - 1.day)
-              slice_fact_now_I = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year)
-              slice_fact_now_II = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year + 3.month)
-              slice_fact_now_III = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year + 6.month)
-              slice_fact_now_IV = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year + 9.month)
-              slice_fact_next_I = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 1.day)
-              slice_fact_next_II = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 3.month + 1.day)
-              slice_fact_next_III = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 6.month + 1.day)
-              slice_fact_next_IV = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 9.month + 1.day)
               slice_plan_prev_year = LastPlanTarget.get_by_date(@projects.join(","), Time.now.end_of_year - 1.day)
+              #fact_now_year = 1
+              #fact_next_year = 1
+              #slice_fact_now_I = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year)
+              #slice_fact_now_II = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year + 3.month)
+              #slice_fact_now_III = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year + 6.month)
+              #slice_fact_now_IV = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year + 9.month)
+              #slice_fact_next_I = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 1.day)
+              #slice_fact_next_II = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 3.month + 1.day)
+              #slice_fact_next_III = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 6.month + 1.day)
+              #slice_fact_next_IV = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 9.month + 1.day)
               plan_fact_current_year = PlanFactQuarterlyTargetValue.where(project_id: @projects, year: Time.now.beginning_of_year.year).as_json
               plan_fact_next_year = PlanFactQuarterlyTargetValue.where(project_id: @projects, year: (Time.now.end_of_year + 1.day).year).as_json
               # slice_fact_next = LastFactTarget.get_next_quarter(@projects.join(","))
               slice_plan_now = FirstPlanTarget.get_now(@projects.join(","))
-              slice_plan_prev = FirstPlanTarget.get_previous_quarter(@projects.join(","))
-              slice_plan_next = FirstPlanTarget.get_next_quarter(@projects.join(","))
-              slice_plan_end = LastPlanTarget.get_ends(@projects.join(","))
+              #slice_plan_prev = FirstPlanTarget.get_previous_quarter(@projects.join(","))
+              #slice_plan_next = FirstPlanTarget.get_next_quarter(@projects.join(","))
+              #slice_plan_end = LastPlanTarget.get_ends(@projects.join(","))
 
               # pfqtv = PlanFactQuarterlyTargetValue.where("target_id in (" + targets.join(",") + ") and project_id in (" + @projects.join(",") + ")")
               # pfqtv = pfqtv.offset(to_i_or_nil(params[:offset])) if params[:offset].present?
@@ -391,28 +393,28 @@ module API
                   stroka['otvetstvenniy_id'] = t.resultassigned ? t.resultassigned.id : ''
                   stroka['otvetstvenniy'] = t.resultassigned ? t.resultassigned.fio : ''
                   target_plan_now = slice_plan_now.find {|slice| slice["target_id"] == t.id}
-                  target_plan_prev = slice_plan_prev.find {|slice| slice["target_id"] == t.id}
-                  target_plan_next = slice_plan_next.find {|slice| slice["target_id"] == t.id}
-                  target_plan_end = slice_plan_end.find {|slice| slice["target_id"] == t.id}
+                  #target_plan_prev = slice_plan_prev.find {|slice| slice["target_id"] == t.id}
+                  #target_plan_next = slice_plan_next.find {|slice| slice["target_id"] == t.id}
+                  #target_plan_end = slice_plan_end.find {|slice| slice["target_id"] == t.id}
                   target_fact_now = slice_fact_now.select {|slice| slice["target_id"] == t.id}
-                  target_fact_prev = slice_fact_prev.select {|slice| slice["target_id"] == t.id}
+                  #target_fact_prev = slice_fact_prev.select {|slice| slice["target_id"] == t.id}
                   target_plan_prev_year = slice_plan_prev_year.find {|slice| slice["target_id"] == t.id}
                   target_fact_prev_year = slice_fact_prev_year.find {|slice| slice["target_id"] == t.id}
                   target_plan_fact_current_year = plan_fact_current_year.find {|slice| slice["target_id"] == t.id}
                   target_plan_fact_next_year = plan_fact_next_year.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_now_I = slice_fact_now_I.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_now_II = slice_fact_now_II.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_now_III = slice_fact_now_III.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_now_IV = slice_fact_now_IV.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_next_I = slice_fact_next_I.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_next_II = slice_fact_next_II.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_next_III = slice_fact_next_III.find {|slice| slice["target_id"] == t.id}
-                  target_slice_fact_next_IV = slice_fact_next_IV.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_now_I = slice_fact_now_I.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_now_II = slice_fact_now_II.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_now_III = slice_fact_now_III.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_now_IV = slice_fact_now_IV.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_next_I = slice_fact_next_I.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_next_II = slice_fact_next_II.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_next_III = slice_fact_next_III.find {|slice| slice["target_id"] == t.id}
+                  #target_slice_fact_next_IV = slice_fact_next_IV.find {|slice| slice["target_id"] == t.id}
 
-                  stroka['target_prev'] = target_plan_prev.nil? ? 0.0 : target_plan_prev["value"].nil? ? 0.0 : target_plan_prev["value"].to_f
+                  #stroka['target_prev'] = target_plan_prev.nil? ? 0.0 : target_plan_prev["value"].nil? ? 0.0 : target_plan_prev["value"].to_f
                   stroka['target_now'] = target_plan_now.nil? ? 0.0 : target_plan_now["value"].nil? ? 0.0 : target_plan_now["value"].to_f
-                  stroka['target_next'] = target_plan_next.nil? ? 0.0 : target_plan_next["value"].nil? ? 0.0 : target_plan_next["value"].to_f
-                  stroka['target_end'] = target_plan_end.nil? ? 0.0 : target_plan_end["value"].nil? ? 0.0 : target_plan_end["value"].to_f
+                  #stroka['target_next'] = target_plan_next.nil? ? 0.0 : target_plan_next["value"].nil? ? 0.0 : target_plan_next["value"].to_f
+                  #stroka['target_end'] = target_plan_end.nil? ? 0.0 : target_plan_end["value"].nil? ? 0.0 : target_plan_end["value"].to_f
                   stroka['target_prev_year_plan'] = target_plan_prev_year.nil? ? 0.0 : target_plan_prev_year["value"].nil? ? 0.0 : target_plan_prev_year["value"].to_f
                   stroka['target_prev_year_fact'] = target_fact_prev_year.nil? ? 0.0 : target_fact_prev_year["value"].nil? ? 0.0 : target_fact_prev_year["value"].to_f
                   target_plan_current_year = if target_plan_fact_current_year.nil?
@@ -433,17 +435,33 @@ module API
                                              target_plan_fact_next_year["target_quarter4_value"].nil? ? 0.0 : target_plan_fact_next_year["target_quarter4_value"].to_f]
                                           end
                   stroka['target_next_year_plan'] = target_plan_next_year
-                  target_fact_current_year =[target_slice_fact_now_I.nil? ? 0.0 : target_slice_fact_now_I["value"].nil? ? 0.0 : target_slice_fact_now_I["value"].to_f,
-                                             target_slice_fact_now_II.nil? ? 0.0 : target_slice_fact_now_II["value"].nil? ? 0.0 : target_slice_fact_now_II["value"].to_f,
-                                             target_slice_fact_now_III.nil? ? 0.0 : target_slice_fact_now_III["value"].nil? ? 0.0 : target_slice_fact_now_III["value"].to_f,
-                                             target_slice_fact_now_IV.nil? ? 0.0 : target_slice_fact_now_IV["value"].nil? ? 0.0 : target_slice_fact_now_IV["value"].to_f]
+                  target_fact_current_year = if target_plan_fact_current_year.nil?
+                                               [0.0, 0.0, 0.0, 0.0]
+                                             else
+                                               [target_plan_fact_current_year["fact_quarter1_value"].nil? ? 0.0 : target_plan_fact_current_year["fact_quarter1_value"].to_f,
+                                                target_plan_fact_current_year["fact_quarter2_value"].nil? ? 0.0 : target_plan_fact_current_year["fact_quarter2_value"].to_f,
+                                                target_plan_fact_current_year["fact_quarter3_value"].nil? ? 0.0 : target_plan_fact_current_year["fact_quarter3_value"].to_f,
+                                                target_plan_fact_current_year["fact_quarter4_value"].nil? ? 0.0 : target_plan_fact_current_year["fact_quarter4_value"].to_f]
+                                             end
+                  #target_fact_current_year =[target_slice_fact_now_I.nil? ? 0.0 : target_slice_fact_now_I["value"].nil? ? 0.0 : target_slice_fact_now_I["value"].to_f,
+                  #                           target_slice_fact_now_II.nil? ? 0.0 : target_slice_fact_now_II["value"].nil? ? 0.0 : target_slice_fact_now_II["value"].to_f,
+                  #                           target_slice_fact_now_III.nil? ? 0.0 : target_slice_fact_now_III["value"].nil? ? 0.0 : target_slice_fact_now_III["value"].to_f,
+                  #                           target_slice_fact_now_IV.nil? ? 0.0 : target_slice_fact_now_IV["value"].nil? ? 0.0 : target_slice_fact_now_IV["value"].to_f]
                   stroka['target_current_year_fact'] = target_fact_current_year
-                  target_fact_next_year =[target_slice_fact_next_I.nil? ? 0.0 : target_slice_fact_next_I["value"].nil? ? 0.0 : target_slice_fact_next_I["value"].to_f,
-                                          target_slice_fact_next_II.nil? ? 0.0 : target_slice_fact_next_II["value"].nil? ? 0.0 : target_slice_fact_next_II["value"].to_f,
-                                          target_slice_fact_next_III.nil? ? 0.0 : target_slice_fact_next_III["value"].nil? ? 0.0 : target_slice_fact_next_III["value"].to_f,
-                                          target_slice_fact_next_IV.nil? ? 0.0 : target_slice_fact_next_IV["value"].nil? ? 0.0 : target_slice_fact_next_IV["value"].to_f]
+                  target_fact_next_year = if target_plan_fact_next_year.nil?
+                                            [0.0, 0.0, 0.0, 0.0]
+                                          else
+                                            [target_plan_fact_next_year["fact_quarter1_value"].nil? ? 0.0 : target_plan_fact_next_year["fact_quarter1_value"].to_f,
+                                             target_plan_fact_next_year["fact_quarter2_value"].nil? ? 0.0 : target_plan_fact_next_year["fact_quarter2_value"].to_f,
+                                             target_plan_fact_next_year["fact_quarter3_value"].nil? ? 0.0 : target_plan_fact_next_year["fact_quarter3_value"].to_f,
+                                             target_plan_fact_next_year["fact_quarter4_value"].nil? ? 0.0 : target_plan_fact_next_year["fact_quarter4_value"].to_f]
+                                          end
+                  #target_fact_next_year =[target_slice_fact_next_I.nil? ? 0.0 : target_slice_fact_next_I["value"].nil? ? 0.0 : target_slice_fact_next_I["value"].to_f,
+                  #                        target_slice_fact_next_II.nil? ? 0.0 : target_slice_fact_next_II["value"].nil? ? 0.0 : target_slice_fact_next_II["value"].to_f,
+                  #                        target_slice_fact_next_III.nil? ? 0.0 : target_slice_fact_next_III["value"].nil? ? 0.0 : target_slice_fact_next_III["value"].to_f,
+                  #                        target_slice_fact_next_IV.nil? ? 0.0 : target_slice_fact_next_IV["value"].nil? ? 0.0 : target_slice_fact_next_IV["value"].to_f]
                   stroka['target_next_year_fact'] = target_fact_next_year
-                  stroka['fact_prev'] = target_fact_prev.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
+                  #stroka['fact_prev'] = target_fact_prev.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
                   stroka['fact_now'] = target_fact_now.sum { |f| f["value"].nil? ? 0 : f["value"].to_f }
 
                   hash['targets'] << stroka

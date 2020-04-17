@@ -178,7 +178,7 @@ export class BlueTableIndicatorService extends BlueTableService {
               });
               row.targets.map((target:HalResource) => {
                 let fact:number = target.fact_now;
-                let goal:number = target.target_end;
+                let goal:number = target.target_now;
                 data.push({
                   parentId: row.project_id + 'Project',
                   id: target.target_id,
