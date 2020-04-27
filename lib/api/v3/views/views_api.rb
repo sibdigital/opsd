@@ -360,7 +360,7 @@ module API
               #slice_fact_now_IV = LastFactTarget.get_by_date(@projects.join(","), Time.now.beginning_of_year + 9.month)
               #slice_fact_next_I = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 1.day)
               #slice_fact_next_II = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 3.month + 1.day)
-              #slice_fact_next_III = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 6.month + 1.day)
+              #slice_fact_next_III = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 6.mo  nth + 1.day)
               #slice_fact_next_IV = LastFactTarget.get_by_date(@projects.join(","), Time.now.end_of_year + 9.month + 1.day)
               plan_fact_current_year = PlanFactQuarterlyTargetValue.where(project_id: @projects, year: Time.now.beginning_of_year.year).as_json
               plan_fact_next_year = PlanFactQuarterlyTargetValue.where(project_id: @projects, year: (Time.now.end_of_year + 1.day).year).as_json
