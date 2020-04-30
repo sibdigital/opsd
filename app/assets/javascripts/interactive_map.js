@@ -1,14 +1,14 @@
 
 var description_info;
-description_info=new Array(22);
-for (var i = 0; i < 22; i++) {
+description_info=new Array(23);
+for (var i = 0; i < 23; i++) {
   description_info[i]="";
 }
 
 function setMilestones()
 {
-  description_info=new Array(22);
-  for (var i = 0; i < 22; i++) {
+  description_info=new Array(23);
+  for (var i = 0; i < 23; i++) {
     description_info[i]="<table class='generic-table' style='width: 100%'>"+
                         "<thead>"+
                         "<tr>"+
@@ -25,7 +25,7 @@ function setMilestones()
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
   today = yyyy + '-' + mm + '-' + dd;
-  var matrix = new Array(22);
+  var matrix = new Array(23);
   for (var i = 0; i < matrix.length; i++) {
     matrix[i] = new Array(4);
     for (var j=0;j<matrix[i].length;j++)
