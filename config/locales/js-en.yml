@@ -204,7 +204,7 @@ en:
     label_add_column_before: Добавить столбец перед
     label_add_columns: Добавить столбец
     label_add_comment: Добавить комментарий
-    label_add_comment_title: Комментарий и тип @ для уведомления других людей
+    label_add_comment_title: Комментарий (для уведомления других людей используйте @)
     label_add_row_after: Добавить строку после
     label_add_row_before: Добавить строку перед
     label_add_selected_columns: Добавить выбранные столбцы
