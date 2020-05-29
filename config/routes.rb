@@ -380,6 +380,9 @@ OpenProject::Application.routes.draw do
     resources :report_progress_project do
     end
 
+    resources :report_wp_by_period do
+    end
+
     resources :report_passport do
     end
 

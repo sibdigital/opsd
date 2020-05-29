@@ -1093,6 +1093,7 @@ en:
   button_approve: Утвердить
   button_confirm: Согласовать
   button_like: Понравилось
+  button_form: Сформировать
   #  )
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
@@ -2004,6 +2005,7 @@ en:
   ladel_additional: Дополнительно
   label_reports: Отчеты
   label_report_progress_project: Отчет о ходе реализации проекта
+  label_report_wp_by_period: Отчет о исполнении пакетов работ за период
   label_report_passport: Паспорт регионального проекта
   label_report_change_request: Запрос на изменение паспорта
   label_resources: Ресурсы
@@ -2711,6 +2713,7 @@ en:
   permission_view_messages: Просмотр сообщений
   permission_view_members: Просмотреть участников
   permission_view_report_progress_project_page: Просмотр отчета о ходе реализации проекта
+  permission_view_report_wp_by_period_page: Просмотр отчета о ходе реализации пакетов работ за период
   permission_view_report_passport_page: Просмотр паспорта регионального проекта
   permission_view_report_change_request_page: Просмотр изменений паспорта регионального проекта
   permission_view_reportings: Просмотр отчетов
@@ -2739,6 +2742,7 @@ en:
   project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
   project_module_report_progress_project: Отчет о ходе реализации проекта
+  project_module_report_wp_by_period: Отчет о ходе реализации пакетов работ за период
   project_module_report_passport: Паспорт регионального проекта
   project_module_report_change_request: Запрос на изменение паспорта регионального проекта
   project_module_stages: Этапы
@@ -3387,11 +3391,11 @@ en:
       column:
         assigned_to: Ответственный
         type: Тип
-        due_date: Дате окончания
+        due_date: до
         fact_due_date: Фактическая дата окончания
         name: Наименование
         status: Состояние
-        start_date: Дата начала
+        start_date: от
       columns: Столбцы
       comparisons: Сравнения
       comparison:
