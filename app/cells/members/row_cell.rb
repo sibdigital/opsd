@@ -17,7 +17,11 @@ module Members
     end
 
     def lastname
-      link_to user.lastname, user_path(user) if user
+      if user
+        link_to user.lastname, user_path(user)
+      else
+        member.name + " (Группа)"
+      end
     end
 
     def firstname
@@ -29,6 +33,10 @@ module Members
       link_to user.patronymic, user_path(user) if user
     end
     #)
+
+    def phone_wrk
+      user.phone_wrk if user
+    end
 
     def mail
       if user
