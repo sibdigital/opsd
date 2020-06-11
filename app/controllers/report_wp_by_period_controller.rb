@@ -78,7 +78,7 @@ class ReportWpByPeriodController < ApplicationController
     sheet = @workbook['КТ и Мероприятия']
     start_index = 4
     @selected_wps.each_with_index do |wp, i|
-      attch = Attachment.where(container_type: 'WorkPackage',container_id: wp.id)
+      attch = Attachment.where(container_type: 'WorkPackage', container_id: wp.id)
       file_str = ""
       attch.map do |a|
         file_str += a.filename + ", "
@@ -89,7 +89,7 @@ class ReportWpByPeriodController < ApplicationController
       cmmnt.map do |c|
         com_str += (c.notes.include?("_Обновлено автоматически") or c.notes == nil or c.notes == "") ? "" : "\n" + c.notes
       end
-      sheet.insert_cell(start_index + i, 0, i)
+      sheet.insert_cell(start_index + i, 0, i + 1)
       sheet.insert_cell(start_index + i, 1, wp.status.name)
       sheet.insert_cell(start_index + i, 2, wp.subject)
       sheet.insert_cell(start_index + i, 3, wp.due_date.strftime("%d.%m.%Y"))
@@ -97,10 +97,22 @@ class ReportWpByPeriodController < ApplicationController
       sheet.insert_cell(start_index + i, 5, wp.assigned_to.nil? ? "" : wp.assigned_to.fio)
       sheet.insert_cell(start_index + i, 6, file_str)
       sheet.insert_cell(start_index + i, 7, com_str)
+      for j in 0..7
+        cell_format(i, sheet, start_index, j)
+      end
     end
   end
 
   private
+
+  def cell_format(i, sheet, start_index, j)
+    sheet[start_index + i][j].change_text_wrap(true)
+    sheet[start_index + i][j].
+    sheet.sheet_data[start_index + i][0].change_border(:top, 'thin')
+    sheet.sheet_data[start_index + i][0].change_border(:left, 'thin')
+    sheet.sheet_data[start_index + i][0].change_border(:right, 'thin')
+    sheet.sheet_data[start_index + i][0].change_border(:bottom, 'thin')
+  end
 
   def find_optional_project
     return true unless params[:project_id]
