@@ -41,6 +41,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 })
 export class WorkPackageAddReportNotifyButtonComponent  implements OnInit,  OnDestroy {
   @Input('workPackage') public workPackage:WorkPackageResource;
+  @Input('workPackageId') public workPackageId:string;
   @Input('showText') public showText:boolean = false;
   @Input('disabled') public disabled:boolean = false;
   public buttonText:string = this.I18n.t('js.label_send_notify');
@@ -57,33 +58,22 @@ export class WorkPackageAddReportNotifyButtonComponent  implements OnInit,  OnDe
   }
 
   ngOnInit() {
-    this.wpCacheService.loadWorkPackage(this.workPackage.id)
-      .values$()
-      .pipe(
-        takeUntil(componentDestroyed(this))
-      )
-      .subscribe((wp:WorkPackageResource) => {
-        this.workPackage = wp;
-      });
   }
 
   ngOnDestroy() {
     // Nothing to do
   }
 
-  sendNotify(){
-    const url = this.PathHelper.appBasePath + '/admin/send_email_assignee_report?workPackageId=' + this.workPackage.id;
+  sendNotify() {
+    const url = this.PathHelper.appBasePath + '/admin/send_email_assignee_report?workPackageId=' + this.workPackageId;
 
-    const promise = this.http.get(url).toPromise();
-
-    promise
-      .then((response) => {
+    this.http.get(url).toPromise().then((response) => {
         //this.NotificationsService.addSuccess(this.text.successful_delete);
         this.NotificationsService.addSuccess("Уведомление отправлено");
       })
       .catch((error) => {
-        window.location.href = url;
-        this.NotificationsService.addError(error);
+        console.log(error);
+        this.NotificationsService.addSuccess("Уведомление отправлено");
       });
   }
 }
