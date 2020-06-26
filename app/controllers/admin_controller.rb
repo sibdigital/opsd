@@ -30,7 +30,7 @@
 class AdminController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_admin, except: [:send_email_assignee_from_task, :send_email_assignee_report]
 
   menu_item :plugins, only: [:plugins]
   menu_item :info, only: [:info]
