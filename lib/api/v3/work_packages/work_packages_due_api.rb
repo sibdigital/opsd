@@ -14,7 +14,7 @@ module API
 
             work_packages = WorkPackage.with_status_open
                       .where(plan_type: :execution, type: 2)
-                      .where("due_date < now() - interval '1 day'")
+                      .where("due_date < now()::date - interval '1 day'")
                       .where(project_id: project ? project : projects)
 
             if params['raion']
