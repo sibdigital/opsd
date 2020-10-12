@@ -1479,6 +1479,12 @@ class ReportProgressProjectController < ApplicationController
           Rails.logger.info(e.message)
         end
 
+        attch = Attachment.where(container_type: 'WorkPackage', container_id: result['id'])
+        file_str = ""
+        attch.map do |a|
+          file_str += a.filename + ", "
+        end
+        file_str = attch.count > 0 ? file_str.first(-2) : ""
         sheet.insert_cell(start_index+i+k, 0, numberTarget)
         sheet.insert_cell(start_index+i+k, 1, result["control_level"])
         sheet.insert_cell(start_index+i+k, 2, "")
@@ -1486,7 +1492,8 @@ class ReportProgressProjectController < ApplicationController
         sheet.insert_cell(start_index+i+k, 4, period_plan)
         sheet.insert_cell(start_index+i+k, 5, "")
         sheet.insert_cell(start_index+i+k, 6, username)
-        sheet.insert_cell(start_index+i+k, 7, result["comment"])
+        sheet.insert_cell(start_index+i+k, 7, file_str)
+        sheet.insert_cell(start_index+i+k, 8, result["comment"])
 
 
         #  0ba53d -зеленый
@@ -1509,6 +1516,7 @@ class ReportProgressProjectController < ApplicationController
         sheet[start_index+i+k][5].change_text_wrap(true)
         sheet[start_index+i+k][6].change_text_wrap(true)
         sheet[start_index+i+k][7].change_text_wrap(true)
+        sheet[start_index+i+k][8].change_text_wrap(true)
 
 
 
@@ -1551,6 +1559,11 @@ class ReportProgressProjectController < ApplicationController
         sheet.sheet_data[start_index+i+k][7].change_border(:left, 'thin')
         sheet.sheet_data[start_index+i+k][7].change_border(:right, 'thin')
         sheet.sheet_data[start_index+i+k][7].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][8].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][8].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][8].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][8].change_border(:bottom, 'thin')
 
         parent_id = result["parent_id"]
         start_index += 1
