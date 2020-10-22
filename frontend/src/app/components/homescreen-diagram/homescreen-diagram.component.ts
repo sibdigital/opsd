@@ -87,25 +87,6 @@ export class HomescreenDiagramComponent implements OnInit {
 
   ngOnInit() {
     this.refresh();
-/*    if (!this.raionId) {
-      this.raionId = 0;
-    }*/
-/*    this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName/!*, {raionId: this.raionId}*!/)
-      .toPromise()
-      .then((resource:DiagramHomescreenResource) => {
-        if (resource.label === 'visible') {
-          this.element.nativeElement.parentElement.removeAttribute('style');
-          this.element.nativeElement.parentElement.style.visibility = 'visible';
-          this.element.nativeElement.parentElement.style.width = '350px';
-        }
-        if (resource.label === 'hidden') {
-          this.element.nativeElement.parentElement.removeAttribute('style');
-          this.element.nativeElement.parentElement.style.display = 'none';
-        }
-        this.barChartData[0].data = resource.data;
-        this.barChartData[0].label = resource.label;
-      });*/
 
   }
 
@@ -123,26 +104,13 @@ export class HomescreenDiagramComponent implements OnInit {
       {
         data: this.data || [], //default data set
         label: this.label || '', //default label
-        backgroundColor: this.chartColors || ['#00b050', '#ffc000', '#c00000', '#1f497d'] //default color set
+        backgroundColor: this.chartColors || ['#00b050',
+          '#c00000',
+          '#1f497d',
+          '#ffc000'
+        ] //default color set
       }
     ];
-    /*let barChartName = this.element.nativeElement.getAttribute('chart-name') || 0;
-    this.halResourceService
-      .get<DiagramHomescreenResource>(this.pathHelper.api.v3.diagrams.toString() + '/' + barChartName, {project: project})
-      .toPromise()
-      .then((resource:DiagramHomescreenResource) => {
-        this.barChartData[0].data = resource.data;
-        this.barChartData[0].label = resource.label;
-        if (resource.label === 'visible') {
-          this.element.nativeElement.parentElement.removeAttribute('style');
-          this.element.nativeElement.parentElement.style.visibility = 'visible';
-          this.element.nativeElement.parentElement.style.width = '350px';
-        }
-        if (resource.label === 'hidden') {
-          this.element.nativeElement.parentElement.removeAttribute('style');
-          this.element.nativeElement.parentElement.style.display = 'none';
-        }
-      });*/
   }
 
   public refreshByMunicipality(raionId:number) {
