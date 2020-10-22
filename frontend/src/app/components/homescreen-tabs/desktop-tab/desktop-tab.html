@@ -5,7 +5,8 @@
                 <div style="max-width:300px">
                     <p style="text-align: center;font-weight: bold;margin: -2px;">Показатели</p>
                     <homescreen-diagram [data]="this.targetChartData" [label]='this.targetChartLabel'
-                                        [chartLabels]='["Нет откл.","Небольшие откл.","Значит. откл", "Нет данных"]'>
+                                        [chartLabels]='["Нет откл.","Небольшие откл.","Значит. откл", "Нет данных"]'
+                                        [chartColors]='["#00b050","#1f497d","#c00000","#ffc000"]'>
                     </homescreen-diagram>
                 </div>
             </div>
