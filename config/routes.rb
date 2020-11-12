@@ -503,6 +503,8 @@ OpenProject::Application.routes.draw do
   resources :strategic_map do
     get :get_list, on: :collection
   end
+
+  resources :colorlight
   #)
 
   #zbd(

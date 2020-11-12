@@ -394,7 +394,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new {
               User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:view_interactive_map))
             }
-
+  menu.push :colorlight,
+            {controller: '/colorlight', action: 'index'},
+            icon: 'icon2 icon-info1',
+            caption: :label_colorlight,
+            if: Proc.new {
+              User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:view_interactive_map))
+            },
+            parent: :project_office
   menu.push :nat_fed_gov,
             {},
             caption: :label_national_projects_government_programs,
