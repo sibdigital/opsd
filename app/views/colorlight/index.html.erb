@@ -1,3 +1,7 @@
 <% html_title l(:label_colorlight) %>
-<%= toolbar title: l(:label_colorlight)%>
-<%= link_to "Сформировать", {action: :create}, :method => :post, class: 'button' %>
+<%= toolbar title: l(:label_colorlight) %>
+<%= labelled_tabular_form_for :filter do |f| %>
+  <%= styled_select_tag("type", options_for_select(ArbitaryObjectType.all.collect { |e| [e.name, e.id] }, {required: true}), container_class: '-middle') %>
+  <br>
+  <%= styled_button_tag l(:button_form), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

@@ -11,15 +11,81 @@ class ColorlightController < ApplicationController
   layout 'admin'
   before_action :authorize_global, only: [:index]
 
-
   def index; end
 
-  def create
+  def cell_style(sheet ,x, y, ratio)
+    sheet[x][y].change_text_wrap(true)
+    sheet[x][y].change_border(:top, 'thin')
+    sheet[x][y].change_border(:bottom, 'thin')
+    sheet[x][y].change_border(:left, 'thin')
+    sheet[x][y].change_border(:right, 'thin')
+    sheet[x][y].change_fill(if ratio > 70
+                              Color.find_by(name: 'colorlight_top').hexcode[1..-1]
+                            else
+                              ratio >= 35 ? Color.find_by(name: 'colorlight_mid').hexcode[1..-1] : Color.find_by(name: 'colorlight_low').hexcode[1..-1]
+                            end)
+  end
+
+  def write_xlsx
+    sheet = @workbook['Список']
+    start_row = 5
+    @items.each_with_index do |item, index|
+      wp = WorkPackage.find(item["id"])
+      sheet.insert_cell(start_row + index, 0, index + 1)
+      sheet.insert_cell(start_row + index, 1, item["project_name"])
+      sheet.insert_cell(start_row + index, 2, item["ao_name"] + ' - ' + item["subject"])
+      if item["eis_href"]
+        sheet.add_cell(start_row + index, 3, '', %Q{HYPERLINK("} + item["eis_href"] + %Q{","} + item["contract_num"] + %Q{")})
+        sheet[start_row + index][3].change_font_color('0000ff')
+        sheet[start_row + index][3].datatype = RubyXL::DataType::RAW_STRING
+      else
+        sheet.add_cell(start_row + index, 3, item["contract_num"])
+      end
+      sheet.insert_cell(start_row + index, 4, item["contract_date"])
+      sheet.insert_cell(start_row + index, 5, item["date_end"])
+      sheet.insert_cell(start_row + index, 6, item["executor"])
+      sheet.insert_cell(start_row + index, 7, wp.cost_object.material_budget_items.sum(:units))
+      sheet.insert_cell(start_row + index, 8, wp.cost_object.material_budget_items.where(cost_type_id: CostType.find_by(name: 'Региональный бюджет')).sum(:units))
+      sheet.insert_cell(start_row + index, 9, wp.cost_object.material_budget_items.where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет')).sum(:units))
+      sheet.insert_cell(start_row + index, 10, wp.cost_entries.sum(:units))
+      sheet.insert_cell(start_row + index, 11, wp.cost_entries.where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет')).sum(:units))
+      sheet.insert_cell(start_row + index, 12, wp.cost_entries.where(cost_type_id: CostType.find_by(name: 'Региональный бюджет')).sum(:units))
+      risks = []
+      if wp.work_package_problems.count.positive?
+        wp.work_package_problems.each do |p|
+          risks.push(p.description)
+        end
+      end
+      sheet.insert_cell(start_row + index, 13, risks.join(','))
+      sheet.insert_cell(start_row + index, 14, item["raion_name"])
+      sheet.insert_cell(start_row + index, 15, wp.done_ratio)
+      sheet.change_row_font_size(start_row + index, 12)
+      16.times do |j|
+        cell_style(sheet, start_row + index, j, wp.done_ratio.to_i)
+      end
+    end
     # code here
+  end
+
+  def create
+    @items = get_work_packages(params['type'].to_i)
+    template_path = File.absolute_path('.') + '/app/views/colorlight/blank.xlsx'
+    @workbook = RubyXL::Parser.parse(template_path)
+
+    write_xlsx
+
+    dir_path = File.absolute_path('.') + '/public/reports'
+    unless File.directory?(dir_path)
+      Dir.mkdir dir_path
+    end
+    @ready = dir_path + '/Cветофор_' + ArbitaryObjectType.find(params['type'].to_i).name + '.xlsx'
+    @workbook.write(@ready)
+    send_to_user filepath: @ready
   end
 
   private
 
+  # object_type_id from arbitary_objects.types
   def get_work_packages(object_type_id)
     sql_command = <<-SQL
       with
@@ -44,10 +110,7 @@ class ColorlightController < ApplicationController
       left join projects as p on wp.project_id = p.id
       order by project_name, sort_code
     SQL
-
-    result = ActiveRecord::Base.connection.execute(
-      sanitize_sql_for_assignment([sql_command, object_type_id: object_type_id])
-    )
-    result
+    result = ActiveRecord::Base.connection.execute(ActiveRecord::Base.sanitize_sql([sql_command, object_type_id: object_type_id]))
+    result.to_a
   end
 end
