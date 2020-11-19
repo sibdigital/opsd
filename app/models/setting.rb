@@ -339,7 +339,7 @@ class Setting < ActiveRecord::Base
   def self.colorlight_percentage
     result = find_by(name: 'colorlight_percentage')
     if result.nil?
-      create_setting(name: 'colorlight_percentage', value: '70,25')
+      create(name: 'colorlight_percentage', value: '70,25')
       result = find_by(name: 'colorlight_percentage')
     end
     result.value.split(',')
