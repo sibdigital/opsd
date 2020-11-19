@@ -13,16 +13,21 @@ class ColorlightController < ApplicationController
 
   def index; end
 
-  def cell_style(sheet ,x, y, ratio)
+  def cell_style(sheet, x, y, ratio)
     sheet[x][y].change_text_wrap(true)
     sheet[x][y].change_border(:top, 'thin')
     sheet[x][y].change_border(:bottom, 'thin')
     sheet[x][y].change_border(:left, 'thin')
     sheet[x][y].change_border(:right, 'thin')
-    sheet[x][y].change_fill(if ratio > 70
-                              Color.find_by(name: 'colorlight_top').hexcode[1..-1]
+    sheet[x][y].change_fill(if ratio > @colorlight_percentage[0].to_i
+                              @colorlight_colors[:top][1..-1]
                             else
-                              ratio >= 35 ? Color.find_by(name: 'colorlight_mid').hexcode[1..-1] : Color.find_by(name: 'colorlight_low').hexcode[1..-1]
+                              (
+                              if ratio >= @colorlight_percentage[1].to_i
+                                @colorlight_colors[:mid][1..-1]
+                              else
+                                @colorlight_colors[:low][1..-1]
+                              end)
                             end)
   end
 
@@ -35,30 +40,68 @@ class ColorlightController < ApplicationController
       sheet.insert_cell(start_row + index, 1, item["project_name"])
       sheet.insert_cell(start_row + index, 2, item["ao_name"] + ' - ' + item["subject"])
       if item["eis_href"]
-        sheet.add_cell(start_row + index, 3, '', %Q{HYPERLINK("} + item["eis_href"] + %Q{","} + item["contract_num"] + %Q{")})
+        sheet.add_cell(start_row + index, 3, '', %{HYPERLINK("} + item["eis_href"] + %{","} + item["contract_num"] + %{")})
         sheet[start_row + index][3].change_font_color('0000ff')
         sheet[start_row + index][3].datatype = RubyXL::DataType::RAW_STRING
       else
         sheet.add_cell(start_row + index, 3, item["contract_num"])
       end
-      sheet.insert_cell(start_row + index, 4, item["contract_date"])
-      sheet.insert_cell(start_row + index, 5, item["date_end"])
+      sheet.insert_cell(start_row + index, 4, item["contract_date"] ? Date.parse(item["contract_date"]).strftime("%d.%m.%Y") : '')
+      sheet.insert_cell(start_row + index, 5, item["date_end"] ? Date.parse(item["date_end"]).strftime("%d.%m.%Y") : '')
       sheet.insert_cell(start_row + index, 6, item["executor"])
-      sheet.insert_cell(start_row + index, 7, wp.cost_object.material_budget_items.sum(:units))
-      sheet.insert_cell(start_row + index, 8, wp.cost_object.material_budget_items.where(cost_type_id: CostType.find_by(name: 'Региональный бюджет')).sum(:units))
-      sheet.insert_cell(start_row + index, 9, wp.cost_object.material_budget_items.where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет')).sum(:units))
-      sheet.insert_cell(start_row + index, 10, wp.cost_entries.sum(:units))
-      sheet.insert_cell(start_row + index, 11, wp.cost_entries.where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет')).sum(:units))
-      sheet.insert_cell(start_row + index, 12, wp.cost_entries.where(cost_type_id: CostType.find_by(name: 'Региональный бюджет')).sum(:units))
+      sheet.insert_cell(start_row + index, 7, ActiveSupport::NumberHelper.number_to_currency(
+                                                wp.cost_object.material_budget_items.sum(:units).to_f,
+                                                delimiter: ' ',
+                                                separator: ',',
+                                                precision: 2
+                                              ))
+      sheet.insert_cell(start_row + index, 8, ActiveSupport::NumberHelper.number_to_currency(
+                                                wp.cost_object.material_budget_items
+                                                    .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
+                                                    .sum(:units).to_f,
+                                                delimiter: ' ',
+                                                separator: ',',
+                                                precision: 2
+                                              ))
+      sheet.insert_cell(start_row + index, 9, ActiveSupport::NumberHelper.number_to_currency(
+                                                wp.cost_object.material_budget_items
+                                                    .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
+                                                    .sum(:units).to_f,
+                                                delimiter: ' ',
+                                                separator: ',',
+                                                precision: 2
+                                              ))
+      sheet.insert_cell(start_row + index, 10, ActiveSupport::NumberHelper.number_to_currency(
+                                                 wp.cost_entries.sum(:units).to_f,
+                                                 delimiter: ' ',
+                                                 separator: ',',
+                                                 precision: 2
+                                               ))
+      sheet.insert_cell(start_row + index, 11, ActiveSupport::NumberHelper.number_to_currency(
+                                                 wp.cost_entries
+                                                     .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
+                                                     .sum(:units).to_f,
+                                                 delimiter: ' ',
+                                                 separator: ',',
+                                                 precision: 2
+                                               ))
+      sheet.insert_cell(start_row + index, 12, ActiveSupport::NumberHelper.number_to_currency(
+                                                 wp.cost_entries
+                                                     .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
+                                                     .sum(:units).to_f,
+                                                 delimiter: ' ',
+                                                 separator: ',',
+                                                 precision: 2
+                                               ))
       risks = []
       if wp.work_package_problems.count.positive?
         wp.work_package_problems.each do |p|
           risks.push(p.description)
         end
       end
-      sheet.insert_cell(start_row + index, 13, risks.join(','))
+      sheet.insert_cell(start_row + index, 13, risks.join(', '))
       sheet.insert_cell(start_row + index, 14, item["raion_name"])
-      sheet.insert_cell(start_row + index, 15, wp.done_ratio)
+      sheet.insert_cell(start_row + index, 15, (wp.done_ratio.to_s || '0') + '%')
       sheet.change_row_font_size(start_row + index, 12)
       16.times do |j|
         cell_style(sheet, start_row + index, j, wp.done_ratio.to_i)
@@ -71,6 +114,8 @@ class ColorlightController < ApplicationController
     @items = get_work_packages(params['type'].to_i)
     template_path = File.absolute_path('.') + '/app/views/colorlight/blank.xlsx'
     @workbook = RubyXL::Parser.parse(template_path)
+    @colorlight_percentage = Setting.colorlight_percentage
+    @colorlight_colors = Color.colorlight_colors
 
     write_xlsx
 

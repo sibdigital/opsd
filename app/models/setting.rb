@@ -336,6 +336,15 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  def self.colorlight_percentage
+    result = find_by(name: 'colorlight_percentage')
+    if result.nil?
+      create_setting(name: 'colorlight_percentage', value: '70,25')
+      result = find_by(name: 'colorlight_percentage')
+    end
+    result.value.split(',')
+  end
+
   def self.can_notified_event (user, event)
     notified = false
     begin
