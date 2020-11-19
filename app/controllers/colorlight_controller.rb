@@ -49,28 +49,30 @@ class ColorlightController < ApplicationController
       sheet.insert_cell(start_row + index, 4, item["contract_date"] ? Date.parse(item["contract_date"]).strftime("%d.%m.%Y") : '')
       sheet.insert_cell(start_row + index, 5, item["date_end"] ? Date.parse(item["date_end"]).strftime("%d.%m.%Y") : '')
       sheet.insert_cell(start_row + index, 6, item["executor"])
-      sheet.insert_cell(start_row + index, 7, ActiveSupport::NumberHelper.number_to_currency(
-                                                wp.cost_object.material_budget_items.sum(:units).to_f,
-                                                delimiter: ' ',
-                                                separator: ',',
-                                                precision: 2
-                                              ))
-      sheet.insert_cell(start_row + index, 8, ActiveSupport::NumberHelper.number_to_currency(
-                                                wp.cost_object.material_budget_items
-                                                    .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
-                                                    .sum(:units).to_f,
-                                                delimiter: ' ',
-                                                separator: ',',
-                                                precision: 2
-                                              ))
-      sheet.insert_cell(start_row + index, 9, ActiveSupport::NumberHelper.number_to_currency(
-                                                wp.cost_object.material_budget_items
-                                                    .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
-                                                    .sum(:units).to_f,
-                                                delimiter: ' ',
-                                                separator: ',',
-                                                precision: 2
-                                              ))
+      if wp.cost_object
+        sheet.insert_cell(start_row + index, 7, ActiveSupport::NumberHelper.number_to_currency(
+                                                  wp.cost_object.material_budget_items.sum(:units).to_f,
+                                                  delimiter: ' ',
+                                                  separator: ',',
+                                                  precision: 2
+                                                ))
+        sheet.insert_cell(start_row + index, 8, ActiveSupport::NumberHelper.number_to_currency(
+                                                  wp.cost_object.material_budget_items
+                                                      .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
+                                                      .sum(:units).to_f,
+                                                  delimiter: ' ',
+                                                  separator: ',',
+                                                  precision: 2
+                                                ))
+        sheet.insert_cell(start_row + index, 9, ActiveSupport::NumberHelper.number_to_currency(
+                                                  wp.cost_object.material_budget_items
+                                                      .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
+                                                      .sum(:units).to_f,
+                                                  delimiter: ' ',
+                                                  separator: ',',
+                                                  precision: 2
+                                                ))
+      end
       sheet.insert_cell(start_row + index, 10, ActiveSupport::NumberHelper.number_to_currency(
                                                  wp.cost_entries.sum(:units).to_f,
                                                  delimiter: ' ',
