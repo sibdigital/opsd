@@ -180,6 +180,7 @@ class Project < ActiveRecord::Base
   has_many :plan_fact_yearly_target_values, foreign_key: 'project_id'
   has_many :plan_quarterly_target_values, foreign_key: 'project_id'
   has_many :plan_fact_quarterly_target_values, foreign_key: 'project_id'
+  has_many :contracts, foreign_key: 'project_id'
   # )
   # knm(
   has_many :target_calc_procedures
