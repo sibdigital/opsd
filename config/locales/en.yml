@@ -2698,6 +2698,7 @@ en:
   label_production_calendars: Производственные календари
   label_work_calendar: Производственный календарь
   permission_view_interactive_map: Просмотр карты
+  permission_view_colorlight: Создание отчета светофора
   permission_view_national_and_federal_projects: Просмотр проектов и программ
   permission_manage_national_and_federal_projects: Управление проектами и программами
   permission_manage_hpi_values: Управление оценками ВДЛ
@@ -2760,6 +2761,7 @@ en:
   project_module_wiki: Управление знаниями
   project_module_head_performance_indicator_values: Оценка высшего должностного лица
   project_module_interactive_map: Карта районов
+  project_module_colorlight: Светофор
   project_module_strategic_map: Стратегическая карта
   project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:

@@ -492,6 +492,11 @@ Redmine::AccessControl.map do |map|
   map.permission :municipality,
                  {homescreen: %i[ vkladka1 index ]}
 
+  map.project_module :colorlight do |i_map|
+    i_map.permission :view_colorlight,
+                     { project_colorlight: %i[ index create] },
+                     require: :member
+    end
   map.project_module :interactive_map do |i_map|
     i_map.permission :view_interactive_map,
                      { project_interactive_map: %i[ index get_wps] },

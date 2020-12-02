@@ -825,6 +825,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-map',
             if: Proc.new { |p| p.module_enabled?('interactive_map') },
             parent: :reports# ,
+  menu.push :project_colorlight,
+            {controller: '/project_colorlight', action: 'index'},
+            caption: :label_colorlight,
+            param: :project_id,
+            icon: 'icon2 icon-map',
+            if: Proc.new { |p| p.module_enabled?('colorlight') },
+            parent: :reports# ,
   #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   # if: Proc.new {
   #   User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:view_interactive_map))

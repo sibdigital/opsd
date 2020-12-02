@@ -5,11 +5,10 @@ require 'rubyXL/convenience_methods/font'
 require 'rubyXL/convenience_methods/workbook'
 require 'rubyXL/convenience_methods/worksheet'
 
-class ColorlightController < ApplicationController
+class ProjectColorlightController < ApplicationController
   include Downloadable
-
-  layout 'admin'
-  before_action :authorize_global, only: [:index]
+  menu_item :project_colorlight
+  before_action :find_project, :authorize, only: [:index]
 
   def index; end
 
@@ -51,50 +50,50 @@ class ColorlightController < ApplicationController
       sheet.insert_cell(start_row + index, 6, item["executor"])
       if wp.cost_object
         sheet.insert_cell(start_row + index, 7, ActiveSupport::NumberHelper.number_to_currency(
-                                                  wp.cost_object.material_budget_items.sum(:units).to_f,
-                                                  delimiter: ' ',
-                                                  separator: ',',
-                                                  precision: 2
-                                                ))
+            wp.cost_object.material_budget_items.sum(:units).to_f,
+            delimiter: ' ',
+            separator: ',',
+            precision: 2
+        ))
         sheet.insert_cell(start_row + index, 8, ActiveSupport::NumberHelper.number_to_currency(
-                                                  wp.cost_object.material_budget_items
-                                                      .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
-                                                      .sum(:units).to_f,
-                                                  delimiter: ' ',
-                                                  separator: ',',
-                                                  precision: 2
-                                                ))
+            wp.cost_object.material_budget_items
+                .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
+                .sum(:units).to_f,
+            delimiter: ' ',
+            separator: ',',
+            precision: 2
+        ))
         sheet.insert_cell(start_row + index, 9, ActiveSupport::NumberHelper.number_to_currency(
-                                                  wp.cost_object.material_budget_items
-                                                      .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
-                                                      .sum(:units).to_f,
-                                                  delimiter: ' ',
-                                                  separator: ',',
-                                                  precision: 2
-                                                ))
+            wp.cost_object.material_budget_items
+                .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
+                .sum(:units).to_f,
+            delimiter: ' ',
+            separator: ',',
+            precision: 2
+        ))
       end
       sheet.insert_cell(start_row + index, 10, ActiveSupport::NumberHelper.number_to_currency(
-                                                 wp.cost_entries.sum(:units).to_f,
-                                                 delimiter: ' ',
-                                                 separator: ',',
-                                                 precision: 2
-                                               ))
+          wp.cost_entries.sum(:units).to_f,
+          delimiter: ' ',
+          separator: ',',
+          precision: 2
+      ))
       sheet.insert_cell(start_row + index, 11, ActiveSupport::NumberHelper.number_to_currency(
-                                                 wp.cost_entries
-                                                     .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
-                                                     .sum(:units).to_f,
-                                                 delimiter: ' ',
-                                                 separator: ',',
-                                                 precision: 2
-                                               ))
+          wp.cost_entries
+              .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
+              .sum(:units).to_f,
+          delimiter: ' ',
+          separator: ',',
+          precision: 2
+      ))
       sheet.insert_cell(start_row + index, 12, ActiveSupport::NumberHelper.number_to_currency(
-                                                 wp.cost_entries
-                                                     .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
-                                                     .sum(:units).to_f,
-                                                 delimiter: ' ',
-                                                 separator: ',',
-                                                 precision: 2
-                                               ))
+          wp.cost_entries
+              .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
+              .sum(:units).to_f,
+          delimiter: ' ',
+          separator: ',',
+          precision: 2
+      ))
       risks = []
       if wp.work_package_problems.count.positive?
         wp.work_package_problems.each do |p|
@@ -130,6 +129,12 @@ class ColorlightController < ApplicationController
     send_to_user filepath: @ready
   end
 
+  def find_project
+    @project = Project.find(params[:project_id])
+  rescue ActiveRecord::RecordNotFound
+    render plain: "Could not find project ##{params[:id]}.", status: 404
+  end
+
   private
 
   # object_type_id from arbitary_objects.types
@@ -161,3 +166,4 @@ class ColorlightController < ApplicationController
     result.to_a
   end
 end
+

@@ -340,6 +340,8 @@ OpenProject::Application.routes.draw do
     #knm +
     resources :target_calc_procedures
 
+    resources :project_colorlight
+
     resources :project_interactive_map do
       get :get_wps, on: :collection
     end
