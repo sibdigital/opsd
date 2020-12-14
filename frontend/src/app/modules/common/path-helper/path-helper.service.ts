@@ -99,7 +99,7 @@ export class PathHelperService {
     return this.projectPath(projectIdentifier) + '/boards';
   }
 
-  public projectNewBoardPath(projectIdentifier:string){
+  public projectNewBoardPath(projectIdentifier:string) {
     return this.projectPath(projectIdentifier) + '/boards/new';
   }
   public projectCalendarPath(projectId:string) {

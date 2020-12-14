@@ -2599,6 +2599,7 @@ en:
   permission_delete_wiki_pages: Удалить wiki-страницы
   permission_delete_wiki_pages_attachments: Удалить вложения
   permission_desktop: Рабочий стол
+  permission_colorlight: Светофор
   permission_discussions: Дискуссии
   permission_edit_work_package_notes: Редактировать заметки
   permission_edit_work_packages: Редактировать мероприятия

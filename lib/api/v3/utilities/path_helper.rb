@@ -270,6 +270,18 @@ module API
             "#{head_performances}/#{id}"
           end
 
+          def self.enumerations
+            "#{root}/enumerations"
+          end
+
+          def self.typed_enumerations(type)
+            "#{enumerations}/#{type}"
+          end
+
+          def self.colorlight()
+            "#{root}/colorlight"
+          end
+
           def self.meetings
             "#{root}/meetings"
           end

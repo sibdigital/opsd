@@ -119,6 +119,16 @@ module API
           href: api_v3_paths.periods
         }
       end
+      link :enumerations do
+        {
+          href: api_v3_paths.enumerations
+        }
+      end
+      link :colorlight do
+        {
+          href: api_v3_paths.colorlight
+        }
+      end
       link :control_levels do
         {
           href: api_v3_paths.control_levels

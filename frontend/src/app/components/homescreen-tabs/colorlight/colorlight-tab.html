@@ -1,0 +1,11 @@
+<h2>Светофор</h2>
+<br>
+<div id="form">
+    <span class="form--select-container -middle">
+        <select id="type-select" [(ngModel)]="selectedValue" container_class="-middle" class="form--select">
+            <option *ngFor="let type of types" [value]="type.id">{{type.name}}</option>
+        </select>
+    </span>
+    <br>
+    <button class="-highlight -with-icon icon-checkmark button" (click)="submit()">Сформировать</button>
+</div>

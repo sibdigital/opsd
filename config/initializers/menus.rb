@@ -916,4 +916,9 @@ Redmine::MenuManager.map :dashboard_menu do |menu|
             caption: 'Муниципалитет',
             icon: 'icon2 icon-organization',
             if: Proc.new { User.current.allowed_to?(:municipality, nil, global: true) }
+  menu.push :colorlight,
+            '',
+            caption: :label_colorlight,
+            icon: 'icon2 icon-info1',
+            if: Proc.new { User.current.allowed_to?(:colorlight, nil, global: true) }
 end

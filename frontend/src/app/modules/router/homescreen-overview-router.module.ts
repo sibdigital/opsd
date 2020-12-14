@@ -68,6 +68,7 @@ import {AngularTreeGridModule} from "core-components/angular-tree-grid/angular-t
 import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
 import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib/autocomplete-lib.module";
+import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 
 @NgModule({
   imports: [
@@ -105,6 +106,7 @@ import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib
     HomescreenTabsComponent,
     KpiTabComponent,
     DesktopTabComponent,
+    ColorlightTabComponent,
     KtTabComponent,
     ProblemsTabComponent,
     DiscussTabComponent,
@@ -126,6 +128,7 @@ import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib
     HomescreenTabsComponent,
     KpiTabComponent,
     DesktopTabComponent,
+    ColorlightTabComponent,
     KtTabComponent,
     ProblemsTabComponent,
     DiscussTabComponent,

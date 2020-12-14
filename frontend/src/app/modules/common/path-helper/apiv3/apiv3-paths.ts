@@ -131,6 +131,15 @@ export class ApiV3Paths {
   // /api/v3/projects
   public readonly projects_for_user = new SimpleResource(this.apiV3Base, 'projects_for_user');
 
+  // /api/v3/enumerations
+  public readonly enumerations = new SimpleResource(this.apiV3Base, 'enumerations');
+
+  // /api/v3/enumerations
+  public readonly colorlight = new SimpleResource(this.apiV3Base, 'colorlight');
+
+  // /api/v3/enumerations
+  public readonly vkladka1 = new SimpleResource(this.appBasePath, 'vkladka1');
+
   // /api/v3/users
   public readonly users = new Apiv3UsersPaths(this.apiV3Base);
 

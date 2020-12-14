@@ -32,10 +32,14 @@ class HomescreenController < ApplicationController
   before_action :set_current_user, :require_login
 
   include DateAndTime::Calculations
-
+  include Downloadable
   def vkladka1
     @tab = :vkladka1
-    render :index, locals: { menu_name: :dashboard_menu }
+    if params['filepath']
+      send_to_user filepath: params['filepath']
+    else
+      render :index, locals: { menu_name: :dashboard_menu }
+    end
   end
 
   def vkladka2
