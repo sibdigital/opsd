@@ -144,6 +144,10 @@ class Colorlight
             separator: ',',
             precision: 2
         ))
+      else
+        sheet.insert_cell(start_row + index, 7, '')
+        sheet.insert_cell(start_row + index, 8, '')
+        sheet.insert_cell(start_row + index, 9, '')
       end
       if wp.cost_entries
         sheet.insert_cell(start_row + index, 10, ActiveSupport::NumberHelper.number_to_currency(
@@ -168,6 +172,10 @@ class Colorlight
             separator: ',',
             precision: 2
         ))
+      else
+        sheet.insert_cell(start_row + index, 10, '')
+        sheet.insert_cell(start_row + index, 11, '')
+        sheet.insert_cell(start_row + index, 12, '')
       end
       risks = []
       if wp.work_package_problems.count.positive?
