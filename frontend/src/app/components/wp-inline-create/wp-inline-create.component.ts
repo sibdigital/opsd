@@ -70,9 +70,6 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   @Input('wp-inline-create--table') table:WorkPackageTable;
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
-  //bbm(
-  @Input('wp-inline-create--plan-type') planType:string;
-  //)
 
   // inner state
 
@@ -219,7 +216,7 @@ export class WorkPackageInlineCreateComponent implements OnInit, OnChanges, OnDe
 
   public addWorkPackageRow() {
     this.wpCreate
-      .createOrContinueWorkPackage(this.projectIdentifier, this.planType)
+      .createOrContinueWorkPackage(this.projectIdentifier)
       .then((changeset:WorkPackageChangeset) => {
 
       const wp = this.currentWorkPackage = changeset.workPackage;

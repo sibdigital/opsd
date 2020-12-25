@@ -134,7 +134,7 @@ export class BlueTableKtService extends BlueTableService {
                       data.push({
                         id: wp.id,
                         parentId: wp.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity">' + wp.subject + '</a>',
                         homescreen_assignee: wp.otvetstvenniy,
                         homescreen_due_date: this.format(wp.due_date),
                         homescreen_status: wp.status_name,
@@ -189,7 +189,7 @@ export class BlueTableKtService extends BlueTableService {
                         data.push({
                           id: wp.id,
                           parentId: wp.project_id + 'Project',
-                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity">' + wp.subject + '</a>',
                           homescreen_assignee: wp.otvetstvenniy,
                           homescreen_due_date: this.format(wp.due_date),
                           homescreen_status: wp.status_name,
@@ -227,7 +227,7 @@ export class BlueTableKtService extends BlueTableService {
     } else {
       switch (i) {
         case 0: {
-          return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/activity?plan_type=execution">' + row.subject + '</a>';
+          return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/activity">' + row.subject + '</a>';
           break;
         }
         case 1: {
@@ -342,7 +342,7 @@ export class BlueTableKtService extends BlueTableService {
                       data.push({
                         id: wp.id,
                         parentId: wp.project_id + 'Project',
-                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                        homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity">' + wp.subject + '</a>',
                         homescreen_assignee: wp.otvetstvenniy,
                         homescreen_due_date: this.format(wp.due_date),
                         homescreen_status: wp.status_name,
@@ -403,7 +403,7 @@ export class BlueTableKtService extends BlueTableService {
                         data.push({
                           id: wp.id,
                           parentId: wp.project_id + 'Project',
-                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity">' + wp.subject + '</a>',
                           homescreen_assignee: wp.otvetstvenniy,
                           homescreen_due_date: this.format(wp.due_date),
                           homescreen_status: wp.status_name,

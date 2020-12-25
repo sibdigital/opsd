@@ -45,10 +45,6 @@ class WorkPackagesController < ApplicationController
 
   before_action :set_gon_settings
 
-  #bbm(
-  before_action :load_plan_type
-  # )
-
   def show
     respond_to do |format|
       format.html do
@@ -225,16 +221,6 @@ class WorkPackagesController < ApplicationController
                      else
                        []
                      end
-  end
-
-  def load_plan_type
-    #2019.07.09 temporary fix (
-    if params[:plan_type] != 'execution'
-      params[:plan_type] = 'execution'
-    end
-    #if params[:plan_type] != 'planning' and params[:plan_type] != 'execution' then
-    #  deny_access
-    #end
   end
 
   def login_back_url_params

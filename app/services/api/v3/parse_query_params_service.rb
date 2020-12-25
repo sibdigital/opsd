@@ -44,10 +44,6 @@ module API
         end
         return error_result if error_result
 
-        #bbm(
-        parsed_params[:plan_type] = params[:planType]
-        # )
-
         parsed_params[:columns] = columns_from_params(params)
 
         parsed_params[:display_sums] = boolearize(params[:showSums])
@@ -78,12 +74,6 @@ module API
           nil
         end
       end
-
-      #bbm(
-      def plan_type_from_params(params)
-        return nil unless params_exist?(params, %i(group_by groupBy g))
-      end
-      # )
 
       def sort_by_from_params(params)
         return unless params[:sortBy]

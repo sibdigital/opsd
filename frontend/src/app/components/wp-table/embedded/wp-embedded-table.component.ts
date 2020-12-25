@@ -60,9 +60,6 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public tableActions:OpTableActionFactory[] = [];
   @Input() public compactTableStyle:boolean = false;
   @Input() public externalHeight:boolean = false;
-  //bbm(
-  @Input() planType:string;
-  //)
 
   public show:boolean = true;
   public tableInformationLoaded = false;

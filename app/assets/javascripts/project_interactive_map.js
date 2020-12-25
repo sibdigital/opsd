@@ -48,7 +48,7 @@ function setMilestones()
           var name = object[inc][0];
           description_info[object[inc][2]-1]+="<tr>"+
             "<td>" +
-            "<a href='/work_packages/details/" + object[inc][1] + "/overview?plan_type=execution'>" +
+            "<a href='/work_packages/details/" + object[inc][1] + "/overview'>" +
             name +
             "</a>" +
             "</td>"+

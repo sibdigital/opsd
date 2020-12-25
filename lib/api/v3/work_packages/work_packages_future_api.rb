@@ -13,7 +13,7 @@ module API
             end
 
             work_packages = WorkPackage.with_status_open
-                      .where(plan_type: :execution, type: 1)
+                      .where(type: 1)
                       .where("due_date between now() and now() + interval '2 week'")
                       .where(project_id: project ? project : projects)
 

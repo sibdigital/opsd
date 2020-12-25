@@ -116,11 +116,6 @@ module API
                  min_length: 1,
                  max_length: 255,
                  writable: ->(*) { current_user_allowed_to(:edit_subject, context: represented.project) }
-          # bbm(
-          schema :plan_type,
-                 type: 'String',
-                 min_length: 1,
-                 max_length: 255
 
           schema :sed_href,
                  type: 'Href',

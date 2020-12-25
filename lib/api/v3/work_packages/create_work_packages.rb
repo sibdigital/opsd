@@ -46,9 +46,6 @@ module API
           if (parameters[:assigned_to_id] == nil) #+- tan текущий пользователь, если нет другого
             parameters['assigned_to_id'] = current_user.id
           end
-          #bbm(
-          parameters['plan_type'] = request_body['planType']
-          # )
           result = create_work_package(current_user,
                                        work_package,
                                        parameters,

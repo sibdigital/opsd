@@ -119,7 +119,7 @@
                     <td [ngClass]="getGreenClass(i)"
                         [textContent]="item.number"></td>
                     <td [ngClass]="getGreenClass(i)">
-                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?plan_type=execution"
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?"
                            [textContent]="shorten(item.subject)" [title]="item.subject"></a>
                     </td>
                     <td [ngClass]="getGreenClass(i)">
@@ -163,7 +163,7 @@
                     <td [ngClass]="getRedClass(i)"
                         [textContent]="item.number"></td>
                     <td [ngClass]="getRedClass(i)">
-                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?plan_type=execution"
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?"
                            [textContent]="shorten(item.subject)" [title]="item.subject"></a>
                     </td>
                     <td [ngClass]="getRedClass(i)">

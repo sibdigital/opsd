@@ -135,7 +135,7 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
       .values$();
   }
 
-  public createOrContinueWorkPackage(projectIdentifier:string, planType:string, type?:number) {
+  public createOrContinueWorkPackage(projectIdentifier:string, type?:number) {
     let changesetPromise = this.continueExistingEdit(type);
 
     if (!changesetPromise) {
@@ -145,9 +145,6 @@ export class WorkPackageCreateService implements IWorkPackageCreateService {
     return changesetPromise.then((changeset) => {
       this.wpEditing.updateValue('new', changeset);
       this.wpCacheService.updateWorkPackage(changeset.workPackage);
-      //bbm(
-      changeset.setValue('planType', planType);
-      //)
       return changeset;
     });
   }

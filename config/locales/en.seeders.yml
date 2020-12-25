@@ -665,7 +665,6 @@ en:
               priority: :default_priority_high
               estimated_hours: 8
               start: 4
-              plan_type: execution
               duration: 0
               done_ratio: 50
               organization: Министерство культуры
@@ -679,7 +678,6 @@ en:
               priority: :default_priority_high
               estimated_hours: 8
               start: 0
-              plan_type: execution
               duration: 3
               organization: Министерство культуры
               assigned: blb
@@ -692,7 +690,6 @@ en:
               priority: :default_priority_high
               estimated_hours: 8
               start: 0
-              plan_type: execution
               duration: 3
               organization: Министерство культуры
               assigned: blb
@@ -704,7 +701,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 0
-                  plan_type: execution
                   duration: 0
                   organization: Министерство культуры
                   assigned: tvs
@@ -715,7 +711,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 0
-                  plan_type: execution
                   duration: 0
                   organization: Министерство культуры
                   assigned: bdr
@@ -724,7 +719,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 0
-                  plan_type: execution
                   duration: 3
                   attachments:
                     - project_modules.jpg
@@ -740,7 +734,6 @@ en:
               status: :default_status_in_work
               type: :default_type_milestone
               start: -10
-              plan_type: execution
               duration: 77
               organization: Министерство культуры
               assigned: bdr
@@ -750,7 +743,6 @@ en:
                   status: :default_status_in_work
                   type: :default_type_milestone
                   start: -10
-                  plan_type: execution
                   duration: 15
                   organization: Министерство культуры
                   assigned: tvs
@@ -760,7 +752,6 @@ en:
                       status: :default_status_in_work
                       type: :default_type_task
                       start: -10
-                      plan_type: execution
                       duration: 5
                       organization: Министерство культуры
                       assigned: tvs
@@ -769,7 +760,6 @@ en:
                       status: :default_status_completed
                       type: :default_type_task
                       start: -11
-                      plan_type: execution
                       duration: 1
                       organization: Министерство культуры
                       assigned: tvs
@@ -779,7 +769,6 @@ en:
                       status: :default_status_completed
                       type: :default_type_task
                       start: -5
-                      plan_type: execution
                       duration: 5
                       organization: Министерство культуры
                       assigned: tvs
@@ -789,7 +778,6 @@ en:
                       status: :default_status_not_start
                       type: :default_type_task
                       start: -10
-                      plan_type: execution
                       duration: 5
                       organization: Министерство культуры
                       assigned: tvs
@@ -798,7 +786,6 @@ en:
                       status: :default_status_in_work
                       type: :default_type_task
                       start: -10
-                      plan_type: execution
                       duration: 15
                       organization: Министерство культуры
                       assigned: tvs
@@ -807,7 +794,6 @@ en:
                       status: :default_status_in_work
                       type: :default_type_task
                       start: -10
-                      plan_type: execution
                       duration: 2
                       organization: Министерство культуры
                       assigned: tvs
@@ -816,7 +802,6 @@ en:
                       status: :default_status_in_work
                       type: :default_type_task
                       start: -10
-                      plan_type: execution
                       duration: 3
                       organization: Министерство культуры
                       assigned: tvs
@@ -825,7 +810,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 6
-                  plan_type: execution
                   duration: 58
                   organization: Министерство культуры
                   relations:
@@ -837,7 +821,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 65
-                  plan_type: execution
                   duration: 2
                   organization: Министерство культуры
                   relations:
@@ -849,7 +832,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 65
-                  plan_type: execution
                   duration: 2
                   organization: Министерство культуры
                   relations:
@@ -861,7 +843,6 @@ en:
               status: :default_status_in_work
               type: :default_type_milestone
               start: 68
-              plan_type: execution
               duration: 0
               organization: Министерство культуры
               relations:
@@ -873,7 +854,6 @@ en:
               status: :default_status_in_work
               type: :default_type_milestone
               start: 28
-              plan_type: execution
               duration: 3
               organization: Министерство культуры
               assigned: blb
@@ -883,7 +863,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 28
-                  plan_type: execution
                   duration: 1
                   organization: Министерство культуры
                   assigned: bdr
@@ -892,7 +871,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   start: 30
-                  plan_type: execution
                   duration: 1
                   organization: Министерство культуры
                   relations:
@@ -904,7 +882,6 @@ en:
               status: :default_status_not_start
               type: :default_type_milestone
               start: 69
-              plan_type: execution
               duration: 0
               organization: Министерство культуры
               relations:
@@ -914,7 +891,6 @@ en:
               raion: 22
               children:
                 - subject: Отбор заявок (проектов) муниципальных образований (на конкурсной основе) в Республике Бурятия
-                  plan_type: execution
                   status: :default_status_not_start
                   type: :default_type_milestone
                   start: 69
@@ -999,7 +975,6 @@ en:
               status: :default_status_not_start
               type: :default_type_milestone
               start: 26
-              plan_type: execution
               duration: 0
               organization: Министерство строительства
               assigned: rnu
@@ -1009,7 +984,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   position: 6
-                  plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
                   raion: 13
@@ -1017,7 +991,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   position: 4
-                  plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
                   raion: 22
@@ -1026,7 +999,6 @@ en:
                   type: :default_type_task
                   position: 2
                   start: 26
-                  plan_type: execution
                   duration: 0
                   organization: Министерство строительства
                   assigned: ggo
@@ -1035,7 +1007,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   position: 4
-                  plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
                   raion: 22
@@ -1043,7 +1014,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   position: 4
-                  plan_type: execution
                   organization: Администрация Муйского района
                   assigned: ttv
                   raion: 13
@@ -1052,7 +1022,6 @@ en:
               type: :default_type_task
               position: 5
               start: 21
-              plan_type: execution
               duration: 0
               assigned: rnu
               organization: Министерство строительства
@@ -1062,7 +1031,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   position: 6
-                  plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
                   raion: 13
@@ -1070,7 +1038,6 @@ en:
                   status: :default_status_not_start
                   type: :default_type_task
                   position: 4
-                  plan_type: execution
                   organization: Администрация Муйского района
                   assigned: ttv
                   raion: 13
@@ -1078,7 +1045,6 @@ en:
               status: :default_status_not_start
               type: :default_type_task
               position: 3
-              plan_type: execution
               organization: Министерство строительства
               assigned: rnu
               raion: 10
@@ -1086,7 +1052,6 @@ en:
                 - subject: Финансирование мероприятия
                   status: :default_status_completed
                   type: :default_type_task
-                  plan_type: execution
                   organization: Министерство строительства
                   assigned: ggo
                   raion: 10
@@ -1096,7 +1061,6 @@ en:
               type: :default_type_task
               position: 4
               start: 21
-              plan_type: execution
               duration: 0
               organization: Министерство строительства
               assigned: ggo
@@ -1107,7 +1071,6 @@ en:
               type: :default_type_task
               position: 1
               start: 22
-              plan_type: execution
               duration: 1
               organization: Министерство строительства
               assigned: ggo
@@ -1117,7 +1080,6 @@ en:
               type: :default_type_task
               position: 2
               start: 23
-              plan_type: execution
               duration: 0
               organization: Администрация Муйского района
               assigned: ttv
@@ -1170,7 +1132,6 @@ en:
               priority: :default_priority_high
               estimated_hours: 8
               start: 4
-              plan_type: execution
               duration: 0
               done_ratio: 50
               organization: Министерство строительства

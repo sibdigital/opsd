@@ -6,7 +6,7 @@ class ProjectInteractiveMapController < ApplicationController
   end
 
   def get_wps
-    jarr = WorkPackageIspolnStat.where(project_id: @project.id, plan_type: :execution).where("raion_id > 0")
+    jarr = WorkPackageIspolnStat.where(project_id: @project.id).where("raion_id > 0")
              .map { |f| [f.subject, f.id, f.raion_id] }
              .each do |u|
 

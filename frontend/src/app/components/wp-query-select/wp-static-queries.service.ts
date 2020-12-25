@@ -112,7 +112,7 @@ export class WorkPackageStaticQueriesService {
         {
           identifier: 'highlight_by_status',
           label: this.text.highlight_by_status,
-          query_props: '{"c":["id","subject","type","status","assignee","startDate","dueDate"],"hl":"status","hi":true,"g":"","t":"id:asc","f":[{"n":"status","o":"*","v":[]},{"n":"planType","o":"~","v":["execution"]},{"n":"planType","o":"~","v":["execution"]}],"pa":1,"pp":20}'
+          query_props: '{"c":["id","subject","type","status","assignee","startDate","dueDate"],"hl":"status","hi":true,"g":"","t":"id:asc","f":[{"n":"status","o":"*","v":[]}],"pa":1,"pp":20}'
         }
       ]);
     }
@@ -143,9 +143,6 @@ export class WorkPackageStaticQueriesService {
     }
 
     // Otherwise, fall back to work packages
-    if(this.$state.params.plan_type == "planning"){
-      return this.text.plan_stage_packages;
-    }
     return this.text.work_packages;
   }
 }

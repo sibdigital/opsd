@@ -862,7 +862,7 @@ class Project < ActiveRecord::Base
   end
 
   def total_wps
-    work_packages.where(:plan_type => :execution).count
+    work_packages.count
   end
   # )
 

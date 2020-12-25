@@ -73,9 +73,6 @@ export interface WorkPackageResourceEmbedded {
   type:TypeResource;
   version:HalResource|any;
   watchers:CollectionResource;
-  //bbm(
-  planType:string;
-  //)
   // For regular work packages
   startDate:string;
   dueDate:string;
