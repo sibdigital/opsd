@@ -8,7 +8,7 @@ require 'rubyXL/convenience_methods/worksheet'
 class Colorlight
   def self.create_xlsx(type, project = nil)
     @items = project ? get_project_work_packages(type, project) : get_work_packages(type)
-    template_path = File.absolute_path('.') + '/app/reports/templates/blank.xlsx'
+    template_path = File.absolute_path('.') + '/app/reports/templates/colorlight_blank.xlsx'
     @workbook = RubyXL::Parser.parse(template_path)
     @colorlight_percentage = Setting.colorlight_percentage
     @colorlight_colors = Color.colorlight_colors
@@ -19,7 +19,7 @@ class Colorlight
     unless File.directory?(dir_path)
       Dir.mkdir dir_path
     end
-    @ready = dir_path + '/Cветофор_' + ArbitaryObjectType.find(type).name + '.xlsx'
+    @ready = "#{dir_path}/Cветофор_#{ArbitaryObjectType.find(type).name}_#{DateTime.now.strftime("%d.%m.%Y %H:%M")}.xlsx"
     @workbook.write(@ready)
     @ready
   end
@@ -40,7 +40,7 @@ class Colorlight
         inner join arb_objects as ao on wp.arbitary_object_id = ao.id
       )
       select wp.id, wp.subject, wp.contract_id, wp.raion_id, wp.project_id, wp.ao_name, wp.ao_type_name,
-             c.eis_href, c.contract_num, c.contract_date, c.date_begin, c.date_end, c.executor,
+             c.eis_href, c.contract_num, c.schedule_date, c.auction_date, c.contract_date, c.date_begin, c.date_end, c.executor,
              r.name as raion_name, r.code as raion_code, r.sort_code,
              p.name as project_name
       from work_pack as wp
@@ -70,7 +70,7 @@ class Colorlight
                     inner join arb_objects as ao on wp.arbitary_object_id = ao.id
             )
         select wp.id, wp.subject, wp.contract_id, wp.raion_id, wp.project_id, wp.ao_name, wp.ao_type_name,
-               c.eis_href, c.contract_num, c.contract_date, c.date_begin, c.date_end, c.executor,
+               c.eis_href, c.contract_num, c.schedule_date, c.auction_date, c.contract_date, c.date_begin, c.date_end, c.executor,
                r.name as raion_name, r.code as raion_code, r.sort_code,
                p.name as project_name
         from work_pack as wp
@@ -105,7 +105,7 @@ class Colorlight
 
   def self.write_xlsx
     sheet = @workbook['Список']
-    start_row = 5
+    start_row = 2
     @items.each_with_index do |item, index|
       wp = WorkPackage.find(item["id"])
       sheet.insert_cell(start_row + index, 0, index + 1)
@@ -118,45 +118,47 @@ class Colorlight
       else
         sheet.add_cell(start_row + index, 3, item["contract_num"])
       end
-      sheet.insert_cell(start_row + index, 4, item["contract_date"] ? Date.parse(item["contract_date"]).strftime("%d.%m.%Y") : '')
-      sheet.insert_cell(start_row + index, 5, item["date_end"] ? Date.parse(item["date_end"]).strftime("%d.%m.%Y") : '')
-      sheet.insert_cell(start_row + index, 6, item["executor"])
+      sheet.insert_cell(start_row + index, 4, item["schedule_date"] ? Date.parse(item["schedule_date"]).strftime("%d.%m.%Y") : '')
+      sheet.insert_cell(start_row + index, 5, item["auction_date"] ? Date.parse(item["auction_date"]).strftime("%d.%m.%Y") : '')
+      sheet.insert_cell(start_row + index, 6, item["contract_date"] ? Date.parse(item["contract_date"]).strftime("%d.%m.%Y") : '')
+      sheet.insert_cell(start_row + index, 7, item["date_end"] ? Date.parse(item["date_end"]).strftime("%d.%m.%Y") : '')
+      sheet.insert_cell(start_row + index, 8, item["executor"])
       if wp.cost_object
-        sheet.insert_cell(start_row + index, 7, ActiveSupport::NumberHelper.number_to_currency(
+        sheet.insert_cell(start_row + index, 9, ActiveSupport::NumberHelper.number_to_currency(
             wp.cost_object.material_budget_items.sum(:budget).to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2
         ))
-        sheet.insert_cell(start_row + index, 8, ActiveSupport::NumberHelper.number_to_currency(
+        sheet.insert_cell(start_row + index, 10, ActiveSupport::NumberHelper.number_to_currency(
             wp.cost_object.material_budget_items
                 .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
                 .sum(:budget).to_f,
-            delimiter: ' ',
-            separator: ',',
-            precision: 2
-        ))
-        sheet.insert_cell(start_row + index, 9, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_object.material_budget_items
-                .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
-                .sum(:budget).to_f,
-            delimiter: ' ',
-            separator: ',',
-            precision: 2
-        ))
-      else
-        sheet.insert_cell(start_row + index, 7, '')
-        sheet.insert_cell(start_row + index, 8, '')
-        sheet.insert_cell(start_row + index, 9, '')
-      end
-      if wp.cost_entries
-        sheet.insert_cell(start_row + index, 10, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_entries.sum(:costs).to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2
         ))
         sheet.insert_cell(start_row + index, 11, ActiveSupport::NumberHelper.number_to_currency(
+            wp.cost_object.material_budget_items
+                .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
+                .sum(:budget).to_f,
+            delimiter: ' ',
+            separator: ',',
+            precision: 2
+        ))
+      else
+        sheet.insert_cell(start_row + index, 9, '')
+        sheet.insert_cell(start_row + index, 10, '')
+        sheet.insert_cell(start_row + index, 11, '')
+      end
+      if wp.cost_entries
+        sheet.insert_cell(start_row + index, 12, ActiveSupport::NumberHelper.number_to_currency(
+            wp.cost_entries.sum(:costs).to_f,
+            delimiter: ' ',
+            separator: ',',
+            precision: 2
+        ))
+        sheet.insert_cell(start_row + index, 13, ActiveSupport::NumberHelper.number_to_currency(
             wp.cost_entries
                 .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
                 .sum(:costs).to_f,
@@ -164,7 +166,7 @@ class Colorlight
             separator: ',',
             precision: 2
         ))
-        sheet.insert_cell(start_row + index, 12, ActiveSupport::NumberHelper.number_to_currency(
+        sheet.insert_cell(start_row + index, 14, ActiveSupport::NumberHelper.number_to_currency(
             wp.cost_entries
                 .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
                 .sum(:costs).to_f,
@@ -173,9 +175,9 @@ class Colorlight
             precision: 2
         ))
       else
-        sheet.insert_cell(start_row + index, 10, '')
-        sheet.insert_cell(start_row + index, 11, '')
         sheet.insert_cell(start_row + index, 12, '')
+        sheet.insert_cell(start_row + index, 13, '')
+        sheet.insert_cell(start_row + index, 14, '')
       end
       risks = []
       if wp.work_package_problems.count.positive?
@@ -183,11 +185,20 @@ class Colorlight
           risks.push(p.description)
         end
       end
-      sheet.insert_cell(start_row + index, 13, risks.join(', '))
-      sheet.insert_cell(start_row + index, 14, item["raion_name"])
-      sheet.insert_cell(start_row + index, 15, (wp.done_ratio.to_s || '0') + '%')
+      sheet.insert_cell(start_row + index, 15, risks.join(', '))
+      sheet.insert_cell(start_row + index, 16, item["raion_name"])
+      sheet.insert_cell(start_row + index, 17, (wp.done_ratio.to_s || '0') + '%')
+      if !wp.attachments.count.zero?
+        file_str = ''
+        wp.attachments.map do |a|
+          file_str += "#{Setting.host_name}/attachments/#{a.id}/#{a.filename}\n"
+        end
+        sheet.insert_cell(start_row + index, 18, file_str)
+      else
+        sheet.insert_cell(start_row + index, 18, '')
+      end
       sheet.change_row_font_size(start_row + index, 12)
-      16.times do |j|
+      19.times do |j|
         cell_style(sheet, start_row + index, j, wp.done_ratio.to_i)
       end
     end
