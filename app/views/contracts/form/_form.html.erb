@@ -5,18 +5,20 @@ by zbd
 
 <%= error_messages_for :contract %>
 <section class="form--section">
-  <div class="form--field content--split"><%= f.date_field 'contract_date', required: true, container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'contract_num', required: true, container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'contract_subject', required: true, container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'eis_href', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'price', required: true, container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'executor', required: true, container_class: '-middle' %></div>
+  <div class="form--field content--split"><%= f.date_field 'contract_date', required: true, container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'name', container_class: '-middle' %></div>
+  <div class="form--field content--split"><%= f.date_field 'date_begin', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'sposob', container_class: '-middle' %></div>
+  <div class="form--field content--split"><%= f.date_field 'date_end', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'gos_zakaz', container_class: '-middle' %></div>
-  <div class="form--field content--split"><%= f.text_field 'date_begin', container_class: '-middle' %></div>
-  <div class="form--field content--split"><%= f.text_field 'date_end', container_class: '-middle' %></div>
+  <div class="form--field content--split"><%= f.date_field 'auction_date', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.text_field 'etaps', container_class: '-middle' %></div>
+  <div class="form--field content--split"><%= f.date_field 'schedule_date', container_class: '-middle' %></div>
   <div class="form--field content--split"><%= f.hidden_field 'project_id', value: @project_id %></div>
 
   <% if User.current.allowed_to?(:edit_contract, @project)%>

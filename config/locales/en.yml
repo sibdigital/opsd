@@ -429,6 +429,8 @@ en:
         gos_zakaz: Государственный заказчик
         date_begin: Дата начала
         date_end: Дата завершения
+        schedule_date: Дата размещения плана-графика закупок
+        auction_date: Дата проведения аукциона
         etaps: Этапы
       #)
       custom_action:
