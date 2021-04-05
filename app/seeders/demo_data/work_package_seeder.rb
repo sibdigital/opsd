@@ -107,9 +107,6 @@ module DemoData
         status:        find_status(attributes),
         type:          find_type(attributes),
         priority:      find_priority(attributes) || IssuePriority.default,
-        #bbm(
-        plan_type:     attributes[:plan_type] || 'execution',
-        # )
         # +tan
         organization_id: find_organization_by_name(attributes[:organization]),
         assigned_to_id:  user_by_login(attributes[:assigned]),

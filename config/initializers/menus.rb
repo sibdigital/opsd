@@ -34,7 +34,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
 
   menu.push :work_packages_execution,
-            { controller: '/work_packages', project_id: nil, state: nil, plan_type: 'execution', action: 'index' },
+            { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_work_package_plural'),
             if: Proc.new {
@@ -43,7 +43,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             }
 
   menu.push :work_packages_planning,
-            { controller: '/work_packages', project_id: nil, state: nil, plan_type: 'planning', action: 'index' },
+            { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_plan_stage_package_plural'),
             if: Proc.new {
@@ -394,7 +394,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new {
               User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:view_interactive_map))
             }
-
+  menu.push :colorlight,
+            {controller: '/colorlight', action: 'index'},
+            icon: 'icon2 icon-info1',
+            caption: :label_colorlight,
+            if: Proc.new {
+              User.current.admin?||(User.current.detect_in_global? && User.current.allowed_to_globally?(:view_interactive_map))
+            },
+            parent: :project_office
   menu.push :nat_fed_gov,
             {},
             caption: :label_national_projects_government_programs,
@@ -629,7 +636,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   #           icon: 'icon2 icon-roadmap'
 
   menu.push :work_packages_execution,
-            { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },
+            { controller: '/work_packages', state: nil, action: 'index' },
             param: :project_id,
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline',
@@ -639,7 +646,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             }
 
    menu.push :work_packages_execution_query_select,
-             { controller: '/work_packages', state: nil, plan_type: 'execution', action: 'index' },
+             { controller: '/work_packages', state: nil, action: 'index' },
              param: :project_id,
              parent: :work_packages_execution,
              partial: 'work_packages/menu_query_select',
@@ -648,7 +655,7 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   #bbm(
   # menu.push :work_packages_planning,
-  #           { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
+  #           { controller: '/work_packages', state: nil, action: 'index' },
   #           param: :project_id,
   #           caption: :label_plan_stage_package_plural,
   #           icon: 'icon2 icon-view-timeline',
@@ -658,7 +665,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   #           }
   #
   # menu.push :work_packages_planning_query_select,
-  #           { controller: '/work_packages', state: nil, plan_type: 'planning', action: 'index' },
+  #           { controller: '/work_packages', state: nil, action: 'index' },
   #           param: :project_id,
   #           parent: :work_packages_planning,
   #           partial: 'work_packages/menu_query_select_planning',
@@ -771,6 +778,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('report_progress_project') },
             parent: :reports
 
+  menu.push :report_wp_by_period,
+            {controller: '/report_wp_by_period', action: 'index' },
+            param: :project_id,
+            caption: :label_report_wp_by_period,
+            icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.module_enabled?('report_wp_by_period') },
+            parent: :reports
+
   menu.push :biblioteka_otchetov,
             {controller: '/biblioteka_otchetov', action: 'index' },
             param: :project_id,
@@ -809,6 +824,13 @@ Redmine::MenuManager.map :project_menu do |menu|
             param: :project_id,
             icon: 'icon2 icon-map',
             if: Proc.new { |p| p.module_enabled?('interactive_map') },
+            parent: :reports# ,
+  menu.push :project_colorlight,
+            {controller: '/project_colorlight', action: 'index'},
+            caption: :label_colorlight,
+            param: :project_id,
+            icon: 'icon2 icon-map',
+            if: Proc.new { |p| p.module_enabled?('colorlight') },
             parent: :reports# ,
   #zbd if: Proc.new { User.current.admin?||User.current.detect_project_office_coordinator? }
   # if: Proc.new {
@@ -894,4 +916,9 @@ Redmine::MenuManager.map :dashboard_menu do |menu|
             caption: 'Муниципалитет',
             icon: 'icon2 icon-organization',
             if: Proc.new { User.current.allowed_to?(:municipality, nil, global: true) }
+  menu.push :colorlight,
+            '',
+            caption: :label_colorlight,
+            icon: 'icon2 icon-info1',
+            if: Proc.new { User.current.allowed_to?(:colorlight, nil, global: true) }
 end

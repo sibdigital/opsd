@@ -41,7 +41,7 @@ class ContractsController < ApplicationController
     sort_init 'id', 'desc'
     sort_update sort_columns
 
-    @contracts = Contract
+    @contracts = @project.contracts
                      .order(sort_clause)
                      .page(page_param)
                      .per_page(per_page_param)

@@ -3,9 +3,32 @@
     <tr>
         <td>Проект</td>
         <td>
+            <div class="ng-autocomplete" style="width: 100%;border: 2px solid #1C6EA4;display: inline-flex;margin: 10px 0;">
+                <ng-autocomplete #autocomplete
+                                 [data]="data_autocomplete"
+                                 [searchKeyword]="keyword"
+                                 [isLoading]="check_load()"
+                                 [disabled]="check_load()"
+                                 placeHolder="Все проекты..."
+                                 (selected)="selectEvent($event)"
+                                 (inputCleared)="selectEvent({id: 0, name: 'Все проекты', kurator: '-', rukovoditel: '-'})"
+                                 [itemTemplate]="itemTemplate"
+                                 [notFoundTemplate]="notFoundTemplate"
+                                 debounceTime="1000"
+                                 notFoundText="Не найдено">
+                </ng-autocomplete>
+                <button class="icon-search" style="color: white;width: 8%;background: #1C6EA4;border: 1px #1C6EA4"></button>
+                <ng-template #itemTemplate let-item >
+                    <a [innerHTML]="item.name" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis; padding: 5px 5px;"></a>
+                </ng-template>
+                <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                </ng-template>
+            </div>
             <select [(ngModel)]="selectedOption"
                     [compareWith]="compareByHref"
-                    (change)="handleUserSubmit()">
+                    (change)="handleUserSubmit()"
+                    [hidden]="true">
                 <option
                         *ngFor="let value of valueOptions"
                         [attr.selected]="compareByHref(selectedOption, value) || undefined"

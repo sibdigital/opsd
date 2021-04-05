@@ -1,0 +1,6 @@
+<% html_title l(:label_reports) %>
+<%= breadcrumb_toolbar l(:label_report_wp_by_period) %>
+<%= labelled_tabular_form_for :filter do |f| %>
+  <%= render partial: 'form', locals: {f: f} %>
+  <%= styled_button_tag l(:button_form), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

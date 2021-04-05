@@ -6,6 +6,7 @@ import {AngularTrackingHelpers} from "core-components/angular/tracking-functions
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {StateService} from "@uirouter/core";
+import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 
 interface ValueOption {
   name:string;
@@ -22,10 +23,15 @@ export class KtTabComponent {
   public ruk:string = '';
   private value:{ [attribute:string]:any } | undefined = {};
   public valueOptions:ValueOption[] = [];
+  keyword = 'name';
+  data_autocomplete:any[] = [];
+  data_choosed:any;
+  is_loading:boolean[] = [true];
   public compareByHref = AngularTrackingHelpers.compareByHref;
   public predstoyashie:boolean = false;
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
+  @ViewChild('autocomplete') auto:any;
 
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
@@ -37,6 +43,7 @@ export class KtTabComponent {
       .toPromise()
       .then((projects:CollectionResource<HalResource>) => {
         this.valueOptions = projects.elements.map((el:HalResource) => {
+          this.data_autocomplete.push({id: el.id, name: el.name, kurator: el.curator ? el.curator.fio : '', rukovoditel: el.rukovoditel ? el.rukovoditel.fio : ''});
           return {name: el.name, kurator: el.curator ? el.curator.fio : '', rukovoditel: el.rukovoditel ? el.rukovoditel.fio : '' , $href: el.id};
         });
         this.valueOptions.unshift({name: 'Все проекты', kurator: '-', rukovoditel: '-', $href: 0});
@@ -47,6 +54,7 @@ export class KtTabComponent {
             this.selectedOption = option;
           }
         }
+        this.is_loading[0] = false;
       });
   }
 
@@ -58,6 +66,26 @@ export class KtTabComponent {
   public set selectedOption(val:ValueOption) {
     let option = _.find(this.valueOptions, o => o.$href === val.$href);
     this.value = option;
+  }
+
+  public check_load() {
+    // console.log(this.is_loading);
+    return this.is_loading[0];
+
+    // let is_ready = true;
+    // this.is_loading.forEach(value => (is_ready = value || is_ready));
+    // return is_ready;
+  }
+
+  selectEvent(item:any) {
+    this.auto.close();
+    this.is_loading[0] = true;
+    this.data_choosed = item;
+    this.blueChild.changeFilter('project' + this.data_choosed.id);
+    this.curator = this.data_choosed.kurator;
+    this.ruk = this.data_choosed.rukovoditel;
+    this.predstoyashie = false;
+    this.is_loading[0] = false;
   }
 
   public handleUserSubmit() {

@@ -88,6 +88,25 @@ class Color < ActiveRecord::Base
       .map { |c| c.hex } # to int
   end
 
+  def self.colorlight_colors
+    red = find_by(name: 'colorlight_low')
+    if red.nil?
+      create(name: 'colorlight_low', hexcode: '#FF6B6B')
+      red = find_by(name: 'colorlight_low')
+    end
+    yellow = find_by(name: 'colorlight_mid')
+    if yellow.nil?
+      create(name: 'colorlight_mid', hexcode: '#FFE066')
+      yellow = find_by(name: 'colorlight_mid')
+    end
+    green = find_by(name: 'colorlight_top')
+    if green.nil?
+      create(name: 'colorlight_top', hexcode: '#8CE99A')
+      green = find_by(name: 'colorlight_top')
+    end
+    {low: red.hexcode, mid: yellow.hexcode, top: green.hexcode}
+  end
+
   protected
 
   def normalize_hexcode

@@ -340,6 +340,8 @@ OpenProject::Application.routes.draw do
     #knm +
     resources :target_calc_procedures
 
+    resources :project_colorlight
+
     resources :project_interactive_map do
       get :get_wps, on: :collection
     end
@@ -378,6 +380,9 @@ OpenProject::Application.routes.draw do
     end
 
     resources :report_progress_project do
+    end
+
+    resources :report_wp_by_period do
     end
 
     resources :report_passport do
@@ -500,6 +505,8 @@ OpenProject::Application.routes.draw do
   resources :strategic_map do
     get :get_list, on: :collection
   end
+
+  resources :colorlight
   #)
 
   #zbd(

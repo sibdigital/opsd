@@ -6,7 +6,7 @@ class InteractiveMapController < ApplicationController
 
   end
   def get_dues
-    jarr = WorkPackageIspolnStat.where(project_id: params["project_id"], plan_type: :execution).where("raion_id > 0")
+    jarr = WorkPackageIspolnStat.where(project_id: params["project_id"]).where("raion_id > 0")
       .map { |f| [f.subject, f.id, f.raion_id] }
       .each do |u|
       user = User.find_by_id(WorkPackageIspolnStat.find_by_id(u[1]).assigned_to_id)

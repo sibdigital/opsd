@@ -8,6 +8,7 @@ import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-tabl
 import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
+import {DiagramHomescreenResource} from "core-app/modules/hal/resources/diagram-homescreen-resource";
 
 export interface ValueOption {
   name:string;
@@ -21,6 +22,11 @@ export interface ValueOption {
 export class MunicipalityTabComponent implements OnInit {
   public options:any[];
   private value:{ [attribute:string]:any } | undefined = {};
+
+  keyword = 'name';
+  data_autocomplete:any[] = [];
+  data_choosed:any;
+
   public valueOptions:ValueOption[] = [];
   public compareByHref = AngularTrackingHelpers.compareByHref;
   protected readonly appBasePath:string;
@@ -29,11 +35,13 @@ export class MunicipalityTabComponent implements OnInit {
   public dueMilestoneData:any[];
   public problemData:any[];
   public budgetData:any[];
+  public chartsData:any[];
 
   public loadingProblems:boolean = false;
   public loadingBudgets:boolean = false;
   public loadingUpcomingTasks:boolean = false;
   public loadingDueMilestones:boolean = false;
+  public loadingCharts:boolean = false;
 
   public problemCount:number;
   public budgetCount:number;
@@ -59,6 +67,7 @@ export class MunicipalityTabComponent implements OnInit {
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
   @ViewChildren(HomescreenDiagramComponent) homescreenDiagrams:QueryList<HomescreenDiagramComponent>;
+  @ViewChild('autocomplete') auto:any;
 
   constructor(protected halResourceService:HalResourceService,
               protected pathHelper:PathHelperService,
@@ -71,64 +80,56 @@ export class MunicipalityTabComponent implements OnInit {
       .toPromise()
       .then((raions:CollectionResource<HalResource>) => {
         this.valueOptions = raions.elements.map((el:HalResource) => {
+          this.data_autocomplete.push({id: el.id, name: el.name});
           return {name: el.name, $href: el.id};
         });
+        this.data_choosed = {name: 'Все районы', id: "0"};
         this.value = this.valueOptions[0];
-        // this.handleUserSubmit();
+
+        this.getChartsData();
         this.getUpcomingTasks();
         this.getDueMilestones();
         this.getProblems();
         this.getBudgets();
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
+  }
+
+  selectEvent(item:any) {
+    this.auto.close();
+    this.data_choosed = item;
+    this.getChartsData();
+    this.blueChild.changeFilter(String(this.data_choosed.id));
+    this.upcomingTasksPage = 1;
+    this.upcomingTasksPages = 0;
+    this.upcomingTasksVisibility = false;
+    this.getUpcomingTasks();
+    this.dueMilestonePage = 1;
+    this.dueMilestonePages = 0;
+    this.dueMilestoneVisibility = false;
+    this.getDueMilestones();
+    this.problemPage = 1;
+    this.problemPages = 0;
+    this.problemVisibility = false;
+    this.getProblems();
+    this.budgetPage = 1;
+    this.budgetPages = 0;
+    this.budgetVisibility = false;
+    this.getBudgets();
+  }
+
+  public check_load() {
+    return this.loadingCharts || this.loadingUpcomingTasks || this.loadingDueMilestones || this.loadingProblems || this.loadingBudgets;
   }
 
   public getUpcomingTasks() {
     this.loadingUpcomingTasks = true;
     this.upcomingTasksCount = 0;
     this.upcomingTasksData = [];
-    let from = new Date();
-    let to = new Date();
-    to.setDate(to.getDate() + 14);
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['1']
-      }
-    }, {
-      dueDate: {
-        operator: '<>d',
-        values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
-      }
-    }, {
-      raion: {
-        operator: '=',
-          values: [String(this.selectedOption.$href)]
-      }
-    });
-    // if (this.selectedOption) {
-    //   if (this.selectedOption.$href !== "0") {
-    //     filters.push({
-    //       project: {
-    //         operator: '=',
-    //         values: [String(this.selectedOption.$href)]
-    //       }
-    //     });
-    //   }
-    // }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.upcomingTasksPage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(),
+        {pageSize: this.pageSize, offset: this.upcomingTasksPage, raion: String(this.data_choosed.id)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -153,7 +154,9 @@ export class MunicipalityTabComponent implements OnInit {
         });
         this.upcomingTasksCount = resources.elements ? resources.elements.length : 0;
         this.loadingUpcomingTasks = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadUpcomingTasksByPage(i:number) {
@@ -175,46 +178,9 @@ export class MunicipalityTabComponent implements OnInit {
     this.loadingDueMilestones = true;
     this.dueMilestoneCount = 0;
     this.dueMilestoneData = [];
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['2']
-      }
-    }, {
-      dueDate: {
-        operator: '<t-',
-        values: ['1']
-      }
-    }, {
-      raion: {
-        operator: '=',
-        values: [String(this.selectedOption.$href)]
-      }
-    });
-    // if (this.selectedOption) {
-    //   if (this.selectedOption.$href !== "0") {
-    //     filters.push({
-    //       project: {
-    //         operator: '=',
-    //         values: [String(this.selectedOption.$href)]
-    //       }
-    //     });
-    //   }
-    // }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.dueMilestonePage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString(),
+        {pageSize: this.pageSize, offset: this.dueMilestonePage, raion: String(this.data_choosed.id)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -239,7 +205,9 @@ export class MunicipalityTabComponent implements OnInit {
         });
         this.dueMilestoneCount = resources.elements ? resources.elements.length : 0;
         this.loadingDueMilestones = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadDueMilestonesByPage(i:number) {
@@ -262,8 +230,8 @@ export class MunicipalityTabComponent implements OnInit {
     this.problemCount = 0;
     this.problemData = [];
     let params;
-    if (this.selectedOption && this.selectedOption.$href !== "0") {
-      params = {"status": "created", "raion": this.selectedOption.$href, pageSize: 5, offset: this.problemPage};
+    if (this.data_choosed.id !== "0") {
+      params = {"status": "created", "raion": this.data_choosed.id, pageSize: 5, offset: this.problemPage};
     } else {
       params = {"status": "created", pageSize: this.pageSize, offset: this.problemPage};
     }
@@ -289,7 +257,9 @@ export class MunicipalityTabComponent implements OnInit {
         });
         this.problemCount = resources.elements ? resources.elements.length : 0;
         this.loadingProblems = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadProblemsByPage(i:number) {
@@ -312,8 +282,8 @@ export class MunicipalityTabComponent implements OnInit {
     this.budgetCount = 0;
     this.budgetData = [];
     let params;
-    if (this.selectedOption && this.selectedOption.$href !== "0") {
-      params = {pageSize: this.pageSize, offset: (this.budgetPage - 1) * this.pageSize, "raion": this.selectedOption.$href};
+    if (this.data_choosed.id !== "0") {
+      params = {pageSize: this.pageSize, offset: (this.budgetPage - 1) * this.pageSize, "raion": this.data_choosed.id};
     } else {
       params = {pageSize: this.pageSize, offset: (this.budgetPage - 1) * this.pageSize};
     }
@@ -340,7 +310,9 @@ export class MunicipalityTabComponent implements OnInit {
         });
         this.budgetCount = resources.elements ? resources.elements.length : 0;
         this.loadingBudgets = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadBudgetsByPage(i:number) {
@@ -358,43 +330,18 @@ export class MunicipalityTabComponent implements OnInit {
     }
   }
 
-  public get selectedOption() {
-    const $href = this.value ? this.value.$href : null;
-    return _.find(this.valueOptions, o => o.$href === $href)!;
+  private getChartsData() {
+    this.loadingCharts = true;
+    this.halResourceService
+      .get<HalResource>(`${this.pathHelper.api.v3.diagrams.toString()}/municipality?raionId=${this.data_choosed.id}`)
+      .toPromise()
+      .then((resource:HalResource) => {
+        this.chartsData = resource.nationalProjects;
+        this.loadingCharts = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
-
-  public set selectedOption(val:ValueOption) {
-    let option = _.find(this.valueOptions, o => o.$href === val.$href);
-    this.value = option;
-  }
-
-  public handleUserSubmit() {
-    if (this.selectedOption) {
-      this.homescreenDiagrams.forEach((diagram) => {
-        if (this.selectedOption.$href) {
-          diagram.refreshByMunicipality(Number(this.selectedOption.$href));
-        }
-      });
-      this.blueChild.changeFilter(String(this.selectedOption.$href));
-      this.upcomingTasksPage = 1;
-      this.upcomingTasksPages = 0;
-      this.upcomingTasksVisibility = false;
-      this.getUpcomingTasks();
-      this.dueMilestonePage = 1;
-      this.dueMilestonePages = 0;
-      this.dueMilestoneVisibility = false;
-      this.getDueMilestones();
-      this.problemPage = 1;
-      this.problemPages = 0;
-      this.problemVisibility = false;
-      this.getProblems();
-      this.budgetPage = 1;
-      this.budgetPages = 0;
-      this.budgetVisibility = false;
-      this.getBudgets();
-    }
-  }
-
 
   public getGreenClass(i:number):string {
     if (i % 2 === 0) {

@@ -136,7 +136,6 @@ class PlanUploadersController < ApplicationController
           wp.project_id = @project_for_load.id
           wp.type_id = Type.find_by(name: I18n.t(:default_type_task)).id
           wp.status_id = Status.default.id
-          wp.plan_type = 'execution'
           wp.author_id = User.current.id
           wp.position = 1
           wp.priority_id = IssuePriority.default.id
@@ -188,7 +187,6 @@ class PlanUploadersController < ApplicationController
           params['project_id'] = @project_for_load.id
           params['type_id'] = Type.find_by(name: I18n.t(:default_type_task)).id
           params['status_id'] = Status.default.id # find_by(name: I18n.t(:default_status_new))
-          params['plan_type'] = 'execution'
           params['author_id'] = User.current.id
           params['position'] = 1
           params['priority_id'] = IssuePriority.default.id
@@ -326,7 +324,6 @@ class PlanUploadersController < ApplicationController
         wp.project_id = @project_for_load.id
         wp.type_id = Type.find_by(name: I18n.t(:default_type_milestone)).id
         wp.status_id = Status.default.id
-        wp.plan_type = 'execution'
         wp.author_id = User.current.id
         wp.position = 1
         wp.priority_id = IssuePriority.default.id
@@ -461,7 +458,6 @@ class PlanUploadersController < ApplicationController
               kt.project_id = @project_for_load.id
               kt.type_id = Type.find_by(name: I18n.t(:default_type_milestone)).id
               kt.status_id = Status.default.id
-              kt.plan_type = 'execution'
               kt.author_id = User.current.id
               kt.position = 1
               kt.priority_id = IssuePriority.default.id
@@ -582,7 +578,6 @@ class PlanUploadersController < ApplicationController
                 wp.project_id = @project_for_load.id
                 wp.type_id = Type.find_by(name: I18n.t(:default_type_task)).id
                 wp.status_id = Status.default.id
-                wp.plan_type = 'execution'
                 wp.author_id = User.current.id
                 wp.position = 1
                 wp.priority_id = IssuePriority.default.id
@@ -729,7 +724,6 @@ class PlanUploadersController < ApplicationController
           wp.project_id = @project_for_load.id
           wp.type_id = Type.find_by(name: I18n.t(:default_type_task)).id
           wp.status_id = Status.default.id
-          wp.plan_type = 'execution'
           wp.author_id = User.current.id
           wp.position = 1
           wp.priority_id = IssuePriority.default.id
@@ -777,7 +771,6 @@ class PlanUploadersController < ApplicationController
           params['project_id'] = @project_for_load.id
           params['type_id'] = Type.find_by(name: I18n.t(:default_type_task)).id
           params['status_id'] = Status.default.id # find_by(name: I18n.t(:default_status_new))
-          params['plan_type'] = 'execution'
           params['author_id'] = User.current.id
           params['position'] = 1
           params['priority_id'] = IssuePriority.default.id

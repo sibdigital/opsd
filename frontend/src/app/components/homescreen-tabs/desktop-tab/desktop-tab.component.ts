@@ -7,6 +7,7 @@ import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-r
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
 import {HomescreenBlueTableComponent} from "core-components/homescreen-blue-table/homescreen-blue-table.component";
 import {HomescreenDiagramComponent} from "core-components/homescreen-diagram/homescreen-diagram.component";
+import {DiagramHomescreenResource} from "core-app/modules/hal/resources/diagram-homescreen-resource";
 
 export interface ValueOption {
   name:string;
@@ -24,6 +25,19 @@ export class DesktopTabComponent implements OnInit {
   public dueMilestoneData:any[];
   public problemData:any[];
   public budgetData:any[];
+
+  public targetChartData:any[];
+  public targetChartLabel:string;
+  public targetChartLoading:boolean = false;
+  public KTChartData:any[];
+  public KTChartLabel:string;
+  public KTChartLoading:boolean = false;
+  public budgetChartData:any[];
+  public budgetChartLabel:string;
+  public budgetChartLoading:boolean = false;
+  public risksAndProblemsChartData:any[];
+  public risksAndProblemsChartLabel:string;
+  public risksAndProblemsChartLoading:boolean = false;
 
   public loadingProblems:boolean = false;
   public loadingBudgets:boolean = false;
@@ -53,12 +67,18 @@ export class DesktopTabComponent implements OnInit {
   public dueMilestoneVisibility:boolean = false;
 
   public options:any[];
+
+  keyword = 'name';
+  data_autocomplete:any[] = [];
+  data_choosed:any;
+
   private value:{ [attribute:string]:any } | undefined = {};
   public valueOptions:ValueOption[] = [];
   public compareByHref = AngularTrackingHelpers.compareByHref;
 
   @ViewChild(HomescreenBlueTableComponent) blueChild:HomescreenBlueTableComponent;
   @ViewChildren(HomescreenDiagramComponent) homescreenDiagrams:QueryList<HomescreenDiagramComponent>;
+  @ViewChild('autocomplete') auto:any;
 
   constructor(
     protected halResourceService:HalResourceService,
@@ -71,59 +91,32 @@ export class DesktopTabComponent implements OnInit {
       .toPromise()
       .then((projects:CollectionResource<HalResource>) => {
         this.valueOptions = projects.elements.sort((a, b) => (a.name > b.name ? 1 : -1)).map((el:HalResource) => {
+          this.data_autocomplete.push({id: el.id, name: el.name});
           return {name: el.name, $href: el.id};
         });
-        this.valueOptions.unshift({name: 'Все проекты', $href: "0"});
+        this.data_choosed = {name: 'Все проекты', id: "0"};
         this.value = this.valueOptions[0];
-        this.getUpcomingTasks();
-        this.getDueMilestones();
+
+        this.getTargetIndicatorsChart();
+        this.getKTChart();
+        this.getBudgetChart();
+        this.getRisksAndProblemsChart();
         this.getProblems();
         this.getBudgets();
-      });
+        this.getDueMilestones();
+        this.getUpcomingTasks();
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public getUpcomingTasks() {
     this.loadingUpcomingTasks = true;
     this.upcomingTasksCount = 0;
     this.upcomingTasksData = [];
-    let from = new Date();
-    let to = new Date();
-    to.setDate(to.getDate() + 14);
-    let filters = [];
-    filters.push({
-      status: {
-        operator: 'o',
-        values: []
-      }
-    }, {
-      planType: {
-        operator: '~',
-        values: ['execution']
-      }
-    }, {
-      type: {
-        operator: '=',
-        values: ['1']
-      }
-    }, {
-      dueDate: {
-        operator: '<>d',
-        values: [from.toISOString().slice(0, 10), to.toISOString().slice(0, 10)]
-      }
-    });
-    if (this.selectedOption) {
-      if (this.selectedOption.$href !== "0") {
-        filters.push({
-          project: {
-            operator: '=',
-            values: [String(this.selectedOption.$href)]
-          }
-        });
-      }
-    }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.upcomingTasksPage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_future.toString(),
+        {pageSize: this.pageSize, offset: this.upcomingTasksPage, project: String(this.data_choosed.id)})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -148,7 +141,9 @@ export class DesktopTabComponent implements OnInit {
         });
         this.upcomingTasksCount = resources.elements ? resources.elements.length : 0;
         this.loadingUpcomingTasks = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadUpcomingTasksByPage(i:number) {
@@ -170,41 +165,9 @@ export class DesktopTabComponent implements OnInit {
     this.loadingDueMilestones = true;
     this.dueMilestoneCount = 0;
     this.dueMilestoneData = [];
-    let filters = [];
-    filters.push({
-        status: {
-          operator: 'o',
-          values: []
-        }
-      }, {
-        planType: {
-          operator: '~',
-          values: ['execution']
-        }
-      }, {
-        type: {
-          operator: '=',
-          values: ['2']
-        }
-      }, {
-        dueDate: {
-          operator: '<t-',
-          values: ['1']
-        }
-      });
-    if (this.selectedOption) {
-      if (this.selectedOption.$href !== "0") {
-        filters.push({
-          project: {
-            operator: '=',
-            values: [String(this.selectedOption.$href)]
-          }
-        });
-      }
-    }
     this.halResourceService
-      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_by_role.toString(),
-        {filters: JSON.stringify(filters), pageSize: this.pageSize, offset: this.dueMilestonePage})
+      .get<CollectionResource<WorkPackageResource>>(this.pathHelper.api.v3.work_packages_due.toString(),
+        {pageSize: this.pageSize, offset: this.dueMilestonePage, project: this.data_choosed.id})
       .toPromise()
       .then((resources:CollectionResource<WorkPackageResource>) => {
         let total:number = resources.total;
@@ -229,7 +192,9 @@ export class DesktopTabComponent implements OnInit {
         });
         this.dueMilestoneCount = resources.elements ? resources.elements.length : 0;
         this.loadingDueMilestones = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadDueMilestonesByPage(i:number) {
@@ -252,8 +217,8 @@ export class DesktopTabComponent implements OnInit {
     this.problemCount = 0;
     this.problemData = [];
     let params;
-    if (this.selectedOption && this.selectedOption.$href !== "0") {
-      params = {"status": "created", "project": this.selectedOption.$href, pageSize: 5, offset: this.problemPage};
+    if (this.data_choosed.id !== "0") {
+      params = {"status": "created", "project": this.data_choosed.id, pageSize: 5, offset: this.problemPage};
     } else {
       params = {"status": "created", pageSize: this.pageSize, offset: this.problemPage};
     }
@@ -279,7 +244,9 @@ export class DesktopTabComponent implements OnInit {
         });
         this.problemCount = resources.elements ? resources.elements.length : 0;
         this.loadingProblems = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadProblemsByPage(i:number) {
@@ -302,8 +269,8 @@ export class DesktopTabComponent implements OnInit {
     this.budgetCount = 0;
     this.budgetData = [];
     let params;
-    if (this.selectedOption && this.selectedOption.$href !== "0") {
-      params = {"project": this.selectedOption.$href};
+    if (this.data_choosed.id !== "0") {
+      params = {"project": this.data_choosed.id, offset: (this.budgetPage - 1) * this.pageSize};
     } else {
       params = {pageSize: this.pageSize, offset: (this.budgetPage - 1) * this.pageSize};
     }
@@ -330,7 +297,9 @@ export class DesktopTabComponent implements OnInit {
         });
         this.budgetCount = resources.elements ? resources.elements.length : 0;
         this.loadingBudgets = false;
-      });
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
   public loadBudgetsByPage(i:number) {
@@ -348,41 +317,91 @@ export class DesktopTabComponent implements OnInit {
     }
   }
 
-  public get selectedOption() {
-    const $href = this.value ? this.value.$href : null;
-    return _.find(this.valueOptions, o => o.$href === $href)!;
+  public getTargetIndicatorsChart() {
+    this.targetChartLoading = true;
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/pokazateli?project=${String(this.data_choosed.id)}`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.targetChartData = resource.data;
+        this.targetChartLabel = resource.label;
+        this.targetChartLoading = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
-  public set selectedOption(val:ValueOption) {
-    let option = _.find(this.valueOptions, o => o.$href === val.$href);
-    this.value = option;
+  public getKTChart() {
+    this.KTChartLoading = true;
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/kt?project=${String(this.data_choosed.id)}`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.KTChartData = resource.data;
+        this.KTChartLabel = resource.label;
+        this.KTChartLoading = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
   }
 
-  public handleUserSubmit() {
-    if (this.selectedOption) {
-      this.homescreenDiagrams.forEach((diagram) => {
-        if (this.selectedOption.$href) {
-          diagram.refresh(this.selectedOption.$href);
-        }
-      });
-      this.blueChild.changeFilter(String(this.selectedOption.$href));
-      this.upcomingTasksPage = 1;
-      this.upcomingTasksPages = 0;
-      this.upcomingTasksVisibility = false;
-      this.getUpcomingTasks();
-      this.dueMilestonePage = 1;
-      this.dueMilestonePages = 0;
-      this.dueMilestoneVisibility = false;
-      this.getDueMilestones();
-      this.problemPage = 1;
-      this.problemPages = 0;
-      this.problemVisibility = false;
-      this.getProblems();
-      this.budgetPage = 1;
-      this.budgetPages = 0;
-      this.budgetVisibility = false;
-      this.getBudgets();
-    }
+  public getBudgetChart() {
+    this.budgetChartLoading = true;
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/budget?project=${String(this.data_choosed.id)}`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.budgetChartData = resource.data;
+        this.budgetChartLabel = resource.label;
+        this.budgetChartLoading = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
+  }
+
+  public getRisksAndProblemsChart() {
+    this.risksAndProblemsChartLoading = true;
+    this.halResourceService
+      .get<DiagramHomescreenResource>(`${this.pathHelper.api.v3.diagrams.toString()}/riski?project=${String(this.data_choosed.id)}`)
+      .toPromise()
+      .then((resource:DiagramHomescreenResource) => {
+        this.risksAndProblemsChartData = resource.data;
+        this.risksAndProblemsChartLabel = resource.label;
+        this.risksAndProblemsChartLoading = false;
+      }).catch(function (reason) {
+      console.log(reason);
+    });
+  }
+
+  public check_load() {
+    return this.targetChartLoading || this.KTChartLoading || this.budgetChartLoading || this.risksAndProblemsChartLoading ||
+      this.loadingUpcomingTasks || this.loadingDueMilestones || this.loadingProblems || this.loadingBudgets;
+  }
+
+  selectEvent(item:any) {
+    this.auto.close();
+    this.data_choosed = item;
+    this.getTargetIndicatorsChart();
+    this.getKTChart();
+    this.getBudgetChart();
+    this.getRisksAndProblemsChart();
+    this.blueChild.changeFilter(String(this.data_choosed.id));
+    this.upcomingTasksPage = 1;
+    this.upcomingTasksPages = 0;
+    this.upcomingTasksVisibility = false;
+    this.getUpcomingTasks();
+    this.dueMilestonePage = 1;
+    this.dueMilestonePages = 0;
+    this.dueMilestoneVisibility = false;
+    this.getDueMilestones();
+    this.problemPage = 1;
+    this.problemPages = 0;
+    this.problemVisibility = false;
+    this.getProblems();
+    this.budgetPage = 1;
+    this.budgetPages = 0;
+    this.budgetVisibility = false;
+    this.getBudgets();
   }
 
   public getGreenClass(i:number):string {

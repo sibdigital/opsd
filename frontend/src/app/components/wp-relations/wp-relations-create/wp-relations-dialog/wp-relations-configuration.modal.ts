@@ -66,12 +66,7 @@ export class WpRelationsConfigurationModalComponent extends OpModalComponent imp
 
   ngOnInit() {
     this.workPackage = this.locals['workPackage'];
-    if (this.workPackage.planType === 'execution') {
-      this.text.title += ' ' + this.text.execution;
-    }
-    if (this.workPackage.planType === 'planning') {
-      this.text.title += ' ' + this.text.planning;
-    }
+    this.text.title += ' ' + this.text.execution;
     this.selectedRelationType = this.locals['selectedRelationType'];
     this.filterCandidatesFor = this.locals['filterCandidatesFor'];
     this.$element = jQuery(this.elementRef.nativeElement);

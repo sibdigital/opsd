@@ -48,6 +48,7 @@ import {ProtocolTabComponent} from "core-components/homescreen-tabs/protocol-tab
 import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipality/municipality-tab.component";
 import {PerformanceTabComponent} from "core-components/homescreen-tabs/performance-tab/performance-tab.component";
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
+import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -99,6 +100,11 @@ export const HOMESCREEN_ROUTES = [
     name: 'homescreen.desktop',
     url: '/desktop',
     component: DesktopTabComponent
+  },
+  {
+    name: 'homescreen.colorlight',
+    url: '/colorlight',
+    component: ColorlightTabComponent
   },
   {
     name: 'homescreen.kt',

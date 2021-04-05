@@ -39,11 +39,6 @@ class UpdateQueryFromParamsService
 
     apply_filters(params)
 
-    #bbm(
-    # order is very important - must go after filter
-    apply_plan_type(params)
-    # )
-
     apply_columns(params)
 
     apply_sums(params)
@@ -73,13 +68,6 @@ class UpdateQueryFromParamsService
   def apply_sort_by(params)
     query.sort_criteria = params[:sort_by] if params[:sort_by]
   end
-
-  #bbm(
-  def apply_plan_type(params)
-    return unless params[:plan_type]
-    query.add_filter("plan_type", "~", params[:plan_type]) if params[:plan_type]
-  end
-  # )
 
   def apply_filters(params)
     return unless params[:filters]

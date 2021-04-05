@@ -158,7 +158,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
         self.estimated_hours = remaining_hours if estimated_hours.blank? && !remaining_hours.blank?
         self.remaining_hours = estimated_hours if remaining_hours.blank? && !estimated_hours.blank?
         #tan 2019.07.03
-        #self.plan_type = :execution
       end
     end
   end

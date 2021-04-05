@@ -55,9 +55,6 @@ import {debugLog} from "core-app/helpers/debug_output";
 export class WorkPackagesSetComponent implements OnInit, OnDestroy {
 
   projectIdentifier = this.$state.params['projectPath'] || null;
-  //bbm(
-  planType = this.$state.params['plan_type'] || null;
-  //)
 
   tableInformationLoaded = false;
 

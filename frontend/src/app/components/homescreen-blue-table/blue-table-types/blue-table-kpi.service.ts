@@ -91,7 +91,7 @@ export class BlueTableKpiService extends BlueTableService {
                         data.push({
                           id: wp.work_package_id,
                           parentId: target.target_id + 'Target',
-                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity">' + wp.subject + '</a>',
                           homescreen_curator: '',
                           homescreen_director: '<a href="' + super.getBasePath() + '/users/' + wp.assignee_id + '">' + wp.assignee + '</a>',
                           homescreen_plan: wp.plan,
@@ -142,7 +142,7 @@ export class BlueTableKpiService extends BlueTableService {
                         data.push({
                           id: problem.work_package_id,
                           parentId: problem.id + 'Project',
-                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/activity?plan_type=execution">' + problem.subject + '</a>',
+                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + problem.work_package_id + '/activity">' + problem.subject + '</a>',
                           homescreen_curator: '',
                           homescreen_director: '<a href="' + super.getBasePath() + '/users/' + problem.assignee_id + '">' + problem.assignee + '</a>',
                           homescreen_plan: problem.plan,
@@ -211,7 +211,7 @@ export class BlueTableKpiService extends BlueTableService {
                         data.push({
                           id: wp.work_package_id,
                           parentId: target.target_id + 'Target',
-                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                          homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity">' + wp.subject + '</a>',
                           homescreen_curator: '',
                           homescreen_director: '<a href="' + super.getBasePath() + '/users/' + wp.assignee_id + '">' + wp.assignee + '</a>',
                           homescreen_plan: wp.plan,
@@ -275,7 +275,7 @@ export class BlueTableKpiService extends BlueTableService {
                             data.push({
                               id: wp.work_package_id,
                               parentId: target.target_id + 'Target',
-                              homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity?plan_type=execution">' + wp.subject + '</a>',
+                              homescreen_name: '<a href="' + super.getBasePath() + '/work_packages/' + wp.work_package_id + '/activity">' + wp.subject + '</a>',
                               homescreen_curator: '',
                               homescreen_director: '<a href="' + super.getBasePath() + '/users/' + wp.assignee_id + '">' + wp.assignee + '</a>',
                               homescreen_plan: wp.plan,
@@ -335,7 +335,7 @@ export class BlueTableKpiService extends BlueTableService {
     if (row._type === 'WorkPackageQuarterlyTarget') {
       switch (i) {
         case 0: {
-          return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/activity?plan_type=execution">' + row.subject + '</a>';
+          return '<a href="' + super.getBasePath() + '/work_packages/' + row.work_package_id + '/activity">' + row.subject + '</a>';
           break;
         }
         case 2: {

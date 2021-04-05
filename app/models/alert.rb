@@ -59,10 +59,14 @@ class Alert < ActiveRecord::Base
   def self.create_pop_up_alert(entity, aboutwhat, createdby, touser)
     #+-tan 2019.11.30 сами себя не уведомляем
     #+-knm 2020.02.15 проверка настроек пользователя перед созданием
-    if createdby == touser or touser.pref.disable_popups?
+    begin
+    if createdby == touser or touser.model_name.to_s == "Group"
       return
     end
-    begin
+    if touser.pref.disable_popups?
+      return
+    end
+
     text = ""
     if createdby != nil
       fio = createdby.name(:lastname_f_p)

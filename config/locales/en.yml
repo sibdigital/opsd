@@ -429,6 +429,8 @@ en:
         gos_zakaz: Государственный заказчик
         date_begin: Дата начала
         date_end: Дата завершения
+        schedule_date: Дата размещения плана-графика закупок
+        auction_date: Дата проведения аукциона
         etaps: Этапы
       #)
       custom_action:
@@ -1093,6 +1095,7 @@ en:
   button_approve: Утвердить
   button_confirm: Согласовать
   button_like: Понравилось
+  button_form: Сформировать
   #  )
   button_decline: Отклонить
   button_delete_watcher: Удаление наблюдателя %{name}
@@ -1652,6 +1655,7 @@ en:
   label_activity: Мониторинг
   label_interactive_map: Карта районов РБ
   label_strategic_map: Стратегическая карта
+  label_colorlight: Светофор
   label_add_edit_translations: Добавить и редактировать перевод
   label_add_another_file: Добавьте еще файл
   label_add_columns: Добавить выбранные столбцы
@@ -2004,6 +2008,7 @@ en:
   ladel_additional: Дополнительно
   label_reports: Отчеты
   label_report_progress_project: Отчет о ходе реализации проекта
+  label_report_wp_by_period: Отчет о исполнении пакетов работ за период
   label_report_passport: Паспорт регионального проекта
   label_report_change_request: Запрос на изменение паспорта
   label_resources: Ресурсы
@@ -2328,31 +2333,31 @@ en:
   label_x_closed_work_packages_abbr:
     one: 1 закрыто
     other: "%{count} закрыто"
-    zero: 0 closed
+    zero: Нет закрытых
     few: "%{count} закрыто"
     many: "%{count} закрыто"
   label_x_comments:
     one: 1 комментарий
     other: "%{count} комментариев"
-    zero: no comments
+    zero: Нет комментариев
     few: "%{count} комментария"
     many: "%{count} комментариев"
   label_x_open_work_packages_abbr:
     one: 1 открыт
     other: "%{count} открыто"
-    zero: 0 open
+    zero: 0 открыто
     few: "%{count} открыто"
     many: "%{count} открыто"
   label_x_open_work_packages_abbr_on_total:
     one: 1 открыт / %{total}
     other: "%{count} открыто / %{total}"
-    zero: 0 open / %{total}
+    zero: 0 открыто / %{total}
     few: "%{count} открыто / %{total}"
     many: "%{count} открыто / %{total}"
   label_x_projects:
     one: 1 проект
     other: "%{count} проектов"
-    zero: no projects
+    zero: нет проектов
     few: "%{count} проекта"
     many: "%{count} проектов"
   label_year: Год
@@ -2596,6 +2601,7 @@ en:
   permission_delete_wiki_pages: Удалить wiki-страницы
   permission_delete_wiki_pages_attachments: Удалить вложения
   permission_desktop: Рабочий стол
+  permission_colorlight: Светофор
   permission_discussions: Дискуссии
   permission_edit_work_package_notes: Редактировать заметки
   permission_edit_work_packages: Редактировать мероприятия
@@ -2695,6 +2701,7 @@ en:
   label_production_calendars: Производственные календари
   label_work_calendar: Производственный календарь
   permission_view_interactive_map: Просмотр карты
+  permission_view_colorlight: Создание отчета светофора
   permission_view_national_and_federal_projects: Просмотр проектов и программ
   permission_manage_national_and_federal_projects: Управление проектами и программами
   permission_manage_hpi_values: Управление оценками ВДЛ
@@ -2711,6 +2718,7 @@ en:
   permission_view_messages: Просмотр сообщений
   permission_view_members: Просмотреть участников
   permission_view_report_progress_project_page: Просмотр отчета о ходе реализации проекта
+  permission_view_report_wp_by_period_page: Просмотр отчета о ходе реализации пакетов работ за период
   permission_view_report_passport_page: Просмотр паспорта регионального проекта
   permission_view_report_change_request_page: Просмотр изменений паспорта регионального проекта
   permission_view_reportings: Просмотр отчетов
@@ -2739,6 +2747,7 @@ en:
   project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
   project_module_report_progress_project: Отчет о ходе реализации проекта
+  project_module_report_wp_by_period: Отчет о ходе реализации пакетов работ за период
   project_module_report_passport: Паспорт регионального проекта
   project_module_report_change_request: Запрос на изменение паспорта регионального проекта
   project_module_stages: Этапы
@@ -2755,6 +2764,7 @@ en:
   project_module_wiki: Управление знаниями
   project_module_head_performance_indicator_values: Оценка высшего должностного лица
   project_module_interactive_map: Карта районов
+  project_module_colorlight: Светофор
   project_module_strategic_map: Стратегическая карта
   project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
@@ -3387,11 +3397,11 @@ en:
       column:
         assigned_to: Ответственный
         type: Тип
-        due_date: Дате окончания
+        due_date: до
         fact_due_date: Фактическая дата окончания
         name: Наименование
         status: Состояние
-        start_date: Дата начала
+        start_date: от
       columns: Столбцы
       comparisons: Сравнения
       comparison:

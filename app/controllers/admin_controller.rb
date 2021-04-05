@@ -30,7 +30,7 @@
 class AdminController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_admin, except: [:send_email_assignee_from_task, :send_email_assignee_report]
 
   menu_item :plugins, only: [:plugins]
   menu_item :info, only: [:info]
@@ -69,7 +69,7 @@ class AdminController < ApplicationController
       #ban(
       @term_date = workPackage.due_date
       @project_name = Project.find_by(id: workPackage.project_id).name
-      UserMailer.work_package_report_notify_assignee(@assigneee,@term_date.to_s,workPackage,@project_name).deliver_now
+      UserMailer.work_package_report_notify_assignee(@assigneee, @term_date.to_s, workPackage, @project_name).deliver_now
       #ban)
       #UserMailer.work_package_notify_assignee(@assigneee).deliver_now
       #Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)

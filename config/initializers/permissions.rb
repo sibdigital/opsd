@@ -46,6 +46,7 @@ Redmine::AccessControl.map do |map|
                    arbitary_objects: %i[index new create edit update destroy],
                    agreements: %i[index new create edit update destroy],
                    report_progress_project: %i[index new create edit update destroy],
+                   report_wp_by_period: %i[index new create edit update destroy],
                    report_passport: %i[index new create edit update destroy],
                    report_change_request: %i[index new create edit update destroy],
                    #)
@@ -491,6 +492,14 @@ Redmine::AccessControl.map do |map|
   map.permission :municipality,
                  {homescreen: %i[ vkladka1 index ]}
 
+  map.permission :colorlight,
+                 {homescreen: %i[ vkladka1 index ]}
+
+  map.project_module :colorlight do |i_map|
+    i_map.permission :view_colorlight,
+                     { project_colorlight: %i[ index create] },
+                     require: :member
+    end
   map.project_module :interactive_map do |i_map|
     i_map.permission :view_interactive_map,
                      { project_interactive_map: %i[ index get_wps] },
@@ -537,6 +546,7 @@ Redmine::AccessControl.map do |map|
   map.project_module :arbitary_objects
   map.project_module :agreements
   map.project_module :report_progress_project
+  map.project_module :report_wp_by_period
   map.project_module :report_passport
   map.project_module :report_change_request
 

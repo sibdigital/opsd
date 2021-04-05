@@ -178,7 +178,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </li>
               </ul>
             </td>
-            <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
+            <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity'), title: document.work_package.subject)) %>
             <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
           </tr>
         <% end %>
@@ -236,7 +236,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= content_tag(:td, User.find(document.user_id).fio) %>
             <%= content_tag(:td, format_activity_day(document.created_on)) %>
             <%= content_tag(:td, format_activity_day(document.updated_on)) %>
-            <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity') + '?plan_type=execution', title: document.work_package.subject)) %>
+            <%= content_tag(:td, document.work_package.nil? ? '' : link_to(document.work_package.subject, project_work_package_path(document.work_package.project.identifier, document.work_package.id, 'activity'), title: document.work_package.subject)) %>
             <%=content_tag(:td, link_to(op_icon('icon-delete'), {controller: '/documents', action: 'destroy', id: document}, class: 'icon-2', data: { confirm: l(:text_are_you_sure) }, method: :delete) ) %>
             <%document.attachments.each do |attachment| %>
               </tr>

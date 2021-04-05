@@ -36,32 +36,65 @@ module API
 
         resources :problems do
           get do
-
-            user_projects = [0]
-            if params['project'].present?
-              user_projects = [params['project']]
+=begin
+tempproblems = WorkPackageProblem
+  .joins(:work_package)
+  .all
+tempproblems = tempproblems.where(status: params['status']) if params['status'].present?
+if params['raion'].present?
+  tempproblems = tempproblems.where(work_packages: {raion_id: params['raion']})
+end
+tempproblems = if params['project'].present?
+              tempproblems.where(project_id: params['project'])
             else
-              user_projects = current_user.visible_projects.map(&:id)
+              projects = current_user.projects.map{|p| p.id}
+              if projects.nil? || projects.empty?
+                tempproblems.where(project_id: nil)#Зачем выполнять лишние запросы
+              else
+                tempproblems.where('work_package_problems.project_id in (' + projects.join(',') + ')')
+              end
             end
+tempproblems = tempproblems.where(work_packages: {organization_id: params['organization']}) if params['organization'].present?
+=end
 
-            problems = WorkPackageProblem.where('work_package_problems.project_id in (' + user_projects.join(',') + ')')
 
-            if params['raion'].present?
-              problems = problems.joins(:work_package).where(work_packages: {raion_id: params['raion']})
-            end
-            if params['status'].present?
-              problems = problems.where(status: params['status'])
-            end
-            if params['organization'].present?
-              problems = problems.where({organization_id: params['organization']})
-            end
 
-            offset = params['offset'] || "1"
-            ProblemCollectionRepresenter.new(problems,
-                                             api_v3_paths.problems,
-                                             page: offset.to_i,
-                                             per_page: 20,
-                                             current_user: current_user)#Есть ограничение на количество проблем - per_page
+  user_projects = [0]
+  if params['project'].present? && params['raion'] != '0'
+    user_projects = [params['project']]
+  else
+    user_projects = current_user.visible_projects.map(&:id)
+  end
+
+  problems = WorkPackageProblem.where('work_package_problems.project_id in (' + user_projects.join(',') + ')')
+
+  if params['raion'].present? && params['raion'] != '0'
+    problems = problems.joins(:work_package).where(work_packages: {raion_id: params['raion']})
+  end
+  if params['status'].present?
+    problems = problems.where(status: params['status'])
+  end
+  if params['organization'].present?
+    problems = problems.where({organization_id: params['organization']})
+  end
+
+=begin
+            temparr = tempproblems - problems
+
+            if(temparr.empty?)
+              Rails.logger.info "PROBLEMS are identical"
+            else
+              Rails.logger.info "PROBLEMS NOT identical"
+            end
+=end
+
+
+  offset = params['offset'] || "1"
+  ProblemCollectionRepresenter.new(problems,
+                                   api_v3_paths.problems,
+                                   page: offset.to_i,
+                                   per_page: 20,
+                                   current_user: current_user)#Есть ограничение на количество проблем - per_page
           end
 
           params do

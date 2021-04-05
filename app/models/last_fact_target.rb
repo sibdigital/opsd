@@ -13,9 +13,15 @@ class LastFactTarget
     end
   end
 
-  def self.get_now(projects, time = Date.today)
+  def self.get_now(projects)
     ActiveRecord::Base.connection.exec_query(
-      "select * from slice_last_quartered_fact_targets('#{time}' :: TIMESTAMP WITHOUT TIME ZONE, '{#{projects}}')"
+      "select * from slice_last_quartered_fact_targets('#{Date.today}' :: TIMESTAMP WITHOUT TIME ZONE, '{#{projects}}')"
+    ).to_hash
+  end
+
+  def self.get_by_date(projects, date)
+    ActiveRecord::Base.connection.exec_query(
+      "select * from slice_last_quartered_fact_targets('#{date}' :: TIMESTAMP WITHOUT TIME ZONE, '{#{projects}}')"
     ).to_hash
   end
 

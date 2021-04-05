@@ -137,10 +137,7 @@ export class WorkPackageCreateController implements OnInit, OnDestroy {
   protected createdWorkPackage() {
     const type = this.stateParams.type ? parseInt(this.stateParams.type) : undefined;
     const project = this.stateParams.projectPath;
-    //bbm(
-    const planType = this.stateParams.plan_type;
-    //)
 
-    return this.wpCreate.createOrContinueWorkPackage(project, planType, type);
+    return this.wpCreate.createOrContinueWorkPackage(project, type);
   }
 }

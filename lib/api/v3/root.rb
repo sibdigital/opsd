@@ -67,7 +67,8 @@ module API
       mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
       mount ::API::V3::Protocols::ProtocolsAPI
       mount ::API::V3::Views::ViewsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesByRoleAPI
+      mount ::API::V3::WorkPackages::WorkPackagesFutureAPI
+      mount ::API::V3::WorkPackages::WorkPackagesDueAPI
       # )
       # (iag
       mount ::API::V3::Meetings::MeetingsAPI
@@ -81,6 +82,8 @@ module API
       mount ::API::V3::Raions::RaionsAPI
       # - tan
       mount ::API::V3::Periods::PeriodsAPI
+      mount ::API::V3::Colorlight::ColorlightAPI
+      mount ::API::V3::Enumerations::EnumerationsAPI
       mount ::API::V3::ControlLevels::ControlLevelsAPI
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::Queries::QueriesAPI

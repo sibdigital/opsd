@@ -67,6 +67,8 @@ import {ActivatedRoute, RouterModule} from "@angular/router";
 import {AngularTreeGridModule} from "core-components/angular-tree-grid/angular-tree-grid.module";
 import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
+import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib/autocomplete-lib.module";
+import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 
 @NgModule({
   imports: [
@@ -78,7 +80,8 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
     FormsModule,
     BrowserAnimationsModule,
     OpenprojectCommonModule,
-    AngularTreeGridModule
+    AngularTreeGridModule,
+    AutocompleteLibModule
   ],
   providers: [
     BlueTableDesktopService,
@@ -103,6 +106,7 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
     HomescreenTabsComponent,
     KpiTabComponent,
     DesktopTabComponent,
+    ColorlightTabComponent,
     KtTabComponent,
     ProblemsTabComponent,
     DiscussTabComponent,
@@ -111,7 +115,7 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
     ProtocolTabComponent,
     MunicipalityTabComponent,
     PerformanceTabComponent,
-    HomescreenBlueTableComponent
+    HomescreenBlueTableComponent,
   ],
   entryComponents: [
     HomescreenProgressBarComponent,
@@ -124,6 +128,7 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
     HomescreenTabsComponent,
     KpiTabComponent,
     DesktopTabComponent,
+    ColorlightTabComponent,
     KtTabComponent,
     ProblemsTabComponent,
     DiscussTabComponent,

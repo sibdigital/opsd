@@ -6,7 +6,7 @@ class Contract < ActiveRecord::Base
   acts_as_customizable
 
   validates :contract_num, presence: true, uniqueness: true
-
+  belongs_to :project
   def option_name
     OptionName
   end

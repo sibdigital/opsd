@@ -1,9 +1,11 @@
 <!--<button (click)="expandAll()">Expand All</button>-->
-<db-angular-tree-grid
+<div style="overflow: auto">
+    <db-angular-tree-grid
         #angularGrid
         [data]="data"
         [configs]="this.blueTableModule.getConfigs()">
-</db-angular-tree-grid>
+    </db-angular-tree-grid>
+</div>
 <table class="blueTable">
 <!--    <thead>-->
 <!--    <tr *ngIf="this.template !=='indicator'">-->

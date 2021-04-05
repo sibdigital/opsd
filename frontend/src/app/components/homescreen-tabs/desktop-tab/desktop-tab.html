@@ -1,49 +1,76 @@
 <div ng-app="OpenProjectLegacy" class="ng-scope">
     <div id="invisible-grid" class="widget-boxes project-overview">
-        <div class="grid-block">
-            <div style="flex: 0 0 23%; max-width: 23%;">
-                <p style="text-align: center;font-weight: bold;margin: -2px;">Показатели</p>
-                <homescreen-diagram chart-name='pokazateli' chart-labels='["Нет откл.","Небольшие откл.","Значит. откл", "Нет данных"]' chart-colors='["#00b050", "#ffc000", "#c00000", "#1f497d"]'>
-                </homescreen-diagram>
+        <div style="overflow-x: scroll;" class="grid-block">
+            <div style="flex:auto;display: flex;align-items: center;justify-content: center;">
+                <div style="max-width:300px">
+                    <p style="text-align: center;font-weight: bold;margin: -2px;">Показатели</p>
+                    <homescreen-diagram [data]="this.targetChartData" [label]='this.targetChartLabel'
+                                        [chartLabels]='["Нет откл.","Небольшие откл.","Значит. откл", "Нет данных"]'
+                                        [chartColors]='["#00b050","#1f497d","#c00000","#ffc000"]'>
+                    </homescreen-diagram>
+                </div>
             </div>
-            <div style="flex: 0 0 23%; max-width: 23%;">
-                <p style="text-align: center;font-weight: bold;margin: -2px;">КТ</p>
-                <homescreen-diagram chart-name='kt' chart-labels='["Исп.","Не исп.","В работе","Риски"]' chart-colors='["#00b050", "#c00000", "#1f497d", "#ffc000"]'>
-                </homescreen-diagram>
+            <div style="flex:auto;display: flex;align-items: center;justify-content: center;">
+                <div style="max-width:300px">
+                    <p style="text-align: center;font-weight: bold;margin: -2px;">КТ</p>
+                    <homescreen-diagram [data]="this.KTChartData" [label]='this.KTChartLabel'
+                                        [chartLabels]='["Исп.","Не исп.","В работе","Риски"]'>
+                    </homescreen-diagram>
+                </div>
             </div>
-            <div style="flex: 0 0 23%; max-width: 23%;">
-                <p style="text-align: center;font-weight: bold;margin: -2px;">Бюджет</p>
-                <homescreen-diagram chart-name='budget' chart-labels='["Исп.","Не исп.","Остаток"]' chart-colors='["#00b050", "#c00000", "#1f497d"]'>
-                </homescreen-diagram>
+            <div style="flex:auto;display: flex;align-items: center;justify-content: center;">
+                <div style="max-width:300px">
+                    <p style="text-align: center;font-weight: bold;margin: -2px;">Бюджет</p>
+                    <homescreen-diagram [data]="this.budgetChartData" [label]='this.budgetChartLabel'
+                                        [chartLabels]='["Исп.","Не исп.","Остаток"]'
+                                        [chartColors]='["#00b050", "#c00000", "#1f497d"]'>
+                    </homescreen-diagram>
+                </div>
             </div>
-            <div style="flex: 0 0 23%; max-width: 23%;">
-                <p style="text-align: center;font-weight: bold;margin: -2px;">Риски</p>
-                <!--
-                <homescreen-diagram chart-name='riski' chart-labels='["Отсутств.", "Незначит.","Критич."]' chart-colors='["#00b050", "#ffc000", "#c00000"]'>
-                -->
-                <homescreen-diagram chart-name='riski' chart-labels='["Незначит.","Критич."]'
-                                    chart-colors='["#ffc000", "#c00000"]'>
-                </homescreen-diagram>
+            <div style="flex:auto;display: flex;align-items: center;justify-content: center;">
+                <div style="max-width:300px">
+                    <p style="text-align: center;font-weight: bold;margin: -2px;">Риски</p>
+                    <!--
+                    <homescreen-diagram chart-name='riski' chart-labels='["Отсутств.", "Незначит.","Критич."]' chart-colors='["#00b050", "#ffc000", "#c00000"]'>
+                    -->
+                    <homescreen-diagram [data]="this.risksAndProblemsChartData"
+                                        [label]='this.risksAndProblemsChartLabel'
+                                        [chartLabels]='["Незначит.","Критич."]'
+                                        [chartColors]='["#ffc000", "#c00000"]'>
+                    </homescreen-diagram>
+                </div>
             </div>
-            <div style="text-align: center; width: 8%; background-color: #c0504d; margin-right: 10px;" >
-                <a style="font-weight: bold; color: white; position:relative; top:40%" class="problems-a" href="{{this.getBasePath()}}/vkladka1/problems">Проблем<br>{{problemCount}}</a>
+            <div style="text-align: center; width: 100px; background-color: #c0504d; margin-right: 10px;">
+                <a style="font-weight: bold; color: white; position:relative; top:40%" class="problems-a"
+                   href="{{this.getBasePath()}}/vkladka1/problems">Проблем<br>{{problemCount}}</a>
             </div>
         </div>
     </div>
-    <div class="grid-block">
-        <p>Проект: </p>
-        <select [(ngModel)]="selectedOption"
-                [compareWith]="compareByHref"
-                (change)="handleUserSubmit()"
-                style="width: 200px">
-            <option
-                    *ngFor="let value of valueOptions"
-                    [attr.selected]="compareByHref(selectedOption, value) || undefined"
-                    [attr.label]="value.name"
-                    [ngValue]="value"
-                    [textContent]="value.name">
-            </option>
-        </select>
+<!--    <div class="grid-block" style="border: 2px solid #1C6EA4;border-radius: 5px;display: inline-flex;margin: 10px 0px">-->
+
+<!--        <button style="border: none;background: #1C6EA4;" class="icon-search"></button>-->
+<!--    </div>-->
+    <div class="ng-autocomplete" style="width: 100%;border: 2px solid #1C6EA4;display: inline-flex;margin: 10px 0;">
+        <ng-autocomplete #autocomplete
+                         [data]="data_autocomplete"
+                         [searchKeyword]="keyword"
+                         [isLoading]="check_load()"
+                         [disabled]="check_load()"
+                         placeHolder="Все проекты..."
+                         (selected)="selectEvent($event)"
+                         (inputCleared)="selectEvent({id: '0', name: 'Все проекты'})"
+                         [itemTemplate]="itemTemplate"
+                         [notFoundTemplate]="notFoundTemplate"
+                         debounceTime="1000"
+                         notFoundText="Не найдено">
+        </ng-autocomplete>
+        <button class="icon-search" style="color: white;width: 8%;background: #1C6EA4;border: 1px #1C6EA4"></button>
+        <ng-template #itemTemplate let-item >
+            <a [innerHTML]="item.name" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis; padding: 5px 5px;"></a>
+        </ng-template>
+        <ng-template #notFoundTemplate let-notFound>
+            <div [innerHTML]="notFound"></div>
+        </ng-template>
     </div>
     <homescreen-blue-table [template]="'desktop'"></homescreen-blue-table>
     <br/>
@@ -60,12 +87,12 @@
                     <td [ngClass]="getGreenClass(i)"
                         [textContent]="item.number"></td>
                     <td [ngClass]="getGreenClass(i)">
-                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?plan_type=execution"
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity"
                            [textContent]="shorten(item.subject)" [title]="item.subject"></a>
                     </td>
                     <td [ngClass]="getGreenClass(i)">
                         <a href="{{this.getBasePath()}}/projects/{{item.projectId}}"
-                        [textContent]="shorten(item.project)"  [title]="item.project"></a>
+                           [textContent]="shorten(item.project)" [title]="item.project"></a>
                     </td>
                 </tr>
                 <tr *ngIf="loadingUpcomingTasks">
@@ -100,11 +127,11 @@
                 </tr>
                 </thead>
                 <tbody [hidden]="dueMilestoneVisibility">
-                <tr *ngFor="let item of dueMilestoneData; let i = index" >
+                <tr *ngFor="let item of dueMilestoneData; let i = index">
                     <td [ngClass]="getRedClass(i)"
                         [textContent]="item.number"></td>
                     <td [ngClass]="getRedClass(i)">
-                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?plan_type=execution"
+                        <a href="{{this.getBasePath()}}/projects/{{item.projectId}}/work_packages/{{item.id}}/activity?"
                            [textContent]="shorten(item.subject)" [title]="item.subject"></a>
                     </td>
                     <td [ngClass]="getRedClass(i)">
@@ -144,7 +171,7 @@
                 </tr>
                 </thead>
                 <tbody [hidden]="problemVisibility">
-                <tr *ngFor="let item of problemData; let i = index" >
+                <tr *ngFor="let item of problemData; let i = index">
                     <td [ngClass]="getOrangeClass(i)"
                         [textContent]="item.number"></td>
                     <td [ngClass]="getOrangeClass(i)">
@@ -188,7 +215,7 @@
                 </tr>
                 </thead>
                 <tbody [hidden]="budgetVisibility">
-                <tr *ngFor="let item of budgetData; let i = index" >
+                <tr *ngFor="let item of budgetData; let i = index">
                     <td *ngIf="item"
                         [ngClass]="getPurpleClass(i)"
                         [textContent]="item.number"></td>
@@ -198,7 +225,7 @@
                            [textContent]="shorten(item.name)" [title]="item.name"></a>
                     </td>
                     <td *ngIf="item"
-                        [ngClass]="getPurpleClass(i)"[textContent]="item.value.toFixed(2)">
+                        [ngClass]="getPurpleClass(i)" [textContent]="item.value.toFixed(2)">
                     </td>
                 </tr>
                 <tr *ngIf="loadingBudgets">

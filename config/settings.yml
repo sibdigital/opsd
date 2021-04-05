@@ -157,6 +157,8 @@ work_days:
 notify_delay:
   format: int
   default: 10
+colorlight_percentage:
+  default: '70,35'
 default_language:
   default: ru
 default_auto_hide_popups:

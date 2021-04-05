@@ -1479,6 +1479,12 @@ class ReportProgressProjectController < ApplicationController
           Rails.logger.info(e.message)
         end
 
+        attch = Attachment.where(container_type: 'WorkPackage', container_id: result['id'])
+        file_str = ""
+        attch.map do |a|
+          file_str += a.filename + ", "
+        end
+        file_str = attch.count > 0 ? file_str.first(-2) : ""
         sheet.insert_cell(start_index+i+k, 0, numberTarget)
         sheet.insert_cell(start_index+i+k, 1, result["control_level"])
         sheet.insert_cell(start_index+i+k, 2, "")
@@ -1486,7 +1492,8 @@ class ReportProgressProjectController < ApplicationController
         sheet.insert_cell(start_index+i+k, 4, period_plan)
         sheet.insert_cell(start_index+i+k, 5, "")
         sheet.insert_cell(start_index+i+k, 6, username)
-        sheet.insert_cell(start_index+i+k, 7, result["comment"])
+        sheet.insert_cell(start_index+i+k, 7, file_str)
+        sheet.insert_cell(start_index+i+k, 8, result["comment"])
 
 
         #  0ba53d -зеленый
@@ -1509,6 +1516,7 @@ class ReportProgressProjectController < ApplicationController
         sheet[start_index+i+k][5].change_text_wrap(true)
         sheet[start_index+i+k][6].change_text_wrap(true)
         sheet[start_index+i+k][7].change_text_wrap(true)
+        sheet[start_index+i+k][8].change_text_wrap(true)
 
 
 
@@ -1551,6 +1559,11 @@ class ReportProgressProjectController < ApplicationController
         sheet.sheet_data[start_index+i+k][7].change_border(:left, 'thin')
         sheet.sheet_data[start_index+i+k][7].change_border(:right, 'thin')
         sheet.sheet_data[start_index+i+k][7].change_border(:bottom, 'thin')
+
+        sheet.sheet_data[start_index+i+k][8].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+k][8].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+k][8].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+k][8].change_border(:bottom, 'thin')
 
         parent_id = result["parent_id"]
         start_index += 1
@@ -1722,7 +1735,7 @@ class ReportProgressProjectController < ApplicationController
           sheet.insert_cell(start_index+i+k, 4, period_plan)
           sheet.insert_cell(start_index+i+k, 5, period_fact)
           sheet.insert_cell(start_index+i+k, 6, username)
-          sheet.insert_cell(start_index+i+k, 7, "")
+          sheet.insert_cell(start_index+i+k, 7, result["comment"])
 
 
           #  0ba53d -зеленый
@@ -2022,7 +2035,17 @@ class ReportProgressProjectController < ApplicationController
           punkt += map[l].to_s + "."
         end
 
-
+        attch = Attachment.where(container_type: 'WorkPackage',container_id: ktTask["work_packages_id"])
+        file_str = ""
+        attch.map do |a|
+          file_str += a.filename + ", "
+        end
+        file_str = attch.count > 0 ? file_str.first(-2) : ""
+        com_str = ""
+        cmmnt = Journal.where(journable_type: 'WorkPackage', journable_id: ktTask["work_packages_id"])
+        cmmnt.map do |c|
+          com_str += (c.notes.include?("_Обновлено автоматически") or c.notes == nil or c.notes == "") ? "" : "\n" + c.notes
+        end
 
         sheet.insert_cell(start_index+i+j+k, 0, punkt)
         sheet.insert_cell(start_index+i+j+k, 1, ktTask["control_level"])
@@ -2031,7 +2054,8 @@ class ReportProgressProjectController < ApplicationController
         sheet.insert_cell(start_index+i+j+k, 4, period_plan)
         sheet.insert_cell(start_index+i+j+k, 5, period_fact)
         sheet.insert_cell(start_index+i+j+k, 6, username)
-        sheet.insert_cell(start_index+i+j+k, 7, "")
+        sheet.insert_cell(start_index+i+j+k, 7, file_str)
+        sheet.insert_cell(start_index+i+j+k, 8, com_str)
 
         #  0ba53d -зеленый
         #  ff0000 -красный
@@ -2054,6 +2078,7 @@ class ReportProgressProjectController < ApplicationController
         sheet[start_index+i+j+k][5].change_text_wrap(true)
         sheet[start_index+i+j+k][6].change_text_wrap(true)
         sheet[start_index+i+j+k][7].change_text_wrap(true)
+        sheet[start_index+i+j+k][8].change_text_wrap(true)
 
         sheet.sheet_data[start_index+i+j+k][0].change_border(:top, 'thin')
         sheet.sheet_data[start_index+i+j+k][0].change_border(:left, 'thin')
@@ -2095,6 +2120,11 @@ class ReportProgressProjectController < ApplicationController
         sheet.sheet_data[start_index+i+j+k][7].change_border(:right, 'thin')
         sheet.sheet_data[start_index+i+j+k][7].change_border(:bottom, 'thin')
 
+        sheet.sheet_data[start_index+i+j+k][8].change_border(:top, 'thin')
+        sheet.sheet_data[start_index+i+j+k][8].change_border(:left, 'thin')
+        sheet.sheet_data[start_index+i+j+k][8].change_border(:right, 'thin')
+        sheet.sheet_data[start_index+i+j+k][8].change_border(:bottom, 'thin')
+
       end
 
       if ktTasks.count != 0
@@ -2119,7 +2149,7 @@ class ReportProgressProjectController < ApplicationController
                u.id    as user_id,
                ed.name as document,
                cl.code as control_level,
-               t.comment
+               atch.filename as comment
             FROM targets t
                    INNER JOIN enumerations e ON e.id = t.type_id and e.name = '"+I18n.t(:default_result)+"'
                    LEFT JOIN work_package_targets wt ON wt.target_id = t.id
@@ -2127,8 +2157,9 @@ class ReportProgressProjectController < ApplicationController
                    LEFT OUTER JOIN users u ON w.assigned_to_id = u.id
                    LEFT OUTER JOIN enumerations ed ON ed.id = w.required_doc_type_id
                    LEFT OUTER JOIN control_levels cl ON cl.id = w.control_level_id
+                   LEFT OUTER JOIN attachments atch ON atch.container_type = 'WorkPackage' and atch.container_id = w.id
             WHERE t.project_id = "+ @project.id.to_s +
-      " GROUP BY t.parent_id, t.id, t.name, t.result_due_date, t.result_assigned, t.plan_date, w.id, w.subject, w.type_id, w.start_date, w.due_date, w.first_start_date,  w.first_due_date, u.id, ed.name, cl.code, t.comment
+      " GROUP BY t.parent_id, t.id, t.name, t.result_due_date, t.result_assigned, t.plan_date, w.id, w.subject, w.type_id, w.start_date, w.due_date, w.first_start_date,  w.first_due_date, u.id, ed.name, cl.code, atch.filename
             ORDER BY t.parent_id desc,  t.id"
 
     result = ActiveRecord::Base.connection.execute(sql)
@@ -2259,9 +2290,10 @@ class ReportProgressProjectController < ApplicationController
                 SELECT r.to_id FROM r
             )
           )
-         SELECT t.*, l.level as level, l.path, cl.code as control_level from LEVEL l, TASK t
+         SELECT t.*, l.level as level, l.path, cl.code as control_level, atch.filename as comment from LEVEL l, TASK t
          INNER JOIN work_packages w ON w.id = t.work_packages_id
          LEFT OUTER JOIN control_levels cl ON cl.id = w.control_level_id
+         LEFT JOIN attachments atch ON atch.container_id = t.work_packages_id AND atch.container_type = 'WorkPackage'
 
          WHERE l.work_packages_id = t.work_packages_id
          ORDER BY  l.path"

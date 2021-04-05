@@ -64,7 +64,9 @@ export class ApiV3Paths {
   //bbm(
   public readonly diagrams = new SimpleResource(this.apiV3Base, 'diagrams');
 
-  public readonly work_packages_by_role = new SimpleResourceCollection(this.apiV3Base, 'work_packages_by_role');
+  public readonly work_packages_future = new SimpleResourceCollection(this.apiV3Base, 'work_packages_future');
+
+  public readonly work_packages_due = new SimpleResourceCollection(this.apiV3Base, 'work_packages_due');
 
   public readonly national_projects = new SimpleResource(this.apiV3Base, 'national_projects');
 
@@ -74,7 +76,7 @@ export class ApiV3Paths {
 
   public readonly work_package_ispoln_stat_view = new SimpleResourceCollection(this.apiV3Base, 'views/work_package_ispoln_stat_view');
 
-  public readonly quartered_work_package_targets_with_quarter_groups_view = new SimpleResourceCollection(this.apiV3Base, '/views/quartered_work_package_targets_with_quarter_groups_view');
+  public readonly quartered_work_package_targets_with_quarter_groups_view = new SimpleResourceCollection(this.apiV3Base, 'views/quartered_work_package_targets_with_quarter_groups_view');
 
   public readonly work_package_stat_by_proj_view = new SimpleResource(this.apiV3Base, 'views/work_package_stat_by_proj_view');
 
@@ -128,6 +130,15 @@ export class ApiV3Paths {
 
   // /api/v3/projects
   public readonly projects_for_user = new SimpleResource(this.apiV3Base, 'projects_for_user');
+
+  // /api/v3/enumerations
+  public readonly enumerations = new SimpleResource(this.apiV3Base, 'enumerations');
+
+  // /api/v3/enumerations
+  public readonly colorlight = new SimpleResource(this.apiV3Base, 'colorlight');
+
+  // /api/v3/enumerations
+  public readonly vkladka1 = new SimpleResource(this.appBasePath, 'vkladka1');
 
   // /api/v3/users
   public readonly users = new Apiv3UsersPaths(this.apiV3Base);

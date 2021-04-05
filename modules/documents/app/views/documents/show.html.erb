@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= format_text @document.description, attachments: @document.attachments %>
   <br/>
   <p>Мероприятие: </p>
-  <%= content_tag(:p, @document.work_package.nil? ? '' : link_to(@document.work_package.subject, project_work_package_path(@document.work_package.project.identifier, @document.work_package.id, 'activity') + '?plan_type=execution', title: @document.work_package.subject)) %>
+  <%= content_tag(:p, @document.work_package.nil? ? '' : link_to(@document.work_package.subject, project_work_package_path(@document.work_package.project.identifier, @document.work_package.id, 'activity'), title: @document.work_package.subject)) %>
 </div>
 
 <% resource = ::API::V3::Documents::DocumentRepresenter.new(@document,

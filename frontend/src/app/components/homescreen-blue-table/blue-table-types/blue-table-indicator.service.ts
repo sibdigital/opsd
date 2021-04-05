@@ -4,7 +4,12 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {HomescreenProgressBarComponent} from "core-components/homescreen-progress-bar/homescreen-progress-bar.component";
 
 export class BlueTableIndicatorService extends BlueTableService {
-  protected columns:string[] = ['Республика Бурятия', 'Ответственный', 'Предыдущий', 'Текущий', 'Плановый', 'Предыдущий', 'Текущий', 'Процент исполнения', 'Плановые', 'Фактические'];
+  private today = new Date();
+  protected columns:string[] = ['Наименование', 'Ответственный', 'Базовое значение',
+    'Плановое значение ' + String(this.today.getFullYear() - 1), 'Фактическое значение ' + String(this.today.getFullYear() - 1),
+    'Плановое значение ' + String(this.today.getFullYear()), 'Фактическое значение ' + String(this.today.getFullYear()),
+    'Плановое значение ' + String(this.today.getFullYear() + 1), 'Фактическое значение ' + String(this.today.getFullYear() + 1),
+    'Процент исполнения', 'Единица измерения'];
   private data_local:any;
   private national_project_titles:{ id:number, name:string }[];
   private national_projects:HalResource[];
@@ -29,45 +34,126 @@ export class BlueTableIndicatorService extends BlueTableService {
         header: this.columns[1]
       },
       {
+        name: 'homescreen_base',
+        header: this.columns[2]
+      },
+      {
         name: 'homescreen_plan_prev',
-        header: this.columns[2],
-        parent_name:'homescreen_plan'
-      },
-      {
-        name: 'homescreen_plan_now',
-        header: this.columns[3],
-        parent_name:'homescreen_plan'
-      },
-      {
-        name: 'homescreen_plan_next',
-        header: this.columns[4],
-        parent_name:'homescreen_plan'
+        header: this.columns[3]
       },
       {
         name: 'homescreen_fact_prev',
+        header: this.columns[4]
+      },
+      {
+        name: 'homescreen_plan_now_I',
+        header: 'I кв.',
+        parent_name:'homescreen_plan_now'
+      },
+      {
+        name: 'homescreen_plan_now_II',
+        header: 'II кв.',
+        parent_name:'homescreen_plan_now'
+      },
+      {
+        name: 'homescreen_plan_now_III',
+        header: 'III кв.',
+        parent_name:'homescreen_plan_now'
+      },
+      {
+        name: 'homescreen_plan_now_IV',
+        header: 'IV кв.',
+        parent_name:'homescreen_plan_now'
+      },
+      {
+        name: 'homescreen_fact_now_I',
+        header: 'I кв.',
+        parent_name:'homescreen_fact_now'
+      },
+      {
+        name: 'homescreen_fact_now_II',
+        header: 'II кв.',
+        parent_name:'homescreen_fact_now'
+      },
+      {
+        name: 'homescreen_fact_now_III',
+        header: 'III кв.',
+        parent_name:'homescreen_fact_now'
+      },
+      {
+        name: 'homescreen_fact_now_IV',
+        header: 'IV кв.',
+        parent_name:'homescreen_fact_now'
+      },
+      {
+        name: 'homescreen_plan_next_I',
+        header: 'I кв.',
+        parent_name:'homescreen_plan_next'
+      },
+      {
+        name: 'homescreen_plan_next_II',
+        header: 'II кв.',
+        parent_name:'homescreen_plan_next'
+      },
+      {
+        name: 'homescreen_plan_next_III',
+        header: 'III кв.',
+        parent_name:'homescreen_plan_next'
+      },
+      {
+        name: 'homescreen_plan_next_IV',
+        header: 'IV кв.',
+        parent_name:'homescreen_plan_next'
+      },
+      {
+        name: 'homescreen_fact_next_I',
+        header: 'I кв.',
+        parent_name:'homescreen_fact_next'
+      },
+      {
+        name: 'homescreen_fact_next_II',
+        header: 'II кв.',
+        parent_name:'homescreen_fact_next'
+      },
+      {
+        name: 'homescreen_fact_next_III',
+        header: 'III кв.',
+        parent_name:'homescreen_fact_next'
+      },
+      {
+        name: 'homescreen_fact_next_IV',
+        header: 'IV кв.',
+        parent_name:'homescreen_fact_next'
+      },
+      {
+        name: 'homescreen_plan_now',
         header: this.columns[5],
-        parent_name:'homescreen_fact'
+        children: 4
       },
       {
         name: 'homescreen_fact_now',
         header: this.columns[6],
-        parent_name:'homescreen_fact'
+        children: 4
       },
       {
-        name: 'homescreen_plan',
+        name: 'homescreen_plan_next',
+        header: this.columns[7],
+        children: 4
+      },
+      {
+        name: 'homescreen_fact_next',
         header: this.columns[8],
-        children: 3
-      },
-      {
-        name: 'homescreen_fact',
-        header: this.columns[9],
-        children: 2
+        children: 4
       },
       {
         name: 'homescreen_progress',
-        header: this.columns[7],
+        header: this.columns[9],
         type: 'custom',
         component: HomescreenProgressBarComponent
+      },
+      {
+        name: 'homescreen_units',
+        header: this.columns[10]
       }
     ]
   };
@@ -92,18 +178,33 @@ export class BlueTableIndicatorService extends BlueTableService {
               });
               row.targets.map((target:HalResource) => {
                 let fact:number = target.fact_now;
-                let goal:number = target.target_end;
+                let goal:number = target.target_now;
                 data.push({
                   parentId: row.project_id + 'Project',
                   id: target.target_id,
                   homescreen_name: target.name,
                   homescreen_assignee: target.otvetstvenniy ? '<a href="' + super.getBasePath() + '/users/' + target.otvetstvenniy_id + '">' + target.otvetstvenniy + '</a>' : '',
-                  homescreen_plan_prev: target.target_prev,
-                  homescreen_plan_now: target.target_now,
-                  homescreen_plan_next: target.target_next,
-                  homescreen_fact_prev: target.fact_prev,
-                  homescreen_fact_now: target.fact_now,
-                  homescreen_progress: [!!goal ? (100 * fact / goal).toFixed(1).toString() : '0.0' ]
+                  homescreen_plan_prev: target.target_prev_year_plan,
+                  homescreen_fact_prev: target.target_prev_year_fact,
+                  homescreen_plan_now_I: target.target_current_year_plan[0],
+                  homescreen_plan_now_II: target.target_current_year_plan[1],
+                  homescreen_plan_now_III: target.target_current_year_plan[2],
+                  homescreen_plan_now_IV: target.target_current_year_plan[3],
+                  homescreen_fact_now_I: target.target_current_year_fact[0],
+                  homescreen_fact_now_II: target.target_current_year_fact[1],
+                  homescreen_fact_now_III: target.target_current_year_fact[2],
+                  homescreen_fact_now_IV: target.target_current_year_fact[3],
+                  homescreen_plan_next_I: target.target_next_year_plan[0],
+                  homescreen_plan_next_II: target.target_next_year_plan[1],
+                  homescreen_plan_next_III: target.target_next_year_plan[2],
+                  homescreen_plan_next_IV: target.target_next_year_plan[3],
+                  homescreen_fact_next_I: target.target_next_year_fact[0],
+                  homescreen_fact_next_II: target.target_next_year_fact[1],
+                  homescreen_fact_next_III: target.target_next_year_fact[2],
+                  homescreen_fact_next_IV: target.target_next_year_fact[3],
+                  homescreen_progress: [!!goal ? (100 * fact / goal).toFixed(1).toString() : '0.0' ],
+                  homescreen_units: target.unit,
+                  homescreen_base: target.basic_value
                 });
               });
             });

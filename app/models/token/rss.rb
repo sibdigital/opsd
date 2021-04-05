@@ -34,7 +34,8 @@ module Token
   class Rss < Base
     after_initialize do
       unless value.present?
-        self.value = self.class.generate_token_value
+        #self.value = self.class.generate_token_value
+        ''
       end
     end
 

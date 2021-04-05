@@ -59,9 +59,6 @@ module Queries::WorkPackages
   register.filter Query, filters_module::WatcherFilter
   register.filter Query, filters_module::DatesIntervalFilter
   register.filter Query, filters_module::ParentFilter
-  #bbm(
-  register.filter Query, filters_module::PlanTypeFilter
-  # )
   #+tan tmd
   register.filter Query, filters_module::OrganizationFilter
   register.filter Query, filters_module::RaionFilter

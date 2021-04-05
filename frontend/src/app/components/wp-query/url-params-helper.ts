@@ -162,16 +162,10 @@ export class UrlParamsHelperService {
   }
 
 
-  public buildV3GetQueryFromJsonParams(/*bbm(*/updatePlan:string|null/*)*/, updateJson:string|null) {
+  public buildV3GetQueryFromJsonParams(updateJson:string|null) {
     var queryData:any = {
       pageSize: this.paginationService.getPerPage()
-    }
-
-    //bbm(
-    if (updatePlan) {
-      queryData.planType = updatePlan;
-    }
-    //)
+    };
 
     if (!updateJson) {
       return queryData;

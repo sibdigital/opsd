@@ -82,7 +82,7 @@ module API
 
             current_projects = []
             raion_id = params[:raion]
-            if raion_id
+            if raion_id && raion_id != '0'
               rprojects = Raion.projects_by_id(raion_id, current_user.projects.map {|p| p.id})
               ids = [0]
               rprojects.each do |project|
@@ -95,7 +95,7 @@ module API
               result['total'] = ids.length
             else
               project_id = params[:project]
-              if project_id
+              if project_id && project_id != '0'
                 user_project = current_user.projects.find(project_id)
                 current_project = AllBudgetsHelper.cost_by_project user_project
                 current_projects << current_project

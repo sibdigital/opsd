@@ -138,14 +138,14 @@ class Attachment < ActiveRecord::Base
   end
 
   #bbm(
-  #   def filename
-  #       attributes['file']
-  #   end
   def filename
-    if(attributes['filename']) then
-      if(attributes['version']) then
-        attributes['filename'] + " (версия " + attributes['version'].to_s + ")"
+    if attributes['filename']
+      if attributes['version']
+        extension = File.extname(attributes['filename'])
+        name = File.basename(attributes['filename'], extension)
+        name + " (версия " + attributes['version'].to_s + ")" + extension
       end
+      attributes['filename']
     else
       attributes['file']
     end

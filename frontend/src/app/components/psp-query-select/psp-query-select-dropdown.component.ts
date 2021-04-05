@@ -455,10 +455,9 @@ export class PlanStagePackageQuerySelectDropdownComponent implements OnInit, OnD
   }
 
   private getQueryParams(item:IAutocompleteItem) {
-    let val:{ query_id:string | null, query_props:string | null, plan_type:string,  projects?:string, projectPath?:string } = {
+    let val:{ query_id:string | null, query_props:string | null,  projects?:string, projectPath?:string } = {
       query_id: item.query ? _.toString(item.query.id) : null,
       query_props: item.query ? null : item.query_props,
-      plan_type: 'planning',
     };
 
     if (this.projectIdentifier) {

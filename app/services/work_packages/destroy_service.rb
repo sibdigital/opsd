@@ -54,7 +54,9 @@ class WorkPackages::DestroyService
     descendants = work_package.descendants.to_a
 
     result.success = work_package.destroy
-    Alert.create_pop_up_alert(work_package, "Deleted", User.current, work_package.assigned_to)
+    if work_package.assigned_to.present?
+      Alert.create_pop_up_alert(work_package, "Deleted", User.current, work_package.assigned_to)
+    end
     if result.success?
       update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
         result.merge!(ancestor_result)

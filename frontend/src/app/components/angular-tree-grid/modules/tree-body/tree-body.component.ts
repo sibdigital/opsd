@@ -101,12 +101,33 @@ export class TreeBodyComponent implements OnInit {
 
   onRowExpand(event:any) {
     const row_data = event.data;
-
+    console.log(event);
     if (!this.configs.load_children_on_expand) {
       this.expand_tracker[row_data.pathx] = true;
       this.expand.emit(event);
     } else {
       this.angularTreeGridService.emitExpandRowEvent(this.expand_tracker, this.expand, this.store, row_data, this.configs);
+    }
+  }
+
+  rowClick(row_data:any, event:any) {
+    if (this.expand_tracker[row_data.pathx]) {
+      this.expand_tracker[row_data.pathx] = false;
+      // Collapse all of its children.
+      const keys = Object.keys(this.expand_tracker);
+      keys.forEach(key => {
+        if (key.includes(row_data.pathx)) {
+          this.expand_tracker[key] = 0;
+        }
+      });
+    }
+    else {
+      if (!this.configs.load_children_on_expand) {
+        this.expand_tracker[row_data.pathx] = true;
+        this.expand.emit(event);
+      } else {
+        this.angularTreeGridService.emitExpandRowEvent(this.expand_tracker, this.expand, this.store, row_data, this.configs);
+      }
     }
   }
 

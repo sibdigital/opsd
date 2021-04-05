@@ -77,9 +77,6 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   ngOnInit() {
     // Set reference target and reference class
     this.wpInlineCreate.referenceTarget = this.workPackage;
-    //bbm(
-    this.planType = this.workPackage.planType;
-    //)
 
     // Set up the query props
     this.buildQueryProps();

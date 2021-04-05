@@ -64,5 +64,10 @@ export class HomescreenTabsComponent implements OnInit {
       jQuery('.ellipsis, .selected').removeClass('selected');
       jQuery(event.currentTarget).addClass('selected');
     });
+    jQuery('.colorlight-menu-item').on('click', event => {
+      this.$state.go('homescreen.colorlight');
+      jQuery('.ellipsis, .selected').removeClass('selected');
+      jQuery(event.currentTarget).addClass('selected');
+    });
   }
 }
