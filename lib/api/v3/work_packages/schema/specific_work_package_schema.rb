@@ -62,9 +62,9 @@ module API
               project.categories if project.respond_to?(:categories)
             #zbd(
             when :contract
-              Contract.where('is_approve = ?', true)
+              Contract.where('project_id = ? and is_approve = ?',project_id, true)
             when :target
-              Target.where('project_id = ?  and is_approve = ?', project_id, true)
+              Target.where('project_id = ? and is_approve = ?', project_id, true)
             when :required_doc_type
               AttachType.all
             #)
