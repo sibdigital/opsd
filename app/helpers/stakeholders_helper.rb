@@ -114,7 +114,7 @@ module StakeholdersHelper
   def get_stakeholders(project_id)
     sth_users = []
     sth_orgs = []
-    members = Member.where(:project_id=>project_id).all
+    members = Member.where(:project_id=>project_id).type("User").all
     members.each do |member|
       user = User.find(member.user_id)
 

@@ -61,6 +61,9 @@ class Member < ActiveRecord::Base
     principal.name
   end
 
+  def self.type(type)
+    where(user_id: User.where(type: type))
+  end
   #bbm(
   def phone_wrk
     user.phone_wrk
