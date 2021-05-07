@@ -151,7 +151,10 @@ gem 'meta-tags', '~> 2.11.0'
 #+tan 2019.07.07
 gem "roo", "~> 2.8.2"
 # -tan
-
+#knm
+#
+gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
+#
 #zbd(
 #gem "translit", "~>0.1.5"
 # )
