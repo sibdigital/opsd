@@ -111,7 +111,7 @@
             <table border="0" class="coloredTable">
                 <thead (click)="changeUpcomingTasksVisibility()">
                 <tr>
-                    <th class="colored-col-green" colspan="3">Предстоящие мероприятия:</th>
+                    <th class="colored-col-green" colspan="3">Предстоящие мероприятия: страница {{upcomingTasksPage}}</th>
                 </tr>
                 </thead>
                 <tbody [hidden]="upcomingTasksVisibility">
@@ -135,27 +135,18 @@
                 </tr>
                 </tbody>
             </table>
-            <table class="blueTable" *ngIf="upcomingTasksPages > 1" [hidden]="upcomingTasksVisibility">
-                <tfoot>
-                <tr>
-                    <td [attr.colspan]="3">
-                        <div class="links">
-                            <a *ngFor="let item of [].constructor(upcomingTasksPages); let i = index"
-                               [textContent]="i + 1"
-                               (click)="loadUpcomingTasksByPage(i + 1)"
-                               href="#">
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+            <pagination-footer  *ngIf="upcomingTasksPages > 1"
+                                [hidden]="upcomingTasksVisibility"
+                                [pages]="upcomingTasksPages"
+                                (changePageEvent)="loadUpcomingTasksByPage($event)">
+
+            </pagination-footer>
         </div>
         <div style="width: 25%">
             <table border="0" class="coloredTable">
                 <thead (click)="changeDueMilestoneVisibility()">
                 <tr>
-                    <th class="colored-col-red" colspan="3">Просроченные КТ:</th>
+                    <th class="colored-col-red" colspan="3">Просроченные КТ: страница {{dueMilestonePage}}</th>
                 </tr>
                 </thead>
                 <tbody [hidden]="dueMilestoneVisibility">
@@ -179,27 +170,18 @@
                 </tr>
                 </tbody>
             </table>
-            <table class="blueTable" *ngIf="dueMilestonePages > 1" [hidden]="dueMilestoneVisibility">
-                <tfoot>
-                <tr>
-                    <td [attr.colspan]="3" *ngIf="dueMilestonePages > 1">
-                        <div class="links">
-                            <a *ngFor="let item of [].constructor(dueMilestonePages); let i = index"
-                               [textContent]="i + 1"
-                               (click)="loadDueMilestonesByPage(i + 1)"
-                               href="#">
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+            <pagination-footer  *ngIf="dueMilestonePages > 1"
+                                [hidden]="dueMilestoneVisibility"
+                                [pages]="dueMilestonePages"
+                                (changePageEvent)="loadDueMilestonesByPage($event)">
+
+            </pagination-footer>
         </div>
         <div style="width: 25%">
             <table border="0" class="coloredTable">
                 <thead (click)="changeProblemVisibility()">
                 <tr>
-                    <th class="colored-col-orange" colspan="3">Проблемы:</th>
+                    <th class="colored-col-orange" colspan="3">Проблемы: страница {{problemPage}}</th>
                 </tr>
                 </thead>
                 <tbody [hidden]="problemVisibility">
@@ -223,27 +205,18 @@
                 </tr>
                 </tbody>
             </table>
-            <table class="blueTable" *ngIf="problemPages > 1" [hidden]="problemVisibility">
-                <tfoot>
-                <tr>
-                    <td [attr.colspan]="3">
-                        <div class="links">
-                            <a *ngFor="let item of [].constructor(problemPages); let i = index"
-                               [textContent]="i + 1"
-                               (click)="loadProblemsByPage(i + 1)"
-                               href="#">
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+            <pagination-footer  *ngIf="problemPages > 1"
+                                [hidden]="problemVisibility"
+                                [pages]="problemPages"
+                                (changePageEvent)="loadProblemsByPage($event)">
+
+            </pagination-footer>
         </div>
         <div style="width: 25%">
             <table border="0" class="coloredTable">
                 <thead (click)="changeBudgetVisibility()">
                 <tr>
-                    <th class="colored-col-purple" colspan="3">Бюджет:</th>
+                    <th class="colored-col-purple" colspan="3">Бюджет: страница {{budgetPage}}</th>
                 </tr>
                 </thead>
                 <tbody [hidden]="budgetVisibility">
@@ -268,21 +241,12 @@
                 </tr>
                 </tbody>
             </table>
-            <table class="blueTable" *ngIf="budgetPages > 1" [hidden]="budgetVisibility">
-                <tfoot>
-                <tr>
-                    <td [attr.colspan]="3">
-                        <div class="links">
-                            <a *ngFor="let item of [].constructor(budgetPages); let i = index"
-                               [textContent]="i + 1"
-                               (click)="loadBudgetsByPage(i + 1)"
-                               href="#">
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+            <pagination-footer  *ngIf="budgetPages > 1"
+                                [hidden]="budgetVisibility"
+                                [pages]="budgetPages"
+                                (changePageEvent)="loadBudgetsByPage($event)">
+
+            </pagination-footer>
         </div>
     </div>
 </div>

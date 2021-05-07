@@ -93,7 +93,7 @@ tempproblems = tempproblems.where(work_packages: {organization_id: params['organ
   ProblemCollectionRepresenter.new(problems,
                                    api_v3_paths.problems,
                                    page: offset.to_i,
-                                   per_page: 20,
+                                   per_page: 5,
                                    current_user: current_user)#Есть ограничение на количество проблем - per_page
           end
 

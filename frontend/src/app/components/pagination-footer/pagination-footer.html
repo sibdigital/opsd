@@ -1,0 +1,46 @@
+<table class="blueTable">
+    <tfoot>
+    <tr>
+        <td [attr.colspan]="2" *ngIf="pages <= 10">
+            <div class="links">
+                <a *ngFor="let item of [].constructor(pages); let i = index"
+                   [textContent]="i + 1"
+                   (click)="loadPage(i + 1)"
+                   href="#">
+                </a>
+            </div>
+        </td>
+        <td [attr.colspan]="2" *ngIf="pages > 10">
+            <div class="links">
+                            <span *ngFor="let item of [].constructor(pages); let i = index">
+                                <a *ngIf="page < 4 && (i < 4 || i == pages - 1)"
+                                   [textContent]="i + 1"
+                                   (click)="loadPage(i + 1)"
+                                   href="#">
+                                </a>
+                                <a *ngIf="page < 4 && i == 4">...</a>
+
+                                <a *ngIf="(page >= 4 && page < pages - 2) && (i + 3 > page && i - 1 < page)"
+                                   [textContent]="i + 1"
+                                   (click)="loadPage(i + 1)"
+                                   href="#">
+                                </a>
+                                <a *ngIf="(page >= 4 && page < pages - 2) && (i == 0 || i == pages - 1)"
+                                   [textContent]="i + 1"
+                                   (click)="loadPage(i + 1)"
+                                   href="#">
+                                </a>
+                                <a *ngIf="(page >= 4 && page < pages - 2) && (i == page - 3 || i == page + 1)">...</a>
+
+                                <a *ngIf="page > pages - 3 && (i >= pages - 4 || i == 0)"
+                                       [textContent]="i + 1"
+                                       (click)="loadPage(i + 1)"
+                                       href="#">
+                                </a>
+                                <a *ngIf="page > pages - 3 && i == pages - 5">...</a>
+                            </span>
+            </div>
+        </td>
+    </tr>
+    </tfoot>
+</table>
