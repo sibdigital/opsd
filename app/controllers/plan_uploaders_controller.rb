@@ -199,12 +199,12 @@ class PlanUploadersController < ApplicationController
         if !plan_num_pp.rindex(".").nil?
           plan_num_pp = plan_num_pp[0..plan_num_pp.rindex(".")]
           plan_num_pp = plan_num_pp[0..plan_num_pp.size-2]
-          parent_id = WorkPackage.where(project_id: @project_for_load.id, plan_num_pp: plan_num_pp).first.id
+          parent = WorkPackage.where(project_id: @project_for_load.id, plan_num_pp: plan_num_pp).first
 
           # добавляем связи иерархии
-          if parent_id.present?
-            Relation.find_or_create_by(from_id: parent_id, to_id: task.id) do |rel|
-              rel.from_id = parent_id
+          if parent.present?
+            Relation.find_or_create_by(from_id: parent.id, to_id: task.id) do |rel|
+              rel.from_id = parent.id
               rel.to_id = task.id
               rel.hierarchy = 1
             end
