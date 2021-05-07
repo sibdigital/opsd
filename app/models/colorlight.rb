@@ -152,24 +152,23 @@ class Colorlight
         sheet.insert_cell(start_row + index, 11, '')
       end
       if wp.cost_entries
+        costs_sum = wp.cost_entries.map { |cost| cost.overridden_costs || cost.costs }
+        cost_fed = wp.cost_entries.where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет')).map { |cost| cost.overridden_costs || cost.costs }
+        cost_reg = wp.cost_entries.where(cost_type_id: CostType.find_by(name: 'Региональный бюджет')).map { |cost| cost.overridden_costs || cost.costs }
         sheet.insert_cell(start_row + index, 12, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_entries.sum(:costs).to_f,
+            costs_sum.sum.to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2
         ))
         sheet.insert_cell(start_row + index, 13, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_entries
-                .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
-                .sum(:costs).to_f,
+            cost_fed.sum.to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2
         ))
         sheet.insert_cell(start_row + index, 14, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_entries
-                .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
-                .sum(:costs).to_f,
+            cost_reg.sum.to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2
