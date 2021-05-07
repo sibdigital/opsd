@@ -72,7 +72,7 @@ class PlanUploadersController < ApplicationController
       rows.push rr
     end
 
-    puts "Row count: " + rows.count.to_s
+    Rails.logger.info "Row count: " + rows.count.to_s
 
     @project_for_load = Project.find(params[:project_id])
 
@@ -265,7 +265,7 @@ class PlanUploadersController < ApplicationController
       end
     end
 
-    puts "Row count: " + rows.count.to_s
+    Rails.logger.info "Row count: " + rows.count.to_s
 
     @project_for_load = Project.find(params[:project_id])
 
@@ -332,13 +332,13 @@ class PlanUploadersController < ApplicationController
         if wp.save(validate: false)
           insert_count += 1
         else
-          puts "not loaded: " + row['work']
+          Rails.logger.info "not loaded: " + row['work']
         end
       end
     end
 
-    puts "Insert count: " + insert_count.to_s
-    puts "Break count: " + break_count.to_s
+    Rails.logger.info "Insert count: " + insert_count.to_s
+    Rails.logger.info "Break count: " + break_count.to_s
   end
 
   # v2 загрузка плана "Контрольные точки" из электр-го бюджета
@@ -488,7 +488,7 @@ class PlanUploadersController < ApplicationController
               wpt.save
 
             else
-              puts "not loaded: " + row
+              Rails.logger.info "not loaded: " + row
             end
 
           else #Мероприятие
@@ -588,7 +588,7 @@ class PlanUploadersController < ApplicationController
                   insert_count += 1
                   @wp_id = WorkPackage.last.id
                 else
-                  puts "not loaded: " + row
+                  Rails.logger.info "not loaded: " + row
                 end
               #end
 
@@ -615,11 +615,11 @@ class PlanUploadersController < ApplicationController
       end
     end
 
-    puts "Row count: " + row_count.to_s
-    puts "Insert count: " + insert_count.to_s
-    puts "Insert KT count: " + insert_kt_count.to_s
-    puts "Insert target count: " + insert_tg_count.to_s
-    puts "Break count: " + break_count.to_s
+    Rails.logger.info "Row count: " + row_count.to_s
+    Rails.logger.info "Insert count: " + insert_count.to_s
+    Rails.logger.info "Insert KT count: " + insert_kt_count.to_s
+    Rails.logger.info "Insert target count: " + insert_tg_count.to_s
+    Rails.logger.info "Break count: " + break_count.to_s
   end
 
   # загрузка плана из msproject
@@ -636,7 +636,7 @@ class PlanUploadersController < ApplicationController
     xlsx = Roo::Excelx.new(filename)
     xlsx.each_row_streaming(offset: @first_row_num.to_i - 1) do |row|
       rr = {}
-      #puts row.inspect
+      #Rails.logger.info row.inspect
       # settings.each { |setting| rr[setting.column_name] = Hash['column_name', setting.column_name, setting.column_name, row[setting.column_num].value, 'is_pk', setting.is_pk] }
       settings.each do |setting|
         rr[setting.column_name] = Hash['column_name', setting.column_name, setting.column_name, xlsx.excelx_value(row_num, setting.column_num), 'is_pk', setting.is_pk]
@@ -647,7 +647,7 @@ class PlanUploadersController < ApplicationController
       rr['prev_id'] = Hash['column_name', 'prev_id', 'prev_id', xlsx.excelx_value(row_num, 2), 'is_pk', 0]
       rr['next_id'] = Hash['column_name', 'next_id', 'next_id', xlsx.excelx_value(row_num, 3), 'is_pk', 0]
 
-      # puts rr.inspect
+      # Rails.logger.info rr.inspect
 
       rows.push rr
       row_num += 1
@@ -662,7 +662,7 @@ class PlanUploadersController < ApplicationController
     insert_count = 0
     update_count = 0
     break_count = 0
-    puts "Row count: " + rows.count.to_s
+    Rails.logger.info "Row count: " + rows.count.to_s
 
     @project_for_load = Project.find(params[:project_id])
 
@@ -827,9 +827,9 @@ class PlanUploadersController < ApplicationController
     #   rel.hierarchy = 1
     # end
 
-    puts "inserted row count: " + insert_count.to_s
-    puts "updated row count: " + update_count.to_s
-    puts "break row count: " + break_count.to_s
+    Rails.logger.info "inserted row count: " + insert_count.to_s
+    Rails.logger.info "updated row count: " + update_count.to_s
+    Rails.logger.info "break row count: " + break_count.to_s
   end
 
   def prepare_roo

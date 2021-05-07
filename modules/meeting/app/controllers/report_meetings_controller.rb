@@ -17,7 +17,7 @@ class ReportMeetingsController < ApplicationController
     @number_meeting = ''
     @uchastniki = format_participant_list(meeting.participants).join(', ') + meeting.add_participants
     @govorili = meeting.speakers
-    puts @uchastniki
+    Rails.logger.info @uchastniki
     @chairman = meeting.chairman ? meeting.chairman.fio : ''
     @dolzhnost = meeting.chairman ? meeting.chairman.roles_for_project(meeting.project).sort_by{|r| r.position}.last : ''
     @protocols = []

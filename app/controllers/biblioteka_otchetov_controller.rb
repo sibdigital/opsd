@@ -37,7 +37,7 @@ class BibliotekaOtchetovController < ApplicationController
   end
 
   def verify_reporting_module_activated
-    puts @project && !@project.module_enabled?('reporting_module')
+    Rails.logger.info @project && !@project.module_enabled?('reporting_module')
     render_403 if @project && !@project.module_enabled?('reporting_module')
   end
 end
