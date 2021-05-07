@@ -75,7 +75,7 @@ class AdminController < ApplicationController
       #Alert.create_pop_up_alert(workPackage,  "Due", nil, workPackage.assigned_to)
       @alert = Alert.new
       @alert.entity_id = workPackage.id
-      puts workPackage.id, ' entity_id: ', @alert.entity_id
+      Rails.logger.info workPackage.id, ' entity_id: ', @alert.entity_id
 
       @alert.alert_date = Date.current
       @alert.entity_type = 'WorkPackage'

@@ -119,8 +119,8 @@ class ReportProgressProjectController < ApplicationController
 
 
   def generate_pril_1_2
-    #puts @target.id
-    #puts params[:target_id]
+    #Rails.logger.info @target.id
+    #Rails.logger.info params[:target_id]
     sheet = @workbook_pril['Данные для диаграмм']
     selected_target = params[:target]
 

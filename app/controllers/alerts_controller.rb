@@ -99,7 +99,7 @@ class AlertsController < ApplicationController
           end
         end
       end
-      #puts (' deadline_of_work_package_is_approaching: ' + Setting.is_notified_event('deadline_of_work_package_is_approaching').to_s)
+      #Rails.logger.info (' deadline_of_work_package_is_approaching: ' + Setting.is_notified_event('deadline_of_work_package_is_approaching').to_s)
   end
 
   def notify_deadline_of_work_package_is_approaching
@@ -112,7 +112,7 @@ class AlertsController < ApplicationController
       )
       ")
       wps.each do |workPackage|
-        puts (' workPackage: ' + workPackage.id.to_s)
+        Rails.logger.info ' workPackage: ' + workPackage.id.to_s
         unless workPackage.assigned_to_id.nil?
           create_if_absent(workPackage.id, Date.current, 'WorkPackage', 'Email',
                            workPackage.assigned_to_id, DEADLINE_OF_WORK_PACKAGE_IS_APPROACHING)
@@ -197,12 +197,12 @@ class AlertsController < ApplicationController
     #     begin
     #       UserMailer.user_task_period(@ut_assignee, user_task).deliver_later
     #     rescue Exception => e
-    #       Rails.logger.info(e.message)
+    #       Rails.logger.error(e.message)
     #     end
     #     @alert = Alert.new
     #     @alert.entity_id = user_task.id
     #     @alerts_array << @alert.entity_id.to_s
-    #     #puts user_task.id, ' entity_id: ', @alert.entity_id
+    #     #Rails.logger.info user_task.id, ' entity_id: ', @alert.entity_id
     #     @alert.alert_date = Date.current
     #     @alert.entity_type = 'UserTask'
     #     @alert.alert_type = 'Email'
@@ -211,8 +211,8 @@ class AlertsController < ApplicationController
     #   end
     # end
     # if @alerts_array.length > 0
-    #   puts 'Создание алертов с типом UserTask (напоминания о вводе данных в справочники). Идентификаторы: '
-    #   puts @alerts_array.inspect.to_s
+    #   Rails.logger.info 'Создание алертов с типом UserTask (напоминания о вводе данных в справочники). Идентификаторы: '
+    #   Rails.logger.info @alerts_array.inspect.to_s
     # end
     # )
   end
@@ -259,7 +259,7 @@ class AlertsController < ApplicationController
         end
 
       rescue Exception => e
-        Rails.logger.info(e.message)
+        Rails.logger.error(e.message)
       end
     end
   end
@@ -269,46 +269,46 @@ class AlertsController < ApplicationController
     begin
       notify_work_package_report_notify_assignee
     rescue Exception => e
-      Rails.logger.info(e.message)
+      Rails.logger.error(e.message)
     end
 
     begin
       notify_deadline_of_work_package_is_approaching
     rescue Exception => e
-      Rails.logger.info(e.message)
+      Rails.logger.error(e.message)
     end
 
     begin
       notify_deadline_of_work_package
     rescue Exception => e
-      Rails.logger.info(e.message)
+      Rails.logger.error(e.message)
     end
 
     begin
       notify_deadline_of_project_is_approaching
     rescue Exception => e
-      Rails.logger.info(e.message)
+      Rails.logger.error(e.message)
     end
 
     begin
       notify_deadline_of_project
     rescue Exception => e
-      Rails.logger.info(e.message)
+      Rails.logger.error(e.message)
     end
 
     begin
       notify_dict
     rescue Exception => e
-      Rails.logger.info(e.message)
+      Rails.logger.error(e.message)
     end
 
     begin
       create_mails
     rescue Exception => e
-      Rails.logger.info(e.message)
+      Rails.logger.error(e.message)
     end
 
-    puts 'notify'
+    Rails.logger.info 'notify'
     #add method for delete unassigned records
   end
 

@@ -169,7 +169,7 @@ class Alert < ActiveRecord::Base
                  created_by: createdby != nil ? createdby.id : 0,
                  to_user: touser != nil ? touser.id : nil
       rescue StandardError => e
-        puts "#{e.class}: #{e.message}"
+        Rails.logger.error "#{e.class}: #{e.message}"
       end
   end
 
