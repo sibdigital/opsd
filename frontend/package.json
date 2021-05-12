@@ -73,7 +73,7 @@
     "chart.js": "2.8.0",
     "chartjs-plugin-labels": "1.1.0",
     "clean-webpack-plugin": "1.0.0",
-    "codemirror": "5.42.0",
+    "codemirror": "5.58.2",
     "contra": "1.9.4",
     "core-js": "2.5.7",
     "crossvent": "1.5.4",
