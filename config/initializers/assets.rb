@@ -31,6 +31,7 @@ OpenProject::Application.configure do
     strategic_map.js
     project_strategic_map.js
     plan_uploader_settings.js
+    plan_upload_buttons.js
     select_project.js
     form_by_radio.js
     select_wp_from_project.js
