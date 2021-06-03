@@ -83,7 +83,9 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :control_level, class_name: 'ControlLevel', foreign_key: 'control_level_id'
   has_many :work_package_quarterly_targets, foreign_key: 'work_package_id'
   # )
-
+  #knm (
+  has_many :work_package_links, foreign_key: 'work_package_id', dependent: :destroy
+  # )
   has_and_belongs_to_many :changesets, -> {
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
