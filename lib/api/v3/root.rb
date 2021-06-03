@@ -81,6 +81,9 @@ module API
       mount ::API::V3::Boards::BoardsAPI
       mount ::API::V3::Raions::RaionsAPI
       # - tan
+      # knm(
+      mount ::API::V3::WorkPackageLinks::WorkPackageLinksAPI
+      # )
       mount ::API::V3::Periods::PeriodsAPI
       mount ::API::V3::Colorlight::ColorlightAPI
       mount ::API::V3::Enumerations::EnumerationsAPI

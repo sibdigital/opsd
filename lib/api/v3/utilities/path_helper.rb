@@ -654,6 +654,23 @@ module API
             "#{root}/periods"
           end
 
+          #knm (
+          def self.link(id)
+            "#{root}/links/#{id}"
+          end
+
+          def self.links
+            "#{root}/links"
+          end
+
+          def self.work_package_link(wp_id, id)
+            "#{work_package(wp_id)}/work_package_links/#{id}"
+          end
+
+          def self.work_package_links(wp_id)
+            "#{work_package(wp_id)}/work_package_links"
+          end
+          # )
           def self.period(id)
             "#{periods}/#{id}"
           end
