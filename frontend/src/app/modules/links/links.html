@@ -1,0 +1,9 @@
+<fieldset class="form--fieldset" *ngIf="showLinks()">
+    <legend class="form--fieldset-legend">
+        {{ text.links }}
+    </legend>
+    <div id="links_fields">
+        <link-list *ngIf="resource.links" [resource]="resource"></link-list>
+        <!--        <links-add [resource]="resource" class="hide-when-print" *ngIf="allowUploading"></links-add>-->
+    </div>
+</fieldset>
