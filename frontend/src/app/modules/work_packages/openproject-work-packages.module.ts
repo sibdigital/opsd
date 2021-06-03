@@ -204,6 +204,8 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
 import {WpTopicsConfigurationModalComponent} from "core-components/wp-topics-dialog/wp-topics-configuration.modal";
 import {WorkPackageTopicsPaginationComponent} from "core-components/wp-topics-dialog/wp-topics-pagination.component";
 import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
+import {LinkListComponent} from "core-app/modules/links/link-list/link-list.component";
+import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
 
 @NgModule({
   imports: [
@@ -213,7 +215,7 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
     OpenprojectFieldsModule,
     // CKEditor
     OpenprojectEditorModule,
-
+    OpenprojectLinksModule,
     ChartsModule,
     OpenprojectAttachmentsModule,
     // Work package custom actions
