@@ -77,6 +77,7 @@ class WorkPackage < ActiveRecord::Base
   # )
   #tan(
   has_many :work_package_problems, foreign_key: 'work_package_id', dependent: :destroy
+  has_many :work_package_contracts, foreign_key: 'work_package_id', dependent: :destroy
   has_many :work_package_targets, foreign_key: 'work_package_id', dependent: :destroy
   belongs_to :raion, class_name: 'Raion', foreign_key: 'raion_id'
   belongs_to :period, foreign_key: 'period_id'

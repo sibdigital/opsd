@@ -670,6 +670,14 @@ module API
           def self.work_package_links(wp_id)
             "#{work_package(wp_id)}/work_package_links"
           end
+
+          def self.work_package_contracts
+            "#{root}/work_package_contracts"
+          end
+
+          def self.work_package_contract(id)
+            "#{work_package_contracts}/#{id}"
+          end
           # )
           def self.period(id)
             "#{periods}/#{id}"
