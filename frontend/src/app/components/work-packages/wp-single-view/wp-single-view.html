@@ -179,10 +179,28 @@
 <div class="work-packages--links attributes-group">
   <div class="work-packages--links-container">
     <div class="attributes-group--header">
-      <div class="attributes-group--header-container">
+      <div class="attributes-group--header-container" style="display: flex">
         <h3 class="attributes-group--header-text" [textContent]="text.links.label"></h3>
+        <a href="" style="position: absolute;right: 1px" (click)="AddLink($event)">
+          <op-icon icon-classes="icon-add"></op-icon>
+        </a>
       </div>
     </div>
     <link-list [resource]="workPackage"></link-list>
+
+    <div style="display: grid;grid-column-gap: 5px; grid-auto-flow: column; align-items: center" *ngIf="addLink">
+      <label for="link-url">Ссылка:</label>
+      <input id="link-url" type="url" [(ngModel)]="linkUrl">
+      <label for="link-name">Отображаемый текст:</label>
+      <input id="link-name" type="text" [(ngModel)]="linkName">
+      <div>
+        <a href="" (click)="cancelLinkAdding()">
+          <op-icon icon-classes="icon-not-supported"></op-icon>
+        </a>
+        <a href="" (click)="doneLinkAdding()" style="padding-left: 10px">
+          <op-icon icon-classes="icon-save"></op-icon>
+        </a>
+      </div>
+    </div>
   </div>
 </div>

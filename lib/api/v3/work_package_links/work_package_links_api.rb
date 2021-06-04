@@ -17,6 +17,9 @@ module API
             link.author_id = current_user.id
             link.work_package_id = params[:work_package_id]
             link.save
+            WorkPackageLinkRepresenter.new(link,
+                                           current_user: current_user,
+                                           embed_links: true)
           end
           route_param :id do
             get do
@@ -26,7 +29,6 @@ module API
             end
             patch do
               WorkPackageLink.update(params[:id], params)
-              status 200
             end
             delete do
               WorkPackageLink.destroy(params[:id])

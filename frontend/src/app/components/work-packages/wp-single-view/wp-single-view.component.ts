@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
@@ -45,6 +45,8 @@ import {IWorkPackageEditingServiceToken} from '../../wp-edit-form/work-package-e
 import {DynamicCssService} from '../../../modules/common/dynamic-css/dynamic-css.service';
 import {HookService} from 'core-app/modules/plugins/hook-service';
 import {randomString} from "core-app/helpers/random-string";
+import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 export interface FieldDescriptor {
   name:string;
@@ -84,7 +86,6 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   // State updated when structural changes to the single view may occur.
   // (e.g., when changing the type or project context).
   public resourceContextChange:InputState<ResourceContextChange> = input<ResourceContextChange>();
-
   // Project context as an indicator
   // when editing the work package in a different project
   public projectContext:{
@@ -95,6 +96,9 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
   public text = {
     attachments: {
       label: this.I18n.t('js.label_attachments')
+    },
+    links: {
+      label: this.I18n.t('js.label_links')
     },
     project: {
       required: this.I18n.t('js.project.required_outside_context'),
@@ -113,7 +117,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
     },
   };
-
+  public addLink = false;
   protected firstTimeFocused:boolean = false;
   public $element:JQuery;
 
@@ -126,7 +130,8 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
               protected displayFieldService:DisplayFieldService,
               protected wpCacheService:WorkPackageCacheService,
               protected hook:HookService,
-              readonly elementRef:ElementRef) {
+              readonly elementRef:ElementRef,
+              public halResourceService:HalResourceService) {
   }
 
   public ngOnInit() {
@@ -197,7 +202,7 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     // Is a query in a new screen
     const queryInNew = this.workPackage.isNew && !!group.query;
 
-    return isEmpty || queryInNew
+    return isEmpty || queryInNew;
   }
 
   /**
@@ -228,9 +233,18 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
     return this.hook.call('workPackageAttachmentUploadComponent', this.workPackage).pop() || null;
   }
 
+  public linkListComponent() {
+    return this.hook.call('workPackageLinkListComponent', this.workPackage).pop || null;
+  }
+
+  public linkAddComponent() {
+    return this.hook.call('workPackageLinkAddComponent', this.workPackage).pop || null;
+  }
   /*
    * Returns the work package label
    */
+  linkUrl:string;
+  linkName:string;
   public get idLabel() {
     return `#${this.workPackage.id}`;
   }
@@ -371,9 +385,32 @@ export class WorkPackageSingleViewComponent implements OnInit, OnDestroy {
       .data(overflowingContainerAttribute);
 
     if (overflowingIdentifier) {
-      return overflowingIdentifier.replace('.__overflowing_','');
+      return overflowingIdentifier.replace('.__overflowing_', '');
     } else {
-      return ''
+      return '';
     }
+  }
+
+  AddLink($event:any) {
+    this.addLink = true;
+  }
+
+  cancelLinkAdding() {
+    this.addLink = false;
+    this.linkUrl = '';
+    this.linkName = '';
+  }
+
+  doneLinkAdding() {
+    this.addLink = false;
+    this.halResourceService.post<any>('api/v3/links',
+      {link: this.linkUrl, name: this.linkName, work_package_id: this.workPackage.id})
+      .toPromise().then((response) => {
+      this.linkUrl = '';
+      this.linkName = '';
+      this.workPackage.workPackageLinks.elements.push(response);
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 }

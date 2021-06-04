@@ -19,7 +19,7 @@ import {LinkListItemComponent} from "core-app/modules/links/link-list/link-list-
   ],
   exports: [
     LinkListComponent,
-    LinkListComponent
+    LinksComponent
   ]
 })
 export class OpenprojectLinksModule {

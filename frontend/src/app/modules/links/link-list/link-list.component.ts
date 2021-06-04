@@ -10,27 +10,23 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 export class LinkListComponent implements OnInit, OnChanges {
   @Input() public resource:HalResource;
   @Input() public selfDestroy:boolean = false;
+  public workPackageLinks:any;
   public $element:JQuery;
 
   constructor(protected elementRef:ElementRef,
               protected halResourceService:HalResourceService) { }
 
   ngOnChanges() {
-    if (this.linksUpdatable) {
-      this.resource.links.updateElements();
-    }
+    this.workPackageLinks = this.resource.workPackageLinks.elements;
   }
 
   ngOnInit() {
-    console.log(this.resource);
     this.$element = jQuery(this.elementRef.nativeElement);
-    if (this.linksUpdatable) {
-      this.resource.links.updateElements();
-    }
+    this.workPackageLinks = this.resource.workPackageLinks.elements;
   }
 
   private get linksUpdatable() {
-    return (this.resource.links && this.resource.linksBackend);
+    return (this.resource.workPackageLinks && this.resource.linksBackend);
   }
 }
 DynamicBootstrapper.register({
