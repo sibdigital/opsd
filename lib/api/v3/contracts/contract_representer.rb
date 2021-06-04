@@ -24,6 +24,9 @@ module API
         property :contract_num
         property :contract_date
         property :price
+        property :executor
+        property :is_approve
+        property :gos_zakaz
 
         def _type
           'Contract'

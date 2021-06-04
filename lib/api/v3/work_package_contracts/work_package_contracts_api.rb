@@ -27,12 +27,14 @@ module API
             contract.work_package_id = params[:work_package_id]
             contract.save
             WorkPackageContractRepresenter.new(contract,
-                                               current_user: current_user)
+                                               current_user: current_user,
+                                               embed_links: true)
           end
           route_param :id do
             get do
               WorkPackageContractRepresenter.new(WorkPackageContract.find(params[:id]),
-                                             current_user: current_user)
+                                             current_user: current_user,
+                                                 embed_links: true)
             end
             patch do
               WorkPackageContract.update(params[:id], params)

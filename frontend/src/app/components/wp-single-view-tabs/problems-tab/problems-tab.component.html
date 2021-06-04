@@ -1,3 +1,4 @@
+
 <div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
   <style type="text/css">
     table { width: 100%; }
@@ -93,7 +94,15 @@
   </div>
 
   <section style="margin-top: 20px;">
-    <h4>Проблемы и риски мероприятия</h4>
+    <div class="wp-relations-hierarchy-section">
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text">
+            {{'Проблемы и риски мероприятия'}}
+          </h3>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div *ngFor="let problem of wpProblems" class="problem-row">
         <ng-template [ngTemplateOutlet]="loadTemplate(problem)"
@@ -251,4 +260,101 @@
             <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
         </accessible-by-keyboard>
   </div>
+</ng-template>
+
+<div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
+  <div class="wp-relations-hierarchy-section">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{'Контракты'}}
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div *ngFor="let contract of wpContracts" class="contract-card">
+      <ng-template [ngTemplateOutlet]="readOnlyTemplate3"
+                   [ngTemplateOutletContext]="{ $implicit: contract }">
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #readOnlyTemplate3 let-contract>
+  <div class="contract-cells">
+    <div class="contract-cell">
+      <div style="display: block; float: left; position: relative; width: 100%;">
+        <label for="contract_subject">Название</label>
+        <span id="contract_subject">
+          {{contract.contract.contract_subject}}
+        </span>
+      </div>
+      <div style="display: block; float: left; position: relative; width: 100%;">
+        <label for="comment">Комментарий</label>
+        <span id="comment">
+          {{contract.comment}}
+        </span>
+      </div>
+    </div>
+    <div class="problem-cell">
+      <div style="display: block; float: left; position: relative; width: 100%;">
+        <label for="executor">Исполнитель</label>
+        <span id="executor">
+          {{contract.contract.executor}}
+        </span>
+      </div>
+      <div style="display: block; float: left; position: relative; width: 100%;">
+        <label for="customer">Заказчик</label>
+        <span id="customer">
+          {{contract.contract.gos_zakaz}}
+        </span>
+      </div>
+    </div>
+    <div class="problem-cell">
+      <div style="display: block; float: left; position: relative; width: 100%;">
+        <label>Цена</label>
+        <span *ngIf="contract.is_approve; else created" style="color: green;">
+          {{contract.contract.price}}
+        </span>
+        <ng-template #created>
+          <span style="color: lightcoral;">
+            {{contract.contract.price}}
+          </span>
+        </ng-template>
+      </div>
+      <div style="display: block; float: left; position: relative; width: 100%;">
+        <label for="contract-date">Дата контракта</label>
+        <span id="contract-date">
+          {{contract.contract.contract_date}}
+        </span>
+      </div>
+    </div>
+    <div class="problem-cell">
+      <div style="display: block; float: left; position: relative; width: 100%;">
+        <label for="contract-author">Добавил</label>
+        <span id="contract-author">
+          {{ users.get(contract.author.id) }}
+        </span>
+      </div>
+      <div style="display: block; float: left; position: relative; width: 100%;">
+      </div>
+    </div>
+  </div>
+<!--  <div class="buttons">-->
+<!--    <accessible-by-keyboard *ngIf="problemCanEdit"-->
+<!--                            (execute)="editProblem(problem)"-->
+<!--                            [linkTitle]="text.edit"-->
+<!--                            class="edit-activity">-->
+<!--      <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit"></op-icon>-->
+<!--    </accessible-by-keyboard>-->
+<!--    <accessible-by-keyboard (execute)="deleteProblem(problem)"-->
+<!--                            aria-hidden="false"-->
+<!--                            [linkAriaLabel]="text.removeButton"-->
+<!--                            [linkTitle]="text.removeButton"-->
+<!--                            linkClass="relation-row&#45;&#45;remove-btn">-->
+<!--      <op-icon icon-classes="icon-remove -padded wp-relations&#45;&#45;icon" [icon-title]="text.removeButton"></op-icon>-->
+<!--    </accessible-by-keyboard>-->
+<!--  </div>-->
 </ng-template>

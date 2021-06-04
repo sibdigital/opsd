@@ -86,6 +86,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   public wpProblem: WpProblem | null;
   public editedProblem: WpProblem | null;
 
+
+  public wpContracts: any;
   public showProblemCreateForm: boolean = false;
   public selectedId: string;
   public isDisabled = false;
@@ -138,6 +140,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       });
 
     this.loadWpProblems(this.workPackageId);
+    this.loadContracts();
     this.loadOrgs();
     this.loadUsers();
     this.loadRisks();
@@ -452,5 +455,16 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       alert(errors);
     }
     return isVaslid;
+  }
+
+  private loadContracts() {
+    this.halResourceService.get<CollectionResource<HalResource>>(
+      this.pathHelper.api.v3.work_package_contracts.toString(), {'work_package_id': this.workPackageId}
+    ).toPromise().then((response) => {
+      this.wpContracts = response.elements;
+      console.log(this.wpContracts);
+    }).catch((error) => {
+      this.wpNotificationsService.handleRawError(error);
+    });
   }
 }
