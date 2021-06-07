@@ -288,7 +288,7 @@
       <div style="display: block; float: left; position: relative; width: 100%;">
         <label for="contract_subject">Название</label>
         <span id="contract_subject">
-          {{contract.contract.contract_subject}}
+          {{contract.subject}}
         </span>
       </div>
       <div style="display: block; float: left; position: relative; width: 100%;">
@@ -302,32 +302,32 @@
       <div style="display: block; float: left; position: relative; width: 100%;">
         <label for="executor">Исполнитель</label>
         <span id="executor">
-          {{contract.contract.executor}}
+          {{contract.executor}}
         </span>
       </div>
       <div style="display: block; float: left; position: relative; width: 100%;">
         <label for="customer">Заказчик</label>
         <span id="customer">
-          {{contract.contract.gos_zakaz}}
+          {{contract.gosZakaz}}
         </span>
       </div>
     </div>
     <div class="problem-cell">
       <div style="display: block; float: left; position: relative; width: 100%;">
         <label>Цена</label>
-        <span *ngIf="contract.is_approve; else created" style="color: green;">
-          {{contract.contract.price}}
+        <span *ngIf="contract.isApprove; else created" style="color: green;">
+          {{contract.price}}
         </span>
         <ng-template #created>
           <span style="color: lightcoral;">
-            {{contract.contract.price}}
+            {{contract.price}}
           </span>
         </ng-template>
       </div>
       <div style="display: block; float: left; position: relative; width: 100%;">
         <label for="contract-date">Дата контракта</label>
         <span id="contract-date">
-          {{contract.contract.contract_date}}
+          {{contract.contractDate}}
         </span>
       </div>
     </div>
@@ -335,7 +335,7 @@
       <div style="display: block; float: left; position: relative; width: 100%;">
         <label for="contract-author">Добавил</label>
         <span id="contract-author">
-          {{ users.get(contract.author.id) }}
+          {{ contract.author }}
         </span>
       </div>
       <div style="display: block; float: left; position: relative; width: 100%;">

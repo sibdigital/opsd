@@ -151,7 +151,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     this.problemCanEdit = true;
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy():void {
   }
 
   /** Загружает данные по проблемам мероприятия
@@ -189,7 +189,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     return this.halResourceService.get<CollectionResource<HalResource>>(
       this.pathHelper.api.v3.organizations.toString())
       .toPromise()
-      .then((collection: CollectionResource<HalResource>) => {
+      .then((collection:CollectionResource<HalResource>) => {
         this.orgs.set(0, '');
         collection.elements.forEach(el => {
             this.orgs.set(Number(el.getId()), el.name);
@@ -202,7 +202,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     return this.halResourceService.get<CollectionResource<HalResource>>(
       this.pathHelper.api.v3.users.toString())
       .toPromise()
-      .then((collection: CollectionResource<HalResource>) => {
+      .then((collection:CollectionResource<HalResource>) => {
           this.users.set(0, '');
           collection.elements.forEach(el => {
               this.users.set(Number(el.getId()), el.name);
@@ -462,7 +462,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       this.pathHelper.api.v3.work_package_contracts.toString(), {'work_package_id': this.workPackageId}
     ).toPromise().then((response) => {
       this.wpContracts = response.elements;
-      console.log(this.wpContracts);
+      console.log(this.wpContracts[0].author);
     }).catch((error) => {
       this.wpNotificationsService.handleRawError(error);
     });
