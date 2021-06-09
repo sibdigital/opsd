@@ -486,10 +486,12 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     if (this.showContractCreateForm) {
       this.wpContract = null;
     } else {
-      this.wpContract = {id: contract.idFromLink,
-        comment: '' || contract.comment,
-        contract_id: contract.contract.idFromLink || null,
-        work_package_id: contract.workPackage.idFromLink || this.workPackageId};
+      this.wpContract = {
+        id: contract ? contract.idFromLink : null,
+        comment: contract ? contract.comment : '',
+        contract_id: contract ?  contract.contract.idFromLink : null,
+        work_package_id: contract ?  contract.workPackage.idFromLink : this.workPackageId
+      };
     }
     this.showContractCreateForm = !this.showContractCreateForm;
   }
