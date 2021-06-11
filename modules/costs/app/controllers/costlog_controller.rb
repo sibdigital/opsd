@@ -162,6 +162,9 @@ class CostlogController < ApplicationController
       ce.work_package = @work_package
       ce.user = User.current
       ce.spent_on = Date.today
+      # gly(
+      ce.cost_object = @work_package.cost_object
+      # )
       # notice that cost_type is set to default cost_type in the model
     end
   end

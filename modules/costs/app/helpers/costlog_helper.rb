@@ -57,4 +57,16 @@ module CostlogHelper
       '0.0' :
       number_to_currency(rate.rate)
   end
+  # gly(
+  def cost_objects_collection_for_select_options(selected_object = nil)
+    cost_objects = CostObject.find_by_sql(["select * from get_cost_object_list_for_wp(?, ?)", @work_package.id, @project.id])
+
+    if selected_object && !cost_objects.include?(selected_object)
+      cost_objects << selected_object
+      cost_objects.sort
+    end
+
+    cost_objects.map { |t| [t.name, t.id] }
+  end
+  # )
 end

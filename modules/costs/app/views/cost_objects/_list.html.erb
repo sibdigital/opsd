@@ -83,35 +83,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </tr>
       </thead>
       <tbody>
-        <% total_budget = BigDecimal("0"); labor_budget = BigDecimal.new("0"); material_budget = BigDecimal.new("0"); spent = BigDecimal.new("0") %>
-        <% cost_objects.each do |cost_object| %>
-        <tr id="cost_object-<%= cost_object.id %>" class="<%= cost_object.css_classes %>">
-          <td><%= link_to cost_object.id, cost_object_path(cost_object.id) %></td>
-          <%= content_tag(:td, link_to(h(cost_object.subject), cost_object_path(cost_object.id)), :class => 'subject') %>
-          <%= content_tag(:td, cost_object.target, :class => 'target') %>
-          <%= content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency') %>
-          <%= content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency') %>
-          <%= content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency') %>
-          <%= content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}")) %>
-          <%-
-            total_budget += cost_object.budget
-            labor_budget += cost_object.labor_budget
-            material_budget += cost_object.material_budget
-            spent += cost_object.spent
+
+      <%= render_cost_tree(cost_objects, nil, 0) %>
+
+        <%# total_budget = BigDecimal("0"); labor_budget = BigDecimal.new("0"); material_budget = BigDecimal.new("0"); spent = BigDecimal.new("0") %>
+        <%# cost_objects.each do |cost_object| %>
+<!--        <tr id="cost_object-<%#= cost_object.id %>" class="<%#= cost_object.css_classes %>">-->
+<!--          <td><%#= link_to cost_object.id, cost_object_path(cost_object.id) %></td>-->
+          <%#= content_tag(:td, link_to(h(cost_object.subject), cost_object_path(cost_object.id)), :class => 'subject') %>
+          <%#= content_tag(:td, cost_object.target, :class => 'target') %>
+          <%#= content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency') %>
+          <%#= content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency') %>
+          <%#= content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency') %>
+          <%#= content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}")) %>
+          <%#-
+<!--            total_budget += cost_object.budget-->
+<!--            labor_budget += cost_object.labor_budget-->
+<!--            material_budget += cost_object.material_budget-->
+<!--            spent += cost_object.spent-->
           -%>
-        </tr>
-        <% end %>
-        <% if cost_objects.length > 0 %>
-        <tr>
-          <td />
-          <td />
-          <td />
-          <td class="currency"><strong><%= number_to_currency( total_budget, :precision => 0) %></strong></td>
-          <td class="currency"><strong><%= number_to_currency( spent, :precision => 0) %></strong></td>
-          <td class="currency"><strong><%= number_to_currency( total_budget - spent, :precision => 0) %></strong></td>
-          <td />
-        <tr>
-        <% end %>
+<!--        </tr>-->
+        <%# end %>
+        <%# if cost_objects.length > 0 %>
+<!--        <tr>-->
+<!--          <td />-->
+<!--          <td />-->
+<!--          <td />-->
+<!--          <td class="currency"><strong><%#= number_to_currency( total_budget, :precision => 0) %></strong></td>-->
+<!--          <td class="currency"><strong><%#= number_to_currency( spent, :precision => 0) %></strong></td>-->
+<!--          <td class="currency"><strong><%#= number_to_currency( total_budget - spent, :precision => 0) %></strong></td>-->
+<!--          <td />-->
+<!--        <tr>-->
+        <%# end %>
       </tbody>
     </table>
 

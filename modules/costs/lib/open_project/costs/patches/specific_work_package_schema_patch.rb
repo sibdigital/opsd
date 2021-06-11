@@ -48,10 +48,12 @@ module OpenProject::Costs::Patches::SpecificWorkPackageSchemaPatch
 
   module InstanceMethods
     def assignable_values(property, _context)
-      if property == :cost_object
-        return project.try(:cost_objects)
-      end
 
+      if property == :cost_object
+        # return project.try(:cost_objects)
+        records_array = CostObject.find_by_sql(["select * from get_cost_object_list_for_wp(?, ?)", @work_package.id, project.id])
+        return records_array
+      end
       super
     end
   end
