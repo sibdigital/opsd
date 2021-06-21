@@ -100,9 +100,87 @@ module CostObjectsHelper
         html = html + content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}"))
         html = html + render_cost_tree(CostObject.where(parent_id: cost_object.id), cost_object.id, level + 1)
+        html = html + render_unallocated_balance(cost_object.id, level + 1)
+        # unallocated_balance(cost_object.id)
         html = html + '</tr>'
       end
     end
     !html.empty? ? html.html_safe : ''
+  end
+
+  def unallocated_balance(parent_id)
+    if parent_id != nil && !CostObject.where(parent_id: parent_id).blank?
+      result = ActiveRecord::Base.connection.exec_query("WITH parent_costs AS (
+        SELECT mbi.cost_type_id as cost_type_id,
+               sum(CASE WHEN  mbi.budget IS NULL THEN mbi.units*1
+               ELSE mbi.budget
+               END) as budget
+        FROM cost_objects co
+        LEFT JOIN material_budget_items mbi
+            ON co.id = mbi.cost_object_id
+        WHERE co.id = $1
+        GROUP BY mbi.cost_type_id
+        ),
+        children_cost_objects AS (
+            SELECT mbi.cost_type_id as cost_type_id,
+                   sum(CASE WHEN  mbi.budget IS NULL THEN mbi.units*1
+               ELSE mbi.budget
+               END) as budget
+            FROM cost_objects co
+                     LEFT JOIN material_budget_items mbi
+                               ON co.id = mbi.cost_object_id
+            WHERE parent_id = $1
+            GROUP BY mbi.cost_type_id
+        ),
+        result_by_type_id AS (
+            SELECT
+                   COALESCE(parent_costs.cost_type_id, children_cost_objects.cost_type_id) as cost_type_id,
+                   COALESCE(parent_costs.budget, 0) - COALESCE(children_cost_objects.budget, 0) as difference,
+                   CASE
+                       WHEN (COALESCE(parent_costs.budget, 0) - COALESCE(children_cost_objects.budget, 0) != 0)
+                        THEN 1
+                        ELSE 0
+                   END as error
+            FROM parent_costs
+            FULL OUTER JOIN children_cost_objects
+            ON parent_costs.cost_type_id = children_cost_objects.cost_type_id
+        ),
+        differences as (
+            SELECT
+                   sum(rbti.difference) as difference,
+                   sum(rbti.error) as error_count
+            FROM result_by_type_id rbti
+        )
+        SELECT
+           'Остаток' as subject,
+            difference as budget,
+            error_count as error
+        FROM differences;", "Example", [[nil, parent_id]]);
+      return result
+    end
+  end
+
+  def render_unallocated_balance(parent_id, level)
+    result = unallocated_balance(parent_id)
+    if (!result.blank? && result[0]['error'] != 0)
+      html = '<tr id="' + parent_id.to_s + '" cost_object-id="' + parent_id.to_s + '" data-class-identifier="wp-row-' + parent_id.to_s + '" class="hide-section wp-table--row wp--row wp-row-' + parent_id.to_s + ' wp-row-' + parent_id.to_s + '-table issue __hierarchy-group-' + parent_id.to_s + ' __hierarchy-root-' + parent_id.to_s + '">'
+      html = html + content_tag(:td, "")
+      tag_td = content_tag(:td) do
+        ('<span id="' + parent_id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;"></span>').html_safe +
+          "Остаток"
+      end
+      html = html + tag_td
+      html = html + content_tag(:td, "Расхождение бюджета по " + result[0]['error'].to_s + " источникам")
+      html = html + content_tag(:td, result[0]['budget'].to_s)
+      html = html + content_tag(:td, "0")
+      html = html + content_tag(:td, result[0]['budget'].to_s)
+      # html = html + content_tag(:td, extended_progress_bar("0", :legend => "#{cost_object.budget_ratio}"))
+      html = html + '</tr>'
+
+      return html
+    else
+      return ""
+    end
+
   end
 end
