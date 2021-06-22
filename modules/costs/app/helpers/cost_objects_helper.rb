@@ -84,8 +84,6 @@ module CostObjectsHelper
             html = html + '<tr id="' + cost_object.id.to_s + '" data-tt-id="' + cost_object.id.to_s + '" data-tt-parent-id="' + cost_object.parent_id.to_s + '">'
             html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
             tag_td = content_tag(:td) do
-              # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
-              # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
                 link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
             end
             html = html + tag_td
@@ -93,8 +91,6 @@ module CostObjectsHelper
             html = html + '<tr id="' + cost_object.parent_id.to_s + '" data-tt-id="' + cost_object.id.to_s + '" data-tt-parent-id="' + cost_object.parent_id.to_s  + '">'
             html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
             tag_td = content_tag(:td) do
-              # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
-              # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
                 link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
             end
             html = html + tag_td
@@ -102,7 +98,8 @@ module CostObjectsHelper
         end
         html = html + content_tag(:td, cost_object.target, :class => 'target')
         html = html + content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency')
-        html = html + content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency')
+        # html = html + content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency')
+        html = html + content_tag(:td, number_to_currency(sum_spent_in_children(cost_object), :precision => 0), :class => 'currency')
         html = html + content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}"))
         html = html + '</tr>'
@@ -194,5 +191,20 @@ module CostObjectsHelper
     else
       return true
     end
+  end
+
+  def sum_spent_in_children(elem)
+    sum = 0
+    if (!elem.blank? && !elem.nil?)
+      if (elem.instance_of?VariableCostObject)
+        sum = sum + elem.spent
+        sum = sum + sum_spent_in_children(CostObject.where(parent_id: elem.id))
+      else
+        elem.each do |cost_object|
+          sum = sum + sum_spent_in_children(cost_object)
+        end
+      end
+    end
+    return sum
   end
 end
