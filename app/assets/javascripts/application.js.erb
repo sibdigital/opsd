@@ -29,6 +29,7 @@
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
 //= require lib/jquery.is_visible_within
+//= require lib/jquery.treetable
 
 //= require top_menu
 //= require action_menu
@@ -491,3 +492,14 @@ jQuery(document).ready(function(){
         this.href= this.href+'&selected_target_id='+jQuery('#selected_target_id').val();
     });
 });
+jQuery(document).ready(function(){
+    jQuery('#material_budget_items').treetable(
+        {
+            expandable: true,
+            initialState: "expanded",
+            column: 1,
+        }
+    );
+
+});
+

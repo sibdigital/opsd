@@ -19,11 +19,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <%= form_tag({}) do -%>
+<%= stylesheet_link_tag 'treetable.css'%>
 
-<div class="generic-table--container">
+
+  <div class="generic-table--container">
   <div class="generic-table--results-container">
-    <table class="generic-table" id="material_budget_items">
+    <table class="treetable generic-table" id="material_budget_items">
       <colgroup>
+        <col highlight-col>
         <col highlight-col>
         <col highlight-col>
         <col highlight-col>
@@ -83,7 +86,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </tr>
       </thead>
       <tbody>
-
       <%= render_cost_tree(cost_objects, nil, 0) %>
 
         <%# total_budget = BigDecimal("0"); labor_budget = BigDecimal.new("0"); material_budget = BigDecimal.new("0"); spent = BigDecimal.new("0") %>

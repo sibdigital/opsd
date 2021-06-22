@@ -5,6 +5,7 @@ OpenProject::Application.configure do
     favicon.ico
     openproject.css
     accessibility.css
+    treetable.css
     admin_users.js
     autocompleter.js
     copy_issue_actions.js

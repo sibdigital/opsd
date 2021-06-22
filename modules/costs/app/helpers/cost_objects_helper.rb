@@ -75,33 +75,26 @@ module CostObjectsHelper
     tree.each do |cost_object|
       if cost_object.parent_id == pid
         if cost_object.parent_id == nil
-          html = html + '<tr id="' + cost_object.id.to_s + '" cost_object-id="' + cost_object.id.to_s + '" data-class-identifier="wp-row-' + cost_object.id.to_s + '" class="hide-head wp-table--row wp--row wp-row-' + cost_object.id.to_s + ' wp-row-' + cost_object.id.to_s + '-table issue __hierarchy-group-' + cost_object.parent_id.to_s + ' __hierarchy-root-' + cost_object.id.to_s + '">'
+          html = html + '<tr id="' + cost_object.id.to_s + '" data-tt-id="' + cost_object.id.to_s + '">'
           html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
-          tag_td = content_tag(:td) do
-            # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
-            # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
-            ('<span id="' + cost_object.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;">▼</span>').html_safe +
-              link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
-          end
+          tag_td = content_tag(:td, link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject'))
           html = html + tag_td
         else
           if (has_child(cost_object))
-            html = html + '<tr id="' + cost_object.id.to_s + '" cost_object-id="' + cost_object.id.to_s + '" data-class-identifier="wp-row-' + cost_object.id.to_s + '" class="hide-head hide-section wp-table--row wp--row wp-row-' + cost_object.id.to_s + ' wp-row-' + cost_object.id.to_s + '-table issue __hierarchy-group-' + cost_object.parent_id.to_s + ' __hierarchy-root-' + cost_object.id.to_s + '">'
+            html = html + '<tr id="' + cost_object.id.to_s + '" data-tt-id="' + cost_object.id.to_s + '" data-tt-parent-id="' + cost_object.parent_id.to_s + '">'
             html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
             tag_td = content_tag(:td) do
               # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
               # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
-              ('<span id="' + cost_object.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;">▼</span>').html_safe +
                 link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
             end
             html = html + tag_td
           else
-            html = html + '<tr id="' + cost_object.parent_id.to_s + '" cost_object-id="' + cost_object.parent_id.to_s + '" data-class-identifier="wp-row-' + cost_object.id.to_s + '" class="hide-section wp-table--row wp--row wp-row-' + cost_object.id.to_s + ' wp-row-' + cost_object.id.to_s + '-table issue __hierarchy-group-' + cost_object.parent_id.to_s + ' __hierarchy-root-' + cost_object.id.to_s + '">'
+            html = html + '<tr id="' + cost_object.parent_id.to_s + '" data-tt-id="' + cost_object.id.to_s + '" data-tt-parent-id="' + cost_object.parent_id.to_s  + '">'
             html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
             tag_td = content_tag(:td) do
               # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
               # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
-              ('<span id="' + cost_object.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;"></span>').html_safe +
                 link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
             end
             html = html + tag_td
@@ -112,9 +105,9 @@ module CostObjectsHelper
         html = html + content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}"))
+        html = html + '</tr>'
         html = html + render_cost_tree(CostObject.where(parent_id: cost_object.id), cost_object.id, level + 1)
         html = html + render_unallocated_balance(cost_object.id, level + 1)
-        html = html + '</tr>'
       end
     end
     !html.empty? ? html.html_safe : ''
@@ -175,10 +168,9 @@ module CostObjectsHelper
   def render_unallocated_balance(parent_id, level)
     result = unallocated_balance(parent_id)
     if (!result.blank? && result[0]['error'] != 0)
-      html = '<tr id="' + parent_id.to_s + '" cost_object-id="' + parent_id.to_s + '" data-class-identifier="wp-row-' + parent_id.to_s + '" class="hide-section wp-table--row wp--row wp-row-' + parent_id.to_s + ' wp-row-' + parent_id.to_s + '-table issue __hierarchy-group-' + parent_id.to_s + ' __hierarchy-root-' + parent_id.to_s + '">'
+      html = '<tr id="' + parent_id.to_s + '" data-tt-id="' + (parent_id*100).to_s + '" data-tt-parent-id="' + parent_id.to_s + '">'
       html = html + content_tag(:td, "")
       tag_td = content_tag(:td) do
-        ('<span id="' + parent_id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;"></span>').html_safe +
           "Остаток"
       end
       html = html + tag_td
