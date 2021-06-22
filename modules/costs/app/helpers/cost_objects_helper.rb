@@ -83,17 +83,30 @@ module CostObjectsHelper
             ('<span id="' + cost_object.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;">▼</span>').html_safe +
               link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
           end
+          html = html + tag_td
         else
-          html = html + '<tr id="' + cost_object.parent_id.to_s + '" cost_object-id="' + cost_object.parent_id.to_s + '" data-class-identifier="wp-row-' + cost_object.id.to_s + '" class="hide-section wp-table--row wp--row wp-row-' + cost_object.id.to_s + ' wp-row-' + cost_object.id.to_s + '-table issue __hierarchy-group-' + cost_object.parent_id.to_s + ' __hierarchy-root-' + cost_object.id.to_s + '">'
-          html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
-          tag_td = content_tag(:td) do
-            # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
-            # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
-            ('<span id="' + cost_object.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;"></span>').html_safe +
-              link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
+          if (has_child(cost_object))
+            html = html + '<tr id="' + cost_object.id.to_s + '" cost_object-id="' + cost_object.id.to_s + '" data-class-identifier="wp-row-' + cost_object.id.to_s + '" class="hide-head hide-section wp-table--row wp--row wp-row-' + cost_object.id.to_s + ' wp-row-' + cost_object.id.to_s + '-table issue __hierarchy-group-' + cost_object.parent_id.to_s + ' __hierarchy-root-' + cost_object.id.to_s + '">'
+            html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
+            tag_td = content_tag(:td) do
+              # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
+              # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
+              ('<span id="' + cost_object.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;">▼</span>').html_safe +
+                link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
+            end
+            html = html + tag_td
+          else
+            html = html + '<tr id="' + cost_object.parent_id.to_s + '" cost_object-id="' + cost_object.parent_id.to_s + '" data-class-identifier="wp-row-' + cost_object.id.to_s + '" class="hide-section wp-table--row wp--row wp-row-' + cost_object.id.to_s + ' wp-row-' + cost_object.id.to_s + '-table issue __hierarchy-group-' + cost_object.parent_id.to_s + ' __hierarchy-root-' + cost_object.id.to_s + '">'
+            html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
+            tag_td = content_tag(:td) do
+              # ('<span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>').html_safe +
+              # ('<span class="wp-table--hierarchy-span" style="width: ' + (level * 45).to_s + 'px;"></span>').html_safe +
+              ('<span id="' + cost_object.id.to_s + '" class="wp-table--hierarchy-span" style="width: ' + (level * 25 + 25).to_s + 'px;"></span>').html_safe +
+                link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject')
+            end
+            html = html + tag_td
           end
         end
-        html = html + tag_td
         html = html + content_tag(:td, cost_object.target, :class => 'target')
         html = html + content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency')
@@ -101,7 +114,6 @@ module CostObjectsHelper
         html = html + content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}"))
         html = html + render_cost_tree(CostObject.where(parent_id: cost_object.id), cost_object.id, level + 1)
         html = html + render_unallocated_balance(cost_object.id, level + 1)
-        # unallocated_balance(cost_object.id)
         html = html + '</tr>'
       end
     end
@@ -170,17 +182,25 @@ module CostObjectsHelper
           "Остаток"
       end
       html = html + tag_td
-      html = html + content_tag(:td, "Расхождение бюджета по " + result[0]['error'].to_s + " источникам")
-      html = html + content_tag(:td, result[0]['budget'].to_s)
-      html = html + content_tag(:td, "0")
-      html = html + content_tag(:td, result[0]['budget'].to_s)
-      # html = html + content_tag(:td, extended_progress_bar("0", :legend => "#{cost_object.budget_ratio}"))
+      html = html + content_tag(:td, "Расхождение бюджета по " + result[0]['error'].to_s + " источнику (-ам)")
+      html = html + content_tag(:td, number_to_currency(result[0]['budget'], :precision => 0), :class => 'currency')
+      html = html + content_tag(:td, number_to_currency(0, :precision => 0), :class => 'currency')
+      html = html + content_tag(:td, number_to_currency(result[0]['budget'], :precision => 0), :class => 'currency')
+      html = html + content_tag(:td, extended_progress_bar(0))
       html = html + '</tr>'
 
       return html
     else
       return ""
     end
+  end
 
+  def has_child(cost_object)
+    children = CostObject.where(parent_id: cost_object.id)
+    if children.blank?
+      return false
+    else
+      return true
+    end
   end
 end
