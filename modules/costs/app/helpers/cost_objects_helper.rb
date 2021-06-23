@@ -178,7 +178,7 @@ module CostObjectsHelper
       html = html + content_tag(:td, "")
       html = html + content_tag(:td, "Остаток", :style => color)
       if (errors_exist)
-        html = html + content_tag(:td, "Превышен расход бюджета по " + result[0]['error'].to_s + " источнику (-ам)", :style => color)
+        html = html + content_tag(:td, "Расхождение бюджета по " + result[0]['error'].to_s + " источнику (-ам)", :style => color)
       else
         html = html + content_tag(:td, "")
       end
