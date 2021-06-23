@@ -98,13 +98,13 @@ module CostObjectsHelper
         end
         html = html + content_tag(:td, cost_object.target, :class => 'target')
         html = html + content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency')
-        # html = html + content_tag(:td, number_to_currency(cost_object.spent, :precision => 0), :class => 'currency')
-        html = html + content_tag(:td, number_to_currency(sum_spent_in_children(cost_object), :precision => 0), :class => 'currency')
-        html = html + content_tag(:td, number_to_currency(cost_object.budget - cost_object.spent, :precision => 0), :class => 'currency')
+        sum_spent = sum_spent_in_children(cost_object)
+        html = html + content_tag(:td, number_to_currency(sum_spent, :precision => 0), :class => 'currency')
+        html = html + content_tag(:td, number_to_currency(cost_object.budget - sum_spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}"))
         html = html + '</tr>'
         html = html + render_cost_tree(CostObject.where(parent_id: cost_object.id), cost_object.id, level + 1)
-        html = html + render_unallocated_balance(cost_object.id, level + 1)
+        html = html + render_unallocated_balance(cost_object.id)
       end
     end
     !html.empty? ? html.html_safe : ''
@@ -139,7 +139,7 @@ module CostObjectsHelper
                    COALESCE(parent_costs.cost_type_id, children_cost_objects.cost_type_id) as cost_type_id,
                    COALESCE(parent_costs.budget, 0) - COALESCE(children_cost_objects.budget, 0) as difference,
                    CASE
-                       WHEN (COALESCE(parent_costs.budget, 0) - COALESCE(children_cost_objects.budget, 0) != 0)
+                       WHEN (COALESCE(parent_costs.budget, 0) - COALESCE(children_cost_objects.budget, 0) < 0)
                         THEN 1
                         ELSE 0
                    END as error
@@ -162,19 +162,29 @@ module CostObjectsHelper
     end
   end
 
-  def render_unallocated_balance(parent_id, level)
+  def render_unallocated_balance(parent_id)
+    green_color = "color: #008000"
+    red_color = "color: #ff0000"
+    color = green_color
+    errors_exist = false
+
     result = unallocated_balance(parent_id)
-    if (!result.blank? && result[0]['error'] != 0)
+    if (!result.blank? && result[0]['error'] > 0)
+      color = red_color
+      errors_exist = true
+    end
+    if (!result.blank?)
       html = '<tr id="' + parent_id.to_s + '" data-tt-id="' + (parent_id*100).to_s + '" data-tt-parent-id="' + parent_id.to_s + '">'
       html = html + content_tag(:td, "")
-      tag_td = content_tag(:td) do
-          "Остаток"
+      html = html + content_tag(:td, "Остаток", :style => color)
+      if (errors_exist)
+        html = html + content_tag(:td, "Превышен расход бюджета по " + result[0]['error'].to_s + " источнику (-ам)", :style => color)
+      else
+        html = html + content_tag(:td, "")
       end
-      html = html + tag_td
-      html = html + content_tag(:td, "Расхождение бюджета по " + result[0]['error'].to_s + " источнику (-ам)")
-      html = html + content_tag(:td, number_to_currency(result[0]['budget'], :precision => 0), :class => 'currency')
-      html = html + content_tag(:td, number_to_currency(0, :precision => 0), :class => 'currency')
-      html = html + content_tag(:td, number_to_currency(result[0]['budget'], :precision => 0), :class => 'currency')
+      html = html + content_tag(:td, number_to_currency(result[0]['budget'], :precision => 0), {:class => 'currency', :style => color})
+      html = html + content_tag(:td, number_to_currency(0, :precision => 0), {:class => 'currency', :style => color})
+      html = html + content_tag(:td, number_to_currency(result[0]['budget'], :precision => 0), {:class => 'currency', :style => color})
       html = html + content_tag(:td, extended_progress_bar(0))
       html = html + '</tr>'
 
