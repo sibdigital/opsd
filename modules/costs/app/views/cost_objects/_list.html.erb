@@ -86,8 +86,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </tr>
       </thead>
       <tbody>
-      <%= render_cost_tree(cost_objects, nil, 0) %>
-
+      <%= render_cost_treetable(cost_objects, nil, 0) %>
+      <tr id="cost-object-total"%>
+        <td></td>
+        <td style="font-weight: bolder">Итого</td>
+        <td></td>
+        <td id="cost-object-budget-total" style="font-weight: bolder"></td>
+        <td id="cost-object-spent-total" style="font-weight: bolder"></td>
+        <td id="cost-object-available-total" style="font-weight: bolder"></td>
+        <td></td>
+      </tr>
         <%# total_budget = BigDecimal("0"); labor_budget = BigDecimal.new("0"); material_budget = BigDecimal.new("0"); spent = BigDecimal.new("0") %>
         <%# cost_objects.each do |cost_object| %>
 <!--        <tr id="cost_object-<%#= cost_object.id %>" class="<%#= cost_object.css_classes %>">-->

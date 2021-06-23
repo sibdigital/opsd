@@ -70,12 +70,15 @@ module CostObjectsHelper
                                               embed_links: true)
   end
 
-  def render_cost_tree(tree, pid, level)
+  def render_cost_treetable(tree, pid, level)
     html = ''
     tree.each do |cost_object|
       if cost_object.parent_id == pid
+        sum_spent = sum_spent_in_children(cost_object)
         if cost_object.parent_id == nil
-          html = html + '<tr id="' + cost_object.id.to_s + '" data-tt-id="' + cost_object.id.to_s + '">'
+          html = html + '<tr id="' + cost_object.id.to_s + '" data-tt-id="' + cost_object.id.to_s +
+            '" budget="' + cost_object.budget.to_s + '" spent="' + sum_spent.to_s + '" available="' + (cost_object.budget - sum_spent).to_s +
+            '" class="cost-object-treetable-main-parent">'
           html = html + content_tag(:td, link_to(cost_object.id, cost_object_path(id: cost_object.id)))
           tag_td = content_tag(:td, link_to(h(cost_object.subject), cost_object_path(id: cost_object.id), :class => 'subject'))
           html = html + tag_td
@@ -98,12 +101,11 @@ module CostObjectsHelper
         end
         html = html + content_tag(:td, cost_object.target, :class => 'target')
         html = html + content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency')
-        sum_spent = sum_spent_in_children(cost_object)
         html = html + content_tag(:td, number_to_currency(sum_spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, number_to_currency(cost_object.budget - sum_spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}"))
         html = html + '</tr>'
-        html = html + render_cost_tree(CostObject.where(parent_id: cost_object.id), cost_object.id, level + 1)
+        html = html + render_cost_treetable(CostObject.where(parent_id: cost_object.id), cost_object.id, level + 1)
         html = html + render_unallocated_balance(cost_object.id)
       end
     end
@@ -193,6 +195,7 @@ module CostObjectsHelper
       return ""
     end
   end
+
 
   def has_child(cost_object)
     children = CostObject.where(parent_id: cost_object.id)
