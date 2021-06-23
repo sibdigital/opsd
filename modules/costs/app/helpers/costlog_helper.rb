@@ -59,7 +59,13 @@ module CostlogHelper
   end
   # gly(
   def cost_objects_collection_for_select_options(selected_object = nil)
-    cost_objects = CostObject.find_by_sql(["select * from get_cost_object_list_for_wp(?, ?)", @work_package.id, @project.id])
+    all_filtered_cost_objects = CostObject.find_by_sql(["select * from get_cost_object_list_for_wp(?, ?)", @work_package.id, @project.id])
+    cost_objects = []
+    all_filtered_cost_objects.each do |cost_object|
+      if (!has_child(cost_object))
+        cost_objects.push(cost_object)
+      end
+    end
 
     if selected_object && !cost_objects.include?(selected_object)
       cost_objects << selected_object
@@ -67,6 +73,15 @@ module CostlogHelper
     end
 
     cost_objects.map { |t| [t.name, t.id] }
+  end
+
+  def has_child(cost_object)
+    children = CostObject.where(parent_id: cost_object.id)
+    if children.blank?
+      return false
+    else
+      return true
+    end
   end
   # )
 end
