@@ -33,22 +33,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 
 <section class="form--section">
-  <%# @selected_project_status_id = if project.new_record?
-                                     ProjectStatus.default.id
-                                   else project.get_project_status.id end
-     @selected_project_approve_status_id = if project.new_record?
-                                     ProjectApproveStatus.default.id
-                                   else project.get_project_approve_status.id end
-  %>
-  <%
-    @selected_national_project = project.national_project_id.present? ? project.national_project_id : NationalProject.default_project
-    @selected_federal_project = project.federal_project_id
-    @address = project.address_id.present? ? Address.find(project.address_id).address : nil
-  %>
-</section>
-
-
-<section class="form--section">
   <%= render partial: "projects/form/project_attributes",
              locals: { project: project, form: f, render_advanced: render_advanced } %>
 
