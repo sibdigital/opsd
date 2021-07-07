@@ -169,7 +169,7 @@ email_login: # use email address as login, hide login in registration form
 host_name:
   default: localhost:3000
 protocol:
-  default: https
+  default: http
 feeds_enabled:
   default: 1
 feeds_limit:
