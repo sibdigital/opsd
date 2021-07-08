@@ -58,10 +58,6 @@ class RootSeeder < Seeder
       puts '*** Seeding admin user'
       AdminUserSeeder.new.seed!
 
-      puts '*** Seeding demo data'
-      #+-TAN 2019.06.27
-      DemoDataSeeder.new.seed!
-
       if Rails.env.development?
         puts '*** Seeding development data'
         require 'factory_bot'
