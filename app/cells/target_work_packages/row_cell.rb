@@ -30,5 +30,23 @@ module TargetWorkPackages
     def row_css_id
       'row_' + target_work_package.id.to_s
     end
+
+    def row_css_class
+      now = Date.today
+      target_date = Date.parse('01/' + (target_execution_value.quarter * 3).to_s + '/' + target_execution_value.year.to_s)
+      if target_date <= now
+        wp_target = target_work_package
+                      .work_package_targets
+                      .where(year: target_execution_value.year, quarter: target_execution_value.quarter)
+        if wp_target.empty?
+          'target_failed'
+        elsif wp_target.first.value < target_execution_value.value
+          'target_failed'
+        else
+          'target_succeed'
+        end
+      end
+
+    end
   end
 end
