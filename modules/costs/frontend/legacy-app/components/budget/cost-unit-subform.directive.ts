@@ -30,13 +30,12 @@ export class CostUnitSubformController {
 
   public objId:string;
   public objName:string;
-  public required: boolean;
+  public required:string;
 
   constructor(public $element:ng.IAugmentedJQuery) {
     this.objId = this.$element.attr('obj-id')!;
     this.objName = this.$element.attr('obj-name')!;
     this.required = this.$element.attr('required')!;
-    console.log(this.required);
 
     // Add new row handler
     $element.find('#' + this.objId).click(() => {
@@ -74,7 +73,7 @@ export class CostUnitSubformController {
     var button = '<div id="' + obj[0].id +
       '_cancel" class="form--field-affix -transparent icon icon-close"></div>';
     var span = '<div id="' + obj[0].id + '_editor" class="form--text-field-container">';
-    span += '<input id="' + obj[0].id + '_edit" class="form--text-field" '+ this.required ? '' : 'required' +' name="' + name + '" value="' + value + '" class="currency" type="text" /> ';
+    span += '<input id="' + obj[0].id + '_edit" class="form--text-field" ' + this.required ? '' : 'required' + ' name="' + name + '" value="' + value + '" class="currency" type="text" /> ';
     span += '</div>';
 
     var affix = '<div class="form--field-affix" id="' + obj[0].id + '_affix">' +
