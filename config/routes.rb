@@ -122,8 +122,10 @@ OpenProject::Application.routes.draw do
   # tmd
   # resources :user_guides
 
-  #tmd
+
+  resources :user_guides
   get 'download_pdf', to: "user_guides#download_pdf"
+
 
   #tmd
   get 'download_file', to: "user_guides#download_file"
