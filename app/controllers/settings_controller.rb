@@ -41,6 +41,7 @@ class SettingsController < ApplicationController
   def edit
     @notifiables = Redmine::Notifiable.all
     @strong_notifiables = Redmine::Notifiable.all
+    @user_guide = DynamicPage.find(1)
     if request.post? && params[:settings]
       permitted_params.settings.to_h.each do |name, value|
         if value.is_a?(Array)

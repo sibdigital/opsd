@@ -101,6 +101,7 @@ module API
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
+      mount ::API::V3::DynamicPages::DynamicPagesAPI
       mount ::API::V3::Grids::GridsAPI
 
       get '/' do

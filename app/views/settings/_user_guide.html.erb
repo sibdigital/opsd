@@ -1,0 +1,19 @@
+<%= labelled_tabular_form_for @user_guide,
+                              url: edit_user_guide_path(id: @user_guide.id),
+                              html: {method: :get, params: @user_guide} do |f| %>
+  <% resource = ::API::V3::DynamicPages::DynamicPageRepresenter.new(@user_guide, current_user: current_user, embed_links: true) %>
+  <section class="form--section">
+    <div class="form--field">
+      <%= f.text_area :content,
+                      cols: 100,
+                      rows: 25,
+                      class: 'wiki-edit',
+                      accesskey: accesskey(:edit),
+                      with_text_formatting: true,
+                      resource: resource,
+                      label_options: {class: 'hidden-for-sighted'},
+                      preview_context: preview_context(@user_guide)%>
+    </div>
+  </section>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

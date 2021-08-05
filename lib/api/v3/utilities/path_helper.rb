@@ -75,6 +75,10 @@ module API
             "#{wiki_page(id)}/attachments"
           end
 
+          def self.attachments_by_dynamic_page(id)
+            "#{dynamic_page(id)}/attachments"
+          end
+
           def self.available_assignees(project_id)
             "#{project(project_id)}/available_assignees"
           end
@@ -551,6 +555,10 @@ module API
 
           def self.wiki_page(id)
             "#{root}/wiki_pages/#{id}"
+          end
+
+          def self.dynamic_page(id)
+            "#{root}/dynamic_pages/#{id}"
           end
 
           def self.work_packages

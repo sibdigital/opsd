@@ -57,6 +57,7 @@ import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-res
 import {GridResource} from "core-app/modules/hal/resources/grid-resource";
 import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
 import {NewsResource} from "core-app/modules/hal/resources/news-resource";
+import {DynamicPageResource} from "core-app/modules/hal/resources/dynamic-page-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
@@ -157,6 +158,9 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   },
   WikiPage: {
     cls: WikiPageResource
+  },
+  DynamicPage: {
+    cls: DynamicPageResource
   },
   Post: {
     cls: PostResource
