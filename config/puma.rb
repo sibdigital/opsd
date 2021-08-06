@@ -45,10 +45,10 @@ preload_app! if Rails.env.production?
 plugin :tmp_restart
 
 
-# ssl_bind '0.0.0.0', '3001', {
-#     key: '/home/user/.ssh/private.key',
-#     cert: '/home/user/.ssh/sup_govrb_ru.crt'
-# }
+ssl_bind '0.0.0.0', '3001', {
+    key: '/home/user/.ssh/private.key',
+    cert: '/home/user/.ssh/sup_govrb_ru.crt'
+}
 
 
 # fva {
