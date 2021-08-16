@@ -54,24 +54,46 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
-    query = load_query
-    set_sorting(query)
+    @projects_view = :projects_angular
+    # query = load_query
+    # set_sorting(query)
+    #
+    # unless query.valid?
+    #   flash[:error] = query.errors.full_messages
+    # end
+    #
+    # @projects = load_projects query
+    # @custom_fields = ProjectCustomField.visible(User.current)
 
-    unless query.valid?
-      flash[:error] = query.errors.full_messages
-    end
+    # puts 'hellow ordl'
+    # puts @projects
+    # projects_with_levels_order_sensitive(@projects) do | projectBuf |
+    #   puts projectBuf
+    #   puts projectBuf.archived
+    #   puts projectBuf.is_public
+    #   puts projectBuf.national_project
+    #   puts projectBuf.federal_project
+    #   puts projectBuf.get_project_status
+    #   puts projectBuf.get_project_approve_status
+    #   puts projectBuf.get_done_ratio
+    #   puts projectBuf.required_disk_space
+    #   puts projectBuf.start_date
+    #   puts projectBuf.due_date
+      # projectBuf.each do | pair |
+      #   puts pair
+      # end
+      # projectBuf.each { |pair| p "pair: #{ pair }" }
+      # puts projectBuf
+    # end
 
-    @projects = load_projects query
-    @custom_fields = ProjectCustomField.visible(User.current)
-
-    respond_to do |format|
-      format.atom do
-        head(:gone)
-      end
-      format.html do
-        render layout: 'no_menu'
-      end
-    end
+    # respond_to do |format|
+    #   format.atom do
+    #     head(:gone)
+    #   end
+    #   format.html do
+    #     render layout: 'no_menu'
+    #   end
+    # end
   end
 
   current_menu_item :index do

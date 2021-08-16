@@ -1,0 +1,125 @@
+<div class="projects-header">
+    <h1>Реестр проектов</h1>
+    <div class="projects-filters">
+        <div class="toolbar-item">
+    <!--        op_icon('button&#45;&#45;icon icon-add')-->
+            <button class="-alt-highlight">
+                <span class="button--text">Инициировать проект</span>
+            </button>
+        </div>
+        <div class="toolbar-item">
+            <button id="projects-filter-toggle-button" title="Показать/скрыть фильтры" class="button toolbar-icon">
+<!--                <div>op_icon("icon-filter button&#45;&#45;icon")</div>-->
+                <span>icon</span>
+            </button>
+        </div>
+        <div class="toolbar-item">
+            <button>Общая деятельность</button>
+        </div>
+        <div class="toolbar-item">
+            <button>Сводный отчет</button>
+        </div>
+    <!--    <%= render partial: 'projects/filters/form', locals: { query: @query } %>-->
+    </div>
+</div>
+
+<div *ngIf="projects.length > 0; else emptyProjectsTable">
+    <div class="generic-table--container">
+        <div class="generic-table--results-container">
+            <table class="generic-table" id="project-table">
+                <thead>
+                <tr>
+                    <th>НАИМЕНОВАНИЕ</th>
+                    <th>ОБЩИЙ</th>
+                    <th>НАЦ.ПРОЕКТ</th>
+                    <th>СТАТУС</th>
+                    <th>ЭТАП СОГЛАСОВАНИЯ</th>
+                    <th>ПРОЦЕНТ ИСПОЛНЕНИЯ</th>
+                    <th>ТРЕБУЕТСЯ МЕСТО НА ДИСКЕ</th>
+                    <th>ДАТА НАЧАЛА</th>
+                    <th>ДАТА ОКОНЧАНИЯ</th>
+                    <th>РАЗВЕРНУТЬ ВСЕ</th>
+                    <!--                    <th class="-right">-->
+                    <!--                        <div class="generic-table&#45;&#45;header-outer">-->
+                    <!--                            <div class="generic-table&#45;&#45;header">-->
+                    <!--                                <% if params[:expand] == 'all' %>-->
+                    <!--                                <%= link_to t(:button_collapse_all), { params: safe_query_params(%w{filters page per_page sortBy}).except(:expand) } %>-->
+                    <!--                                <% else %>-->
+                    <!--                                <%= link_to t(:button_expand_all), { params: safe_query_params(%w{filters page per_page sortBy}).merge(expand: 'all') } %>-->
+                    <!--                                <% end %>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let project of projects" class="basics context-menu--reveal">
+                    <td [textContent]="project.name"></td>
+                    <td [textContent]="project.isPublic"></td>
+                    <td [textContent]="(project.national_project?.name ? project.national_project.name : '') + (project.federal_project?.name ? ('>' + project.federal_project.name) : '')"></td>
+                    <td [textContent]="project.projectStatus"></td>
+                    <td [textContent]="project.projectApproveStatus"></td>
+                    <td [textContent]="project.doneRatio"></td>
+                    <td [textContent]="project.requiredDiskSpace"></td>
+                    <td [textContent]="project.startDateCostil"></td>
+                    <td [textContent]="project.endDateCostil"></td>
+                    <td class="buttons">
+                        <!--                        <% items = project_more_menu_items(project) %>-->
+                        <!--                        <% if items.any?  %>-->
+                        <ul class="project-actions">
+                            <li aria-haspopup="true" title="<%= t(:label_open_menu) %>" class="drop-down">
+                                <a class="icon icon-show-more-horizontal context-menu--icon" title="Открыть меню" href></a>
+                                <ul style="display:none;" class="menu-drop-down-container">
+                                    <!--                                    <% items.each do |item| %>-->
+                                    <li>
+                                        <!--                                        <%= link_to(*item) %>-->
+                                    </li>
+                                    <!--                                    <% end %>-->
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--                        <% end %>-->
+                        <!--                        <% unless project.description.blank? %>-->
+                        <a class="icon collapse icon-arrow-up1 projects-table--description-toggle" href title="Скрыть детали проекта"></a>
+                        <a class="icon expand icon-arrow-down1 projects-table--description-toggle" href title="Показать детали проекта"></a>
+                        <!--                        <% end %>-->
+                    </td>
+                </tr>
+                <!--            <% unless project.description.blank? %>-->
+                <!--            <tr class="project-description <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">-->
+                <!--            <td></td>-->
+                <!--            <td colspan="<%= @custom_fields.size + (User.current.admin? ? 6 : 3) %>" class="project&#45;&#45;hierarchy">-->
+                <!--                <div class="description-container">-->
+                <!--                    <span class="wiki"><%= format_text(project.short_description(255), project: project) %></span>-->
+                <!--                </div>-->
+                <!--            </td>-->
+                <!--            </tr>-->
+                <!--            <% end %>-->
+                <!--            <% end %>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="pagination">
+        <div>
+            ({{page}} - {{count}}/{{total}})
+        </div>
+        <div class="pagination-per-page">
+            <div>Постранично: </div>
+            <div class="pagination-per-page-links">
+                <button>20</button>
+                <button>100</button>
+            </div>
+        </div>
+    </div>
+    <div class="required-disk-place">
+        {{requiredDiskPlace}}
+    </div>
+</div>
+
+<ng-template #emptyProjectsTable>
+    <p>ZERO LENGTH</p>
+</ng-template>
+
+<!--<div> this is paginator</div>-->
+<!--<div *ngIf="projects.length === 0">ZERO LENGTH</div>-->

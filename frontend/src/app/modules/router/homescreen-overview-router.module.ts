@@ -70,6 +70,7 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
 import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib/autocomplete-lib.module";
 import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 import {PaginationFooterComponent} from "core-components/pagination-footer/pagination-footer.component";
+import {ProjectsComponent} from "core-components/projects/projects.component";
 
 @NgModule({
   imports: [
@@ -118,6 +119,7 @@ import {PaginationFooterComponent} from "core-components/pagination-footer/pagin
     PerformanceTabComponent,
     HomescreenBlueTableComponent,
     PaginationFooterComponent,
+    ProjectsComponent,
   ],
   entryComponents: [
     HomescreenProgressBarComponent,
@@ -139,7 +141,8 @@ import {PaginationFooterComponent} from "core-components/pagination-footer/pagin
     ProtocolTabComponent,
     MunicipalityTabComponent,
     PerformanceTabComponent,
-    HomescreenBlueTableComponent
+    HomescreenBlueTableComponent,
+    ProjectsComponent,
   ],
   exports: [
   ],
