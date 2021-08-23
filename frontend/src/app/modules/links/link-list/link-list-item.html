@@ -1,0 +1,49 @@
+<li class="form--selected-value--container work-package--attachments--draggable-item"
+    focus-within
+    draggable="true"
+    focusWithinSelector=".inplace-edit--icon-wrapper">
+  <span class="form--selected-value" *ngIf="!edit">
+    <op-icon icon-classes="icon-context icon-link"></op-icon>
+    <a class="work-package--attachments--filename"
+       target="_blank"
+       rel="noopener"
+       style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+       [attr.href]="link.link">
+      {{ link.name || link.link}}
+        <authoring class="work-package--attachments--info"
+                   [createdOn]="link.createdAt"
+                   [author]="link.author"
+                   [showAuthorAsLink]="false"></authoring>
+    </a>
+  </span>
+  <div style="display: grid;grid-column-gap: 5px; grid-auto-flow: column; align-items: center" *ngIf="edit">
+    <label for="link-url">Ссылка:</label>
+    <input id="link-url" type="url" [(ngModel)]="this.link.link">
+    <label for="link-name">Отображаемый текст:</label>
+    <input id="link-name" type="text" [(ngModel)]="this.link.name">
+    <div>
+      <a href="" (click)="cancelEditLink()"
+         class="work-package--atachments--delete-button" >
+        <op-icon icon-classes="icon-not-supported"></op-icon>
+      </a>
+      <a href="" (click)="doneEditLink()" style="padding-left: 10px"
+         class="work-package--atachments--delete-button" >
+        <op-icon icon-classes="icon-save"></op-icon>
+      </a>
+    </div>
+  </div>
+    <a *ngIf="!edit"
+       href=""
+       class="form--selected-value--remover work-package--atachments--delete-button"
+       target="_blank"
+       style="right: 32px"
+       (click)="startEditLink()">
+        <op-icon icon-classes="icon-edit"></op-icon>
+    </a>
+    <a *ngIf="!edit"
+       href=""
+       class="form--selected-value--remover work-package--atachments--delete-button"
+       (click)="confirmRemoveLink($event)">
+        <op-icon icon-classes="icon-delete"></op-icon>
+    </a>
+</li>

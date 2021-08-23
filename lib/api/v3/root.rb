@@ -45,6 +45,11 @@ module API
       mount ::API::V3::WorkPackageProblems::WorkPackageProblemsAPI
       mount ::API::V3::ProjectRisks::ProjectRisksAPI
       # )
+      #
+      # knm(
+      mount ::API::V3::WorkPackageLinks::WorkPackageLinksAPI
+      mount ::API::V3::WorkPackageContracts::WorkPackageContractsAPI
+      # )
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
