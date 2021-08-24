@@ -198,6 +198,7 @@ import {PlanStagePackageStaticQueriesService} from "core-components/psp-query-se
 import {WpTargetAutocompleteComponent} from "core-components/wp-single-view-tabs/targets-tab/wp-target-autocomplete/wp-target-autocomplete.component";
 import {WorkPackageProblemsTabComponent} from "core-components/wp-single-view-tabs/problems-tab/problems-tab.component";
 import {WorkPackageTargetsTabComponent} from "core-components/wp-single-view-tabs/targets-tab/targets-tab.component";
+import {WorkPackageContractsTabComponent} from "core-components/wp-single-view-tabs/contracts-tab/contracts-tab.component";
 //)
 import {WpRelationsConfigurationModalComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-configuration.modal";
 import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relations/wp-relations-create/wp-relations-dialog/wp-relations-pagination.component";
@@ -417,6 +418,7 @@ import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.m
     WorkPackageTargetsTabComponent,
     WpTargetAutocompleteComponent,
     WorkPackageProblemsTabComponent,
+    WorkPackageContractsTabComponent,
     // )
     // Split view
     WorkPackageDetailsViewButtonComponent,
@@ -480,6 +482,7 @@ import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.m
     //zbd(
     WorkPackageTargetsTabComponent,
     WorkPackageProblemsTabComponent,
+    WorkPackageContractsTabComponent,
     // )
 
     // Single view
