@@ -523,6 +523,10 @@ class PermittedParams
   def message_like
     params.require(:message_like).permit(:message_id, :user_id)
   end
+
+  def dynamic_page
+    params.permit(:content)
+  end
   # )
   #xcc(
   def target

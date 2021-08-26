@@ -82,6 +82,7 @@ import {FullCalendarModule} from "ng-fullcalendar";
 import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {HomescreenOverviewRouterModule} from "core-app/modules/router/homescreen-overview-router.module";
+import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
 
 @NgModule({
   imports: [
@@ -101,6 +102,7 @@ import {HomescreenOverviewRouterModule} from "core-app/modules/router/homescreen
     OpenprojectFieldsModule,
     OpenprojectGridsModule,
     OpenprojectAttachmentsModule,
+    OpenprojectLinksModule,
 
     // Work packages and their routes
     OpenprojectWorkPackagesModule,

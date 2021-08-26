@@ -106,7 +106,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.$element.bind('focusout', this.blur.bind(this));
 
     _.each(this.activity.details, (detail:any) => {
-      if (!detail.html == null){
+      if (!_.isNull(detail.html)) {
         if (!detail.html.toString().includes("(Скрытое поле)")) {
           this.details.push(detail.html);
         }

@@ -12,6 +12,7 @@ import {WikiPageResource} from 'core-app/modules/hal/resources/wiki-page-resourc
 import {PostResource} from 'core-app/modules/hal/resources/post-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {StatusResource} from "core-app/modules/hal/resources/status-resource";
+import {DynamicPageResource} from "core-app/modules/hal/resources/dynamic-page-resource";
 
 export class States extends StatesGroup {
   [key:string]:any;
@@ -29,6 +30,9 @@ export class States extends StatesGroup {
 
   /* /api/v3/wiki_pages */
   posts = multiInput<PostResource>();
+
+  /* /api/v3/dynamic_pages */
+  dynamicPages = multiInput<DynamicPageResource>();
 
   /* /api/v3/schemas */
   schemas = multiInput<SchemaResource>();

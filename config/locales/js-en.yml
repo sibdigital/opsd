@@ -329,6 +329,7 @@ en:
     label_custom_queries: Приватные представления
     label_columns: Столбцы
     label_attachments: Файлы
+    label_links: Ссылки СЭД
     label_drop_files: Перетащите файлы сюда
     label_drop_files_hint: или кликните для добавления файлов
     label_drop_folders_hint: Вы не можете загрузить папку. Выберите пожалуйста один
@@ -554,6 +555,7 @@ en:
       мероприятия?
     text_query_destroy_confirmation: Уверены, что хотите удалить выбранное представление?
     text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
+    text_link_destroy_confirmation: Вы уверены, что вы хотите удалить ссылку?
     timelines:
       quarter_label: Q%{quarter_number}
       gantt_chart: Диаграмма Гантта
@@ -826,6 +828,7 @@ en:
       tabs:
         problems: Проблемы
         targets: Целевые показатели
+        contracts: Контракты
         overview: Обзор
         activity: Деятельность
         relations: Связи

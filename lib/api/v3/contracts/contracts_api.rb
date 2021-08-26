@@ -12,7 +12,11 @@ module API
         resources :contracts do
           before do
             authorize(:view_work_packages, global: true)
-            @contracts = Contract.all
+            if params[:project_id]
+              @contracts = Contract.where(project_id: params[:project_id])
+            else
+              @contracts = Contract.all
+            end
           end
 
           get do
