@@ -82,6 +82,7 @@ import {FullCalendarModule} from "ng-fullcalendar";
 import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/openproject-global-search.module";
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {HomescreenOverviewRouterModule} from "core-app/modules/router/homescreen-overview-router.module";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   imports: [
@@ -151,6 +152,8 @@ import {HomescreenOverviewRouterModule} from "core-app/modules/router/homescreen
 
     // Augmenting Rails
     ModalWrapperAugmentService,
+
+    DatePipe,
   ],
   declarations: [
     OpContextMenuTrigger,

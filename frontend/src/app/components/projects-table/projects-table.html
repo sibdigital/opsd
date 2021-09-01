@@ -1,0 +1,118 @@
+<!--<div class="work-packages-split-view&#45;&#45;tabletimeline-content">-->
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col *ngFor="let column of columns">
+      </colgroup>
+
+      <thead class="-sticky">
+      <tr>
+        <th *ngFor="let column of columns"
+            class="wp-table--table-header">
+          <projects-table-header
+              *ngIf="column.id !== 'expandAll'"
+              [headerColumn]="column"
+              [locale]="locale"
+              (onSort)="onSort($event)"
+          >
+          </projects-table-header>
+
+          <projects-table-header
+              *ngIf="column.id === 'expandAll'"
+              [headerColumn]="column"
+              [locale]="locale"
+              (onSort)="onAllProjectExpand()"
+          >
+          </projects-table-header>
+        </th>
+      </tr>
+      </thead>
+
+      <tbody class="results-tbody work-package--results-tbody">
+      <ng-container *ngFor="let project of projects">
+        <tr class="basics context-menu--reveal project root leaf" >
+          <td class="name project--hierarchy">
+            <a href="/projects/{{project.identifier}}">
+              {{project.name}}
+            </a>
+          </td>
+          <ng-container *ngFor="let column of columns">
+            <td class="wp-table--cell-td" *ngIf="column.id !== 'name' && column.id !== 'expandAll'">
+              <projects-table-data-cell
+                  [project]="project[column.id]"
+              ></projects-table-data-cell>
+            </td>
+
+            <td class="buttons" *ngIf="column.id === 'expandAll'">
+              <ul class="project-actions">
+                <li aria-haspopup="true" title="Открыть меню" class="drop-down {{project.isOpenMenu && 'open'}}">
+                  <a class="icon icon-show-more-horizontal context-menu--icon" title="Открыть меню" (click)="onOpenMenu(project.identifier)"></a>
+                  <ng-container *ngIf="project.isOpenMenu">
+                    <ul style="display: block" class="menu-drop-down-container">
+                      <li>
+                        <ng-container *ngFor="let item of getItems(project.identifier)">
+                          <a class="menu-item"
+                             style="text-align: left"
+                             tabindex="0"
+                             [ngClass]="{ 'inactive': item.disabled }"
+                             [attr.href]="item.href || ''"
+                             [attr.aria-disabled]="item.disabled"
+                             [attr.aria-label]="item.ariaLabel || item.linkText">
+                            <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"> </op-icon>
+                            <span [textContent]="item.linkText"></span>
+                            <op-icon *ngIf="item.postIcon"
+                                     [icon-title]="item.postIconTitle || ''"
+                                     icon-classes="icon-action-menu-post {{ item.postIcon }}"> </op-icon>
+                          </a>
+                        </ng-container>
+                      </li>
+                    </ul>
+                  </ng-container>
+                </li>
+              </ul>
+
+              <ng-container *ngIf="project.description">
+                <a *ngIf="project.isExpand" (click)="onProjectExpand(project.identifier)" class="icon collapse icon-arrow-up1 projects-table--description-toggle" href="" title="Скрыть детали проекта"></a>
+                <a *ngIf="!project.isExpand" (click)="onProjectExpand(project.identifier)" class="icon expand icon-arrow-down1 projects-table--description-toggle" href="" title="Показать детали проекта"></a>
+              </ng-container>
+            </td>
+
+          </ng-container>
+
+          <td class="wp-table--cell-td">
+          </td>
+        </tr>
+
+        <tr *ngIf="project.isExpand" class="project-description project root leaf -expanded" aria-live="polite">
+          <td class="project--hierarchy" colspan="6">
+            <div class="project--hierarchy">
+              <span class="wiki">
+                <p>
+                  {{project.description}}
+                </p>
+              </span>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+
+    </table>
+  </div>
+
+
+
+</div>
+
+<projects-table-pagination
+    class="pagination"
+    [paginationService]="paginationService"
+    (onChangePage)="onChangePage($event)"
+    (onChangePerPage)="onChangePerPage($event)"
+></projects-table-pagination>
+
+<!--<p class="information-section">-->
+<!--  <i class="icon-info1" aria-hidden="true"></i>-->
+<!--  143 проектов используют 11 ГБ дискового пространства-->
+<!--</p>-->

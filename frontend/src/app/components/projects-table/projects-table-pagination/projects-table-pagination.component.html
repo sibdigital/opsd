@@ -1,0 +1,29 @@
+<ng-container>
+  <div class="pagination--pages">
+    <div class="pagination--items">
+      <button *ngIf="paginationService.currentPage > 0" class="pagination--item -prev" (click)="setCurrent($event, paginationService.currentPage - 1)">
+        Предыдущие
+      </button>
+
+      <ng-container *ngFor="let page of [].constructor(pagService.totalPages); let i = index" [attr.data-index]="i">
+        <button class="pagination--item pagination-number {{paginationService.currentPage === i && '-current'}}" (click)="setCurrent($event, i)">{{i + 1}}</button>
+      </ng-container>
+
+      <button *ngIf="paginationService.currentPage < paginationService.totalPages - 1" class="pagination--item -next" (click)="setCurrent($event, paginationService.currentPage + 1)">
+        Следующие
+      </button>
+
+      <div class="pagination--range">({{offsetStart}} - {{offsetEnd}}/{{paginationService.totalElements}})</div>
+    </div>
+  </div>
+  <div class="pagination--options">
+    <div class="pagination--items">
+      <div class="pagination--label">Постранично:</div>
+      <ng-container *ngFor="let pageCount of perPagesSize">
+        <div class="pagination--item {{paginationService.perPageSize === pageCount ? '-current' : '-passive' }}" (click)="setPerPageSize(pageCount)">{{pageCount}}</div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+

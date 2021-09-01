@@ -71,20 +71,22 @@ import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib
 import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 import {PaginationFooterComponent} from "core-components/pagination-footer/pagination-footer.component";
 import {ProjectsComponent} from "core-components/projects/projects.component";
+import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 
 @NgModule({
-  imports: [
-    UIRouterModule.forChild({
-      states: HOMESCREEN_ROUTES
-    }),
-    BrowserModule,
-    ChartsModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    OpenprojectCommonModule,
-    AngularTreeGridModule,
-    AutocompleteLibModule
-  ],
+    imports: [
+        UIRouterModule.forChild({
+            states: HOMESCREEN_ROUTES
+        }),
+        BrowserModule,
+        ChartsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        OpenprojectCommonModule,
+        AngularTreeGridModule,
+        AutocompleteLibModule,
+        OpenprojectWorkPackagesModule
+    ],
   providers: [
     BlueTableDesktopService,
     BlueTableKtService,

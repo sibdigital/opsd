@@ -204,6 +204,8 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
 import {WpTopicsConfigurationModalComponent} from "core-components/wp-topics-dialog/wp-topics-configuration.modal";
 import {WorkPackageTopicsPaginationComponent} from "core-components/wp-topics-dialog/wp-topics-pagination.component";
 import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
+import {ProjectsTable} from "core-components/projects-table/projects-table";
+import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
 
 @NgModule({
   imports: [
@@ -348,6 +350,7 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
     // Context menus
     OpTypesContextMenuDirective,
     OpColumnsContextMenu,
+    ProjectsTableContextMenuDirective,
     OpSettingsMenuDirective,
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
@@ -463,6 +466,7 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+    ProjectsTable,
   ],
   entryComponents: [
     // Split view
@@ -511,6 +515,7 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
     WorkPackageRelationQueryComponent,
 
     WorkPackagesTableController,
+    ProjectsTable,
 
     // Work package graphs on version page
     WorkPackageByVersionGraphComponent,
@@ -556,6 +561,11 @@ import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocompl
     WorkPackageEmbeddedTableComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
+    WorkPackageTableSumsRowController,
+    WorkPackageInlineCreateComponent,
+    OpColumnsContextMenu,
+    ProjectsTableContextMenuDirective,
+    ProjectsTable,
   ]
 })
 export class OpenprojectWorkPackagesModule {
