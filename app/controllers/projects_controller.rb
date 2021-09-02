@@ -64,28 +64,7 @@ class ProjectsController < ApplicationController
     #
     # @projects = load_projects query
     # @custom_fields = ProjectCustomField.visible(User.current)
-
-    # puts 'hellow ordl'
-    # puts @projects
-    # projects_with_levels_order_sensitive(@projects) do | projectBuf |
-    #   puts projectBuf
-    #   puts projectBuf.archived
-    #   puts projectBuf.is_public
-    #   puts projectBuf.national_project
-    #   puts projectBuf.federal_project
-    #   puts projectBuf.get_project_status
-    #   puts projectBuf.get_project_approve_status
-    #   puts projectBuf.get_done_ratio
-    #   puts projectBuf.required_disk_space
-    #   puts projectBuf.start_date
-    #   puts projectBuf.due_date
-      # projectBuf.each do | pair |
-      #   puts pair
-      # end
-      # projectBuf.each { |pair| p "pair: #{ pair }" }
-      # puts projectBuf
-    # end
-
+    #
     # respond_to do |format|
     #   format.atom do
     #     head(:gone)
