@@ -6,6 +6,7 @@ import {
   ViewEncapsulation
 } from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   templateUrl: './projects-table-data-cell.component.html',
@@ -19,16 +20,26 @@ export class ProjectsTableDataCellComponent implements OnInit, OnDestroy {
 
   @Input() locale: string;
 
-  public dataCell: { name: '' } = { name: '' };
+  public dataCell: { name: string } = { name: '' };
 
   constructor(
-    readonly I18n: I18nService
+    readonly I18n: I18nService,
+    public datePipe: DatePipe,
   ) {
   }
 
   ngOnInit(): void {
     if (this.project) {
-      this.dataCell.name = this.project.name ? this.project.name : this.project;
+      const name = this.project.name ? this.project.name : this.project;
+      if (typeof name === 'boolean' && name) {
+        this.dataCell.name = 'Общий';
+      }
+      else if (name instanceof Date && name) {
+        this.dataCell.name = this.datePipe.transform(name, 'dd.MM.yyyy') || '';
+      }
+      else {
+        this.dataCell.name = name;
+      }
     }
   }
 

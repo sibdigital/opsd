@@ -5,15 +5,15 @@
         Предыдущие
       </button>
 
-      <ng-container *ngFor="let page of [].constructor(paginationService.totalPages); let i = index" [attr.data-index]="i">
-        <button class="pagination--item pagination-number {{paginationService.currentPage === i && '-current'}}" (click)="setCurrent($event, i)">{{i + 1}}</button>
+      <ng-container *ngFor="let page of pagesNumbers; let i = index" [attr.data-index]="i">
+        <button class="pagination--item pagination-number {{paginationService.currentPage === page - 1 && '-current'}}" (click)="setCurrent($event, page - 1)">{{page}}</button>
       </ng-container>
 
       <button *ngIf="paginationService.currentPage < paginationService.totalPages - 1" class="pagination--item -next" (click)="setCurrent($event, paginationService.currentPage + 1)">
         Следующие
       </button>
 
-      <div class="pagination--range">({{offsetStart}} - {{offsetEnd}}/{{paginationService.totalElements}})</div>
+      <div *ngIf="paginationService.totalElements > 0" class="pagination--range">({{offsetStart}} - {{offsetEnd}}/{{paginationService.totalElements}})</div>
     </div>
   </div>
   <div class="pagination--options">

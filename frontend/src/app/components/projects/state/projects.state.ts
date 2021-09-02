@@ -28,8 +28,6 @@ export interface IProjectsState {
   requiredDiskSpace: string;
   startDate: Date;
   dueDate: Date;
-  startDateView?: string;
-  dueDateView?: string;
   identifier: string;
   isExpand?: boolean;
   isOpenMenu?: boolean;
@@ -47,7 +45,7 @@ export const DefaultProjectsColumnsTable: IProjectsTableColumn[] = [
     name: 'НАИМЕНОВАНИЕ',
   },
   {
-    id: 'isPublic',
+    id: 'public',
     name: 'ОБЩИЙ',
   },
   {
@@ -71,11 +69,11 @@ export const DefaultProjectsColumnsTable: IProjectsTableColumn[] = [
   //   name: 'ТРЕБУЕТСЯ МЕСТО НА ДИСКЕ',
   // },
   {
-    id: 'startDateView',
+    id: 'startDate',
     name: 'ДАТА НАЧАЛА',
   },
   {
-    id: 'dueDateView',
+    id: 'dueDate',
     name: 'ДАТА ОКОНЧАНИЯ',
   },
   {

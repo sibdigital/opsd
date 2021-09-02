@@ -11,6 +11,7 @@ import {
   IProjectsTableColumn
 } from "../projects/state/projects.state";
 import {ProjectsTablePaginationService} from "core-components/projects-table/projects-table-pagination.service";
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
 
 @Component({
@@ -34,10 +35,10 @@ export class ProjectsTable implements OnInit {
 
   constructor(
     readonly I18n: I18nService,
-    public datepipe: DatePipe,
     protected halResourceService: HalResourceService,
     protected pathHelper: PathHelperService,
     public paginationService: ProjectsTablePaginationService,
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
   }
 
@@ -152,15 +153,20 @@ export class ProjectsTable implements OnInit {
       params = { ...params, ...this.paginationService.params };
     }
 
-    this.halResourceService.get<CollectionResource<HalResource>>(
-      this.pathHelper.javaApiPath.projects.toString(),
-      { projection: this.DefaultProjectRegisteryProjection.projection,...params }
-      )
-      .toPromise()
-      .then((projects: CollectionResource<HalResource>) => {
-        this.projects = this.parseProjectsFromJOPSD(projects);
-      })
-      .catch((reason) => console.log(reason));
+    try {
+      this.loadingIndicatorService.indicator('projects-table').promise =
+        this.halResourceService.get<CollectionResource<HalResource>>(
+          this.pathHelper.javaApiPath.projects.toString(),
+          {projection: this.DefaultProjectRegisteryProjection.projection, ...params}
+        )
+          .toPromise()
+          .then((projects: CollectionResource<HalResource>) => {
+            this.projects = this.parseProjectsFromJOPSD(projects);
+          })
+          .catch((reason) => console.log(reason));
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   private parseProjectsFromJOPSD(projects: CollectionResource<HalResource>) {
@@ -183,9 +189,7 @@ export class ProjectsTable implements OnInit {
           doneRatio: (Math.round(project.doneRatio * 100) / 100).toFixed(2),
           requiredDiskSpace: '',
           startDate: startDate,
-          startDateView: startDate ? this.datepipe.transform(startDate, 'dd.MM.yyyy') : '',
           dueDate: dueDate,
-          dueDateView: dueDate ? this.datepipe.transform(dueDate, 'dd.MM.yyyy') : '',
           identifier: project.identifier,
           description: project.description,
           isExpand: false,
