@@ -6,8 +6,7 @@ import {DatePipe} from "@angular/common";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {
-  DefaultProjectsColumnsTable, IFederalProject,
-  INationalProject,
+  DefaultProjectsColumnsTable,
   IProjectsState,
   IProjectsTableColumn
 } from "../projects/state/projects.state";
@@ -27,18 +26,7 @@ export class ProjectsTable implements OnInit {
   public projects: IProjectsState[];
   public locale: string;
 
-  public totalPages: number = 1;
-  public perPageSize: number = 25;
-  public currentPage: number = 1;
-
   public isAllExpanded: boolean = false;
-  // public expandText = {
-  //   id: 'expandAll',
-  //   name: 'РАЗВЕРНУТЬ ВСЕ',
-  // };
-  // public collapseText: string = 'СВЕРНУТЬ ВСЕ';
-
-  public items: {}[] = [];
 
   public readonly DefaultProjectRegisteryProjection = Object.freeze({
     projection: 'projectRegisteryProjection'
@@ -108,11 +96,10 @@ export class ProjectsTable implements OnInit {
 
   public onChangePage(pageNumber: number) {
     console.dir({ projectsTable: pageNumber });
-    this.currentPage = pageNumber;
     this.paginationService.setCurrentPageParams({ page: pageNumber });
     this.loadProjects();
   }
-  // id: string, sortDir: string = 'asc'
+
   public onSort(params: { id: string, sortDir: string }) {
     console.dir({ idSort: params.id, sortDir: params.sortDir });
     this.paginationService.setSortParams({ sort: [params.id, params.sortDir].join(',') });
@@ -181,12 +168,9 @@ export class ProjectsTable implements OnInit {
     let result: IProjectsState[] = [];
     if (projects.source && projects.page && projects.page.size && projects.page.size > 0) {
       this.paginationService.page = projects.source.page;
-      this.totalPages = projects.source.page.totalElements;
       projects.source._embedded.projects.forEach((project: any) => {
         const startDate = project.startDate ? new Date(project.startDate) : null;
         const dueDate = project.dueDate ? new Date(project.dueDate) : null;
-
-        // <%= content_tag(:td,  (!project.national_project.nil? ? project.national_project.name : "") + (!project.federal_project.nil? ? (">" + project.federal_project.name) : "")) %>
 
         result.push({
           public: project.public,

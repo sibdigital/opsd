@@ -6,7 +6,6 @@ import {
   ViewEncapsulation
 } from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC} from "core-app/modules/hal/resources/query-sort-by-resource";
 
 @Component({
   templateUrl: './projects.table-header.component.html',

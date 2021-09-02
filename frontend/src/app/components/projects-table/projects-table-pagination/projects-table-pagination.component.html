@@ -5,7 +5,7 @@
         Предыдущие
       </button>
 
-      <ng-container *ngFor="let page of [].constructor(pagService.totalPages); let i = index" [attr.data-index]="i">
+      <ng-container *ngFor="let page of [].constructor(paginationService.totalPages); let i = index" [attr.data-index]="i">
         <button class="pagination--item pagination-number {{paginationService.currentPage === i && '-current'}}" (click)="setCurrent($event, i)">{{i + 1}}</button>
       </ng-container>
 

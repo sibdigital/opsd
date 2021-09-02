@@ -29,8 +29,6 @@ export class ProjectsTableDataCellComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.project) {
       this.dataCell.name = this.project.name ? this.project.name : this.project;
-    } else {
-      console.log('nulll ');
     }
   }
 
