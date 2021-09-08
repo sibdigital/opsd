@@ -1,33 +1,41 @@
 <% html_title "Загрузить" %>
 <%= breadcrumb_toolbar "Загрузить" %>
-<%= labelled_tabular_form_for [@project, @plan_uploader] do |f| %>
-  <div class = "upload">
-    <div class="form--field" >
-      <label style="width: 200px;" for="row_num">Тип плана:</label>
-      <span class="form--field-container" style="width: 200px;">
+<div class="type-buttons">
+  <%= styled_button_tag l(:UploadPlanType1), class: '-highlight -with-icon icon-export-xls-descr button-load-form', id: 'UploadPlanType1' %>
+  <%= styled_button_tag l(:UploadPlanType2), class: '-highlight -with-icon icon-export-xls-descr button-load-form', id: 'UploadPlanType2' %>
+  <%= styled_button_tag l(:UploadPlanType6), class: '-highlight -with-icon icon-ms-project button-load-form', id: 'UploadPlanType6' %>
+</div>
+<div class="loading-form">
+  <%= labelled_tabular_form_for [@project, @plan_uploader] do |f| %>
+    <div class = "upload">
+      <div class="form--field" >
+        <label style="width: 200px;" for="row_num">Тип плана:</label>
+        <span class="form--field-container" style="width: 200px;">
         <span class="form--text-field-container -middle">
           <%#= select_tag 'plan_type', options_for_select([['План 1 (План мероприятий по реализации регионального проекта)', 1], ['План 2 (Контрольные точки)', 2]]) %>
           <%= select_tag 'plan_type', options_for_select(@settings_types), id: "upload-plan-type" %>
         </span>
       </span>
-      <span id="upload-plan-type6-notify" style="display: none;">
+        <span id="upload-plan-type6-notify" style="display: none;">
         Внимание! Необходимым условием является наличие и расположение в исходном файле колонок "Ид.", "Предшественники", "Последователи", соответственно, в 1, 2 и 3-й колонках таблицы.
       </span>
-    </div>
-    <div class="form--field">
-      <%= f.file_field :name, container_class: '-middle' %>
-    </div>
-    <div class="form--field" >
-      <label for="row_num" style="width: 200px;">№ первой строки (по умолчанию):</label>
-      <span class="form--field-container" style="width: 200px;">
+      </div>
+      <div class="form--field">
+        <%= f.file_field :name, container_class: '-middle' %>
+      </div>
+      <div class="form--field" >
+        <label for="row_num" style="width: 200px;">№ первой строки (по умолчанию):</label>
+        <span class="form--field-container" style="width: 200px;">
         <span class="form--text-field-container -middle">
           <input id="row_num" type="text" name="first_row_num" value="5" class="-form--text-field" container_class="-middle">
         </span>
       </span>
-<!--      <span>-->
-<!--          № первого столбца  = 1-->
-<!--        </span>-->
+        <!--      <span>-->
+        <!--          № первого столбца  = 1-->
+        <!--        </span>-->
+      </div>
+      <%= f.submit "Загрузить", class: "btn btn-primary" %>
     </div>
-    <%= f.submit "Загрузить", class: "btn btn-primary" %>
-  </div>
-<% end %>
+  <% end %>
+</div>
+<%=javascript_include_tag 'plan_upload_buttons' %>
