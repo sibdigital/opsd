@@ -258,7 +258,9 @@ OpenProject::Application.routes.draw do
     # )
 
     # +tan 2019.07.07
-    resources :plan_uploaders, controller: 'plan_uploaders'
+    resources :plan_uploaders, controller: 'plan_uploaders' do
+      get :get_info, on: :collection
+    end
     #-tan
 
     resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]

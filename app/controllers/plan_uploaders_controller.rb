@@ -53,6 +53,16 @@ class PlanUploadersController < ApplicationController
     # redirect_to resumes_path, notice:  "The resume #{@resume.name} has been deleted."
   end
 
+  def get_info
+    port = Setting[:host_name]
+    info = {
+        protocol: Setting[:protocol],
+        port: port[port.rindex(':'), port.length],
+        user: current_user.id,
+        project: Project.find(params[:project_id]).id
+    }
+    render json: info
+  end
   protected
 
   # загрузка общего плана из ЭБ
