@@ -59,6 +59,7 @@ class PlanUploadersController < ApplicationController
         protocol: Setting[:protocol],
         port: port[port.rindex(':'), port.length],
         user: current_user.id,
+        url: Setting[:jopsd_url],
         project: Project.find(params[:project_id]).id
     }
     render json: info

@@ -159,6 +159,8 @@ notify_delay:
   default: 10
 colorlight_percentage:
   default: '70,35'
+jopsd_url:
+  default: 'localhost'
 default_language:
   default: ru
 default_auto_hide_popups:

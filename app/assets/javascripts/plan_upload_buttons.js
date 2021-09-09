@@ -7,6 +7,7 @@ var loadForm=function () {
     var port = null;
     var user;
     var project;
+    var url;
     var location = document.location.pathname;
     var button = this;
     jQuery.ajax({
@@ -18,14 +19,19 @@ var loadForm=function () {
         port = object.port;
         user = object.user;
         project = object.user;
+        url = object.url;
         if(button.id === 'UploadPlanType6') {
-          window.location = protocol + '://' + path + (port !== null ? port : '') +
-            '/jopsd/upload/mpp?' +
+          // window.location = protocol + '://' + path + (port !== null ? port : '') +
+          //   '/jopsd/upload/mpp?' +
+          //   ('authorId=' + user) + '&' + ('projectId=' + project);
+          window.location = url + '/jopsd/upload/mpp?' +
             ('authorId=' + user) + '&' + ('projectId=' + project);
         }
         else if(button.id === 'UploadPlanType7') {
-          window.location = protocol + '://' + path + (port !== null ? port : '') +
-            '/jopsd/upload/el_budget?' +
+          // window.location = protocol + '://' + path + (port !== null ? port : '') +
+          //   '/jopsd/upload/el_budget?' +
+          //   ('authorId=' + user) + '&' + ('projectId=' + project);
+          window.location = url + '/jopsd/upload/el_budget?' +
             ('authorId=' + user) + '&' + ('projectId=' + project);
         }
         else {
