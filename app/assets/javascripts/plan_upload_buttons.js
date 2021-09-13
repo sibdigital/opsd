@@ -25,14 +25,14 @@ var loadForm=function () {
           //   '/jopsd/upload/mpp?' +
           //   ('authorId=' + user) + '&' + ('projectId=' + project);
           window.location = url + '/jopsd/upload/mpp?' +
-            ('authorId=' + user) + '&' + ('projectId=' + project);
+            ('projectId=' + project);
         }
         else if(button.id === 'UploadPlanType7') {
           // window.location = protocol + '://' + path + (port !== null ? port : '') +
           //   '/jopsd/upload/el_budget?' +
           //   ('authorId=' + user) + '&' + ('projectId=' + project);
           window.location = url + '/jopsd/upload/el_budget?' +
-            ('authorId=' + user) + '&' + ('projectId=' + project);
+            ('projectId=' + project);
         }
         else {
           jQuery('div.loading-form')[0].style='display:block';
