@@ -18,7 +18,7 @@ var loadForm=function () {
         protocol = object.protocol;
         port = object.port;
         user = object.user;
-        project = object.user;
+        project = object.project;
         url = object.url;
         if(button.id === 'UploadPlanType6') {
           // window.location = protocol + '://' + path + (port !== null ? port : '') +
