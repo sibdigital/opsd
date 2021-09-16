@@ -29,6 +29,7 @@
 import {ApiV3Paths} from 'core-app/modules/common/path-helper/apiv3/apiv3-paths';
 import {Injectable} from '@angular/core';
 import {JavaApiPaths} from "core-app/modules/common/path-helper/javaApi/javaApi-paths";
+import {environment} from "../../../../environments/environment";
 
 @Injectable()
 export class PathHelperService {
@@ -41,7 +42,8 @@ export class PathHelperService {
     this.api = {
       v3: new ApiV3Paths(this.appBasePath)
     };
-    this.javaApiPath = new JavaApiPaths('http://localhost:4201/jopsd/api');
+
+    this.javaApiPath = new JavaApiPaths(environment.jopsd_api);
   }
 
   public get staticBase() {

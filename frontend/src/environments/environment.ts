@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  jopsd_url: 'http://localhost:8073/jopsd',
+  jopsd_api: 'http://localhost:8073/jopsd/api'
 };
