@@ -46,6 +46,8 @@ module API
           route_param :id do
             before do
               @project = Project.find(params[:id])
+              puts('HERE IS LOG FOR @PROJECT')
+              puts(@project)
 
               authorize(:view_project, context: @project) do
                 raise API::Errors::NotFound.new

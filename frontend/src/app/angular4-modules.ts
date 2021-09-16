@@ -83,6 +83,7 @@ import {OpenprojectGlobalSearchModule} from "core-app/modules/global_search/open
 import {DeviceService} from "core-app/modules/common/browser/device.service";
 import {HomescreenOverviewRouterModule} from "core-app/modules/router/homescreen-overview-router.module";
 import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   imports: [
@@ -153,6 +154,8 @@ import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.m
 
     // Augmenting Rails
     ModalWrapperAugmentService,
+
+    DatePipe,
   ],
   declarations: [
     OpContextMenuTrigger,

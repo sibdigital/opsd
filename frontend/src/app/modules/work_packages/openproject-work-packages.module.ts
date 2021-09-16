@@ -207,6 +207,8 @@ import {WorkPackageTopicsPaginationComponent} from "core-components/wp-topics-di
 import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
 import {LinkListComponent} from "core-app/modules/links/link-list/link-list.component";
 import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
+import {ProjectsTable} from "core-components/projects-table/projects-table";
+import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
 
 @NgModule({
   imports: [
@@ -351,6 +353,7 @@ import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.m
     // Context menus
     OpTypesContextMenuDirective,
     OpColumnsContextMenu,
+    ProjectsTableContextMenuDirective,
     OpSettingsMenuDirective,
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
@@ -467,6 +470,7 @@ import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.m
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
+    ProjectsTable,
   ],
   entryComponents: [
     // Split view
@@ -516,6 +520,7 @@ import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.m
     WorkPackageRelationQueryComponent,
 
     WorkPackagesTableController,
+    ProjectsTable,
 
     // Work package graphs on version page
     WorkPackageByVersionGraphComponent,
@@ -561,6 +566,11 @@ import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.m
     WorkPackageEmbeddedTableComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
+    WorkPackageTableSumsRowController,
+    WorkPackageInlineCreateComponent,
+    OpColumnsContextMenu,
+    ProjectsTableContextMenuDirective,
+    ProjectsTable,
   ]
 })
 export class OpenprojectWorkPackagesModule {
