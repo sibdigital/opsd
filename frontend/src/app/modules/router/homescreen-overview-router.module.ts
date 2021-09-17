@@ -70,20 +70,23 @@ import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diag
 import {AutocompleteLibModule} from "core-components/angular-ng-autocomplete/lib/autocomplete-lib.module";
 import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 import {PaginationFooterComponent} from "core-components/pagination-footer/pagination-footer.component";
+import {ProjectsComponent} from "core-components/projects/projects.component";
+import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
 
 @NgModule({
-  imports: [
-    UIRouterModule.forChild({
-      states: HOMESCREEN_ROUTES
-    }),
-    BrowserModule,
-    ChartsModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    OpenprojectCommonModule,
-    AngularTreeGridModule,
-    AutocompleteLibModule
-  ],
+    imports: [
+        UIRouterModule.forChild({
+            states: HOMESCREEN_ROUTES
+        }),
+        BrowserModule,
+        ChartsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        OpenprojectCommonModule,
+        AngularTreeGridModule,
+        AutocompleteLibModule,
+        OpenprojectWorkPackagesModule
+    ],
   providers: [
     BlueTableDesktopService,
     BlueTableKtService,
@@ -118,6 +121,7 @@ import {PaginationFooterComponent} from "core-components/pagination-footer/pagin
     PerformanceTabComponent,
     HomescreenBlueTableComponent,
     PaginationFooterComponent,
+    ProjectsComponent,
   ],
   entryComponents: [
     HomescreenProgressBarComponent,
@@ -139,7 +143,8 @@ import {PaginationFooterComponent} from "core-components/pagination-footer/pagin
     ProtocolTabComponent,
     MunicipalityTabComponent,
     PerformanceTabComponent,
-    HomescreenBlueTableComponent
+    HomescreenBlueTableComponent,
+    ProjectsComponent,
   ],
   exports: [
   ],

@@ -49,6 +49,7 @@ import {MunicipalityTabComponent} from "core-components/homescreen-tabs/municipa
 import {PerformanceTabComponent} from "core-components/homescreen-tabs/performance-tab/performance-tab.component";
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
 import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
+import {ProjectsComponent} from "core-components/projects/projects.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -150,6 +151,11 @@ export const HOMESCREEN_ROUTES = [
     name: 'homescreen.performance',
     url: '/performance',
     component: PerformanceTabComponent
+  },
+  {
+    name: 'projects',
+    url: '/projects',
+    component: ProjectsComponent,
   }
   //)
   // We could lazily load work packages module already,

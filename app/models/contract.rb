@@ -2,7 +2,7 @@
 # 22.06.2019
 class Contract < ActiveRecord::Base
   has_many :work_packages, foreign_key: 'contract_id', dependent: :nullify
-
+  has_many :work_package_contracts, foreign_key: 'contract_id', dependent: :destroy
   acts_as_customizable
 
   validates :contract_num, presence: true, uniqueness: true

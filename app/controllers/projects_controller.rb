@@ -54,24 +54,25 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
-    query = load_query
-    set_sorting(query)
-
-    unless query.valid?
-      flash[:error] = query.errors.full_messages
-    end
-
-    @projects = load_projects query
-    @custom_fields = ProjectCustomField.visible(User.current)
-
-    respond_to do |format|
-      format.atom do
-        head(:gone)
-      end
-      format.html do
-        render layout: 'no_menu'
-      end
-    end
+    @projects_view = :projects_angular
+    # query = load_query
+    # set_sorting(query)
+    #
+    # unless query.valid?
+    #   flash[:error] = query.errors.full_messages
+    # end
+    #
+    # @projects = load_projects query
+    # @custom_fields = ProjectCustomField.visible(User.current)
+    #
+    # respond_to do |format|
+    #   format.atom do
+    #     head(:gone)
+    #   end
+    #   format.html do
+    #     render layout: 'no_menu'
+    #   end
+    # end
   end
 
   current_menu_item :index do

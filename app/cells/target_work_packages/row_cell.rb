@@ -30,5 +30,29 @@ module TargetWorkPackages
     def row_css_id
       'row_' + target_work_package.id.to_s
     end
+
+    def row_css_class
+      if !due_date.nil?
+        now = Date.today
+        target_date = due_date
+        year = due_date.year
+        quarter = due_date.month.div(4)
+        target = Target.find(table.target_id)
+                     .target_execution_values
+                     .where(year: year, quarter: quarter)
+        if target_date <= now
+          wp_target = model.work_package_targets
+                          .where(target_id: table.target_id, year: year, quarter: quarter)
+          if wp_target.empty?
+            'target_failed'
+          elsif wp_target.first.value < target.first.value
+            'target_failed'
+          else
+            'target_succeed'
+          end
+        end
+      end
+
+    end
   end
 end

@@ -17,4 +17,18 @@ class UserGuidesController < ApplicationController
     )
   end
 
+  def edit
+    object = DynamicPage.find(params[:id].to_i)
+    object.content = params[:dynamic_page][:content]
+    object.save!
+    if !params[:attachments].nil?
+      params[:attachments].values.each do |a|
+        attachment = Attachment.find(a[:id])
+        attachment.container_id = params[:id]
+        attachment.container_type = 'DynamicPage'
+        attachment.save
+      end
+    end
+    redirect_to controller: 'settings', action: 'edit', tab: 'user_guide'
+  end
 end

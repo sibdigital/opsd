@@ -31,6 +31,26 @@ module TargetExecutionValues
       'row_' + target_execution_value.id.to_s
     end
 
+    def row_css_class
+      now = Date.today
+      target_date = Date.parse('01/' + (target_execution_value.quarter * 3).to_s + '/' + target_execution_value.year.to_s)
+      if target_date <= now
+        wp_target = Target.find(model.target_id)
+                       .work_package_targets
+                       .where(year: target_execution_value.year, quarter: target_execution_value.quarter)
+        if wp_target.empty?
+          'target_failed'
+        elsif wp_target.first.value.nil?
+          'target_failed'
+        elsif wp_target.first.value < target_execution_value.value
+          'target_failed'
+        else
+          'target_succeed'
+        end
+      end
+
+    end
+
     def button_links
       [
         edit_link,

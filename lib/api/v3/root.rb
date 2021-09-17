@@ -45,6 +45,11 @@ module API
       mount ::API::V3::WorkPackageProblems::WorkPackageProblemsAPI
       mount ::API::V3::ProjectRisks::ProjectRisksAPI
       # )
+      #
+      # knm(
+      mount ::API::V3::WorkPackageLinks::WorkPackageLinksAPI
+      mount ::API::V3::WorkPackageContracts::WorkPackageContractsAPI
+      # )
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
@@ -101,6 +106,7 @@ module API
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
+      mount ::API::V3::DynamicPages::DynamicPagesAPI
       mount ::API::V3::Grids::GridsAPI
 
       get '/' do

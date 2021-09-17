@@ -1,0 +1,57 @@
+<div class="generic-table--sort-header-outer" [ngSwitch]="columnType">
+
+  <span [title]="text.sortTitle" class="generic-table--sort-header" (click)="sortById()" *ngSwitchCase="'hierarchy'">
+<!--    <span-->
+<!--        class="hierarchy-header&#45;&#45;icon"-->
+<!--        (click)="toggleHierarchy($event)"-->
+<!--        [attr.title]="text.toggleHierarchy"-->
+<!--        tabindex="-1"-->
+<!--        aria-hidden="true">-->
+<!--      <op-icon icon-classes="icon {{ hierarchyIcon }}"></op-icon>-->
+<!--    </span>-->
+
+    <!--suppress XmlDuplicatedId -->
+    <a href="#"
+       *ngIf="sortable"
+       [ngClass]="[directionClass && 'sort', directionClass]"
+       lang-attribute
+       lang="{{locale}}"
+       id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
+    <a *ngIf="!sortable">{{headerColumn.name}}</a>
+
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
+  </span>
+
+  <span class="generic-table--sort-header" (click)="sortById()" *ngSwitchCase="'expandAll'">
+    <!--suppress XmlDuplicatedId -->
+    <a href="#"
+       *ngIf="sortable"
+       [ngClass]="[directionClass && 'sort', directionClass]"
+       lang-attribute
+       lang="{{locale}}"
+       id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
+
+      <a *ngIf="!sortable">{{headerColumn.name}}</a>
+    </span>
+
+
+  <span [title]="text.sortTitle" class="generic-table--sort-header" (click)="sortById()" *ngSwitchDefault>
+
+    <!--suppress XmlDuplicatedId -->
+    <a href="#"
+       *ngIf="sortable"
+       [ngClass]="[directionClass && 'sort', directionClass]"
+       lang-attribute
+       lang="{{locale}}"
+       id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
+
+    <a *ngIf="!sortable">{{headerColumn.name}}</a>
+
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
+  </span>
+
+</div>

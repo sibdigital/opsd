@@ -1,3 +1,4 @@
+
 <div class="work-package--details--long-field work-packages--activity--add-comment hide-when-print">
   <style type="text/css">
     table { width: 100%; }
@@ -93,7 +94,15 @@
   </div>
 
   <section style="margin-top: 20px;">
-    <h4>Проблемы и риски мероприятия</h4>
+    <div class="wp-relations-hierarchy-section">
+      <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+          <h3 class="attributes-group--header-text">
+            {{'Проблемы и риски мероприятия'}}
+          </h3>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div *ngFor="let problem of wpProblems" class="problem-row">
         <ng-template [ngTemplateOutlet]="loadTemplate(problem)"
@@ -182,8 +191,6 @@
     </accessible-by-keyboard>
   </div>
 </ng-template>
-
-
 
 <ng-template #editTemplate2>
   <div class="problem-cells">

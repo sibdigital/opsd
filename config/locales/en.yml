@@ -1914,6 +1914,7 @@ en:
   label_in_more_than: более чем
   label_inactive: Неактивен
   label_incoming_emails: Входящие e-mail
+  label_user_guide: Руководство пользователя
   label_includes: включает
   label_index_by_date: Индекс по дате
   label_index_by_title: Индекс по названию
@@ -2678,6 +2679,7 @@ en:
   permission_approve_instance: Возможность утверждать объекты
   #knm(
   setting_days_text: Дни недели
+  setting_guide_text: Текст руководства
   button_refresh: Обновить
   label_filter_type:
     workpackage: Мероприятие
@@ -3849,4 +3851,5 @@ en:
   UploadPlanType4: Справочник "Организаций"
   UploadPlanType5: Справочник "Пользователи"
   UploadPlanType6: План мероприятий из MS Project
+  UploadPlanType7: План мероприятий из Электронного бюджета
 

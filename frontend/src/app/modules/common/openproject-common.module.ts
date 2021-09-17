@@ -76,6 +76,9 @@ import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-a
 import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs.component";
 import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
+import {ProjectsTablePaginationComponent} from "core-components/projects-table/projects-table-pagination/projects-table-pagination.component";
+import {ProjectsTableHeaderComponent} from "core-components/projects-table/projects-table-header/projects.table-header.component";
+import {ProjectsTableDataCellComponent} from "core-components/projects-table/projects-table-data-cell/projects.table-data-cell.component";
 
 export function bootstrapModule(injector:Injector) {
   return () => {
@@ -141,6 +144,9 @@ export function bootstrapModule(injector:Injector) {
 
     TablePaginationComponent,
     SortHeaderDirective,
+    ProjectsTableHeaderComponent,
+    ProjectsTableDataCellComponent,
+    ProjectsTablePaginationComponent,
 
     ZenModeButtonComponent,
 
@@ -208,6 +214,9 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+    ProjectsTableHeaderComponent,
+    ProjectsTableDataCellComponent,
+    ProjectsTablePaginationComponent,
   ],
   entryComponents: [
     OpDateTimeComponent,

@@ -1,0 +1,8 @@
+<% user_guide = DynamicPage.find(1) %>
+<%#= user_guide.content %>
+<% resource = ::API::V3::DynamicPages::DynamicPageRepresenter.new(user_guide, current_user: current_user, embed_links: true) %>
+<%= format_text user_guide, :content, attachments: Attachment.where(container_type: 'UserGuide') %>
+<%= list_attachments(resource) %>
+<%#= link_to "Загрузить инструкцию пользователя", download_pdf_path %>
+
+<%#= list_attachments(resource) %>

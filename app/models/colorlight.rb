@@ -124,24 +124,28 @@ class Colorlight
       sheet.insert_cell(start_row + index, 7, item["date_end"] ? Date.parse(item["date_end"]).strftime("%d.%m.%Y") : '')
       sheet.insert_cell(start_row + index, 8, item["executor"])
       if wp.cost_object
+        all_costs = 0
+        fed_costs = 0
+        reg_costs = 0
+        wp.cost_object.material_budget_items.each do |i|
+          all_costs += i.costs
+          fed_costs += i.costs if i.cost_type === CostType.find_by(name: 'Федеральный бюджет')
+          reg_costs += i.costs if i.cost_type === CostType.find_by(name: 'Региональный бюджет')
+        end
         sheet.insert_cell(start_row + index, 9, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_object.material_budget_items.sum(:budget).to_f,
+            all_costs.to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2
         ))
         sheet.insert_cell(start_row + index, 10, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_object.material_budget_items
-                .where(cost_type_id: CostType.find_by(name: 'Федеральный бюджет'))
-                .sum(:budget).to_f,
+            fed_costs.to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2
         ))
         sheet.insert_cell(start_row + index, 11, ActiveSupport::NumberHelper.number_to_currency(
-            wp.cost_object.material_budget_items
-                .where(cost_type_id: CostType.find_by(name: 'Региональный бюджет'))
-                .sum(:budget).to_f,
+            reg_costs.to_f,
             delimiter: ' ',
             separator: ',',
             precision: 2

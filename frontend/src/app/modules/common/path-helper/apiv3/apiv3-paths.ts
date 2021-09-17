@@ -153,7 +153,9 @@ export class ApiV3Paths {
   public readonly targets = new SimpleResourceCollection(this.apiV3Base, 'targets');
   public readonly work_package_targets = new SimpleResourceCollection(this.apiV3Base, 'work_package_targets');
   public readonly work_package_problems = new SimpleResourceCollection(this.apiV3Base, 'work_package_problems');
+  public readonly work_package_contracts = new SimpleResourceCollection(this.apiV3Base, 'work_package_contracts');
   public readonly project_risks = new SimpleResourceCollection(this.apiV3Base, 'project_risks');
+  public readonly project_contracts = new SimpleResourceCollection(this.apiV3Base, 'contracts');
   public readonly plan_fact_quarterly_target_values = new SimpleResourceCollection(this.apiV3Base, 'plan_fact_quarterly_target_values');
   // )
 

@@ -121,7 +121,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
               readonly wpTableColumns:WorkPackageTableColumnsService) {
   }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.configuration = new WorkPackageTableConfiguration(this.configurationObject);
     this.$element = jQuery(this.elementRef.nativeElement);
     this.scrollSyncUpdate = createScrollSync(this.$element);

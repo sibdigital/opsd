@@ -122,8 +122,10 @@ OpenProject::Application.routes.draw do
   # tmd
   # resources :user_guides
 
-  #tmd
+
+  resources :user_guides
   get 'download_pdf', to: "user_guides#download_pdf"
+
 
   #tmd
   get 'download_file', to: "user_guides#download_file"
@@ -256,7 +258,9 @@ OpenProject::Application.routes.draw do
     # )
 
     # +tan 2019.07.07
-    resources :plan_uploaders, controller: 'plan_uploaders'
+    resources :plan_uploaders, controller: 'plan_uploaders' do
+      get :get_info, on: :collection
+    end
     #-tan
 
     resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
