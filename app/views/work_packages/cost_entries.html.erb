@@ -113,7 +113,11 @@
           <tr id="cost-entry-<%=entry.id %>">
             <%= content_tag(:td, entry.id) %>
 <!--            gly(-->
-            <%= content_tag(:td, link_to(h(entry.cost_object.name), cost_object_path(id: entry.cost_object.id))) %>
+            <% if entry.cost_object %>
+              <%= content_tag(:td, link_to(h(entry.cost_object.name), cost_object_path(id: entry.cost_object.id))) %>
+              <% else %>
+              <%= content_tag(:td, ) %>
+            <% end %>
 <!--            )-->
             <%= content_tag(:td, entry.cost_type) %>
             <%= content_tag(:td, entry.units) %>

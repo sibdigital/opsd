@@ -103,7 +103,11 @@ module CostObjectsHelper
         html = html + content_tag(:td, number_to_currency(cost_object.budget, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, number_to_currency(sum_spent, :precision => 0), :class => 'currency')
         html = html + content_tag(:td, number_to_currency(cost_object.budget - sum_spent, :precision => 0), :class => 'currency')
-        html = html + content_tag(:td, extended_progress_bar(cost_object.budget_ratio, :legend => "#{cost_object.budget_ratio}"))
+        cost_object_budget_ratio = 0
+        unless cost_object.budget.nil? || cost_object.budget == 0.0
+          cost_object_budget_ratio = ((sum_spent / cost_object.budget) * 100).round
+        end
+        html = html + content_tag(:td, extended_progress_bar(cost_object_budget_ratio, :legend => "#{cost_object_budget_ratio}"))
         html = html + '</tr>'
         html = html + render_cost_treetable(CostObject.where(parent_id: cost_object.id), cost_object.id, level + 1)
         html = html + render_unallocated_balance(cost_object.id)
