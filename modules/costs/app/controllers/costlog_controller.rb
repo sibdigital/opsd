@@ -173,7 +173,7 @@ class CostlogController < ApplicationController
     @cost_entry.user = @user
     @cost_entry.work_package = @work_package
     @cost_entry.cost_type = @cost_type
-
+    @cost_entry.cost_object_id = params['cost_entry']['cost_object_id']
     @cost_entry.attributes = permitted_params.cost_entry
   end
 
