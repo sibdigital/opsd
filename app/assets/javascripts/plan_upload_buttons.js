@@ -15,8 +15,6 @@ var loadForm=function () {
       url: location.substring(0, location.lastIndexOf('/')) + '/get_info',
       async: true,
       success: function (object) {
-        protocol = object.protocol;
-        port = object.port;
         user = object.user;
         project = object.project;
         url = object.url;

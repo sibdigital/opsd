@@ -56,8 +56,6 @@ class PlanUploadersController < ApplicationController
   def get_info
     port = Setting[:host_name]
     info = {
-        protocol: Setting[:protocol],
-        port: port[port.rindex(':'), port.length],
         user: current_user.id,
         url: Setting[:jopsd_url],
         project: Project.find(params[:project_id]).id
