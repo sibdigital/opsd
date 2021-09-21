@@ -39,7 +39,7 @@ class RbApplicationController < ApplicationController
 
   before_action :load_sprint_and_project, :check_if_plugin_is_configured, :authorize
 
-  # skip_before_action :verify_authenticity_token, if: -> { Rails.env.test? }
+  skip_before_action :verify_authenticity_token, if: -> { Rails.env.test? }
 
   private
 

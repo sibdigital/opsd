@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
 
   layout 'base'
 
-  # protect_from_forgery
+  protect_from_forgery
   # CSRF protection prevents two things. It prevents an attacker from using a
   # user's session to execute requests. It also prevents an attacker to log in
   # a user with the attacker's account. API requests each contain their own
