@@ -21,7 +21,7 @@ module Webhooks
       accept_key_auth :handle_hook
 
       # Disable CSRF detection since we openly welcome POSTs here!
-      skip_before_action :verify_authenticity_token
+      # skip_before_action :verify_authenticity_token
 
       # Wrap the JSON body as 'payload' param
       # making it available as params[:payload]
