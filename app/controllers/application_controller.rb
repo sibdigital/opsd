@@ -95,7 +95,7 @@ class ApplicationController < ActionController::Base
     # is raised here, but is denied by disable_api.
     #
     # See http://stackoverflow.com/a/15350123 for more information on login CSRF.
-    unless api_request?
+    if false
 
       # Check whether user have cookies enabled, otherwise they'll only be
       # greeted with the CSRF error upon login.
