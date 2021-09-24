@@ -209,6 +209,7 @@ import {LinkListComponent} from "core-app/modules/links/link-list/link-list.comp
 import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
 import {ProjectsTable} from "core-components/projects-table/projects-table";
 import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
+import {PagesComponent} from "core-components/pages/pages.component";
 
 @NgModule({
   imports: [
@@ -471,6 +472,7 @@ import {ProjectsTableContextMenuDirective} from "core-components/projects-table/
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
     ProjectsTable,
+    PagesComponent
   ],
   entryComponents: [
     // Split view
@@ -521,6 +523,7 @@ import {ProjectsTableContextMenuDirective} from "core-components/projects-table/
 
     WorkPackagesTableController,
     ProjectsTable,
+    PagesComponent,
 
     // Work package graphs on version page
     WorkPackageByVersionGraphComponent,
@@ -571,6 +574,7 @@ import {ProjectsTableContextMenuDirective} from "core-components/projects-table/
     OpColumnsContextMenu,
     ProjectsTableContextMenuDirective,
     ProjectsTable,
+    PagesComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {

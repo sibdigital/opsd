@@ -1,0 +1,55 @@
+<div class="form-group">
+    <div class="form--field">
+        <label class="form--label" for="title">Название</label>
+        <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="text" class="form-control form--text-field" container_class="-middle" id="title" required>
+            </span>
+        </span>
+    </div>
+    <div class="form--field">
+        <label class="form--label" for="content">Содержание</label>
+        <span class="form--field-container">
+            <span class="form--text-area-container -xxwide">
+                <textarea cols="100" rows="25" accesskey="3" with_text_formatting="true" class="wiki-edit form-control form--text-area" container_class="-xxwide" id="content" style="display: none"></textarea>
+                <ckeditor-augmented-textarea textarea-selector="#content" resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>
+            </span>
+        </span>
+    </div>
+    <div class="form--field">
+        <label class="form--label" for="project">Проект</label>
+        <span class="form--field-container">
+            <span class="form--select-container -middle">
+                <select class="form-control form--select" container_class="-middle" id="project">
+                    <option *ngFor="let project of projects" [value]="project.id">{{project.name}}</option>
+                </select>
+            </span>
+        </span>
+    </div>
+    <div class="form--field">
+        <label class="form--label" for="workPackage">Мероприятие</label>
+        <span class="form--field-container">
+            <span class="form--select-container -middle">
+                <select class="form-control form--select" container_class="-middle" id="workPackage" *ngIf="false" disabled>
+                    <option value="1">1</option>
+                </select>
+                <select class="form-control form--select" container_class="-middle" id="workPackage" *ngIf="true" disabled>
+                    <option value="false">Сначала выберите проект</option>
+                </select>
+            </span>
+        </span>
+    </div>
+    <div class="form--field">
+        <label class="form--label" for="parent">Каталог</label>
+        <span class="form--field-container">
+            <span class="form--select-container -middle">
+                <select class="form-control form--select" container_class="-middle" id="parent">
+                    <option *ngFor="let group of groups" [value]="group.id">{{group.id}}</option>
+                </select>
+            </span>
+        </span>
+    </div>
+</div>
+<button name="button" type="submit" class="-highlight -with-icon icon-checkmark button">
+    Сохранить
+</button>

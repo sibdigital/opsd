@@ -36,6 +36,7 @@ export class PathHelperService {
   public readonly appBasePath:string;
   public readonly api:{ v3:ApiV3Paths };
   public readonly javaApiPath: JavaApiPaths;
+  public readonly javaUrlPath:string;
 
   constructor() {
     this.appBasePath = window.appBasePath ? window.appBasePath : '';
@@ -44,6 +45,7 @@ export class PathHelperService {
     };
 
     this.javaApiPath = new JavaApiPaths(environment.jopsd_api);
+    this.javaUrlPath = environment.jopsd_url;
   }
 
   public get staticBase() {

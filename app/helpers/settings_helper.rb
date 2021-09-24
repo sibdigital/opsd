@@ -43,6 +43,7 @@ module SettingsHelper
       { name: 'notifications', partial: 'settings/notifications', label: Proc.new { User.human_attribute_name(:mail_notification) } },
       { name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails },
       { name: 'user_guide', partial: 'settings/user_guide', label: :label_user_guide },
+      { name: 'pages', partial: 'settings/pages', label: :label_pages}
       #{ name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural }
     ]
   end
