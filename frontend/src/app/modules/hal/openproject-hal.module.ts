@@ -28,9 +28,7 @@
 
 import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {
-  initializeHalResourceConfig
-} from 'core-app/modules/hal/services/hal-resource.config';
+import {initializeHalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';
@@ -49,6 +47,7 @@ import {GridDmService} from "core-app/modules/hal/dm-services/grid-dm.service";
 import {TimeEntryDmService} from './dm-services/time-entry-dm.service';
 import {CommonModule} from "@angular/common";
 import {NewsDmService} from './dm-services/news-dm.service';
+import {ProjectsService} from "core-components/projects/service/projects.service";
 
 @NgModule({
   imports: [
@@ -74,6 +73,7 @@ import {NewsDmService} from './dm-services/news-dm.service';
     TimeEntryDmService,
     TypeDmService,
     UserDmService,
+    ProjectsService,
   ]
 })
 export class OpenprojectHalModule { }

@@ -1,17 +1,13 @@
-import { Component, OnInit, ViewEncapsulation} from "@angular/core";
+import {Component, OnInit, ViewEncapsulation} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {DatePipe} from "@angular/common";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {
-  DefaultProjectsColumnsTable,
-  IProjectsState,
-  IProjectsTableColumn
-} from "../projects/state/projects.state";
+import {DefaultProjectsColumnsTable, IProjectsState, IProjectsTableColumn} from "../projects/state/projects.state";
 import {ProjectsTablePaginationService} from "core-components/projects-table/projects-table-pagination.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {ProjectsTableFiltersService} from "core-components/projects-table/projects-table-filters.service";
 
 
 @Component({
@@ -38,7 +34,8 @@ export class ProjectsTable implements OnInit {
     protected halResourceService: HalResourceService,
     protected pathHelper: PathHelperService,
     public paginationService: ProjectsTablePaginationService,
-    private loadingIndicatorService: LoadingIndicatorService
+    private loadingIndicatorService: LoadingIndicatorService,
+    private projectsTableFiltersService: ProjectsTableFiltersService
   ) {
   }
 
@@ -47,6 +44,14 @@ export class ProjectsTable implements OnInit {
     this.columns = DefaultProjectsColumnsTable;
     this.locale = this.I18n.locale;
     this.loadProjects();
+    this.checkFilters();
+  }
+
+  checkFilters() {
+    this.projectsTableFiltersService.onFiltersApply.subscribe(() => {
+      this.paginationService.setCurrentPageParams({ page: 0 });
+      this.loadProjects();
+    });
   }
 
   public getItems(identifier: string): {}[] {
@@ -115,9 +120,9 @@ export class ProjectsTable implements OnInit {
 
   private changeProjectViewField(projectIdentifier: string, field: 'isExpand' | 'isOpenMenu') {
     const index = this.projects.findIndex((project) => project.identifier === projectIdentifier);
-    console.dir({ index, id: projectIdentifier });
+    // console.dir({ index, id: projectIdentifier });
     if (index >= 0 && this.projects && this.projects[index]) {
-      console.dir({ project: this.projects[index][field], field });
+      // console.dir({ project: this.projects[index][field], field });
       this.projects[index][field] = !this.projects[index][field];
     }
   }
@@ -150,13 +155,14 @@ export class ProjectsTable implements OnInit {
     if (!params) {
       params = { size: this.paginationService.perPageSize };
     } else {
-      params = { ...params, ...this.paginationService.params };
+      params = { ...params, ...this.paginationService.params, ...this.projectsTableFiltersService.getFilters() };
     }
+    const baseUrl = this.pathHelper.javaApiPath.projects.toString();
 
     try {
       this.loadingIndicatorService.indicator('projects-table').promise =
         this.halResourceService.get<CollectionResource<HalResource>>(
-          this.pathHelper.javaApiPath.projects.toString(),
+           `${baseUrl}${ this.projectsTableFiltersService.getFilters() ? '/search/findByProjectRegisterFields' : '' }`,
           {projection: this.DefaultProjectRegisteryProjection.projection, ...params}
         )
           .toPromise()
