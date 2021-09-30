@@ -583,6 +583,8 @@ OpenProject::Application.routes.draw do
       get :update_column, on: :collection
     end
 
+    resources :pages
+
     resources :typed_targets
     # )
 

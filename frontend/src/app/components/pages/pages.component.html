@@ -1,0 +1,92 @@
+<div style="display: flex">
+    <h2>Страницы соц. мониторинга</h2>
+    <div style="display: flex; margin-inline-start: auto; align-items: center">
+        <div class="toolbar-item">
+            <a class="button -alt-highlight" href="/admin/pages/new"><i class="button--icon icon-add"></i><span class="button--text">Создать</span></a>
+        </div>
+    </div>
+</div>
+<div class="loading-indicator--location" data-indicator-name="pages-table">
+    <div class="generic-table--container">
+        <div class="generic-table--results-container">
+            <table class="generic-table">
+                <colgroup>
+<!--                    <col highlight-col *ngFor="let column of columns">-->
+                    <col highlight-col>
+                    <col highlight-col>
+                    <col highlight-col>
+                    <col highlight-col>
+                    <col highlight-col>
+                    <col highlight-col>
+                </colgroup>
+                <thead class="-sticky">
+                <tr>
+<!--                    <th *ngFor="let column of columns"-->
+<!--                        class="wp-table--table-header">-->
+                    <th class="wp-table--table-header">
+                        <div class="generic-table--sort-header-outer" >
+                            <span class="generic-table--sort-header">
+                                <a href="#">Заголовок</a>
+                            </span>
+                        </div>
+                    </th>
+                    <th class="wp-table--table-header">
+                        <div class="generic-table--sort-header-outer" >
+                            <span class="generic-table--sort-header">
+                                <a href="#">Проект</a>
+                            </span>
+                        </div>
+                    </th>
+                    <th class="wp-table--table-header">
+                        <div class="generic-table--sort-header-outer" >
+                            <span class="generic-table--sort-header">
+                                <a href="#">Мероприятие</a>
+                            </span>
+                        </div>
+                    </th>
+                    <th class="wp-table--table-header">
+                        <div class="generic-table--sort-header-outer" >
+                            <span class="generic-table--sort-header">
+                                <a href="#">Автор</a>
+                            </span>
+                        </div>
+                    </th>
+                    <th class="wp-table--table-header">
+                        <div class="generic-table--sort-header-outer" >
+                            <span class="generic-table--sort-header">
+                                <a href="#">Создано</a>
+                            </span>
+                        </div>
+                    </th>
+                    <th class="wp-table--table-header">
+                        <div class="generic-table--sort-header-outer" >
+                            <span class="generic-table--sort-header">
+                                <a href="#">Опубликовано</a>
+                            </span>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="results-tbody work-package--results-tbody">
+                <ng-container *ngFor="let page of pages">
+                    <tr class="basics context-menu--reveal project root leaf" *ngIf="!page.isDeleted">
+                        <td class="name project--hierarchy">{{page.title}}</td>
+                        <td class="name project--hierarchy">{{page.project?.name}}</td>
+                        <td class="name project--hierarchy">{{page.workPackage?.subject}}</td>
+                        <td class="name project--hierarchy">{{page.author?.lastname}}</td>
+                        <td class="name project--hierarchy">{{page.createdOn}}</td>
+                        <td class="name project--hierarchy">
+                            <i *ngIf="page.isPublicated" class="icon-context icon-checkmark"></i>
+                        </td>
+                    </tr>
+                </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!--    <projects-table-pagination class="pagination"-->
+<!--                               [paginationService]="paginationService"-->
+<!--                               (onChangePage)="onChangePage($event)"-->
+<!--                               (onChangePerPage)="onChangePerPage($event)">-->
+<!--    </projects-table-pagination>-->
+</div>

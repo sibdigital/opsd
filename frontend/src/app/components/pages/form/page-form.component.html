@@ -1,0 +1,104 @@
+<div style="display: flex">
+    <h2>{{page?.title || 'Новая страница общественного мониторинга'}}</h2>
+    <div style="display: flex; margin-inline-start: auto; align-items: center">
+        <div class="toolbar-item">
+            <a class="button -alt-highlight" href="#" (click)="savePage()"><i class="button--icon icon-save"></i><span class="button--text">Сохранить</span></a>
+        </div>
+    </div>
+</div>
+<div style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
+    <div style="flex-grow: 3">
+        <div class="form--field">
+            <span class="form--field-container">
+            <span class="form--text-area-container -xxwide">
+                <textarea cols="100" rows="25" accesskey="3" with_text_formatting="true"
+                          class="wiki-edit form-control form--text-area" container_class="-xxwide" id="content"
+                          style="display: none"></textarea>
+                <ckeditor-augmented-textarea textarea-selector="#content"
+                                             resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>
+            </span>
+        </span>
+        </div>
+    </div>
+    <div style="flex-grow: 2" class="form-group">
+        <div class="form--field">
+            <label class="form--label" for="title">Название</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="text"
+                       #title
+                       class="form-control form--text-field"
+                       container_class="-middle"
+                       id="title"
+                       required
+                       (change)="titleChanged(title.value)">
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="project">Проект</label>
+            <span class="form--field-container">
+            <span class="form--select-container -middle">
+                <select class="form-control form--select"
+                        #project
+                        container_class="-xxwide"
+                        id="project"
+                        (change)="projectSelected(project.value)">
+                    <option value=""></option>
+                    <option *ngFor="let project of projects" [value]="project.id">{{project.name}}</option>
+                </select>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="workPackage">Мероприятие</label>
+            <span class="form--field-container">
+            <span class="form--select-container -middle">
+                <select class="form-control form--select"
+                        #workPackage
+                        container_class="-xxwide"
+                        id="workPackage"
+                        *ngIf="!!workPackages" (change)="workPackageSelected(workPackage.value)">
+                    <option value=""></option>
+                    <option *ngFor="let wp of workPackages" [value]="wp.id">{{wp.subject}}</option>
+                </select>
+                <select class="form-control form--select" container_class="-xxwide" id="workPackage" *ngIf="!workPackages"
+                        disabled>
+                    <option value="false">Сначала выберите проект</option>
+                </select>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="parent">Каталог</label>
+            <span class="form--field-container">
+            <span class="form--select-container -middle">
+                <select class="form-control form--select"
+                        #group
+                        container_class="-xxwide"
+                        id="parent"
+                        (change)="groupSelected(group.value)">
+                    <option *ngFor="let group of groups" [value]="group.id">{{group.id}}</option>
+                </select>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="is_group">Группа?</label>
+            <span class="form--field-container">
+            <span class="form--select-container -middle">
+                <div class="custom-checkbox">
+            <input id="is_group" #isGroup
+                   type="checkbox" (change)="typeChanged(isGroup.checked)">
+            <label for="is_group">
+                <div class="status-switch"
+                     data-unchecked=""
+                     data-checked="">
+                </div>
+            </label>
+                </div>
+            </span>
+        </span>
+        </div>
+    </div>
+</div>

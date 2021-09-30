@@ -50,6 +50,8 @@ import {PerformanceTabComponent} from "core-components/homescreen-tabs/performan
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
 import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 import {ProjectsComponent} from "core-components/projects/projects.component";
+import {PagesComponent} from "core-components/pages/pages.component";
+import {PageFormComponent} from "core-components/pages/form/page-form.component";
 
 
 export const OPENPROJECT_ROUTES = [
@@ -156,7 +158,7 @@ export const HOMESCREEN_ROUTES = [
     name: 'projects',
     url: '/projects',
     component: ProjectsComponent,
-  }
+  },
   //)
   // We could lazily load work packages module already,
   // but e.g., the plugin context requires service from it.

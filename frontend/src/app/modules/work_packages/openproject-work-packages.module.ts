@@ -208,6 +208,8 @@ import {ProjectsTable} from "core-components/projects-table/projects-table";
 import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
 import {ProjectsFiltersComponent} from "core-components/projects/projects-filters/projects-filters.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {PagesComponent} from "core-components/pages/pages.component";
+import {PageFormComponent} from "core-components/pages/form/page-form.component";
 
 @NgModule({
   imports: [
@@ -472,6 +474,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
     ProjectsTable,
+    PagesComponent,
+    PageFormComponent
   ],
   entryComponents: [
     // Split view
@@ -522,6 +526,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 
     WorkPackagesTableController,
     ProjectsTable,
+    PagesComponent,
+    PageFormComponent,
 
     // Work package graphs on version page
     WorkPackageByVersionGraphComponent,
@@ -573,6 +579,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     OpColumnsContextMenu,
     ProjectsTableContextMenuDirective,
     ProjectsTable,
+    PagesComponent,
+    PageFormComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {
