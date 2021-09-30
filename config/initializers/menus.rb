@@ -334,6 +334,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin?},
             icon: 'icon2 icon-settings2'
 
+  menu.push :pages,
+            { controller: '/pages' },
+            caption: :label_system_pages,
+            if: Proc.new { User.current.admin?},
+            icon: 'icon2 icon-settings2'
+
   menu.push :additional_settings,
             {},
             caption: :label_additional_settings,

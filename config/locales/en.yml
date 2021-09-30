@@ -2178,6 +2178,7 @@ en:
   label_send_test_email: Отправить тестовое сообщение
   label_settings: Параметры
   label_system_settings: Настройки системы
+  label_system_pages: Страницы соц.мониторинга.
   label_show_completed_versions: Показать завершённые этапы
   label_sort: Сортировать
   label_sort_by: Сортировать по %{value}
