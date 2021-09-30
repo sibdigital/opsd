@@ -40,6 +40,8 @@ module TargetExecutionValues
                        .where(year: target_execution_value.year, quarter: target_execution_value.quarter)
         if wp_target.empty?
           'target_failed'
+        elsif wp_target.first.value.nil?
+          'target_failed'
         elsif wp_target.first.value < target_execution_value.value
           'target_failed'
         else

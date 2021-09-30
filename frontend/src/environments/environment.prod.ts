@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  jopsd_url: 'http://localhost:8073/jopsd',
-  jopsd_api: 'http://localhost:8073/jopsd/api'
+  jopsd_url: 'https://sup.govrb.ru/jopsd',
+  jopsd_api: 'https://sup.govrb.ru/jopsd/api'
 };

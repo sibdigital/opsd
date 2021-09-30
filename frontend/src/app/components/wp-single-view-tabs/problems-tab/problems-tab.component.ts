@@ -13,6 +13,7 @@ import {CollectionResource} from "core-app/modules/hal/resources/collection-reso
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 export interface typeArr {
   name: string;
@@ -84,9 +85,13 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   public workPackage: WorkPackageResource;
   public wpProblems: Array<WpProblem>;
   public wpProblem: WpProblem | null;
+  public wpContract:any;
   public editedProblem: WpProblem | null;
 
-  public showProblemCreateForm: boolean = false;
+
+  public wpContracts: any;
+  public showProblemCreateForm:boolean = false;
+  public showContractCreateForm:boolean = false;
   public selectedId: string;
   public isDisabled = false;
   problemCanEdit: boolean;
@@ -94,6 +99,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   public orgs = new Map;
   public users = new Map;
   public risks = new Map;
+  public contracts:any;
 
   public text = {
     problems_header: this.I18n.t('js.work_packages.tabs.problems'),
@@ -116,6 +122,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   constructor(readonly timezoneService: TimezoneService,
               protected I18n: I18nService,
               protected wpNotificationsService: WorkPackageNotificationService,
+              readonly notificationsService:NotificationsService,
               protected halResourceService: HalResourceService,
               readonly $transition: Transition,
               readonly wpCacheService: WorkPackageCacheService,
@@ -138,6 +145,8 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       });
 
     this.loadWpProblems(this.workPackageId);
+    this.loadWPContracts();
+    this.loadContracts();
     this.loadOrgs();
     this.loadUsers();
     this.loadRisks();
@@ -148,7 +157,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     this.problemCanEdit = true;
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy():void {
   }
 
   /** Загружает данные по проблемам мероприятия
@@ -186,7 +195,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     return this.halResourceService.get<CollectionResource<HalResource>>(
       this.pathHelper.api.v3.organizations.toString())
       .toPromise()
-      .then((collection: CollectionResource<HalResource>) => {
+      .then((collection:CollectionResource<HalResource>) => {
         this.orgs.set(0, '');
         collection.elements.forEach(el => {
             this.orgs.set(Number(el.getId()), el.name);
@@ -199,7 +208,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     return this.halResourceService.get<CollectionResource<HalResource>>(
       this.pathHelper.api.v3.users.toString())
       .toPromise()
-      .then((collection: CollectionResource<HalResource>) => {
+      .then((collection:CollectionResource<HalResource>) => {
           this.users.set(0, '');
           collection.elements.forEach(el => {
               this.users.set(Number(el.getId()), el.name);
@@ -344,21 +353,18 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
   }
 
   public toggleProblemCreateForm() {
+    if (this.showProblemCreateForm) {
+      // Reset value
+      this.wpProblem = null;
+      this.selectedId = '';
+    } else {
+      this.wpProblem = new WpProblem({
+        id: 0, project_id: this.workPackage.project.getId(),
+        work_package_id: Number(this.workPackageId), risk_id: 0, name: ''
+      });
+      //console.log(this.wpProblem);
+    }
     this.showProblemCreateForm = !this.showProblemCreateForm;
-    setTimeout(() => {
-      if (!this.showProblemCreateForm) {
-        // Reset value
-        this.wpProblem = null;
-        this.selectedId = '';
-        this.focusAfterSave.nativeElement.focus();
-      } else {
-        this.wpProblem = new WpProblem({
-          id: 0, project_id: this.workPackage.project.getId(),
-          work_package_id: Number(this.workPackageId), risk_id: 0, name: ''
-        });
-        //console.log(this.wpProblem);
-      }
-    });
   }
 
   public handleButtonSave(componentName: string) {
@@ -378,7 +384,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  private deleteProblem(problem: WpProblem) {
+  private deleteProblem(problem:WpProblem) {
     const path = this.pathHelper.api.v3.work_package_problems.toString() + '/' + problem.id;
     const params = {project_id: problem.project_id};
     //const params = new HttpParams().set('project_id', problem.project_id.toString());
@@ -452,5 +458,83 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
       alert(errors);
     }
     return isVaslid;
+  }
+
+  private loadWPContracts() {
+    this.halResourceService.get<CollectionResource<HalResource>>(
+      this.pathHelper.api.v3.work_package_contracts.toString(), {'work_package_id': this.workPackageId}
+    ).toPromise().then((response) => {
+      this.wpContracts = response.elements;
+    }).catch((error) => {
+      this.wpNotificationsService.handleRawError(error);
+    });
+  }
+
+  private loadContracts() {
+    this.halResourceService.get<CollectionResource<HalResource>>(
+      this.pathHelper.api.v3.project_contracts.toString(), {project_id: this.workPackage.project.id})
+      .toPromise()
+      .then((collection:CollectionResource<HalResource>) => {
+          this.contracts = collection.elements;
+        }
+      ).catch((error) => {
+      this.wpNotificationsService.handleRawError(error);
+    });
+  }
+
+  toggleContractAddForm(contract?:any) {
+    if (this.showContractCreateForm) {
+      this.wpContract = null;
+    } else {
+      this.wpContract = {
+        id: contract ? contract.idFromLink : null,
+        comment: contract ? contract.comment : '',
+        contract_id: contract ?  contract.contract.idFromLink : null,
+        work_package_id: contract ?  contract.workPackage.idFromLink : this.workPackageId
+      };
+    }
+    this.showContractCreateForm = !this.showContractCreateForm;
+  }
+
+  createContract() {
+    this.halResourceService.post<CollectionResource<HalResource>>(
+      this.pathHelper.api.v3.work_package_contracts.toString(),
+      {contract_id: this.wpContract.contract_id,
+        work_package_id: this.wpContract.work_package_id,
+        comment: this.wpContract.comment})
+      .toPromise()
+      .then((collection:CollectionResource<HalResource>) => {
+        this.toggleContractAddForm();
+          this.loadWPContracts();
+        }
+      ).catch((error) => {
+      this.wpNotificationsService.handleRawError(error);
+    });
+  }
+
+  editContract() {
+    this.halResourceService.patch<HalResource>(
+      `/api/v3/work_package_contracts/${this.wpContract.id}`,
+      {contract_id: this.wpContract.contract_id,
+        work_package_id: this.wpContract.work_package_id,
+        comment: this.wpContract.comment})
+      .toPromise()
+      .then((collection:CollectionResource<HalResource>) => {
+          this.toggleContractAddForm();
+          this.notificationsService.addSuccess('Успешно удалено');
+          this.loadWPContracts();
+        }
+      ).catch((error) => {
+      this.wpNotificationsService.handleRawError(error);
+    });
+  }
+
+  deleteContract(contract:any) {
+    contract.delete().then(() => {
+      this.notificationsService.addSuccess('Успешно удалено');
+      this.loadWPContracts();
+    }).catch((error:any) => {
+      this.wpNotificationsService.handleRawError(error);
+    });
   }
 }

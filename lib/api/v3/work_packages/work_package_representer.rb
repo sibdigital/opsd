@@ -192,6 +192,11 @@ module API
           }
         end
 
+        link :work_package_links do
+          {
+              href: api_v3_paths.work_package_links(represented.id)
+          }
+        end
         link :revisions do
           {
               href: api_v3_paths.work_package_revisions(represented.id)
@@ -251,6 +256,15 @@ module API
               method: :post,
               title: 'Add relation'
           }
+        end
+
+        link :addLink,
+             cache_if: -> { current_user_allowed_to(:edit_work_packages, context: represented.project) } do
+             {
+                 href: api_v3_paths.work_package_links(represented.id),
+                 method: :post,
+                 title: 'Add link'
+             }
         end
 
         link :addChild,
@@ -496,6 +510,12 @@ module API
                  if: ->(*) { embed_links },
                  uncacheable: true
 
+        property :work_package_links,
+                 embedded: true,
+                 exec_context: :decorator,
+                 if: ->(*) { embed_links },
+                 uncacheable: true
+
         associated_resource :category
 
         #zbd(
@@ -720,6 +740,15 @@ module API
                                   .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
+                                                                  self_path,
+                                                                  current_user: current_user)
+        end
+
+        def work_package_links
+          self_path = api_v3_paths.work_package_links(represented.id)
+          visible_links = represented.work_package_links
+
+          ::API::V3::WorkPackageLinks::WorkPackageLinkCollectionRepresenter.new(visible_links,
                                                                   self_path,
                                                                   current_user: current_user)
         end

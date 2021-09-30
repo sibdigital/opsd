@@ -39,8 +39,8 @@ end
 session_store     = config['session_store'].to_sym
 relative_url_root = config['rails_relative_url_root'].presence
 #+tan 2019.11.28
-#session_store = :active_record_store
-#config['session_store'] = :active_record_store
+session_store = :active_record_store
+config['session_store'] = :active_record_store
 # -tan
 
 session_options = {
