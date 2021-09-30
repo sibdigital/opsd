@@ -267,13 +267,21 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
 
   // TODO: KOSTIL В RUBY DATEPICKER
   onRubyDatePickerGetValue() {
+    // @ts-ignore
     const dateStartLeftValue = document.getElementById('start_date_left_value') === null ? '' : document.getElementById('start_date_left_value').value;
+    // @ts-ignore
     const dateStartRightValue = document.getElementById('start_date_right_value') === null ? '' : document.getElementById('start_date_right_value').value;
+    // @ts-ignore
     const dueDateLeft = document.getElementById('due_date_left_value') === null ? '' : document.getElementById('due_date_left_value').value;
+    // @ts-ignore
     const dueDateRight = document.getElementById('due_date_right_value') === null ? '' : document.getElementById('due_date_right_value').value;
+    // @ts-ignore
     const updatedOnLeft = document.getElementById('updated_on_date_left_value') === null ? '' : document.getElementById('updated_on_date_left_value').value;
+    // @ts-ignore
     const updatedOnRight = document.getElementById('updated_on_date_right_value') === null ? '' : document.getElementById('updated_on_date_right_value').value;
+    // @ts-ignore
     const createdOnLeft = document.getElementById('created_on_date_left_value') === null ? '' : document.getElementById('created_on_date_left_value').value;
+    // @ts-ignore
     const createdOnRight = document.getElementById('created_on_date_right_value') === null ? '' : document.getElementById('created_on_date_right_value').value;
     // @ts-ignore
     this.filtersFormGroup.get('startDateFormGroup').patchValue({
@@ -319,7 +327,7 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
     const projectStatusFormGroup = this.filtersFormGroup.get('projectStatusFormGroup');
     const projectStatusVal = projectStatusFormGroup && projectStatusFormGroup.value.value !== '' ? projectStatusFormGroup.value.value : null;
 
-    const defaultDateLeftValue = '1990-01-01'; // TODO: KOSTIL B JOPSD findByProjectRegisterFields
+    const defaultDateLeftValue = '1900-01-01'; // TODO: KOSTIL B JOPSD findByProjectRegisterFields
     const defaultDateRightValue = '2990-01-01'; // TODO: KOSTIL B JOPSD findByProjectRegisterFields
 
     const startDateFormGroup = this.filtersFormGroup.get('startDateFormGroup');
