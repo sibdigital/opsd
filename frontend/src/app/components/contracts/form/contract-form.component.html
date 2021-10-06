@@ -6,8 +6,8 @@
         </div>
     </div>
 </div>
-<div style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
-    <div style="flex-grow: 3" class="form-group">
+<div style="display: flex;flex-direction: row;align-items: flex-start;">
+    <div style="flex-grow: 1" class="form-group">
         <div class="form--field">
             <label class="form--label" for="contractNum">Номер контракта</label>
             <span class="form--field-container">
@@ -18,6 +18,20 @@
                        class="form-control form--text-field"
                        container_class="-middle"
                        id="contractNum"
+                       required>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="contractSubject">Предмет контракта</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="text"
+                       [(ngModel)]="contract.contractSubject"
+                       #contractSubject
+                       class="form-control form--text-field"
+                       container_class="-middle"
+                       id="contractSubject"
                        required>
             </span>
         </span>
@@ -46,6 +60,34 @@
                        class="form-control form--text-field"
                        container_class="-middle"
                        id="executor"
+                       required>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="price">Цена контракта</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="number"
+                       [(ngModel)]="contract.price"
+                       #price
+                       class="form-control form--text-field"
+                       container_class="-middle"
+                       id="price"
+                       required>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="nmck">НМЦК</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="number"
+                       [(ngModel)]="contract.nmck"
+                       #price
+                       class="form-control form--text-field"
+                       container_class="-middle"
+                       id="nmck"
                        required>
             </span>
         </span>
@@ -106,50 +148,99 @@
             </span>
         </span>
         </div>
+                <div class="form--field">
+                    <label class="form--label" for="note">Примечание</label>
+                    <span class="form--field-container">
+                    <span class="form--text-area-container -middle">
+                        <textarea accesskey="3" with_text_formatting="true"
+                                  class="form-control form--text-area" container_class="-middle" id="note"
+                                  style="height: 100px"
+                                  [(ngModel)]="contract.note"></textarea>
+                    </span>
+                </span>
+                </div>
+        <div>
+            <h6>Положительное заключение достоверности определения сметной стоимости</h6>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="conclusionOfEstimatedCostNumber">№</label>
+            <span class="form--field-container">
+                    <span class="form--text-field-container -middle">
+                        <input type="text"
+                               [(ngModel)]="contract.conclusionOfEstimatedCostNumber"
+                               class="form-control form--text-field"
+                               container_class="-middle"
+                               id="conclusionOfEstimatedCostNumber"
+                               required>
+                    </span>
+                </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="conclusionOfEstimatedCostDate">Дата</label>
+            <span class="form--field-container">
+                    <span class="form--text-field-container -middle">
+                        <input type="date"
+                               [(ngModel)]="contract.conclusionOfEstimatedCostDate"
+                               class="form-control"
+                               container_class="-middle"
+                               id="conclusionOfEstimatedCostDate"
+                               required>
+                    </span>
+                </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="conclusionOfEstimatedCostDetails">Реквизиты</label>
+            <span class="form--field-container">
+                    <span class="form--text-area-container -middle">
+                        <textarea accesskey="3" with_text_formatting="true"
+                                  class="form-control form--text-area" container_class="-middle" id="conclusionOfEstimatedCostDetails"
+                                  style="height: 100px"
+                                  [(ngModel)]="contract.conclusionOfEstimatedCostDetails"></textarea>
+                    </span>
+                </span>
+        </div>
+        <div>
+            <h6>Положительное заключение государственной экологической экспертизы</h6>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="conclusionOfEstimatedCostNumber">№</label>
+            <span class="form--field-container">
+                    <span class="form--text-field-container -middle">
+                        <input type="text"
+                               [(ngModel)]="contract.conclusionOfEcologicalExpertiseNumber"
+                               class="form-control form--text-field"
+                               container_class="-middle"
+                               id="conclusionOfEcologicalExpertiseNumber"
+                               required>
+                    </span>
+                </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="conclusionOfEcologicalExpertiseDate">Дата</label>
+            <span class="form--field-container">
+                    <span class="form--text-field-container -middle">
+                        <input type="date"
+                               [(ngModel)]="contract.conclusionOfEcologicalExpertiseDate"
+                               class="form-control"
+                               container_class="-middle"
+                               id="conclusionOfEcologicalExpertiseDate"
+                               required>
+                    </span>
+                </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="conclusionOfEcologicalExpertiseDetails">Реквизиты</label>
+            <span class="form--field-container">
+                    <span class="form--text-area-container -middle">
+                        <textarea accesskey="3" with_text_formatting="true"
+                                  class="form-control form--text-area" container_class="-middle" id="conclusionOfEcologicalExpertiseDetails"
+                                  style="height: 100px"
+                                  [(ngModel)]="contract.conclusionOfEcologicalExpertiseDetails"></textarea>
+                    </span>
+            </span>
+        </div>
     </div>
-    <div style="flex-grow: 3" class="form-group">
-        <div class="form--field">
-            <label class="form--label" for="contractSubject">Предмет контракта</label>
-            <span class="form--field-container">
-            <span class="form--text-field-container -middle">
-                <input type="text"
-                       [(ngModel)]="contract.contractSubject"
-                       #contractSubject
-                       class="form-control form--text-field"
-                       container_class="-middle"
-                       id="contractSubject"
-                       required>
-            </span>
-        </span>
-        </div>
-        <div class="form--field">
-            <label class="form--label" for="price">Цена контракта</label>
-            <span class="form--field-container">
-            <span class="form--text-field-container -middle">
-                <input type="number"
-                       [(ngModel)]="contract.price"
-                       #price
-                       class="form-control form--text-field"
-                       container_class="-middle"
-                       id="price"
-                       required>
-            </span>
-        </span>
-        </div>
-        <div class="form--field">
-            <label class="form--label" for="nmck">НМЦК</label>
-            <span class="form--field-container">
-            <span class="form--text-field-container -middle">
-                <input type="number"
-                       [(ngModel)]="contract.nmck"
-                       #price
-                       class="form-control form--text-field"
-                       container_class="-middle"
-                       id="nmck"
-                       required>
-            </span>
-        </span>
-        </div>
+    <div style="flex-grow: 1" class="form-group">
         <div class="form--field">
             <label class="form--label" for="dateBegin">Дата начала</label>
             <span class="form--field-container">
@@ -164,22 +255,6 @@
         </span>
         </div>
         <div class="form--field">
-            <label class="form--label" for="note">Примечание</label>
-            <span class="form--field-container">
-            <span class="form--text-area-container -xxwide">
-                <textarea cols="100" rows="35" accesskey="3" with_text_formatting="true"
-                          class="wiki-edit form-control form--text-area" container_class="-xxwide" id="note"
-                          style="display: none" [(ngModel)]="contract.note"></textarea>
-                <ckeditor-augmented-textarea textarea-selector="#note"
-                                             resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>
-            </span>
-        </span>
-        </div>
-    </div>
-</div>
-<div style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
-    <div style="flex-grow: 3" class="form-group">
-        <div class="form--field">
             <label class="form--label" for="contractDatePlan">Дата заключения контракта (план)</label>
             <span class="form--field-container">
             <span class="form--text-field-container -middle">
@@ -188,6 +263,19 @@
                        class="form-control"
                        container_class="-middle"
                        id="contractDatePlan"
+                       required>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="contractDate">Дата заключения контракта (факт)</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="date"
+                       [(ngModel)]="contract.contractDate"
+                       class="form-control"
+                       container_class="-middle"
+                       id="contractDate"
                        required>
             </span>
         </span>
@@ -206,62 +294,6 @@
         </span>
         </div>
         <div class="form--field">
-            <label class="form--label" for="auctionDatePlan">Дата проведения аукциона (план)</label>
-            <span class="form--field-container">
-            <span class="form--text-field-container -middle">
-                <input type="date"
-                       [(ngModel)]="contract.auctionDatePlan"
-                       class="form-control"
-                       container_class="-middle"
-                       id="auctionDatePlan"
-                       required>
-            </span>
-        </span>
-        </div>
-
-        <div class="form--field">
-            <label class="form--label" for="scheduleDatePlan">Дата размещения план-графика закупок (план)</label>
-            <span class="form--field-container">
-            <span class="form--text-field-container -middle">
-                <input type="date"
-                       [(ngModel)]="contract.scheduleDatePlan"
-                       class="form-control"
-                       container_class="-middle"
-                       id="scheduleDatePlan"
-                       required>
-            </span>
-        </span>
-        </div>
-
-        <div class="form--field">
-            <label class="form--label" for="notificationDatePlan">Дата размещения извещения (план)</label>
-            <span class="form--field-container">
-            <span class="form--text-field-container -middle">
-                <input type="date"
-                       [(ngModel)]="contract.notificationDate"
-                       class="form-control"
-                       container_class="-middle"
-                       id="notificationDatePlan"
-                       required>
-            </span>
-        </span>
-        </div>
-    </div>
-    <div style="flex-grow: 3" class="form-group">
-        <div class="form--field">
-            <label class="form--label" for="contractDate">Дата заключения контракта (факт)</label>
-            <span class="form--field-container">
-            <span class="form--text-field-container -middle">
-                <input type="date"
-                       [(ngModel)]="contract.contractDate"
-                       class="form-control"
-                       container_class="-middle"
-                       id="contractDate"
-                       required>
-            </span>
-        </span>
-        </div>
-        <div class="form--field">
             <label class="form--label" for="dateEnd">Дата завершения (факт)</label>
             <span class="form--field-container">
             <span class="form--text-field-container -middle">
@@ -270,6 +302,19 @@
                        class="form-control"
                        container_class="-middle"
                        id="dateEnd"
+                       required>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="auctionDatePlan">Дата проведения аукциона (план)</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="date"
+                       [(ngModel)]="contract.auctionDatePlan"
+                       class="form-control"
+                       container_class="-middle"
+                       id="auctionDatePlan"
                        required>
             </span>
         </span>
@@ -288,6 +333,19 @@
         </span>
         </div>
         <div class="form--field">
+            <label class="form--label" for="scheduleDatePlan">Дата размещения план-графика закупок (план)</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="date"
+                       [(ngModel)]="contract.scheduleDatePlan"
+                       class="form-control"
+                       container_class="-middle"
+                       id="scheduleDatePlan"
+                       required>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
             <label class="form--label" for="scheduleDate">Дата размещения план-графика закупок (факт)</label>
             <span class="form--field-container">
             <span class="form--text-field-container -middle">
@@ -296,6 +354,19 @@
                        class="form-control"
                        container_class="-middle"
                        id="scheduleDate"
+                       required>
+            </span>
+        </span>
+        </div>
+        <div class="form--field">
+            <label class="form--label" for="notificationDatePlan">Дата размещения извещения (план)</label>
+            <span class="form--field-container">
+            <span class="form--text-field-container -middle">
+                <input type="date"
+                       [(ngModel)]="contract.notificationDatePlan"
+                       class="form-control"
+                       container_class="-middle"
+                       id="notificationDatePlan"
                        required>
             </span>
         </span>
@@ -313,107 +384,57 @@
             </span>
         </span>
         </div>
-    </div>
-</div>
-<div></div>
-<div>
-    <h5>Положительное заключение достоверности определения сметной стоимости</h5>
-</div>
-<div style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
-    <div style="flex-grow: 2" class="form-group">
-        <div class="form--field">
-            <label class="form--label" for="conclusionOfEstimatedCostNumber">№</label>
-            <span class="form--field-container">
-                <span class="form--text-field-container -middle">
-                    <input type="date"
-                           [(ngModel)]="contract.conclusionOfEstimatedCostNumber"
-                           class="form-control"
-                           container_class="-middle"
-                           id="conclusionOfEstimatedCostNumber"
-                           required>
-                </span>
-            </span>
+        <div>
+            <h6>Положительное заключение достоверности экспертизы проектной документации</h6>
         </div>
-    </div>
-    <div style="flex-grow: 1" class="form-group">
-        <div class="form--field">
-            <label class="form--label" for="conclusionOfEstimatedCostDate">Дата</label>
-            <span class="form--field-container">
-                <span class="form--text-field-container -middle">
-                    <input type="date"
-                           [(ngModel)]="contract.conclusionOfEstimatedCostDate"
-                           class="form-control"
-                           container_class="-middle"
-                           id="conclusionOfEstimatedCostDate"
-                           required>
-                </span>
-            </span>
-        </div>
-    </div>
-    <div style="flex-grow: 3" class="form-group">
-        <div class="form--field">
-            <label class="form--label" for="conclusionOfEstimatedCostDetails">Реквизиты</label>
-            <span class="form--field-container">
-                <span class="form--text-field-container -middle">
-                    <input type="date"
-                           [(ngModel)]="contract.conclusionOfEstimatedCostDetails"
-                           class="form-control"
-                           container_class="-middle"
-                           id="conclusionOfEstimatedCostDetails"
-                           required>
-                </span>
-            </span>
-        </div>
-    </div>
-</div>
-<div></div>
-<div>
-    <h5>Положительное заключение достоверности экспертизы проектной документации</h5>
-</div>
-<div style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
-    <div style="flex-grow: 2" class="form-group">
         <div class="form--field">
             <label class="form--label" for="conclusionOfProjectDocumentationNumber">№</label>
             <span class="form--field-container">
-                <span class="form--text-field-container -middle">
-                    <input type="date"
-                           [(ngModel)]="contract.conclusionOfProjectDocumentationNumber"
-                           class="form-control"
-                           container_class="-middle"
-                           id="conclusionOfProjectDocumentationNumber"
-                           required>
-                </span>
-            </span>
+                        <span class="form--text-field-container -middle">
+                            <input type="text"
+                                   [(ngModel)]="contract.conclusionOfProjectDocumentationNumber"
+                                   class="form-control form--text-field"
+                                   container_class="-middle"
+                                   id="conclusionOfProjectDocumentationNumber"
+                                   required>
+                        </span>
+                    </span>
         </div>
-    </div>
-    <div style="flex-grow: 1" class="form-group">
         <div class="form--field">
             <label class="form--label" for="conclusionOfProjectDocumentationDate">Дата</label>
             <span class="form--field-container">
-                <span class="form--text-field-container -middle">
-                    <input type="date"
-                           [(ngModel)]="contract.conclusionOfProjectDocumentationDate"
-                           class="form-control"
-                           container_class="-middle"
-                           id="conclusionOfProjectDocumentationDate"
-                           required>
-                </span>
-            </span>
+                        <span class="form--text-field-container -middle">
+                            <input type="date"
+                                   [(ngModel)]="contract.conclusionOfProjectDocumentationDate"
+                                   class="form-control"
+                                   container_class="-middle"
+                                   id="conclusionOfProjectDocumentationDate"
+                                   required>
+                        </span>
+                    </span>
         </div>
-    </div>
-    <div style="flex-grow: 3" class="form-group">
         <div class="form--field">
             <label class="form--label" for="conclusionOfProjectDocumentationDetails">Реквизиты</label>
             <span class="form--field-container">
-                <span class="form--text-field-container -middle">
-                    <input type="date"
-                           [(ngModel)]="contract.conclusionOfProjectDocumentationDetails"
-                           class="form-control"
-                           container_class="-middle"
-                           id="conclusionOfProjectDocumentationDetails"
-                           required>
-                </span>
+                  <span class="form--text-area-container -middle">
+                        <textarea accesskey="3" with_text_formatting="true"
+                                  class="form-control form--text-area" container_class="-middle" id="conclusionOfProjectDocumentationDetails"
+                                  style="height: 100px"
+                                  [(ngModel)]="contract.conclusionOfProjectDocumentationDetails"></textarea>
+                  </span>
             </span>
         </div>
+<!--        <div class="form&#45;&#45;field">-->
+<!--            <label class="form&#45;&#45;label" for="note">Примечание</label>-->
+<!--            <span class="form&#45;&#45;field-container">-->
+<!--            <span class="form&#45;&#45;text-area-container -xxwide">-->
+<!--                <textarea cols="50" rows="35" accesskey="3" with_text_formatting="true"-->
+<!--                          class="wiki-edit form-control form&#45;&#45;text-area" container_class="-xxwide" id="note"-->
+<!--                          style="display: none" [(ngModel)]="contract.note"></textarea>-->
+<!--                <ckeditor-augmented-textarea textarea-selector="#note"-->
+<!--                                             resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>-->
+<!--            </span>-->
+<!--        </span>-->
+<!--        </div>-->
     </div>
 </div>

@@ -6,7 +6,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 export interface Contract {
   id?:number;
-  projectId?:number;
+  projectId?:number|null;
   contractSubject?:string;
   contractDate?:any;
   price?:number;
@@ -38,6 +38,9 @@ export interface Contract {
   conclusionOfProjectDocumentationDetails?:string;
   conclusionOfProjectDocumentationNumber?:string;
   conclusionOfProjectDocumentationDate?:any;
+  conclusionOfEcologicalExpertiseDetails?:string;
+  conclusionOfEcologicalExpertiseNumber?:string;
+  conclusionOfEcologicalExpertiseDate?:any;
 }
 
 @Component({
@@ -52,7 +55,6 @@ export class ContractsComponent implements OnInit {
     protected halResourceService:HalResourceService,
     protected pathHelper:PathHelperService,
     protected httpClient:HttpClient,
-    // public paginationService:ProjectsTablePaginationService,
   ) {}
 
   ngOnInit():void {
@@ -60,24 +62,5 @@ export class ContractsComponent implements OnInit {
     // this.getProjects();
     // this.getGroups();
   }
-  //
-  // private getPages() {
-  //   this.httpClient.get(
-  //     this.pathHelper.javaApiPath.javaApiBasePath + '/pages').toPromise()
-  //     .then((pages:HalResource) => {
-  //       console.log(pages);
-  //       this.pages = pages._embedded.pages;
-  //     })
-  //     .catch((reason) => console.error(reason));
-  // }
-  // public onChangePage(pageNumber:number) {
-  //   console.dir({ projectsTable: pageNumber });
-  //   this.paginationService.setCurrentPageParams({ page: pageNumber });
-  // }
-  //
-  // public onChangePerPage(perPageSize:number) {
-  //   console.dir({ perPageSize: perPageSize });
-  //   this.paginationService.setPerPageSizeParams({ size: perPageSize, page: 0 });
-  // }
 }
 DynamicBootstrapper.register({ selector: 'op-contracts', cls: ContractsComponent });

@@ -13,7 +13,7 @@ by zbd
 
 <%#= labelled_tabular_form_for @contract do |f| %>
 
-  <%= render partial: 'contracts/form/form', locals: { id: @contract.id } %>
+  <%= render partial: 'contracts/form/form', locals: { id: @contract.id, projectId: @contract.project_id } %>
   <%#= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 
 <%# end %>
