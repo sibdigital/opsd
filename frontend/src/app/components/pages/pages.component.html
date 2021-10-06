@@ -70,9 +70,11 @@
                 <tbody class="results-tbody work-package--results-tbody">
                 <ng-container *ngFor="let page of pages">
                     <tr class="basics context-menu--reveal project root leaf" *ngIf="!page.isDeleted">
-                        <td class="name project--hierarchy">{{page.title}}</td>
-                        <td class="name project--hierarchy">{{page.project?.name}}</td>
-                        <td class="name project--hierarchy">{{page.workPackage?.subject}}</td>
+                        <td class="name project--hierarchy" [title]="page.title">
+                            <a href="/admin/pages/{{page.id}}/edit">{{page.title}}</a>
+                        </td>
+                        <td class="name project--hierarchy" [title]="page.project?.name || ''">{{page.project?.name || '-'}}</td>
+                        <td class="name project--hierarchy" [title]="page.workPackage?.subject || ''">{{page.workPackage?.subject || '-'}}</td>
                         <td class="name project--hierarchy">{{page.author?.lastname}}</td>
                         <td class="name project--hierarchy">{{page.createdOn}}</td>
                         <td class="name project--hierarchy">

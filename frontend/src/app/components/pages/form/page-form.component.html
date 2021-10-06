@@ -1,14 +1,30 @@
 <div style="display: flex">
-    <h2>{{page?.title || 'Новая страница общественного мониторинга'}}</h2>
+    <a class="" href="/admin/pages">
+        <i class="button--icon fc-icon-left-single-arrow"></i>
+    </a>
+    <div>
+        <h2>{{page.title ? ((page.isGroup ? 'Каталог: ' : '') + page?.title) : 'Новая страница общественного мониторинга'}}</h2>
+        <span style="position: relative;bottom: 16px; font-size: 12px">Автор: {{page?.author?.lastname}} {{page?.author?.firstname}}</span>
+    </div>
     <div style="display: flex; margin-inline-start: auto; align-items: center">
         <div class="toolbar-item">
-            <a class="button -alt-highlight" href="#" (click)="savePage()"><i class="button--icon icon-save"></i><span class="button--text">Сохранить</span></a>
+            <a class="button -alt-highlight" href="#" (click)="savePage()">
+                <i class="button--icon icon-save"></i>
+                <span class="button--text">Сохранить</span>
+            </a>
+            <a class="button -alt-highlight" href="#" (click)="deletePage()" *ngIf="pageId">
+                <i class="button--icon {{!page.isDeleted ? 'icon-delete' : 'icon-undo'}}"></i>
+                <span class="button--text">{{!page.isDeleted ? 'Удалить' : 'Восстановить'}}</span></a>
+            <a class="button -alt-highlight" href="#" (click)="publicatePage()" *ngIf="pageId">
+                <i class="button--icon {{!page.isPublicated ? 'icon-ticket-checked' : 'icon-ticket-down'}}"></i>
+                <span class="button--text">{{!page.isPublicated ? 'Опубликовать' : 'Снять с публикации'}}</span></a>
         </div>
     </div>
 </div>
-<div style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
-    <div style="flex-grow: 3">
-        <div class="form--field">
+<div class="loading-indicator--location" data-indicator-name="page-form">
+    <div style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
+        <div style="flex-grow: 3" *ngIf="!page.isGroup">
+            <div class="form--field">
             <span class="form--field-container">
             <span class="form--text-area-container -xxwide">
                 <textarea cols="100" rows="25" accesskey="3" with_text_formatting="true"
@@ -18,15 +34,16 @@
                                              resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>
             </span>
         </span>
+            </div>
         </div>
-    </div>
-    <div style="flex-grow: 2" class="form-group">
-        <div class="form--field">
-            <label class="form--label" for="title">Название</label>
-            <span class="form--field-container">
+        <div style="flex-grow: 2" class="form-group">
+            <div class="form--field">
+                <label class="form--label" for="title">Название</label>
+                <span class="form--field-container">
             <span class="form--text-field-container -middle">
                 <input type="text"
                        #title
+                       [value]="page.title || null"
                        class="form-control form--text-field"
                        container_class="-middle"
                        id="title"
@@ -34,14 +51,15 @@
                        (change)="titleChanged(title.value)">
             </span>
         </span>
-        </div>
-        <div class="form--field">
-            <label class="form--label" for="project">Проект</label>
-            <span class="form--field-container">
+            </div>
+            <div class="form--field" *ngIf="!page.isGroup">
+                <label class="form--label" for="project">Проект</label>
+                <span class="form--field-container">
             <span class="form--select-container -middle">
                 <select class="form-control form--select"
                         #project
                         container_class="-xxwide"
+                        [value]="projectId"
                         id="project"
                         (change)="projectSelected(project.value)">
                     <option value=""></option>
@@ -49,46 +67,51 @@
                 </select>
             </span>
         </span>
-        </div>
-        <div class="form--field">
-            <label class="form--label" for="workPackage">Мероприятие</label>
-            <span class="form--field-container">
+            </div>
+            <div class="form--field" *ngIf="!page.isGroup">
+                <label class="form--label" for="workPackage">Мероприятие</label>
+                <span class="form--field-container">
             <span class="form--select-container -middle">
                 <select class="form-control form--select"
                         #workPackage
+                        [value]="workPackageId"
                         container_class="-xxwide"
                         id="workPackage"
                         *ngIf="!!workPackages" (change)="workPackageSelected(workPackage.value)">
                     <option value=""></option>
                     <option *ngFor="let wp of workPackages" [value]="wp.id">{{wp.subject}}</option>
                 </select>
-                <select class="form-control form--select" container_class="-xxwide" id="workPackage" *ngIf="!workPackages"
+                <select class="form-control form--select" container_class="-xxwide" id="workPackage"
+                        *ngIf="!workPackages"
                         disabled>
                     <option value="false">Сначала выберите проект</option>
                 </select>
             </span>
         </span>
-        </div>
-        <div class="form--field">
-            <label class="form--label" for="parent">Каталог</label>
-            <span class="form--field-container">
+            </div>
+            <div class="form--field">
+                <label class="form--label" for="parent">Каталог</label>
+                <span class="form--field-container">
             <span class="form--select-container -middle">
                 <select class="form-control form--select"
                         #group
+                        [value]="groupId"
                         container_class="-xxwide"
                         id="parent"
                         (change)="groupSelected(group.value)">
-                    <option *ngFor="let group of groups" [value]="group.id">{{group.id}}</option>
+                    <option value=""></option>
+                    <option *ngFor="let group of groups" [value]="group.id">{{group.title}}</option>
                 </select>
             </span>
         </span>
-        </div>
-        <div class="form--field">
-            <label class="form--label" for="is_group">Группа?</label>
-            <span class="form--field-container">
+            </div>
+            <div class="form--field">
+                <label class="form--label" for="is_group">Группа?</label>
+                <span class="form--field-container">
             <span class="form--select-container -middle">
                 <div class="custom-checkbox">
             <input id="is_group" #isGroup
+                   [checked]="page!.isGroup"
                    type="checkbox" (change)="typeChanged(isGroup.checked)">
             <label for="is_group">
                 <div class="status-switch"
@@ -99,6 +122,8 @@
                 </div>
             </span>
         </span>
+            </div>
         </div>
     </div>
 </div>
+

@@ -17,13 +17,13 @@ export interface Page {
   isDeleted?:boolean;
   isPublicated?:boolean;
   isGroup?:boolean;
-  projectId?:number;
+  projectId?:number | null;
   project?:any;
-  workPackageId?:number;
+  workPackageId?:number | null;
   workPackage?:any;
-  parentId?:number;
+  parentId?:number | null;
   parent?:any;
-  authorId?:number;
+  authorId?:number | null;
   author?:any;
   createdOn?:string;
   updatedOn?:string;
@@ -54,7 +54,6 @@ export class PagesComponent implements OnInit {
     this.httpClient.get(
         this.pathHelper.javaApiPath.javaApiBasePath + '/pages').toPromise()
         .then((pages:HalResource) => {
-          console.log(pages);
           this.pages = pages._embedded.pages;
         })
         .catch((reason) => console.error(reason));

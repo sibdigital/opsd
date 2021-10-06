@@ -4,6 +4,8 @@ import {HalResourceService} from "core-app/modules/hal/services/hal-resource.ser
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Page} from "core-components/pages/pages.component";
+import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   selector: 'op-page-form',
@@ -12,23 +14,52 @@ import {Page} from "core-components/pages/pages.component";
 })
 export class PageFormComponent implements OnInit {
   @Input() pageId:string;
-  page:Page = {};
+  page:Page = {project: {id: null}, author: {id: null}, workPackage: {id: null}, parent: {id: null}};
   projects:any;
+  projectId:number;
+  groupId:number;
+  workPackageId:number;
   groups:any;
   workPackages:any;
+  indicator:any;
   public $element:JQuery;
   constructor(
     protected halResourceService:HalResourceService,
     protected pathHelper:PathHelperService,
     protected httpClient:HttpClient,
-    protected elementRef:ElementRef) {
+    protected elementRef:ElementRef,
+    private loadingIndicatorService:LoadingIndicatorService,
+    private notificationService:NotificationsService) {
   }
 
   ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.pageId = this.$element.attr('pageId')!;
-    this.getProjects();
-    this.getGroups();
+    this.indicator = this.loadingIndicatorService.indicator('page-form');
+    if (this.pageId) {
+      this.indicator.start();
+      this.getPage();
+    }
+    else {
+      this.getProjects();
+      this.getGroups();
+    }
+  }
+
+  private getPage() {
+    this.httpClient.get(
+      this.pathHelper.javaApiPath.javaApiBasePath + '/pages/' + this.pageId,
+      {params: new HttpParams().set('projection', 'pageProjection')}).toPromise()
+      .then((page) => {
+        this.page = page;
+        this.page.project ? this.page.project : this.page.project = {id: null};
+        this.page.author ? this.page.author :this.page.author = {id: null};
+        this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
+        this.page.parent ? this.page.parent : this.page.parent = {id: null};
+        this.getProjects();
+        this.getGroups();
+      })
+      .catch((reason) => console.error(reason));
   }
 
   getProjects() {
@@ -36,6 +67,13 @@ export class PageFormComponent implements OnInit {
       this.pathHelper.javaUrlPath + '/projects/all').toPromise()
       .then((projects) => {
         this.projects = projects;
+        if (this.pageId && this.page.project.id) {
+          this.projectId = this.page.project.id;
+          this.getWorkPackages(this.projectId!);
+        }
+        else {
+          this.indicator.stop();
+        }
       })
       .catch((reason) => console.error(reason));
   }
@@ -45,28 +83,49 @@ export class PageFormComponent implements OnInit {
       this.pathHelper.javaUrlPath + '/pages/groups').toPromise()
       .then((groups) => {
         this.groups = groups;
+        if (this.pageId && this.page.parent) {
+          this.groupId = this.page.parent.id;
+        }
       })
       .catch((reason) => console.error(reason));
   }
 
   getWorkPackages(projectId:number) {
-    this.httpClient.get(
-      this.pathHelper.javaUrlPath + '/work_packages',
+    projectId ? this.httpClient.get(
+      this.pathHelper.javaUrlPath + '/work_packages/all',
       {params: new HttpParams().set('projectId', projectId.toString())})
       .toPromise()
       .then((workPackages) => {
         this.workPackages = workPackages;
+        if (this.pageId && this.page.workPackage) {
+          this.workPackageId = this.page.workPackage.id;
+        }
+        this.indicator.stop();
       })
-      .catch((reason) => console.error(reason));
-  }
-
-  projectSelected(selected:string) {
-    this.page.projectId = parseInt(selected);
-    this.getWorkPackages(parseInt(selected));
+      .catch((reason) => console.error(reason)) : 0;
   }
 
   savePage() {
-    console.log(this.page);
+    this.httpClient.post(this.pathHelper.javaUrlPath + '/pages/upsert', this.page)
+      .toPromise()
+      .then((page) => {
+        this.page = page;
+        this.page.project ? this.page.project : this.page.project = {id: null};
+        this.page.author ? this.page.author :this.page.author = {id: null};
+        this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
+        this.page.parent ? this.page.parent : this.page.parent = {id: null};
+        this.notificationService.addSuccess('Изменения сохранены');
+      })
+      .catch((reason) => {
+        this.notificationService.addError(`Ошибка сохранения: ${reason.message}`);
+        console.error(reason);
+      });
+  }
+
+  projectSelected(selected:string) {
+    this.page.projectId = parseInt(selected) || null;
+    this.page.project = {id: this.page.projectId};
+    this.page.projectId ? this.getWorkPackages(this.page.projectId) : 0;
   }
 
   titleChanged(value:string) {
@@ -75,14 +134,28 @@ export class PageFormComponent implements OnInit {
 
   workPackageSelected(value:string) {
     this.page.workPackageId = parseInt(value);
+    this.page.workPackage = {id: this.page.workPackageId};
   }
 
   groupSelected(value:string) {
     this.page.parentId = parseInt(value);
+    this.page.parent = {id: this.page.parentId};
   }
 
   typeChanged(value:boolean) {
     this.page.isGroup = value;
+  }
+
+  deletePage() {
+    this.page.isDeleted = !this.page.isDeleted;
+  }
+
+  publicatePage() {
+    this.page.isPublicated = !this.page.isPublicated;
+  }
+
+  contentChanged(value:any) {
+    console.log(value);
   }
 }
 DynamicBootstrapper.register({selector: 'op-page-form', cls: PageFormComponent});
