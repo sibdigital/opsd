@@ -14,7 +14,7 @@ import {NotificationsService} from "core-app/modules/common/notifications/notifi
 })
 export class PageFormComponent implements OnInit {
   @Input() pageId:string;
-  page:Page = {project: {id: null}, author: {id: null}, workPackage: {id: null}, parent: {id: null}};
+  page:Page = {};
   projects:any;
   projectId:number;
   groupId:number;
@@ -52,10 +52,10 @@ export class PageFormComponent implements OnInit {
       {params: new HttpParams().set('projection', 'pageProjection')}).toPromise()
       .then((page) => {
         this.page = page;
-        this.page.project ? this.page.project : this.page.project = {id: null};
-        this.page.author ? this.page.author :this.page.author = {id: null};
-        this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
-        this.page.parent ? this.page.parent : this.page.parent = {id: null};
+        // this.page.project ? this.page.project : this.page.project = {id: null};
+        // this.page.author ? this.page.author :this.page.author = {id: null};
+        // this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
+        // this.page.parent ? this.page.parent : this.page.parent = {id: null};
         this.getProjects();
         this.getGroups();
       })
@@ -67,7 +67,7 @@ export class PageFormComponent implements OnInit {
       this.pathHelper.javaUrlPath + '/projects/all').toPromise()
       .then((projects) => {
         this.projects = projects;
-        if (this.pageId && this.page.project.id) {
+        if (this.pageId && this.page.project) {
           this.projectId = this.page.project.id;
           this.getWorkPackages(this.projectId!);
         }
@@ -110,10 +110,10 @@ export class PageFormComponent implements OnInit {
       .toPromise()
       .then((page) => {
         this.page = page;
-        this.page.project ? this.page.project : this.page.project = {id: null};
-        this.page.author ? this.page.author :this.page.author = {id: null};
-        this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
-        this.page.parent ? this.page.parent : this.page.parent = {id: null};
+        // this.page.project ? this.page.project : this.page.project = {id: null};
+        // this.page.author ? this.page.author :this.page.author = {id: null};
+        // this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
+        // this.page.parent ? this.page.parent : this.page.parent = {id: null};
         this.notificationService.addSuccess('Изменения сохранены');
       })
       .catch((reason) => {
