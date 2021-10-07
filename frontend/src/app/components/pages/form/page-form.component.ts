@@ -6,7 +6,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Page} from "core-components/pages/pages.component";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {ICKEditorContext} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 @Component({
   selector: 'op-page-form',
@@ -23,6 +23,11 @@ export class PageFormComponent implements OnInit {
   groups:any;
   workPackages:any;
   indicator:any;
+  ckEditorContext = {
+    macros: 'none' as 'none',
+  };
+  editorInstance:ICKEditorInstance;
+  public initializationError = false;
   public $element:JQuery;
   public context:ICKEditorContext;
   constructor(
@@ -54,6 +59,7 @@ export class PageFormComponent implements OnInit {
       {params: new HttpParams().set('projection', 'pageProjection')}).toPromise()
       .then((page) => {
         this.page = page;
+        this.editorInstance.setData(this.page.content ? this.page.content : '');
         // this.page.project ? this.page.project : this.page.project = {id: null};
         // this.page.author ? this.page.author :this.page.author = {id: null};
         // this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
@@ -112,6 +118,7 @@ export class PageFormComponent implements OnInit {
       .toPromise()
       .then((page) => {
         this.page = page;
+        this.editorInstance.setData(this.page.content ? this.page.content : '');
         // this.page.project ? this.page.project : this.page.project = {id: null};
         // this.page.author ? this.page.author :this.page.author = {id: null};
         // this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
@@ -156,8 +163,12 @@ export class PageFormComponent implements OnInit {
     this.page.isPublicated = !this.page.isPublicated;
   }
 
-  contentChanged(value:any) {
-    console.log(value);
+  public onContentChange(value:string) {
+    this.page.content = value;
+  }
+
+  public onCkeditorSetup(editor:ICKEditorInstance) {
+    this.editorInstance = editor;
   }
 }
 DynamicBootstrapper.register({selector: 'op-page-form', cls: PageFormComponent});

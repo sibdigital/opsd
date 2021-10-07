@@ -29,12 +29,12 @@
             <div class="form--field">
             <span class="form--field-container">
             <span class="form--text-area-container -xxwide">
-                <op-ckeditor ckEditorType="full" [context]="context"></op-ckeditor>
-<!--                <textarea cols="100" rows="25" accesskey="3" with_text_formatting="true"-->
-<!--                          class="wiki-edit form-control form&#45;&#45;text-area" container_class="-xxwide" id="content"-->
-<!--                          style="display: none"></textarea>-->
-<!--                <ckeditor-augmented-textarea textarea-selector="#content"-->
-<!--                                             resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>-->
+                <op-ckeditor [context]="ckEditorContext"
+                             [content]="page.content"
+                             (onContentChange)="onContentChange($event)"
+                             (onInitialized)="onCkeditorSetup($event)"
+                             (onInitializationFailed)="initializationError = true"
+                             [ckEditorType]="'full'"></op-ckeditor>
             </span>
         </span>
             </div>
