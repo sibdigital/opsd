@@ -1,10 +1,12 @@
 <div style="display: flex">
-    <a class="" href="/admin/pages">
-        <i class="button--icon fc-icon-left-single-arrow"></i>
-    </a>
     <div>
-        <h2>{{page.title ? ((page.isGroup ? 'Каталог: ' : '') + page?.title) : 'Новая страница общественного мониторинга'}}</h2>
-        <span style="position: relative;bottom: 16px; font-size: 12px">Автор: {{page?.author?.lastname}} {{page?.author?.firstname}}</span>
+        <h2>
+            <a class="" href="/admin/pages">
+                <i class="button--icon icon-arrow-left1" style="font-size: 20px"></i>
+            </a>
+            {{page.title ? ((page.isGroup ? 'Каталог: ' : '') + page?.title) : 'Новая страница общественного мониторинга'}}
+        </h2>
+        <span style="position: relative;bottom: 16px; font-size: 12px" *ngIf="page.author">Автор: {{page?.author?.lastname}} {{page?.author?.firstname}}</span>
     </div>
     <div style="display: flex; margin-inline-start: auto; align-items: center">
         <div class="toolbar-item">
@@ -27,11 +29,12 @@
             <div class="form--field">
             <span class="form--field-container">
             <span class="form--text-area-container -xxwide">
-                <textarea cols="100" rows="25" accesskey="3" with_text_formatting="true"
-                          class="wiki-edit form-control form--text-area" container_class="-xxwide" id="content"
-                          style="display: none"></textarea>
-                <ckeditor-augmented-textarea textarea-selector="#content"
-                                             resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>
+                <op-ckeditor ckEditorType="full" [context]="context"></op-ckeditor>
+<!--                <textarea cols="100" rows="25" accesskey="3" with_text_formatting="true"-->
+<!--                          class="wiki-edit form-control form&#45;&#45;text-area" container_class="-xxwide" id="content"-->
+<!--                          style="display: none"></textarea>-->
+<!--                <ckeditor-augmented-textarea textarea-selector="#content"-->
+<!--                                             resource="{attachments: {total: 0, count: 0}}"></ckeditor-augmented-textarea>-->
             </span>
         </span>
             </div>

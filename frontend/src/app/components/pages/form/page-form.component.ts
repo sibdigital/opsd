@@ -6,6 +6,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Page} from "core-components/pages/pages.component";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {ICKEditorContext} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 @Component({
   selector: 'op-page-form',
@@ -23,6 +24,7 @@ export class PageFormComponent implements OnInit {
   workPackages:any;
   indicator:any;
   public $element:JQuery;
+  public context:ICKEditorContext;
   constructor(
     protected halResourceService:HalResourceService,
     protected pathHelper:PathHelperService,
@@ -80,7 +82,7 @@ export class PageFormComponent implements OnInit {
 
   getGroups() {
     this.httpClient.get(
-      this.pathHelper.javaUrlPath + '/pages/groups').toPromise()
+      this.pathHelper.javaUrlPath + '/pages/groups', this.page.id ? {params: new HttpParams().set('id', `${this.page.id}`)} : {}).toPromise()
       .then((groups) => {
         this.groups = groups;
         if (this.pageId && this.page.parent) {
