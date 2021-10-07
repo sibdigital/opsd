@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  jopsd_url: 'https://jopsd.herokuapp.com/jopsd',
-  jopsd_api: 'https://jopsd.herokuapp.com/jopsd/api'
+  jopsd_url: 'https://sup.govrb.ru/jopsd',
+  jopsd_api: 'https://sup.govrb.ru/jopsd/api'
 };
