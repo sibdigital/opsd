@@ -202,7 +202,6 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
 import {WpTopicsConfigurationModalComponent} from "core-components/wp-topics-dialog/wp-topics-configuration.modal";
 import {WorkPackageTopicsPaginationComponent} from "core-components/wp-topics-dialog/wp-topics-pagination.component";
 import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
-import {LinkListComponent} from "core-app/modules/links/link-list/link-list.component";
 import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
 import {ProjectsTable} from "core-components/projects-table/projects-table";
 import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
@@ -210,6 +209,7 @@ import {ProjectsFiltersComponent} from "core-components/projects/projects-filter
 import {ReactiveFormsModule} from "@angular/forms";
 import {PagesComponent} from "core-components/pages/pages.component";
 import {PageFormComponent} from "core-components/pages/form/page-form.component";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -225,7 +225,8 @@ import {PageFormComponent} from "core-components/pages/form/page-form.component"
     // Work package custom actions
     //WpCustomActionsModule,
     DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent]),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NoopAnimationsModule
   ],
   providers: [
     {

@@ -124,7 +124,7 @@ export class PageFormComponent implements OnInit {
 
   projectSelected(selected:string) {
     this.page.projectId = parseInt(selected) || null;
-    this.page.project = {id: this.page.projectId};
+    this.page.project = this.page.projectId ? {id: this.page.projectId} : null;
     this.page.projectId ? this.getWorkPackages(this.page.projectId) : 0;
   }
 
@@ -134,12 +134,12 @@ export class PageFormComponent implements OnInit {
 
   workPackageSelected(value:string) {
     this.page.workPackageId = parseInt(value);
-    this.page.workPackage = {id: this.page.workPackageId};
+    this.page.workPackage = this.page.workPackageId ? {id: this.page.workPackageId} : null;
   }
 
   groupSelected(value:string) {
     this.page.parentId = parseInt(value);
-    this.page.parent = {id: this.page.parentId};
+    this.page.parent = this.page.parentId ? {id: this.page.parentId} : null;
   }
 
   typeChanged(value:boolean) {
