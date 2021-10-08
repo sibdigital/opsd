@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService, Transition, TransitionService, UIRouter, UrlService} from '@uirouter/core';
+import {StateService, Transition, TransitionService, UIRouter} from '@uirouter/core';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
@@ -50,8 +50,6 @@ import {PerformanceTabComponent} from "core-components/homescreen-tabs/performan
 import {BubbleDiagramComponent} from "core-components/bubble-diagram/bubble-diagram.component";
 import {ColorlightTabComponent} from "core-components/homescreen-tabs/colorlight/colorlight-tab.component";
 import {ProjectsComponent} from "core-components/projects/projects.component";
-import {PagesComponent} from "core-components/pages/pages.component";
-import {PageFormComponent} from "core-components/pages/form/page-form.component";
 
 
 export const OPENPROJECT_ROUTES = [

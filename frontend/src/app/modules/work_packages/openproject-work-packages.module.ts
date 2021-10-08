@@ -207,9 +207,7 @@ import {ProjectsTable} from "core-components/projects-table/projects-table";
 import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
 import {ProjectsFiltersComponent} from "core-components/projects/projects-filters/projects-filters.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import {PagesComponent} from "core-components/pages/pages.component";
-import {PageFormComponent} from "core-components/pages/form/page-form.component";
-import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -226,7 +224,7 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
     //WpCustomActionsModule,
     DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent]),
     ReactiveFormsModule,
-    NoopAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
     {
@@ -475,8 +473,6 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
     ProjectsTable,
-    PagesComponent,
-    PageFormComponent
   ],
   entryComponents: [
     // Split view
@@ -527,8 +523,6 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
     WorkPackagesTableController,
     ProjectsTable,
-    PagesComponent,
-    PageFormComponent,
 
     // Work package graphs on version page
     WorkPackageByVersionGraphComponent,
@@ -580,8 +574,6 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
     OpColumnsContextMenu,
     ProjectsTableContextMenuDirective,
     ProjectsTable,
-    PagesComponent,
-    PageFormComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {

@@ -1,14 +1,12 @@
-import {Component, OnInit} from "@angular/core";
-import {FormControl} from "@angular/forms";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {IProjectsState, IProjectsTableColumn} from "core-components/projects/state/projects.state";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {ProjectsTablePaginationService} from "core-components/projects-table/projects-table-pagination.service";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {DatePipe} from "@angular/common";
 
 export interface Page {
   id?:number;
@@ -29,6 +27,13 @@ export interface Page {
   updatedOn?:string;
 }
 
+export class Paginator {
+  page:number = 0;
+  size:number = 20;
+  totalElements:number = 0;
+  totalPages:number = 0;
+}
+
 @Component({
   selector: 'op-pages',
   templateUrl: './pages.component.html',
@@ -37,35 +42,45 @@ export interface Page {
 export class PagesComponent implements OnInit {
   pages:Page[];
   public columns:[];
+  displayedColumns:string[] = ['title', 'project', 'workPackage', 'author', 'created', 'published'];
+  dataSource = new MatTableDataSource<Page>();
+  paginatorSettings = new Paginator();
+
+  @ViewChild(MatPaginator) paginator:MatPaginator;
+
   constructor(
     protected halResourceService:HalResourceService,
     protected pathHelper:PathHelperService,
     protected httpClient:HttpClient,
-    // public paginationService:ProjectsTablePaginationService,
-  ) {}
+    public datePipe:DatePipe,
+  ) {
+  }
 
   ngOnInit():void {
     this.getPages();
-    // this.getProjects();
-    // this.getGroups();
+    //this.dataSource.paginator = this.paginator;
   }
 
-  private getPages() {
+  private getPages(size?:number, index?:number) {
     this.httpClient.get(
-        this.pathHelper.javaApiPath.javaApiBasePath + '/pages').toPromise()
-        .then((pages:HalResource) => {
-          this.pages = pages._embedded.pages;
-        })
-        .catch((reason) => console.error(reason));
+      this.pathHelper.javaApiPath.javaApiBasePath + '/pages',
+      {
+        params: new HttpParams()
+          .set('size', size ? size.toString() : '20')
+          .set('page', index ? index.toString() : '0')
+      })
+      .toPromise()
+      .then((pages:HalResource) => {
+        this.pages = pages._embedded.pages;
+        this.paginatorSettings = pages.page;
+        this.dataSource.data = this.pages;
+      })
+      .catch((reason) => console.error(reason));
   }
-  // public onChangePage(pageNumber:number) {
-  //   console.dir({ projectsTable: pageNumber });
-  //   this.paginationService.setCurrentPageParams({ page: pageNumber });
-  // }
-  //
-  // public onChangePerPage(perPageSize:number) {
-  //   console.dir({ perPageSize: perPageSize });
-  //   this.paginationService.setPerPageSizeParams({ size: perPageSize, page: 0 });
-  // }
+
+  pageChanged(event:PageEvent) {
+    this.getPages(event.pageSize, event.pageIndex);
+  }
 }
-DynamicBootstrapper.register({ selector: 'op-pages', cls: PagesComponent });
+
+DynamicBootstrapper.register({selector: 'op-pages', cls: PagesComponent});
