@@ -3,12 +3,12 @@
 ++#%>
 
 <% html_title l(:label_administration), l(:label_contracts_new) %>
-<% local_assigns[:additional_breadcrumb] =  l(:label_contracts_new) %>
+<%# local_assigns[:additional_breadcrumb] =  l(:label_contracts_new) %>
 <% breadcrumb_paths(default_breadcrumb, l(:label_contracts_new)) %>
-<%= breadcrumb_toolbar l(:label_contracts_new) %>
-<%= labelled_tabular_form_for @contract, url: new_project_contract_path do |f| %>
+<%#= breadcrumb_toolbar l(:label_contracts_new) %>
+<%#= labelled_tabular_form_for @contract, url: new_project_contract_path do |f| %>
 
-  <%= render partial: 'contracts/form/form', locals: { f: f } %>
+  <%= render partial: 'contracts/form/form', locals: { id: nil, projectId: @project.id } %>
 
-  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-<% end %>
+  <%#= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+<%# end %>

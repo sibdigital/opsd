@@ -1,10 +1,4 @@
-import {Component, OnInit} from "@angular/core";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-
-export interface Contract {
+export class Contract {
   id?:number;
   projectId?:number|null;
   contractSubject?:string;
@@ -42,25 +36,3 @@ export interface Contract {
   conclusionOfEcologicalExpertiseNumber?:string;
   conclusionOfEcologicalExpertiseDate?:any;
 }
-
-@Component({
-  selector: 'op-contracts',
-  templateUrl: './contracts.component.html',
-  styleUrls: ['./contracts.component.sass'],
-})
-export class ContractsComponent implements OnInit {
-  contracts:Contract[];
-  public columns:[];
-  constructor(
-    protected halResourceService:HalResourceService,
-    protected pathHelper:PathHelperService,
-    protected httpClient:HttpClient,
-  ) {}
-
-  ngOnInit():void {
-    // this.getPages();
-    // this.getProjects();
-    // this.getGroups();
-  }
-}
-DynamicBootstrapper.register({ selector: 'op-contracts', cls: ContractsComponent });

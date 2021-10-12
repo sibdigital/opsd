@@ -209,9 +209,6 @@ import {LinkListComponent} from "core-app/modules/links/link-list/link-list.comp
 import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
 import {ProjectsTable} from "core-components/projects-table/projects-table";
 import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
-import {ContractsComponent} from "core-components/contracts/contracts.component";
-import {ContractFormComponent} from "core-components/contracts/form/contract-form.component";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -224,8 +221,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     OpenprojectLinksModule,
     ChartsModule,
     OpenprojectAttachmentsModule,
-    ReactiveFormsModule,
-    FormsModule,
     // Work package custom actions
     //WpCustomActionsModule,
     DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent])
@@ -476,8 +471,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
     ProjectsTable,
-    ContractsComponent,
-    ContractFormComponent
   ],
   entryComponents: [
     // Split view
@@ -564,8 +557,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
     WpButtonMacroModal,
-    ContractsComponent,
-    ContractFormComponent
   ],
   exports: [
     WorkPackagesTableController,
@@ -580,8 +571,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     OpColumnsContextMenu,
     ProjectsTableContextMenuDirective,
     ProjectsTable,
-    ContractsComponent,
-    ContractFormComponent
   ]
 })
 export class OpenprojectWorkPackagesModule {
