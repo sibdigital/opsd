@@ -1,7 +1,17 @@
 <% html_title l(:label_colorlight) %>
 <%= toolbar title: l(:label_colorlight) %>
-<%= labelled_tabular_form_for :filter do |f| %>
+<label>Светофор №1</label>
+<%= labelled_tabular_form_for :filter, url: {action: :create, params: {number: 1}}  do |f| %>
   <%= styled_select_tag("type", options_for_select(ArbitaryObjectType.all.collect { |e| [e.name, e.id] }, {required: true}), container_class: '-middle') %>
   <br>
   <%= styled_button_tag l(:button_form), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
+<br>
+<label>Светофор №2</label>
+<%= labelled_tabular_form_for :filter, url: { action: :create, params: {number: 2}}  do |f| %>
+  <%= styled_select_tag("type", options_for_select(ArbitaryObjectType.all.collect { |e| [e.name, e.id] }, {required: true}), container_class: '-middle') %>
+  <br>
+  <%= styled_button_tag l(:button_form), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+
