@@ -1,0 +1,27 @@
+<div>
+<!--    <ul>-->
+<!--        <li *ngFor="let item of items">-->
+<!--            <a href="#">{{item.title}}</a>-->
+<!--        </li>-->
+<!--    </ul>-->
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+        <mat-tree-node *matTreeNodeDef="let page" matTreeNodePadding>
+            <a href="/public_pages/{{page.id}}">{{page.title}}</a>
+        </mat-tree-node>
+        <mat-nested-tree-node *matTreeNodeDef="let page; when: hasChild">
+            <div class="mat-tree-node">
+                <button mat-icon-button matTreeNodeToggle
+                        [attr.aria-label]="'Toggle ' + page.name">
+                    <i class="icon-context {{treeControl.isExpanded(page) ? 'icon-arrow-down1' : 'icon-arrow-right2'}}"></i>
+                </button>
+                <a href="/public_pages/{{page.id}}">{{page.title}}</a>
+            </div>
+            <!-- There is inline padding applied to this div using styles.
+                This padding value depends on the mat-icon-button width.  -->
+            <div [class.example-tree-invisible]="!treeControl.isExpanded(page)"
+                 role="group">
+                <ng-container matTreeNodeOutlet></ng-container>
+            </div>
+        </mat-nested-tree-node>
+    </mat-tree>
+</div>

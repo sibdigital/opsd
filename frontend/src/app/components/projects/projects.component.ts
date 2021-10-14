@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {WorkPackageFiltersService} from "core-components/filters/wp-filters/wp-filters.service";
+import {ProjectsTableFiltersService} from "core-components/projects-table/projects-table-filters.service";
 
 
 export const projectsSelector = 'projects';
@@ -8,14 +8,19 @@ export const projectsSelector = 'projects';
   selector: projectsSelector,
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.sass'],
+  providers: [ProjectsTableFiltersService]
 })
 export class ProjectsComponent implements OnInit {
 
+  isExpandFilter = false;
+
   constructor(
-    // public projectsVisibleService: WorkPackageFiltersService
   ) { }
 
   ngOnInit():void {
+  }
 
+  toggleFilter(isClose = !this.isExpandFilter) {
+    this.isExpandFilter = isClose;
   }
 }

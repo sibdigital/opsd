@@ -73,6 +73,14 @@ Redmine::MenuManager.map :top_menu do |menu|
             #         title: I18n.t('label_help'),
             #         class: 'menu-item--help',
             #         target: '_blank' }
+  menu.push :support, OpenProject::Static::Links.help_link,
+            last: true,
+            caption: '',
+            icon: 'icon5 icon-help',
+            html: { accesskey: OpenProject::AccessKeys.key_for(:help),
+                    title: I18n.t('label_support'),
+                    class: 'menu-item--help',
+                    target: '_blank' }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
@@ -331,6 +339,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :settings,
             { controller: '/settings' },
             caption: :label_system_settings,
+            if: Proc.new { User.current.admin?},
+            icon: 'icon2 icon-settings2'
+
+  menu.push :pages,
+            { controller: '/pages' },
+            caption: :label_system_pages,
             if: Proc.new { User.current.admin?},
             icon: 'icon2 icon-settings2'
 

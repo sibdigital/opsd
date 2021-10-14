@@ -161,6 +161,8 @@ colorlight_percentage:
   default: '70,35'
 jopsd_url:
   default: 'localhost'
+support_link:
+  default: 'http://sibdigital.net/sluzhba-tehnicheskoj-podderzhki/'
 default_language:
   default: ru
 default_auto_hide_popups:

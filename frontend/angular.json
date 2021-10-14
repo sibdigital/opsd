@@ -30,7 +30,9 @@
               "node_modules/jquery-ui/themes/base/dialog.css",
               "node_modules/fullcalendar/dist/fullcalendar.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js"
+            ]
           },
           "configurations": {
             "production": {

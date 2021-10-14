@@ -108,6 +108,8 @@ OpenProject::Application.routes.draw do
     skip_controllers :applications, :authorized_applications
   end
 
+  resources :public_pages
+
   get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
 
   get   '/types/:id/edit/:tab' => "types#edit",
@@ -582,6 +584,8 @@ OpenProject::Application.routes.draw do
       #tmd
       get :update_column, on: :collection
     end
+
+    resources :pages
 
     resources :typed_targets
     # )

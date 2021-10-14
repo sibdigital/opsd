@@ -28,7 +28,6 @@
 
 import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
 import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {ChartsModule} from 'ng2-charts';
 import {DynamicModule} from 'ng-dynamic-component';
@@ -94,8 +93,6 @@ import {WorkPackageRelationsHierarchyComponent} from 'core-components/wp-relatio
 import {WorkPackageCreateButtonComponent} from 'core-components/wp-buttons/wp-create-button/wp-create-button.component';
 import {CreateBoardButtonComponent} from "core-components/wp-buttons/create-board-button/create-board-button.component";
 import {WpSendEmailButtonComponent} from 'core-components/wp-buttons/wp-send-email-button/wp-send-email-button.component';
-
-import {FullCalendarModule} from 'ng-fullcalendar';
 import {WorkPackageBreadcrumbParentComponent} from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb-parent.component';
 import {WorkPackageFilterButtonComponent} from 'core-components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import {WorkPackageFilterContainerComponent} from 'core-components/filters/filter-container/filter-container.directive';
@@ -205,10 +202,12 @@ import {WorkPackageRelationsPaginationComponent} from "core-components/wp-relati
 import {WpTopicsConfigurationModalComponent} from "core-components/wp-topics-dialog/wp-topics-configuration.modal";
 import {WorkPackageTopicsPaginationComponent} from "core-components/wp-topics-dialog/wp-topics-pagination.component";
 import {WpTopicsAutocompleteComponent} from "core-components/wp-topics-autocomplete/wp-topics-autocomplete.upgraded.component";
-import {LinkListComponent} from "core-app/modules/links/link-list/link-list.component";
 import {OpenprojectLinksModule} from "core-app/modules/links/openproject-links.module";
 import {ProjectsTable} from "core-components/projects-table/projects-table";
 import {ProjectsTableContextMenuDirective} from "core-components/projects-table/projects-table-context-menu.directive";
+import {ProjectsFiltersComponent} from "core-components/projects/projects-filters/projects-filters.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -223,7 +222,9 @@ import {ProjectsTableContextMenuDirective} from "core-components/projects-table/
     OpenprojectAttachmentsModule,
     // Work package custom actions
     //WpCustomActionsModule,
-    DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent])
+    DynamicModule.withComponents([WorkPackageFormAttributeGroupComponent, WorkPackageChildrenQueryComponent]),
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {
@@ -348,6 +349,7 @@ import {ProjectsTableContextMenuDirective} from "core-components/projects-table/
     FilterToggledMultiselectValueComponent,
 
     WorkPackageFilterContainerComponent,
+    ProjectsFiltersComponent,
     WorkPackageFilterButtonComponent,
 
     // Context menus
@@ -566,6 +568,7 @@ import {ProjectsTableContextMenuDirective} from "core-components/projects-table/
     WorkPackageEmbeddedTableComponent,
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
+    ProjectsFiltersComponent,
     WorkPackageTableSumsRowController,
     WorkPackageInlineCreateComponent,
     OpColumnsContextMenu,

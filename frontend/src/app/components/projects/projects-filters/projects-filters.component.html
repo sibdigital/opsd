@@ -1,0 +1,406 @@
+<div class="project-filters -expanded">
+  <fieldset class="advanced-filters--container" [formGroup]="filtersFormGroup">
+    <a (click)="_onFilterClose()" title="Закрыть форму" class="advanced-filters--close icon-context icon-close"></a>
+    <legend>Фильтры</legend>
+    <ul class="advanced-filters--filters">
+
+      <li *ngIf="isSelectedFilter('startDate')" class="advanced-filters--filter" formGroupName="startDateFormGroup">
+        <label class="advanced-filters--filter-name">
+          Дата начала
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value=">t-">меньше чем день назад</option>-->
+<!--            <option value="<t-">больше, чем дней назад</option>-->
+<!--            <option value="t-">дней назад</option>-->
+<!--            <option value="t">Сегодня</option>-->
+<!--            <option value="w">на этой неделе</option>-->
+<!--            <option value="=d">на</option>-->
+            <option [selected]="true" value="<>d">между</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value between-dates">
+          <div class="between-dates">
+            <span>От:</span>
+            <input id="start_date_left_value" type="text" formControlName="leftValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+            <span>До:</span>
+            <input id="start_date_right_value" type="text" formControlName="rightValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+          </div>
+        </div>
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('startDate')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('dueDate')" class="advanced-filters--filter" formGroupName="dueDateFormGroup">
+        <label class="advanced-filters--filter-name">
+          Дата окончания
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value=">t-">меньше чем день назад</option>-->
+<!--            <option value="<t-">больше, чем дней назад</option>-->
+<!--            <option value="t-">дней назад</option>-->
+<!--            <option value="t">Сегодня</option>-->
+<!--            <option value="w">на этой неделе</option>-->
+<!--            <option value="=d">на</option>-->
+            <option [selected]="true" disabled="disabled" value="<>d">между</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value between-dates">
+          <div class="between-dates">
+            <span>От:</span>
+            <input id="due_date_left_value" type="text" formControlName="leftValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+            <span>До:</span>
+            <input id="due_date_right_value" type="text" formControlName="rightValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('dueDate')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('identifier')" class="advanced-filters--filter" formGroupName="identifierFormGroup">
+        <label class="advanced-filters--filter-name">
+          Идентификатор
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option value="=">—</option>-->
+            <option [selected]="true" disabled="disabled" value="~">содержит</option>
+<!--            <option value="!">не</option>-->
+<!--            <option value="!~">не содержит</option>-->
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value ">
+          <div>
+            <input type="text" formControlName="value" class="advanced-filters--text-field -slim">
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('identifier')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('name')" class="advanced-filters--filter" formGroupName="nameFormGroup">
+        <label class="advanced-filters--filter-name">
+          Наименование
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option value="=">—</option>-->
+            <option [selected]="true" value="~">содержит</option>
+<!--            <option value="!">не</option>-->
+<!--            <option value="!~">не содержит</option>-->
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value ">
+          <div>
+            <input type="text" formControlName="value" class="advanced-filters--text-field -slim">
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('name')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('nationalProject')" class="advanced-filters--filter" formGroupName="nationalProjectFormGroup">
+        <label class="advanced-filters--filter-name">
+          Национальный проект
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value="=">—</option>-->
+<!--            <option value="!">не</option>-->
+<!--            <option value="*">все</option>-->
+<!--            <option value="!*">нет</option>-->
+            <option [selected]="true">содержит</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value ">
+          <div class="single-select">
+            <span class="inline-label">
+              <select formControlName="value" class="form--select -slim">
+                <ng-container *ngFor="let project of nationalProjects">
+                  <option [value]="project?.id">{{project?.name}}</option>
+                </ng-container>
+              </select>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('nationalProject')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('lastActivity')" class="advanced-filters--filter" formGroupName="lastActivityFormGroup">
+        <label class="advanced-filters--filter-name">
+          Последняя активность
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value=">t-">меньше чем день назад</option>-->
+<!--            <option value="<t-">больше, чем дней назад</option>-->
+<!--            <option value="t-">дней назад</option>-->
+<!--            <option value="t">Сегодня</option>-->
+<!--            <option value="w">на этой неделе</option>-->
+<!--            <option value="=d">на</option>-->
+            <option [selected]="true" disabled="disabled" value="<>d">между</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value between-dates">
+          <div class="between-dates">
+            <span>От:</span>
+            <input id="updated_on_date_left_value" type="text" formControlName="leftValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+            <span>До:</span>
+            <input id="updated_on_date_right_value"type="text" formControlName="rightValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('lastActivity')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('doneRatio')" class="advanced-filters--filter" formGroupName="doneRatioFormGroup">
+        <label class="advanced-filters--filter-name">
+          Процент исполнения
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value="=">—</option>-->
+<!--            <option value="!">не</option>-->
+<!--            <option value=">=">&gt;=</option>-->
+<!--            <option value="<=">&lt;=</option>-->
+<!--            <option value="!*">нет</option>-->
+<!--            <option value="*">все</option>-->
+            <option [selected]="true">равно</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value ">
+          <div>
+            <input type="text" formControlName="value" class="advanced-filters--text-field -slim">
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('doneRatio')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('createdDate')" class="advanced-filters--filter" formGroupName="createdOnFormGroup">
+        <label class="advanced-filters--filter-name">
+          Создано
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value=">t-">меньше чем день назад</option>-->
+<!--            <option value="<t-">больше, чем дней назад</option>-->
+<!--            <option value="t-">дней назад</option>-->
+<!--            <option value="t">Сегодня</option>-->
+<!--            <option value="w">на этой неделе</option>-->
+<!--            <option value="=d">на</option>-->
+            <option [selected]="true" disabled="disabled" value="<>d">между</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value between-dates">
+          <div class="between-dates">
+            <span>От:</span>
+            <input id="created_on_date_left_value" type="text" formControlName="leftValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+            <span>До:</span>
+            <input id="created_on_date_right_value" type="text" formControlName="rightValue" class="advanced-filters--text-field -augmented-datepicker -slim" size="10">
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('createdDate')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('projectStatus')" class="advanced-filters--filter" formGroupName="projectStatusFormGroup">
+        <label class="advanced-filters--filter-name">
+          Статус
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value="=">—</option>-->
+<!--            <option value="!">не</option>-->
+            <option [selected]="true">содержит</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value ">
+          <div class="single-select">
+            <span class="inline-label">
+              <select formControlName="value" class="form--select -slim">
+                <ng-container *ngFor="let status of projectStatuses">
+                  <option [value]="status?.id">{{status?.name}}</option>
+                </ng-container>
+              </select>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('projectStatus')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('federalProject')" class="advanced-filters--filter" formGroupName="federalProjectFormGroup">
+        <label class="advanced-filters--filter-name">
+          Федеральный проект
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value="=">—</option>-->
+<!--            <option value="!">не</option>-->
+<!--            <option value="*">все</option>-->
+<!--            <option value="!*">нет</option>-->
+            <option [selected]="true">содержит</option>
+          </select>
+        </div>
+
+        <div class="advanced-filters--filter-value ">
+          <div class="single-select">
+            <span class="inline-label">
+              <select formControlName="value" class="form--select -slim">
+                <ng-container *ngFor="let project of federalProjects">
+                  <option [value]="project?.id">{{project?.name}}</option>
+                </ng-container>
+              </select>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('federalProject')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('projectApproveStatus')" class="advanced-filters--filter" formGroupName="projectApproveStatusFormGroup">
+        <label class="advanced-filters--filter-name">
+          Этап согласования
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value="=">—</option>-->
+<!--            <option value="!">не</option>-->
+            <option [selected]="true">содержит</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value ">
+          <div class="single-select">
+            <span class="inline-label">
+              <select formControlName="value" class="form--select -slim">
+                <ng-container *ngFor="let approveStatus of projectApproveStatuses">
+                  <option [value]="approveStatus?.id">{{approveStatus?.name}}</option>
+                </ng-container>
+              </select>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('projectApproveStatus')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li *ngIf="isSelectedFilter('status')" class="advanced-filters--filter" formGroupName="statusFormGroup">
+        <label class="advanced-filters--filter-name">
+          активно или в архиве
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <select disabled="disabled" formControlName="selectedFilter" class="advanced-filters--select">
+<!--            <option selected="selected" value="=">—</option>-->
+<!--            <option value="!">не</option>-->
+<!--            <option value="*">все</option>-->
+            <option [selected]="true">содержит</option>
+          </select>
+        </div>
+        <div class="advanced-filters--filter-value ">
+          <div class="single-select">
+            <span class="inline-label">
+              <select formControlName="value" class="form--select -slim">
+                <option value="1">Активно</option>
+                <option value="9">В архиве</option>
+              </select>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="advanced-filters--remove-filter">
+          <a (click)="onCloseFilter('status')" class="filter_rem">
+            <i class="icon-close advanced-filters--remove-filter-icon" title="Удалить" aria-hidden="true"></i>
+          </a>
+        </div>
+      </li>
+
+      <li class="advanced-filters--spacer"></li>
+
+      <li class="advanced-filters--add-filter">
+        <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label ng-binding">
+          <i class="icon-add icon4" aria-hidden="true"></i>
+          Добавить фильтр:
+        </label>
+
+        <div class="advanced-filters--add-filter-value">
+          <select
+                  [formControl]="currentFiltersFormControl"
+                  (change)="onSelectFilter()"
+                  id="add_filter_select"
+                  class="advanced-filters--select"
+                  focus="false"
+                  aria-invalid="false"
+          >
+            <ng-container *ngFor="let filter of selectedFilters">
+              <option [disabled]="filter.selected" [value]="filter.value">{{filter.title}}</option>
+            </ng-container>
+          </select>
+        </div>
+      </li>
+
+      <li class="advanced-filters--controls">
+        <button (click)="onApplyFilters()" class="button -small -highlight" data-disable-with="Применить">
+          Применить
+        </button>
+      </li>
+    </ul>
+  </fieldset>
+</div>

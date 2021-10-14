@@ -8,7 +8,7 @@
       </a>
     </div>
     <div class="toolbar-item">
-      <button id="projects-filter-toggle-button" title="Показать/скрыть фильтры" class="button toolbar-icon">
+      <button (click)="toggleFilter()" id="projects-filter-toggle-button" title="Показать/скрыть фильтры" class="button toolbar-icon">
         <i class="icon-filter button--icon" aria-hidden="true"></i>
       </button>
     </div>
@@ -25,6 +25,6 @@
   </div>
 </div>
 
-
+<projects-filters *ngIf="isExpandFilter" (onFilterClose)="toggleFilter($event)"></projects-filters>
 
 <projects-table></projects-table>

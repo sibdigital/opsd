@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StateService, Transition, TransitionService, UIRouter, UrlService} from '@uirouter/core';
+import {StateService, Transition, TransitionService, UIRouter} from '@uirouter/core';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {Injector} from "@angular/core";
@@ -156,7 +156,7 @@ export const HOMESCREEN_ROUTES = [
     name: 'projects',
     url: '/projects',
     component: ProjectsComponent,
-  }
+  },
   //)
   // We could lazily load work packages module already,
   // but e.g., the plugin context requires service from it.

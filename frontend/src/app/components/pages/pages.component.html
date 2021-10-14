@@ -1,0 +1,58 @@
+<div style="display: flex">
+    <h2>Страницы соц. мониторинга</h2>
+    <div style="display: flex; margin-inline-start: auto; align-items: center">
+        <div class="toolbar-item">
+            <a class="button -alt-highlight" href="/admin/pages/new"><i class="button--icon icon-add"></i><span class="button--text">Создать</span></a>
+        </div>
+    </div>
+</div>
+<div class="loading-indicator--location" data-indicator-name="pages-table">
+        <table mat-table [dataSource]="dataSource" style="width: 100%; table-layout: fixed">
+            <!--            Заголовок-->
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef>Заголовок</th>
+                <td mat-cell *matCellDef="let page">
+                    <a href="/admin/pages/{{page.id}}/edit">{{page.title}}</a>
+                </td>
+            </ng-container>
+            <!--            Проект-->
+            <ng-container matColumnDef="project">
+                <th mat-header-cell *matHeaderCellDef>Проект</th>
+                <td mat-cell *matCellDef="let page" [matTooltip]="page.project?.name || '-'">
+                    <span class="ellipsis">{{page.project?.name || '-'}}</span>
+                </td>
+            </ng-container>
+            <!--            Мероприятие-->
+            <ng-container matColumnDef="workPackage">
+                <th mat-header-cell *matHeaderCellDef>Мероприятие</th>
+                <td mat-cell *matCellDef="let page" [matTooltip]="page.workPackage?.subject || '-'">
+                    <span class="ellipsis">{{page.workPackage?.subject || '-'}}</span>
+                </td>
+            </ng-container>
+            <!--            Автор-->
+            <ng-container matColumnDef="author">
+                <th mat-header-cell *matHeaderCellDef>Автор</th>
+                <td mat-cell *matCellDef="let page">{{page?.author?.lastname}} {{page?.author?.firstname}}</td>
+            </ng-container>
+            <!--            Создано-->
+            <ng-container matColumnDef="created">
+                <th mat-header-cell *matHeaderCellDef>Создано</th>
+                <td mat-cell *matCellDef="let page">{{this.datePipe.transform(page.createdOn, 'dd-MM-yyyy')}}</td>
+            </ng-container>
+            <!--            Опубликовано-->
+            <ng-container matColumnDef="published">
+                <th mat-header-cell *matHeaderCellDef>Опубликовано</th>
+                <td mat-cell *matCellDef="let page">
+                    <i *ngIf="page.isPublicated" class="icon-context icon-checkmark"></i>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [length]="paginatorSettings.totalElements"
+                       [pageSize]="paginatorSettings.size"
+                       [pageIndex]="paginatorSettings.page"
+                       (page)="pageChanged($event)"
+                       [pageSizeOptions]="[5,10,20]">
+        </mat-paginator>
+</div>

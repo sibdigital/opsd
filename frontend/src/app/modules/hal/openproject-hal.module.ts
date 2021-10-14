@@ -28,9 +28,7 @@
 
 import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {
-  initializeHalResourceConfig
-} from 'core-app/modules/hal/services/hal-resource.config';
+import {initializeHalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {ConfigurationDmService} from 'core-app/modules/hal/dm-services/configuration-dm.service';
 import {HelpTextDmService} from 'core-app/modules/hal/dm-services/help-text-dm.service';

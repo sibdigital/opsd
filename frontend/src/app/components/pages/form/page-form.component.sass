@@ -1,0 +1,58 @@
+\:host ::ng-deep .ck-editor__editable_inline
+  min-height: 75vh !important
+.custom-checkbox
+  width: 55px
+  height: 30px
+
+  input#is_group
+    display: none
+
+    + label
+      height: 100%
+      width: 100%
+      margin: 0
+
+      > .status-switch
+        cursor: pointer
+        width: 100%
+        height: 100%
+        position: relative
+        border: 1px solid #cacaca
+        color: white
+        transition: all 0.5s ease
+        padding: 3px
+        border-radius: 3px
+
+        &:before, &:after
+          border-radius: 2px
+          height: calc(100% - 6px)
+          width: calc(50% - 3px)
+          display: flex
+          align-items: center
+          position: absolute
+          justify-content: center
+          transition: all 0.3s ease
+
+        &:before
+          background-color: white
+          color: black
+          border: 1px solid #cacaca
+          left: 3px
+          z-index: 10
+          content: attr(data-unchecked)
+
+        &:after
+          right: 0
+          content: attr(data-checked)
+
+    &:checked + label > .status-switch
+      background-color: #40c253
+
+      &:after
+        left: 0
+        content: attr(data-unchecked)
+
+      &:before
+        color: #40c253
+        left: 50%
+        content: attr(data-checked)
