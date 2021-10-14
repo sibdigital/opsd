@@ -94,6 +94,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     #   result << static_link_item(:upsale, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
     # end
     result << static_link_item(:user_guides)
+    result << static_link_item(:support)
     # result << content_tag(:li) {
     #   link_to l('label_videos'),
     #           OpenProject::Configuration.youtube_channel,

@@ -82,6 +82,10 @@ module OpenProject
               href: '/user_guides',
               label: 'homescreen.links.user_guides'
             },
+            support: {
+              href: Setting.support_link,
+              label: 'label_support'
+            },
             configuration_guide: {
               href: '',
               label: 'links.configuration_guide'
