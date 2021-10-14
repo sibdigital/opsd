@@ -7,19 +7,33 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgModule} from "@angular/core";
 import {PageViewComponent} from "core-components/pages/view/page-view.component";
 import {OpenprojectEditorModule} from "core-app/modules/editor/openproject-editor.module";
+import {FooterComponent} from "core-components/pages/view/footer/footer.component";
+import {HeaderComponent} from "core-components/pages/view/header/header.component";
+import {NavigationComponent} from "core-components/pages/view/navigation/navigation.component";
+import {MarkdownModule} from "ngx-markdown";
+import {MatTreeModule} from "@angular/material/tree";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 @NgModule({
   imports: [
     MatPaginatorModule,
     MatTableModule,
     BrowserModule,
     MatTooltipModule,
-    OpenprojectEditorModule
+    OpenprojectEditorModule,
+    MarkdownModule,
+    MatTreeModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [],
   declarations: [
     PagesComponent,
     PageFormComponent,
-    PageViewComponent
+    PageViewComponent,
+    FooterComponent,
+    HeaderComponent,
+    NavigationComponent
   ],
   entryComponents: [
     PagesComponent,

@@ -1,1 +1,12 @@
-page-view.component works!
+<div id="page-wrapper">
+    <op-page-view-header></op-page-view-header>
+    <div class="container">
+        <div class="content" markdown [data]="page.content">
+            <ng-container *ngIf="!pageId" #mainPage>
+                <h2>Главная страница</h2>
+            </ng-container>
+        </div>
+        <op-page-view-navigation [dataSource]="pageItems"></op-page-view-navigation>
+    </div>
+    <op-page-view-footer></op-page-view-footer>
+</div>

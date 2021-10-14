@@ -109,6 +109,7 @@
     "ng2-charts": "2.2.0",
     "ng2-rx-componentdestroyed": "3.0.1",
     "ngtemplate-loader": "2.0.1",
+    "ngx-markdown": "^7.1.5",
     "node-sass": "4.11.0",
     "observable-array": "0.0.4",
     "raw-loader": "0.5.1",
