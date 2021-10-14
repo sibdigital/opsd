@@ -74,6 +74,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <% else %>
         <%= f.hidden_field :user_id, value: User.current.id %>
       <% end %>
+<!--      # gly(-->
+      <div class="form--field">
+        <%# see above %>
+        <%= f.select :cost_object_id,
+                     cost_objects_collection_for_select_options,
+                     required: true,
+                     container_class: '-middle'%></p>
+      </div>
+<!--      # )-->
       <div class="form--field">
         <%# see above %>
         <%= f.select :cost_type_id,

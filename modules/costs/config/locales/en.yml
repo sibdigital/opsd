@@ -18,6 +18,7 @@ en:
         spent: "Израсходовано"
         status: "Состояние"
         subject: "Тема"
+        parent: "Родительский бюджет"
         type: "Бюджет"
         updated_on: "Обновлено"
       cost_type:

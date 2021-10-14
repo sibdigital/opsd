@@ -162,6 +162,9 @@ class CostlogController < ApplicationController
       ce.work_package = @work_package
       ce.user = User.current
       ce.spent_on = Date.today
+      # gly(
+      ce.cost_object = @work_package.cost_object
+      # )
       # notice that cost_type is set to default cost_type in the model
     end
   end
@@ -170,7 +173,7 @@ class CostlogController < ApplicationController
     @cost_entry.user = @user
     @cost_entry.work_package = @work_package
     @cost_entry.cost_type = @cost_type
-
+    @cost_entry.cost_object_id = params['cost_entry']['cost_object_id']
     @cost_entry.attributes = permitted_params.cost_entry
   end
 

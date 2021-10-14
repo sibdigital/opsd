@@ -29,6 +29,7 @@
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
 //= require lib/jquery.is_visible_within
+//= require lib/jquery.treetable
 
 //= require top_menu
 //= require action_menu
@@ -491,3 +492,27 @@ jQuery(document).ready(function(){
         this.href= this.href+'&selected_target_id='+jQuery('#selected_target_id').val();
     });
 });
+jQuery(document).ready(function(){
+    jQuery('#material_budget_items').treetable(
+        {
+            expandable: true,
+            initialState: "expanded",
+            column: 1,
+        }
+    );
+
+    var total_budget = 0;
+    var total_spent = 0;
+    var total_available = 0;
+
+    jQuery('.cost-object-treetable-main-parent').each(function () {
+        total_budget = total_budget + parseFloat(this.attributes['budget'].value);
+        total_spent = total_spent + parseFloat(this.attributes['spent'].value);
+        total_available = total_available + parseFloat(this.attributes['available'].value);
+    });
+
+    jQuery('#cost-object-budget-total').text(total_budget.toLocaleString('en-EN', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + " руб");
+    jQuery('#cost-object-spent-total').text(total_spent.toLocaleString('en-EN', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + " руб");
+    jQuery('#cost-object-available-total').text(total_available.toLocaleString('en-EN', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + " руб");
+});
+

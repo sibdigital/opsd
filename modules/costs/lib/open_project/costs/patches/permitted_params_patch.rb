@@ -33,6 +33,9 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
 
     def cost_object
       params.require(:cost_object).permit(:subject,
+                                          # gly(
+                                          :parent_id,
+                                          # )
                                           :target_id,
                                           :description,
                                           :fixed_date,

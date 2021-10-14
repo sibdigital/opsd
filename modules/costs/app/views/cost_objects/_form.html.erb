@@ -25,6 +25,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <div class="form--field">
   <%= f.text_field :subject, required: true, autofocus: true, container_class: '-wide' %>
 </div>
+<!-- gly(-->
+<div class="form--field">
+   <%= f.select :parent_id, CostObject.where(project_id: @project.id).where.not(id: @cost_object.id).collect { |t| [t.name, t.id]}, {:include_blank => true}, autofocus: true, container_class: '-wide'%>
+</div>
+<!--)-->
 <div class="form--field">
   <%= f.select :target_id, Target.where(project_id: @project.id).collect { |t| [t.name, t.id]}, required: true, autofocus: true, container_class: '-wide' %>
 </div>
