@@ -1,18 +1,22 @@
 <h2>Светофор</h2>
 <br>
 <div id="form">
+    <label>Светофор №1</label>
     <span class="form--select-container -middle">
         <select id="type-select" [(ngModel)]="selectedValue" container_class="-middle" class="form--select">
             <option *ngFor="let type of types" [value]="type.id">{{type.name}}</option>
         </select>
     </span>
     <br>
+    <button class="-highlight -with-icon icon-checkmark button" (click)="submit()">Сформировать</button>
+    <br>
+    <br>
+    <label>Светофор №2</label>
     <span class="form--select-container -middle">
-        <select [(ngModel)]="selectedColorlightType" [value] = 0>
-          <option *ngFor="let c of colorlightTypes" [ngValue]="c">{{c.name}}</option>
+        <select id="type-select2" [(ngModel)]="selectedValue2" container_class="-middle" class="form--select">
+            <option *ngFor="let type of types2" [value]="type.id">{{type.name}}</option>
         </select>
     </span>
     <br>
-    <button class="-highlight -with-icon icon-checkmark button" (click)="submit()">Сформировать</button>
     <button class="-highlight -with-icon icon-checkmark button" (click)="submitsecond()">Сформировать новый</button>
 </div>

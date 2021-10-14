@@ -10,27 +10,26 @@ import {HttpClient, HttpParams} from "@angular/common/http";
   templateUrl: './colorlight-tab.html',
 })
 export class ColorlightTabComponent implements OnInit {
-  types: any;
-  selectedValue: string;
+  types:any;
+  types2:any;
+  selectedValue:string;
+  selectedValue2:string;
 
-  selectedColorlightType: any;
-  colorlightTypes: any = [
-    {id: 1, name: "Отчет о текущем состоянии исполнения объектов"},
-    {id: 2, name: "Отчет с аналитической информацией"}
-  ];
-
-  constructor(protected halResourceService: HalResourceService,
-              protected pathHelper: PathHelperService,
-              protected http: HttpClient) {
+  constructor(protected halResourceService:HalResourceService,
+              protected pathHelper:PathHelperService,
+              protected http:HttpClient) {
   }
 
   ngOnInit() {
     this.halResourceService
       .get<CollectionResource<HalResource>>(this.pathHelper.api.v3.enumerations.toString() + '/ArbitaryObjectType', {})
       .toPromise()
-      .then((resource: CollectionResource<HalResource>) => {
+      .then((resource:CollectionResource<HalResource>) => {
         this.types = resource.elements;
         this.selectedValue = resource.elements[0].id;
+
+        this.types2 = resource.elements;
+        this.selectedValue2 = resource.elements[0].id;
       });
   }
 
@@ -49,19 +48,7 @@ export class ColorlightTabComponent implements OnInit {
       });
   }
 
-  submitsecond() {
-    let params = new HttpParams().set("typeId", this.selectedValue);
-    this.http.get(this.pathHelper.javaUrlPath + '/generate_light_report/xlsx/params?', {
-      params: params,
-      observe: 'response',
-      responseType: 'blob'
-    }).subscribe(file => {
-      const filename = 'downloaded';
-      this.downloadFile(file, filename);
-    });
-  }
-
-  downloadFile(file: any, filename: string): void {
+  downloadFile(file:any, filename:string):void {
     const blob = new Blob([file], {type: 'application/ms-excel'});
     const url = window.URL.createObjectURL(blob);
     let a = document.createElement('a');
@@ -72,5 +59,19 @@ export class ColorlightTabComponent implements OnInit {
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
+  }
+
+
+  submitsecond() {
+    let params = new HttpParams().set("typeId", this.selectedValue);
+    this.http.get(this.pathHelper.javaUrlPath + '/generate_light_report/xlsx/params?', {
+      params: params,
+      // observe: 'response',
+      responseType: 'arraybuffer'
+    }).toPromise().then(
+      (data) => {
+        this.downloadFile(data, "colorlight.xlsx");
+      }
+    );
   }
 }
