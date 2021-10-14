@@ -64,7 +64,7 @@
     "@uirouter/core": "5.0.21",
     "URIjs": "1.14.1",
     "amdefine": "1.0.0",
-    "angular": "1.7.9",
+    "angular": "1.8.0",
     "angular-dragula": "1.2.8",
     "at.js": "1.5.4",
     "atoa": "1.0.0",
