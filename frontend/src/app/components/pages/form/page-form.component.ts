@@ -169,6 +169,7 @@ export class PageFormComponent implements OnInit {
 
   public onCkeditorSetup(editor:ICKEditorInstance) {
     this.editorInstance = editor;
+    console.log(editor.config);
   }
 }
 DynamicBootstrapper.register({selector: 'op-page-form', cls: PageFormComponent});

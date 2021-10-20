@@ -1,5 +1,5 @@
 <div style="display: flex">
-    <h2>Страницы соц. мониторинга</h2>
+    <h2>Общественный мониторинг</h2>
     <div style="display: flex; margin-inline-start: auto; align-items: center">
         <div class="toolbar-item">
             <a class="button -alt-highlight" href="/admin/pages/new"><i class="button--icon icon-add"></i><span class="button--text">Создать</span></a>
@@ -40,10 +40,17 @@
                 <td mat-cell *matCellDef="let page">{{this.datePipe.transform(page.createdOn, 'dd-MM-yyyy')}}</td>
             </ng-container>
             <!--            Опубликовано-->
-            <ng-container matColumnDef="published">
-                <th mat-header-cell *matHeaderCellDef>Опубликовано</th>
+            <ng-container matColumnDef="published" >
+                <th mat-header-cell *matHeaderCellDef style="width: 100px">Опубликовано</th>
                 <td mat-cell *matCellDef="let page">
                     <i *ngIf="page.isPublicated" class="icon-context icon-checkmark"></i>
+                </td>
+            </ng-container>
+            <!--            Группа-->
+            <ng-container matColumnDef="group" >
+                <th mat-header-cell *matHeaderCellDef style="width: 100px">Группа</th>
+                <td mat-cell *matCellDef="let page">
+                    <i *ngIf="page.isGroup" class="icon-context icon-checkmark"></i>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

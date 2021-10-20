@@ -42,7 +42,7 @@ export class Paginator {
 export class PagesComponent implements OnInit {
   pages:Page[];
   public columns:[];
-  displayedColumns:string[] = ['title', 'project', 'workPackage', 'author', 'created', 'published'];
+  displayedColumns:string[] = ['title', 'project', 'workPackage', 'author', 'created', 'published', 'group'];
   dataSource = new MatTableDataSource<Page>();
   paginatorSettings = new Paginator();
 
