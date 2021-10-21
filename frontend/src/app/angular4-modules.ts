@@ -87,6 +87,7 @@ import {DatePipe} from "@angular/common";
 import {ContractsModule} from "core-components/contracts/contracts.module";
 import {PagesModule} from "core-components/pages/pages.module";
 import {MarkdownModule} from "ngx-markdown";
+import {LboModule} from "core-components/lbo/lbo.module";
 
 @NgModule({
   imports: [
@@ -126,6 +127,7 @@ import {MarkdownModule} from "ngx-markdown";
     PagesModule,
     MarkdownModule.forRoot(),
     ContractsModule,
+    LboModule,
   ],
   providers: [
     {

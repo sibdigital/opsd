@@ -352,6 +352,8 @@ OpenProject::Application.routes.draw do
       get :get_wps, on: :collection
     end
 
+    resources :lbo
+
     resources :project_strategic_map do
       get :get_project, on: :collection
     end

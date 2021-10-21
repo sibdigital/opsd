@@ -120,7 +120,9 @@ Redmine::AccessControl.map do |map|
                  require: :member
   map.permission :approve_instance,
                  {}
-
+  map.permission :view_lbo,
+                 { lbo: %i[ index ]},
+                 require: :member
   map.project_module :work_package_tracking do |wpt|
     # Issue categories
     wpt.permission :manage_categories,
@@ -551,5 +553,5 @@ Redmine::AccessControl.map do |map|
   map.project_module :report_change_request
 
   # )
-
+  map.project_module :lbo
 end
