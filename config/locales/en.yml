@@ -2732,6 +2732,7 @@ en:
   permission_view_wiki_edits: Просмотр истории wiki
   permission_view_wiki_pages: Просмотр wiki
   permission_view_strategic_map: Просмотр стратегической карты
+  permission_view_lbo: ЛБО
   placeholders:
     default: "-"
   project:

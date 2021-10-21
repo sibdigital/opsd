@@ -876,6 +876,15 @@ Redmine::MenuManager.map :project_menu do |menu|
             caption: :label_project_settings,
             last: true,
             icon: 'icon2 icon-settings2'
+
+  #gly (
+  menu.push :lbo,
+             { controller: '/lbo', action: 'index' },
+             param: :project_id,
+             caption: :lbo_title,
+             icon: 'icon2 icon-resource',
+             parent: :resources
+  #)gly
 end
 
 Redmine::MenuManager.map :dashboard_menu do |menu|
