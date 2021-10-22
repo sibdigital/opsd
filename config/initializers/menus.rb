@@ -882,6 +882,7 @@ Redmine::MenuManager.map :project_menu do |menu|
              { controller: '/lbo', action: 'index' },
              param: :project_id,
              caption: :lbo_title,
+             if: Proc.new { |p| p.module_enabled?('lbo') },
              icon: 'icon2 icon-resource',
              parent: :resources
   #)gly

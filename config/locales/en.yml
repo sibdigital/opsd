@@ -2752,6 +2752,7 @@ en:
   project_module_targets: Целевые показатели
   project_module_agreements: Соглашение о реализации регионального проекта
   project_module_arbitary_objects: Произвольные объекты
+  project_module_lbo: ЛБО
   project_module_report_progress_project: Отчет о ходе реализации проекта
   project_module_report_wp_by_period: Отчет о ходе реализации пакетов работ за период
   project_module_report_passport: Паспорт регионального проекта
