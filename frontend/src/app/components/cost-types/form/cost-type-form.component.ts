@@ -3,12 +3,12 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {Contract} from "core-components/contracts/contract.model";
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
+import {DateAdapter, MAT_DATE_LOCALE} from "@angular/material/core";
 import {MatFormFieldControl} from "@angular/material/form-field";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CostType} from "core-components/cost-types/cost-type.model";
+import {Lbo} from "core-components/lbo/lbo.component";
 
 @Component({
   selector: 'op-cost-type-form',
@@ -24,7 +24,8 @@ export class CostTypeFormComponent implements OnInit {
   cost_type_form:FormGroup;
   formTitle:string = 'Новый тип затрат';
   costType:CostType = {};
-
+  displayedRateColumns:string[] = ['index', 'validFrom', 'rate', 'delete'];
+  rateDataSource:Lbo[] = [];
   numberRegEx = /\-?\d*\.?\d{1,2}/;
 
   public $element:JQuery;
@@ -91,7 +92,24 @@ export class CostTypeFormComponent implements OnInit {
       }
     });
   }
-
+  deleteRate(id:number):void {
+    // this.httpClient.post(this.pathHelper.javaUrlPath + '/lbo/delete', {},
+    //   { params: new HttpParams().set('lboId', id.toString())})
+    //   .toPromise()
+    //   .then((object) => {
+    //     for (let i = 0; i < this.dataSource.length; ++i) {
+    //       if (this.dataSource[i].id === id) {
+    //         this.dataSource.splice(i, 1);
+    //         this.table.renderRows();
+    //       }
+    //     }
+    //     this.notificationService.addSuccess('Изменения сохранены');
+    //   })
+    //   .catch((reason) => {
+    //     this.notificationService.addError(`Ошибка сохранения: ${reason.message}`);
+    //     console.error(reason);
+    //   });
+  }
 
 }
 DynamicBootstrapper.register({selector: 'op-cost-type-form', cls: CostTypeFormComponent});

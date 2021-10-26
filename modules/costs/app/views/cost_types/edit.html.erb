@@ -28,5 +28,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <% local_assigns[:additional_breadcrumb] = l(:label_new) + ' ' + I18n.t('activerecord.models.cost_type.one') %>
 <% end %>
 
-<%= render partial: 'cost_types/form/form', locals: {} %>
+<%= render partial: 'cost_types/form/form', locals: {idCostType: @cost_type.id} %>
 

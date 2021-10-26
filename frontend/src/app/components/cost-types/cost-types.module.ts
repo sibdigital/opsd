@@ -8,10 +8,11 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CostTypeFormComponent} from "core-components/cost-types/form/cost-type-form.component";
+import {MatTabsModule} from "@angular/material/tabs";
 @NgModule({
   imports: [
     MatTableModule,
-    MatCardModule,
+    MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,

@@ -6,437 +6,80 @@
         </div>
     </div>
 </div>
-<div [formGroup]="contract_form">
+<div [formGroup]="cost_type_form">
         <div style="display: flex; flex-direction: column">
             <div class="form--text-field-container -wide">
                 <mat-form-field class="opsd-form-input-field" [floatLabel]="'always'"
                                 title="Наименование">
                     <input matInput placeholder="Наименование"
-                           formControlName="contractNum"
-                           [ngModel]="contract.contractNum"
-                           (ngModelChange)="contract.contractNum=$event"
+                           formControlName="name"
+                           [ngModel]="costType.name"
+                           (ngModelChange)="costType.name=$event"
                            container_class="-middle" required>
                 </mat-form-field>
             </div>
-            <div class="form--text-field-container -middle">
+            <div class="form--text-field-container -wide">
                 <mat-form-field class="opsd-form-input-field" [floatLabel]="'always'"
-                                title="Предмет контракта">
-                    <input matInput placeholder="Предмет контракта"
-                           formControlName="contractSubject"
-                           [ngModel]="contract.contractSubject"
-                           (ngModelChange)="contract.contractSubject=$event"
+                                title="Объект/Результат проекта">
+                    <input matInput placeholder="Объект/Результат проекта"
+                           formControlName="unit"
+                           [ngModel]="costType.unit"
+                           (ngModelChange)="costType.unit=$event"
                            container_class="-middle" required>
                 </mat-form-field>
             </div>
-            <div class="form--text-field-container -middle">
+            <div class="form--text-field-container -wide">
                 <mat-form-field class="opsd-form-input-field" [floatLabel]="'always'"
-                                title="Ссылка на ЕИС">
-                    <input matInput placeholder="Ссылка на ЕИС"
-                           formControlName="eisHref"
-                           [ngModel]="contract.eisHref"
-                           (ngModelChange)="contract.eisHref=$event"
+                                title="Множественное наименование объекта/результата проека">
+                    <input matInput placeholder="Множественное наименование объекта/результата проека"
+                           formControlName="unitPlural"
+                           [ngModel]="costType.unitPlural"
+                           (ngModelChange)="costType.unitPlural=$event"
                            container_class="-middle">
                 </mat-form-field>
             </div>
         </div>
 </div>
-<!--        <div class="opsd-rows">-->
-<!--            <div class="opsd-block">-->
-<!--                <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                title="Ссылка на ЕИС">-->
-<!--                    <input matInput placeholder="Ссылка на ЕИС"-->
-<!--                           formControlName="eisHref"-->
-<!--                           [ngModel]="contract.eisHref"-->
-<!--                           (ngModelChange)="contract.eisHref=$event"-->
-<!--                           container_class="-middle">-->
-<!--                </mat-form-field>-->
-<!--            </div>-->
-<!--            <div class="opsd-block">-->
-<!--                <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                title="Исполнитель">-->
-<!--                    <input matInput placeholder="Исполнитель"-->
-<!--                           formControlName="executor"-->
-<!--                           [ngModel]="contract.executor"-->
-<!--                           (ngModelChange)="contract.executor=$event"-->
-<!--                           container_class="-middle" required>-->
-<!--                </mat-form-field>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="opsd-rows">-->
-<!--            <div class="opsd-block">-->
-<!--                <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                title="НМЦК">-->
-<!--                    <input matInput placeholder="НМЦК"-->
-<!--                           formControlName="nmck"-->
-<!--                           [ngModel]="contract.nmck"-->
-<!--                           (ngModelChange)="contract.nmck=$event"-->
-<!--                           container_class="-middle">-->
-<!--                </mat-form-field>-->
-<!--            </div>-->
-<!--            <div class="opsd-block">-->
-<!--                <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                title="Цена контракта">-->
-<!--                    <input matInput placeholder="Цена контракта"-->
-<!--                           formControlName="price"-->
-<!--                           [ngModel]="contract.price"-->
-<!--                           (ngModelChange)="contract.price=$event"-->
-<!--                           container_class="-middle" required>-->
-<!--                </mat-form-field>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="opsd-rows">-->
-<!--            <div class="opsd-block">-->
-<!--                <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                title="Способ заключения">-->
-<!--                    <input matInput placeholder="Способ заключения"-->
-<!--                           formControlName="sposob"-->
-<!--                           [ngModel]="contract.sposob"-->
-<!--                           (ngModelChange)="contract.sposob=$event"-->
-<!--                           container_class="-middle">-->
-<!--                </mat-form-field>-->
-<!--            </div>-->
-<!--            <div class="opsd-block">-->
-<!--                <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                title="Наименование">-->
-<!--                    <input matInput placeholder="Наименование"-->
-<!--                           formControlName="name"-->
-<!--                           [ngModel]="contract.name"-->
-<!--                           (ngModelChange)="contract.name=$event"-->
-<!--                           container_class="-middle">-->
-<!--                </mat-form-field>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="opsd-rows">-->
-<!--            <div class="opsd-block">-->
-<!--                <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                title="Государственный заказчик">-->
-<!--                    <input matInput placeholder="Государственный заказчик"-->
-<!--                           formControlName="gosZakaz"-->
-<!--                           [ngModel]="contract.gosZakaz"-->
-<!--                           (ngModelChange)="contract.gosZakaz=$event"-->
-<!--                           container_class="-middle">-->
-<!--                </mat-form-field>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <mat-tab-group class="opsd">-->
-<!--        <mat-tab label="Даты">-->
-<!--            <div class="opsd-blocks" style="width: inherit">-->
-<!--                <div class="opsd-rows">-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата заключения контракта (план)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="contractDatePlan" placeholder="Дата заключения контракта (план)"-->
-<!--                                   formControlName="contractDatePlan"-->
-<!--                                   [ngModel]="contract.contractDatePlan"-->
-<!--                                   (ngModelChange)="contract.contractDatePlan=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="contractDatePlan"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #contractDatePlan></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата заключения контракта (факт)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="contractDate" placeholder="Дата заключения контракта (факт)"-->
-<!--                                   formControlName="contractDate"-->
-<!--                                   [ngModel]="contract.contractDate"-->
-<!--                                   (ngModelChange)="contract.contractDate=$event"-->
-<!--                                   container_class="-middle" required/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="contractDate"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #contractDate></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="opsd-rows">-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата начала">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="dateBegin" placeholder="Дата начала"-->
-<!--                                   formControlName="dateBegin"-->
-<!--                                   [ngModel]="contract.dateBegin"-->
-<!--                                   (ngModelChange)="contract.dateBegin=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="dateBegin"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #dateBegin></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-block"></div>-->
-<!--                </div>-->
-<!--                <div class="opsd-rows">-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата завершения (план)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="dateEndPlan" placeholder="Дата завершения (план)"-->
-<!--                                   formControlName="dateEndPlan"-->
-<!--                                   [ngModel]="contract.dateEndPlan"-->
-<!--                                   (ngModelChange)="contract.dateEndPlan=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="dateEndPlan"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #dateEndPlan></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата завершения (факт)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="dateEnd" placeholder="Дата завершения (факт)"-->
-<!--                                   formControlName="dateEnd"-->
-<!--                                   [ngModel]="contract.dateEnd"-->
-<!--                                   (ngModelChange)="contract.dateEnd=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #dateEnd></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="opsd-rows">-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата проведения аукциона (план)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="auctionDatePlan" placeholder="Дата проведения аукциона (план)"-->
-<!--                                   formControlName="auctionDatePlan"-->
-<!--                                   [ngModel]="contract.auctionDatePlan"-->
-<!--                                   (ngModelChange)="contract.auctionDatePlan=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="auctionDatePlan"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #auctionDatePlan></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата проведения аукциона (факт)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="auctionDate" placeholder="Дата проведения аукциона (факт)"-->
-<!--                                   formControlName="auctionDate"-->
-<!--                                   [ngModel]="contract.auctionDate"-->
-<!--                                   (ngModelChange)="contract.auctionDate=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="auctionDate"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #auctionDate></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="opsd-rows">-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата размещения план-графика закупок (план)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="scheduleDatePlan" placeholder="Дата размещения план-графика закупок (план)"-->
-<!--                                   formControlName="scheduleDatePlan"-->
-<!--                                   [ngModel]="contract.scheduleDatePlan"-->
-<!--                                   (ngModelChange)="contract.scheduleDatePlan=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="scheduleDatePlan"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #scheduleDatePlan></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата размещения план-графика закупок (факт)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="scheduleDate" placeholder="Дата размещения план-графика закупок (факт)"-->
-<!--                                   formControlName="scheduleDate"-->
-<!--                                   [ngModel]="contract.scheduleDate"-->
-<!--                                   (ngModelChange)="contract.scheduleDate=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="scheduleDate"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #scheduleDate></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="opsd-rows">-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата размещения извещения (план)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="notificationDatePlan" placeholder="Дата размещения извещения (план)"-->
-<!--                                   formControlName="notificationDatePlan"-->
-<!--                                   [ngModel]="contract.notificationDatePlan"-->
-<!--                                   (ngModelChange)="contract.notificationDatePlan=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="notificationDatePlan"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #notificationDatePlan></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-block">-->
-<!--                        <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                        title="Дата размещения извещения (факт)">-->
-<!--                            <input matInput-->
-<!--                                   [matDatepicker]="notificationDate" placeholder="Дата размещения извещения (факт)"-->
-<!--                                   formControlName="notificationDate"-->
-<!--                                   [ngModel]="contract.notificationDate"-->
-<!--                                   (ngModelChange)="contract.notificationDate=$event"-->
-<!--                                   container_class="-middle"/>-->
-<!--                            <mat-datepicker-toggle matSuffix [for]="notificationDate"></mat-datepicker-toggle>-->
-<!--                            <mat-datepicker #notificationDate></mat-datepicker>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </mat-tab>-->
-<!--        <mat-tab label="Экспертиза">-->
-<!--            <mat-accordion>-->
-<!--                <mat-expansion-panel style="margin: 10px" [expanded]="'true'">-->
-<!--                    <mat-expansion-panel-header>-->
-<!--                        <mat-panel-title>-->
-<!--                            Положительное заключение достоверности определения сметной стоимости-->
-<!--                        </mat-panel-title>-->
-<!--                    </mat-expansion-panel-header>-->
-<!--                    <div class="opsd-rows">-->
-<!--                        <div class="opsd-block">-->
-<!--                            <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                            title="№ заключения">-->
-<!--                                <input matInput placeholder="№"-->
-<!--                                       formControlName="conclusionOfEstimatedCostNumber"-->
-<!--                                       [ngModel]="contract.conclusionOfEstimatedCostNumber"-->
-<!--                                       (ngModelChange)="contract.conclusionOfEstimatedCostNumber=$event"-->
-<!--                                       container_class="-middle">-->
-<!--                            </mat-form-field>-->
-<!--                        </div>-->
-<!--                        <div class="opsd-block">-->
-<!--                            <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                            title="Дата заключения">-->
-<!--                                <input matInput-->
-<!--                                       [matDatepicker]="conclusionOfEstimatedCostDate" placeholder="Дата"-->
-<!--                                       formControlName="conclusionOfEstimatedCostDate"-->
-<!--                                       [ngModel]="contract.conclusionOfEstimatedCostDate"-->
-<!--                                       (ngModelChange)="contract.conclusionOfEstimatedCostDate=$event"-->
-<!--                                       container_class="-middle"/>-->
-<!--                                <mat-datepicker-toggle matSuffix [for]="conclusionOfEstimatedCostDate"></mat-datepicker-toggle>-->
-<!--                                <mat-datepicker #conclusionOfEstimatedCostDate></mat-datepicker>-->
-<!--                            </mat-form-field>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-rows">-->
-<!--                        <mat-form-field style="width: 100%" [floatLabel]="'always'"-->
-<!--                                        title="Реквизиты заключения">-->
-<!--                        <textarea matInput placeholder="Реквизиты"-->
-<!--                                  formControlName="conclusionOfEstimatedCostDetails"-->
-<!--                                  [ngModel]="contract.conclusionOfEstimatedCostDetails"-->
-<!--                                  (ngModelChange)="contract.conclusionOfEstimatedCostDetails=$event"-->
-<!--                        ></textarea>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </mat-expansion-panel>-->
-<!--                <mat-expansion-panel style="margin: 10px">-->
-<!--                    <mat-expansion-panel-header>-->
-<!--                        <mat-panel-title>-->
-<!--                            Положительное заключение достоверности экспертизы проектной документации-->
-<!--                        </mat-panel-title>-->
-<!--                    </mat-expansion-panel-header>-->
-<!--                    <div class="opsd-rows">-->
-<!--                        <div class="opsd-block">-->
-<!--                            <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                            title="№ заключения">-->
-<!--                                <input matInput placeholder="№"-->
-<!--                                       formControlName="conclusionOfProjectDocumentationNumber"-->
-<!--                                       [ngModel]="contract.conclusionOfProjectDocumentationNumber"-->
-<!--                                       (ngModelChange)="contract.conclusionOfProjectDocumentationNumber=$event"-->
-<!--                                       container_class="-middle">-->
-<!--                            </mat-form-field>-->
-<!--                        </div>-->
-<!--                        <div class="opsd-block">-->
-<!--                            <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                            title="Дата заключения">-->
-<!--                                <input matInput-->
-<!--                                       [matDatepicker]="conclusionOfProjectDocumentationDate" placeholder="Дата"-->
-<!--                                       formControlName="conclusionOfProjectDocumentationDate"-->
-<!--                                       [ngModel]="contract.conclusionOfProjectDocumentationDate"-->
-<!--                                       (ngModelChange)="contract.conclusionOfProjectDocumentationDate=$event"-->
-<!--                                       container_class="-middle"/>-->
-<!--                                <mat-datepicker-toggle matSuffix [for]="conclusionOfProjectDocumentationDate"></mat-datepicker-toggle>-->
-<!--                                <mat-datepicker #conclusionOfProjectDocumentationDate></mat-datepicker>-->
-<!--                            </mat-form-field>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-rows">-->
-<!--                        <mat-form-field style="width: 100%" [floatLabel]="'always'"-->
-<!--                                        title="Реквизиты заключения">-->
-<!--                        <textarea matInput placeholder="Реквизиты"-->
-<!--                                  formControlName="conclusionOfProjectDocumentationDetails"-->
-<!--                                  [ngModel]="contract.conclusionOfProjectDocumentationDetails"-->
-<!--                                  (ngModelChange)="contract.conclusionOfProjectDocumentationDetails=$event"-->
-<!--                        ></textarea>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </mat-expansion-panel>-->
-<!--                <mat-expansion-panel style="margin: 10px">-->
-<!--                    <mat-expansion-panel-header>-->
-<!--                        <mat-panel-title>-->
-<!--                            Положительное заключение достоверности экологической экспертизы-->
-<!--                        </mat-panel-title>-->
-<!--                    </mat-expansion-panel-header>-->
-<!--                    <div class="opsd-rows">-->
-<!--                        <div class="opsd-block">-->
-<!--                            <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                            title="№ заключения">-->
-<!--                                <input matInput placeholder="№"-->
-<!--                                       formControlName="conclusionOfEcologicalExpertiseNumber"-->
-<!--                                       [ngModel]="contract.conclusionOfEcologicalExpertiseNumber"-->
-<!--                                       (ngModelChange)="contract.conclusionOfEcologicalExpertiseNumber=$event"-->
-<!--                                       container_class="-middle">-->
-<!--                            </mat-form-field>-->
-<!--                        </div>-->
-<!--                        <div class="opsd-block">-->
-<!--                            <mat-form-field class="opsd-field" [floatLabel]="'always'"-->
-<!--                                            title="Дата заключения">-->
-<!--                                <input matInput-->
-<!--                                       [matDatepicker]="conclusionOfEcologicalExpertiseDate" placeholder="Дата"-->
-<!--                                       formControlName="conclusionOfEcologicalExpertiseDate"-->
-<!--                                       [ngModel]="contract.conclusionOfEcologicalExpertiseDate"-->
-<!--                                       (ngModelChange)="contract.conclusionOfEcologicalExpertiseDate=$event"-->
-<!--                                       container_class="-middle"/>-->
-<!--                                <mat-datepicker-toggle matSuffix [for]="conclusionOfEcologicalExpertiseDate"></mat-datepicker-toggle>-->
-<!--                                <mat-datepicker #conclusionOfEcologicalExpertiseDate></mat-datepicker>-->
-<!--                            </mat-form-field>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="opsd-rows">-->
-<!--                        <mat-form-field style="width: 100%" [floatLabel]="'always'"-->
-<!--                                        title="Реквизиты заключения">-->
-<!--                        <textarea matInput placeholder="Реквизиты"-->
-<!--                                  formControlName="conclusionOfEcologicalExpertiseDetails"-->
-<!--                                  [ngModel]="contract.conclusionOfEcologicalExpertiseDetails"-->
-<!--                                  (ngModelChange)="contract.conclusionOfEcologicalExpertiseDetails=$event"-->
-<!--                        ></textarea>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </mat-expansion-panel>-->
-<!--            </mat-accordion>-->
-<!--        </mat-tab>-->
-<!--        <mat-tab label="Примечание">-->
-<!--            <div style="margin: 20px">-->
-<!--                <div class="opsd-rows">-->
-<!--                    <mat-form-field style="width: 80%" [floatLabel]="'always'"-->
-<!--                                    title="Этапы">-->
-<!--                    <textarea matInput placeholder="Этапы"-->
-<!--                              matTextareaAutosize matAutosizeMinRows=2-->
-<!--                              formControlName="etaps"-->
-<!--                              [ngModel]="contract.etaps"-->
-<!--                              (ngModelChange)="contract.etaps=$event"-->
-<!--                    ></textarea>-->
-<!--                    </mat-form-field>-->
-<!--                </div>-->
-<!--                <div class="opsd-rows">-->
-<!--                    <mat-form-field style="width: 90%" [floatLabel]="'always'"-->
-<!--                                    title="Примечание">-->
-<!--                    <textarea matInput placeholder="Примечание"-->
-<!--                              matTextareaAutosize matAutosizeMinRows=2-->
-<!--                              formControlName="note"-->
-<!--                              [ngModel]="contract.note"-->
-<!--                              (ngModelChange)="contract.note=$event"-->
-<!--                    ></textarea>-->
-<!--                    </mat-form-field>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </mat-tab>-->
-<!--    </mat-tab-group>-->
-<!--</div>-->
+    <mat-tab-group class="opsd">
+        <mat-tab label="История тарифов">
+            <table mat-table [dataSource]="rateDataSource" class="mat-elevation-z8">
+                <!-- Index Column-->
+                <ng-container matColumnDef="index">
+                    <th mat-header-cell *matHeaderCellDef> № </th>
+                    <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
+                </ng-container>
 
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef [hidden]="true"></th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <!-- Valid from Column -->
+                <ng-container matColumnDef="validFrom">
+                    <th mat-header-cell *matHeaderCellDef> Действует с </th>
+                    <td mat-cell *matCellDef="let element"> {{element.validFrom}} </td>
+                </ng-container>
+
+                <!-- Rate Column -->
+                <ng-container matColumnDef="rate">
+                    <th mat-header-cell *matHeaderCellDef> Тариф </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+                </ng-container>
+
+                <!-- Delete Column -->
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                        <i class="button--icon icon-delete" style="cursor: pointer; color: #1A67A3" (click)="deleteRate(element.id)"></i>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedRateColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedRateColumns;"></tr>
+            </table>
+        </mat-tab>
+        <mat-tab label="Электронный бюджет">
+        </mat-tab>
+    </mat-tab-group>
 
