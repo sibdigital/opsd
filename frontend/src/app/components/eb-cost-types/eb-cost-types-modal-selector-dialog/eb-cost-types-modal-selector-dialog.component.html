@@ -1,0 +1,45 @@
+<div>
+    <button mat-icon-button style="float: right" [mat-dialog-close]="true">
+        <i class="icon-remove"></i>
+    </button>
+</div>
+<h2 mat-dialog-title>Выбор источника финансирования из Электронного Бюджета</h2>
+<mat-dialog-content class="mat-typography" >
+    <div class="mat-elevation-z0 margin-bottom-cls">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="50px"> ID </th>
+                <td mat-cell *matCellDef="let row"> {{row.ebCostType.id}} </td>
+            </ng-container>
+
+            <!-- Code Column -->
+            <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Код </th>
+                <td mat-cell *matCellDef="let row"> {{row.ebCostType.code}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Наименование </th>
+                <td mat-cell *matCellDef="let row"> {{row.ebCostType.name}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="costTypeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Указан в типе трат </th>
+                <td mat-cell *matCellDef="let row"> {{row.costType?.name || '-'}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                [ngStyle]="row.costType && {'background-color': 'lightgrey'}"
+                (click)="selectEbCostType(row)"
+            ></tr>
+
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Выберите кол-во"></mat-paginator>
+    </div>
+</mat-dialog-content>

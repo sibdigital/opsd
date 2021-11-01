@@ -30,56 +30,148 @@
             </div>
             <div class="form--text-field-container -wide">
                 <mat-form-field class="opsd-form-input-field" [floatLabel]="'always'"
-                                title="Множественное наименование объекта/результата проека">
-                    <input matInput placeholder="Множественное наименование объекта/результата проека"
+                                title="Множественное наименование объекта/результата проекта">
+                    <input matInput placeholder="Множественное наименование объекта/результата проекта"
                            formControlName="unitPlural"
                            [ngModel]="costType.unitPlural"
                            (ngModelChange)="costType.unitPlural=$event"
-                           container_class="-middle">
+                           container_class="-middle" required>
                 </mat-form-field>
             </div>
         </div>
 </div>
-    <mat-tab-group class="opsd">
-        <mat-tab label="История тарифов">
-            <table mat-table [dataSource]="rateDataSource" class="mat-elevation-z8">
-                <!-- Index Column-->
-                <ng-container matColumnDef="index">
-                    <th mat-header-cell *matHeaderCellDef> № </th>
-                    <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
-                </ng-container>
+<mat-tab-group class="opsd">
+    <mat-tab label="История тарифов">
+        <div style="margin-top: 20px; padding-right: 20px; display: flex; flex-direction: row; align-items: center; justify-content: space-between">
+            <mat-card id="add-rate-form" style="width: 50%; display: flex" [hidden]="addRateFormDisable" [formGroup]="add_rate_form">
+                <mat-form-field style="width: 150px; margin-right: 10px" [floatLabel]="'always'">
+                    <input matInput [matDatepicker]="validFrom" placeholder="Действует с" formControlName="validFrom">
+                    <mat-datepicker-toggle matSuffix [for]="validFrom"></mat-datepicker-toggle>
+                    <mat-datepicker #validFrom></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field style="width: 100px; margin-right: 10px" [floatLabel]="'always'">
+                    <input matInput placeholder="Тариф" formControlName="rate">
+                </mat-form-field>
+                <div style="display: flex; margin-inline-start: auto; align-items: center">
+                    <button mat-raised-button class="button -highlight" style="margin-right: 10px;" (click)="addNewRate()">
+                        <i class="icon-checkmark"></i>
+                        Добавить
+                    </button>
+                    <button mat-raised-button class="-with-icon icon-cancel button" (click)="closeAddRateForm()">
+                        Отмена
+                    </button>
+                </div>
+            </mat-card>
+            <div></div>
+            <div class="toolbar-item">
+                <a class="button -alt-highlight" href="#" (click)="showAddRateForm()"><i class="button--icon icon-add"></i><span class="button--text">Тариф</span></a>
+            </div>
+        </div>
+        <table mat-table #rateTable [dataSource]="rateDataSource" class="mat-elevation-z8">
+            <!-- Index Column-->
+            <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef> № </th>
+                <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
+            </ng-container>
 
-                <!-- Id Column -->
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef [hidden]="true"></th>
-                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-                </ng-container>
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef [hidden]="true"></th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
 
-                <!-- Valid from Column -->
-                <ng-container matColumnDef="validFrom">
-                    <th mat-header-cell *matHeaderCellDef> Действует с </th>
-                    <td mat-cell *matCellDef="let element"> {{element.validFrom}} </td>
-                </ng-container>
+            <!-- Valid from Column -->
+            <ng-container matColumnDef="validFrom">
+                <th mat-header-cell *matHeaderCellDef> Действует с </th>
+                <td mat-cell *matCellDef="let element"> {{this.datepipe.transform(element.validFrom, 'dd-MM-yyyy')}} </td>
+            </ng-container>
 
-                <!-- Rate Column -->
-                <ng-container matColumnDef="rate">
-                    <th mat-header-cell *matHeaderCellDef> Тариф </th>
-                    <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
-                </ng-container>
+            <!-- Rate Column -->
+            <ng-container matColumnDef="rate">
+                <th mat-header-cell *matHeaderCellDef> Тариф </th>
+                <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+            </ng-container>
 
-                <!-- Delete Column -->
-                <ng-container matColumnDef="delete">
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let element">
-                        <i class="button--icon icon-delete" style="cursor: pointer; color: #1A67A3" (click)="deleteRate(element.id)"></i>
-                    </td>
-                </ng-container>
+            <!-- Delete Column -->
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <i class="button--icon icon-delete" style="cursor: pointer; color: #1A67A3" (click)="deleteRate(element)"></i>
+                </td>
+            </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedRateColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedRateColumns;"></tr>
-            </table>
-        </mat-tab>
-        <mat-tab label="Электронный бюджет">
-        </mat-tab>
-    </mat-tab-group>
+            <!-- IsDeleted Column -->
+            <ng-container matColumnDef="isDeleted">
+                <th mat-header-cell *matHeaderCellDef [hidden]="true"> Удалено </th>
+                <td mat-cell *matCellDef="let element"> {{element.deleted}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedRateColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedRateColumns;" [hidden]="row?.deleted === true"></tr>
+        </table>
+    </mat-tab>
+    <mat-tab label="Электронный бюджет">
+        <div style="margin-top: 20px; padding-right: 20px; display: flex; flex-direction: row; align-items: center; justify-content: space-between">
+            <mat-card id="add-rate-form" style="width: 50%; display: flex" [hidden]="addEbCostFormDisable">
+                <mat-form-field style="width: 70%; margin-right: 10px" [floatLabel]="'always'" title="Выберите источник финансирования из ЭБ">
+                    <input matInput [(ngModel)]="selectedEbCostType?.name!" placeholder="Выберите источник финансирования из ЭБ">
+                    <button mat-icon-button matSuffix (click)="chooseEbCostType()">
+                        <i class="button--icon icon-show-more-horizontal"></i>
+                    </button>
+                </mat-form-field>
+                <div style="display: flex; margin-inline-start: auto; align-items: center; margin-right: 10px">
+                    <button mat-raised-button class="button -highlight" (click)="addNewEbCostType()">
+                        <i class="icon-checkmark"></i>
+                        Добавить
+                    </button>
+                </div>
+                <div style="display: flex; margin-inline-start: auto; align-items: center">
+                    <button mat-raised-button class="-with-icon icon-cancel button" (click)="closeEbCostForm()">
+                        Отмена
+                    </button>
+                </div>
+            </mat-card>
+            <div></div>
+            <div>
+                <div class="toolbar-item" style="float: left">
+                    <a class="button -alt-highlight" href="#" (click)="showNewEbCostForm()"><i class="button--icon icon-add"></i><span class="button--text">Соответствие</span></a>
+                </div>
+                <div class="toolbar-item" style="float: right">
+                    <a class="button -highlight-inverted" href="#" (click)="showHelpForm()"
+                       style="vertical-align: middle; display: inline-block; font-size: x-large; padding: 0.35rem; border: none"><i class="button--icon icon-help1"></i></a>
+                </div>
+            </div>
+        </div>
+        <table mat-table #ebCostTable [dataSource]="ebDataSource" class="mat-elevation-z8">
+            <!-- Id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef [hidden]="true"></th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <!-- Code Column -->
+            <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef> Код </th>
+                <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Наименование </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Delete Column -->
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <i class="button--icon icon-delete" style="cursor: pointer; color: #1A67A3" (click)="deleteEbCostType(element)"></i>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedEbCostColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedEbCostColumns;"></tr>
+        </table>
+    </mat-tab>
+</mat-tab-group>
 
