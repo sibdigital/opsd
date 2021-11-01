@@ -104,19 +104,24 @@ export class WorkPackageContractsTabComponent implements OnInit, OnDestroy {
   }
 
   createContract() {
-    this.halResourceService.post<CollectionResource<HalResource>>(
-      this.pathHelper.api.v3.work_package_contracts.toString(),
-      {contract_id: this.wpContract.contract_id,
-        work_package_id: this.wpContract.work_package_id,
-        comment: this.wpContract.comment})
-      .toPromise()
-      .then((collection:CollectionResource<HalResource>) => {
-          this.toggleContractAddForm();
-          this.loadWPContracts();
-        }
-      ).catch((error) => {
-      this.wpNotificationsService.handleRawError(error);
-    });
+    if (this.wpContract.contract_id) {
+      this.halResourceService.post<CollectionResource<HalResource>>(
+        this.pathHelper.api.v3.work_package_contracts.toString(),
+        {contract_id: this.wpContract.contract_id,
+          work_package_id: this.wpContract.work_package_id,
+          comment: this.wpContract.comment})
+        .toPromise()
+        .then((collection:CollectionResource<HalResource>) => {
+            this.toggleContractAddForm();
+            this.loadWPContracts();
+          }
+        ).catch((error) => {
+        this.wpNotificationsService.handleRawError(error);
+      });
+    }
+    else {
+      this.notificationsService.addError('Не выбран контракт');
+    }
   }
 
   editContract() {
