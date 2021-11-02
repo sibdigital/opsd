@@ -85,7 +85,7 @@ export class LinksComponent implements OnInit, OnDestroy {
 
   private destroyRemovedLinks() {
     let missingLinks = _.differenceBy(this.initialLinks,
-      this.resource.links.elements,
+      this.resource.workPackagelinks.elements,
       (link:HalResource) => link.id);
 
     if (missingLinks.length) {
@@ -98,7 +98,7 @@ export class LinksComponent implements OnInit, OnDestroy {
   }
 
   private memoizeCurrentLinks() {
-    this.initialLinks = _.clone(this.resource.links.elements);
+    this.initialLinks = _.clone(this.resource.workPackagelinks.elements);
   }
 }
 

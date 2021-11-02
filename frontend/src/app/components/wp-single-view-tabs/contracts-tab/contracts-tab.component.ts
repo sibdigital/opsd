@@ -79,7 +79,7 @@ export class WorkPackageContractsTabComponent implements OnInit, OnDestroy {
 
   private loadContracts() {
     this.halResourceService.get<CollectionResource<HalResource>>(
-      this.pathHelper.api.v3.project_contracts.toString(), {project_id: this.workPackage.project.id})
+      this.pathHelper.api.v3.project_contracts.toString(), {project_id: this.workPackage.project.id || this.workPackage.project.idFromLink})
       .toPromise()
       .then((collection:CollectionResource<HalResource>) => {
           this.contracts = collection.elements;

@@ -190,6 +190,7 @@ module API
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
+            mount ::API::V3::WorkPackages::WorkPackageLinksAPI
             #zbd(
             mount ::API::V3::WorkPackageTargets::WorkPackageTargetsAPI
             # )

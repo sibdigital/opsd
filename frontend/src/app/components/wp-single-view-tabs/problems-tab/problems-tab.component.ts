@@ -220,7 +220,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
   private loadRisks() {
     return this.halResourceService.get<CollectionResource<HalResource>>(
-      this.pathHelper.api.v3.project_risks.toString(), {project_id: this.workPackage.project.id})
+      this.pathHelper.api.v3.project_risks.toString(), {project_id: this.workPackage.project.id || this.workPackage.project.idFromLink})
       .toPromise()
       .then((collection: CollectionResource<HalResource>) => {
           collection.elements.forEach(el => {
@@ -472,7 +472,7 @@ export class WorkPackageProblemsTabComponent implements OnInit, OnDestroy {
 
   private loadContracts() {
     this.halResourceService.get<CollectionResource<HalResource>>(
-      this.pathHelper.api.v3.project_contracts.toString(), {project_id: this.workPackage.project.id})
+      this.pathHelper.api.v3.project_contracts.toString(), {project_id: this.workPackage.project.id || this.workPackage.project.idFromLink})
       .toPromise()
       .then((collection:CollectionResource<HalResource>) => {
           this.contracts = collection.elements;
