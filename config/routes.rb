@@ -528,6 +528,8 @@ OpenProject::Application.routes.draw do
   # delete 'stakeholder_outers/:id' => 'stakehodlers#destroy'
   # )
 
+  resources :kpi
+
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do

@@ -1,0 +1,55 @@
+<!--<textarea #query></textarea>-->
+<!--<button (click)="sendRequest(query.value)">Выполнить</button>-->
+<div style="display: flex">
+    <div>
+        <h2>
+<!--            <a class="" href="/kpi">-->
+<!--                <i class="button&#45;&#45;icon icon-arrow-left1" style="font-size: 20px"></i>-->
+<!--            </a>-->
+            {{'KPI конструктор'}}
+        </h2>
+    </div>
+    <div style="display: flex; margin-inline-start: auto; align-items: center">
+        <div class="toolbar-item">
+            <a class="button -alt-highlight" href="#" (click)="saveKPI()">
+                <i class="button--icon icon-save"></i>
+                <span class="button--text">Сохранить</span>
+            </a>
+            <a class="button" href="#">
+                <span class="button--text"><b>{{'Отмена'}}</b></span></a>
+        </div>
+    </div>
+</div>
+<div class="loading-indicator--location" data-indicator-name="kpi-form">
+    <form style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
+        <div style="flex-grow: 4">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>SQL запрос</mat-label>
+                <textarea [(ngModel)]="kpi.query" name="query" type="text" matInput style="height: 40vh"></textarea>
+            </mat-form-field>
+        </div>
+        <div style="flex-grow: 1;display: flex;flex-direction: column" class="form-group">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Название</mat-label>
+                <input [(ngModel)]="kpi.name" name="name" matInput>
+            </mat-form-field>
+            <mat-divider></mat-divider>
+            <div style="display: flex;flex-direction: row;align-items: flex-start;gap: 20px;">
+                <mat-form-field appearance="fill">
+                    <mat-label>Название переменной</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Значение</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </div>
+            <div class="toolbar-item" style="display: flex; margin-inline-start: auto; align-items: center">
+                <a class="button -alt-highlight" href="#">
+                    <i class="button--icon icon-add"></i>
+                    <span class="button--text">Новая</span>
+                </a>
+            </div>
+        </div>
+    </form>
+</div>

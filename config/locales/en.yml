@@ -2180,6 +2180,7 @@ en:
   label_settings: Параметры
   label_system_settings: Настройки системы
   label_system_pages: Общественный мониторинг
+  label_kpi: KPI
   label_show_completed_versions: Показать завершённые этапы
   label_sort: Сортировать
   label_sort_by: Сортировать по %{value}
