@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit} from "@angular/core";
 import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {KPI} from "core-components/kpi/schema";
+import {KPI, KpiDto, KPIVariable} from "core-components/kpi/schema";
 
 @Component({
   selector: 'op-kpi-form',
@@ -11,6 +11,7 @@ import {KPI} from "core-components/kpi/schema";
 })
 export class KPIFormComponent implements OnInit {
   public kpi = new KPI();
+  public kpiVariables:KPIVariable[] = [];
   public $element:JQuery;
   @Input() id:string;
   constructor(
@@ -24,11 +25,13 @@ export class KPIFormComponent implements OnInit {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.id = this.$element.attr('id')!;
     this.loadKPI();
+    this.loadKPIVariables();
   }
 
-  sendRequest(value:string) {
-    this.httpClient.get(
-      this.pathHelper.javaUrlPath + '/kpi/execute').toPromise()
+  sendRequest() {
+    let kpiDto:KpiDto = {kpi: this.kpi, kpiVariables: this.kpiVariables};
+    this.httpClient.post(
+      this.pathHelper.javaUrlPath + '/kpi/execute', kpiDto).toPromise()
       .then((response) => {
         console.log(response);
       })
@@ -36,10 +39,12 @@ export class KPIFormComponent implements OnInit {
   }
 
   saveKPI() {
+    let kpiDto:KpiDto = {kpi: this.kpi, kpiVariables: this.kpiVariables};
     this.httpClient.post(
-      this.pathHelper.javaApiPath.javaApiBasePath + '/kpis', this.kpi).toPromise()
-      .then((response:KPI) => {
-        this.kpi = response;
+      this.pathHelper.javaUrlPath + '/kpi/save', kpiDto).toPromise()
+      .then((response:KpiDto) => {
+        this.kpi = response.kpi;
+        this.kpiVariables = response.kpiVariables;
       })
       .catch((reason) => console.error(reason));
   }
@@ -50,6 +55,14 @@ export class KPIFormComponent implements OnInit {
       this.pathHelper.javaApiPath.javaApiBasePath + `/kpis/${this.id}`).toPromise()
       .then((response:KPI) => {
         this.kpi = response;
+      })
+      .catch((reason) => console.error(reason));
+  }
+
+  private loadKPIVariables() {
+    this.httpClient.get(this.pathHelper.javaApiPath.javaApiBasePath + `/kpiVariables/search/findAllByKpi_Id`, {params: new HttpParams().set('kpiId', this.id)}).toPromise()
+      .then((response:any) => {
+        this.kpiVariables = response._embedded.kpiVariables;
       })
       .catch((reason) => console.error(reason));
   }
