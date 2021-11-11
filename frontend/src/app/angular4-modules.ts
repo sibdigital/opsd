@@ -90,6 +90,7 @@ import {MarkdownModule} from "ngx-markdown";
 import {LboModule} from "core-components/lbo/lbo.module";
 import {KpiModule} from "core-components/kpi/kpi.module";
 import {CostTypesModule} from "core-components/cost-types/cost-types.module";
+import {MapModule} from "core-components/map/map.module";
 
 @NgModule({
   imports: [
@@ -131,6 +132,7 @@ import {CostTypesModule} from "core-components/cost-types/cost-types.module";
     ContractsModule,
     LboModule,
     KpiModule,
+    MapModule,
     CostTypesModule
   ],
   providers: [

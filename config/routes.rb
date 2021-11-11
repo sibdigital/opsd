@@ -530,6 +530,8 @@ OpenProject::Application.routes.draw do
 
   resources :kpi
 
+  resources :map
+
   scope 'admin' do
     resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
