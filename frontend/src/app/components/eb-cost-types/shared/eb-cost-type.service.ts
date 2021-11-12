@@ -14,7 +14,4 @@ export class EbCostTypeService {
   getRegEbCostTypesWithAdditionalEbCT() {
     return this.httpClient.get<RegEbCostType[]>(this.pathHelper.javaUrlPath + '/rebCostTypesWithAdditionalEbCT');
   }
-  getEbCostTypesHelp() {
-    return this.httpClient.get<any>(this.pathHelper.javaUrlPath + '/settings/findByName?name=eb_cost_type_info');
-  }
 }
