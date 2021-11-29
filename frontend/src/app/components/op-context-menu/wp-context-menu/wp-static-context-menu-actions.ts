@@ -28,5 +28,11 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS = [
     key: 'export-atom',
     link: 'atom',
     resource: 'workPackage'
+  },
+  {
+    key: 'export-eb',
+    link: 'exportEBudget',
+    icon: 'icon-export-atom',
+    resource: 'workPackage'
   }
 ];

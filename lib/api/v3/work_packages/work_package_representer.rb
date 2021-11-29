@@ -133,6 +133,16 @@ module API
           }
         end
 
+        link :exportEBudget,
+             cache_if: -> { current_user_allowed_to(:export_work_packages, context: represented.project) } do
+          next if represented.new_record? || !Setting.feeds_enabled?
+          {
+              href: Setting[:jopsd_url] + '/jopsd/export/execution/' + represented.id.to_s,
+              type: 'application/rss+xml',
+              title: 'Электронный бюджет'
+          }
+        end
+
         link :availableRelationCandidates do
           next if represented.new_record?
 
