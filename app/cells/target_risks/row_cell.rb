@@ -1,0 +1,49 @@
+module TargetRisks
+  class RowCell < ::RowCell
+    include ::IconsHelper
+    include ReorderLinksHelper
+
+    def target_risk
+      model
+    end
+
+    def target?
+      !Target.where(id: model.target_id).empty?
+    end
+
+    def risk?
+      !Risk.where(id: model.risk_id).empty?
+    end
+
+    def risk
+      target_risk.risk
+    end
+
+    def row_css_id
+      'row_' + target_risk.id.to_s
+    end
+
+    def row_css_class
+    end
+
+    def button_links
+      [
+        delete_link
+      ]
+    end
+
+
+    def delete_link
+      content_tag( :div,
+      link_to(
+        op_icon('icon icon-delete'),
+        target_risk_path(id: target_risk, target_id: target_risk.target_id, risk_id: target_risk.risk_id),
+        method: :delete,
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete) #,
+        #remote: true
+      )
+      )
+    end
+  end
+end

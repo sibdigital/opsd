@@ -1892,6 +1892,7 @@ en:
   label_target_calc_procedure: Методика расчета дополнительных показателей
   label_target_targets: Цели
   label_target_execution_values: Плановые значения исполнения цели
+  label_target_risks: Связанные риски
   label_target_work_packages: Связанные мероприятия
   label_generate_key: Сгенерируйте ключ
   label_git_path: Путь к директории .git

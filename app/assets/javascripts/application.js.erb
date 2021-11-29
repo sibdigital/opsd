@@ -468,6 +468,25 @@ jQuery( document ).ready(function() {
     });
 });
 //)
+//gly(
+jQuery( document ).ready(function() {
+    var row_id = 0;
+    var add_form = 0;
+    jQuery('#target-risk-add').click(function(){
+        if(row_id == 0 ) {
+            jQuery(this).hide();
+            jQuery('#target-risk-form').show("fast");
+            add_form = 1;
+        }
+    });
+
+    jQuery('#target-risk-cancel').click(function(){
+        jQuery('#target-risk-add').show("fast");
+        jQuery('#target-risk-form').hide("fast");
+        add_form = 0;
+    });
+});
+//)
 //knm +
 jQuery(document).ready(function(){
     jQuery('.hide-head').click(function(){
