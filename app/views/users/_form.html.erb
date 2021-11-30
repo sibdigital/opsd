@@ -43,6 +43,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="form--field"><%= f.select :language, lang_options_for_select, prompt: "--- #{t(:actionview_instancetag_blank_option)} ---", container_class: '-slim' %></div>
   <div class="form--field"><%= f.check_box :admin, disabled: (@user == User.current) %></div>
   <!--tmd-->
+  <div class="form--field"><%= f.text_field :identificator, disabled: (@user == User.current), container_class: '-middle' %></div>
+  <!--tmd-->
   <div class="form--field">
     <%= f.select :organization_id, options_for_select(@user.organization_options.map { |obj| [obj['name'], obj['id']] }, @user.organization_id), container_class: '-slim', include_blank: true%>
   </div>

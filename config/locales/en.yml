@@ -586,6 +586,7 @@ en:
       user:
         organization_id: Организация
         admin: Администратор
+        identificator: Идентификатор для бота
         auth_source: Способ аутентификации
         current_password: Текущий пароль
         force_password_change: Принудительное изменение пароля при следующем входе
