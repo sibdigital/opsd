@@ -1,0 +1,44 @@
+<h2>Выберите мероприятие</h2>
+<mat-dialog-content>
+    <div class="loading-indicator--location" data-indicator-name="work_packages-table">
+        <table mat-table [dataSource]="dataSource" style="width:100%;table-layout: fixed">
+            <!--            Заголовок-->
+            <ng-container matColumnDef="subject">
+                <th mat-header-cell *matHeaderCellDef>Заголовок мероприятия</th>
+                <td mat-cell *matCellDef="let workPackage">
+                    {{workPackage.subject}}
+                    <!--                <a href="/projects/{{project.id}}/work_packages/{{workPackage.id}}">{{workPackage.title}}</a>-->
+                </td>
+            </ng-container>
+            <!--            Автор-->
+            <ng-container matColumnDef="author">
+                <th mat-header-cell *matHeaderCellDef>Автор</th>
+                <td mat-cell *matCellDef="let workPackage">
+                    {{workPackage.author.lastname + ' ' + workPackage.author.firstname}}
+                </td>
+            </ng-container>
+            <!--            Описание-->
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef>Описание</th>
+                <td mat-cell *matCellDef="let workPackage">
+                    {{workPackage.description || '-'}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="rowSelected(row)"
+                [class.row-selected]="selectedWorkPackage.id === row.id">
+            </tr>
+        </table>
+        <mat-paginator [length]="paginatorSettings.totalElements"
+                       [pageSize]="paginatorSettings.size"
+                       [pageIndex]="paginatorSettings.page"
+                       (page)="pageChanged($event)"
+                       [pageSizeOptions]="[5,10]">
+        </mat-paginator>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Отмена</button>
+    <button mat-button [mat-dialog-close]="selectedWorkPackage">Выбрать</button>
+</mat-dialog-actions>

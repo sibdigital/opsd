@@ -512,6 +512,14 @@ Redmine::AccessControl.map do |map|
                      { project_strategic_map: %i[ index get_project] },
                      require: :member
   end
+  map.project_module :map do |i_map|
+    i_map.permission :view_map,
+                     { map: %i[ index ] },
+                     require: :member
+    i_map.permission :edit_map,
+                     { map: %i[ index ] },
+                     require: :member
+  end
   # )
   #bbm(
   map.project_module :project_risks

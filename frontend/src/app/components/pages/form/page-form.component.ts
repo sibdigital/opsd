@@ -60,10 +60,6 @@ export class PageFormComponent implements OnInit {
       .then((page) => {
         this.page = page;
         this.editorInstance.setData(this.page.content ? this.page.content : '');
-        // this.page.project ? this.page.project : this.page.project = {id: null};
-        // this.page.author ? this.page.author :this.page.author = {id: null};
-        // this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
-        // this.page.parent ? this.page.parent : this.page.parent = {id: null};
         this.getProjects();
         this.getGroups();
       })
@@ -119,10 +115,6 @@ export class PageFormComponent implements OnInit {
       .then((page) => {
         this.page = page;
         this.editorInstance.setData(this.page.content ? this.page.content : '');
-        // this.page.project ? this.page.project : this.page.project = {id: null};
-        // this.page.author ? this.page.author :this.page.author = {id: null};
-        // this.page.workPackage ? this.page.workPackage : this.page.workPackage = {id: null};
-        // this.page.parent ? this.page.parent : this.page.parent = {id: null};
         this.notificationService.addSuccess('Изменения сохранены');
       })
       .catch((reason) => {

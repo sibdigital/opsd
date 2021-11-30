@@ -354,12 +354,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin?},
             icon: 'icon2 icon-settings2'
 
-  menu.push :map,
-            { controller: '/map' },
-            caption: :label_map,
-            if: Proc.new { User.current.admin?},
-            icon: 'icon2 icon-settings2'
-
   menu.push :additional_settings,
             {},
             caption: :label_additional_settings,
@@ -850,6 +844,15 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-map',
             if: Proc.new { |p| p.module_enabled?('interactive_map') },
             parent: :reports# ,
+
+  menu.push :map,
+            { controller: '/map' },
+            caption: :label_map,
+            param: :project_id,
+            icon: 'icon2 icon-map',
+            if: Proc.new { |p| p.module_enabled?('map') },
+            parent: :reports
+
   menu.push :project_colorlight,
             {controller: '/project_colorlight', action: 'index'},
             caption: :label_colorlight,

@@ -358,7 +358,7 @@ OpenProject::Application.routes.draw do
       get :get_project, on: :collection
     end
     # -
-
+    resources :map
     #bbm(
     resources :project_risks do
       get '/edit/:tab' => 'project_risks#edit', on: :member, as: 'edit_tab'
@@ -529,8 +529,6 @@ OpenProject::Application.routes.draw do
   # )
 
   resources :kpi
-
-  resources :map
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]

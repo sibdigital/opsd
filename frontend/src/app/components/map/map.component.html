@@ -1,7 +1,83 @@
-<div class="map-container" id="map" style="width: 1200px;height: 800px"></div>
-<div id="popup" class="ol-popup" #popup>
-    <a href="#" id="popup-closer" class="ol-popup-closer" #closer (click)="closePopup(closer)"></a>
-    <div id="popup-content">
-        {{coordinate}}
+<div *ngIf="mapData && userPermittedTo.view" class="map-container" id="map" style="width: 85vw;height: 90vh">
+    <div class="ol-unselectable ol-control ol-custom" *ngIf="userPermittedTo.edit">
+        <button (click)="addNewPoint()">
+            <i class="icon2 icon-map" aria-hidden="true"></i>
+        </button>
     </div>
+</div>
+<div id="info-popup" class="ol-popup" #infoPopup>
+    <mat-card>
+        <mat-card-title>
+            {{selectedPoint.title}}
+            <button mat-icon-button disableRipple
+                    class="close"
+                    (click)="closePopup(infoPopupOverlay)">
+                <i class="icon-close" aria-hidden="true"></i>
+            </button>
+        </mat-card-title>
+        <mat-card-subtitle>
+            <a href="/projects/{{selectedPoint.project.id}}/work_packages/{{selectedPoint.workPackage.id}}"
+               *ngIf="selectedPoint.workPackage">
+                {{selectedPoint.workPackage?.subject}}
+            </a>
+            <span *ngIf="!selectedPoint.workPackage">{{'Без мероприятия'}}</span>
+        </mat-card-subtitle>
+        <mat-card-content>
+            {{selectedPoint.description || 'Нет описания'}}
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button mat-stroked-button *ngIf="userPermittedTo.edit" (click)="deletePoint()">
+                <i class="icon2 icon-delete" aria-hidden="true"></i>
+                Удалить
+            </button>
+            <button mat-button mat-stroked-button *ngIf="userPermittedTo.edit" (click)="openUpdatePoint()">
+                <i class="icon2 icon-edit" aria-hidden="true"></i>
+                Изменить
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+<div id="add-popup" class="ol-popup" #addPopup>
+    <mat-card>
+        <mat-card-title>
+            Новая точка
+            <button mat-icon-button disableRipple
+                    class="close"
+                    (click)="closePopup(addPopupOverlay);clearForm();">
+                <i class="icon-close" aria-hidden="true"></i>
+            </button>
+        </mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+        <mat-card-content>
+            <mat-form-field>
+                <mat-label>Название</mat-label>
+                <input [(ngModel)]="titleValue" style="resize: none" matInput>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Мероприятие</mat-label>
+                <input matInput [value]="workPackage?.subject || null" readonly (click)="chooseWorkPackage()">
+                <button mat-icon-button matSuffix (click)="chooseWorkPackage()">
+                    <i class="icon-add" aria-hidden="true"></i>
+                </button>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Описание</mat-label>
+                <textarea [(ngModel)]="descriptionValue" style="resize: none" matInput></textarea>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-stroked-button (click)="savePoint()">Сохранить</button>
+            <button style="margin-left: 0.5em" mat-stroked-button (click)="closePopup(addPopupOverlay);clearForm();">Отмена</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+<div *ngIf="!mapData">
+    Карта для этого проекта еще не создана.
+    <button mat-stroked-button (click)="createMap()">
+        <i class="icon2 icon-add" aria-hidden="true"></i>
+        Создать карту
+    </button>
+</div>
+<div *ngIf="!userPermittedTo.view">
+    Ваш пользователь не имеет разрешений на просмотр карты
 </div>

@@ -2,12 +2,10 @@
   position: absolute
   background-color: white
   box-shadow: 0 1px 4px rgba(0,0,0,0.2)
-  padding: 15px
-  border-radius: 10px
   border: 1px solid #cccccc
   bottom: 12px
   left: -50px
-  min-width: 280px
+  min-width: 350px
 
 .ol-popup:after, .ol-popup:before
   top: 100%
@@ -30,11 +28,31 @@
   left: 48px
   margin-left: -11px
 
-.ol-popup-closer
+.close
   text-decoration: none
   position: absolute
-  top: 2px
-  right: 8px
+  top: -0.5em
+  right: -0.5em
 
-.ol-popup-closer:after
-  content: "✖"
+.ol-custom
+  z-index: 1000
+  margin: 0.5em
+
+::ng-deep .ol-zoom
+    left: auto
+    right: 0.5em
+.icon2:before
+  padding: 0
+mat-form-field
+  width: 100%
+textarea:hover
+  border: white
+textarea:focus
+  border: white
+
+::ng-deep .mat-select-arrow
+  visibility: hidden
+
+input[readonly]
+  background: white
+  cursor: auto
