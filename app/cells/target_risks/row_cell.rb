@@ -19,19 +19,33 @@ module TargetRisks
       target_risk.risk
     end
 
+    def solution_date
+      target_risk.solution_date
+    end
+
+    def is_solved
+      checkmark(target_risk.is_solved)
+    end
+
     def row_css_id
       'row_' + target_risk.id.to_s
     end
 
     def row_css_class
+      'risk_id_' + target_risk.risk.id.to_s
     end
 
     def button_links
       [
-        delete_link
+        edit_link,
+        delete_link,
       ]
     end
 
+
+    def edit_link
+        '<div class="target-risk-edit icon icon-edit" style="cursor: pointer;float:left;" title="Изменить" data-id="'+target_risk.id.to_s+'"></div>'.html_safe
+    end
 
     def delete_link
       content_tag( :div,

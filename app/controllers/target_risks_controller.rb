@@ -13,6 +13,8 @@ class TargetRisksController < ApplicationController
     @target_risk = TargetRisk.new
     @target_risk.target_id = params[:target_id]
     @target_risk.risk_id = params[:risk_id]
+    @target_risk.solution_date = params[:solution_date]
+    @target_risk.is_solved = params[:is_solved]
     @target = Target.find(params[:target_id])
     @risk = Risk.find(params[:risk_id])
   end
@@ -21,6 +23,9 @@ class TargetRisksController < ApplicationController
     @target_risk = TargetRisk.new
     @target_risk.target_id = params[:target_id]
     @target_risk.risk_id = params[:target_risk][:risk]
+    @target_risk.solution_date = params[:target_risk][:solution_date]
+    @target_risk.is_solved = params[:target_risk][:is_solved]
+
 
     if @target_risk.save
       flash[:notice] = l(:notice_successful_create)
@@ -41,10 +46,12 @@ class TargetRisksController < ApplicationController
   end
 
   def update
-    target_exec_params = permitted_params.target_risk
+    @target_risk.risk_id = params[:target_risk][:risk]
+    @target_risk.solution_date = params[:target_risk][:solution_date]
+    @target_risk.is_solved = params[:target_risk][:is_solved]
 
-    if @target_risk.update_attributes target_exec_params
-      flash[:notice] = l(:notice_successful_update)
+    if @target_risk.save
+      flash[:notice] = l(:notice_successful_create)
       redirect_to edit_project_target_path(id: @target_risk.target_id, tab: :target_risks)
     else
       flash[:error] = 'Обновление не выполнено'

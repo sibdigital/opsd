@@ -16,11 +16,13 @@ module TargetRisks
     end
 
     def risk?
-      !Target.where(id: risk_id).empty?
+      !Risk.where(id: risk_id).empty?
     end
 
     def columns
-      ['risk']
+      ['risk',
+       'is_solved',
+       'solution_date']
     end
 
     def inline_create_link
@@ -34,7 +36,9 @@ module TargetRisks
       [
         # ['risk', caption: TargetRisk.human_attribute_name(:risk)]
         # TODO переделать
-        ['risk', caption: "Риск"]
+        ['risk', caption: "Риск"],
+        ['is_solved', caption: "Решен"],
+        ['solution_date', caption: "Дата решения"]
       ]
     end
 

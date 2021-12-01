@@ -959,6 +959,7 @@ en:
     project_status: Статус
     project_approve_status: Этап согласования
     is_approve: Утверждено
+    is_solved: Решено
     #knm(
     #    first_due_date: Изначальная дата окончания
     #    last_due_date: Текущая дата окончания

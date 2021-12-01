@@ -8,7 +8,7 @@ This file written by XCC
 <% breadcrumb_paths(default_breadcrumb, l(:label_edit) + ': ' + @target.name) %>
 <%# if @target.parent_id != 0 %>
 <!--  <div class="breadcrumb" style="font-size: 14px; font-style: italic; margin-bottom: 5px;">-->
-    <%#= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target.parent_id).name, edit_project_target_path(id: @target.parent_id))).html_safe %>
+<%#= (l(:label_target_parent ) + ': &nbsp' + link_to(Target.find_by(id: @target.parent_id).name, edit_project_target_path(id: @target.parent_id))).html_safe %>
 <!--  </div>-->
 <%# end %>
 <%= breadcrumb_toolbar @target %>
@@ -21,10 +21,10 @@ This file written by XCC
   <section style="display: block; width: 45%; float: left; margin-right: 30px;">
     <h3>Свойства</h3>
     <%= labelled_tabular_form_for @target, url: project_target_path(project_id: @project) do |f| %>
-    <%#= form_with(model: @target, url: project_target_path(project_id: @project)) do |f| %>
+      <%#= form_with(model: @target, url: project_target_path(project_id: @project)) do |f| %>
       <%= render partial: 'targets/form/form', locals: { f: f, target_id: params[:type_id] } %>
       <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
-        <%= styled_button_tag l(:button_save),  class: '-highlight -with-icon icon-checkmark' %>
+        <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
       <% end %>
       <%= link_to 'Закрыть', project_targets_path, class: '-with-icon icon-cancel button' %>
     <% end %>
@@ -33,13 +33,13 @@ This file written by XCC
   <section style="display: block; width: 50%; float: left;">
     <h3><%= l(:label_target_execution_values) %>
       <div class="float-right">
-      <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
-        <!--        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>-->
-        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;"></span></div>
-      <% end %>
-    </div>
+        <% if User.current.allowed_to?(:manage_work_package_target_plan_values, @project) %>
+          <!--        <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;">Добавить плановые значения</span></div>-->
+          <div id="target-val-add"><span class="icon icon-add" style="cursor: pointer;"></span></div>
+        <% end %>
+      </div>
     </h3>
-    <%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id).order('year ASC, quarter ASC'), target_id: @target.id, project_id: @project.id%>
+    <%= cell ::TargetExecutionValues::TableCell, TargetExecutionValue.where(target_id: @target.id).order('year ASC, quarter ASC'), target_id: @target.id, project_id: @project.id %>
 
 
     <div id="target-val-form" style="display: none; margin-top: 10px;">
@@ -47,7 +47,7 @@ This file written by XCC
         <%= @target_execution_value = TargetExecutionValue.new %>
         <h5>Добавление новой записи</h5>
         <%#= error_messages_for @target_execution_value %>
-        <%= labelled_tabular_form_for @target_execution_value, url: target_execution_values_path(target_id: @target.id ) do |f| %>
+        <%= labelled_tabular_form_for @target_execution_value, url: target_execution_values_path(target_id: @target.id) do |f| %>
           <section class="form--section">
             <%= f.hidden_field :target_id, value: @target.id %>
             <table>
@@ -67,12 +67,12 @@ This file written by XCC
                 </td>
                 <td>
                   <div class="form--field">
-                    <%= f.number_field(:value, step: :any, required: true)%></div>
+                    <%= f.number_field(:value, step: :any, required: true) %></div>
                 </td>
               </tr>
             </table>
           </section>
-          <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
+          <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button' %>
           <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-val-cancel' %>
         <% end %>
       </section>
@@ -80,35 +80,35 @@ This file written by XCC
 
     <div id="target-val-edit-block" style="display: none; margin-top: 10px;">
       <h5>Редактирование записи</h5>
-          <%= form_with(model: @target_execution_value, url: target_execution_value_path(id: 0, target_id: @target.id, project_id: @project.id), method: :put, id: "target-val-edit-form") do |f| %>
-            <%= f.hidden_field :target_id, value: @target.id %>
-            <table>
-              <tr>
-                <td>
-                  <div class="form--field" style="max-width: 90px;">
-                    <%= f.number_field 'year', value: Time.current.year, container_class: '-middle', id: 'val-year' %>
-                  </div>
-                </td>
-                <td>
-                  <div class="form--field">
-                    <%= f.select 'quarter',
-                                 options_for_select([['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], @target_execution_value.quarter),
-                                 include_blank: true,
-                                 container_class: '-middle',
-                                 id: 'val-quarter'
-                    %>
-                  </div>
-                </td>
-                <td>
-                  <div class="form--field">
-                    <%= f.number_field(:value, step: :any, required: true, id: 'val-value')%></div>
-                </td>
-              </tr>
-            </table>
-            <%#= f.submit %>
-            <%= button_tag 'Сохранить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
-            <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-val-edit-cancel' %>
-          <% end %>
+      <%= form_with(model: @target_execution_value, url: target_execution_value_path(id: 0, target_id: @target.id, project_id: @project.id), method: :put, id: "target-val-edit-form") do |f| %>
+        <%= f.hidden_field :target_id, value: @target.id %>
+        <table>
+          <tr>
+            <td>
+              <div class="form--field" style="max-width: 90px;">
+                <%= f.number_field 'year', value: Time.current.year, container_class: '-middle', id: 'val-year' %>
+              </div>
+            </td>
+            <td>
+              <div class="form--field">
+                <%= f.select 'quarter',
+                             options_for_select([['1-й квартал', 1], ['2-й квартал', 2], ['3-й квартал', 3], ['4-й квартал', 4]], @target_execution_value.quarter),
+                             include_blank: true,
+                             container_class: '-middle',
+                             id: 'val-quarter'
+                %>
+              </div>
+            </td>
+            <td>
+              <div class="form--field">
+                <%= f.number_field(:value, step: :any, required: true, id: 'val-value') %></div>
+            </td>
+          </tr>
+        </table>
+        <%#= f.submit %>
+        <%= button_tag 'Сохранить', type: 'submit', class: '-highlight -with-icon icon-checkmark button' %>
+        <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-val-edit-cancel' %>
+      <% end %>
     </div>
 
   </section>
@@ -121,34 +121,74 @@ This file written by XCC
         <% end %>
       </div>
     </h3>
-    <%= cell ::TargetRisks::TableCell, TargetRisk.where(target_id: @target.id), target_id: @target.id%>
+    <%= cell ::TargetRisks::TableCell, TargetRisk.where(target_id: @target.id), target_id: @target.id %>
 
     <div id="target-risk-form" style="display: none; margin-top: 10px;">
       <section>
         <%= @target_risk = TargetRisk.new %>
+        <%= @selected_risk = @target_risk.risk %>
         <h5>Добавление новой записи</h5>
         <%#= error_messages_for @target_execution_value %>
-        <%= labelled_tabular_form_for @target_risk, url: target_risks_path(target_id: @target.id ) do |f| %>
+        <%= labelled_tabular_form_for @target_risk, url: target_risks_path(target_id: @target.id) do |f| %>
           <section class="form--section">
             <%= f.hidden_field :target_id, value: @target.id %>
             <div class="form--field">
-              <%= f.select 'risk',
-                           options_for_select(Risk.where(project_id: @project.id).map { |u| [u.name, u.id] }, @selected_risk),
-                           include_blank: true,
-                           container_class: '-middle' %>
+              <table>
+                <tr>
+                  <td>
+                    <%= f.select 'risk',
+                                 options_for_select(Risk.where(project_id: @project.id).map { |u| [u.name, u.id] }, @selected_risk),
+                                 include_blank: true,
+                                 container_class: '-middle' %>
+                  </td>
+                  <td>
+                    <%= f.check_box 'is_solved', container_class: '-middle'%>
+                  </td>
+                  <td>
+                    <%= f.date_field :solution_date, size: 6, container_class: '-xslim', class: '-number' %>
+                  </td>
+                </tr>
+              </table>
             </div>
           </section>
-          <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button'%>
+          <%= button_tag 'Добавить', type: 'submit', class: '-highlight -with-icon icon-checkmark button' %>
           <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-risk-cancel' %>
         <% end %>
       </section>
+    </div>
+
+
+    <div id="target-risk-edit-block" style="display: none; margin-top: 10px;">
+      <h5>Редактирование записи</h5>
+      <%= form_with(model: @target_risk, url: target_risk_path(id: 0, target_id: @target.id), method: :put, id: "target-risk-edit-form") do |f| %>
+        <%= f.hidden_field :target_id, value: @target.id %>
+        <table>
+          <tr>
+            <td>
+              <%= f.select 'risk',
+                           options_for_select(Risk.where(project_id: @project.id).map { |u| [u.name, u.id] }, @selected_risk),
+                           include_blank: true,
+                           container_class: '-middle',
+                           id: 'val-risk'%>
+            </td>
+            <td>
+              <%= f.check_box 'is_solved', container_class: '-middle', id: 'val-is-solved'%>
+            </td>
+            <td>
+              <%= f.date_field :solution_date, size: 6, container_class: '-xslim', id: 'val-solution-date' %>
+            </td>
+          </tr>
+        </table>
+        <%= button_tag 'Сохранить', type: 'submit', class: '-highlight -with-icon icon-checkmark button' %>
+        <%= button_tag l(:button_cancel), type: 'reset', class: '-with-icon icon-cancel button', id: 'target-risk-edit-cancel' %>
+      <% end %>
     </div>
 
   </section>
 
   <section style="display: block; width: 50%; float: left;">
     <h3><%= l(:label_target_work_packages) %></h3>
-    <%= cell ::TargetWorkPackages::TableCell, @target.work_packages.order('id ASC'), target_id: @target.id, project_id: @project.id%>
+    <%= cell ::TargetWorkPackages::TableCell, @target.work_packages.order('id ASC'), target_id: @target.id, project_id: @project.id %>
 
   </section>
 </div>
