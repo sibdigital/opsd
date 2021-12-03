@@ -468,6 +468,62 @@ jQuery( document ).ready(function() {
     });
 });
 //)
+//gly( сделано по примеру выше
+jQuery( document ).ready(function() {
+    var row_id = 0;
+    var add_form = 0;
+    jQuery('#target-risk-add').click(function(){
+        if(row_id == 0 ) {
+            jQuery(this).hide();
+            jQuery('#target-risk-form').show("fast");
+            add_form = 1;
+        }
+    });
+
+    jQuery('#target-risk-cancel').click(function(){
+        jQuery('#target-risk-add').show("fast");
+        jQuery('#target-risk-form').hide("fast");
+        add_form = 0;
+    });
+
+
+    jQuery('.target-risk-edit').click(function(){
+        if(add_form == 0) {
+            if (row_id != 0) {
+                jQuery("#row_" + row_id).show("fast");
+            }
+            row_id = jQuery(this).attr('data-id');
+            jQuery("#row_" + row_id).hide();
+            var class_name = jQuery("#row_" + row_id).attr("class");
+            var risk_id = class_name.replace('risk_id_', '')
+
+            var solution_date = jQuery("#row_" + row_id).find("td.solution_date").text().replace(/\s/g, '');
+
+            var is_solved = jQuery("#row_" + row_id).find("td.is_solved").find("i").attr('aria-hidden');
+
+            var action = jQuery('#target-risk-edit-form').attr('action');
+            action = action.substring(0, action.length - 1) + row_id;
+            jQuery('#target-risk-edit-form').attr('action', action);
+            jQuery('#val-solution-date').val(solution_date);
+
+            if (risk_id != "") {
+                jQuery('select[name="target_risk[risk]"] option[value='+risk_id.replace(/\s/g, '')+']').prop('selected', true);
+            }
+
+            if (is_solved) {
+                jQuery('#val-is-solved').val(is_solved);
+            }
+            jQuery('#target-risk-edit-block').show("fast");
+        }
+    });
+
+    jQuery('#target-risk-edit-cancel').click(function(){
+        jQuery("#row_"+row_id).show("fast");
+        jQuery('#target-risk-edit-block').hide("fast");
+        row_id = 0;
+    });
+});
+//)
 //knm +
 jQuery(document).ready(function(){
     jQuery('.hide-head').click(function(){

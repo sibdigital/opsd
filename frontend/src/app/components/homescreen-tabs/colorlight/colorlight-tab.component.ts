@@ -63,7 +63,7 @@ export class ColorlightTabComponent implements OnInit {
 
 
   submitsecond() {
-    let params = new HttpParams().set("typeId", this.selectedValue);
+    let params = new HttpParams().set("typeId", this.selectedValue2);
     this.http.get(this.pathHelper.javaUrlPath + '/generate_light_report/xlsx/params?', {
       params: params,
       // observe: 'response',

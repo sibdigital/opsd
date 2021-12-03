@@ -17,9 +17,6 @@ export class EbCostTypesModalHelpComponent implements OnInit {
   }
   ngOnInit():void {
     this.dialogRef.updateSize('80%', '60%');
-    this.ebCostTypeService.getEbCostTypesHelp().subscribe(
-      data => this.htmlString = data.value
-    );
   }
 
 }

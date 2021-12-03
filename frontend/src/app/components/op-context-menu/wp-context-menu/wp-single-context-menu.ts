@@ -13,6 +13,9 @@ import {PERMITTED_CONTEXT_MENU_ACTIONS} from 'core-components/op-context-menu/wp
 import {OpModalService} from 'core-components/op-modals/op-modal.service';
 import {WorkPackageAuthorization} from 'core-components/work-packages/work-package-authorization.service';
 import {WorkPackageAction} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import {HttpClient} from "@angular/common/http";
+import {ResponseContentType} from "@angular/http";
 
 @Directive({
   selector: '[wpSingleContextMenu]'
@@ -25,6 +28,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
               readonly PathHelper:PathHelperService,
               readonly elementRef:ElementRef,
               readonly opModalService:OpModalService,
+              protected notificationsService:NotificationsService,
+              protected httpClient:HttpClient,
+              protected pathHelper:PathHelperService,
               readonly opContextMenuService:OPContextMenuService,
               readonly authorisationService:AuthorisationService) {
     super(elementRef, opContextMenuService);
@@ -44,7 +50,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   public triggerContextMenuAction(action:WorkPackageAction, key:string) {
     const link = action.link;
-
     switch (key) {
       case 'copy':
         this.$state.go('work-packages.copy', {copiedFromWorkPackageId: this.workPackage.id});
@@ -52,7 +57,31 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       case 'delete':
         this.opModalService.show(WpDestroyModal, {workPackages: [this.workPackage]});
         break;
-
+      case 'export-eb':
+        this.httpClient.get(link, {responseType: 'blob' as 'json'})
+          .subscribe(
+            (data) => {
+                var downloadURL = window.URL.createObjectURL(data);
+                var link = document.createElement('a');
+                link.href = downloadURL;
+                var date = new Date();
+                link.download = this.workPackage.name + "__" + date.toISOString() + ".XML";
+                link.click();
+            },
+            error => {
+              error.error.text().then(
+                (errMessage:any) => {
+                  let errObj = JSON.parse(errMessage);
+                  if (errObj.cause) {
+                    this.notificationsService.addError('Не удалось скачать файл. ' + errObj.cause);
+                  }
+                  else {
+                    this.notificationsService.addError('Не удалось скачать файл.');
+                  }
+                });
+            }
+        );
+        break;
       default:
         window.location.href = link;
         break;

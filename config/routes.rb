@@ -786,6 +786,11 @@ OpenProject::Application.routes.draw do
   #end
 
   # )
+  # gly(
+  scope '/projects/:project_id/targets/:target_id' do
+    resources :target_risks
+  end
+  # )
 
   scope controller: 'sys' do
     match '/sys/repo_auth', action: 'repo_auth', via: %i[get post]
