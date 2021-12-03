@@ -12,6 +12,7 @@ import {KPI, KpiDto, KPIVariable} from "core-components/kpi/schema";
 export class KPIFormComponent implements OnInit {
   public kpi = new KPI();
   public kpiVariables:KPIVariable[] = [];
+  public answerJSON:any;
   public $element:JQuery;
   @Input() id:string;
   constructor(
@@ -33,7 +34,8 @@ export class KPIFormComponent implements OnInit {
     this.httpClient.post(
       this.pathHelper.javaUrlPath + '/kpi/execute', kpiDto).toPromise()
       .then((response) => {
-        console.log(response);
+        this.answerJSON = response;
+        console.log(this.answerJSON);
       })
       .catch((reason) => console.error(reason));
   }

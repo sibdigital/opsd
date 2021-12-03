@@ -198,6 +198,7 @@ en:
     main: Главная
     statistic: Статистика
     additional: Дополнительно
+    kpi_new: KPI
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   prioritiies:
