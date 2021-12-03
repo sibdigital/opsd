@@ -72,8 +72,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
               error.error.text().then(
                 (errMessage:any) => {
                   let errObj = JSON.parse(errMessage);
-                  if (errObj.status === "no meta id" && errObj.cause) {
-                    this.notificationsService.addError(errObj.cause);
+                  if (errObj.cause) {
+                    this.notificationsService.addError('Не удалось скачать файл. ' + errObj.cause);
                   }
                   else {
                     this.notificationsService.addError('Не удалось скачать файл.');

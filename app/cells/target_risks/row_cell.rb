@@ -16,7 +16,7 @@ module TargetRisks
     end
 
     def risk
-      target_risk.risk
+      link_to(target_risk.risk.name || '', edit_tab_project_project_risk_path(target_risk.risk.project_id, target_risk.risk_id, :properties))
     end
 
     def solution_date
