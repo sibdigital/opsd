@@ -559,7 +559,7 @@ Redmine::AccessControl.map do |map|
   map.project_module :report_wp_by_period
   map.project_module :report_passport
   map.project_module :report_change_request
-
   # )
   map.project_module :lbo
+  map.project_module :report_project_kpi
 end

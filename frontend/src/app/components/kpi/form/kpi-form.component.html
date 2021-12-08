@@ -14,18 +14,23 @@
                 <i class="button--icon icon-settings"></i>
                 <span class="button--text">Проверить</span>
             </a>
-            <a class="button" href="#">
+            <a class="button" href="/kpi">
                 <span class="button--text"><b>{{'Отмена'}}</b></span></a>
         </div>
     </div>
 </div>
 <div class="loading-indicator--location" data-indicator-name="kpi-form">
     <form style="display: flex;flex-direction: row;align-items: flex-start;gap: 10px;">
-        <div style="flex-grow: 4">
+        <div style="flex-grow: 4;display: flex;flex-direction: column;gap: 10px;">
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>SQL запрос</mat-label>
                 <textarea [(ngModel)]="kpi.query" name="query" type="text" matInput style="height: 40vh"></textarea>
             </mat-form-field>
+            <div>
+                <span>Ответ:</span>
+                <br>
+                <pre style="height: 35vh;">{{answerJSON | json}}</pre>
+            </div>
         </div>
         <div style="flex-grow: 1;display: flex;flex-direction: column" class="form-group">
             <mat-form-field class="example-full-width" appearance="fill">
@@ -33,18 +38,18 @@
                 <input [(ngModel)]="kpi.name" name="name" matInput>
             </mat-form-field>
             <mat-divider></mat-divider>
-            <div style="display: flex;flex-direction: row;align-items: flex-start;gap: 20px;">
+            <div style="display: flex;flex-direction: row;align-items: flex-start;gap: 20px;" *ngFor="let variable of kpiVariables; let i = index">
                 <mat-form-field appearance="fill">
                     <mat-label>Название переменной</mat-label>
-                    <input matInput>
+                    <input [(ngModel)]="variable.name" [name]="'variableName' + i" matInput>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Значение</mat-label>
-                    <input matInput>
+                    <input [(ngModel)]="variable.value" [name]="'variableValue' + i" matInput>
                 </mat-form-field>
             </div>
             <div class="toolbar-item" style="display: flex; margin-inline-start: auto; align-items: center">
-                <a class="button -alt-highlight" href="#">
+                <a class="button -alt-highlight" href="#" (click)="addVariable()">
                     <i class="button--icon icon-add"></i>
                     <span class="button--text">Новая</span>
                 </a>

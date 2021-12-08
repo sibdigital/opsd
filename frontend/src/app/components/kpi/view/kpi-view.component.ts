@@ -12,6 +12,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class KpiViewComponent implements OnInit {
   report:any;
   @Input() userId:string;
+  @Input() projectId:string;
   public $element:JQuery;
   constructor(protected pathHelper:PathHelperService,
               protected httpClient:HttpClient,
@@ -22,6 +23,7 @@ export class KpiViewComponent implements OnInit {
   ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.userId = this.$element.attr('userId')!;
+    this.projectId = this.$element.attr('projectId')!;
     this.getReport();
   }
 
@@ -30,7 +32,9 @@ export class KpiViewComponent implements OnInit {
       'Accept': 'text/html, application/xhtml+xml, */*',
       'Content-Type': 'text/html'
     });
-    const params = new HttpParams().set('userId', this.userId);
+    const params = new HttpParams()
+      .set('userId', this.userId || '')
+      .set('projectId', this.projectId || '');
     this.httpClient.get(
       this.pathHelper.javaUrlPath + `/kpi/report`,
       {headers: headers, responseType: 'text', params: params})

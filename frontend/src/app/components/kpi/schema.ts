@@ -3,6 +3,7 @@ export class KPI {
   public name:string | null;
   public query:string | null;
   public is_deleted = false;
+  public _links:any;
 
   constructor(id = null,  name = null, query = null, is_deleted = false) {
     this.id = id;
@@ -17,6 +18,7 @@ export class KPIVariable {
   public name:string | null;
   public value:string | null;
   public is_deleted = false;
+  public _links:any;
 
   constructor(id = null,  name = null, value = null, is_deleted = false) {
     this.id = id;

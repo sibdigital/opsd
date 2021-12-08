@@ -797,6 +797,14 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.module_enabled?('report_progress_project') },
             parent: :reports
 
+  menu.push :report_project_kpi,
+            {controller: '/report_project_kpi', action: 'index' },
+            param: :project_id,
+            caption: :label_report_project_kpi,
+            icon: 'icon2 icon-info1',
+            if: Proc.new { |p| p.module_enabled?('report_project_kpi') },
+            parent: :reports
+
   menu.push :report_wp_by_period,
             {controller: '/report_wp_by_period', action: 'index' },
             param: :project_id,

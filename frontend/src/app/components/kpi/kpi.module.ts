@@ -9,17 +9,19 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {KpiListComponent} from "core-components/kpi/list/kpi-list.component";
 import {KpiViewComponent} from "core-components/kpi/view/kpi-view.component";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatDividerModule,
-    FormsModule,
-    MatTableModule,
-    MatTooltipModule,
-    MatPaginatorModule
-  ],
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        MatDividerModule,
+        FormsModule,
+        MatTableModule,
+        MatTooltipModule,
+        MatPaginatorModule,
+        CommonModule
+    ],
   providers: [],
   declarations: [
     KPIFormComponent,

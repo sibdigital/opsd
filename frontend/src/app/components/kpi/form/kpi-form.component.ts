@@ -3,6 +3,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {KPI, KpiDto, KPIVariable} from "core-components/kpi/schema";
+import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   selector: 'op-kpi-form',
@@ -19,6 +20,7 @@ export class KPIFormComponent implements OnInit {
     protected pathHelper:PathHelperService,
     protected httpClient:HttpClient,
     protected elementRef:ElementRef,
+    private notificationService:NotificationsService
   ) {
   }
 
@@ -37,7 +39,10 @@ export class KPIFormComponent implements OnInit {
         this.answerJSON = response;
         console.log(this.answerJSON);
       })
-      .catch((reason) => console.error(reason));
+      .catch((reason) => {
+        this.notificationService.addError(`Ошибка выполнения: ${reason.error.message}`);
+        console.error(reason);
+      });
   }
 
   saveKPI() {
@@ -64,9 +69,14 @@ export class KPIFormComponent implements OnInit {
   private loadKPIVariables() {
     this.httpClient.get(this.pathHelper.javaApiPath.javaApiBasePath + `/kpiVariables/search/findAllByKpi_Id`, {params: new HttpParams().set('kpiId', this.id)}).toPromise()
       .then((response:any) => {
+        console.log(response);
         this.kpiVariables = response._embedded.kpiVariables;
       })
       .catch((reason) => console.error(reason));
+  }
+
+  addVariable() {
+    this.kpiVariables.push(new KPIVariable());
   }
 }
 
