@@ -33,7 +33,7 @@ module TargetExecutionValues
 
     def row_css_class
       now = Date.today
-      target_date = Date.parse('01/' + (target_execution_value.quarter * 3).to_s + '/' + target_execution_value.year.to_s)
+      target_date = Date.parse((target_execution_value.quarter ? 1 : 31).to_s + '/' + (target_execution_value.quarter ? target_execution_value.quarter * 3 : 12).to_s + '/' + target_execution_value.year.to_s)
       if target_date <= now
         wp_target = Target.find(model.target_id)
                        .work_package_targets
