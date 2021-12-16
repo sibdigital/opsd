@@ -2018,6 +2018,7 @@ en:
   label_report_wp_by_period: Отчет о исполнении пакетов работ за период
   label_report_passport: Паспорт регионального проекта
   label_report_change_request: Запрос на изменение паспорта
+  label_report_project_kpi: Отчет KPI
   label_resources: Ресурсы
   label_control: Контроль
   label_nobody: никто
@@ -2782,6 +2783,7 @@ en:
   project_module_colorlight: Светофор
   project_module_strategic_map: Стратегическая карта
   project_module_map: Географическая карта
+  project_module_report_project_kpi: Отчет KPI
   project_module_national_projects: Национальные, федеральные проекты и гос. программы
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
