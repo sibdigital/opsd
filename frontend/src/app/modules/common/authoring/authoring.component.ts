@@ -58,8 +58,8 @@ export class AuthoringComponent implements OnInit {
 
   ngOnInit() {
     this.createdOnTime = this.timezoneService.parseDatetime(this.createdOn);
+    this.time = this.createdOnTime.locale('ru').format('LLL');
     this.timeago = this.createdOnTime.fromNow();
-    this.time = this.createdOnTime.format('LLL');
     this.userLink = this.PathHelper.userPath(this.author.idFromLink);
   }
 
