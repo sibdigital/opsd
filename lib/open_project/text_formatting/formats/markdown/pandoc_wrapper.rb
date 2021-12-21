@@ -36,7 +36,7 @@ module OpenProject::TextFormatting::Formats
 
       attr_reader :logger
 
-      def initialize(logger = ::Logger.new(STDOUT))
+      def initialize(logger = ::Logger.new(STDOUT, 10))
         @logger = logger
       end
 
