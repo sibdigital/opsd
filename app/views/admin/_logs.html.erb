@@ -1,0 +1,2 @@
+<%= content_tag :h3, I18n.t('label_app_logs') + "(#{@log_filename})" %>
+<%= sanitize @log_text.split("\n").join("<br>") %>

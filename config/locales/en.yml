@@ -1862,6 +1862,8 @@ en:
   label_gantt: Гантт
   label_gantt_chart: Диаграмма Гантта
   label_general: Общие
+  label_logs: Логи
+  label_app_logs: Логи приложения
 
   label_commonstart: начинается одновременно
   label_commonfinish: заканчивается одновременно

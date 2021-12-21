@@ -141,8 +141,18 @@ class AdminController < ApplicationController
     redirect_to :back
   end
 
+  def last_modified_in dir
+    Dir.glob( File.join( dir,'*' ) ).
+        select  {|f| File.file? f }.
+        sort_by {|f| File.mtime f }.
+        last
+  end
+
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
+    @log_filename = last_modified_in 'log'
+    log_file = File.open(@log_filename)
+    @log_text = log_file.read
     repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
