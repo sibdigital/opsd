@@ -1,9 +1,24 @@
 <div *ngIf="mapData && userPermittedTo.view" class="map-container" id="map" style="width: 85vw;height: 90vh">
-    <div class="ol-unselectable ol-control ol-custom" *ngIf="userPermittedTo.edit">
+    <div class="ol-unselectable ol-control ol-custom" style="display: flex" *ngIf="userPermittedTo.edit">
+        <input #search placeholder="Поиск...">
+        <button (click)="findLocation(search.value)">
+            <i class="icon2 icon-search" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="ol-unselectable ol-control ol-custom" style="margin-top: 2.25em;" *ngIf="userPermittedTo.edit">
         <button (click)="addNewPoint()">
             <i class="icon2 icon-map" aria-hidden="true"></i>
         </button>
     </div>
+<!--    <div class="ol-unselectable ol-control ol-custom">-->
+<!--        <input placeholder="Поиск...">-->
+<!--&lt;!&ndash;        <mat-form-field appearance="outline" style="width: 200px">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input matInput placeholder="Поиск...">&ndash;&gt;-->
+<!--&lt;!&ndash;            <button matSuffix mat-icon-button>&ndash;&gt;-->
+<!--&lt;!&ndash;                <i class="icon2 icon-search" aria-hidden="true"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </mat-form-field>&ndash;&gt;-->
+<!--    </div>-->
 </div>
 <div id="info-popup" class="ol-popup" #infoPopup>
     <mat-card>
@@ -33,6 +48,32 @@
             <button mat-button mat-stroked-button *ngIf="userPermittedTo.edit" (click)="openUpdatePoint()">
                 <i class="icon2 icon-edit" aria-hidden="true"></i>
                 Изменить
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+<div id="location-popup" class="ol-popup" #locationPopup>
+    <mat-card>
+        <mat-card-title>
+            {{selectedAddress.query}}
+            <button mat-icon-button disableRipple
+                    class="close"
+                    (click)="closePopup(locationPopupOverlay)">
+                <i class="icon-close" aria-hidden="true"></i>
+            </button>
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{translate()}}
+        </mat-card-subtitle>
+        <mat-card-content>
+            {{selectedAddress.name}}
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button mat-stroked-button
+                    *ngIf="userPermittedTo.edit"
+                    (click)="closePopup(locationPopupOverlay);clearForm();this.addPopupOverlay.setPosition(this.selectedAddress.coordinates);">
+                <i class="icon2 icon-add" aria-hidden="true"></i>
+                Добавить
             </button>
         </mat-card-actions>
     </mat-card>

@@ -961,3 +961,485 @@ en:
     national_project_export: Международная кооперация и экспорт
     national_project_obraz: Образование
     project_republic: Проекты Республики Бурятия
+    geographic_map:
+      types:
+        default: Место
+        aerialway:
+          default: Воздушная дорога
+          zip_line: Зиплайн
+          zipline: Зиплайн
+          zip_wire: Зиплайн
+          zipwire: Зиплайн
+        aeroway:
+          default: Воздушный путь
+          aerodrome: Аэродром
+          airport: Аэропорт
+        advertising:
+          billboard: Рекламный щит
+          hoarding: Баннер
+          column: Афишная тумба
+          advertising_column: Рекламная колонна
+          litfass_column: Колонна Литфасса
+          morris_column: Тумба Морриса
+          default: Реклама
+        amenity:
+          animal_boarding: Приют для животных
+          animal_shelter: Приют для животных
+          arts_centre: Центр искусств
+          atm: Банкомат
+          cash: Касса
+          cash_machine: Кассовый аппарат
+          bank: Банк
+          bar: Бар
+          pub: Паб
+          bbq: Барбекю
+          barbecue: Барбекю
+          barbecue_grill: Барбекю гриль
+          bench: Скаймейка
+          cycle_parking: Велосипедная парковка
+          cycle_rental: Прокат велосипедов
+          bicycle_parking: Велосипедная парковка
+          bicycle_rental: Прокат велосипедов
+          biergarten: Пивной сад
+          brothel: Бордель
+          bureau_de_change: Обменный пункт
+          bus_station: Автобусная остановка
+          cafe: Кафе
+          car_rental: Прокат автомобилей
+          car_sharing: Каршеринг
+          car_wash: Автомойка
+          casino: Казино
+          charging_station: Зарядная станция
+          cinema: Кинотеатр
+          clinic: Клиника
+          college: Колледж
+          conference_centre: Конференц-центр
+          community_centre: Общественный центр
+          courthouse: Здание суда
+          crematorium: Крематорий
+          dentist: Стоматология
+          doctors: Больница
+          dojo: Додзё
+          drinking_water: Питьевая вода
+          driving_school: Автошкола
+          embassy: Посольство
+          fast_food: Фаст-фуд
+          restaurant: Ресторан
+          ferry_terminal: Паромный терминал
+          fire_station: Пожарная станция
+          fountain: Фонтан
+          fuel: Заправка
+          grave_yard: Кладбище
+          grit_bin: Мусорный бак
+          gym: Спортзал
+          hospital: Госпиталь
+          hunting_stand: Охотничья стойка
+          ice_cream: Мороженое
+          karaoke_box: Караоке
+          kindergarten: Детский сад
+          kneipp_water_cure: Оздоровительные процедуры
+          library: Библиотека
+          marketplace: Рынок
+          motorcycle_parking: Парковка для мотоциклов
+          nightclub: Ночной клуб
+          nursing_home: Дом престарелых
+          pharmacy: Аптека
+          parking: Парковка
+          place_of_worship: Церковь
+          planetarium: Планетарий
+          police: Полиция
+          post_box: Почтомат
+          post_office: Почтовое отделение
+          prison: Тюрьма
+          public_bookcase: Книжный шкаф
+          public_building: Общественное здание
+          recycling: Переработка
+          retirement_home: Дом престарелых
+          sauna: Сауна
+          school: Школа
+          shelter: Приют
+          studio: Студия
+          swingerclub: Качели
+          taxi: Такси
+          telephone: Телефонная будка
+          theatre: Театр
+          toilets: Туалеты
+          townhall: Ратуша
+          university: Университет
+          vending_machine: Торговый автомат
+          veterinary: Ветеринарная клиника
+          waste_basket: Корзина для мусора
+          coworking_space: Коворкинг
+          default: Удобства
+        artwork_type:
+          mural: Фреска
+          sculpture: Скульптура
+          statue: Статуя
+          default: Произведение искусства
+        atm:
+          'yes': Банкомат
+          default: Банкомат
+        boundary:
+          national_park: Заповедник
+          boundary_stone: Пограничный камень
+          default: Граница
+        building:
+          apartments: Квартиры
+          block: Квартал
+          bunker: Убежище
+          cathedral: Кафедральный собор
+          chapel: Часовня
+          church: Церковь
+          city_hall: Здание муниципалитета
+          civic: Жилой дом
+          commercial: Торговое здание
+          dormitory: Общежитие
+          entrance: Вход
+          faculty: Факультет
+          farm_auxiliary: Подсобное хозяйство
+          farm: Ферма
+          flats: Квартиры
+          greenhouse: Теплица
+          garage: Гараж
+          hall: Зал
+          hospital: Больница
+          hotel: Отель
+          house: Дом
+          industrial: Промышленное здание
+          mosque: Мечеть
+          office: Офис
+          public: Общественное здание
+          residential: жилой дом
+          retail: Торговля
+          school: Школа
+          shop: Магазин
+          stadium: Стадион
+          synagogue: Синагога
+          store: Склад
+          terrace: Терраса
+          tower: Вышка
+          train_station: Железнодорожная станция
+          university: Университет
+          'yes': Строение
+          default: Здание
+        highway:
+          bridleway: Проселочная дорога
+          bus_guideway: Автобусный маршрут
+          bus_stop: Автобусная остановка
+          byway: Дорога
+          construction: Строительство шоссе
+          cycleway: Велодорожка
+          distance_marker: Маркер расстояния
+          emergency_access_point: Точка аварийного доступа
+          speed_camera: Радар
+          traffic_signals: Светофор
+          footway: Тротуар
+          ford: Брод
+          gate: Ворота
+          living_street: Улица
+          minor: Дорога
+          motorway: Автомагистраль
+          motorway_junction: Выезд на автомагистраль
+          motorway_link: Автомагистраль
+          path: Дорожка
+          pedestrian: Пешеходная зона
+          platform: Перрон
+          primary: Главная дорога
+          primary_link: Главная дорога
+          raceway: Дорога
+          residential: Дорога
+          rest_area: Остановка
+          road: Дорога
+          secondary: Вспомогательная дорога
+          secondary_link: Вспомогательная дорога
+          service: Техобслуживание
+          steps: Лестница
+          stile: Турникет
+          tertiary: Надземный переход
+          track: Путь
+          trail: Тропа
+          trunk: Магистраль
+          trunk_link: Магистраль
+          unclassified: Бездорожье
+          unsurfaced: Грунтовая дорога
+          default: Шоссе
+        changing_table:
+          'yes': Пеленальный столик
+          default: Пеленальный столик
+        craft:
+          brewery: Пивоварня
+          carpenter: Столярная мастерская
+          distillery: Винокуренный завод
+          key_cutter: Ключи
+          electrician: Электрик
+          photographer: Фотограф
+          shoemaker: Сапожник
+          tailor: Портной
+          winery: Винодельня
+          default: Мастерская
+        emergency:
+          ambulance_station: Скорая поиощь
+          defibrillator: Дефибрилятор
+          fire_hydrant: Пожарный гидрант
+          phone: Телефон
+          default: Станция экстренной помощи
+        historic:
+          archaeological_site: Археологические раскопки
+          battlefield: Поле боя
+          boundary_stone: Пограничный камень
+          building: Строение
+          castle: Замок
+          manor: Поместье
+          memorial: Мемориал
+          mine: Рудник
+          monument: Монумент
+          ruins: Руины
+          wayside_cross: Придорожный крест
+          wayside_shrine: Придорожный храм
+          wreck: Развалины
+          default: Историческая постройка
+        landuse:
+          allotments: Наделы
+          roundabout: Кольцо
+          basin: Бассейн
+          brownfield: Посевы
+          cemetery: Кладбище
+          commercial: Коммерческий участок
+          conservation: Заповедник
+          construction: Строительство
+          farm: Ферма
+          farmland: Сельхозугодья
+          farmyard: Двор
+          forest: Лес
+          grass: Трава
+          greenfield: Зеленок
+          industrial: Промышленная территория
+          landfill: Свалка
+          meadow: Луг
+          military: Воинская часть
+          piste: Трасса
+          quarry: Карьер
+          railway: Железная дорога
+          recreation_ground: Зона отдыха
+          reservoir: Водохранилище
+          residential: Жилая территория
+          retail: Торговля
+          village_green: Деревня
+          vineyard: Виноградник
+          default: Землепользование
+        junction:
+          roundabout: Кольцевая дорога
+          default: Точка соединения
+        leisure:
+          beach_resort: Пляж
+          common: Зона отдыха
+          fishing: Рыбалка
+          garden: Сад
+          golf_course: Гольф
+          hackerspace: Хакерспейс
+          ice_rink: Каток
+          marina: Гавань
+          miniature_golf: Минигольф
+          nature_reserve: Парк
+          park: Парк
+          pitch: Площадка
+          playground: Игровая площадка
+          recreation_ground: Зона отдыха
+          slipway: Стапель
+          sports_centre: Спортивный центр
+          stadium: Стадион
+          swimming_pool: Бассейн
+          track: Дорожка
+          water_park: Аквапарк
+          default: Досуг
+        man_made:
+          water_well: Колодец
+          windmill: Мельница
+          maypole: Каланча
+          default: Искусственное сооружение
+        memorial:
+          plaque: Памятный знак
+          statue: Статуя
+          stolperstein: Камень преткновения
+          war_memorial: Военный мемориал
+          default: Памятник
+        natural:
+          bay: Залив
+          beach: Пляж
+          cape: Мыс
+          cave_entrance: Пещера
+          cliff: Утес
+          coastline: Береговая линия
+          desert: Пустыня
+          fell: Вырубка
+          glacier: Ледник
+          heath: Пустошь
+          land: Земля
+          marsh: Болото
+          moor: Причал
+          mud: Грязь
+          peak: Вершина
+          reef: Риф
+          ridge: Горный хребет
+          rock: Скала
+          scree: Осыпь
+          scrub: Кустарник
+          shoal: Мелководье
+          spring: Источник
+          tree: Дерево
+          valley: Долина
+          volcano: Вулкан
+          water: Вода
+          wetland: Водно-болотное угодье
+          wood: Лес
+          default: Природное сооружение
+        place:
+          city: Город
+          country: Страна
+          county: Округ
+          farm: Ферма
+          hamlet: Деревня
+          houses: Дома
+          island: Остров
+          islet: Островок
+          locality: Населенный пункт
+          municipality: Муниципалитет
+          region: Область
+          sea: Море
+          state: Штат
+          suburb: Улица
+          town: Город
+          village: Поселок
+          default: Место
+        railway:
+          abandoned: Заброшенная железная дорога
+          construction: Строительство железной дороги
+          disused: Неиспользующаяся железная дорога
+          funicular: Фуникуляр
+          halt: ЖД остановка
+          level_crossing: Железнодорожный переезд
+          light_rail: Скоростные пути
+          monorail: Монорельс
+          narrow_gauge: Узкоколейка
+          platform: Платформа
+          preserved: Консервированная ЖД
+          station: ЖД Станция
+          subway: Метро
+          subway_entrance: Вход в метро
+          switch: Стрелка
+          tram: Трамвайные пути
+          tram_stop: Трамвайная остановка
+          default: Железная дорога
+        shop:
+          alcohol: Алкоголь
+          art: Искусство
+          bakery: Выпечка
+          beauty: Красотв
+          beverages: Напитки
+          bicycle: Велосипеды
+          books: Книги
+          butcher: Мясник
+          car: Автомобили
+          car_parts: Автозапчасти
+          carpet: Ковры
+          car_repair: Ремонт машин
+          charity: Благотворительность
+          chemist: Химия
+          clothes: Одежда
+          computer: Компьютеры
+          confectionery: Кондитерская
+          convenience: Магазин
+          copyshop: Копирование
+          cosmetics: Косметика
+          deli: Деликатесы
+          department_store: Универмаг
+          seafood: Морепродукты
+          doityourself: DIY
+          dry_cleaning: Химчистка
+          electronics: Электроника
+          erotic: Сексшоп
+          estate_agent: Недвижимость
+          farm: Ферма
+          fashion: Мода
+          florist: Флорист
+          food: Еда
+          funeral_directors: Похоронное бюро
+          furniture: Мебель
+          garden_centre: Садоводство
+          general: Магазин
+          gift: Подарки
+          greengrocer: Овощи
+          hairdresser: Парикмахерская
+          hardware: Строительные товары
+          hifi: Техника
+          insurance: Страхование
+          jewelry: Ювелирные изделия
+          kiosk: Киоск
+          laundry: Прачечная
+          mall: Торговый центр
+          massage: Массаж
+          mobile_phone: Телефоны
+          motorcycle: Мотоциклы
+          music: Музыкальные товары
+          newsagent: Газетный киоск
+          optician: Оптика
+          organic: Натуральные продукты
+          outdoor: Прилавок
+          pet: Домашние животные
+          photo: Фотография
+          salon: Салон
+          shoes: Обувь
+          shopping_centre: Торговый центр
+          sports: Спорттовары
+          stationery: Канцтовары
+          supermarket: Супермаркет
+          tattoo: Тату-салон
+          tobacco: Табачные изделия
+          toys: Игрушки
+          travel_agency: Туристическое агенство
+          video: Видеомагазин
+          wine: Вино
+          default: Магазин
+        office:
+          insurance: Страхование
+          coworking: Коворкинг
+          default: Офис
+        social_facility:
+          nursing_home: Дом престарелых
+          default: Социальная помощь
+        tourism:
+          alpine_hut: Хижина
+          aquarium: Аквариум
+          artwork: Исскуство
+          attraction: Аттракцион
+          camp_site: Лагерь
+          caravan_site: Караван
+          chalet: Коттедж
+          guest_house: Гостиница
+          hostel: Гостиница
+          hotel: Отель
+          information: Информация
+          motel: Мотель
+          museum: Музей
+          picnic_site: Пикник
+          theme_park: Тематический парк
+          viewpoint: Обзорная точка
+          zoo: Зоопарк
+          default: Туристический обьект
+        waterway:
+          boatyard: Верфь
+          canal: Канал
+          dam: Дамба
+          derelict_canal: Заброшенный канал
+          ditch: Канава
+          dock: Доки
+          drain: Дренаж
+          rapids: Пороги
+          river: Река
+          riverbank: Речной берег
+          stream: Ручей
+          wadi: Засохший ручей
+          waterfall: Водопад
+          water_point: Точка водоснабжения
+          weir: Плотина
+          default: Водный путь
