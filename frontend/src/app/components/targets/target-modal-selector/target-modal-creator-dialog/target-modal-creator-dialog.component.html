@@ -1,0 +1,15 @@
+<button mat-icon-button class="close-button" [mat-dialog-close]="true">
+  <i class="button--icon icon-close target-close-button" (click)="closeDialog()"></i>
+</button>
+<h2 mat-dialog-title>Создание целевого показателя</h2>
+<mat-dialog-content class="mat-typography" >
+  <op-enumeration-select style="margin: 10px"
+          #enumerationSelectComponent
+          [enumerations] = targetTypeList></op-enumeration-select>
+  <mat-form-field style="margin: 10px">
+    <mat-label>Введите название показателя</mat-label>
+    <input matInput (change)="setName($event)">
+  </mat-form-field>
+  <button mat-raised-button type="button" color = "primary" style="margin: 10px"
+          (click)="createTarget()">Создать</button>
+</mat-dialog-content>

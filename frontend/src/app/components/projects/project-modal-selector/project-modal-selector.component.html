@@ -1,0 +1,10 @@
+<mat-form-field style="width: 500px; margin-right: 10px">
+  <mat-label>Выберите проект</mat-label>
+  <input matInput readonly style="background-color: transparent" [(ngModel)]="selectedProject?.name!">
+    <button mat-icon-button matSuffix (click)="chooseProject()" [disabled]="disabled">
+      <i class="button--icon icon-show-more-horizontal"></i>
+    </button>
+    <button mat-icon-button matSuffix (click)="openProject($event)">
+      <i class="button--icon icon-move"></i>
+    </button>
+</mat-form-field>

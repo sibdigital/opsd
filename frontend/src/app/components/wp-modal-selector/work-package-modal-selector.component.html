@@ -1,0 +1,10 @@
+<mat-form-field style="width: 500px; margin-right: 10px">
+  <mat-label>Выберите мероприятие/КТ</mat-label>
+  <input matInput readonly style="background-color: transparent" [(ngModel)]="selectedWorkPackage?.subject!">
+  <button mat-icon-button matSuffix (click)="chooseWorkPackage()" [disabled]="disabled">
+    <i class="button--icon icon-show-more-horizontal"></i>
+  </button>
+  <button mat-icon-button matSuffix (click)="openWorkPackage($event)">
+    <i class="button--icon icon-move"></i>
+  </button>
+</mat-form-field>

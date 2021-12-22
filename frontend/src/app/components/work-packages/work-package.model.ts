@@ -1,0 +1,45 @@
+import {Project} from "core-components/projects/project.model";
+
+export class WorkPackage {
+  id:number = 0;
+  type:any = null;
+  project:Project | undefined = undefined;
+  subject:string = "";
+  description:string | null = null;
+  dueDate:string | null = null;
+  category:any = null;
+  status:any = null;
+  assignedTo:any = null;
+  priority:any = null;
+  fixedVersion:any = null;
+  author:any = null;
+  lockVersion:number = 0;
+  doneRatio:number = 0;
+  estimatedHours:number | null = null;
+  createdAt:string | null = null;
+  updatedAt:string | null = null;
+  startDate:string | null = null;
+  responsible:any = null;
+  costObject:any = null;
+  position:any = null;
+  storyPoints:number | null = null;
+  remainingHours:number | null = null;
+  planType:string | null = null;
+  contract:any = null;
+  resultAgreed:boolean | null = null;
+  organization:any = null;
+  sedHref:string | null = null;
+  arbitaryObject:any = null;
+  planNumPp:string | null = null;
+  raion:any = null;
+  requiredDocType:any = null;
+  factDueDate:string | null = null;
+  firstDueDate:string | null = null;
+  lastDueDate:string | null = null;
+  firstStartDate:string | null = null;
+  lastStartDate:string | null = null;
+  period:any = null;
+  controlLevel:any = null;
+  outerId:number | null = null;
+  metaId:number | null = null;
+}
