@@ -9,6 +9,7 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 export class PlanUploadersComponent implements OnInit {
   public $element:JQuery;
   @Input() projectId:string;
+  @Input() type:string;
   constructor(protected elementRef:ElementRef) {
     //
   }
@@ -16,6 +17,7 @@ export class PlanUploadersComponent implements OnInit {
   ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.projectId = this.$element.attr('projectId')!;
+    this.type = this.$element.attr('type')!;
   }
 
 }

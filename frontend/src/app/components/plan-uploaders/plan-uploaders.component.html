@@ -1,2 +1,3 @@
-Загрузка исполнения из Электронного Бюджета
-<op-execution-uploader [projectIdText]="projectId"></op-execution-uploader>
+<op-execution-uploader [projectIdText]="projectId" [hidden]="!(type==='eb')"></op-execution-uploader>
+<op-mpp-uploader [projectIdText]="projectId" [hidden]="!(type==='mpp')"></op-mpp-uploader>
+
