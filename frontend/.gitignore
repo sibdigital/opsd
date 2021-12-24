@@ -7,7 +7,7 @@
 /tests/unit/reports
 /tests/unit/tests/typescript
 /tmp
-
+npm-shrinkwrap.json
 /tests/openproject-common.js
 /tests/openproject-test-bundle.js
 /tests/openproject-main.css
