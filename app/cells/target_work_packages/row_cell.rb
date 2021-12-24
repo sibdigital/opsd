@@ -45,6 +45,8 @@ module TargetWorkPackages
                           .where(target_id: table.target_id, year: year, quarter: quarter)
           if wp_target.empty?
             'target_failed'
+          elsif target.empty?
+            'target_succeed'
           elsif wp_target.first.value < target.first.value
             'target_failed'
           else

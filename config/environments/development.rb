@@ -84,5 +84,5 @@ OpenProject::Application.configure do
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
 
-  config.active_record.logger = Logger.new(STDOUT)
+  config.active_record.logger = Logger.new(STDOUT, 10)
 end

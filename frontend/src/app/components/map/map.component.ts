@@ -6,6 +6,7 @@ import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import Overlay from "ol/Overlay";
 import {Point} from "ol/geom";
+import {transform} from 'ol/proj';
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import {defaults as defaultControls} from "ol/control";
@@ -19,6 +20,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {SelectWorkPackageDialog} from "core-components/map/select-work-package-dialog/select-work-package-dialog";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import CircleStyle from "ol/style/Circle";
+import {ajax} from "rxjs/ajax";
+import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {Extent, boundingExtent, containsCoordinate} from "ol/extent";
 
 @Component({
   selector: 'op-map',
@@ -28,9 +32,11 @@ import CircleStyle from "ol/style/Circle";
 export class MapComponent implements OnInit {
   coordinate:any;
   selectedPoint:Partial<MapPoint> = {};
+  selectedAddress:any = {};
   mapPointForm:Partial<MapPoint>;
   infoPopupOverlay:Overlay;
   addPopupOverlay:Overlay;
+  locationPopupOverlay:Overlay;
   map:Map;
   mapData:GeographicMap;
   points:Point[] = [];
@@ -50,6 +56,7 @@ export class MapComponent implements OnInit {
     })
   });
   isDeleted = false;
+  extent:Extent = boundingExtent([[10818697.790765608, 6393413.469064795], [13054327.994050449, 7887910.246096562]]);
   drawInteraction = new Draw({
     source: this.source,
     type: 'Point'
@@ -58,6 +65,7 @@ export class MapComponent implements OnInit {
   @Input() projectId:string;
   @ViewChild('infoPopup') infoPopupElement:ElementRef;
   @ViewChild('addPopup') addPopupElement:ElementRef;
+  @ViewChild('locationPopup') locationPopupElement:ElementRef;
   workPackage:any = null;
   descriptionValue:string = '';
   userPermittedTo = {view: false, edit: false};
@@ -78,7 +86,8 @@ export class MapComponent implements OnInit {
               protected httpClient:HttpClient,
               protected elementRef:ElementRef,
               protected dialog:MatDialog,
-              private notificationService:NotificationsService) {
+              private notificationService:NotificationsService,
+              readonly I18n:I18nService) {
   }
 
   ngOnInit():void {
@@ -95,6 +104,14 @@ export class MapComponent implements OnInit {
     this.addPopupOverlay = new Overlay({
       id: 'add-popup',
       element: this.addPopupElement.nativeElement,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250,
+      },
+    });
+    this.locationPopupOverlay = new Overlay({
+      id: 'location-popup',
+      element: this.locationPopupElement.nativeElement,
       autoPan: true,
       autoPanAnimation: {
         duration: 250,
@@ -167,12 +184,13 @@ export class MapComponent implements OnInit {
       ],
       overlays: [
         this.infoPopupOverlay,
-        this.addPopupOverlay
+        this.addPopupOverlay,
+        this.locationPopupOverlay
       ],
       view: new View({
         center: [12137083.654628329, 7004909.695346206],
         zoom: 8,
-        extent: [10818697.790765608, 6393413.469064795, 13054327.994050449, 7887910.246096562] // left bottom, right top
+        extent: this.extent // left bottom, right top
       }),
       controls: defaultControls().extend([]),
       interactions: defaultInteractions({
@@ -392,6 +410,33 @@ export class MapComponent implements OnInit {
     this.descriptionValue = '';
     this.titleValue = '';
     this.mapPointForm = {};
+  }
+
+  public findLocation(query:string) {
+    ajax.get(`https://nominatim.openstreetmap.org/search?q="${query.split(' ').join(',')}"&format=json`)
+      .toPromise()
+      .then((data:any) => {
+        if (data.response[0]) {
+          const coord = transform([data.response[0].lon, data.response[0].lat], 'EPSG:4326', 'EPSG:3857');
+          if (containsCoordinate(this.extent, coord)) {
+            this.selectedAddress = {
+              coordinates: coord,
+              name: data.response[0].display_name,
+              query: query, type: data.response[0].type,
+              class: data.response[0].class
+            };
+            this.locationPopupOverlay.setPosition(coord);
+          }
+        }
+      })
+      .catch((reason) => console.error(reason));
+  }
+
+  translate() {
+    return I18n.t('js.geographic_map.types.' +
+      (this.selectedAddress.class ? (this.selectedAddress.class +
+        '.' +
+        (this.selectedAddress.type ? this.selectedAddress.type : 'default')) : 'default'));
   }
 }
 

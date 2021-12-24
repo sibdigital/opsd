@@ -28,7 +28,7 @@ SecureHeaders::Configuration.default do |config|
 
   # Add proxy configuration for Angular CLI to csp
   if FrontendAssetHelper.assets_proxied?
-    proxied = ['ws://localhost:*', 'http://localhost:*', FrontendAssetHelper.cli_proxy]
+    proxied = ['ws://localhost:*', 'http://localhost:*', FrontendAssetHelper.cli_proxy,  'https://nominatim.openstreetmap.org']
     connect_src += proxied
     assets_src += proxied
   end
