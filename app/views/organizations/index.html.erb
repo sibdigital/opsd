@@ -26,5 +26,5 @@
   <%= render :partial => 'organizations/list', :locals => {:org_type => @org_type.id, :organizations => @organizations} %>
   <%= pagination_links_full @organizations %>
 <% else %>
-  <%= cell ::Positions::TableCell, Position.all%>
+  <%= render :partial => 'organizations/positions', :locals => {} %>
 <% end %>
