@@ -10,6 +10,8 @@ import {MatDividerModule} from "@angular/material/divider";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatPaginatorIntl} from "@angular/material";
+import {CustomMatPaginatorIntl} from "core-components/organizations/custom-mat-paginator-int";
 
 @NgModule({
   imports: [
@@ -26,7 +28,10 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     CommonModule,
     MatCheckboxModule
   ],
-  providers: [],
+  providers: [{
+    provide: MatPaginatorIntl,
+    useClass: CustomMatPaginatorIntl
+  }],
   declarations: [
     PositionsListComponent,
     PositionFormComponent

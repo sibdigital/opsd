@@ -1,64 +1,24 @@
 <div style="flex-grow: 1; display: flex; flex-direction: column" class="form-group">
         <h2>{{position.name}}</h2>
 
-<!--        <table style="position: relative; top: 30px">-->
-<!--                <tr>-->
-<!--                        <td style="width: 20%">Наименование *</td>-->
-<!--                        <td><input [(ngModel)]="position.name" name="name" matInput></td>-->
-<!--                </tr>-->
-<!--                <tr style="position: relative; top: 10px">-->
-<!--                        <td style="width: 20%">Утверждено</td>-->
-<!--                &lt;!&ndash;    ЧЕКБОКС     &ndash;&gt;-->
-<!--                        <td><mat-checkbox [(ngModel)]="position.isApprove"></mat-checkbox></td>-->
-<!--                </tr>-->
-<!--        </table>-->
-
-<!--</div>-->
-
-<!--&lt;!&ndash;КНОПКА СОХРАНЕНИЯ&ndash;&gt;-->
-<!--<button style="position: relative; top: 30px" name="button" type="submit" class="-highlight -with-icon icon-checkmark button" (click)="savePosition()">Сохранить</button>-->
-<!--&lt;!&ndash;старый вариант&ndash;&gt;-->
-<!--&lt;!&ndash;<div style="position: relative; top: 20px">&ndash;&gt;-->
-<!--&lt;!&ndash;        <a class="button" style="background: #1A67A3; color: white" (click)="savePosition()">&ndash;&gt;-->
-<!--&lt;!&ndash;                <i class="button&#45;&#45;icon icon-checkmark"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;                <span class="button&#45;&#45;text">Cохранить</span>&ndash;&gt;-->
-<!--&lt;!&ndash;        </a>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--<div style="position: relative; top: 17px">-->
-<!--        <a class="button" rel="nofollow" data-method="delete" href="/admin/positions/{{position.id}}">-->
-<!--                <span class="button&#45;&#45;text">Удалить</span>-->
-<!--        </a>-->
-<!--</div>-->
-
-<!--С подтверждением удаления-->
-<!--<div style="position: relative; top: 17px">-->
-<!--        <a class="button"  data-confirm="Вы уверены?" rel="nofollow" data-method="delete" href="/admin/positions/{{position.id}}">-->
-<!--                <span class="button&#45;&#45;text">Удалить</span>-->
-<!--        </a>-->
-<!--</div>-->
-
-
-<!-- через mat компоненты -->
-<!--<span>______________________________________________________________________________</span><br>-->
-
-
-
 <div style="position: relative; top: 35px">
 <div style="display:flex">
         <span style="width: 18%">Наименование *</span>
-        <div><input class="form--text-field" [(ngModel)]="position.name" name="name" style="width: 168%; height: 160%" matInput></div>
+        <div style="max-width: 80%;"><input class="form--text-field" [style.width.px]="(position?.name?.length+1)*8" title="{{position.name}}" [(ngModel)]="position.name" name="name" style="max-width: 95%; min-width: 200px; height: 160%" matInput></div>
 </div>
 <div style="display:flex; position: relative; top: 25px">
         <span style="width: 18%">Утверждено</span>
 
         <div style="position: relative; top: 2px"><mat-checkbox color="primary" [(ngModel)]="position.isApprove"></mat-checkbox></div>
-</div>
+</div >
+        <div style="display:flex">
         <button style="position: relative; top: 45px" name="button" type="submit" class="-highlight -with-icon icon-checkmark button" (click)="savePosition()">Сохранить</button>
 
-        <div style="position: relative; top: 40px">
-                <a class="button" rel="nofollow" data-method="delete" href="/admin/positions/{{position.id}}">
-                        <span class="button--text">Удалить</span>
+        <div style="position: relative; top: 45px">
+                <a class="button" rel="nofollow" style="height: 37px" data-method="delete" href="/admin/positions/{{position.id}}">
+                        <span class="button--text" style="position: relative; top: 2px">Удалить</span>
                 </a>
+        </div>
         </div>
 </div>
 

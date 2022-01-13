@@ -13,8 +13,8 @@ import {PageEvent} from "@angular/material/paginator";
   styleUrls: ['./positions-list.component.sass']
 })
 export class PositionsListComponent implements OnInit {
-  public positions:Position[];  //positions model
-  dataSource = new MatTableDataSource<Position>();   //edit wit mdl
+  public positions:Position[];
+  dataSource = new MatTableDataSource<Position>();
   displayedColumns:string[] = ['name', 'delete'];
   paginatorSettings = new Paginator();
 
@@ -28,7 +28,7 @@ export class PositionsListComponent implements OnInit {
 
   private loadPositions(size?:number, index?:number) {
     this.httpClient.get(
-      this.pathHelper.javaApiPath.javaApiBasePath + `/positions`,{
+      this.pathHelper.javaApiPath.javaApiBasePath + `/positions/search/findAllByIdIsNotNullOrderByNameAsc`,{
         params: new HttpParams()
           .set('size', size ? size.toString() : '25')
           .set('page', index ? index.toString() : '0')
