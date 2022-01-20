@@ -38,9 +38,10 @@ import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
 import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
+import {DialogEditFieldComponent} from "core-app/modules/fields/edit/field-types/dialog-edit-field.component";
 
 
-export function initializeCoreEditFields(editFieldService:EditFieldService) {
+export function initializeCoreEditFields(editFieldService: EditFieldService) {
   return () => {
     editFieldService.defaultFieldType = 'text';
     editFieldService
@@ -58,7 +59,6 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
         'RequiredDocType',
         //)
         //xcc(
-        'Organization',
         'ArbitaryObject',
         //)
         //tan(
@@ -80,6 +80,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService) {
       .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
       .addFieldType(DateEditFieldComponent, 'date', ['Date'])
       .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable'])
-      .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
+      .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment'])
+      .addFieldType(DialogEditFieldComponent, 'organization', ['Organization']);
   };
 }
