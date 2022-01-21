@@ -12,7 +12,6 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
   styleUrls: ['select-organization-dialog.sass']
 })
 export class SelectOrganizationDialog implements OnInit {
-  private project: any;
   organizations: any;
   public columns: [];
   displayedColumns: string[] = ['id', 'name'];
@@ -31,7 +30,7 @@ export class SelectOrganizationDialog implements OnInit {
   }
 
   pageChanged(event: PageEvent) {
-    this.selectedOrganization = {id: null};
+    // this.selectedOrganization = {id: null};
   }
 
   ngOnInit(): void {
