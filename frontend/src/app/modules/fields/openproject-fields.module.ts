@@ -63,6 +63,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {CustomMatPaginatorIntl} from "core-components/organizations/custom-mat-paginator-int";
 import {MatPaginatorIntl} from "@angular/material";
 import {DialogEditFieldComponent} from "core-app/modules/fields/edit/field-types/dialog-edit-field.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   imports: [
@@ -79,7 +80,8 @@ import {DialogEditFieldComponent} from "core-app/modules/fields/edit/field-types
     MatTableModule,
     MatPaginatorModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule,
   ],
   exports: [
     EditFieldControlsComponent,

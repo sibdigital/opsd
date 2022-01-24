@@ -17,6 +17,6 @@
 </ng-select>
 
 <span (click)="chooseOrganization()" *ngIf="selectedOption !== undefined">{{selectedOption.name}}</span>
-<span (click)="chooseOrganization()" *ngIf="selectedOption == undefined">&nbsp;&nbsp;-</span>
+<span (click)="chooseOrganization()" *ngIf="selectedOption == undefined">&nbsp;&nbsp;{{valName}}</span>
 
 
