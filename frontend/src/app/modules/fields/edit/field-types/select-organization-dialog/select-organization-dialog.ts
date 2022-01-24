@@ -5,6 +5,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {MatTableDataSource} from "@angular/material/table";
 import {Paginator} from "core-components/pages/pages.component";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+
 // import {SelectionModel} from "@angular/cdk/collections";
 
 
@@ -36,7 +37,7 @@ export class SelectOrganizationDialog implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.passedValue!=null){
+    if (this.passedValue != null) {
       this.rowSelected(this.passedValue);
       // this.selection.select(this.passedValue);
     }
@@ -47,14 +48,13 @@ export class SelectOrganizationDialog implements OnInit {
   }
 
   rowSelected(row: any) {
-    if (this.selectedOrganization==row){
+    if (this.selectedOrganization == row) {
       // this.selection.clear();
       this.selectedOrganization = {id: null};
-    }
-    else {
-    // this.selection.clear();
-    // this.selection.select(row);
-    this.selectedOrganization = row;
+    } else {
+      // this.selection.clear();
+      // this.selection.select(row);
+      this.selectedOrganization = row;
     }
   }
 }

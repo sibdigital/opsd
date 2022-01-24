@@ -50,7 +50,7 @@ export class DialogEditFieldComponent extends EditFieldComponent implements OnIn
   public shownOptions: ValueOption[];
   public template: string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text: { requiredPlaceholder: string, placeholder: string };
-  public valName:any;
+  public valName: any;
 
   public appendTo: any = null;
   private hiddenOverflowContainer = '.__hidden_overflow_container';
@@ -129,7 +129,12 @@ export class DialogEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   chooseOrganization() {
-    const dialogRef = this.dialog.open(SelectOrganizationDialog, {data: {items: this.shownOptions, passedValue: this.value}, width: '1000px', disableClose: true}, );
+    const dialogRef = this.dialog.open(SelectOrganizationDialog, {
+      data: {
+        items: this.shownOptions,
+        passedValue: this.value
+      }, width: '1000px', disableClose: true
+    },);
     dialogRef.afterClosed().subscribe(result => {
 
       if (result == "" || undefined) {
@@ -140,17 +145,17 @@ export class DialogEditFieldComponent extends EditFieldComponent implements OnIn
         }
       }
 
-    if (result != undefined) {
+      if (result != undefined) {
 
-      if (result != "") {
-        this.value = result;
-        if (result.id == null) {
-          this.myselect.select(this.valueOptions[0]);
-        } else {
-          this.myselect.select(this.value);
+        if (result != "") {
+          this.value = result;
+          if (result.id == null) {
+            this.myselect.select(this.valueOptions[0]);
+          } else {
+            this.myselect.select(this.value);
+          }
         }
       }
-    }
 
     });
   }
