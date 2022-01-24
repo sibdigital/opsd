@@ -129,7 +129,7 @@ export class DialogEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   chooseOrganization() {
-    const dialogRef = this.dialog.open(SelectOrganizationDialog, {data: {items: this.shownOptions, passedValue: this.value}, width: '1000px'});
+    const dialogRef = this.dialog.open(SelectOrganizationDialog, {data: {items: this.shownOptions, passedValue: this.value}, width: '1000px', disableClose: true}, );
     dialogRef.afterClosed().subscribe(result => {
 
       if (result == "" || undefined) {
