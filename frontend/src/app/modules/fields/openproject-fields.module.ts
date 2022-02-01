@@ -48,12 +48,40 @@ import {EditFieldControlsComponent} from "core-app/modules/fields/edit/field-con
 import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
+import {SelectOrganizationDialog} from "core-app/modules/fields/edit/field-types/select-organization-dialog/select-organization-dialog";
+import {MatTableModule} from "@angular/material/table";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatInputModule} from "@angular/material/input";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatDialogModule} from "@angular/material/dialog";
+import {CustomMatPaginatorIntl} from "core-components/organizations/custom-mat-paginator-int";
+import {MatPaginatorIntl} from "@angular/material";
+import {DialogEditFieldComponent} from "core-app/modules/fields/edit/field-types/dialog-edit-field.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
     OpenprojectAccessibilityModule,
     OpenprojectEditorModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatCheckboxModule,
   ],
   exports: [
     EditFieldControlsComponent,
@@ -63,8 +91,9 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
     WorkPackageEditingPortalService,
     DisplayFieldService,
     EditFieldService,
-    { provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true },
-    { provide: APP_INITIALIZER, useFactory: initializeCoreDisplayFields, deps: [DisplayFieldService], multi: true },
+    {provide: APP_INITIALIZER, useFactory: initializeCoreEditFields, deps: [EditFieldService], multi: true},
+    {provide: APP_INITIALIZER, useFactory: initializeCoreDisplayFields, deps: [DisplayFieldService], multi: true},
+    {provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl},
   ],
   declarations: [
     EditFormPortalComponent,
@@ -80,6 +109,8 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
     TextEditFieldComponent,
     EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
+    SelectOrganizationDialog,
+    DialogEditFieldComponent,
   ],
   entryComponents: [
     EditFormPortalComponent,
@@ -94,7 +125,10 @@ import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-edito
     SelectEditFieldComponent,
     TextEditFieldComponent,
     WorkPackageEditFieldComponent,
+    SelectOrganizationDialog,
+    DialogEditFieldComponent,
   ]
 })
-export class OpenprojectFieldsModule { }
+export class OpenprojectFieldsModule {
+}
 

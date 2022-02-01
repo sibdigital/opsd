@@ -43,6 +43,9 @@ import {WorkPackageEditingService} from "core-components/wp-edit-form/work-packa
 import {untilComponentDestroyed} from "ng2-rx-componentdestroyed";
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
 import {WorkPackageChangeset} from "core-components/wp-edit-form/work-package-changeset";
+import {MatDialog} from "@angular/material/dialog";
+import {HttpClient} from "@angular/common/http";
+import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 
 export const OpEditingPortalSchemaToken = new InjectionToken('wp-editing-portal--schema');
 export const OpEditingPortalHandlerToken = new InjectionToken('wp-editing-portal--handler');
@@ -60,16 +63,19 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
   public self = this;
 
   /** JQuery accessor to element ref */
-  protected $element:JQuery<HTMLElement>;
+  protected $element: JQuery<HTMLElement>;
 
-  constructor(readonly I18n:I18nService,
-              readonly elementRef:ElementRef,
-              @Inject(IWorkPackageEditingServiceToken) protected wpEditing:WorkPackageEditingService,
-              @Inject(OpEditingPortalChangesetToken) protected changeset:WorkPackageChangeset,
-              @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-              @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
-              readonly cdRef:ChangeDetectorRef,
-              readonly injector:Injector) {
+  constructor(readonly I18n: I18nService,
+              readonly elementRef: ElementRef,
+              @Inject(IWorkPackageEditingServiceToken) protected wpEditing: WorkPackageEditingService,
+              @Inject(OpEditingPortalChangesetToken) protected changeset: WorkPackageChangeset,
+              @Inject(OpEditingPortalSchemaToken) public schema: IFieldSchema,
+              @Inject(OpEditingPortalHandlerToken) readonly handler: EditFieldHandler,
+              readonly cdRef: ChangeDetectorRef,
+              readonly injector: Injector,
+              protected dialog: MatDialog,
+              protected httpClient: HttpClient,
+              protected pathHelper: PathHelperService,) {
     super();
     this.initialize();
 
@@ -95,7 +101,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.$element = jQuery(this.elementRef.nativeElement);
   }
 
@@ -127,7 +133,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
     return this.changeset.getSchemaName(this.handler.fieldName);
   }
 
-  public set value(value:any) {
+  public set value(value: any) {
     this.changeset.setValue(this.name, this.parseValue(value));
   }
 
@@ -156,7 +162,7 @@ export class EditFieldComponent extends Field implements OnInit, OnDestroy {
   /**
    * Parse the value from the model for setting
    */
-  protected parseValue(val:any) {
+  protected parseValue(val: any) {
     return val;
   }
 }
