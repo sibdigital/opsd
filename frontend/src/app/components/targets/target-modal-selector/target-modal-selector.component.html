@@ -1,0 +1,13 @@
+<mat-form-field style="width: 100%; margin-right: 10px">
+  <mat-label [hidden]="hiddenLabel">Выберите целевой показатель</mat-label>
+  <input matInput readonly style="background-color: transparent" [(ngModel)]="selectedTarget?.name!">
+  <button mat-icon-button matSuffix (click)="chooseTarget()" [disabled]="disabled">
+    <i class="button--icon icon-show-more-horizontal"></i>
+  </button>
+  <button mat-icon-button matSuffix (click)="openTarget($event)">
+    <i class="button--icon icon-move"></i>
+  </button>
+  <button mat-icon-button matSuffix (click)="removeTarget($event)" [disabled]="disabled">
+    <i class="button--icon icon-cancel"></i>
+  </button>
+</mat-form-field>

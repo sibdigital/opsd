@@ -91,6 +91,8 @@ import {LboModule} from "core-components/lbo/lbo.module";
 import {KpiModule} from "core-components/kpi/kpi.module";
 import {CostTypesModule} from "core-components/cost-types/cost-types.module";
 import {MapModule} from "core-components/map/map.module";
+import {PlanUploadersModule} from "core-components/plan-uploaders/plan-uploaders.module";
+import {ExecutionUploaderModule} from "core-components/el-budget/execution-uploader/execution-uploader.module";
 import {OrganizationsModule} from "core-components/organizations/organizations.module";
 
 @NgModule({
@@ -135,6 +137,8 @@ import {OrganizationsModule} from "core-components/organizations/organizations.m
     KpiModule,
     MapModule,
     CostTypesModule,
+    PlanUploadersModule,
+    ExecutionUploaderModule,
     OrganizationsModule
   ],
   providers: [

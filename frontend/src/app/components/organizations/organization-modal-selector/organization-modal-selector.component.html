@@ -1,0 +1,13 @@
+<mat-form-field style="width: 500px; margin-right: 10px">
+  <mat-label>Выберите организацию</mat-label>
+  <input matInput readonly style="background-color: transparent" [(ngModel)]="selectedOrganization?.name!">
+  <button mat-icon-button matSuffix (click)="chooseOrganization()" [disabled]="disabled">
+    <i class="button--icon icon-show-more-horizontal"></i>
+  </button>
+  <button mat-icon-button matSuffix (click)="openOrganization($event)">
+    <i class="button--icon icon-move"></i>
+  </button>
+  <button mat-icon-button matSuffix (click)="removeOrganization($event)" [disabled]="disabled">
+    <i class="button--icon icon-cancel"></i>
+  </button>
+</mat-form-field>
