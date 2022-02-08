@@ -243,10 +243,11 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
     this.onFilterClose.emit(false);
   }
 
-  onCloseFilter(value: string) {
+  onCloseFilter(value:string) {
     this.selectedFilters = this.selectedFilters.map((filter) => {
       if (value === filter.value) {
         filter.selected = false;
+        this.filtersFormGroup.get(`${value}FormGroup`)!.value.value = null;
       }
       return filter;
     });

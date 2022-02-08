@@ -31,10 +31,10 @@
 
         <tbody class="results-tbody work-package--results-tbody">
         <ng-container *ngFor="let project of projects">
-          <tr class="basics context-menu--reveal project root leaf" >
+          <tr class="basics context-menu--reveal project root leaf {{project.status === 9 ? 'archived-label' : ''}}" >
             <td class="name project--hierarchy">
               <a href="/projects/{{project.identifier}}">
-                {{project.name}}
+                {{project.status === 9 ? '[АРХИВ] ' : ''}}{{project.name}}
               </a>
             </td>
             <ng-container *ngFor="let column of columns">
@@ -51,13 +51,16 @@
                     <ng-container *ngIf="project.isOpenMenu">
                       <ul style="display: block" class="menu-drop-down-container">
                         <li>
-                          <ng-container *ngFor="let item of getItems(project.identifier)">
+                          <ng-container *ngFor="let item of getItems(project)">
+
                             <a class="menu-item"
                                style="text-align: left"
                                tabindex="0"
+                               #menuItem
                                [ngClass]="{ 'inactive': item.disabled }"
                                [attr.href]="item.href || ''"
                                [attr.aria-disabled]="item.disabled"
+                               (click)="!item.href ? item.onClick() : menuItem.click()"
                                [attr.aria-label]="item.ariaLabel || item.linkText">
                               <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"> </op-icon>
                               <span [textContent]="item.linkText"></span>

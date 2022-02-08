@@ -17,6 +17,8 @@ export interface IFederalProject extends INationalProject {
 }
 
 export interface IProjectsState {
+  id: number;
+  status: number;
   name: string;
   public: boolean;
   description?: string;
