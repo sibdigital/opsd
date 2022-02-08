@@ -216,7 +216,7 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
           this.projectApproveStatuses = parseStatuses();
         }
       })
-      .catch((reason) => console.log(reason));
+      .catch((reason) => console.error(reason));
   }
 
   loadNationalProjects(type: 'Federal' | 'National') {
@@ -236,7 +236,7 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
           this.nationalProjects = parseProjects();
         }
       })
-      .catch((reason) => console.log(reason));
+      .catch((reason) => console.error(reason));
   }
 
   _onFilterClose() {
@@ -254,9 +254,6 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
   }
 
   onSelectFilter() {
-    console.dir({
-      value: this.currentFiltersFormControl.value
-    });
     this.selectedFilters = this.selectedFilters.map((filter) => {
       if (this.currentFiltersFormControl.value === filter.value) {
         filter.selected = true;
@@ -347,19 +344,6 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
     const createdOnLeft = createdOnFormGroup && createdOnFormGroup.value.leftValue !== '' ? createdOnFormGroup.value.leftValue : defaultDateLeftValue;
     const createdOnRight = createdOnFormGroup && createdOnFormGroup.value.rightValue !== '' ? createdOnFormGroup.value.rightValue : defaultDateRightValue;
 
-    console.dir({
-      ...identVal && { identifier: identVal },
-      ...natVal && { national_project_id: natVal },
-      ...fedVal && { federal_project_id: fedVal },
-      ...projectApproveStatusVal && { project_approve_status_id: projectApproveStatusVal },
-      ...projectStatusVal && { project_status_id: projectStatusVal },
-      ...statusVal && { status: statusVal },
-      ...nameVal && { name: nameVal },
-      ...startDateLeft && startDateRight && { start_date_left: startDateLeft, start_date_right: startDateRight },
-      ...dueDateLeft && dueDateRight && { due_date_left: dueDateLeft, due_date_right: dueDateRight },
-      ...updatedOnLeft && updatedOnRight && { updated_on_left: updatedOnLeft, updated_on_right: updatedOnRight },
-      ...createdOnLeft && createdOnRight && { created_on_left: createdOnLeft, created_on_right: createdOnRight },
-    });
     return {
       ...identVal && { identifier: identVal },
       ...natVal && { national_project_id: natVal },
@@ -376,10 +360,6 @@ export class ProjectsFiltersComponent implements AfterViewInit, OnDestroy {
   }
 
   onApplyFilters() {
-    console.dir({
-      currentFiltersFormControl: this.currentFiltersFormControl.value,
-      formValue: this.filtersFormGroup.value,
-    });
     this.onRubyDatePickerGetValue();
     this.ProjectsTableFiltersService.applyFilters(this.buildFilters());
     this.ProjectsTableFiltersService.setSelectedFilters(this.selectedFilters);

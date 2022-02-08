@@ -136,28 +136,23 @@ export class ProjectsTable implements OnInit {
   }
 
   public onChangePage(pageNumber:number) {
-    console.dir({projectsTable: pageNumber});
     this.paginationService.currentPage = pageNumber;
     this.loadProjects();
   }
 
   public onSort(params:{ id:string, sortDir:string }) {
-    console.dir({idSort: params.id, sortDir: params.sortDir});
     this.paginationService.setSortParams({sort: [params.id, params.sortDir].join(',')});
     this.loadProjects();
   }
 
   public onChangePerPage(perPageSize:number) {
-    console.dir({perPageSize: perPageSize});
     this.paginationService.setPerPageSizeParams({size: perPageSize, page: 0});
     this.loadProjects();
   }
 
   private changeProjectViewField(projectIdentifier:string, field:'isExpand' | 'isOpenMenu') {
     const index = this.projects.findIndex((project) => project.identifier === projectIdentifier);
-    // console.dir({ index, id: projectIdentifier });
     if (index >= 0 && this.projects && this.projects[index]) {
-      // console.dir({ project: this.projects[index][field], field });
       this.projects[index][field] = !this.projects[index][field];
     }
   }
@@ -171,7 +166,6 @@ export class ProjectsTable implements OnInit {
   }
 
   public getIsOpenMenuStyle(isOpenMenu:boolean) {
-    console.log('getIsOpenMenuStyle');
     return isOpenMenu ? {display: 'block'} : {display: 'none'};
   }
 
@@ -183,7 +177,6 @@ export class ProjectsTable implements OnInit {
       }
       return project;
     });
-    console.dir({bool: this.isAllExpanded, projects: this.projects});
   }
 
   public loadProjects(params:any = {}):void {
@@ -211,9 +204,9 @@ export class ProjectsTable implements OnInit {
             this.projects = projects._embedded.projects;
             this.paginationService.page = projects.page;
           })
-          .catch((reason) => console.log(reason));
+          .catch((reason) => console.error(reason));
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 }
