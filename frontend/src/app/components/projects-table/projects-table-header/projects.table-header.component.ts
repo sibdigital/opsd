@@ -23,7 +23,7 @@ export class ProjectsTableHeaderComponent implements OnInit, OnDestroy {
 
   directionClass: string;
 
-  sortable: boolean;
+  @Input() sortable: boolean = false;
 
   isHierarchyColumn: boolean;
 
@@ -111,7 +111,6 @@ export class ProjectsTableHeaderComponent implements OnInit, OnDestroy {
 
   public sortById(): void {
     const sortDir = this.getDirectionClass();
-    console.dir({ sortByID: this.headerColumn, sortDir });
     this.onSort.emit({ id: this.headerColumn.id, sortDir });
   }
 }

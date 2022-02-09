@@ -22,6 +22,7 @@ export class ProjectsTable implements OnInit {
   public columns:IProjectsTableColumn[];
   public projects:IProjectsState[];
   public locale:string;
+  public sortParams:any[];
 
   public isAllExpanded:boolean = false;
 
@@ -41,7 +42,7 @@ export class ProjectsTable implements OnInit {
   }
 
   ngOnInit():void {
-    console.dir({def: DefaultProjectsColumnsTable});
+    // console.dir({def: DefaultProjectsColumnsTable});
     this.columns = DefaultProjectsColumnsTable;
     this.locale = this.I18n.locale;
     this.loadProjects();
@@ -142,6 +143,8 @@ export class ProjectsTable implements OnInit {
 
   public onSort(params:{ id:string, sortDir:string }) {
     this.paginationService.setSortParams({sort: [params.id, params.sortDir].join(',')});
+    this.sortParams = [];
+    this.sortParams.push(params.id, params.sortDir);
     this.loadProjects();
   }
 
@@ -193,6 +196,10 @@ export class ProjectsTable implements OnInit {
           params = params.set(key, filters[key]);
         });
       }
+      if (this.sortParams) {
+        params = params.set('sort', this.sortParams.join(','));
+      }
+
       this.loadingIndicatorService.indicator('projects-table').promise =
         this.httpClient.get(
           `${baseUrl}${this.projectsTableFiltersService.getFilters() ? '/search/findByProjectRegisterFields' : ''}`,

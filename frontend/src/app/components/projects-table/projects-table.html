@@ -13,6 +13,7 @@
             <projects-table-header
                 *ngIf="column.id !== 'expandAll'"
                 [headerColumn]="column"
+                [sortable]="column.id === 'name'"
                 [locale]="locale"
                 (onSort)="onSort($event)"
             >

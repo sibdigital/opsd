@@ -1,6 +1,6 @@
 <div class="generic-table--sort-header-outer" [ngSwitch]="columnType">
 
-  <span [title]="text.sortTitle" class="generic-table--sort-header" (click)="sortById()" *ngSwitchCase="'hierarchy'">
+  <span [title]="text.sortTitle" class="generic-table--sort-header" *ngSwitchCase="'hierarchy'">
 <!--    <span-->
 <!--        class="hierarchy-header&#45;&#45;icon"-->
 <!--        (click)="toggleHierarchy($event)"-->
@@ -13,9 +13,9 @@
     <!--suppress XmlDuplicatedId -->
     <a href="#"
        *ngIf="sortable"
-       [ngClass]="[directionClass && 'sort', directionClass]"
        lang-attribute
        lang="{{locale}}"
+       (click)="sortById()"
        id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 
@@ -37,21 +37,22 @@
     </span>
 
 
-  <span [title]="text.sortTitle" class="generic-table--sort-header" (click)="sortById()" *ngSwitchDefault>
+  <span class="generic-table--sort-header" *ngSwitchDefault>
 
     <!--suppress XmlDuplicatedId -->
     <a href="#"
        *ngIf="sortable"
        [ngClass]="[directionClass && 'sort', directionClass]"
        lang-attribute
+       (click)="sortById()"
        lang="{{locale}}"
        id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
 
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 
-    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-             icon-title="{{ text.openMenu }}"
-             *ngIf="displayDropdownIcon"></op-icon>
+<!--    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"-->
+<!--             icon-title="{{ text.openMenu }}"-->
+<!--             *ngIf="displayDropdownIcon"></op-icon>-->
   </span>
 
 </div>

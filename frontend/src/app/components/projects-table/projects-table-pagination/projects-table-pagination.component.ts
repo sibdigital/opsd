@@ -25,7 +25,7 @@ export class ProjectsTablePaginationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.dir({ paginationService: this.paginationService.page });
+    // console.dir({ paginationService: this.paginationService.page });
   }
 
   ngOnDestroy(): void {
