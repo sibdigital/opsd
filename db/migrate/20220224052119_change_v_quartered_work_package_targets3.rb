@@ -1,4 +1,4 @@
-class AddUpdatedAtToVQuarteredWorkPackageTargets < ActiveRecord::Migration[5.2]
+class ChangeVQuarteredWorkPackageTargets3 < ActiveRecord::Migration[5.2]
   def change
     execute <<-SQL
       create or replace view v_quartered_work_package_targets
@@ -6,18 +6,18 @@ class AddUpdatedAtToVQuarteredWorkPackageTargets < ActiveRecord::Migration[5.2]
       WITH slice AS (
           SELECT wpt.project_id,
                  wpt.target_id,
-                 wpt.work_package_id,
                  wpt.year,
                  wpt.quarter,
-                 max(COALESCE(wpt.month, 0)) AS month
+                 max(COALESCE(wpt.month, 0)) AS month,
+                 max(wpt.updated_at)         AS updated_at
           FROM work_package_targets wpt
                    JOIN work_packages wp ON wpt.work_package_id = wp.id
-          GROUP BY wpt.project_id, wpt.target_id, wpt.work_package_id, wpt.year, wpt.quarter
+          GROUP BY wpt.project_id, wpt.target_id, wpt.year, wpt.quarter
       ),
            slice_values AS (
                SELECT s.project_id,
                       s.target_id,
-                      s.work_package_id,
+                      w.work_package_id,
                       s.year,
                       s.quarter,
                       s.month,
@@ -26,8 +26,10 @@ class AddUpdatedAtToVQuarteredWorkPackageTargets < ActiveRecord::Migration[5.2]
                       w.updated_at
                FROM slice s
                         JOIN work_package_targets w ON s.project_id = w.project_id AND s.target_id = w.target_id AND
-                                                       s.work_package_id = w.work_package_id AND s.year = w.year AND
-                                                       s.quarter = w.quarter AND COALESCE(s.month, 0) = COALESCE(w.month, 0)
+                                                       w.work_package_id = w.work_package_id AND s.year = w.year AND
+                                                       s.quarter = w.quarter AND
+                                                       COALESCE(s.month, 0) = COALESCE(w.month, 0) AND
+                                                       s.updated_at = w.updated_at
            )
       SELECT slice_values.project_id,
              slice_values.target_id,
