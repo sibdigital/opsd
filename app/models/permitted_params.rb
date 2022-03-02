@@ -742,6 +742,7 @@ class PermittedParams
           :type_id,
           :subject,
           :control_level,
+          :organization_id,
           Proc.new do |args|
             # avoid costly allowed_to? if the param is not there at all
             if args[:params]['work_package'] &&
