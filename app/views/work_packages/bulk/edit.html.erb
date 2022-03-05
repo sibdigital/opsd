@@ -170,6 +170,14 @@ See docs/COPYRIGHT.rdoc for more details.
               </div>
             </div>
           <% end %>
+          <div class="form--field">
+            <label class="form--label" for='category_id'><%= WorkPackage.human_attribute_name(:organization) %></label>
+            <div class="form--field-container">
+              <%= styled_select_tag('work_package[organization_id]', content_tag('option', l(:label_no_change_option), value: '') +
+                content_tag('option', l(:label_none), value: 'none') +
+                options_from_collection_for_select(@organizations, :id, :name)) %>
+            </div>
+          </div>
         </div>
       </div>
     </fieldset>

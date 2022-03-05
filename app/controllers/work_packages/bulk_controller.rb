@@ -98,6 +98,7 @@ class WorkPackages::BulkController < ApplicationController
     @custom_fields = @projects.map(&:all_work_package_custom_fields).inject { |memo, c| memo & c }
     @assignables = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
     @responsibles = @projects.map(&:possible_responsibles).inject { |memo, a| memo & a }
+    @organizations = Organization.where(is_approve: true)
     @types = @projects.map(&:types).inject { |memo, t| memo & t }
   end
 
