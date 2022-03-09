@@ -180,14 +180,23 @@ export class BlueTableIndicatorService extends BlueTableService {
                 let fact:number = target.fact_now;
                 let goal:number = target.target_now;
 
+                let j:number = target.target_current_year_plan.length;
+                while (j !== 0) {
+                  if (target.target_current_year_plan[j - 1] !== 0) {
+                    goal = target.target_current_year_plan[j - 1];
+                    break;
+                  }
+                  else {goal = 0; }
+                  j--;
+                }
+
                 let i:number = target.target_current_year_fact.length;
                 while (i !== 0) {
                   if (target.target_current_year_fact[i - 1] !== 0) {
-                    goal = target.target_current_year_plan[3];
                     fact = target.target_current_year_fact[i - 1];
                     break;
                   }
-                  else {goal = 0; fact = 0; }
+                  else {fact = 0; }
                   i--;
                 }
 
